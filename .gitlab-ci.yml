@@ -1,41 +1,128 @@
-image: node:14.2.0
+image: node:14.11.0
 
+variables:
+  PRIVATE_IMAGE: $CI_DOCKER_REPOSITORY_PRIVATE/pebbles-frontend
+  PUBLIC_IMAGE: $CI_DOCKER_REPOSITORY_PUBLIC/pebbles-frontend
+
+# cache setting, by default only pull files
 cache: &global_cache
   key: "${CI_COMMIT_REF_SLUG}"
   paths:
     - .npm/
-
-# install npm packages before all stages, using cache as source
-before_script:
-  - npm install --cache .npm --prefer-offline --no-audit
-  # check if ng client is already installed and create a symlink if needed
-  - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
-  # check if webdriver-manager is already installed and create a symlink if needed
-  - test -e /usr/local/bin/webdriver-manager || ln -s $PWD/node_modules/.bin/webdriver-manager /usr/local/bin/webdriver-manager
+    - node_modules/
+    - dist/
+  policy: pull
 
 stages:
-  - static_analysis
+  - static analysis
+  - build
   - test
+  - docker build
 
-static_analysis:
-  stage: static_analysis
+static-analysis:
+  stage: static analysis
+  needs: []
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
   script:
+    # install npm packages, using cache as source. Use npm install instead of ci here to make use of
+    # cached node_modules if it exists
+    - npm install --cache .npm --prefer-offline --no-audit
+    # check if ng client is already installed and create a symlink if needed
+    - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
+    # check if webdriver-manager is already installed and create a symlink if needed
+    - test -e /usr/local/bin/webdriver-manager || ln -s $PWD/node_modules/.bin/webdriver-manager /usr/local/bin/webdriver-manager
+
     - ng lint
     - npm audit --audit-level=moderate
     - node_modules/.bin/linthtml .
 
+ng-build:
+  stage: build
+  needs: []
+  cache:
+    # this task populates the cache, set the policy accordinly
+    <<: *global_cache
+    policy: pull-push
+  script:
+    # install npm packages, using cache as source. To speed things up for feature branches, use npm install to
+    # make use of cached node_modules
+    - |
+      if [[ ${CI_COMMIT_REF_NAME} == "master" ]]; then
+        npm ci --cache .npm --prefer-offline --no-audit
+      else
+        npm install --cache .npm --prefer-offline --no-audit
+      fi
+    # build application
+    - npm run-script build:prod
+
+
 ng-test:
-  image: trion/ng-cli-karma:9.1.5
   stage: test
+  image: trion/ng-cli-karma:9.1.5
+  needs: ['ng-build']
   cache:
     # inherit all global cache settings
     <<: *global_cache
-    # override the policy to only pull
-    policy: pull
   script:
+    # check if ng client is already installed and create a symlink if needed
+    - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
+
     # run Karma/Jasmine unit tests
     - ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
+
+ng-e2e:
+  stage: test
+  image: trion/ng-cli-karma:9.1.5
+  needs: ['ng-build']
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
+  script:
+    # check if ng client is already installed and create a symlink if needed
+    - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
+    # check if webdriver-manager is already installed and create a symlink if needed
+    - test -e /usr/local/bin/webdriver-manager || ln -s $PWD/node_modules/.bin/webdriver-manager /usr/local/bin/webdriver-manager
+
     # run Protractor end-to-end tests. Chrome and ChromeDriver need to be in sync
     # in ng-cli-karma image, protractor.conf.ci.js and here
     - webdriver-manager update --versions.chrome=81.0.4044.138
     - ng e2e --protractor-config e2e/protractor.conf.ci.js
+
+build-image:
+  stage: docker build
+  image: docker:git
+  needs: ['ng-build']
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
+  script:
+    # copy compiled application from cache to runtime image. This assumes cache accessible by all runners
+    - echo "Going to build and push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}"
+    - docker build --tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} . --file=deployment/Dockerfile.runtime
+    - docker push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}
+
+    # push to public registry
+    - docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLIC_IMAGE}:${CI_COMMIT_REF_NAME}
+    - docker push ${PUBLIC_IMAGE}:${CI_COMMIT_REF_NAME}
+    # if we are on master branch, push this also as latest + create a versioned tag
+    - |
+      if [[ ${CI_COMMIT_REF_NAME} == 'master' ]]; then
+        echo "Tagging and pushing ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} as latest"
+        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PRIVATE_IMAGE}:latest
+        docker push ${PRIVATE_IMAGE}:latest
+
+        # push to public registry
+        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLIC_IMAGE}:latest
+        docker push ${PUBLIC_IMAGE}:latest
+
+        export IMAGE_TAG="${CI_COMMIT_REF_NAME}-$(date +%Y-%m-%d_%H%M)"
+        echo "Tagging and pushing ${PRIVATE_IMAGE}:${IMAGE_TAG}"
+        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PRIVATE_IMAGE}:${IMAGE_TAG}
+        docker push ${PRIVATE_IMAGE}:${IMAGE_TAG}
+
+        # push to public registry
+        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLIC_IMAGE}:${IMAGE_TAG}
+        docker push ${PUBLIC_IMAGE}:${IMAGE_TAG}
+      fi
