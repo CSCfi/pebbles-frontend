@@ -1,0 +1,12 @@
+<section class="message-container">
+  <div *ngIf="getImportantMessages().length > 0">
+    <ul *ngFor="let message of getImportantMessages()">
+      <li class="message message-success" role="alert">
+        <button type="button" class="close-message"
+          (click)="hideMessage()">×
+        </button>
+        {{ message.subject }} : {{ message.message }}
+      </li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,86 @@
+<li *ngIf="environment">
+  <mat-card class="environment-item" data-environment-item-id="environment.id">
+
+    <div class="card-media">
+      <div class="workspace-thumbnail">
+        <ng-container *ngIf="getThumbnail(); else elseBlock">
+          <img mat-card-image [src]="getThumbnail()" alt="Thumbnail of the environment">
+        </ng-container>
+        <ng-template #elseBlock>
+          <div class="workspace-letter">{{getCapitals()}}</div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="card-details">
+      <mat-card-header>
+        <mat-card-title>
+          <h3>{{ environment.name }}</h3>
+        </mat-card-title>
+        <mat-card-subtitle class="workspace-name" *ngIf="environment.workspace">
+          {{ environment.workspace.name }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p> {{ environment.description }} </p>
+        <div class="label-list">
+          <mat-chip-list aria-label="labels">
+            <ng-container *ngFor="let label of environment.labels">
+              <mat-chip color="primary">{{ label }}</mat-chip>
+            </ng-container>
+          </mat-chip-list>
+        </div>
+      </mat-card-content>
+    </div>
+
+    <div class="instance-actions" *ngIf="actionsVisible(environment);else LaunchUI">
+      <mat-card-actions>
+        <div class="instance-action-ui">
+
+          <div class="lifetime-info">
+            <svg class="progress-ring">
+              <circle class="progress-ring__circle" stroke="#fff" stroke-width="6" fill="transparent" r="38" cx="50"
+                cy="50" />
+            </svg>
+
+            <button class="instance_time_button">
+              <span class="lifetime-label">Lifetime</span>
+              <span *ngIf="environment.maximumLifetime" class="lifetime-total">
+                {{ environment.maximumLifetime }}
+              </span>
+            </button>
+            <!-- <ng-template #thenBlock>{{ environment.maximumLifetime }}</ng-template>
+            <ng-template #elseBlock>xxh xxm</ng-template> -->
+            <button mat-flat-button class="environment_start_button" color="accent"
+              (click)="emitOpenEnvironmentInBrowser()">
+              open
+            </button>
+            <button mat-flat-button class="environment_stop_button" color="accent"
+              (click)="emitStopEnvironment()">
+              delete
+            </button>
+          </div>
+
+          <div class="lifetime-label">State: {{ environment.instance.state}}</div>
+        </div>
+      </mat-card-actions>
+    </div>
+    <ng-template #LaunchUI>
+      <div class="card-actions">
+        <mat-card-actions>
+          <div class="instance-action-ui">
+            <div class="instance-launch-ui">
+              <button mat-flat-button color="primary" class="launch-button" (click)="emitStartEnvironment()">
+                <mat-icon fontSet="material-icons-outlined">
+                  power_settings_new
+                </mat-icon>
+                Start
+              </button>
+              <div class="lifetime-info">{{ environment.maximumLifetime }}</div>
+            </div>
+          </div>
+        </mat-card-actions>
+      </div>
+    </ng-template>
+  </mat-card>
+</li>

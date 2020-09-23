@@ -1,0 +1,34 @@
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from './auth.service';
+import { User } from '../models/user';
+import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
+
+describe('AuthService', () => {
+  let service: AuthService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS]
+    });
+    service = TestBed.inject(AuthService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should allow login',
+    (done: DoneFn) => {
+      return service.login(new User('user-1@example.org', 'user-1')).then((resp) => {
+        expect(resp).toEqual({token: 'fake-token', user_id: '102'});
+        done();
+      });
+    });
+
+});

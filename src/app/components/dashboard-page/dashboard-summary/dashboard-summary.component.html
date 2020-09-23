@@ -1,0 +1,93 @@
+<app-message></app-message>
+
+<!-- Page Information -->
+<div class="top-page-header">
+  <div class="page-header">
+    <h2 class="page-header-title">{{ pageTitle }}</h2>
+  </div>
+
+  <div class="environments-catalog-functions">
+
+    <button class="edit-tab-dialog-btn mat-button-lg" mat-flat-button (click)="isSearchFormOpen=!isSearchFormOpen">
+      <mat-icon fontSet="material-icons-outlined">
+        search
+      </mat-icon>
+      Search Environments
+    </button>
+
+    <button class="join-workshop-dialog-btn mat-button-lg" mat-raised-button color="primary"
+      (click)="openJoinWorkspaceDialog()">
+      <mat-icon fontSet="material-icons-outlined">
+        connect_without_contact
+      </mat-icon>
+      Join Workspace
+    </button>
+  </div>
+
+</div>
+
+<!-- Environment Catalogs -->
+<section class="environments-catalog">
+
+  <!-- Environment Catalog Search -->
+  <mat-accordion class="search-form-outer" multi>
+    <mat-expansion-panel [(expanded)]="isSearchFormOpen">
+      <app-search-environment-item [catalog]=selectedCatalog></app-search-environment-item>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- Environment Catalogs -->
+  <mat-tab-group animationDuration="0ms" class="my-environment-tab" (selectedTabChange)="changeCatalog($event)">
+    <ng-container *ngFor="let catalog of getCatalogs()" class="">
+      <mat-tab label="{{ catalog.name }}">
+        <ng-template mat-tab-label>
+          <div [ngSwitch]="catalog.type">
+            <ng-container *ngSwitchCase="'all'">
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                apps
+              </mat-icon>
+            </ng-container>
+            <ng-container *ngSwitchCase="'search'">
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                search
+              </mat-icon>
+            </ng-container>
+            <!-- <ng-container *ngSwitchCase="'workspace'" >
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                group
+              </mat-icon>
+            </ng-container> -->
+            <!-- <ng-container *ngSwitchCase="'label'">
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                label
+              </mat-icon>
+            </ng-container> -->
+          </div>
+          <span class="tab-title">{{ catalog.name }}</span>
+        </ng-template>
+
+        <div class="tab-content">
+          <div class="catalog-section" *ngIf="selectedCatalog">
+            <div class="label-list-mini" *ngIf="selectedCatalog.labels.length > 0; else elseBlock">
+              Filtered by :
+              <span *ngFor="let label of selectedCatalog.labels">
+                <mat-chip color="primary">{{ label }}</mat-chip>
+              </span>
+            </div>
+            <ng-template #elseBlock>
+              <div class="label-list"></div>
+            </ng-template>
+            <ul *ngFor="let environment of filterEnvironmentsByLabels(selectedCatalog.labels, 'any')">
+              <app-dashboard-environment-item [environment]=environment
+                (startEnvironmentEvent)="startEnvironment($event)"
+                (openEnvironmentInBrowserEvent)="openEnvironmentInBrowser($event)"
+                (stopEnvironmentEvent)="stopEnvironment($event)">
+              </app-dashboard-environment-item>
+            </ul>
+          </div>
+        </div>
+
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</section>

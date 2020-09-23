@@ -1,0 +1,65 @@
+@import "src/styles.scss";
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+section {
+  margin-top: 20px;
+  margin-bottom: 40px;
+
+  .card {
+    padding: 20px;
+
+    .row {
+      margin-bottom: 20px;
+    }
+    .password-setting {
+      input {
+        border: $border-thin;
+      }
+
+      .change-pw-btn {
+        margin-top: 10px;
+      }
+    }
+
+    .account-setting {
+      .form-group {
+        width: 100%;
+
+        input {
+          border: $border-thin;
+        }
+      }
+    }
+
+    p {
+      color: #555;
+      font-size: 1.3rem;
+    }
+  }
+}
+
+.avatar {
+  display: flex;
+  flex-direction: row;
+
+  .avatar-image {
+    flex-basis: 150px;
+
+    img {
+      border: $border-thin;
+    }
+  }
+}
+
+.change-pw-btn {
+  text-align: right;
+}

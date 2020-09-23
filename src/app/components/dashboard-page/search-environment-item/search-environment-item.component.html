@@ -1,0 +1,33 @@
+<mat-form-field class="chip-list">
+
+  <mat-chip-list #chipList aria-label="keyword selection">
+    <!-- <ng-container *ngIf="catalog"> -->
+    <mat-chip *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
+      (removed)="removeLabel(label)" selected>
+      {{label}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <!-- </ng-container> -->
+    <input placeholder="labels for new search" #labelInput [formControl]="labelCtrl" [matAutocomplete]="auto"
+      [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let label of filteredLabels | async" [value]="label">
+      {{label}}
+    </mat-option>
+  </mat-autocomplete>
+
+</mat-form-field>
+<div class="candidate-label-outer">
+  <mat-chip-list class="candidate-labels">
+    <mat-chip class="label" (click)="clicked($event)" *ngFor="let label of getCandidateLabels()">
+      {{label}}
+    </mat-chip>
+  </mat-chip-list>
+</div>
+
+<!-- <button mat-flat-button color="primary" type="button" (click)="saveLabels()" cdkFocusInitial class="save-label-btn">
+  <mat-icon>add</mat-icon>
+  Save as a new tab
+</button> -->

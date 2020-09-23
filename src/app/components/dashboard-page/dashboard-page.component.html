@@ -1,0 +1,13 @@
+<app-dashboard-header class="header"></app-dashboard-header>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" class="example-sidenav" opened="true" [ngStyle]="{ 'width.px': sidenavWidth }">
+    <app-dashboard-nav class="sidebar" (sendValue)="sidenav.toggle()"></app-dashboard-nav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- <div>{{ (hogeState$ | async)?.value }}</div> -->
+    <div class="dashboard-page-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<!-- <app-dashboard-footer class="footer"></app-dashboard-footer> -->

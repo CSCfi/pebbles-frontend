@@ -1,0 +1,46 @@
+@import "src/styles.scss";
+
+.header{
+  z-index: 200;
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $header-height;
+  border-bottom: 1px solid rgba(0, 70, 80, 0.8);
+
+  &:after{
+    content: "";
+    border-bottom: 1px solid rgba(59, 180, 201,0.5);
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+  }
+}
+
+.instance-container{
+  margin-top: $header-height;
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9fafb !important;
+
+  .iframe-container{
+    width: 100%;
+    height: 100%;
+
+    iframe{
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .mat-progress-bar{
+    width: 80%;
+  }
+}

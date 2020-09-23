@@ -1,0 +1,41 @@
+<!-- Page Information -->
+<div class="row">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="page-header">
+      <h2 class="page-header-title">Messages</h2>
+      <div class="page-breadcrumb">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/dashboard']" class="breadcrumb-link">Top</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Messages
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="message-container">
+  <div *ngIf="getMessages().length > 0; else elseBlock">
+    <ul *ngFor="let message of getMessages()">
+      <li class="message">
+        <h3 class="subject">{{ message.subject }}</h3>
+        <span class="date">{{ message.date }}</span>
+        <p class="message">{{ message.message }}</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<ng-template #elseBlock>
+  <section class="">
+    <div class="no-message">
+      <mat-icon fontSet="material-icons-outlined">inbox</mat-icon>
+      <span class="message">You have no message yet.</span>
+    </div>
+  </section>
+</ng-template>

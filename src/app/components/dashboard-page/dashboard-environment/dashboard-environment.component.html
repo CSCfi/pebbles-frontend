@@ -1,0 +1,14 @@
+<p>dashboard-environment works!</p>
+<div class="row">
+  <ul *ngFor="let environment of getEnvironments()" >
+    <li class="media">
+      <img src="https://dummyimage.com/100x100.png" class="mr-3" alt="Thumbnail of the environment">
+      <div class="media-body">
+        <h5 class="mt-0 mb-1">{{ environment.id }} : {{ environment.name }}</h5>
+        <div>
+          description: {{ environment.description }}
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

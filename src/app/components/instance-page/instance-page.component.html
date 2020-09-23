@@ -1,0 +1,11 @@
+<app-header class="header"></app-header>
+<div *ngIf="targetInstance" class="instance-container">
+  <div class="iframe-container" *ngIf="targetInstance.state===instanceStates.Running; else elseBlock">
+    <iframe id="inlineFrameExample" title="Inline Frame Example" [src]="iframeSrc">
+    </iframe>
+  </div>
+  <ng-template #elseBlock>
+    <div>{{ targetInstance.state }}</div>
+    <mat-progress-bar mode="buffer" value="40" bufferValue="60"></mat-progress-bar>
+  </ng-template>
+</div>

@@ -1,0 +1,60 @@
+<div class="sidebar-inner">
+  <div class="nav-toggle-btn">
+    <button mat-button (click)="sidenavToggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <!-- <div class="sidebar-user">
+            <div class="user-icon">
+                <mat-icon fontSet="material-icons-outlined">account_circle</mat-icon>
+            </div>
+            <div class="user-greeting">Welcome Back!</div>
+            <div class="user-name">Tieteen Tietotekniikan</div>
+            <div class="text-center">
+                <div type="button" class="btn user-logout-btn text-primary border-primary">Logout</div>
+            </div>
+        </div> -->
+  <ul class="sidebar-menu scrollable">
+    <li class="nav-item active">
+
+      <a class="sidebar-link" [routerLink]="['/dashboard']">
+        <span class="icon-holder">
+          <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+        </span>
+        <span class="title">Catalog</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="sidebar-link" [routerLink]="['/dashboard/workspace']">
+        <span class="icon-holder">
+          <mat-icon fontSet="material-icons-outlined">group</mat-icon>
+        </span>
+        <span class="title">Workspace</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="sidebar-link" [routerLink]="['/dashboard/account']">
+        <span class="icon-holder">
+          <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
+        </span>
+        <span class="title">Account</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="sidebar-link" [routerLink]="['/dashboard/message']">
+        <span class="icon-holder">
+          <mat-icon fontSet="material-icons-outlined">notifications</mat-icon>
+        </span>
+        <span class="title">Messages</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="sidebar-link" href="#">
+        <span class="icon-holder">
+          <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
+        </span>
+        <span class="title">Help</span>
+      </a>
+    </li>
+  </ul>
+</div>

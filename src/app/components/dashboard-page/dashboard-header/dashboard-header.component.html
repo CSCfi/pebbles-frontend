@@ -1,0 +1,62 @@
+<div class="header-container bg-info">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="navbar-brand d-flex justify-content-start align-items-center bg-info">
+      <!--  div.logo // Notebooks Logo & Home link-->
+      <div class="logo">
+        <div class="logomark">
+          <a [routerLink]="['/dashboard']">
+            <!-- TODO: Change to the Original Logo -->
+            <mat-icon role="img" fontSet="material-icons-outlined">
+              import_contacts
+            </mat-icon>
+          </a>
+        </div>
+        <div class="logotype">
+          <a [routerLink]="['/dashboard']">
+            <h1> Notebooks </h1>
+          </a>
+        </div>
+      </div>
+      <!---- // div.logo ---->
+    </div>
+    <div class="header-nav">
+      <div class="messages" *ngIf="getMessages().length">
+        <a [routerLink]="['/dashboard/message']">
+          <mat-icon
+            [matBadge]="getMessages().length.toString()"
+            matBadgeColor="warn"
+          >
+            notifications
+          </mat-icon>
+        </a>
+      </div>
+      <div class="user-account">
+        <!--
+                <div class="user-icon"  *ngIf="profile.thumbnail; else elseBlock">
+                    <img
+                    class="circle-clip"
+                    [alt]="profile.name"
+                    [src]="'./assets/images/users/'+profile.thumbnail" >
+                </div>
+                <ng-template #elseBlock>
+                    <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+                </ng-template>
+                 -->
+        <div class="user-name">
+          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+          <a [routerLink]="['/dashboard/account']">
+            {{ authService.getUserName() }}
+          </a>
+        </div>
+
+        <div class="btn user-logout-btn"
+        (click)="authService.logout()" >
+        Logout
+        </div>
+
+      </div>
+    </div>
+  </nav>
+  <div>
+  </div>
+</div>

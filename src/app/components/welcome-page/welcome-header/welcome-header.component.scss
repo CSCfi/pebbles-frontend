@@ -1,0 +1,23 @@
+
+nav {
+    // padding: 50px;
+    // padding: 10px;
+    ul>li>a{
+        text-decoration: underline;
+        letter-spacing: 0.1rem;
+    }
+}
+
+#logo{
+    width: 50px;
+    .mat-icon {
+        transform: scale(1.6);
+        margin: auto;
+    }
+}
+
+h1{
+    font-size: 1.8rem;
+    letter-spacing: 0.2rem;
+    margin-top: 8px;
+}

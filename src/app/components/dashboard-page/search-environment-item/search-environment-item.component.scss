@@ -1,0 +1,25 @@
+@import "src/styles.scss";
+
+.chip-list {
+    width: 100%;
+}
+
+.mat-button-base{
+  padding: 10px 20px 10px 10px;
+  float: right;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.candidate-label-outer {
+  border: 1px #DDD solid;
+  background: $light;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+
+  .candidate-labels .label{
+    font-size: 1.1rem;
+    background: #fff;
+  }
+}
