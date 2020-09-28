@@ -1,0 +1,7 @@
+FROM bitnami/nginx:latest
+LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
+
+COPY dist/pebbles-frontend /app
+
+# set up redirection to /index.html for Angular routing
+RUN echo 'try_files $uri $uri/ /index.html;' > /opt/bitnami/nginx/conf/bitnami/angular.conf

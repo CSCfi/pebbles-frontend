@@ -1,0 +1,16 @@
+# stage one: build
+FROM node:14-alpine as build-stage
+WORKDIR /usr/src/app
+COPY . .
+RUN npm ci
+RUN npm run-script build:prod
+
+# stage two: runtime
+FROM bitnami/nginx:latest
+LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
+
+# copy application
+COPY --from=build-stage /usr/src/app/dist/pebbles-frontend /app
+
+# set up redirection to /index.html for Angular routing
+RUN echo 'try_files $uri $uri/ /index.html;' > /opt/bitnami/nginx/conf/bitnami/angular.conf
