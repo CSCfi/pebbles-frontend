@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DashboardNavComponent } from './dashboard-nav.component';
@@ -13,6 +14,7 @@ describe('DashboardNavComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        HttpClientTestingModule,
         MaterialModule
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],

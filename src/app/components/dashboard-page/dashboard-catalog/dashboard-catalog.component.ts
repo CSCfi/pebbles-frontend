@@ -18,11 +18,11 @@ import { EnvironmentCategoryService } from 'src/app/services/environment-categor
 
 
 @Component({
-  selector: 'app-dashboard-summary',
-  templateUrl: './dashboard-summary.component.html',
-  styleUrls: ['./dashboard-summary.component.scss']
+  selector: 'app-dashboard-catalog',
+  templateUrl: './dashboard-catalog.component.html',
+  styleUrls: ['./dashboard-catalog.component.scss']
 })
-export class DashboardSummaryComponent implements OnInit {
+export class DashboardCatalogComponent implements OnInit {
 
   pageTitle = 'Catalog';
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -47,6 +47,7 @@ export class DashboardSummaryComponent implements OnInit {
     this.fetchCatalogs();
     this.fetchWorkspaces();
     this.isSearchFormOpen = false;
+    // ---- getCategoryById('1') : 1 -> 'all'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }
 
@@ -165,7 +166,7 @@ export class DashboardSummaryComponent implements OnInit {
 @Component({
   selector: 'app-join-workspace-dialog',
   templateUrl: 'join-workspace-dialog.component.html',
-  styleUrls: ['./dashboard-summary.component.scss']
+  styleUrls: ['./dashboard-catalog.component.scss']
 })
 
 export class JoinWorkspaceDialogComponent {

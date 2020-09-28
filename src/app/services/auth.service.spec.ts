@@ -25,8 +25,14 @@ describe('AuthService', () => {
 
   it('should allow login',
     (done: DoneFn) => {
-      return service.login(new User('user-1@example.org', 'user-1')).then((resp) => {
-        expect(resp).toEqual({token: 'fake-token', user_id: '102'});
+      return service.login(new User('admin@example.org', 'admin')).then((resp) => {
+        expect(resp).toEqual({
+          token: 'fake-token',
+          user_id: '1',
+          is_admin: 'true',
+          is_group_owner: 'true',
+          is_workspace_manager: 'true'
+          });
         done();
       });
     });

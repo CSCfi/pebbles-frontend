@@ -96,7 +96,10 @@ export class MockInterceptor implements HttpInterceptor {
       }
       return ok({
         user_id: user.id,
-        token: 'fake-token'
+        token: 'fake-token',
+        is_admin: user.is_admin,
+        is_group_owner: user.is_workspace_owner,
+        is_workspace_manager: user.is_workspace_manager,
       });
     }
 

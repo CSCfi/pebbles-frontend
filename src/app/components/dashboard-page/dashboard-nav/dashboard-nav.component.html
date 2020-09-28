@@ -15,8 +15,7 @@
             </div>
         </div> -->
   <ul class="sidebar-menu scrollable">
-    <li class="nav-item active">
-
+    <li class="nav-item" [class.active]="router.url==='/dashboard/catalog'">
       <a class="sidebar-link" [routerLink]="['/dashboard']">
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
@@ -24,15 +23,15 @@
         <span class="title">Catalog</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" [class.active]="router.url==='/dashboard/workspace'">
       <a class="sidebar-link" [routerLink]="['/dashboard/workspace']">
         <span class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">group</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
         </span>
         <span class="title">Workspace</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" [class.active]="router.url==='/dashboard/account'">
       <a class="sidebar-link" [routerLink]="['/dashboard/account']">
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
@@ -40,7 +39,7 @@
         <span class="title">Account</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" [class.active]="router.url==='/dashboard/message'">
       <a class="sidebar-link" [routerLink]="['/dashboard/message']">
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">notifications</mat-icon>
@@ -48,6 +47,43 @@
         <span class="title">Messages</span>
       </a>
     </li>
+  </ul>
+
+  <ng-container *ngIf="isWorkspaceOwner">
+    <ul class="sidebar-menu workspace-owner">
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/workspace-manager'">
+        <a class="sidebar-link" [routerLink]="['/dashboard/workspace-manager']">
+          <span class="icon-holder">
+            <mat-icon fontSet="material-icons-outlined">folder_shared</mat-icon>
+          </span>
+          <span class="title">Workspace Owner Tool</span>
+        </a>
+      </li>
+    </ul>
+  </ng-container>
+
+  <ng-container *ngIf="isAdmin">
+    <ul class="sidebar-menu workspace-owner">
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/admin-tool'">
+        <a class="sidebar-link" [routerLink]="['/dashboard/admin-tool']">
+          <span class="icon-holder">
+            <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
+          </span>
+          <span class="title">Admin Tool</span>
+        </a>
+      </li>
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/statistics'">
+        <a class="sidebar-link" [routerLink]="['/dashboard/statistics']">
+          <span class="icon-holder">
+            <mat-icon fontSet="material-icons-outlined">bar_chart</mat-icon>
+          </span>
+          <span class="title">Statistics</span>
+        </a>
+      </li>
+    </ul>
+  </ng-container>
+
+  <ul class="sidebar-menu outer-link">
     <li class="nav-item">
       <a class="sidebar-link" href="#">
         <span class="icon-holder">

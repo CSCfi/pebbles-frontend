@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { EnvironmentCategoryService } from './environment-category.service';
-import { DashboardSummaryComponent } from '../components/dashboard-page/dashboard-summary/dashboard-summary.component';
+import { DashboardCatalogComponent } from '../components/dashboard-page/dashboard-catalog/dashboard-catalog.component';
 
 describe('EnvironmentCategoryService', () => {
   let service: EnvironmentCategoryService;
@@ -13,7 +13,7 @@ describe('EnvironmentCategoryService', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        DashboardSummaryComponent
+        DashboardCatalogComponent
       ],
       providers: [
         ENVIRONMENT_SPECIFIC_PROVIDERS

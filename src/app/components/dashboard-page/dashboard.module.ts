@@ -12,7 +12,7 @@ import { DashboardPageComponent } from './dashboard-page.component';
 import { DashboardHeaderComponent } from './dashboard-header/dashboard-header.component';
 import { DashboardFooterComponent } from './dashboard-footer/dashboard-footer.component';
 import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
-import { DashboardSummaryComponent, JoinWorkspaceDialogComponent } from './dashboard-summary/dashboard-summary.component';
+import { DashboardCatalogComponent, JoinWorkspaceDialogComponent } from './dashboard-catalog/dashboard-catalog.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
 import { DashboardEnvironmentComponent } from './dashboard-environment/dashboard-environment.component';
 import { DashboardEnvironmentItemComponent } from './dashboard-environment-item/dashboard-environment-item.component';
@@ -29,7 +29,7 @@ import { MessageComponent } from '../common/message/message.component';
     DashboardNavComponent,
     DashboardAccountComponent,
     DashboardEnvironmentComponent,
-    DashboardSummaryComponent,
+    DashboardCatalogComponent,
     DashboardEnvironmentItemComponent,
     DashboardWorkspaceComponent,
     DashboardMessageComponent,

@@ -37,7 +37,7 @@ describe('Pebbles SPA', () => {
     welcomePage.navigateTo();
     welcomePage.login('admin@example.org', 'admin');
     browser.sleep(3000);
-    browser.wait(ExpectedConditions.urlContains('dashboard/summary'), 5000).then(() => {
+    browser.wait(ExpectedConditions.urlContains('dashboard/catalog'), 5000).then(() => {
       console.log('on dashboard');
     });
   });

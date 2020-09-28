@@ -14,7 +14,7 @@ export class WelcomeLoginComponent implements OnInit {
   isLoginFormOpen = false;
 
   constructor(
-    private auth: AuthService,
+    private authService: AuthService,
     private router: Router
   ){ }
 
@@ -23,7 +23,7 @@ export class WelcomeLoginComponent implements OnInit {
 
   onLogin(): void {
     console.log('---- onLogin');
-    this.auth
+    this.authService
       .login(this.user)
       .then((session) => {
         console.log(session);
@@ -31,7 +31,7 @@ export class WelcomeLoginComponent implements OnInit {
         localStorage.setItem('user_id', session.user_id);
         localStorage.setItem('user_name', this.user.eppn);
         localStorage.setItem('is_admin', session.is_admin);
-        localStorage.setItem('is_group_owner', session.is_group_owner);
+        localStorage.setItem('is_workspace_owner', session.is_group_owner);
         localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
 
         this.router.navigateByUrl('/dashboard').then(() => console.log('router: navigated to /dashboard'));

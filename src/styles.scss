@@ -71,8 +71,9 @@ $transition-base: all .2s ease-in-out;
 $enable-transitions: true;
 
 $header-height: 65px;
-$side-nav-width: 225px;
+$side-nav-width: 250px;
 $border-thin: 1px solid rgba(0, 0, 0, .0625);
+$border-thin-light: 1px solid rgba(255, 255, 255, .0625);
 
 @media screen and (min-width: 1670px) {
   section.container {

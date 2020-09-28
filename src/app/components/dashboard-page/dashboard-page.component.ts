@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardPageComponent implements OnInit {
 
-  sidenavWidth = 220;
+  sidenavWidth = 250;
   opened = true;
 
   constructor() {

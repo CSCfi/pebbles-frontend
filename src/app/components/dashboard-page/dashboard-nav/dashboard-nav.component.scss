@@ -1,22 +1,5 @@
 @import "src/styles.scss";
 
-// div.wireframe{
-//     position: fixed;
-//     width: 180px;
-//     height: 100%;
-//     z-index: 1;
-  
-//     .background{
-//       position: relative;
-//       opacity: 100%;
-//       background: url('../../../../assets/images/dashboard-page-wireframe.png') no-repeat;
-//       height: 100%;
-//       background-position: top -80px left 0px;
-//       margin: auto;
-//       z-index: 1;
-//     }
-// }
-
 .sidebar-inner {
     position: relative;
     font-size: $font-size-sideNav;
@@ -24,9 +7,7 @@
 
     .nav-toggle-btn{
       z-index: 200;
-      // position: absolute; 
-      margin-top: 10px; 
-      margin-left: 10px;
+      padding: 10px 0 10px 10px;
 
       .mat-button{
         min-width: auto;
@@ -40,7 +21,7 @@
       // line-height: 0;
       list-style: none;
       margin: 0;
-      padding: 0px 10px 30px;
+      // padding: 0px 10px 30px;
       // min-height: 100px;
       position: relative;
       -webkit-transition: all .2s ease;
@@ -97,16 +78,31 @@
 
     .sidebar-menu {
       // border-right: 1px solid rgba(0,0,0,.0625);
-      height: calc(100vh - 65px);
+      // height: calc(100vh - 65px);
       list-style: none;
       margin: 0;
       overflow: auto;
       padding: 0;
       position: relative;
+      border-top: $border-thin-light;
+
+      // &.workspace-owner,
+      // &.outer-link{
+
+      // }
 
       li{
-        margin-top: 20px!important;
-        border-bottom: $border-thin;
+        padding: 5px 0 5px !important;
+        margin: 5px 10px;
+        // border-bottom: $border-thin;
+        // border-bottom: 1px #111 solid;
+        // border-top: 1px #4e4e4e solid;
+
+        &.active{
+          background-color: #3b3d48;
+          color: #fff;
+          border-radius: 2px;
+        }
 
         a {
           display: block;
@@ -114,6 +110,7 @@
           white-space: nowrap;
           padding: 5px 15px;
           color: $my-app-sidenav-text;
+
 
           .icon-holder {
             border-radius: 6px;

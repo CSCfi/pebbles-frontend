@@ -4,12 +4,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
-import { DashboardSummaryComponent } from './dashboard-summary.component';
+import { DashboardCatalogComponent } from './dashboard-catalog.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 
-describe('DashboardSummaryComponent', () => {
-  let component: DashboardSummaryComponent;
-  let fixture: ComponentFixture<DashboardSummaryComponent>;
+describe('DashboardCatalogComponent', () => {
+  let component: DashboardCatalogComponent;
+  let fixture: ComponentFixture<DashboardCatalogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,14 +21,14 @@ describe('DashboardSummaryComponent', () => {
         MaterialModule
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
-      declarations: [DashboardSummaryComponent],
+      declarations: [DashboardCatalogComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardSummaryComponent);
+    fixture = TestBed.createComponent(DashboardCatalogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

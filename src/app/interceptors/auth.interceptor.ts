@@ -10,13 +10,15 @@ import { AuthService } from '../services/auth.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log('AuthInterceptor intercept ' + req.url);
     // Get the auth token from the service.
-    const authToken = this.auth.getToken();
+    const authToken = this.authService.getToken();
 
     // Clone and augment the request
     let authReq: HttpRequest<any>;

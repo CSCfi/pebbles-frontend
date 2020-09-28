@@ -82,6 +82,13 @@ export class InstanceService implements OnDestroy {
     }));
   }
 
+  clearPollingInterval() {
+    // console.log('---- stop polling');
+    if (this.interval){
+      clearInterval(this.interval);
+    }
+  }
+
   private setPollingInterval(intervalMs: number) {
     console.log('setting polling rate to ' + intervalMs);
     if (this.interval){

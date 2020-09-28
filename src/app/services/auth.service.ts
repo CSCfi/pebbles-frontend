@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
+import { InstanceService } from 'src/app/services/instance.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private instanceService: InstanceService,
   ) {
   }
 
@@ -26,6 +28,7 @@ export class AuthService {
       return;
     }
     localStorage.clear();
+    this.instanceService.clearPollingInterval();
     this.router.navigateByUrl('/').then(() => console.log('router: navigated to /'));
   }
 

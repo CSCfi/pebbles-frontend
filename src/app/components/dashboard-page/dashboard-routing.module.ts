@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardPageComponent } from './dashboard-page.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
 import { DashboardEnvironmentComponent } from './dashboard-environment/dashboard-environment.component';
-import { DashboardSummaryComponent } from './dashboard-summary/dashboard-summary.component';
+import { DashboardCatalogComponent } from './dashboard-catalog/dashboard-catalog.component';
 import { DashboardWorkspaceComponent } from './dashboard-workspace/dashboard-workspace.component';
 import { DashboardMessageComponent } from './dashboard-message/dashboard-message.component';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
@@ -13,13 +13,13 @@ const routes: Routes = [
   {
     path: 'dashboard', component: DashboardPageComponent,
     children: [
-      { path: '', redirectTo: 'summary', pathMatch: 'full' },
-      { path: 'summary', component: DashboardSummaryComponent },
+      { path: '', redirectTo: 'catalog', pathMatch: 'full' },
+      { path: 'catalog', component: DashboardCatalogComponent },
       { path: 'workspace', component: DashboardWorkspaceComponent },
+      { path: 'workspace-manager', component: DashboardWorkspaceComponent },
       { path: 'account', component: DashboardAccountComponent },
       { path: 'environment', component: DashboardEnvironmentComponent },
       { path: 'message', component: DashboardMessageComponent },
-      // { path: 'users', component: DashboardUsersComponent },
       { path: '**', component: NotFoundPageComponent },
     ]
   }
