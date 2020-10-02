@@ -1,6 +1,6 @@
 <div class="sidebar-inner">
   <div class="nav-toggle-btn">
-    <button mat-button (click)="sidenavToggle()">
+    <button mat-button (click)="emitSideNavToggle()">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
@@ -20,7 +20,7 @@
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
         </span>
-        <span class="title">Catalog</span>
+        <span class="title" [@onNavTextChange]="isSideNavOpen">Catalog</span>
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/dashboard/workspace'">
@@ -28,7 +28,7 @@
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
         </span>
-        <span class="title">Workspace</span>
+        <span class="title" [@onNavTextChange]="isSideNavOpen">Workspace</span>
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/dashboard/account'">
@@ -36,7 +36,7 @@
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
         </span>
-        <span class="title">Account</span>
+        <span class="title" [@onNavTextChange]="isSideNavOpen">Account</span>
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/dashboard/message'">
@@ -44,32 +44,32 @@
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">notifications</mat-icon>
         </span>
-        <span class="title">Messages</span>
+        <span class="title" [@onNavTextChange]="isSideNavOpen">Messages</span>
       </a>
     </li>
   </ul>
 
-  <ng-container *ngIf="isWorkspaceOwner">
+  <ng-container *ngIf="authService.isWorkspaceOwner">
     <ul class="sidebar-menu workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/workspace-manager'">
         <a class="sidebar-link" [routerLink]="['/dashboard/workspace-manager']">
           <span class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">folder_shared</mat-icon>
           </span>
-          <span class="title">Workspace Owner Tool</span>
+          <span class="title" [@onNavTextChange]="isSideNavOpen">Workspace Owner Tool</span>
         </a>
       </li>
     </ul>
   </ng-container>
 
-  <ng-container *ngIf="isAdmin">
+  <ng-container *ngIf="authService.isAdmin">
     <ul class="sidebar-menu workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/admin-tool'">
         <a class="sidebar-link" [routerLink]="['/dashboard/admin-tool']">
           <span class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
           </span>
-          <span class="title">Admin Tool</span>
+          <span class="title" [@onNavTextChange]="isSideNavOpen">Admin Tool</span>
         </a>
       </li>
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/statistics'">
@@ -77,7 +77,7 @@
           <span class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">bar_chart</mat-icon>
           </span>
-          <span class="title">Statistics</span>
+          <span class="title" [@onNavTextChange]="isSideNavOpen">Statistics</span>
         </a>
       </li>
     </ul>
@@ -89,7 +89,7 @@
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
         </span>
-        <span class="title">Help</span>
+        <span class="title" [@onNavTextChange]="isSideNavOpen">Help</span>
       </a>
     </li>
   </ul>

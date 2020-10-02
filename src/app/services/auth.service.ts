@@ -11,6 +11,18 @@ export class AuthService {
 
   private BASE_URL = 'http://localhost/api/v1';
 
+  get isAdmin(): boolean {
+    return localStorage.getItem('is_admin') === 'true' ? true : false;
+  }
+
+  get isWorkspaceOwner(): boolean {
+    return localStorage.getItem('is_workspace_owner') === 'true' ? true : false;
+  }
+
+  get isWorkspaceManager(): boolean {
+    return localStorage.getItem('is_workspace_manager') === 'true' ? true : false;
+  }
+
   constructor(
     private http: HttpClient,
     private router: Router,
