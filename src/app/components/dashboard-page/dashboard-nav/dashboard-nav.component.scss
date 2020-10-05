@@ -108,23 +108,14 @@
           display: block;
           position: relative;
           white-space: nowrap;
-          padding: 5px 15px;
+          padding: 5px 18px;
           color: $my-app-sidenav-text;
 
-
           .icon-holder {
-            // border-radius: 6px;
-            display: inline-block;
-            // height: 35px;
-            // left: 0;
-            // line-height: 35px;
-            // margin-right: 2px;
-            position: relative;
-            text-align: center;
-            // -webkit-transition: all .3s ease;
-            // -o-transition: all .3s ease;
-            // transition: all .3s ease;
-            // width: 35px;
+            height: 30px;
+            line-height: 30px;
+            display: block;
+           
 
               .mat-icon{
                 vertical-align: middle;
@@ -135,9 +126,9 @@
           }
 
           .title{
-            padding-left: 10px;
-            line-height: -5px;
-            vertical-align: middle;
+            position: absolute;
+            top: 12px;
+            margin-left: 40px;
           }
         }
       }

@@ -11,8 +11,8 @@ export const onSideNavChange = trigger('onSideNavChange', [
       'min-width': '60px'
     })
   ),
-  transition('true => false', animate('250ms ease-in')),
-  transition('false => true', animate('250ms ease-in')),
+  transition('true => false', animate('10ms ease-in')),
+  transition('false => true', animate('10ms ease-in')),
 ]);
 
 export const onMainContentChange = trigger('onMainContentChange', [
@@ -23,9 +23,9 @@ export const onMainContentChange = trigger('onMainContentChange', [
   ),
   state('false',
     style({
-      'margin-left': '60px'
+      'margin-left': '80px'
     })
   ),
-  transition('true => false', animate('250ms ease-in')),
-  transition('false => true', animate('250ms ease-in')),
+  transition('true => false', animate('10ms ease-in')),
+  transition('false => true', animate('10ms ease-in')),
 ]);

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
-import { onNavTextChange } from './dashboard-nav.animations';
+import { MatTooltip } from '@angular/material/tooltip';
+import { FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
 // export enum DashboardPages {
@@ -15,13 +16,23 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-dashboard-nav',
   templateUrl: './dashboard-nav.component.html',
-  styleUrls: ['./dashboard-nav.component.scss'],
-  animations: [onNavTextChange]
+  styleUrls: ['./dashboard-nav.component.scss']
 })
 export class DashboardNavComponent implements OnInit {
 
+  public isTextVisible: boolean;
+
+  @ViewChildren('tooltip') tooltips;
+
   @Output() toggleSideNavEvent = new EventEmitter<boolean>();
-  @Input() isSideNavOpen: boolean;
+
+  @Input() set isSideNavOpen(value: boolean){
+    this.isTextVisible = value;
+    this.toggleToolTips(value);
+  }
+
+  position = new FormControl('after');
+  disabled = new FormControl(false);
 
   constructor(
     public router: Router,
@@ -34,5 +45,17 @@ export class DashboardNavComponent implements OnInit {
 
   emitSideNavToggle(): void {
     this.toggleSideNavEvent.emit();
+  }
+
+  toggleToolTips(value){
+    if (!this.tooltips) { return; }
+    if (value){
+      this.tooltips._results.forEach(item => item.disabled = true);
+    } else {
+      this.tooltips._results.forEach(item => {
+        item.disabled = false;
+        item.position = 'right';
+      });
+    }
   }
 }
