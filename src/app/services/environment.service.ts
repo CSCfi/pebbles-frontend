@@ -46,6 +46,10 @@ export class EnvironmentService {
     return this.environments;
   }
 
+  getEnvironmentsByWorkspaceId(workspaceId: string) {
+    return this.environments.filter(env => env.workspace_id === workspaceId );
+  }
+
   updateEnvironmentStatus(): void {
     // assign instances to environments
     for (const env of this.environments) {
@@ -57,7 +61,7 @@ export class EnvironmentService {
     }
     // assign workspaces to environments
     for (const env of this.environments) {
-      env.workspace = this.workspaceService.getWorkspaces().find(ws => ws.id === env.workspace_id);
+      env.workspace = this.workspaceService.getUserWorkspaces().find(ws => ws.id === env.workspace_id);
       if (env.workspace) {
         console.log('found workspace for environment ' + env.name);
       }

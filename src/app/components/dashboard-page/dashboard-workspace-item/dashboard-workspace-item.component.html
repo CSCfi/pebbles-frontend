@@ -1,0 +1,96 @@
+<ng-container *ngIf="content">
+
+  <div [ngSwitch]="content.path">
+
+    <!-- Template for Single Workspace for end-user -->
+    <div *ngSwitchCase="'user-workspace'">
+      <mat-card class="workspace-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="header">group</mat-icon> {{ workspace.name }}
+          </mat-card-title>
+          <mat-card-subtitle>Workspace Owner: {{ workspace.owner_eppn }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <ul>
+            <li *ngFor="let environment of getEnvironmentsByWorkspaceId(workspace.id)" class="environment">
+              <mat-icon fontSet="material-icons-outlined" class="header">import_contacts</mat-icon>
+              {{ environment.name }}
+            </li>
+          </ul>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-icon-button color="primary" aria-label="workspace delete" (click)="exitWorkspace(workspace.id)">
+            <mat-icon class="header">exit_to_app</mat-icon>
+            <span>Exit from Workspace</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Template for Single Workspace for owner -->
+    <div *ngSwitchCase="'workspace-owner'">
+      <mat-card class="workspace-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="header">group</mat-icon> {{ workspace.name }}
+          </mat-card-title>
+          <mat-card-subtitle>Workspace Owner: {{ workspace.owner_eppn }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>User</p>
+          <p>Data: 320M</p>
+          <p>Environment</p>
+          <ul>
+            <li *ngFor="let environment of getEnvironmentsByWorkspaceId(workspace.id)" class="environment">
+              <mat-icon fontSet="material-icons-outlined" class="header">import_contacts</mat-icon>
+              {{ environment.name }}
+            </li>
+          </ul>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-flat-button color="primary" aria-label="workspace manager"
+            (click)="openWorkspaceDetail(workspace.id)">
+            <span>Open Workspace Manager</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Single Workspace Editor -->
+    <div *ngSwitchDefault>
+      <div>
+        description : {{ workspace.description }}
+      </div>
+
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Environments">
+          <p>Environments</p>
+          <div>
+            <ul>
+              <li>env 1</li>
+              <li>env 2</li>
+              <li>env 3</li>
+            </ul>
+          </div>
+
+        </mat-tab>
+        <mat-tab label="Members">
+          <p>Members</p>
+          <div>
+            {{ workspace.member_eppns }}
+          </div>
+
+        </mat-tab>
+        <mat-tab label="Data">
+          Data
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+
+</ng-container>

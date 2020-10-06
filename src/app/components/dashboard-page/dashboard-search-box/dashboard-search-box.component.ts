@@ -9,11 +9,11 @@ import { EnvironmentCategory } from 'src/app/models/environment-category';
 import { EnvironmentService } from 'src/app/services/environment.service';
 
 @Component({
-  selector: 'app-search-environment-item',
-  templateUrl: './search-environment-item.component.html',
-  styleUrls: ['./search-environment-item.component.scss']
+  selector: 'app-dashboard-search-box',
+  templateUrl: './dashboard-search-box.component.html',
+  styleUrls: ['./dashboard-search-box.component.scss']
 })
-export class SearchEnvironmentItemComponent {
+export class DashboardSearchBoxComponent {
 
   selectable = true;
   removable = true;

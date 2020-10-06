@@ -1,30 +1,23 @@
 <app-message></app-message>
 
-<!-- Page Information -->
-<div class="top-page-header">
-  <div class="page-header">
-    <h2 class="page-header-title">{{ pageTitle }}</h2>
-  </div>
+<app-dashboard-breadcrumb [content]=content ></app-dashboard-breadcrumb>
 
-  <div class="environments-catalog-functions">
-
-    <button class="edit-tab-dialog-btn mat-button-lg" mat-flat-button (click)="isSearchFormOpen=!isSearchFormOpen">
-      <mat-icon fontSet="material-icons-outlined">
-        search
-      </mat-icon>
-      Search Environments
-    </button>
-
-    <button class="join-workshop-dialog-btn mat-button-lg" mat-raised-button color="primary"
-      (click)="openJoinWorkspaceDialog()">
-      <mat-icon fontSet="material-icons-outlined">
-        connect_without_contact
-      </mat-icon>
-      Join Workspace
-    </button>
-  </div>
-
+<div class="environments-catalog-functions">
+  <button class="edit-tab-dialog-btn mat-button-lg" mat-flat-button (click)="isSearchFormOpen=!isSearchFormOpen">
+    <mat-icon fontSet="material-icons-outlined">
+      search
+    </mat-icon>
+    Search Environments
+  </button>
+  <button class="join-workshop-dialog-btn mat-button-lg" mat-raised-button color="primary"
+    (click)="openJoinWorkspaceDialog()">
+    <mat-icon fontSet="material-icons-outlined">
+      connect_without_contact
+    </mat-icon>
+    Join Workspace
+  </button>
 </div>
+
 
 <!-- Environment Catalogs -->
 <section class="environments-catalog">
@@ -32,7 +25,7 @@
   <!-- Environment Catalog Search -->
   <mat-accordion class="search-form-outer" multi>
     <mat-expansion-panel [(expanded)]="isSearchFormOpen">
-      <app-search-environment-item [catalog]=selectedCatalog></app-search-environment-item>
+      <app-dashboard-search-box [catalog]=selectedCatalog></app-dashboard-search-box>
     </mat-expansion-panel>
   </mat-accordion>
 

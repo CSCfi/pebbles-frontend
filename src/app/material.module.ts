@@ -18,7 +18,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 // import { MatListModule } from '@angular/material/list';
 // import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
-// import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 // import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -54,7 +54,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         // MatListModule,
         // MatGridListModule,
         MatCardModule,
-        // MatStepperModule,
+        MatStepperModule,
         MatTabsModule,
         MatExpansionModule,
         // MatButtonToggleModule,
@@ -70,7 +70,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ],
     exports: [
         BrowserAnimationsModule,
-        MatCardModule,
         MatTabsModule,
         MatExpansionModule,
         MatButtonModule,
@@ -81,6 +80,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatProgressBarModule,
         MatDialogModule,
         MatBadgeModule,
+        MatCardModule,
+        MatStepperModule,
         // MatListModule,
         // MatGridListModule,
         MatInputModule,

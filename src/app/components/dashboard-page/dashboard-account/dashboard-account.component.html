@@ -1,36 +1,17 @@
-<!-- Page Information -->
-<div class="row">
-  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-    <div class="page-header">
-      <h2 class="page-header-title">Account</h2>
-      <div class="page-breadcrumb">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a [routerLink]="['/dashboard']" class="breadcrumb-link">Top</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Account
-            </li>
-          </ol>
-        </nav>
-      </div>
-    </div>
-  </div>
-</div>
+<app-dashboard-breadcrumb [content]=content ></app-dashboard-breadcrumb>
 
 <section class="content-wrapper">
   <div class="content card" id="content-body">
     <form role="form">
       <section class="user-info">
-        <div class="row form-group">
+        <!-- <div class="row form-group">
           <div class="col-lg-4">
             <h4>User ID</h4>
           </div>
           <div class="col-lg-8">
             <input readonly="readonly" class="form-control" type="text" value="xxxx">
           </div>
-        </div>
+        </div> -->
         <div class="row form-group">
           <div class="col-lg-4">
             <h4>User Status</h4>
@@ -41,7 +22,7 @@
         </div>
       </section>
 
-      <hr>
+      <!-- <hr>
       <section>
         <div class="row group-info form-group">
           <div class="col-lg-4">
@@ -54,7 +35,7 @@
             Group Table will be displayed here
           </div>
         </div>
-      </section>
+      </section> -->
 
       <hr>
       <section>

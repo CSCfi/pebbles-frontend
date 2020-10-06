@@ -1,0 +1,6 @@
+<app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
+<div *ngIf="workspace">
+  {{ workspace.name }}
+  <app-dashboard-workspace-item [content]=content [workspace]=workspace>
+  </app-dashboard-workspace-item>
+</div>

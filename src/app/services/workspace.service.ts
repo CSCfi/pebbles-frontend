@@ -10,7 +10,8 @@ import { Workspace } from 'src/app/models/workspace';
 export class WorkspaceService {
 
   private BASE_URL = 'http://localhost/api/v1';
-  private workspaces: Workspace[] = [];
+  private userWorkspaces: Workspace[] = [];
+  private ownerWorkspaces: Workspace[] = [];
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -22,9 +23,14 @@ export class WorkspaceService {
     this.fetchWorkspaces().subscribe();
   }
 
-  getWorkspaces(): Workspace[] {
-    return this.workspaces;
+  getUserWorkspaces(): Workspace[] {
+    return this.userWorkspaces;
   }
+
+  getOwnerWorkspaces(): Workspace[] {
+    return this.userWorkspaces;
+  }
+
 
   joinWorkspace(joinCode: string): Observable<any> {
     const url = `${this.BASE_URL}/workspaces/workspace_join/${joinCode}`;
@@ -51,8 +57,30 @@ export class WorkspaceService {
     return this.http.get<Workspace[]>(url, this.httpOptions).pipe(
       map((resp) => {
         console.log('fetchWorkspaces got ' + resp);
-        this.workspaces = resp;
-        return this.workspaces;
+        this.userWorkspaces = resp;
+        return this.userWorkspaces;
+      })
+    );
+  }
+
+  fetchUserWorkspaces(): Observable<Workspace[]>{
+    const url = `${this.BASE_URL}/workspaces/workspace_list_exit`;
+    return this.http.get<Workspace[]>(url, this.httpOptions).pipe(
+      map((resp) => {
+        console.log('fetchWorkspaces got ' + resp);
+        this.userWorkspaces = resp;
+        return this.userWorkspaces;
+      })
+    );
+  }
+
+  fetchOwnerWorkspaces(): Observable<Workspace[]>{
+    const url = `${this.BASE_URL}/workspaces`;
+    return this.http.get<Workspace[]>(url, this.httpOptions).pipe(
+      map((resp) => {
+        console.log('fetchOwnerWorkspaces got ' + resp);
+        this.ownerWorkspaces = resp;
+        return this.ownerWorkspaces;
       })
     );
   }

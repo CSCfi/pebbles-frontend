@@ -14,12 +14,19 @@ import { DashboardFooterComponent } from './dashboard-footer/dashboard-footer.co
 import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
 import { DashboardCatalogComponent, JoinWorkspaceDialogComponent } from './dashboard-catalog/dashboard-catalog.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
-import { DashboardEnvironmentComponent } from './dashboard-environment/dashboard-environment.component';
 import { DashboardEnvironmentItemComponent } from './dashboard-environment-item/dashboard-environment-item.component';
 import { DashboardWorkspaceComponent } from './dashboard-workspace/dashboard-workspace.component';
 import { DashboardMessageComponent } from './dashboard-message/dashboard-message.component';
-import { SearchEnvironmentItemComponent } from './search-environment-item/search-environment-item.component';
-import { MessageComponent } from '../common/message/message.component';
+import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/dashboard-workspace-owner.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-statistics.component';
+import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
+import { DashboardBreadcrumbComponent } from './dashboard-breadcrumb/dashboard-breadcrumb.component';
+import { DashboardWorkspaceItemComponent } from './dashboard-workspace-item/dashboard-workspace-item.component';
+import { DashboardWorkspaceWizardComponent } from './dashboard-workspace-wizard/dashboard-workspace-wizard.component';
+import { MessageComponent } from 'src/app/components/common/message/message.component';
+import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
+import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,14 +35,21 @@ import { MessageComponent } from '../common/message/message.component';
     DashboardFooterComponent,
     DashboardNavComponent,
     DashboardAccountComponent,
-    DashboardEnvironmentComponent,
     DashboardCatalogComponent,
     DashboardEnvironmentItemComponent,
     DashboardWorkspaceComponent,
     DashboardMessageComponent,
+    DashboardWorkspaceOwnerComponent,
+    DashboardAdminComponent,
+    DashboardStatisticsComponent,
+    DashboardHelpComponent,
+    DashboardBreadcrumbComponent,
+    DashboardWorkspaceItemComponent,
+    DashboardWorkspaceWizardComponent,
     JoinWorkspaceDialogComponent,
-    SearchEnvironmentItemComponent,
-    MessageComponent
+    MessageComponent,
+    DashboardSearchBoxComponent,
+    DashboardWorkspaceDetailComponent
   ],
   imports: [
     CommonModule,
@@ -43,8 +57,6 @@ import { MessageComponent } from '../common/message/message.component';
     ReactiveFormsModule,
     DashboardRoutingModule,
     MaterialModule,
-
-    // AppModule
   ],
   exports: [
     DashboardPageComponent

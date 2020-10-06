@@ -24,22 +24,22 @@
         <div class="title" *ngIf="isTextVisible">Environment Catalog</div>
       </a>
     </li>
-    <li class="nav-item" [class.active]="router.url==='/dashboard/workspace'"
+    <li class="nav-item" [class.active]="router.url==='/dashboard/user-workspace'"
     #tooltip="matTooltip" matTooltip="Workspace" [matTooltipDisabled]="true">
-      <a class="sidebar-link" [routerLink]="['/dashboard/workspace']">
+      <a class="sidebar-link" [routerLink]="['/dashboard/user-workspace']">
         <div class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
         </div>
-        <div class="title" *ngIf="isTextVisible">Workspace</div>
+        <div class="title" *ngIf="isTextVisible">Joined Workspace</div>
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/dashboard/account'"
     #tooltip="matTooltip" matTooltip="Account" [matTooltipDisabled]="true">
       <a class="sidebar-link" [routerLink]="['/dashboard/account']">
         <div class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
         </div>
-        <div class="title" *ngIf="isTextVisible">Account</div>
+        <div class="title" *ngIf="isTextVisible">Account Setting</div>
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/dashboard/message'"
@@ -48,16 +48,16 @@
         <div class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">notifications</mat-icon>
         </div>
-        <div class="title" *ngIf="isTextVisible">Messages</div>
+        <div class="title" *ngIf="isTextVisible">Message</div>
       </a>
     </li>
   </ul>
 
   <ng-container *ngIf="authService.isWorkspaceOwner">
     <ul class="sidebar-menu workspace-owner">
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/workspace-manager'"
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/workspace-owner'"
       #tooltip="matTooltip" matTooltip="Workspace Owner Tool" [matTooltipDisabled]="true">
-        <a class="sidebar-link" [routerLink]="['/dashboard/workspace-manager']">
+        <a class="sidebar-link" [routerLink]="['/dashboard/workspace-owner']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">folder_shared</mat-icon>
           </div>
@@ -69,9 +69,9 @@
 
   <ng-container *ngIf="authService.isAdmin">
     <ul class="sidebar-menu workspace-owner">
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/admin-tool'"
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/admin'"
       #tooltip="matTooltip" matTooltip="Admin Tool" [matTooltipDisabled]="true">
-        <a class="sidebar-link" [routerLink]="['/dashboard/admin-tool']">
+        <a class="sidebar-link" [routerLink]="['/dashboard/admin']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
           </div>
@@ -91,9 +91,9 @@
   </ng-container>
 
   <ul class="sidebar-menu outer-link">
-    <li class="nav-item"
+    <li class="nav-item" [class.active]="router.url==='/dashboard/help'"
     #tooltip="matTooltip" matTooltip="Help" [matTooltipDisabled]="true">
-      <a class="sidebar-link" href="#">
+      <a class="sidebar-link" [routerLink]="['/dashboard/help']">
         <div class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
         </div>

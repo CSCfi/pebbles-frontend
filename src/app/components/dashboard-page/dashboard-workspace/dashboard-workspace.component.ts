@@ -3,14 +3,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Workspace } from 'src/app/models/workspace';
+import { EnvironmentService } from 'src/app/services/environment.service';
 
 @Component({
   selector: 'app-dashboard-workspace',
   templateUrl: './dashboard-workspace.component.html',
   styleUrls: ['./dashboard-workspace.component.scss']
 })
-
 export class DashboardWorkspaceComponent implements OnInit {
+
+  public content = {
+    path: 'user-workspace',
+    title: 'Joined Workspace'
+  };
 
   // ---- Join Workspace Form
   joinWorkspaceForm = new FormGroup({
@@ -19,6 +24,7 @@ export class DashboardWorkspaceComponent implements OnInit {
 
   constructor(
     private workspaceService: WorkspaceService,
+    private environmentService: EnvironmentService,
     private authService: AuthService,
   ) {}
 
@@ -26,45 +32,36 @@ export class DashboardWorkspaceComponent implements OnInit {
     return this.joinWorkspaceForm.get('joinCode');
   }
 
+  get workspaces(): Workspace[] {
+    return this.workspaceService.getUserWorkspaces();
+  }
+
   ngOnInit(): void {
     this.fetchWorkspaces();
   }
 
-  getWorkspaces(): Workspace[] {
-    return this.workspaceService.getWorkspaces();
-  }
-
   fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(() => {
+    this.workspaceService.fetchUserWorkspaces().subscribe(() => {
       console.log('workspaces fetched');
     });
   }
 
   joinWorkspace(formDirective): void {
-    const joinCode = this.joinWorkspaceForm.get('joinCode').value;
-    this.workspaceService.joinWorkspace(joinCode).subscribe(() => {
+    const code = this.joinWorkspaceForm.get('joinCode').value;
+    this.workspaceService.joinWorkspace(code).subscribe(() => {
       formDirective.resetForm(); // ---- MEMO: To avoid validation error message
       this.joinWorkspaceForm.reset();
       this.fetchWorkspaces();
     });
   }
 
-  exitWorkspace(workspaceId: string): void {
-    if (!confirm('Are you sure ?')) {
-      return;
-    }
-    this.workspaceService.exitWorkspace(workspaceId).subscribe(() => {
-      this.fetchWorkspaces();
-    });
+  getEnvironmentsByWorkspaceId(workspaceId: string) {
+    return this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
   }
 
-  getUserName(): string {
-    return this.authService.getUserName();
-  }
-
-  isOwner(workspace: Workspace): boolean{
-    return workspace.owner_eppn === this.getUserName();
-  }
+  // isOwner(workspace: Workspace): boolean{
+    // return workspace.owner_eppn === this.authService.getUserName();
+  // }
 
   // deleteWorkspace(workspaceId: string): void {
   //   this.workspaceService.deleteWorkspace(workspaceId).subscribe(() => {

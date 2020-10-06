@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import "src/styles.scss";
 
 .workspace-join-input-form {
   margin-top: 20px;
@@ -12,29 +12,24 @@
 form {
   display: inline-flex;
   flex-flow: row wrap;
-  justify-content: flex-start;
   width: 100%;
   align-items: stretch;
 
   .join-code-input {
-    // max-width: 500px;
     flex-basis: auto;
-    flex-grow: 2;
-    // min-width: 350px;
-    // width: 50vw;
+    flex-grow: 1;
+  }
+
+  ::ng-deep .mat-form-field-wrapper{
+    margin: 0;
   }
 
   .join-workspace-btn {
-    margin: .25em 0 1.34375em 10px;
-    flex-basis: 150px;
-    flex-grow: 1;
-    // margin: .25em 0 0 10px;
-  }
-}
-
-.workspace-list {
-  li {
-    display: flex;
-    align-items: center;
+    // margin: .25em 0 1.34375em 10px;
+    // flex-basis: 150px;
+    margin-left: 10px;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
   }
 }

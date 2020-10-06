@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { db } from 'src/app/interceptors/test-data';
-import { Profile } from 'src/app/models/profile';
+// import { db } from 'src/app/interceptors/test-data';
+// import { Profile } from 'src/app/models/profile';
 
 @Component({
   selector: 'app-dashboard-account',
@@ -9,12 +9,15 @@ import { Profile } from 'src/app/models/profile';
 })
 export class DashboardAccountComponent implements OnInit {
 
-  profile: Profile = db.profiles[0];
+  public content = {
+    path: 'account',
+    title: 'Account Setting'
+  };
+  // profile: Profile = db.profiles[0];
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.profile);
+    // console.log(this.profile);
   }
-
 }

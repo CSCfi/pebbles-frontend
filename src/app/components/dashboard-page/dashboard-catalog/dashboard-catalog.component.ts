@@ -24,8 +24,13 @@ import { EnvironmentCategoryService } from 'src/app/services/environment-categor
 })
 export class DashboardCatalogComponent implements OnInit {
 
-  pageTitle = 'Catalog';
   @ViewChild(MatAccordion) accordion: MatAccordion;
+
+  public content = {
+    path: 'catalog',
+    title: 'Environment Catalog'
+  };
+
   isSearchFormOpen = false;
   selectedCatalog: EnvironmentCategory;
 
@@ -158,7 +163,7 @@ export class DashboardCatalogComponent implements OnInit {
   }
 
   getWorkspaceById(workspaceId: string): Workspace {
-    const workspaces = this.workspaceService.getWorkspaces();
+    const workspaces = this.workspaceService.getUserWorkspaces();
     return workspaces.find(ws => ws.id === workspaceId);
   }
 }
@@ -192,7 +197,7 @@ export class JoinWorkspaceDialogComponent {
   }
 
   getWorkspaces(): Workspace[] {
-    return this.workspaceService.getWorkspaces();
+    return this.workspaceService.getUserWorkspaces();
   }
 
   fetchWorkspaces(): void {

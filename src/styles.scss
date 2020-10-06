@@ -105,7 +105,7 @@ $my-app-sidenav-background: #2e2f39;
 $my-app-sidenav-text: #cfd1e2;
 
 /* ---- Importing Bootstrap SCSS file ---- */
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap/scss/bootstrap";
 
 html {
   font-size: 62.5%;
@@ -231,43 +231,6 @@ input {
 //   box-shadow: 0 3px 6px rgba(#000, 0.16), 0 3px 6px rgba(#000, 0.23);
 // }
 
-// ---- Page Bases ---- //
-
-.page-header {
-  margin-bottom: 10px;
-}
-
-.page-header-title {
-  margin-bottom: 8px;
-}
-
-.page-header-text {
-  color: #666666;
-  margin-bottom: 14px;
-  display: none;
-}
-
-.page-breadcrumb .breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  margin-bottom: 0;
-  list-style: none;
-  background-color: transparent;
-  border-radius: 0;
-  border-top: 1px solid #e0e4ef;
-  padding-top: 10px;
-  font-size: 12px;
-}
-
-.page-breadcrumb .breadcrumb .breadcrumb-item+.breadcrumb-item::before {
-  display: inline-block;
-  padding-right: .5rem;
-  color: #adb5bd;
-  content: "\f105";
-  font-family: "Font Awesome 5 Free", sans-serif;
-  font-weight: 600;
-}
 
 .section-title {
   // display: flex;

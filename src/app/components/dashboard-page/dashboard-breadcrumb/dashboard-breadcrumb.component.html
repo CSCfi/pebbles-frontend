@@ -1,0 +1,12 @@
+<div class="content-header" *ngIf="content">
+  <h2 class="content-header-title">{{ content.title }}</h2>
+  <div class="content-breadcrumb" *ngIf="content.path!='catalog'">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">
+          <a [routerLink]="['/dashboard']" class="breadcrumb-link">{{ breadcrumb }}</a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+</div>

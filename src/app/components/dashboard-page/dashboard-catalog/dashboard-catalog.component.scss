@@ -1,23 +1,28 @@
 @import "src/styles.scss";
 
-.top-page-header{
+.top-content-header{
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
 
-  .environments-catalog-functions {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-end;
-    align-content: stretch;
-    // margin-right: 30px;
-
-    button {
-      flex-basis: auto;
-      margin-left: 10px;
-    }
+  .content-header-title {
+    margin-bottom: 8px;
   }
 }
+
+.environments-catalog-functions {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  align-content: stretch;
+  // margin-right: 30px;
+
+  button {
+    flex-basis: auto;
+    margin-left: 10px;
+  }
+}
+
 
 section {
   margin-bottom: 50px;

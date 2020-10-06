@@ -1,0 +1,23 @@
+<app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
+
+<div class="open-wizard">
+  <span>Open Workspace Wizard</span>
+  <button mat-fab color="primary" aria-label="open wizard" [routerLink]="['/dashboard/workspace-owner/wizard']">
+    <mat-icon>flash_on</mat-icon>
+  </button>
+</div>
+
+<section class="workspace-list">
+  <!-- <div class="section-header">
+    <mat-icon>group</mat-icon>
+    <h3>Your Workspaces</h3>
+  </div> -->
+
+  <div class="section-body">
+    <div class="workspace-list" *ngFor="let workspace of workspaces">
+      <ng-container *ngIf="isOwner(workspace)">
+        <app-dashboard-workspace-item [workspace]=workspace [content]=content></app-dashboard-workspace-item>
+      </ng-container>
+    </div>
+  </div>
+</section>

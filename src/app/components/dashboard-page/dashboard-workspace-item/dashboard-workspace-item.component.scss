@@ -1,0 +1,45 @@
+@import "src/styles.scss";
+
+.mat-icon.header{
+  margin-right: 5px;
+}
+
+  .workspace-card {
+    margin-bottom: 10px;
+
+    .mat-card-header {
+      border-bottom: $border-thin;
+
+      .mat-card-title{
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+
+    .mat-card-content {
+      padding: 15px 20px;
+
+      li.environment{
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .mat-card-actions {
+      flex-basis: 150px;
+      margin: 0;
+      padding: 0;
+
+      button {
+        display: inline-block;
+        align-items: center;
+        width: 100%;
+        border-radius: 20px;
+        border: 2px solid $primary;
+
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+  }

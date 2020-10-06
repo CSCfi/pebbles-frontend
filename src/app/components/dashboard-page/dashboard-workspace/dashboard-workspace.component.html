@@ -1,62 +1,22 @@
-<div class="row">
-  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-    <div class="page-header">
-      <h2 class="page-header-title">Workspace</h2>
-      <div class="page-breadcrumb">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a [routerLink]="['/dashboard']" class="breadcrumb-link">Top</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Workspace
-            </li>
-          </ol>
-        </nav>
-      </div>
-    </div>
-  </div>
-</div>
+<app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
 
-<section class="workspace-join-input-form card">
-  <div class="section-body">
-    <form #formDirective="ngForm" [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">
-      <mat-form-field appearance="outline" class="join-code-input">
-        <mat-label>Join Code</mat-label>
-        <input matInput placeholder="Placeholder" formControlName="joinCode" />
-        <mat-error *ngIf="joinCode.invalid" [ngClass]="'error'">error</mat-error>
-      </mat-form-field>
-
-      <button mat-flat-button color="primary" type="submit" class="join-workspace-btn">
-        Join Workspace
-      </button>
-    </form>
-  </div>
+<section class="workspace-join-input-form">
+  <h3>Join New Workspace</h3>
+  <form #formDirective="ngForm" [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">
+    <mat-form-field appearance="outline" class="join-code-input">
+      <mat-label>Join Code</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="joinCode" />
+      <mat-error *ngIf="joinCode.invalid" [ngClass]="'error'">error</mat-error>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit" class="join-workspace-btn">
+      <!-- Join Workspace -->
+      <mat-icon>add</mat-icon>
+    </button>
+  </form>
 </section>
-<section class="workspace-list card">
-  <div class="section-header">
-    <mat-icon>group</mat-icon>
-    <h3>Available Workspaces</h3>
-  </div>
-
-  <div class="section-body">
-    <ul class="workspace-list" *ngFor="let workspace of getWorkspaces()">
-      <li>
-        <p>{{ workspace.name }}</p>
-        <!-- <p> owner : {{ workspace.owner_eppn}}</p> -->
-        <!-- <p> member: {{ workspace.member_eppns}}</p> -->
-        <!-- <p> code: {{ workspace.join_code}}</p> -->
-        <div *ngIf="isOwner(workspace); else isParticipant">
-          <button mat-icon-button color="primary" aria-label="workspace delete">
-            <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
-          </button>
-        </div>
-        <ng-template #isParticipant>
-          <button mat-icon-button color="primary" aria-label="workspace delete" (click)="exitWorkspace(workspace.id)">
-            <mat-icon>exit_to_app</mat-icon>
-          </button>
-        </ng-template>
-      </li>
-    </ul>
+<section class="workspace-list">
+  <!-- <h3>My Joined Workspaces</h3> -->
+  <div class="workspace-list" *ngFor="let workspace of workspaces">
+    <app-dashboard-workspace-item [workspace]=workspace [content]=content></app-dashboard-workspace-item>
   </div>
 </section>

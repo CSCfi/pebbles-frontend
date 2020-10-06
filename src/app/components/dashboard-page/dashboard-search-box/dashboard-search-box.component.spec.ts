@@ -1,27 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DashboardEnvironmentComponent } from './dashboard-environment.component';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
+import { DashboardSearchBoxComponent } from './dashboard-search-box.component';
 
-describe('DashboardEnvironmentComponent', () => {
-  let component: DashboardEnvironmentComponent;
-  let fixture: ComponentFixture<DashboardEnvironmentComponent>;
+describe('DashboardSearchBoxComponent', () => {
+  let component: DashboardSearchBoxComponent;
+  let fixture: ComponentFixture<DashboardSearchBoxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
         MaterialModule
       ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
-      declarations: [ DashboardEnvironmentComponent ]
+      declarations: [ DashboardSearchBoxComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardEnvironmentComponent);
+    fixture = TestBed.createComponent(DashboardSearchBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,6 +10,11 @@ import { Message } from 'src/app/models/message';
 })
 export class DashboardMessageComponent implements OnInit {
 
+  public content = {
+    path: 'message',
+    title: 'Message'
+  };
+
   constructor(
     public messageService: MessageService
   ) { }

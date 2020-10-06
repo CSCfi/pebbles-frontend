@@ -264,24 +264,24 @@ export let db = {
       name: 'admin-ws-join-parm4',
       join_code: 'admin-ws-join-parm4-wuuig',
       description: 'admin-ws-join-parm4',
-      owner_eppn: 'csc.user4@csc.fi',
-      member_eppns: []
+      owner_eppn: 'admin@example.org',
+      member_eppns: ['admin5@example.org']
     },
     {
       id: '5',
       name: 'admin-ws-join-parm5',
       join_code: 'admin-ws-join-parm5-wuuig',
       description: null,
-      owner_eppn: 'admin5@example.org',
-      member_eppns: ['admin@example.org']
+      owner_eppn: 'admin@example.org',
+      member_eppns: ['admin5@example.org']
     },
     {
       id: '6',
       name: 'admin-ws-join-parm6',
       join_code: 'admin-ws-join-parm6-wuuig',
       description: 'admin-ws-join-parm6',
-      owner_eppn: 'admin6@example.org',
-      member_eppns: ['admin@example.org']
+      owner_eppn: 'admin@example.org',
+      member_eppns: ['admin6@example.org']
     }
   ],
   environment_categories: [
