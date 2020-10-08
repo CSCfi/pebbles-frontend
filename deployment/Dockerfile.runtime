@@ -1,6 +1,7 @@
 FROM bitnami/nginx:latest
 LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
 
+# copy compiled application
 COPY dist/pebbles-frontend /app
 
 # set up redirection to /index.html for Angular routing

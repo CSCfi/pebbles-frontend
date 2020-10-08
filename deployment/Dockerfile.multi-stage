@@ -1,15 +1,20 @@
-# stage one: build
+# Stage one: build
 FROM node:14-alpine as build-stage
 WORKDIR /usr/src/app
 COPY . .
 RUN npm ci
 RUN npm run-script build:prod
 
-# stage two: runtime
+# copy extra content
+RUN if [ -d extra_content ]; then cp -rv extra_content/* dist/pebbles-frontend/; fi
+
+#-----------------------------------------------------------------------------
+
+# Stage two: runtime
 FROM bitnami/nginx:latest
 LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
 
-# copy application
+# copy compiled application
 COPY --from=build-stage /usr/src/app/dist/pebbles-frontend /app
 
 # set up redirection to /index.html for Angular routing
