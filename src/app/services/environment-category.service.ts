@@ -3,13 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvironmentCategory } from '../models/environment-category';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EnvironmentCategoryService {
 
-  private BASE_URL = 'http://localhost/api/v1';
   private categories: EnvironmentCategory[] = [];
 
   constructor(private http: HttpClient) {
@@ -21,7 +21,7 @@ export class EnvironmentCategoryService {
   }
 
   fetchCategories(): Observable<EnvironmentCategory[]> {
-    const url = `${this.BASE_URL}/environment_categories`;
+    const url = `${buildConfiguration.apiUrl}/environment_categories`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

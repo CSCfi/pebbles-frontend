@@ -3,24 +3,23 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { InstanceService } from 'src/app/services/instance.service';
+import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private BASE_URL = 'http://localhost/api/v1';
-
   get isAdmin(): boolean {
-    return localStorage.getItem('is_admin') === 'true' ? true : false;
+    return localStorage.getItem('is_admin') === 'true';
   }
 
   get isWorkspaceOwner(): boolean {
-    return localStorage.getItem('is_workspace_owner') === 'true' ? true : false;
+    return localStorage.getItem('is_workspace_owner') === 'true';
   }
 
   get isWorkspaceDetail(): boolean {
-    return localStorage.getItem('is_workspace_manager') === 'true' ? true : false;
+    return localStorage.getItem('is_workspace_manager') === 'true';
   }
 
   constructor(
@@ -31,7 +30,7 @@ export class AuthService {
   }
 
   login(user: User): Promise<any> {
-    const url = `${this.BASE_URL}/sessions`;
+    const url = `${buildConfiguration.apiUrl}/sessions`;
     return this.http.post(url, user).toPromise();
   }
 

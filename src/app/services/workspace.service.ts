@@ -3,13 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
+import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkspaceService {
 
-  private BASE_URL = 'http://localhost/api/v1';
   private userWorkspaces: Workspace[] = [];
   private ownerWorkspaces: Workspace[] = [];
 
@@ -33,7 +33,7 @@ export class WorkspaceService {
 
 
   joinWorkspace(joinCode: string): Observable<any> {
-    const url = `${this.BASE_URL}/workspaces/workspace_join/${joinCode}`;
+    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_join/${joinCode}`;
     return this.http.put(url, {}, this.httpOptions).pipe(
       tap(_ => {
         console.log(`join new workspace with the id=${joinCode}`);
@@ -43,7 +43,7 @@ export class WorkspaceService {
   }
 
   exitWorkspace(workspaceId: string): Observable<any> {
-    const url = `${this.BASE_URL}/workspaces/workspace_exit/${workspaceId}`;
+    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_exit/${workspaceId}`;
     return this.http.put(url, this.httpOptions).pipe(
       tap( _ => {
         console.log(`exit form the workspace ${workspaceId}`);
@@ -53,7 +53,7 @@ export class WorkspaceService {
   }
 
   fetchWorkspaces(): Observable<Workspace[]>{
-    const url = `${this.BASE_URL}/workspaces/workspace_list_exit`;
+    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_list_exit`;
     return this.http.get<Workspace[]>(url, this.httpOptions).pipe(
       map((resp) => {
         console.log('fetchWorkspaces got ' + resp);
@@ -64,7 +64,7 @@ export class WorkspaceService {
   }
 
   fetchUserWorkspaces(): Observable<Workspace[]>{
-    const url = `${this.BASE_URL}/workspaces/workspace_list_exit`;
+    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_list_exit`;
     return this.http.get<Workspace[]>(url, this.httpOptions).pipe(
       map((resp) => {
         console.log('fetchWorkspaces got ' + resp);
@@ -75,7 +75,7 @@ export class WorkspaceService {
   }
 
   fetchOwnerWorkspaces(): Observable<Workspace[]>{
-    const url = `${this.BASE_URL}/workspaces`;
+    const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url, this.httpOptions).pipe(
       map((resp) => {
         console.log('fetchOwnerWorkspaces got ' + resp);

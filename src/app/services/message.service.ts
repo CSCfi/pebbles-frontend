@@ -3,13 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Message } from 'src/app/models/message';
+import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
 
-  private BASE_URL = 'http://localhost/api/v1';
   private messages: Message[] = [];
   private HTTP_OPTIONS = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -25,7 +25,7 @@ export class MessageService {
   }
 
   fetchMessages(): Observable<Message[]> {
-    const url = `${this.BASE_URL}/messages`;
+    const url = `${buildConfiguration.apiUrl}/messages`;
     return this.http.get<Message[]>(url, this.HTTP_OPTIONS).pipe(
       map(resp => {
         console.log('fetch messages got ' + resp);

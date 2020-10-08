@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 
 import { Instance, InstanceStates } from 'src/app/models/instance';
+import { buildConfiguration } from '../../environments/environment';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { Instance, InstanceStates } from 'src/app/models/instance';
 })
 export class InstanceService implements OnDestroy {
 
-  private BASE_URL = 'http://localhost/api/v1';
+
   private instances: Instance[] = [];
   private interval = 0;
   private HTTP_OPTIONS = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
@@ -36,7 +37,7 @@ export class InstanceService implements OnDestroy {
   }
 
   fetchInstances(): Observable<Instance[]> {
-    const url = `${this.BASE_URL}/instances`;
+    const url = `${buildConfiguration.apiUrl}/instances`;
 
     return this.http.get<Instance[]>(url, this.HTTP_OPTIONS).pipe(
       map(resp => {
@@ -62,7 +63,7 @@ export class InstanceService implements OnDestroy {
   }
 
   createInstance(environmentId: string): Observable<Instance> {
-    const url = `${this.BASE_URL}/instances`;
+    const url = `${buildConfiguration.apiUrl}/instances`;
 
     return this.http.post<Instance>(url, {environment: environmentId}, this.HTTP_OPTIONS).pipe(
       tap(resp => {
@@ -75,7 +76,7 @@ export class InstanceService implements OnDestroy {
   }
 
   deleteInstance(instanceId: string): Observable<Instance> {
-    const url = `${this.BASE_URL}/instances/${instanceId}`;
+    const url = `${buildConfiguration.apiUrl}/instances/${instanceId}`;
     return this.http.delete<Instance>(url, this.HTTP_OPTIONS).pipe(tap(resp => {
       console.log(resp);
       this.fetchInstances().subscribe();

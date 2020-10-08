@@ -5,10 +5,11 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MockInterceptor } from '../app/interceptors/mock.interceptor';
 
-export const environment = {
-  production: false
+export const buildConfiguration = {
+  production: false,
+  // api url does not matter, calls are intercepted by mock interceptor
+  apiUrl: 'http://mock-service/api/v1'
 };
-
 
 export const ENVIRONMENT_SPECIFIC_PROVIDERS = [
   {provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true},

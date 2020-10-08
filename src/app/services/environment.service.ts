@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { InstanceService } from './instance.service';
 import { WorkspaceService } from './workspace.service';
 import { Environment } from 'src/app/models/environment';
+import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,6 @@ export class EnvironmentService {
   private HTTP_OPTIONS = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  private BASE_URL = 'http://localhost/api/v1';
   private environments: Environment[] = [];
   private interval1 = 0;
 
@@ -69,7 +69,7 @@ export class EnvironmentService {
   }
 
   fetchEnvironments(): Observable<Environment[]> {
-    const url = `${this.BASE_URL}/environments`;
+    const url = `${buildConfiguration.apiUrl}/environments`;
 
     return this.http.get<Environment[]>(url, this.HTTP_OPTIONS).pipe(
       map((resp) => {
