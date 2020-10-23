@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// import { db } from 'src/app/interceptors/test-data';
-// import { Profile } from 'src/app/models/profile';
+import { AuthService } from 'src/app/services/auth.service';
+import { AccountService } from 'src/app/services/account.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-dashboard-account',
@@ -9,15 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardAccountComponent implements OnInit {
 
+  user: User = new User();
   public content = {
     path: 'account',
     title: 'Account Setting'
   };
-  // profile: Profile = db.profiles[0];
 
-  constructor() { }
+  constructor(
+    private accountService: AccountService,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    // console.log(this.profile);
+    this.fetchAccount();
   }
+
+
+  fetchAccount(): void {
+    const user_id = this.authService.getUserId();
+    this.accountService.fetchAccount(user_id).subscribe(resp => {
+      this.user = resp;
+    });
+  }
+
 }

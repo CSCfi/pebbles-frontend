@@ -39,6 +39,9 @@ export class MockInterceptor implements HttpInterceptor {
       case (endpoint === 'workspaces' && apiComponents[1] === 'workspace_exit' && apiComponents[2] !== undefined):
         objectId = apiComponents[2];
         break;
+      case (endpoint === 'users' && apiComponents[1] !== undefined):
+        objectId = apiComponents[1];
+        break;
       default:
         // pass through any requests not handled above
         break;
@@ -58,6 +61,7 @@ export class MockInterceptor implements HttpInterceptor {
         return unauthorized();
       }
       switch (true) {
+        // TODO : endsWith is not supported in IE 11 last version
         case url.endsWith('/sessions') && method === 'POST':
           return authenticate();
         case url.endsWith('/instances') && method === 'POST':
@@ -76,6 +80,8 @@ export class MockInterceptor implements HttpInterceptor {
           return exitWorkspace();
         case url.endsWith('/notifications') && method === 'GET':
           return getMessages();
+        case url.includes('/users') && method === 'GET':
+          return getUserById();
         case method === 'GET':
           return genericGet();
         default:
@@ -109,6 +115,17 @@ export class MockInterceptor implements HttpInterceptor {
         return error('No such data in mock database ' + endpoint);
       }
       return ok(data);
+    }
+
+    function getUserById() {
+      const account = database.users.find((i) => {
+        return (i.id === objectId);
+      });
+      if (account) {
+        return ok(account);
+      } else {
+        return error('account not found');
+      }
     }
 
     // mimic instance lifetime behavior
