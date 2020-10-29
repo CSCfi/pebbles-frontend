@@ -2,11 +2,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 // ---- Custom Modules
 import { AppRoutingModule } from './app-routing.module';
-
 // ---- Services
 import { AuthService } from 'src/app/services/auth.service';
 import { EnvironmentService } from 'src/app/services/environment.service';
@@ -46,10 +45,11 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     DashboardModule,
-    FormsModule,
     MaterialModule,
   ],
   providers: [

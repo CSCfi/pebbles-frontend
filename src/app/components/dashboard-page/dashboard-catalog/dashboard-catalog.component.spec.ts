@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardCatalogComponent } from './dashboard-catalog.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { DashboardBreadcrumbComponent } from '../dashboard-breadcrumb/dashboard-breadcrumb.component';
 
 describe('DashboardCatalogComponent', () => {
   let component: DashboardCatalogComponent;
@@ -21,7 +22,10 @@ describe('DashboardCatalogComponent', () => {
         MaterialModule
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
-      declarations: [DashboardCatalogComponent],
+      declarations: [
+        DashboardCatalogComponent,
+        DashboardBreadcrumbComponent
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();

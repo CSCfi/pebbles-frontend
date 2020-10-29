@@ -3,6 +3,9 @@
   <div class="content-breadcrumb" *ngIf="content.path!='catalog'">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/dashboard']" class="breadcrumb-link">Home</a>
+        </li>
         <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">
           <a [routerLink]="['/dashboard']" class="breadcrumb-link">{{ breadcrumb }}</a>
         </li>

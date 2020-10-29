@@ -2,6 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from 'src/app/material.module';
+import { DashboardBreadcrumbComponent } from '../dashboard-breadcrumb/dashboard-breadcrumb.component';
 import { DashboardWorkspaceItemComponent } from './dashboard-workspace-item.component';
 
 describe('DashboardWorkspaceItemComponent', () => {
@@ -10,11 +12,15 @@ describe('DashboardWorkspaceItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardWorkspaceItemComponent ],
+      declarations: [
+        DashboardWorkspaceItemComponent,
+        DashboardBreadcrumbComponent
+      ],
       imports: [
         RouterModule.forRoot([]),
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MaterialModule
       ]
     })
     .compileComponents();
