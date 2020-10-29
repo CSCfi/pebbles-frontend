@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// import { BrowserModule } from '@angular/platform-browser';
+// import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// ---- Custom module
 import { MaterialModule } from 'src/app/material.module';
-// import { AppModule } from 'src/app/app.module';
-
-// ---- Custom routing module
 import { DashboardRoutingModule } from './dashboard-routing.module';
-
 // ---- Components
 import { DashboardPageComponent } from './dashboard-page.component';
 import { DashboardHeaderComponent } from './dashboard-header/dashboard-header.component';
@@ -52,7 +50,7 @@ import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/
     DashboardWorkspaceDetailComponent
   ],
   imports: [
-    CommonModule,
+    // BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     DashboardRoutingModule,

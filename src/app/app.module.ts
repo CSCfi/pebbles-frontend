@@ -1,11 +1,13 @@
 // ---- Modules
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from './material.module';
 // ---- Custom Modules
+import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
+// ---- Page Modules
+import { DashboardModule } from './components/dashboard-page/dashboard.module';
 // ---- Services
 import { AuthService } from 'src/app/services/auth.service';
 import { EnvironmentService } from 'src/app/services/environment.service';
@@ -22,11 +24,8 @@ import { WelcomePublicityComponent } from './components/welcome-page/welcome-pub
 import { InstancePageComponent } from './components/instance-page/instance-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { HeaderComponent } from './components/common/header/header.component';
-// ---- Page Modules
-import { DashboardModule } from './components/dashboard-page/dashboard.module';
 // ---- Interceptors
 import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
-
 
 @NgModule({
   declarations: [
@@ -41,7 +40,6 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     HeaderComponent,
   ],
   exports: [
-    // WelcomeHeaderComponent
   ],
   imports: [
     BrowserModule,

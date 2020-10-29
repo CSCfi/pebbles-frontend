@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { WelcomePageComponent } from './welcome-page.component';
 import { WelcomeHeaderComponent } from './welcome-header/welcome-header.component';
@@ -17,6 +18,8 @@ describe('WelcomePageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        FormsModule,
+        ReactiveFormsModule,
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
         MaterialModule

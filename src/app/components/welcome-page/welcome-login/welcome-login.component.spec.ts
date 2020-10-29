@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -18,7 +17,6 @@ describe('WelcomeLoginComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         MaterialModule,
-        BrowserModule,
         FormsModule,
         ReactiveFormsModule,
       ],
