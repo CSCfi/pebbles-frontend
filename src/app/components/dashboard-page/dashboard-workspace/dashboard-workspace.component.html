@@ -17,6 +17,8 @@
 <section class="workspace-list">
   <!-- <h3>My Joined Workspaces</h3> -->
   <div class="workspace-list" *ngFor="let workspace of workspaces">
-    <app-dashboard-workspace-item [workspace]=workspace [content]=content></app-dashboard-workspace-item>
+    <app-dashboard-workspace-item [workspace]=workspace [content]=content
+      (fetchUserWorkspacesEvent)="fetchWorkspaces()">
+    </app-dashboard-workspace-item>
   </div>
 </section>

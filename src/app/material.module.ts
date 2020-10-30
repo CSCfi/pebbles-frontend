@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -15,7 +15,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
 // import { MatToolbarModule } from '@angular/material/toolbar';
-// import { MatListModule } from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 // import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -29,7 +29,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-// import { MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 // import { MatSortModule } from '@angular/material/sort';
 
 
@@ -37,8 +37,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     imports: [
         CommonModule,
         BrowserAnimationsModule,
-        // MatCheckboxModule,
-        // MatCheckboxModule,
+        MatCheckboxModule,
         MatButtonModule,
         MatInputModule,
         MatAutocompleteModule,
@@ -51,7 +50,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatSidenavModule,
         MatBadgeModule,
         // MatToolbarModule,
-        // MatListModule,
+        MatListModule,
         // MatGridListModule,
         MatCardModule,
         MatStepperModule,
@@ -65,11 +64,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatDialogModule,
         MatTooltipModule,
         MatSnackBarModule,
-        // MatTableModule,
+        MatTableModule,
         // MatSortModule,
     ],
     exports: [
         BrowserAnimationsModule,
+        MatCheckboxModule,
         MatTabsModule,
         MatExpansionModule,
         MatButtonModule,
@@ -80,6 +80,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatProgressBarModule,
         MatDialogModule,
         MatBadgeModule,
+        MatListModule,
         MatCardModule,
         MatStepperModule,
         // MatListModule,
@@ -92,8 +93,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatChipsModule,
         MatTooltipModule,
         MatSnackBarModule,
+        MatTableModule,
         // MatTooltipModule,
-        // MatTableModule,
     ],
     providers: [
     ]

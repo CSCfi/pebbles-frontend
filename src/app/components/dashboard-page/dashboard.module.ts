@@ -25,29 +25,39 @@ import { DashboardWorkspaceWizardComponent } from './dashboard-workspace-wizard/
 import { MessageComponent } from 'src/app/components/common/message/message.component';
 import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
 import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
+// import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-environments/dashboard-workspace-environments.component';
+import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members/dashboard-workspace-members.component';
+// import { DashboardWorkspaceStorageComponent } from './dashboard-workspace-storage/dashboard-workspace-storage.component';
 
 @NgModule({
   declarations: [
     DashboardPageComponent,
-    DashboardHeaderComponent,
-    DashboardFooterComponent,
-    DashboardNavComponent,
-    DashboardAccountComponent,
+
     DashboardCatalogComponent,
-    DashboardEnvironmentItemComponent,
     DashboardWorkspaceComponent,
+    DashboardAccountComponent,
     DashboardMessageComponent,
     DashboardWorkspaceOwnerComponent,
+    DashboardWorkspaceDetailComponent,
     DashboardAdminComponent,
     DashboardStatisticsComponent,
     DashboardHelpComponent,
-    DashboardBreadcrumbComponent,
-    DashboardWorkspaceItemComponent,
+
     DashboardWorkspaceWizardComponent,
     JoinWorkspaceDialogComponent,
-    MessageComponent,
+
+    DashboardEnvironmentItemComponent,
+    DashboardWorkspaceItemComponent,
+
+    DashboardHeaderComponent,
+    DashboardFooterComponent,
+    DashboardNavComponent,
+    DashboardBreadcrumbComponent,
     DashboardSearchBoxComponent,
-    DashboardWorkspaceDetailComponent
+    MessageComponent,
+    // DashboardWorkspaceEnvironmentsComponent,
+    DashboardWorkspaceMembersComponent,
+    // DashboardWorkspaceStorageComponent,
   ],
   imports: [
     // BrowserModule,

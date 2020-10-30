@@ -12,6 +12,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
 import * as TESTDATA from './test-data';
 import { Instance, InstanceStates } from 'src/app/models/instance';
+import { User } from 'src/app/models/user';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
 
@@ -29,8 +30,13 @@ export class MockInterceptor implements HttpInterceptor {
     const apiComponents = url.substring(url.lastIndexOf('api/v1/') + 7).split('/');
     const endpoint = apiComponents[0];
     let objectId = null;
+
     switch (true) {
+
       case (endpoint === 'instances' && apiComponents[1] !== undefined):
+        objectId = apiComponents[1];
+        break;
+      case (endpoint === 'workspaces' && apiComponents[1] !== undefined && apiComponents[2] === 'users'):
         objectId = apiComponents[1];
         break;
       case (endpoint === 'workspaces' && apiComponents[1] === 'workspace_join' && apiComponents[2] !== undefined):
@@ -78,6 +84,10 @@ export class MockInterceptor implements HttpInterceptor {
           return joinWorkspace();
         case url.includes('/workspaces/workspace_exit') && method === 'PUT':
           return exitWorkspace();
+        case url.includes('/workspaces') && url.endsWith('/users') && method === 'GET':
+          return getWorkspacesMembers();
+        case url.includes('/workspaces') && method === 'GET':
+          return getOwnerWorkspaces();
         case url.endsWith('/notifications') && method === 'GET':
           return getMessages();
         case url.includes('/users') && method === 'GET':
@@ -104,7 +114,7 @@ export class MockInterceptor implements HttpInterceptor {
         user_id: user.id,
         token: 'fake-token',
         is_admin: user.is_admin,
-        is_group_owner: user.is_workspace_owner,
+        is_workspace_owner: user.is_workspace_owner,
         is_workspace_manager: user.is_workspace_manager,
       });
     }
@@ -236,6 +246,17 @@ export class MockInterceptor implements HttpInterceptor {
       return ok(workspaces);
     }
 
+    function getOwnerWorkspaces() {
+      const user_name = localStorage.getItem('user_name');
+      const workspaces = database.workspaces.filter(ws => {
+        if (ws.owner_eppn === user_name){
+          return true;
+        }
+        return false;
+      });
+      return ok(workspaces);
+    }
+
     function joinWorkspace() {
       const target_workspaces = database.workspaces.filter(ws => {
         return (ws.join_code === objectId);
@@ -251,6 +272,29 @@ export class MockInterceptor implements HttpInterceptor {
           return ws;
         });
         return ok(objectId);
+      } else {
+        return error('workspace not found');
+      }
+    }
+
+    function getWorkspacesMembers(): Observable<HttpResponse<User[]>>{
+      const targetWorkspace = database.workspaces.find( ws => {
+        return ws.id === objectId;
+      });
+      if (targetWorkspace){
+        // ---- MEMO: This approach has more lines but is logically better.
+        const workspaceMembers = [];
+        for (const eppn of targetWorkspace.member_eppns) {
+          const member = database.users.find(user => {
+            return user.eppn === eppn;
+          });
+          if (member) {
+            workspaceMembers.push(member);
+          } else {
+            console.log(`The User data ${eppn} not found in test-data.ts` );
+          }
+        }
+        return ok(workspaceMembers);
       } else {
         return error('workspace not found');
       }

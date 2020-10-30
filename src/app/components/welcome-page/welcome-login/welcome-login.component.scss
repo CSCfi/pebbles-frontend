@@ -1,17 +1,17 @@
-section.container{
-    margin-bottom: 80px;
+section.container {
+  margin-bottom: 80px;
 }
 
-#login-container{
+#login-container {
   padding-top: 30px;
 
-  .login-buttons{
+  .login-buttons {
     max-width: 400px;
 
     display: flex;
     flex-direction: column;
 
-    .login-btn{
+    .login-btn {
       font-size: 1.2rem;
       font-weight: 500;
       height: 60px;
@@ -23,19 +23,19 @@ section.container{
       // justify-content: flex-start;
       justify-content: space-between;
 
-      .logo-image-holder{
+      .logo-image-holder {
         width: 150px;
         margin: 5px;
         flex-basis: 150px;
         border-right: 1px #fff solid;
 
-        img{
+        img {
           height: 45px;
           padding: 5px 10px;
         }
       }
 
-      span{
+      span {
         height: 50px;
         flex-basis: auto;
         width: 100%;
@@ -46,43 +46,39 @@ section.container{
         padding-right: 30px;
       }
 
-      &#haka-login-btn{
+      &#haka-login-btn {
         // height: 50px;
-        img{
+        img {
           padding-top: 10px;
           height: 40px;
         }
       }
 
       // Basic css for generic login
-      .sso-login{
+      .sso-login {
         font-size: 2rem;
         padding-left: 50px;
         color: wheat;
         text-align: center;
       }
-
     }
   }
 
-  h2{
+  h2 {
     font-size: 2.8rem;
   }
 
-  button{
-
-  }
-  button#alternative-login-btn{
+  button#alternative-login-btn {
     border: solid 1px #fff;
   }
 
-  #login-form{
+  #login-form {
     position: relative;
     height: 614px;
     width: 740px;
     margin: auto;
 
-    a{
+    a {
       position: relative;
       display: block;
       width: 100%;
@@ -90,17 +86,17 @@ section.container{
     }
   }
 
-  .mat-expansion-panel{
+  .mat-expansion-panel {
     padding: 20px;
     background: none;
     box-shadow: none;
   }
 
-  #hero-shots{
+  #hero-shots {
     max-width: 600px;
     text-align: center;
 
-    img{
+    img {
       width: 100%;
       margin: auto;
     }

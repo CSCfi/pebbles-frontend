@@ -55,7 +55,7 @@ export let db = {
       workspace_id: '2',
       thumbnail: 'python',
       color: '3',
-      labels: ['aalto-ml', 'python', 'machine learning', '2019'],
+      labels: ['course-ml', 'python', 'machine learning', '2019'],
     },
     {
       id: '5',
@@ -85,7 +85,7 @@ export let db = {
       workspace_id: '5',
       thumbnail: '',
       color: '0',
-      labels: ['aalto-ml', 'data-science', 'python'],
+      labels: ['course-ml', 'data-science', 'python'],
     },
     {
       id: '8',
@@ -115,7 +115,7 @@ export let db = {
       workspace_id: '3',
       thumbnail: '',
       color: '3',
-      labels: ['helsinki-ds', 'data-science', 'python'],
+      labels: ['course-ds', 'data-science', 'python'],
     },
     {
       id: '11',
@@ -125,7 +125,7 @@ export let db = {
       workspace_id: '3',
       thumbnail: '',
       color: '4',
-      labels: ['helsinki-ds', 'data-science', 'python'],
+      labels: ['course-ds', 'data-science', 'python'],
     },
     {
       id: '12',
@@ -135,7 +135,7 @@ export let db = {
       workspace_id: '3',
       thumbnail: '',
       color: '5',
-      labels: ['helsinki-ds', 'data-science', 'python'],
+      labels: ['course-ds', 'data-science', 'python'],
     },
     {
       id: '13',
@@ -158,72 +158,84 @@ export let db = {
       is_workspace_manager: true
     },
     {
-      eppn: 'user@example.org',
-      password: 'user',
-      id: '2',
-      is_admin: false,
-      is_workspace_owner: false,
-      is_workspace_manager: false,
+      eppn: 'admin-1@example.org',
+      password: 'admin-1',
+      id: '001',
+      is_admin: true,
+      is_workspace_owner: true,
+      is_workspace_manager: true
     },
     {
       eppn: 'owner@example.org',
       password: 'owner',
-      id: '3',
+      id: '100',
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
     },
     {
-      eppn: 'workspace-owner-1@example.org',
-      password: 'workspace-owner-1',
-      id: '101'
+      eppn: 'owner-1@example.org',
+      password: 'owner-1',
+      id: '101',
+      is_admin: false,
+      is_workspace_owner: true,
+      is_workspace_manager: false,
+    },
+    {
+      eppn: 'manager@example.org',
+      password: 'manager',
+      id: '200',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: true,
+    },
+    {
+      eppn: 'manager-1@example.org',
+      password: 'manager-1',
+      id: '201',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: true,
+    },
+    {
+      eppn: 'user@example.org',
+      password: 'user',
+      id: '300',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
     },
     {
       eppn: 'user-1@example.org',
       password: 'user-1',
-      id: '102'
+      id: '301',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
     },
     {
-      eppn: 'ai.nakajima@csc.fi',
+      eppn: 'user-2@example.org',
+      password: 'user-2',
+      id: '302',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+    },
+    {
+      eppn: 'user-3@example.org',
       password: 'user-3',
-      id: '103'
+      id: '303',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
     },
     {
-      eppn: 'csc.user4@csc.fi',
+      eppn: 'user-4@example.org',
       password: 'user-4',
-      id: '104'
-    }
-  ],
-  profiles: [
-    {
-      id: '1',
-      email: 'admin@example.org',
-      thumbnail: 'user-1.placeholder.png',
-      name: 'Tieteen Tietotekniikan'
-    },
-    {
-      id: '101',
-      email: 'csc.user1@csc.fi',
-      thumbnail: 'user-101.placeholder.png',
-      name: 'Aalto University Data Analytics'
-    },
-    {
-      id: '102',
-      email: 'csc.user2@csc.fi',
-      thumbnail: 'user-102.placeholder.png',
-      name: 'Helsinki University Deep Learning'
-    },
-    {
-      id: '103',
-      email: 'csc.user3@csc.fi',
-      thumbnail: 'user-103.placeholder.png',
-      name: 'Ai Chang Nakajima'
-    },
-    {
-      id: '104',
-      email: 'csc.user4@csc.fi',
-      thumbnail: 'user-104.placeholder.png',
-      name: 'Ai Keskisaari Tmp'
+      id: '304',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
     }
   ],
   workspaces: [
@@ -232,32 +244,32 @@ export let db = {
       name: 'admin-ws-join-parm0',
       join_code: 'admin-ws-join-parm0-wuuig',
       description: 'admin-ws-join-parm0',
-      owner_eppn: 'user-0@example.org',
-      member_eppns: ['admin@example.org'],
+      owner_eppn: 'admin@example.org',
+      member_eppns: ['manager-1@example.org', 'user-2@example.org', 'user@example.org', 'user-1@example.org'],
     },
     {
       id: '1',
       name: 'admin-ws-join-parm1',
       join_code: 'admin-ws-join-parm1-wuuig',
       description: 'admin-ws-join-parm1',
-      owner_eppn: 'user-1@example.org',
-      member_eppns: ['admin@example.org'],
+      owner_eppn: 'admin@example.org',
+      member_eppns: ['manager@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
     },
     {
       id: '2',
       name: 'admin-ws-join-parm2',
       join_code: 'admin-ws-join-parm2-wuuig',
       description: null,
-      owner_eppn: 'user-1@example.org',
-      member_eppns: []
+      owner_eppn: 'admin-1@example.org',
+      member_eppns: ['manager-1@example.org', 'admin@example.org', 'user@example.org', 'user-2@example.org', 'user-3@example.org']
     },
     {
       id: '3',
       name: 'admin-ws-join-parm3',
       join_code: 'admin-ws-join-parm3-wuuig',
       description: 'admin-ws-join-parm3',
-      owner_eppn: 'admin3@example.org',
-      member_eppns: ['admin@example.org']
+      owner_eppn: 'admin-1@example.org',
+      member_eppns: ['admin@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '4',
@@ -265,23 +277,121 @@ export let db = {
       join_code: 'admin-ws-join-parm4-wuuig',
       description: 'admin-ws-join-parm4',
       owner_eppn: 'admin@example.org',
-      member_eppns: ['admin5@example.org']
+      member_eppns: ['admin-1@example.org', 'owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '5',
       name: 'admin-ws-join-parm5',
       join_code: 'admin-ws-join-parm5-wuuig',
       description: null,
-      owner_eppn: 'admin@example.org',
-      member_eppns: ['admin5@example.org']
+      owner_eppn: 'ownre@example.org',
+      member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '6',
       name: 'admin-ws-join-parm6',
       join_code: 'admin-ws-join-parm6-wuuig',
       description: 'admin-ws-join-parm6',
-      owner_eppn: 'admin@example.org',
-      member_eppns: ['admin6@example.org']
+      owner_eppn: 'owner@example.org',
+      member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
+    }
+  ],
+  storage_items: [
+    {
+      id: '1',
+      type: 'file',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'photo-1.png',
+      size: '49',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '11',
+      type: 'folder',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'dataset',
+      size: '',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '2',
+      type: 'file',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'photo-2.png',
+      size: '75',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '13',
+      type: 'folder',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'dataset2',
+      size: '',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '3',
+      type: 'file',
+      workspace_id: '3',
+      name: 'photo-3.png',
+      size: '134',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '13',
+      type: 'folder',
+      workspace_id: '3',
+      name: 'dataset',
+      size: '',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '4',
+      type: 'file',
+      workspace_id: '4',
+      name: 'photo-4.png',
+      size: '378',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '14',
+      type: 'folder',
+      workspace_id: '4',
+      name: 'dataset',
+      size: '',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '5',
+      type: 'file',
+      workspace_id: '5',
+      name: 'photo-5.png',
+      size: '120',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '5',
+      type: 'folder',
+      workspace_id: '5',
+      name: 'dataset',
+      size: '',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '6',
+      type: 'file',
+      workspace_id: '6',
+      name: 'photo-6.png',
+      size: '240',
+      owner: 'admin@example.org'
+    },
+    {
+      id: '16',
+      type: 'folder',
+      workspace_id: '6',
+      name: 'dataset',
+      size: '',
+      owner: 'admin@example.org'
     }
   ],
   environment_categories: [

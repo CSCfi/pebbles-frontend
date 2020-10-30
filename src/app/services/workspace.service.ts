@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
+import { User } from 'src/app/models/user';
 import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
@@ -30,7 +31,6 @@ export class WorkspaceService {
   getOwnerWorkspaces(): Workspace[] {
     return this.userWorkspaces;
   }
-
 
   joinWorkspace(joinCode: string): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/workspaces/workspace_join/${joinCode}`;
@@ -81,6 +81,17 @@ export class WorkspaceService {
         console.log('fetchOwnerWorkspaces got ' + resp);
         this.ownerWorkspaces = resp;
         return this.ownerWorkspaces;
+      })
+    );
+  }
+
+  // ---- TODO: If I query with this.HTTP_OPTIONS, It returns error 400.
+  fetchMembersByWorkspaceId(workspaceId: string): Observable<User[]> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/users`;
+    return this.http.get<User[]>(url).pipe(
+      map((resp) => {
+        console.log('fetch Users' + resp);
+        return resp;
       })
     );
   }

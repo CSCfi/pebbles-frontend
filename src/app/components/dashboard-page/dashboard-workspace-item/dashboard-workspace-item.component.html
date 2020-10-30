@@ -1,8 +1,11 @@
 <ng-container *ngIf="content">
-
+  <!-- There are 3 workspace view mode :
+    1.user-workspace
+    2.owner-workspace
+    3.owner's workspace control panel
+  -->
   <div [ngSwitch]="content.path">
-
-    <!-- Template for Single Workspace for end-user -->
+    <!-- 1: The single Workspace template in list view for End-user -->
     <div *ngSwitchCase="'user-workspace'">
       <mat-card class="workspace-card">
         <mat-card-header>
@@ -11,18 +14,21 @@
           </mat-card-title>
           <mat-card-subtitle>Workspace Owner: {{ workspace.owner_eppn }}</mat-card-subtitle>
         </mat-card-header>
-
         <mat-card-content>
           <ul>
-            <li *ngFor="let environment of getEnvironmentsByWorkspaceId(workspace.id)" class="environment">
-              <mat-icon fontSet="material-icons-outlined" class="header">import_contacts</mat-icon>
-              {{ environment.name }}
-            </li>
+            <ng-container *ngIf="environments; else noEnvironment">
+              <li *ngFor="let environment of environments" class="environment">
+                <mat-icon fontSet="material-icons-outlined" class="header">import_contacts</mat-icon>
+                {{ environment.name }}
+              </li>
+            </ng-container>
+            <ng-template #noEnvironment>
+              <p>You have no Environment in this workspace yet.</p>
+            </ng-template>
           </ul>
         </mat-card-content>
-
         <mat-card-actions>
-          <button mat-icon-button color="primary" aria-label="workspace delete" (click)="exitWorkspace(workspace.id)">
+          <button mat-icon-button color="primary" aria-label="workspace delete" (click)="exitWorkspace()">
             <mat-icon class="header">exit_to_app</mat-icon>
             <span>Exit from Workspace</span>
           </button>
@@ -30,7 +36,7 @@
       </mat-card>
     </div>
 
-    <!-- Template for Single Workspace for owner -->
+    <!-- 2. The single Workspace template in list view for Workspace-owner -->
     <div *ngSwitchCase="'workspace-owner'">
       <mat-card class="workspace-card">
         <mat-card-header>
@@ -39,55 +45,53 @@
           </mat-card-title>
           <mat-card-subtitle>Workspace Owner: {{ workspace.owner_eppn }}</mat-card-subtitle>
         </mat-card-header>
-
         <mat-card-content>
           <p>User</p>
           <p>Data: 320M</p>
           <p>Environment</p>
           <ul>
-            <li *ngFor="let environment of getEnvironmentsByWorkspaceId(workspace.id)" class="environment">
-              <mat-icon fontSet="material-icons-outlined" class="header">import_contacts</mat-icon>
-              {{ environment.name }}
-            </li>
+            <ng-container *ngIf="environments; else noEnvironment">
+              <li *ngFor="let environment of environments" class="environment">
+                <mat-icon fontSet="material-icons-outlined" class="header">import_contacts</mat-icon>
+                {{ environment.name }}
+              </li>
+            </ng-container>
+            <ng-template #noEnvironment>
+              <p>You have no Environment in this workspace yet.</p>
+            </ng-template>
           </ul>
         </mat-card-content>
-
         <mat-card-actions>
-          <button mat-flat-button color="primary" aria-label="workspace manager"
-            (click)="openWorkspaceDetail(workspace.id)">
+          <button mat-flat-button color="primary" aria-label="workspace manager" (click)="openWorkspaceDetail()">
             <span>Open Workspace Manager</span>
           </button>
         </mat-card-actions>
       </mat-card>
     </div>
 
-    <!-- Single Workspace Editor -->
+    <!-- 3. The single Workspace template in detail view for Workspace-owner -->
     <div *ngSwitchDefault>
-      <div>
-        description : {{ workspace.description }}
+
+      <div class="">
+        <h3>
+          <mat-icon class="header">group</mat-icon> {{ workspace.name }}
+        </h3>
+        <p> {{ workspace.description }} </p>
+        <div> Lifetime: {{ lifetime }} </div>
+        <p>Join Code: {{ workspace.join_code }} </p>
+        Workspace Owner: {{ workspace.owner_eppn }}
+        <!-- Workspace Manager: {{ workspace.manager_eppn }} -->
       </div>
 
-      <mat-tab-group mat-align-tabs="center">
+      <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
         <mat-tab label="Environments">
-          <p>Environments</p>
-          <div>
-            <ul>
-              <li>env 1</li>
-              <li>env 2</li>
-              <li>env 3</li>
-            </ul>
-          </div>
-
+          the environment component will be added next MR.
         </mat-tab>
         <mat-tab label="Members">
-          <p>Members</p>
-          <div>
-            {{ workspace.member_eppns }}
-          </div>
-
+          <app-dashboard-workspace-members [workspaceId]="workspace.id"></app-dashboard-workspace-members>
         </mat-tab>
-        <mat-tab label="Data">
-          Data
+        <mat-tab label="Storage">
+          the storage component will be added next MR.
         </mat-tab>
       </mat-tab-group>
     </div>

@@ -6,8 +6,8 @@ describe('Workspace', () => {
       '2',
       '12345678',
       'DL Course 2021',
-      'string',
-      '1'
+      'descriptions.....',
+      'admin@test.org'
       )).toBeTruthy();
   });
 });

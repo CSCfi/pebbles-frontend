@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from './auth.service';
-import { User } from '../models/user';
+import { User } from 'src/app/models/user';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
 
 describe('AuthService', () => {
@@ -30,7 +30,7 @@ describe('AuthService', () => {
           token: 'fake-token',
           user_id: '1',
           is_admin: true,
-          is_group_owner: true,
+          is_workspace_owner: true,
           is_workspace_manager: true
           });
         done();
