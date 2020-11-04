@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
+import { Folder } from 'src/app/models/folder';
+import * as TESTDATA from 'src/app/interceptors/test-data';
 import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
@@ -94,5 +96,12 @@ export class WorkspaceService {
         return resp;
       })
     );
+  }
+
+  fetchFoldersByWorkspaceId(workspaceId: string): Observable<Folder[]> {
+    const folders = TESTDATA.db.folders.filter( folder => {
+      return folder.workspace_id === workspaceId;
+    });
+    return of(folders);
   }
 }

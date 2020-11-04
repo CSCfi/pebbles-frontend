@@ -27,7 +27,7 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
 import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
 // import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-environments/dashboard-workspace-environments.component';
 import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members/dashboard-workspace-members.component';
-// import { DashboardWorkspaceStorageComponent } from './dashboard-workspace-storage/dashboard-workspace-storage.component';
+import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folders/dashboard-workspace-folders.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,7 @@ import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-member
     MessageComponent,
     // DashboardWorkspaceEnvironmentsComponent,
     DashboardWorkspaceMembersComponent,
-    // DashboardWorkspaceStorageComponent,
+    DashboardWorkspaceFoldersComponent,
   ],
   imports: [
     // BrowserModule,

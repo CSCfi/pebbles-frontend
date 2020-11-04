@@ -3,34 +3,34 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 
-export interface MemberTable {
+export interface FolderTable {
   select: boolean;
   index: number;
-  icon: string;
-  email: string;
-  authority: string;
+  type: string;
+  size: string;
+  owner: string;
 }
 
 @Component({
-  selector: 'app-dashboard-workspace-members',
-  templateUrl: './dashboard-workspace-members.component.html',
-  styleUrls: ['./dashboard-workspace-members.component.scss']
+  selector: 'app-dashboard-workspace-folders',
+  templateUrl: './dashboard-workspace-folders.component.html',
+  styleUrls: ['./dashboard-workspace-folders.component.scss']
 })
-export class DashboardWorkspaceMembersComponent implements OnInit {
+export class DashboardWorkspaceFoldersComponent implements OnInit {
 
   @Input() workspaceId: string;
-  displayedColumns: string[] = ['select', 'index', 'icon', 'email', 'authority'];
-  dataSource: MatTableDataSource<MemberTable>;
-  selection = new SelectionModel<MemberTable>(true, []);
+  displayedColumns: string[] = ['select', 'index', 'name', 'capacity', 'created_by', 'action'];
+  dataSource = new MatTableDataSource<FolderTable>();
+  selection = new SelectionModel<FolderTable>(true, []);
   tableList = [];
 
   constructor(
-    private workspaceService: WorkspaceService
+    private workspaceService: WorkspaceService,
   ) {
   }
 
   ngOnInit(): void {
-    this.fetchMembers();
+    this.fetchFolders();
   }
 
   applyFilter(event: Event) {
@@ -38,18 +38,16 @@ export class DashboardWorkspaceMembersComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  fetchMembers(): void {
-    this.workspaceService.fetchMembersByWorkspaceId(this.workspaceId).subscribe((resp) => {
-      console.log('members in the workspace fetched');
-      this.tableList = resp.map((member, i) => {
-        // ---- authority(+ icon) is for now 'end user'
-        // ---- To get value of this, we need to have a logic to detect 'workspace-manager' later.
+  fetchFolders(): void {
+    this.workspaceService.fetchFoldersByWorkspaceId(this.workspaceId).subscribe((resp) => {
+      console.log('Files in the workspace fetched');
+      this.tableList = resp.map((folder, i) => {
         return {
           select: false,
           index: i,
-          icon: 'account_circle',
-          authority: 'end user',
-          email: member.eppn,
+          name: folder.name,
+          capacity: folder.capacity,
+          created_by: folder.created_by
         };
       });
       this.dataSource = new MatTableDataSource(this.tableList);
@@ -71,10 +69,11 @@ export class DashboardWorkspaceMembersComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: MemberTable): string {
+  checkboxLabel(row?: FolderTable): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.index + 1}`;
   }
+
 }

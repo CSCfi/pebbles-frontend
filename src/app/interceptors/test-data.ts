@@ -296,104 +296,7 @@ export let db = {
       member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     }
   ],
-  storage_items: [
-    {
-      id: '1',
-      type: 'file',
-      workspace_id: 'ed032a37692847b591080789d61c9e90',
-      name: 'photo-1.png',
-      size: '49',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '11',
-      type: 'folder',
-      workspace_id: 'ed032a37692847b591080789d61c9e90',
-      name: 'dataset',
-      size: '',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '2',
-      type: 'file',
-      workspace_id: 'ed032a37692847b591080789d61c9e90',
-      name: 'photo-2.png',
-      size: '75',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '13',
-      type: 'folder',
-      workspace_id: 'ed032a37692847b591080789d61c9e90',
-      name: 'dataset2',
-      size: '',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '3',
-      type: 'file',
-      workspace_id: '3',
-      name: 'photo-3.png',
-      size: '134',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '13',
-      type: 'folder',
-      workspace_id: '3',
-      name: 'dataset',
-      size: '',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '4',
-      type: 'file',
-      workspace_id: '4',
-      name: 'photo-4.png',
-      size: '378',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '14',
-      type: 'folder',
-      workspace_id: '4',
-      name: 'dataset',
-      size: '',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '5',
-      type: 'file',
-      workspace_id: '5',
-      name: 'photo-5.png',
-      size: '120',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '5',
-      type: 'folder',
-      workspace_id: '5',
-      name: 'dataset',
-      size: '',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '6',
-      type: 'file',
-      workspace_id: '6',
-      name: 'photo-6.png',
-      size: '240',
-      owner: 'admin@example.org'
-    },
-    {
-      id: '16',
-      type: 'folder',
-      workspace_id: '6',
-      name: 'dataset',
-      size: '',
-      owner: 'admin@example.org'
-    }
-  ],
+
   environment_categories: [
     {
       name: 'Machine Learning',
@@ -455,5 +358,91 @@ export let db = {
       is_checked: false,
       is_important: false,
     },
+  ],
+  folders: [
+    {
+      id: '1',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'photo-1',
+      capacity: '49',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '11',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'dataset',
+      capacity: '4',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '2',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'photo-2',
+      capacity: '75',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '13',
+      workspace_id: 'ed032a37692847b591080789d61c9e90',
+      name: 'dataset2',
+      capacity: '54',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '3',
+      workspace_id: '3',
+      name: 'photo-3',
+      capacity: '134',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '13',
+      workspace_id: '0',
+      name: 'dataset',
+      capacity: '54',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '4',
+      workspace_id: '0',
+      name: 'photo-4',
+      capacity: '378',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '14',
+      workspace_id: '1',
+      name: 'dataset',
+      capacity: '43',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '5',
+      workspace_id: '1',
+      name: 'photo-5',
+      capacity: '120',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '5',
+      workspace_id: '2',
+      name: 'dataset',
+      capacity: '432',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '6',
+      workspace_id: '2',
+      name: 'photo-6',
+      capacity: '240',
+      created_by: 'admin@example.org'
+    },
+    {
+      id: '16',
+      workspace_id: '3',
+      name: 'dataset',
+      capacity: '234',
+      created_by: 'admin@example.org'
+    }
   ],
 };
