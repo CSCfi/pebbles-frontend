@@ -11,9 +11,6 @@ import { buildConfiguration } from '../../environments/environment';
 export class MessageService {
 
   private messages: Message[] = [];
-  private HTTP_OPTIONS = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
 
   constructor(
     private http: HttpClient,
@@ -26,7 +23,7 @@ export class MessageService {
 
   fetchMessages(): Observable<Message[]> {
     const url = `${buildConfiguration.apiUrl}/messages`;
-    return this.http.get<Message[]>(url, this.HTTP_OPTIONS).pipe(
+    return this.http.get<Message[]>(url).pipe(
       map(resp => {
         console.log('fetch messages got ' + resp);
         this.messages = resp;

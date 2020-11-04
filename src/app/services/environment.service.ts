@@ -12,9 +12,6 @@ import { buildConfiguration } from '../../environments/environment';
 })
 export class EnvironmentService {
 
-  private HTTP_OPTIONS = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
   private environments: Environment[] = [];
   private interval1 = 0;
 
@@ -71,7 +68,7 @@ export class EnvironmentService {
   fetchEnvironments(): Observable<Environment[]> {
     const url = `${buildConfiguration.apiUrl}/environments`;
 
-    return this.http.get<Environment[]>(url, this.HTTP_OPTIONS).pipe(
+    return this.http.get<Environment[]>(url).pipe(
       map((resp) => {
         console.log('fetchEnvironments got ' + resp);
         // update existing envs

@@ -11,16 +11,13 @@ import { buildConfiguration } from '../../environments/environment';
 })
 export class AccountService {
 
-    private user: User;
-    private HTTP_OPTIONS = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+  private user: User;
 
   constructor(private http: HttpClient) { }
 
   fetchAccount(userId: string): Observable<User> {
     const url = `${buildConfiguration.apiUrl}/users/${userId}`;
-    return this.http.get<User>(url, this.HTTP_OPTIONS).pipe(
+    return this.http.get<User>(url).pipe(
       map(resp => {
         this.user = resp;
         return this.user;

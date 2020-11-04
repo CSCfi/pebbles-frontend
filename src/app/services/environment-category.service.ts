@@ -22,12 +22,7 @@ export class EnvironmentCategoryService {
 
   fetchCategories(): Observable<EnvironmentCategory[]> {
     const url = `${buildConfiguration.apiUrl}/environment_categories`;
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    };
-    return this.http.get<EnvironmentCategory[]>(url, httpOptions).pipe(
+    return this.http.get<EnvironmentCategory[]>(url).pipe(
       map((resp) => {
         // ---- Ask to have id field in DB
         this.categories = resp.map( cat => {

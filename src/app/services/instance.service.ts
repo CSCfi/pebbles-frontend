@@ -16,7 +16,6 @@ export class InstanceService implements OnDestroy {
 
   private instances: Instance[] = [];
   private interval = 0;
-  private HTTP_OPTIONS = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
 
   constructor(
     private http: HttpClient,
@@ -39,7 +38,7 @@ export class InstanceService implements OnDestroy {
   fetchInstances(): Observable<Instance[]> {
     const url = `${buildConfiguration.apiUrl}/instances`;
 
-    return this.http.get<Instance[]>(url, this.HTTP_OPTIONS).pipe(
+    return this.http.get<Instance[]>(url).pipe(
       map(resp => {
         this.instances = resp;
         console.log('fetchInstances got ' + resp);
@@ -65,7 +64,7 @@ export class InstanceService implements OnDestroy {
   createInstance(environmentId: string): Observable<Instance> {
     const url = `${buildConfiguration.apiUrl}/instances`;
 
-    return this.http.post<Instance>(url, {environment: environmentId}, this.HTTP_OPTIONS).pipe(
+    return this.http.post<Instance>(url, {environment: environmentId}).pipe(
       tap(resp => {
         // push the new instance directly to state and trigger a full refresh later
         const newInstance = new Instance(resp.id, resp.name, resp.environment_id, resp.state, '');
@@ -77,7 +76,7 @@ export class InstanceService implements OnDestroy {
 
   deleteInstance(instanceId: string): Observable<Instance> {
     const url = `${buildConfiguration.apiUrl}/instances/${instanceId}`;
-    return this.http.delete<Instance>(url, this.HTTP_OPTIONS).pipe(tap(resp => {
+    return this.http.delete<Instance>(url).pipe(tap(resp => {
       console.log(resp);
       this.fetchInstances().subscribe();
     }));
