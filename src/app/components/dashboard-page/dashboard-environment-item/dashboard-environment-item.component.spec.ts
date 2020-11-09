@@ -4,6 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DashboardEnvironmentItemComponent } from './dashboard-environment-item.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DashboardEnvironmentItemComponent', () => {
   let component: DashboardEnvironmentItemComponent;
@@ -13,6 +14,7 @@ describe('DashboardEnvironmentItemComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        RouterTestingModule,
         MaterialModule
       ],
       declarations: [ DashboardEnvironmentItemComponent ],

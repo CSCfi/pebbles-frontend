@@ -32,55 +32,56 @@
         </div>
       </mat-card-content>
     </div>
-
-    <div class="instance-actions" *ngIf="actionsVisible(environment);else LaunchUI">
-      <mat-card-actions>
-        <div class="instance-action-ui">
-
-          <div class="lifetime-info">
-            <svg class="progress-ring">
-              <circle class="progress-ring__circle" stroke="#fff" stroke-width="6" fill="transparent" r="38" cx="50"
-                cy="50" />
-            </svg>
-
-            <button class="instance_time_button">
-              <span class="lifetime-label">Lifetime</span>
-              <span *ngIf="environment.maximumLifetime" class="lifetime-total">
-                {{ environment.maximumLifetime }}
-              </span>
-            </button>
-            <!-- <ng-template #thenBlock>{{ environment.maximumLifetime }}</ng-template>
-            <ng-template #elseBlock>xxh xxm</ng-template> -->
-            <button mat-flat-button class="environment_start_button" color="accent"
-              (click)="emitOpenEnvironmentInBrowser()">
-              open
-            </button>
-            <button mat-flat-button class="environment_stop_button" color="accent"
-              (click)="emitStopEnvironment()">
-              delete
-            </button>
-          </div>
-
-          <div class="lifetime-label">State: {{ environment.instance.state}}</div>
-        </div>
-      </mat-card-actions>
-    </div>
-    <ng-template #LaunchUI>
-      <div class="card-actions">
+    <ng-container *ngIf="content.path === 'catalog'">
+      <div class="instance-actions" *ngIf="actionsVisible(); else LaunchUI">
         <mat-card-actions>
           <div class="instance-action-ui">
-            <div class="instance-launch-ui">
-              <button mat-flat-button color="primary" class="launch-button" (click)="emitStartEnvironment()">
-                <mat-icon fontSet="material-icons-outlined">
-                  power_settings_new
-                </mat-icon>
-                Start
+
+            <div class="lifetime-info">
+              <svg class="progress-ring">
+                <circle class="progress-ring__circle" stroke="#fff" stroke-width="6" fill="transparent" r="38" cx="50"
+                  cy="50" />
+              </svg>
+
+              <button class="instance_time_button">
+                <span class="lifetime-label">Lifetime</span>
+                <span *ngIf="environment.maximumLifetime" class="lifetime-total">
+                  {{ environment.maximumLifetime }}
+                </span>
               </button>
-              <div class="lifetime-info">{{ environment.maximumLifetime }}</div>
+              <!-- <ng-template #thenBlock>{{ environment.maximumLifetime }}</ng-template>
+              <ng-template #elseBlock>xxh xxm</ng-template> -->
+              <button mat-flat-button class="environment_start_button" color="accent"
+              (click)="openEnvironmentInBrowser()">
+                open
+              </button>
+              <button mat-flat-button class="environment_stop_button" color="accent"
+              (click)="stopEnvironment()">
+                delete
+              </button>
             </div>
+
+            <div class="lifetime-label">State: {{ environment.instance.state}}</div>
           </div>
         </mat-card-actions>
       </div>
-    </ng-template>
+      <ng-template #LaunchUI>
+        <div class="card-actions">
+          <mat-card-actions>
+            <div class="instance-action-ui">
+              <div class="instance-launch-ui">
+                <button mat-flat-button color="primary" class="launch-button" (click)="startEnvironment()">
+                  <mat-icon fontSet="material-icons-outlined">
+                    power_settings_new
+                  </mat-icon>
+                  Start
+                </button>
+                <div class="lifetime-info">{{ environment.maximumLifetime }}</div>
+              </div>
+            </div>
+          </mat-card-actions>
+        </div>
+      </ng-template>
+    </ng-container>
   </mat-card>
 </li>

@@ -71,11 +71,7 @@
               <div class="label-list"></div>
             </ng-template>
             <ul *ngFor="let environment of filterEnvironmentsByLabels(selectedCatalog.labels, 'any')">
-              <app-dashboard-environment-item [environment]=environment
-                (startEnvironmentEvent)="startEnvironment($event)"
-                (openEnvironmentInBrowserEvent)="openEnvironmentInBrowser($event)"
-                (stopEnvironmentEvent)="stopEnvironment($event)">
-              </app-dashboard-environment-item>
+              <app-dashboard-environment-item [environment]=environment [content]=content></app-dashboard-environment-item>
             </ul>
           </div>
         </div>

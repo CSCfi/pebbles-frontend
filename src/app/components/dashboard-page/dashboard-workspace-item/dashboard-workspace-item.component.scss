@@ -1,8 +1,11 @@
 @import "src/styles.scss";
 
-.mat-icon.header{
+.mat-icon.header {
   margin-right: 5px;
 }
+
+.user-workspace,
+.workspace-owner{
 
   .workspace-card {
     margin-bottom: 10px;
@@ -10,7 +13,7 @@
     .mat-card-header {
       border-bottom: $border-thin;
 
-      .mat-card-title{
+      .mat-card-title {
         display: inline-flex;
         align-items: center;
       }
@@ -19,7 +22,7 @@
     .mat-card-content {
       padding: 15px 20px;
 
-      li.environment{
+      li.environment {
         display: flex;
         align-items: center;
       }
@@ -43,3 +46,10 @@
       }
     }
   }
+}
+
+.owner-workspace-detail {
+  .environments-container {
+    padding: 20px;
+  }
+}

@@ -1,12 +1,7 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-
-import { InstanceStates } from 'src/app/models/instance';
-import { InstanceService } from 'src/app/services/instance.service';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Workspace } from 'src/app/models/workspace';
@@ -14,8 +9,6 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 import { EnvironmentCategory } from 'src/app/models/environment-category';
 import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
 // import * as TESTDATA from 'src/app/interceptors/test-data';
-// import { environment } from 'src/environments/environment';
-
 
 @Component({
   selector: 'app-dashboard-catalog',
@@ -34,15 +27,10 @@ export class DashboardCatalogComponent implements OnInit {
   isSearchFormOpen = false;
   selectedCatalog: EnvironmentCategory;
 
-  // public workspaces: Workspace[];
-
   constructor(
-    private router: Router,
-    @Inject(DOCUMENT) private document: Document,
     public dialog: MatDialog,
     private environmentService: EnvironmentService,
     private catalogService: EnvironmentCategoryService,
-    private instanceService: InstanceService,
     public workspaceService: WorkspaceService,
   ) {
   }
@@ -52,7 +40,7 @@ export class DashboardCatalogComponent implements OnInit {
     this.fetchCatalogs();
     this.fetchWorkspaces();
     this.isSearchFormOpen = false;
-    // ---- getCategoryById('1') : 1 -> 'all'
+    // ---- getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }
 
@@ -62,47 +50,10 @@ export class DashboardCatalogComponent implements OnInit {
 
   // ---- Environment
   // ------------------------------------------------------------ //
-  getEnvironments(): Environment[] {
-    return this.environmentService.getEnvironments();
-  }
 
   fetchEnvironments(): void {
     this.environmentService.fetchEnvironments().subscribe(() => {
       console.log('environments fetched');
-    });
-  }
-
-  getEnvironmentById(environmentId: string): Environment | null {
-    return this.environmentService.get(environmentId);
-  }
-
-  startEnvironment(environment: Environment): void {
-    console.log(environment.id);
-    this.environmentService.startEnvironment(environment.id).subscribe(resp => {
-      console.log(resp);
-      this.openEnvironmentInBrowser(resp);
-    });
-  }
-
-  openEnvironmentInBrowser(environment: Environment): void {
-    const instance = environment.instance;
-    const origin = this.document.location.origin;
-    const url = origin + this.router.serializeUrl(
-      this.router.createUrlTree(['/instance/', instance.id])
-    );
-    window.open(url, '_blank');
-    // this.router.navigateByUrl('/instance/' + instance.id);
-  }
-
-  stopEnvironment(environment: Environment): void {
-    const instance = environment.instance;
-    instance.state = InstanceStates.Deleting;
-    // ---- Delete data for instance-notification que.
-    localStorage.removeItem(instance.name);
-
-    this.instanceService.deleteInstance(instance.id).subscribe(_ => {
-      this.fetchEnvironments();
-      console.log('instance deleting process finished');
     });
   }
 
@@ -173,7 +124,6 @@ export class DashboardCatalogComponent implements OnInit {
   templateUrl: 'join-workspace-dialog.component.html',
   styleUrls: ['./dashboard-catalog.component.scss']
 })
-
 export class JoinWorkspaceDialogComponent {
 
   // ---- Join Workspace Form
@@ -182,7 +132,7 @@ export class JoinWorkspaceDialogComponent {
   });
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
+    // @Inject(DOCUMENT) private document: Document,
     private workspaceService: WorkspaceService,
     private environmentService: EnvironmentService
   ) {

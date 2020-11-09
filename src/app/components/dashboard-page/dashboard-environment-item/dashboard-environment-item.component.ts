@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-// import { DOCUMENT } from '@angular/common';
-// import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Environment } from 'src/app/models/environment';
 import { InstanceStates } from 'src/app/models/instance';
-
-// import { InstanceService } from 'src/app/services/instance.service';
+import { EnvironmentService } from 'src/app/services/environment.service';
+import { InstanceService } from 'src/app/services/instance.service';
 
 @Component({
   selector: 'app-dashboard-environment-item',
@@ -14,9 +14,19 @@ import { InstanceStates } from 'src/app/models/instance';
 export class DashboardEnvironmentItemComponent implements OnInit {
 
   @Input() environment: Environment;
-  @Output() startEnvironmentEvent = new EventEmitter<Environment>();
-  @Output() openEnvironmentInBrowserEvent = new EventEmitter<Environment>();
-  @Output() stopEnvironmentEvent = new EventEmitter<Environment>();
+  @Input() content: any;
+
+  get state(): InstanceStates{
+    return this.environment.instance.state;
+  }
+
+  constructor(
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document,
+    private environmentService: EnvironmentService,
+    private instanceService: InstanceService,
+  ) {
+  }
 
   ngOnInit(): void {
     // console.log(`--------- env ${ this.environment.id } --------`);
@@ -39,19 +49,35 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   // ---- Instance
   // ----------------------------------------
 
-  emitStartEnvironment(): void {
-    this.startEnvironmentEvent.emit(this.environment);
+  startEnvironment(): void {
+    console.log(this.environment.id);
+    this.environmentService.startEnvironment(this.environment.id).subscribe( _ => {
+      this.openEnvironmentInBrowser();
+    });
   }
 
-  emitOpenEnvironmentInBrowser(): void {
-    this.openEnvironmentInBrowserEvent.emit(this.environment);
+  openEnvironmentInBrowser(): void {
+    const instance = this.environment.instance;
+    const origin = this.document.location.origin;
+    const url = origin + this.router.serializeUrl(
+      this.router.createUrlTree(['/instance/', instance.id])
+    );
+    window.open(url, '_blank');
+    // this.router.navigateByUrl('/instance/' + instance.id);
   }
 
-  emitStopEnvironment(): void {
-    this.stopEnvironmentEvent.emit(this.environment);
+  stopEnvironment(): void {
+    const instance = this.environment.instance;
+    instance.state = InstanceStates.Deleting;
+    // ---- Delete data for instance-notification que.
+    localStorage.removeItem(instance.name);
+
+    this.instanceService.deleteInstance(instance.id).subscribe(_ => {
+      console.log('instance deleting process finished');
+    });
   }
 
-  actionsVisible(environment: Environment) {
-    return environment.instance && environment.instance.state !== InstanceStates.Deleted;
+  actionsVisible() {
+    return this.environment.instance && this.environment.instance.state !== InstanceStates.Deleted;
   }
 }

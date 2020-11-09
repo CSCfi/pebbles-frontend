@@ -2,11 +2,11 @@
   <!-- There are 3 workspace view mode :
     1.user-workspace
     2.owner-workspace
-    3.owner's workspace control panel
+    3.owner-workspace-detail (owner's workspace control panel)
   -->
   <div [ngSwitch]="content.path">
     <!-- 1: The single Workspace template in list view for End-user -->
-    <div *ngSwitchCase="'user-workspace'">
+    <div *ngSwitchCase="'user-workspace'" class="user-workspace">
       <mat-card class="workspace-card">
         <mat-card-header>
           <mat-card-title>
@@ -37,7 +37,7 @@
     </div>
 
     <!-- 2. The single Workspace template in list view for Workspace-owner -->
-    <div *ngSwitchCase="'workspace-owner'">
+    <div *ngSwitchCase="'workspace-owner'" class="workspace-owner">
       <mat-card class="workspace-card">
         <mat-card-header>
           <mat-card-title>
@@ -70,7 +70,7 @@
     </div>
 
     <!-- 3. The single Workspace template in detail view for Workspace-owner -->
-    <div *ngSwitchDefault>
+    <div *ngSwitchDefault class="owner-workspace-detail">
 
       <div class="">
         <h3>
@@ -85,7 +85,11 @@
 
       <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
         <mat-tab label="Environments">
-          the environment component will be added next MR.
+          <div class="environments-container">
+            <ul *ngFor="let environment of getEnvironmentsByWorkspaceId()">
+              <app-dashboard-environment-item [environment]=environment [content]=content></app-dashboard-environment-item>
+            </ul>
+          </div>
         </mat-tab>
         <mat-tab label="Members">
           <app-dashboard-workspace-members [workspaceId]="workspace.id"></app-dashboard-workspace-members>
