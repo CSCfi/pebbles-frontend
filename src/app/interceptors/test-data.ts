@@ -241,57 +241,57 @@ export let db = {
   workspaces: [
     {
       id: '0',
-      name: 'admin-ws-join-parm0',
+      name: 'Course Introduction to Python (self-study)',
       join_code: 'admin-ws-join-parm0-wuuig',
-      description: 'admin-ws-join-parm0',
+      description: 'Course environment with Jupyter and Python\. To be used on \<a href=\"https://github.com/csc-training/python-introduction\"\> CSC Introduction to Python\<\/a\> for self study\. The environment is short-lived and all data is destroyed at the end of the session\. Download your results\!',
       owner_eppn: 'admin@example.org',
       member_eppns: ['manager-1@example.org', 'user-2@example.org', 'user@example.org', 'user-1@example.org'],
     },
     {
       id: '1',
-      name: 'admin-ws-join-parm1',
+      name: 'Course Introduction to R (self-study)',
       join_code: 'admin-ws-join-parm1-wuuig',
-      description: 'admin-ws-join-parm1',
+      description: 'Course environment with Jupyter and R. To be used on \<a href=\"https://github.com/csc-training/python-introduction\"\> CSC Introduction to Python\<\/a\> for self study. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       owner_eppn: 'admin@example.org',
       member_eppns: ['manager@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
     },
     {
       id: '2',
-      name: 'admin-ws-join-parm2',
+      name: 'Course Practical Deep Learning - 2020',
       join_code: 'admin-ws-join-parm2-wuuig',
-      description: null,
+      description: 'Environment with Jupyter and Python Machine Learning libraries for Practical Deep Learning. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       owner_eppn: 'admin-1@example.org',
       member_eppns: ['manager-1@example.org', 'admin@example.org', 'user@example.org', 'user-2@example.org', 'user-3@example.org']
     },
     {
       id: '3',
-      name: 'admin-ws-join-parm3',
+      name: 'Course Practical Machine Learning 2019',
       join_code: 'admin-ws-join-parm3-wuuig',
-      description: 'admin-ws-join-parm3',
+      description: 'Course environment with Jupyter and Python Machine Learning libraries. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       owner_eppn: 'admin-1@example.org',
       member_eppns: ['admin@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '4',
-      name: 'admin-ws-join-parm4',
+      name: 'Demo Vipunen API',
       join_code: 'admin-ws-join-parm4-wuuig',
-      description: 'admin-ws-join-parm4',
+      description: 'Demo environment with Jupyter. Demonstrates the use of Vipunen API with Python and Pandas. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       owner_eppn: 'admin@example.org',
       member_eppns: ['admin-1@example.org', 'owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '5',
-      name: 'admin-ws-join-parm5',
+      name: 'Jupyter Data Science',
       join_code: 'admin-ws-join-parm5-wuuig',
-      description: null,
+      description: 'General-purpose environment with Jupyter and data science packages. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       owner_eppn: 'ownre@example.org',
       member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '6',
-      name: 'admin-ws-join-parm6',
+      name: 'Jupyter Machine Learning',
       join_code: 'admin-ws-join-parm6-wuuig',
-      description: 'admin-ws-join-parm6',
+      description: 'General-purpose environment with Jupyter and Python Machine Learning Libraries: scikit-learn, scipy, Theano, Keras and pandas. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       owner_eppn: 'owner@example.org',
       member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     }

@@ -5,6 +5,7 @@ export class Workspace {
       public name: string,
       public description: string,
       public owner_eppn?: string,
+      public manager_eppns?: string[],
       public member_eppns?: string[],
       ) {}
 }
