@@ -108,7 +108,7 @@ export class DashboardCatalogComponent implements OnInit {
   // ---- Workspace
   // ------------------------------------------------------------ //
   fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(() => {
+    this.workspaceService.fetchUserWorkspaces().subscribe(() => {
       console.log('workspaces fetched');
     });
   }
@@ -151,7 +151,7 @@ export class JoinWorkspaceDialogComponent {
   }
 
   fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(() => {
+    this.workspaceService.fetchUserWorkspaces().subscribe(() => {
       console.log('workspaces fetched');
     });
   }

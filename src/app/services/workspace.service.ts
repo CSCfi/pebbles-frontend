@@ -17,7 +17,8 @@ export class WorkspaceService {
   private ownerWorkspaces: Workspace[] = [];
 
   constructor(private http: HttpClient) {
-    this.fetchWorkspaces().subscribe();
+    this.fetchUserWorkspaces().subscribe();
+    this.fetchOwnerWorkspaces().subscribe();
   }
 
   getUserWorkspaces(): Workspace[] {
@@ -25,7 +26,7 @@ export class WorkspaceService {
   }
 
   getOwnerWorkspaces(): Workspace[] {
-    return this.userWorkspaces;
+    return this.ownerWorkspaces;
   }
 
   joinWorkspace(joinCode: string): Observable<any> {
@@ -48,17 +49,6 @@ export class WorkspaceService {
     );
   }
 
-  fetchWorkspaces(): Observable<Workspace[]>{
-    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_list_exit`;
-    return this.http.get<Workspace[]>(url).pipe(
-      map((resp) => {
-        console.log('fetchWorkspaces got ' + resp);
-        this.userWorkspaces = resp;
-        return this.userWorkspaces;
-      })
-    );
-  }
-
   fetchUserWorkspaces(): Observable<Workspace[]>{
     const url = `${buildConfiguration.apiUrl}/workspaces/workspace_list_exit`;
     return this.http.get<Workspace[]>(url).pipe(
@@ -70,7 +60,7 @@ export class WorkspaceService {
     );
   }
 
-  fetchOwnerWorkspaces(): Observable<Workspace[]>{
+  fetchOwnerWorkspaces(): Observable<Workspace[]> {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
@@ -93,9 +83,19 @@ export class WorkspaceService {
   }
 
   fetchFoldersByWorkspaceId(workspaceId: string): Observable<Folder[]> {
-    const folders = TESTDATA.db.folders.filter( folder => {
+    const folders = TESTDATA.db.folders.filter(folder => {
       return folder.workspace_id === workspaceId;
     });
     return of(folders);
+  }
+
+  createWorkspace(name: string, description: string): Observable<Workspace> {
+    const url = `${buildConfiguration.apiUrl}/workspaces`;
+    return this.http.post<Workspace>(url, {name, description}).pipe(
+      map((resp) => {
+        console.log('created Workspace' + resp);
+        return resp;
+      })
+    );
   }
 }

@@ -174,9 +174,9 @@ export let db = {
       is_workspace_manager: false,
     },
     {
-      eppn: 'owner-1@example.org',
-      password: 'owner-1',
-      id: '101',
+      eppn: 'owner-2@example.org',
+      password: 'owner-2',
+      id: '102',
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
@@ -284,7 +284,7 @@ export let db = {
       name: 'Jupyter Data Science',
       join_code: 'admin-ws-join-parm5-wuuig',
       description: 'General-purpose environment with Jupyter and data science packages. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
-      owner_eppn: 'ownre@example.org',
+      owner_eppn: 'owner@example.org',
       member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
@@ -296,7 +296,22 @@ export let db = {
       member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     }
   ],
-
+  environment_templates: [
+    {
+      id: 'et-1',
+      name: 'test template 1',
+      is_active: true,
+      cluster: 'dummy cluster',
+      config: {description: 'test template in mock data'},
+    },
+    {
+      id: 'et-2',
+      name: 'Example',
+      is_active: true,
+      cluster: 'dummy cluster',
+      config: {description: 'Template for demo workspace environment'},
+    },
+  ],
   environment_categories: [
     {
       name: 'Machine Learning',

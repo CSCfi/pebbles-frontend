@@ -1,4 +1,7 @@
+
 export class Workspace {
+  public static DEMO_WORKSPACE_NAME = 'Demo Workspace';
+
   constructor(
       public id: string,
       public join_code: string,

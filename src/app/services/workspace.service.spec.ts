@@ -29,7 +29,7 @@ describe('WorkspaceService', () => {
       if (!localStorage.getItem('user_name')){
         localStorage.setItem('user_name', 'admin@example.org');
       }
-      service.fetchWorkspaces().subscribe(() => {
+      service.fetchUserWorkspaces().subscribe(() => {
         const workspaces = service.getUserWorkspaces();
         expect(workspaces.length).toBeGreaterThan(0);
         done();

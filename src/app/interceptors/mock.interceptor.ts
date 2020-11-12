@@ -13,6 +13,8 @@ import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
 import * as TESTDATA from './test-data';
 import { Instance, InstanceStates } from 'src/app/models/instance';
 import { User } from 'src/app/models/user';
+import { Workspace } from '../models/workspace';
+import { Environment } from '../models/environment';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
 
@@ -30,6 +32,7 @@ export class MockInterceptor implements HttpInterceptor {
     const apiComponents = url.substring(url.lastIndexOf('api/v1/') + 7).split('/');
     const endpoint = apiComponents[0];
     let objectId = null;
+    const userName = localStorage.getItem('user_name');
 
     switch (true) {
 
@@ -72,6 +75,10 @@ export class MockInterceptor implements HttpInterceptor {
           return authenticate();
         case url.endsWith('/instances') && method === 'POST':
           return createInstance();
+        case url.endsWith('/workspaces') && method === 'POST':
+          return createWorkspace();
+        case url.endsWith('/environments') && method === 'POST':
+          return createEnvironment();
         case url.endsWith('/instances') && method === 'GET':
           return getInstances();
         case url.includes('/instances') && method === 'DELETE':
@@ -191,6 +198,24 @@ export class MockInterceptor implements HttpInterceptor {
       // return ok(database.environments);
     }
 
+    function createEnvironment() {
+      const envId = Math.random().toString(36).substring(2, 8);
+
+      const environment = new Environment(
+        envId,
+        body.name,
+        body.description,
+        '1h',
+        body.workspace_id,
+        'python',
+        '1',
+        ['data analytics'],
+      );
+
+      database.environments.push(environment);
+      return ok(environment);
+    }
+
     function createInstance() {
 
       const {environment: envId} = body;
@@ -198,7 +223,7 @@ export class MockInterceptor implements HttpInterceptor {
       if (!envId || !database.environments.find(env => env.id === envId)) {
         error('environment not found ' + envId);
       }
-      // make sure there are existing instances for the environment
+      // make sure there aren't existing instances for the environment
       if (database.instances.find(inst => inst.environment_id === envId && inst.state !== InstanceStates.Deleted)) {
         error('instance already running for environment ' + envId);
       }
@@ -232,10 +257,25 @@ export class MockInterceptor implements HttpInterceptor {
       }
     }
 
+    function createWorkspace() {
+      const workspaceId = Math.random().toString(36).substring(2, 8);
+
+      const workspace = new Workspace(
+        workspaceId,
+        body.name + '-12345',
+        body.name,
+        body.description,
+        userName,
+      );
+
+      database.workspaces.push(workspace);
+      return ok(workspace);
+    }
+
     function getWorkspaces() {
       const user_name = localStorage.getItem('user_name');
       const workspaces = database.workspaces.filter(ws => {
-        if (ws.member_eppns.includes(user_name)) {
+        if (ws.member_eppns && ws.member_eppns.includes(user_name)) {
           return true;
         }
         // if (ws.owner_eppn === user_name){
@@ -249,10 +289,7 @@ export class MockInterceptor implements HttpInterceptor {
     function getOwnerWorkspaces() {
       const user_name = localStorage.getItem('user_name');
       const workspaces = database.workspaces.filter(ws => {
-        if (ws.owner_eppn === user_name){
-          return true;
-        }
-        return false;
+        return ws.owner_eppn === user_name;
       });
       return ok(workspaces);
     }
@@ -277,11 +314,11 @@ export class MockInterceptor implements HttpInterceptor {
       }
     }
 
-    function getWorkspacesMembers(): Observable<HttpResponse<User[]>>{
-      const targetWorkspace = database.workspaces.find( ws => {
+    function getWorkspacesMembers(): Observable<HttpResponse<User[]>> {
+      const targetWorkspace = database.workspaces.find(ws => {
         return ws.id === objectId;
       });
-      if (targetWorkspace){
+      if (targetWorkspace) {
         // ---- MEMO: This approach has more lines but is logically better.
         const workspaceMembers = [];
         for (const eppn of targetWorkspace.member_eppns) {
@@ -291,7 +328,7 @@ export class MockInterceptor implements HttpInterceptor {
           if (member) {
             workspaceMembers.push(member);
           } else {
-            console.log(`The User data ${eppn} not found in test-data.ts` );
+            console.log(`The User data ${eppn} not found in test-data.ts`);
           }
         }
         return ok(workspaceMembers);

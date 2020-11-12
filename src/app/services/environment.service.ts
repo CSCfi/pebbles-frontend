@@ -6,6 +6,7 @@ import { InstanceService } from './instance.service';
 import { WorkspaceService } from './workspace.service';
 import { Environment } from 'src/app/models/environment';
 import { buildConfiguration } from '../../environments/environment';
+import { Workspace } from '../models/workspace';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class EnvironmentService {
     }, 5000);
 
     this.instanceService.fetchInstances().subscribe();
-    this.workspaceService.fetchWorkspaces().subscribe();
+    this.workspaceService.fetchUserWorkspaces().subscribe();
     this.fetchEnvironments().subscribe();
   }
 
@@ -44,7 +45,7 @@ export class EnvironmentService {
   }
 
   getEnvironmentsByWorkspaceId(workspaceId: string) {
-    return this.environments.filter(env => env.workspace_id === workspaceId );
+    return this.environments.filter(env => env.workspace_id === workspaceId);
   }
 
   updateEnvironmentStatus(): void {
@@ -90,7 +91,7 @@ export class EnvironmentService {
       map(resp => {
         console.log('environment starting, assigning instance ' + resp);
         environment.instance = resp;
-        this.instanceService.fetchInstances();
+        this.instanceService.fetchInstances().subscribe();
         return environment;
       })
     );
@@ -101,8 +102,25 @@ export class EnvironmentService {
     return this.instanceService.deleteInstance(environment.instance.id).pipe(
       map(() => {
         console.log('environment stopping');
-        this.instanceService.fetchInstances();
+        this.instanceService.fetchInstances().subscribe();
         return environment;
+      })
+    );
+  }
+
+  createEnvironment(
+    workspace_id: string,
+    name: string,
+    template_id: string,
+    config: any,
+    is_enabled?: boolean
+  ): Observable<Environment> {
+    const url = `${buildConfiguration.apiUrl}/environments`;
+    return this.http.post<Environment>(url, {workspace_id, name, template_id, config, is_enabled}).pipe(
+      map((resp) => {
+        console.log('created Environment' + resp);
+        this.fetchEnvironments().subscribe();
+        return resp;
       })
     );
   }
