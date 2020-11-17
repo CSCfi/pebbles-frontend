@@ -42,6 +42,7 @@ export class DashboardCatalogComponent implements OnInit {
     this.isSearchFormOpen = false;
     // ---- getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
+    // console.log(this.selectedCatalog);
   }
 
   openJoinWorkspaceDialog() {
@@ -102,7 +103,7 @@ export class DashboardCatalogComponent implements OnInit {
     // console.log(catalogId);
     this.selectedCatalog = this.catalogService.getCategoryById(catalogId);
     // console.log('---- now you chose Catalog below ----');
-    // console.log(this.selectedCatalog);
+    console.log(this.selectedCatalog);
   }
 
   // ---- Workspace

@@ -126,7 +126,44 @@
 }
 
 .owner-workspace-detail {
+
+  h3{
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .workspace-info{
+    border: 2px solid $primary;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+  }
+
   .environments-container {
     padding: 20px;
   }
+
+  .environment-creation-buttons-container {
+    padding: 0 20px;
+
+    button {
+      padding: 20px;
+      color: #fff;
+      background: $primary;
+      border-radius: 5px;
+      width: 100%;
+      // justify-content: flex-end;
+    }
+
+    .form-option{
+      width: 100%;
+      padding: 10px 20px;
+      justify-content: flex-end;
+    }
+  }
 }
+
+::ng-deep .mat-tab-body-wrapper{
+  padding: 20px 20px;
+}
+

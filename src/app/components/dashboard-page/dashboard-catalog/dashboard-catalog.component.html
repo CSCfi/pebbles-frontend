@@ -24,8 +24,8 @@
 
   <!-- Environment Catalog Search -->
   <mat-accordion class="search-form-outer" multi>
-    <mat-expansion-panel [(expanded)]="isSearchFormOpen">
-      <app-dashboard-search-box [catalog]=selectedCatalog></app-dashboard-search-box>
+    <mat-expansion-panel [(expanded)]="isSearchFormOpen" *ngIf="selectedCatalog">
+      <app-dashboard-search-box [labels]=selectedCatalog.labels></app-dashboard-search-box>
     </mat-expansion-panel>
   </mat-accordion>
 

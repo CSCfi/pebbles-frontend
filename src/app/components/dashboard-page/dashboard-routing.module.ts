@@ -11,7 +11,6 @@ import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/da
 import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-statistics.component';
-import { DashboardWorkspaceWizardComponent } from './dashboard-workspace-wizard/dashboard-workspace-wizard.component';
 import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
 
 export const routes: Routes = [
@@ -30,10 +29,6 @@ export const routes: Routes = [
       {
         path: 'workspace-owner', component: DashboardWorkspaceOwnerComponent,
         data: { breadcrumbs: ['home', 'workspace-owner'] }
-      },
-      {
-        path: 'workspace-owner/wizard', component: DashboardWorkspaceWizardComponent,
-        data: { breadcrumbs: ['home', 'workspace-owner', 'wizard'] }
       },
       {
         path: 'workspace-owner/detail/:id', component: DashboardWorkspaceDetailComponent,

@@ -22,7 +22,7 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p> {{ environment.description }} </p>
+        <p [innerHTML]="environment.description"></p>
         <div class="label-list">
           <mat-chip-list aria-label="labels">
             <ng-container *ngFor="let label of environment.labels">

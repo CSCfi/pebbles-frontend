@@ -4,8 +4,6 @@ import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { EnvironmentCategory } from 'src/app/models/environment-category';
 import { EnvironmentService } from 'src/app/services/environment.service';
 
 @Component({
@@ -21,26 +19,28 @@ export class DashboardSearchBoxComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   labelCtrl = new FormControl();
   filteredLabels: Observable<string[]>;
+
   @ViewChild('labelInput') labelInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
-  private currentCatalog: EnvironmentCategory;
+  private currentLabels: string[];
 
   constructor(
     private environmentService: EnvironmentService,
   ) {
-    this.filteredLabels = this.labelCtrl.valueChanges.pipe(
-      // startWith(null),
-      map((label: string | null) => label ? this._filter(label) : this.allLabels.slice()));
   }
 
-  // catalog: EnvironmentCategory;
+  // labels: EnvironmentCategory;
 
   get labels(): string[] {
-    if (this.currentCatalog) {
-      return this.currentCatalog.labels;
+    if (this.currentLabels) {
+      return this.currentLabels;
     } else {
       return [];
     }
+  }
+
+  @Input() set labels(values: string[]) {
+    this.currentLabels = values;
   }
 
   get allLabels(): string[] {
@@ -53,20 +53,16 @@ export class DashboardSearchBoxComponent {
     return allLabels;
   }
 
-  @Input() set catalog(value: EnvironmentCategory) {
-    this.currentCatalog = value;
-  }
-
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
-    // Add our label
+    // ---- Add our label
     if ((value || '').trim()) {
       this.labels.push(value.trim());
     }
 
-    // Reset the input value
+    // ---- Reset the input value
     if (input) {
       input.value = '';
     }

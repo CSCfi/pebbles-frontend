@@ -1,0 +1,21 @@
+<form [formGroup]="workspaceCreationFormGroup">
+  <h2>Create New Workspace</h2>
+  <div class="plain-form-container">
+    <!-- Name -->
+    <mat-form-field appearance="fill">
+      <mat-label>New workspace name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <br>
+    <!-- Description-->
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <!-- Submit -->
+    <div class="button-row">
+      <button class="submit-button" mat-flat-button color="primary" (click)="createWorkspace()">Create</button>
+      <button class="cancel-button" mat-flat-button (click)="closeForm()">Cancel</button>
+    </div>
+  </div>
+</form>

@@ -231,6 +231,13 @@ input {
 //   box-shadow: 0 3px 6px rgba(#000, 0.16), 0 3px 6px rgba(#000, 0.23);
 // }
 
+.no-shadow {
+  box-shadow: none !important;
+}
+
+.flat-shadow {
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,.2) !important;
+}
 
 .section-title {
   // display: flex;
@@ -276,4 +283,10 @@ section.card {
     font-size: 12px;
     min-height: 22px;
   }
+}
+
+.inline-centering{
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
 }

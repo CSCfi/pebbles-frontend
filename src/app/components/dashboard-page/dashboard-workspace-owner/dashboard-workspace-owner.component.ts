@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Workspace } from 'src/app/models/workspace';
-import { EnvironmentService } from '../../../services/environment.service';
-import { EnvironmentTemplateService } from '../../../services/environment-template.service';
-import { EnvironmentTemplate } from '../../../models/environment-template';
+import { EnvironmentService } from 'src/app/services/environment.service';
+import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
+import { EnvironmentTemplate } from 'src/app/models/environment-template';
+import { DashboardWorkspaceFormComponent } from '../dashboard-workspace-form/dashboard-workspace-form.component';
 
 @Component({
   selector: 'app-dashboard-workspace-owner',
@@ -18,10 +20,13 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
     title: 'Workspace Owner Tool'
   };
 
-  workspaces: Workspace[];
+  get workspaces(): Workspace[] {
+    return this.workspaceService.getOwnerWorkspaces();
+  }
 
   constructor(
-    private workspaceService: WorkspaceService,
+    public dialog: MatDialog,
+    public workspaceService: WorkspaceService,
     private authService: AuthService,
     private environmentService: EnvironmentService,
     private environmentTemplateService: EnvironmentTemplateService,
@@ -33,14 +38,32 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
   }
 
   fetchWorkspaces(): void {
-    this.workspaceService.fetchOwnerWorkspaces().subscribe((res) => {
+    this.workspaceService.fetchOwnerWorkspaces().subscribe((resp) => {
       console.log('owner workspaces fetched');
-      this.workspaces = res;
     });
   }
 
   isOwner(workspace: Workspace): boolean {
     return workspace.owner_eppn === this.authService.getUserName();
+  }
+
+  openDialog(): void {
+    this.dialog.open( DashboardWorkspaceFormComponent, {
+      width: '800px',
+      height: 'auto',
+      data: {
+      }
+    });
+  }
+
+  createWorkspace(): void {
+    this.workspaceService.createWorkspace(
+      Workspace.DEMO_WORKSPACE_NAME,
+      'Demo workspace for ' + this.authService.getUserName()
+    ).subscribe(_ => {
+      console.log('created new Workspace');
+      this.fetchWorkspaces();
+    });
   }
 
   createDemoWorkspace() {
@@ -80,4 +103,10 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
     });
     this.fetchWorkspaces();
   }
+
+  // deleteWorkspace(workspaceId: string): void {
+  //   this.workspaceService.deleteWorkspace(workspaceId).subscribe(() => {
+  //     this.fetchWorkspaces();
+  //   });
+  // }
 }

@@ -85,14 +85,15 @@
               {{ workspace.description }}
             </div>
             <div class="info-container">
+
               <div class="info environment-info">
                 <mat-icon class="m-r">vpn_key</mat-icon>
                 <span class="join-code-text">
                   ●●●●●●●
                   <mat-icon class="m-l">visibility_off</mat-icon>
                 </span>
-
               </div>
+
               <div class="info environment-info">
                 <mat-icon class="m-r">import_contacts</mat-icon>
                 <mat-chip-list>
@@ -147,25 +148,46 @@
 
     <!-- 3. The single Workspace template in detail view for Workspace-owner -->
     <div *ngSwitchDefault class="owner-workspace-detail">
-
-      <div class="">
-        <h3>
-          <mat-icon class="m-r">group</mat-icon> {{ workspace.name }}
-        </h3>
-        <p> {{ workspace.description }} </p>
-        <div> Lifetime: {{ lifetime }} </div>
-        <p>Join Code: {{ workspace.join_code }} </p>
-        Workspace Owner: {{ workspace.owner_eppn }}
+      <h3 class="workspace-name">
+        {{ workspace.name }}
+      </h3>
+      <div class="workspace-info">
+        <div>{{ workspace.description }} </div>
+        <div>Lifetime: {{ lifetime }} </div>
+        <div>Join Code: {{ workspace.join_code }} </div>
+        <div>Workspace Owner: {{ workspace.owner_eppn }} </div>
         <!-- Workspace Manager: {{ workspace.manager_eppn }} -->
       </div>
       <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
         <mat-tab label="Environments">
+
+          <div class="environment-creation-buttons-container">
+            <!--
+              <button class="open-wizard-content" color="primary" aria-label="open wizard" (click)="openDialog()">
+              <span>Open Workspace Wizard</span>
+                <mat-icon>flash_on</mat-icon>
+                <mat-label>Plain form Mode</mat-label>
+            </button> -->
+            <div class="">
+              <button color="primary" aria-label="create a new environment" class="inline-centering flat-shadow"
+                (click)="openDialog()">
+                <span>Environment Creation Wizard </span>
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <div class="form-option inline-centering">
+              <mat-label>Open in Expert mode</mat-label>
+              <mat-checkbox [(ngModel)]="isPlainMode"></mat-checkbox>
+            </div>
+          </div>
+
           <div class="environments-container">
             <ul *ngFor="let environment of getEnvironmentsByWorkspaceId()">
               <app-dashboard-environment-item [environment]=environment [content]=content>
               </app-dashboard-environment-item>
             </ul>
           </div>
+
         </mat-tab>
         <mat-tab label="Members">
           <app-dashboard-workspace-members [workspaceId]="workspace.id"></app-dashboard-workspace-members>

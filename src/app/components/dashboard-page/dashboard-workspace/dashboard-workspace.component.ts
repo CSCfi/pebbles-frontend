@@ -59,14 +59,4 @@ export class DashboardWorkspaceComponent implements OnInit {
     return this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
   }
 
-  // isOwner(workspace: Workspace): boolean{
-    // return workspace.owner_eppn === this.authService.getUserName();
-  // }
-
-  // deleteWorkspace(workspaceId: string): void {
-  //   this.workspaceService.deleteWorkspace(workspaceId).subscribe(() => {
-  //     this.fetchWorkspaces();
-  //   });
-  // }
-
 }

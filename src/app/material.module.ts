@@ -6,9 +6,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatRadioModule } from '@angular/material/radio';
-// import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 // import { MatSliderModule } from '@angular/material/slider';
 // import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // import { MatMenuModule } from '@angular/material/menu';
@@ -41,9 +41,9 @@ import { MatTableModule } from '@angular/material/table';
         MatButtonModule,
         MatInputModule,
         MatAutocompleteModule,
-        // MatFormFieldModule,
-        // MatRadioModule,
-        // MatSelectModule,
+        MatFormFieldModule,
+        MatRadioModule,
+        MatSelectModule,
         // MatSliderModule,
         // MatSlideToggleModule,
         // MatMenuModule,
@@ -70,9 +70,10 @@ import { MatTableModule } from '@angular/material/table';
     exports: [
         BrowserAnimationsModule,
         MatCheckboxModule,
-        MatTabsModule,
-        MatExpansionModule,
         MatButtonModule,
+        MatFormFieldModule,
+        MatRadioModule,
+        MatSelectModule,
         // MatToolbarModule,
         MatIconModule,
         MatSidenavModule,
@@ -83,13 +84,12 @@ import { MatTableModule } from '@angular/material/table';
         MatListModule,
         MatCardModule,
         MatStepperModule,
+        MatTabsModule,
+        MatExpansionModule,
         // MatListModule,
         // MatGridListModule,
         MatInputModule,
         MatAutocompleteModule,
-        // MatFormFieldModule,
-        // MatSelectModule,
-        // MatRadioModule,
         MatChipsModule,
         MatTooltipModule,
         MatSnackBarModule,

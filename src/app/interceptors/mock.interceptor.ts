@@ -321,14 +321,16 @@ export class MockInterceptor implements HttpInterceptor {
       if (targetWorkspace) {
         // ---- MEMO: This approach has more lines but is logically better.
         const workspaceMembers = [];
-        for (const eppn of targetWorkspace.member_eppns) {
-          const member = database.users.find(user => {
-            return user.eppn === eppn;
-          });
-          if (member) {
-            workspaceMembers.push(member);
-          } else {
-            console.log(`The User data ${eppn} not found in test-data.ts`);
+        if (targetWorkspace.member_eppns) {
+          for (const eppn of targetWorkspace.member_eppns) {
+            const member = database.users.find(user => {
+              return user.eppn === eppn;
+            });
+            if (member) {
+              workspaceMembers.push(member);
+            } else {
+              console.log(`The User data ${eppn} not found in test-data.ts`);
+            }
           }
         }
         return ok(workspaceMembers);

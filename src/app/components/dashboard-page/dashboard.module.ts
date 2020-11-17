@@ -21,7 +21,6 @@ import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-s
 import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
 import { DashboardBreadcrumbComponent } from './dashboard-breadcrumb/dashboard-breadcrumb.component';
 import { DashboardWorkspaceItemComponent } from './dashboard-workspace-item/dashboard-workspace-item.component';
-import { DashboardWorkspaceWizardComponent } from './dashboard-workspace-wizard/dashboard-workspace-wizard.component';
 import { MessageComponent } from 'src/app/components/common/message/message.component';
 import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
 import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
@@ -29,10 +28,12 @@ import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/
 import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members/dashboard-workspace-members.component';
 import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folders/dashboard-workspace-folders.component';
 
+import { DashboardEnvironmentFormComponent } from './dashboard-environment-form/dashboard-environment-form.component';
+import { DashboardWorkspaceFormComponent } from './dashboard-workspace-form/dashboard-workspace-form.component';
+
 @NgModule({
   declarations: [
     DashboardPageComponent,
-
     DashboardCatalogComponent,
     DashboardWorkspaceComponent,
     DashboardAccountComponent,
@@ -42,25 +43,21 @@ import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folder
     DashboardAdminComponent,
     DashboardStatisticsComponent,
     DashboardHelpComponent,
-
-    DashboardWorkspaceWizardComponent,
     JoinWorkspaceDialogComponent,
-
     DashboardEnvironmentItemComponent,
     DashboardWorkspaceItemComponent,
-
     DashboardHeaderComponent,
     DashboardFooterComponent,
     DashboardNavComponent,
     DashboardBreadcrumbComponent,
     DashboardSearchBoxComponent,
     MessageComponent,
-    // DashboardWorkspaceEnvironmentsComponent,
     DashboardWorkspaceMembersComponent,
     DashboardWorkspaceFoldersComponent,
+    DashboardEnvironmentFormComponent,
+    DashboardWorkspaceFormComponent,
   ],
   imports: [
-    // BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     DashboardRoutingModule,

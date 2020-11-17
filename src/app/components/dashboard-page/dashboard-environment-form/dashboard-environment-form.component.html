@@ -1,0 +1,240 @@
+<!------------ Plain Mode ------------>
+<ng-container *ngIf="data.isPlainMode;else elseMode">
+  <form [formGroup]="envCreationPlainFormGroup">
+    <h2>Create New Environments</h2>
+    <div class="plain-form-container">
+
+      <!-- 1 Env Templates-->
+      <mat-form-field appearance="fill">
+        <mat-label>Select a template for your new environment</mat-label>
+        <mat-select (change)="selectTemplate($event)" formControlName="templateId">
+          <mat-option value="option" *ngFor="let tmpl of environmentTemplates" [(value)]="tmpl.id">
+            {{ tmpl.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- 2 Name-->
+      <mat-form-field appearance="fill">
+        <mat-label>New environment name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <br>
+      <!-- 3 Description-->
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <!-- 4 Category-->
+      <app-dashboard-search-box [labels]="selectedLabels"></app-dashboard-search-box>
+      <!-- 5 IDE-->
+      <mat-label>IDE (Coding Environment)</mat-label>
+      <mat-radio-group formControlName="ide" [(ngModel)]="ide">
+        <ul>
+          <li>
+            <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
+          </li>
+          <li>
+            <mat-radio-button [value]="'ipython'">IPython</mat-radio-button>
+          </li>
+        </ul>
+      </mat-radio-group>
+      <!-- 6-1 Include External files -->
+      <mat-label>Download Method</mat-label>
+      <mat-radio-group formControlName="downloadMethod" [(ngModel)]="downloadMethod">
+        <ul>
+          <li>
+            <mat-radio-button [value]="'none'">None</mat-radio-button>
+          </li>
+          <li>
+            <mat-radio-button [value]="'git'">Git clone from Repository</mat-radio-button>
+          </li>
+          <li>
+            <mat-radio-button [value]="'url'">Download by URL</mat-radio-button>
+          </li>
+          <li>
+            <mat-radio-button [value]="'local'">Upload from your computer</mat-radio-button>
+          </li>
+        </ul>
+      </mat-radio-group>
+      <!-- 6-2 Source -->
+      <ng-container [ngSwitch]="downloadMethod">
+        <div *ngSwitchCase="'local'">
+          <button mat-flat-button color="primary">Upload file</button>
+        </div>
+        <div *ngSwitchCase=" ['git','url'].includes(downloadMethod) ? downloadMethod : !downloadMethod ">
+          <mat-form-field>
+            <mat-label>Source(URL)</mat-label>
+            <input matInput formControlName="source" placeholder="">
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <!-- 6-3 Auto Execution -->
+      <div *ngIf="downloadMethod !== 'none'">
+        <mat-checkbox formControlName="isAutoExecution">Auto Execute (Bash file, unZip)</mat-checkbox>
+      </div>
+      <!-- 7 Publish -->
+      <div class="checkbox-row inline-centering">
+        <mat-checkbox formControlName="publish" #check>Publish immediately</mat-checkbox>
+      </div>
+      <!-- 7 Submit -->
+      <div class="plain-form-action-buttons">
+        <button class="submit-button" mat-flat-button color="primary" (click)="createEnvironmentByPlainMode()">
+          Create
+        </button>
+      </div>
+      <!-- <button class="cancel-button" mat-flat-button (click)="closeForm()">Cancel</button> -->
+    </div>
+  </form>
+</ng-container>
+
+<!------------ Wizard Mode ------------>
+<ng-template #elseMode>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+
+    <!-- 1 Env Templates-->
+    <mat-step [stepControl]="wizardTemplateFormGroup">
+      <form [formGroup]="wizardTemplateFormGroup">
+        <ng-template matStepLabel>Environment Template</ng-template>
+        <div class="instruction">
+          <span class="material-icons"> help_outline </span>
+          <div class="instruction-text">
+            <h3 class="question"> What is Environment Template? </h3>
+            <p class="answer">
+              Explanations Explanations Explanations Explanations Explanations Explanations Explanations Explanations
+              Explanations Explanations
+            </p>
+          </div>
+        </div>
+        <mat-label class="form-label">Select an environment template for your new environment </mat-label>
+        <div class="form-ui-container">
+          <mat-radio-group formControlName="templateId">
+            <ul *ngFor="let tmpl of environmentTemplates">
+              <li>
+                <mat-radio-button [(value)]="tmpl.id">
+                  <span>{{ tmpl.name }}</span> : {{ tmpl.config.description }}
+                </mat-radio-button>
+              </li>
+            </ul>
+          </mat-radio-group>
+        </div>
+        <div class="stepper-action-buttons">
+          <button class="next" mat-flat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- 2 Environment profile setting-->
+    <mat-step [stepControl]="wizardProfileFormGroup">
+      <form [formGroup]="wizardProfileFormGroup">
+        <ng-template matStepLabel>Environment Profile</ng-template>
+        <div class="instruction">
+          <span class="material-icons"> help_outline </span>
+          <div class="instruction-text">
+            <h3 class="question">How new environment is seen by members?</h3>
+            <p class="answer">
+              Explanations Explanations Explanations Explanations Explanations Explanations Explanations Explanations
+              Explanations Explanations
+            </p>
+          </div>
+        </div>
+        <!-- 2-1 Name -->
+        <mat-form-field>
+          <mat-label>Environment Name</mat-label>
+          <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
+        </mat-form-field>
+        <!-- 2-2 Description -->
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
+        </mat-form-field>
+        <!-- 2-3 Label search component -->
+        <app-dashboard-search-box [labels]="selectedLabels"></app-dashboard-search-box>
+
+        <div class="stepper-action-buttons">
+          <button class="back" mat-flat-button matStepperPrevious>Back</button>
+          <button class="next" mat-flat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- 3 Environment option setting-->
+    <mat-step [stepControl]="wizardOptionFormGroup">
+      <form [formGroup]="wizardOptionFormGroup">
+        <ng-template matStepLabel>Customize</ng-template>
+        <div class="instruction">
+          <span class="material-icons"> help_outline </span>
+          <div class="instruction-text">
+            <h3 class="question">Want to customize your environment?</h3>
+            <p class="answer">
+              Explanations Explanations Explanations Explanations Explanations Explanations Explanations Explanations
+              Explanations Explanations
+            </p>
+          </div>
+        </div>
+        <!-- 3.4 IDE -->
+        <div class="form-option">
+          <mat-label>IDE (Coding Environment)</mat-label>
+          <mat-radio-group formControlName="ide" [(ngModel)]="ide">
+            <ul>
+              <li>
+                <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
+              </li>
+              <li>
+                <mat-radio-button [value]="'ipython'">IPython</mat-radio-button>
+              </li>
+            </ul>
+          </mat-radio-group>
+        </div>
+        <!-- 3.1 Include External files -->
+        <mat-label>Download Method</mat-label>
+        <mat-radio-group formControlName="downloadMethod" [(ngModel)]="downloadMethod">
+          <ul>
+            <li>
+              <mat-radio-button [value]="'none'">None</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'git'">Git clone from Repository</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'url'">Download by URL</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'local'">Upload from your computer</mat-radio-button>
+            </li>
+          </ul>
+        </mat-radio-group>
+        <!-- 3.2 Source -->
+        <ng-container [ngSwitch]="downloadMethod">
+          <div *ngSwitchCase="'local'">
+            <button mat-flat-button color="primary">Upload file</button>
+          </div>
+          <div *ngSwitchCase=" ['git','url'].includes(downloadMethod) ? downloadMethod : !downloadMethod ">
+            <mat-form-field>
+              <mat-label>Source(URL)</mat-label>
+              <input matInput formControlName="source" placeholder="">
+            </mat-form-field>
+          </div>
+        </ng-container>
+        <!-- 3.3 Auto Execution -->
+        <div *ngIf="downloadMethod !== 'none'">
+          <mat-checkbox [(ngModel)]="isAutoExecution">Auto Execute (Bash file, unZip)</mat-checkbox>
+        </div>
+        <div class="stepper-action-buttons">
+          <button class="back" mat-flat-button matStepperPrevious>Back</button>
+          <button class="next" mat-flat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- 4 Submit-->
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>Congrats! You are almost done the process.</p>
+      <div class="stepper-action-buttons">
+        <button mat-flat-button matStepperPrevious>Back</button>
+        <button mat-flat-button color="accent" (click)="createEnvironmentByWizardMode(true)">Publish Environment</button>
+        <button mat-flat-button color="primary" (click)="createEnvironmentByWizardMode(false)">Save Environment as Draft</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</ng-template>

@@ -1,18 +1,18 @@
 <app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
 
 <div class="open-wizard">
-  <div class="open-wizard-content" *ngIf="workspaces && workspaces.length == 0">
+  <div class="open-wizard-content" *ngIf="workspaces && workspaces.length === 0;else workspaceCreation">
     <span>Create Demo Workspace</span>
     <button mat-fab color="primary" aria-label="create demo workspace" (click)="createDemoWorkspace()">
       <mat-icon>add_circle</mat-icon>
     </button>
   </div>
-  <div class="open-wizard-content">
-    <span>Open Workspace Wizard</span>
-    <button mat-fab color="primary" aria-label="open wizard" [routerLink]="['/dashboard/workspace-owner/wizard']">
-      <mat-icon>flash_on</mat-icon>
+  <ng-template class="workspace-creation-button" #workspaceCreation>
+    <span>Create Workspace</span>
+    <button mat-fab color="primary" aria-label="create demo workspace" (click)="openDialog()">
+      <mat-icon>add_circle</mat-icon>
     </button>
-  </div>
+  </ng-template>
 </div>
 
 <section class="workspace-list">
