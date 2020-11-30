@@ -58,9 +58,32 @@ export class DashboardCatalogComponent implements OnInit {
     });
   }
 
-  filterEnvironmentsByLabels(catalogLabels, method): Environment[] {
-    const environments = this.environmentService.getEnvironments();
+  // TODO: this takes few seconds in UI to display.
+  // Merging sort to fetchEnvironments reduces delay but still takes a sec.
+  // Sort is called before fetchEnvironments to reduce, but still see minor glitch.
+  sortEnvironments(environmentsCopy): Environment[] {
+    console.log('sortEnvironments is called');
+    const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
+    environmentsCopy.sort((a, b) => {
+      if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) &&
+          (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
+        return (('' + a.name).localeCompare(b.name));
+      }
+      else if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) ||
+               (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
+        if (('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) { return 1; }
+        else if (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0) { return -1; }
+      }
+      else {
+        return (('' + a.name).localeCompare(b.name));
+      }
+    });
+    return environmentsCopy;
+  }
 
+  filterEnvironmentsByLabels(catalogLabels, method): Environment[] {
+    const environmentsCopy = Object.assign([], this.environmentService.getEnvironments());
+    const environments = this.sortEnvironments(environmentsCopy);
     if (catalogLabels.length === 0) {
       // ---- ALL catalog tab
       return environments;

@@ -13,6 +13,7 @@ export class Environment {
     public labels: string[],
     public instance?: Instance,
     public workspace?: Workspace,
+    public workspace_name?: string,
   ) {
   }
 }

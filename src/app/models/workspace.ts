@@ -1,6 +1,7 @@
 
 export class Workspace {
   public static DEMO_WORKSPACE_NAME = 'Demo Workspace';
+  public static SYSTEM_WORKSPACE_NAME = 'System.default';
 
   constructor(
       public id: string,
