@@ -241,57 +241,57 @@ export let db = {
   workspaces: [
     {
       id: '0',
-      name: 'Course Introduction to Python (self-study)',
+      name: 'Python Basic Course 2021',
       join_code: 'admin-ws-join-parm0-wuuig',
-      description: 'Course environment with Jupyter and Python\. To be used on \<a href=\"https://github.com/csc-training/python-introduction\"\> CSC Introduction to Python\<\/a\> for self study\. The environment is short-lived and all data is destroyed at the end of the session\. Download your results\!',
+      description: 'Jupyter Lab environments for Python Basic Course 2021',
       owner_eppn: 'admin@example.org',
       member_eppns: ['manager-1@example.org', 'user-2@example.org', 'user@example.org', 'user-1@example.org'],
     },
     {
       id: '1',
-      name: 'Course Introduction to R (self-study)',
+      name: 'R Basic Course 2021',
       join_code: 'admin-ws-join-parm1-wuuig',
-      description: 'Course environment with Jupyter and R. To be used on \<a href=\"https://github.com/csc-training/python-introduction\"\> CSC Introduction to Python\<\/a\> for self study. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+      description: 'R-studio environments for R basic Course 2021',
       owner_eppn: 'admin@example.org',
       member_eppns: ['manager@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
     },
     {
       id: '2',
-      name: 'Course Practical Deep Learning - 2020',
+      name: 'Deep Learning Course 2020',
       join_code: 'admin-ws-join-parm2-wuuig',
-      description: 'Environment with Jupyter and Python Machine Learning libraries for Practical Deep Learning. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+      description: 'Jupyter Lab environments for Deep Learning Course 2020',
       owner_eppn: 'admin-1@example.org',
       member_eppns: ['manager-1@example.org', 'admin@example.org', 'user@example.org', 'user-2@example.org', 'user-3@example.org']
     },
     {
       id: '3',
-      name: 'Course Practical Machine Learning 2019',
+      name: 'Machine Learning Course 2019',
       join_code: 'admin-ws-join-parm3-wuuig',
-      description: 'Course environment with Jupyter and Python Machine Learning libraries. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+      description: 'R-studio environments for Machine Learning Course 2019',
       owner_eppn: 'admin-1@example.org',
       member_eppns: ['admin@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '4',
-      name: 'Demo Vipunen API',
+      name: 'Data Science course 2021',
       join_code: 'admin-ws-join-parm4-wuuig',
-      description: 'Demo environment with Jupyter. Demonstrates the use of Vipunen API with Python and Pandas. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+      description: 'R-studio environments for Data Science course 2021',
       owner_eppn: 'admin@example.org',
       member_eppns: ['admin-1@example.org', 'owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '5',
-      name: 'Jupyter Data Science',
+      name: 'Data Analytics Seminar',
       join_code: 'admin-ws-join-parm5-wuuig',
-      description: 'General-purpose environment with Jupyter and data science packages. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+      description: 'R-studio environments for Data Analytics Seminar, CSC university',
       owner_eppn: 'owner@example.org',
       member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '6',
-      name: 'Jupyter Machine Learning',
+      name: 'NLP Project',
       join_code: 'admin-ws-join-parm6-wuuig',
-      description: 'General-purpose environment with Jupyter and Python Machine Learning Libraries: scikit-learn, scipy, Theano, Keras and pandas. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+      description: 'IPython environments for NLP Project of Computer Engineering Department, CSC university',
       owner_eppn: 'owner@example.org',
       member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     }
