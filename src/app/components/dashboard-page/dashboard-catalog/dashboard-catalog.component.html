@@ -60,7 +60,7 @@
         </ng-template>
 
         <div class="tab-content">
-          <div class="catalog-section" *ngIf="selectedCatalog">
+          <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
             <div class="label-list-mini" *ngIf="selectedCatalog.labels.length > 0; else elseBlock">
               Filtered by :
               <span *ngFor="let label of selectedCatalog.labels">
