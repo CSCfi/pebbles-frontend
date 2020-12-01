@@ -24,10 +24,10 @@ export class EnvironmentService {
   ) {
     this.interval1 = window.setInterval(() => {
       this.updateEnvironmentStatus();
-    }, 5000);
+    }, 30000);
 
     this.instanceService.fetchInstances().subscribe();
-    this.workspaceService.fetchUserWorkspaces().subscribe();
+    this.workspaceService.fetchWorkspaces().subscribe();
     this.fetchEnvironments().subscribe();
   }
 
@@ -53,15 +53,15 @@ export class EnvironmentService {
     for (const env of this.environments) {
       env.instance = this.instanceService.getInstances().find(inst => inst.environment_id === env.id);
       if (env.instance) {
-        console.log('found instance for environment ' + env.name);
+        console.log(`found instance for environment "${env.name}"`);
         // this.notificationService.notifyInstanceLifetime(env.instance);
       }
     }
     // assign workspaces to environments
     for (const env of this.environments) {
-      env.workspace = this.workspaceService.getUserWorkspaces().find(ws => ws.id === env.workspace_id);
+      env.workspace = this.workspaceService.getWorkspaces().find(ws => ws.id === env.workspace_id);
       if (env.workspace) {
-        console.log('found workspace for environment ' + env.name);
+        console.log(`found workspace for environment "${env.name}"`);
       }
     }
   }

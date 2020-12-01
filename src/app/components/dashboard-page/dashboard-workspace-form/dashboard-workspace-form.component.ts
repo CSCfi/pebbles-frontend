@@ -39,9 +39,9 @@ export class DashboardWorkspaceFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  fetchOwnerWorkspaces(): void {
-    this.workspaceService.fetchOwnerWorkspaces().subscribe(() => {
-      console.log('owner workspaces fetched');
+  fetchWorkspaces(): void {
+    this.workspaceService.fetchWorkspaces().subscribe(() => {
+      console.log('workspaces fetched');
     });
   }
 
@@ -52,7 +52,7 @@ export class DashboardWorkspaceFormComponent implements OnInit {
     ).subscribe(_ => {
       console.log('created new workspace');
       this.closeForm();
-      this.fetchOwnerWorkspaces();
+      this.fetchWorkspaces();
     });
   }
 
@@ -63,7 +63,7 @@ export class DashboardWorkspaceFormComponent implements OnInit {
     this.workspaceService.updateWorkspace(this.data.workspace).subscribe( _ => {
       console.log('updated workspace');
       this.closeForm();
-      this.fetchOwnerWorkspaces();
+      this.fetchWorkspaces();
     });
   }
 }

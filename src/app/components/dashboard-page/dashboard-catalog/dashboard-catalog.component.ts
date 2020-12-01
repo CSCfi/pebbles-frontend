@@ -132,13 +132,13 @@ export class DashboardCatalogComponent implements OnInit {
   // ---- Workspace
   // ------------------------------------------------------------ //
   fetchWorkspaces(): void {
-    this.workspaceService.fetchUserWorkspaces().subscribe(() => {
+    this.workspaceService.fetchWorkspaces().subscribe(() => {
       console.log('workspaces fetched');
     });
   }
 
   getWorkspaceById(workspaceId: string): Workspace {
-    const workspaces = this.workspaceService.getUserWorkspaces();
+    const workspaces = this.workspaceService.getWorkspaces();
     return workspaces.find(ws => ws.id === workspaceId);
   }
 }
@@ -171,11 +171,11 @@ export class JoinWorkspaceDialogComponent {
   }
 
   getWorkspaces(): Workspace[] {
-    return this.workspaceService.getUserWorkspaces();
+    return this.workspaceService.getWorkspaces();
   }
 
   fetchWorkspaces(): void {
-    this.workspaceService.fetchUserWorkspaces().subscribe(() => {
+    this.workspaceService.fetchWorkspaces().subscribe(() => {
       console.log('workspaces fetched');
     });
   }

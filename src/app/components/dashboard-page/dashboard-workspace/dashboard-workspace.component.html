@@ -5,7 +5,7 @@
   <form #formDirective="ngForm" [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">
     <mat-form-field appearance="outline" class="join-code-input">
       <mat-label>Join Code</mat-label>
-      <input matInput placeholder="Placeholder" formControlName="joinCode" />
+      <input matInput placeholder="Placeholder" formControlName="joinCode"/>
       <mat-error *ngIf="joinCode.invalid" [ngClass]="'error'">error</mat-error>
     </mat-form-field>
     <button mat-flat-button color="primary" type="submit" class="join-workspace-btn">
@@ -17,8 +17,7 @@
 <section class="workspace-list">
   <!-- <h3>My Joined Workspaces</h3> -->
   <div class="workspace-list" *ngFor="let workspace of workspaces">
-    <app-dashboard-workspace-item [workspace]=workspace [content]=content
-      (fetchUserWorkspacesEvent)="fetchWorkspaces()">
+    <app-dashboard-workspace-item [workspace]=workspace [content]=content (fetchWorkspacesEvent)="fetchWorkspaces()">
     </app-dashboard-workspace-item>
   </div>
 </section>

@@ -21,7 +21,7 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
   };
 
   get workspaces(): Workspace[] {
-    return this.workspaceService.getOwnerWorkspaces();
+    return this.workspaceService.getWorkspaces();
   }
 
   constructor(
@@ -38,8 +38,8 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
   }
 
   fetchWorkspaces(): void {
-    this.workspaceService.fetchOwnerWorkspaces().subscribe((resp) => {
-      console.log('owner workspaces fetched');
+    this.workspaceService.fetchWorkspaces().subscribe((resp) => {
+      console.log('workspaces fetched');
     });
   }
 
@@ -70,7 +70,7 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
   createDemoWorkspace() {
     console.log('creating demo workspace with example environment');
 
-    if (this.workspaceService.getOwnerWorkspaces().length > 0) {
+    if (this.workspaceService.getWorkspaces().length > 0) {
       console.log('user already has workspaces, refusing to create demo workspace');
       return;
     }

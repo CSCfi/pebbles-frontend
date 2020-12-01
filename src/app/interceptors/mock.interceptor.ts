@@ -88,8 +88,6 @@ export class MockInterceptor implements HttpInterceptor {
           return deleteInstance();
         case url.endsWith('/environments') && method === 'GET':
           return getEnvironments();
-        case url.includes('/workspaces/workspace_list_exit') && method === 'GET':
-          return getWorkspaces();
         case url.includes('/workspaces/workspace_join') && method === 'PUT':
           return joinWorkspace();
         case url.includes('/workspaces/workspace_exit') && method === 'PUT':
@@ -99,7 +97,7 @@ export class MockInterceptor implements HttpInterceptor {
         case url.includes('/workspaces') && url.endsWith('/users') && method === 'GET':
           return getWorkspacesMembers();
         case url.includes('/workspaces') && method === 'GET':
-          return getOwnerWorkspaces();
+          return getWorkspaces();
         case url.endsWith('/notifications') && method === 'GET':
           return getMessages();
         case url.includes('/users') && method === 'GET':
@@ -283,18 +281,10 @@ export class MockInterceptor implements HttpInterceptor {
         if (ws.member_eppns && ws.member_eppns.includes(user_name)) {
           return true;
         }
-        // if (ws.owner_eppn === user_name){
-        //   return true;
-        // }
+        if (ws.owner_eppn === user_name) {
+          return true;
+        }
         return false;
-      });
-      return ok(workspaces);
-    }
-
-    function getOwnerWorkspaces() {
-      const user_name = localStorage.getItem('user_name');
-      const workspaces = database.workspaces.filter(ws => {
-        return ws.owner_eppn === user_name;
       });
       return ok(workspaces);
     }

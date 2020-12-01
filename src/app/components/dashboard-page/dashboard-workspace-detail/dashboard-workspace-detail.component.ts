@@ -30,7 +30,7 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
   }
 
   getWorkspaceById(workspaceId: string): void {
-    this.workspaceService.fetchOwnerWorkspaces().subscribe((resp) => {
+    this.workspaceService.fetchWorkspaces().subscribe((resp) => {
       console.log(resp);
       this.workspace = resp.find( ws => ws.id === workspaceId );
     });

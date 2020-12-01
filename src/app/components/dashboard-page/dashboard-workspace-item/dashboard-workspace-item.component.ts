@@ -17,7 +17,7 @@ export class DashboardWorkspaceItemComponent implements OnInit {
 
   @Input() workspace: Workspace;
   @Input() content: any;
-  @Output() fetchUserWorkspacesEvent = new EventEmitter();
+  @Output() fetchWorkspacesEvent = new EventEmitter();
 
   lifetime: number;
   isPlainMode: boolean;
@@ -68,7 +68,7 @@ export class DashboardWorkspaceItemComponent implements OnInit {
       return;
     }
     this.workspaceService.exitWorkspace(this.workspace.id).subscribe(() => {
-      this.fetchUserWorkspacesEvent.emit();
+      this.fetchWorkspacesEvent.emit();
     });
   }
 

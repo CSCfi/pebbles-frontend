@@ -33,7 +33,7 @@ export class DashboardWorkspaceComponent implements OnInit {
   }
 
   get workspaces(): Workspace[] {
-    return this.workspaceService.getUserWorkspaces();
+    return this.workspaceService.getWorkspaces();
   }
 
   ngOnInit(): void {
@@ -41,7 +41,7 @@ export class DashboardWorkspaceComponent implements OnInit {
   }
 
   fetchWorkspaces(): void {
-    this.workspaceService.fetchUserWorkspaces().subscribe(() => {
+    this.workspaceService.fetchWorkspaces().subscribe(() => {
       console.log('workspaces fetched');
     });
   }

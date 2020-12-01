@@ -13,67 +13,49 @@ import { buildConfiguration } from '../../environments/environment';
 })
 export class WorkspaceService {
 
-  private userWorkspaces: Workspace[] = [];
-  private ownerWorkspaces: Workspace[] = [];
+  private workspaces: Workspace[] = [];
 
   constructor(private http: HttpClient) {
-    this.fetchUserWorkspaces().subscribe();
-    this.fetchOwnerWorkspaces().subscribe();
+    this.fetchWorkspaces().subscribe();
   }
 
-  getUserWorkspaces(): Workspace[] {
-    return this.userWorkspaces;
+  getWorkspaces(): Workspace[] {
+    return this.workspaces;
   }
 
-  getOwnerWorkspaces(): Workspace[] {
-    return this.ownerWorkspaces;
-  }
-
-  joinWorkspace(joinCode: string): Observable<any> {
-    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_join/${joinCode}`;
-    return this.http.put(url, {}).pipe(
-      tap(_ => {
-        console.log(`join new workspace with the id=${joinCode}`);
-        return joinCode;
+  joinWorkspace(joinCode: string): Observable<Workspace> {
+    const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
+    return this.http.put<Workspace>(url, {}).pipe(
+      tap( res => {
+        console.log(`joined new workspace "${res.name}" with code ${joinCode}`);
+        return res;
       })
     );
   }
 
   exitWorkspace(workspaceId: string): Observable<any> {
-    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_exit/${workspaceId}`;
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/exit`;
     return this.http.put(url, {}).pipe(
       tap( _ => {
-        console.log(`exit form the workspace ${workspaceId}`);
+        console.log(`exited from workspace id "${workspaceId}"`);
         return workspaceId;
       })
     );
   }
 
-  fetchUserWorkspaces(): Observable<Workspace[]>{
-    const url = `${buildConfiguration.apiUrl}/workspaces/workspace_list_exit`;
-    return this.http.get<Workspace[]>(url).pipe(
-      map((resp) => {
-        console.log('fetchWorkspaces got ' + resp);
-        this.userWorkspaces = resp;
-        return this.userWorkspaces;
-      })
-    );
-  }
-
-  fetchOwnerWorkspaces(): Observable<Workspace[]> {
+  fetchWorkspaces(): Observable<Workspace[]>{
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
-        console.log('fetchOwnerWorkspaces got ' + resp);
-        this.ownerWorkspaces = resp;
-        return this.ownerWorkspaces;
+        console.log('fetchWorkspaces got ' + resp);
+        this.workspaces = resp;
+        return this.workspaces;
       })
     );
   }
 
-  // ---- TODO: If I query with this.HTTP_OPTIONS, It returns error 400.
   fetchMembersByWorkspaceId(workspaceId: string): Observable<User[]> {
-    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/users`;
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users`;
     return this.http.get<User[]>(url).pipe(
       map((resp) => {
         console.log('fetch Users' + resp);
