@@ -1,0 +1,68 @@
+<form [formGroup]="environmentItemEditFormGroup">
+  <h2>Edit your Environment</h2>
+  <div class="plain-form-container">
+    <!-- Name -->
+    <mat-form-field appearance="fill">
+      <mat-label>Environment name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <br>
+    <!-- Description-->
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <br>
+    <app-dashboard-search-box [labels]="selectedLabels"></app-dashboard-search-box>
+    <br>
+    <mat-label>IDE (Coding Environment)</mat-label>
+    <mat-radio-group formControlName="ide" [(ngModel)]="ide">
+      <ul>
+        <li>
+          <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
+        </li>
+        <li>
+          <mat-radio-button [value]="'ipython'">IPython</mat-radio-button>
+        </li>
+      </ul>
+    </mat-radio-group>
+    <mat-label>Download Method</mat-label>
+    <mat-radio-group formControlName="downloadMethod" [(ngModel)]="downloadMethod">
+      <ul>
+        <li>
+          <mat-radio-button [value]="'none'">None</mat-radio-button>
+        </li>
+        <li>
+          <mat-radio-button [value]="'git'">Git clone from Repository</mat-radio-button>
+        </li>
+        <li>
+          <mat-radio-button [value]="'url'">Download by URL</mat-radio-button>
+        </li>
+        <li>
+          <mat-radio-button [value]="'local'">Upload from your computer</mat-radio-button>
+        </li>
+      </ul>
+    </mat-radio-group>
+    <ng-container [ngSwitch]="downloadMethod">
+      <div *ngSwitchCase="'local'">
+        <button mat-flat-button color="primary">Upload file</button>
+      </div>
+      <div *ngSwitchCase=" ['git','url'].includes(downloadMethod) ? downloadMethod : !downloadMethod ">
+        <mat-form-field>
+          <mat-label>Source(URL)</mat-label>
+          <input matInput formControlName="environmentVars">
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <div *ngIf="downloadMethod && downloadMethod !== 'none'" >
+      <mat-checkbox formControlName="isAutoExecution" [(ngModel)]="isAutoExecution" >Auto Execute (Bash file, unZip)</mat-checkbox>
+    </div>
+
+    <!-- Submit -->
+    <div class="button-row">
+      <button class="submit-button" mat-flat-button color="primary" (click)="editEnvironmentItem()">Update</button>
+      <button class="cancel-button" mat-flat-button (click)="closeForm()">Cancel</button>
+    </div>
+  </div>
+</form>
+

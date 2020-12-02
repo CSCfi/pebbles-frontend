@@ -14,6 +14,8 @@ export class Environment {
     public instance?: Instance,
     public workspace?: Workspace,
     public workspace_name?: string,
+    public config?: any,
+
   ) {
   }
 }

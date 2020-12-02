@@ -30,6 +30,7 @@ import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folder
 
 import { DashboardEnvironmentFormComponent } from './dashboard-environment-form/dashboard-environment-form.component';
 import { DashboardWorkspaceFormComponent } from './dashboard-workspace-form/dashboard-workspace-form.component';
+import { DashboardEnvironmentItemFormComponent } from './dashboard-environment-item-form/dashboard-environment-item-form.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { DashboardWorkspaceFormComponent } from './dashboard-workspace-form/dash
     DashboardWorkspaceFoldersComponent,
     DashboardEnvironmentFormComponent,
     DashboardWorkspaceFormComponent,
+    DashboardEnvironmentItemFormComponent,
   ],
   imports: [
     FormsModule,

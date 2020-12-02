@@ -1,10 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Environment } from 'src/app/models/environment';
 import { InstanceStates } from 'src/app/models/instance';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
+import { DashboardEnvironmentItemFormComponent } from '../dashboard-environment-item-form/dashboard-environment-item-form.component';
 
 @Component({
   selector: 'app-dashboard-environment-item',
@@ -21,6 +23,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   constructor(
+    public dialog: MatDialog,
     private router: Router,
     @Inject(DOCUMENT) private document: Document,
     private environmentService: EnvironmentService,
@@ -44,6 +47,16 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   getCapitals(): string {
     // Dummy
     return 'DL';
+  }
+
+  openDialog(): void {
+    this.dialog.open( DashboardEnvironmentItemFormComponent, {
+      width: '800px',
+      height: 'auto',
+      data: {
+        environment: this.environment
+      }
+    });
   }
 
   // ---- Instance

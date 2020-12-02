@@ -10,6 +10,10 @@
     align-content: stretch;
     justify-content: center;
 
+    .pad-right {
+      padding:10px;
+    }
+
     .card-media {
         padding: 20px;
         flex: 0 0 110px;

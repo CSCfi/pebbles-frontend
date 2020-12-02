@@ -26,6 +26,9 @@ export let db = {
       thumbnail: 'python',
       color: '0',
       labels: ['csc', 'python', 'basic', 'self-study'],
+      config: {description: 'created throu wizard', categories: ['basic', 'python'], ide: 'jupyter', downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']}
     },
     {
       id: '2',
@@ -36,6 +39,7 @@ export let db = {
       thumbnail: 'r-studio',
       color: '1',
       labels: ['csc', 'R-studio', 'basic', 'self-study'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '3',
@@ -46,6 +50,7 @@ export let db = {
       thumbnail: 'python',
       color: '2',
       labels: ['csc', 'python', 'deep learning', 'machine learning', '2020'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '4',
@@ -56,6 +61,8 @@ export let db = {
       thumbnail: 'python',
       color: '3',
       labels: ['course-ml', 'python', 'machine learning', '2019'],
+      config: {description: 'fcds', categories: ['basic', 'python'], ide: 'jupyter', downloadMethod: 'none',
+        environment_vars: '', auto_execution: false},
     },
     {
       id: '5',
@@ -66,6 +73,7 @@ export let db = {
       thumbnail: '',
       color: '4',
       labels: ['csc', 'api', 'python'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '6',
@@ -76,6 +84,7 @@ export let db = {
       thumbnail: '',
       color: '5',
       labels: ['csc', 'data-science', 'python'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '7',
@@ -86,6 +95,7 @@ export let db = {
       thumbnail: '',
       color: '0',
       labels: ['course-ml', 'data-science', 'python'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '8',
@@ -96,6 +106,7 @@ export let db = {
       thumbnail: '',
       color: '1',
       labels: ['csc', 'data-science', 'python'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '9',
@@ -106,6 +117,7 @@ export let db = {
       thumbnail: '',
       color: '2',
       labels: ['csc', 'data-science', 'r-studio'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '10',
@@ -116,6 +128,7 @@ export let db = {
       thumbnail: '',
       color: '3',
       labels: ['course-ds', 'data-science', 'python'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '11',
@@ -126,6 +139,7 @@ export let db = {
       thumbnail: '',
       color: '4',
       labels: ['course-ds', 'data-science', 'python'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '12',
@@ -136,6 +150,7 @@ export let db = {
       thumbnail: '',
       color: '5',
       labels: ['course-ds', 'data-science', 'python'],
+      config: {description: 'bdcjhvdsv'},
     },
     {
       id: '13',
@@ -146,6 +161,7 @@ export let db = {
       thumbnail: '',
       color: '5',
       labels: ['basic'],
+      config: {description: 'bdcjhvdsv'},
     }
   ],
   users: [

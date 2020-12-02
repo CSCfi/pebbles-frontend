@@ -15,14 +15,14 @@
     <div class="card-details">
       <mat-card-header>
         <mat-card-title>
-          <h3>{{ environment.name }}</h3>
+          <h3>{{ environment.config.name }}</h3>
         </mat-card-title>
         <mat-card-subtitle class="workspace-name" *ngIf="environment.workspace_name">
           {{ environment.workspace_name }}
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p [innerHTML]="environment.description"></p>
+        <p [innerHTML]="environment.config.description"></p>
         <div class="label-list">
           <mat-chip-list aria-label="labels">
             <ng-container *ngFor="let label of environment.labels">
@@ -32,6 +32,16 @@
         </div>
       </mat-card-content>
     </div>
+    <div class="pad-right">
+      <div class="card-right" *ngIf="content.path.includes('workspace-owner/detail')">
+        <mat-card-actions>
+          <button mat-flat-button color="primary" (click)="openDialog()">
+            <mat-icon>edit</mat-icon><span> Edit  </span>
+          </button>
+        </mat-card-actions>
+      </div>
+    </div>
+
     <ng-container *ngIf="content.path === 'catalog'">
       <div class="instance-actions" *ngIf="actionsVisible(); else LaunchUI">
         <mat-card-actions>

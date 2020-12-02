@@ -8,6 +8,7 @@ import { Environment } from 'src/app/models/environment';
 import { buildConfiguration } from '../../environments/environment';
 import { Workspace } from '../models/workspace';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,6 +47,16 @@ export class EnvironmentService {
 
   getEnvironmentsByWorkspaceId(workspaceId: string) {
     return this.environments.filter(env => env.workspace_id === workspaceId);
+  }
+
+  updateEnvironment(environment: Environment): Observable<Environment> {
+    const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
+    return this.http.put<Environment>(url, environment).pipe(
+      map((resp) => {
+        console.log('Updated environment' + resp);
+        return resp;
+      })
+    );
   }
 
   updateEnvironmentStatus(): void {
