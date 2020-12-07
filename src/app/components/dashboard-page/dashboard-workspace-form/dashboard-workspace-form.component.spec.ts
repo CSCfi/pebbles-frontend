@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardWorkspaceFormComponent } from './dashboard-workspace-form.component';
 
@@ -21,6 +21,12 @@ describe('DashboardWorkspaceFormComponent', () => {
       ],
       declarations: [ DashboardWorkspaceFormComponent ],
       providers: [
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            isCreationMode: true
+          }
+        },
         {
           provide: MatDialogRef,
           useValue: {}

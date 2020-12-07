@@ -6,6 +6,7 @@ import { EnvironmentService } from 'src/app/services/environment.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { DashboardEnvironmentFormComponent } from '../dashboard-environment-form/dashboard-environment-form.component';
+import { DashboardWorkspaceFormComponent } from '../dashboard-workspace-form/dashboard-workspace-form.component';
 
 @Component({
   selector: 'app-dashboard-workspace-item',
@@ -38,7 +39,9 @@ export class DashboardWorkspaceItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openDialog(): void {
+  // ---- Environment ---- //
+
+  openEnvironmentCreationDialog(): void {
     const dialogRef = this.dialog.open( DashboardEnvironmentFormComponent,
       {
       width: this.isPlainMode ? '800px' : '1000px',
@@ -54,6 +57,8 @@ export class DashboardWorkspaceItemComponent implements OnInit {
     return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
   }
 
+  // ---- Workspace ---- //
+
   openWorkspaceDetail() {
     this.router.navigateByUrl('/dashboard/workspace-owner/detail/' + this.workspace.id);
   }
@@ -64,6 +69,18 @@ export class DashboardWorkspaceItemComponent implements OnInit {
     }
     this.workspaceService.exitWorkspace(this.workspace.id).subscribe(() => {
       this.fetchUserWorkspacesEvent.emit();
+    });
+  }
+
+  openEditWorkspaceDialog(): void {
+    const dialogRef = this.dialog.open( DashboardWorkspaceFormComponent,
+      {
+      width: '800px',
+      height: 'auto',
+      data: {
+        isCreationMode: false,
+        workspace: this.workspace
+       }
     });
   }
 }

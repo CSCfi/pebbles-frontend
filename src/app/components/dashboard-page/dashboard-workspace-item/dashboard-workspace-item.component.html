@@ -74,6 +74,10 @@
             <mat-card-title>
               {{ workspace.name }}
             </mat-card-title>
+            <button mat-icon-button aria-label="Button for editing workspace"
+            (click)="openEditWorkspaceDialog()">
+              <mat-icon>create</mat-icon>
+            </button>
             <!-- <mat-card-subtitle>
               Owned by
               <mat-icon class="m-r m-l">face</mat-icon>
@@ -150,27 +154,26 @@
     <div *ngSwitchDefault class="owner-workspace-detail">
       <h3 class="workspace-name">
         {{ workspace.name }}
+        <button mat-icon-button aria-label="Button for editing workspace"
+        (click)="openEditWorkspaceDialog()">
+          <mat-icon>create</mat-icon>
+        </button>
       </h3>
+
       <div class="workspace-info">
         <div>{{ workspace.description }} </div>
         <div>Lifetime: {{ lifetime }} </div>
         <div>Join Code: {{ workspace.join_code }} </div>
         <div>Workspace Owner: {{ workspace.owner_eppn }} </div>
-        <!-- Workspace Manager: {{ workspace.manager_eppn }} -->
+        <!-- Workspace Manager: {{ workspace.manager_eppns }} -->
       </div>
       <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
         <mat-tab label="Environments">
 
           <div class="environment-creation-buttons-container">
-            <!--
-              <button class="open-wizard-content" color="primary" aria-label="open wizard" (click)="openDialog()">
-              <span>Open Workspace Wizard</span>
-                <mat-icon>flash_on</mat-icon>
-                <mat-label>Plain form Mode</mat-label>
-            </button> -->
             <div class="">
               <button color="primary" aria-label="create a new environment" class="inline-centering flat-shadow"
-                (click)="openDialog()">
+                (click)="openEnvironmentCreationDialog()">
                 <span>Environment Creation Wizard </span>
                 <mat-icon>add</mat-icon>
               </button>

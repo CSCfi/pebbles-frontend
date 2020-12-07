@@ -98,4 +98,25 @@ export class WorkspaceService {
       })
     );
   }
+
+  updateWorkspace(workspace: Workspace){
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspace.id}`;
+    return this.http.put<Workspace>(url, {
+        name: workspace.name,
+        description: workspace.description,
+        // ---- For future use
+        // join_code: workspace.join_code,
+        // owner_eppn: workspace.owner_eppn,
+        // role: null
+        // user_config:{
+        //     // banned_users: workspace.banned_users,
+        //     managers: workspace.manager_eppns,
+        //     owner:[{id: workspace.owner_eppn}]
+        //   }
+      }).pipe(
+      map( _ => {
+        console.log('Updated Workspace');
+      })
+    );
+  }
 }

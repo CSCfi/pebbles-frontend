@@ -48,6 +48,9 @@ export class MockInterceptor implements HttpInterceptor {
       case (endpoint === 'workspaces' && apiComponents[1] === 'workspace_exit' && apiComponents[2] !== undefined):
         objectId = apiComponents[2];
         break;
+      case (endpoint === 'workspaces' && apiComponents[1] !== undefined):
+        objectId = apiComponents[1];
+        break;
       case (endpoint === 'users' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
@@ -91,6 +94,8 @@ export class MockInterceptor implements HttpInterceptor {
           return joinWorkspace();
         case url.includes('/workspaces/workspace_exit') && method === 'PUT':
           return exitWorkspace();
+        case url.includes('/workspaces') && endpoint === 'workspaces' && method === 'PUT':
+          return updateOwnerWorkspaces();
         case url.includes('/workspaces') && url.endsWith('/users') && method === 'GET':
           return getWorkspacesMembers();
         case url.includes('/workspaces') && method === 'GET':
@@ -337,6 +342,17 @@ export class MockInterceptor implements HttpInterceptor {
       } else {
         return error('workspace not found');
       }
+    }
+
+    function updateOwnerWorkspaces(): Observable<HttpResponse<Workspace>> {
+      database.workspaces = database.workspaces.map(( ws: Workspace ) => {
+        if (ws.id === objectId) {
+          ws.name = body.name;
+          ws.description = body.description;
+        }
+        return ws;
+      });
+      return ok('update succeeded');
     }
 
     function exitWorkspace() {

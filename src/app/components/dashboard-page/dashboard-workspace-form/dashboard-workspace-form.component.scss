@@ -42,30 +42,52 @@ h2 {
 form{
   margin-top: 20px;
   padding: 20px;
-}
 
-.instruction{
-  width: 100%;
-  padding: 10px 20px;
-  display: inline-flex;
-  font-size: 3rem;
-  line-height: 175%;
-  color: #DDD;
-  border: 6px solid #EEE;
-  border-radius: 20px;
-  margin-bottom: 30px;
+    .instruction {
+      width: 100%;
+      padding: 25px 20px;
+      display: inline-flex;
+      font-size: 1.8rem;
+      line-height: 175%;
+      color: #ddd;
+      border: 6px solid #eee;
+      border-radius: 20px;
+      margin-bottom: 30px;
 
-  .material-icons{
-    flex-basis: 140px;
-    display: block;
-    left: 0;
-    font-size: 10rem;
-  }
+      .material-icons {
+        flex-basis: 140px;
+        display: block;
+        left: 0;
+        font-size: 10rem;
+      }
 
-  .instruction-text{
-    text-align: center;
-    flex-grow: 2;
-  }
+      .instruction-text {
+        text-align: left;
+        flex-grow: 2;
+        padding-left: 30px;
+
+        .question {
+          font-size: 2.6rem;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .form-label{
+      font-size: 2rem;
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    .form-ui-container{
+      margin: auto;
+      padding: 20px 10px;
+      max-width: 600px;
+      // border: $border-thin;
+      // border-radius: 5px;
+    }
 }
 
 label{

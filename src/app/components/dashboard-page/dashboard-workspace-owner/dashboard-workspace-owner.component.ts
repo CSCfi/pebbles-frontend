@@ -47,11 +47,12 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
     return workspace.owner_eppn === this.authService.getUserName();
   }
 
-  openDialog(): void {
+  openWorkspaceCreationDialog(): void {
     this.dialog.open( DashboardWorkspaceFormComponent, {
       width: '800px',
       height: 'auto',
       data: {
+        isCreationMode: true,
       }
     });
   }
