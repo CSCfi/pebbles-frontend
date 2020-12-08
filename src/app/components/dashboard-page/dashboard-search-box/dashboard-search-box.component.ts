@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
-import { EnvironmentService } from 'src/app/services/environment.service';
+import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
 
 @Component({
   selector: 'app-dashboard-search-box',
@@ -25,7 +25,7 @@ export class DashboardSearchBoxComponent {
   private currentLabels: string[];
 
   constructor(
-    private environmentService: EnvironmentService,
+    private environmentCategoryService: EnvironmentCategoryService,
   ) {
   }
 
@@ -44,9 +44,9 @@ export class DashboardSearchBoxComponent {
   }
 
   get allLabels(): string[] {
-    const environments = this.environmentService.getEnvironments();
+    const categories = this.environmentCategoryService.getCategories();
     let allLabels = [];
-    environments.forEach(env => {
+    categories.forEach(env => {
       const newLabels = env.labels.filter(label => !allLabels.includes(label));
       allLabels = allLabels.concat(newLabels);
     });
@@ -84,7 +84,6 @@ export class DashboardSearchBoxComponent {
   }
 
   clicked($event): void {
-    // console.log(event);
     this.labels.push($event.target.innerText);
   }
 
