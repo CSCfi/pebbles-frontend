@@ -19,11 +19,12 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   wizardTemplateFormGroup: FormGroup;
   wizardProfileFormGroup: FormGroup;
   wizardOptionFormGroup: FormGroup;
-  isAutoExecution: boolean;
-  downloadMethod: string;
-  ide: string;
-  selectedLabels: string[];
+
+  // ---- Values for Radio Input
   selectedTemplate: EnvironmentTemplate;
+  selectedLabels: string[];
+  selectedIde: string;
+  selectedDownloadMethod: string;
 
   get environmentTemplates() {
     return this.environmentTemplateService.getEnvironmentTemplates();
@@ -45,7 +46,10 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data.isPlainMode){
+
+    this.selectedDownloadMethod = 'none';
+
+    if (this.data.isPlainMode) {
       console.log('----> plain mode');
       this.envCreationPlainFormGroup = this.formBuilder.group({
         templateId: ['', [Validators.required]],
@@ -59,18 +63,17 @@ export class DashboardEnvironmentFormComponent implements OnInit {
         publish: ['', [Validators.required]],
       });
 
-      // ---- For debug
-      // this.envCreationPlainFormGroup.controls.name.setValue('creation test from the plain form');
-      // this.envCreationPlainFormGroup.controls.description.setValue('creation test from the plain form');
       // ---- Set default value
       this.envCreationPlainFormGroup.controls.publish.setValue(false);
+      this.envCreationPlainFormGroup.controls.ide.setValue('jupyter');
+      this.envCreationPlainFormGroup.controls.downloadMethod.setValue('none');
+      this.envCreationPlainFormGroup.controls.isAutoExecution.setValue(false);
+      this.envCreationPlainFormGroup.controls.publish.setValue(false);
 
-    }else{
+    } else {
+      // ---- Mat Stepper Setting
+      this.isLinear = true;
 
-      this.isLinear = false;
-      this.isAutoExecution = false;
-      this.downloadMethod = 'none';
-      this.ide = 'jupyter';
       this.wizardTemplateFormGroup = this.formBuilder.group({
         templateId: ['', [Validators.required]]
       });
@@ -83,8 +86,14 @@ export class DashboardEnvironmentFormComponent implements OnInit {
         ide: ['', [Validators.required]],
         downloadMethod: [''],
         source: [''],
+        isAutoExecution: [''],
       });
+      // ---- Set default value
+      this.wizardOptionFormGroup.controls.ide.setValue('jupyter');
+      this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
+      this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
     }
+
   }
 
   closeForm(): void {
@@ -135,7 +144,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
         ide: this.wizardOptionFormGroup.controls.ide.value,
         downloadMethod: this.wizardOptionFormGroup.controls.downloadMethod.value,
         environment_vars: this.wizardOptionFormGroup.controls.source.value,
-        auto_execution: false,
+        auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
       },
       isPublic || false,
     ).subscribe((env) => {
@@ -143,5 +152,13 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       this.closeForm();
       this.fetchEnvironments(); // ---- Need?
     });
+  }
+
+  onChangeDownloadMethod(val: string) {
+    this.selectedDownloadMethod = val;
+  }
+
+  onChangeIde(val: string) {
+    this.selectedIde = val;
   }
 }

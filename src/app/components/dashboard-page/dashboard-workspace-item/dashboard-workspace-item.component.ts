@@ -46,6 +46,7 @@ export class DashboardWorkspaceItemComponent implements OnInit {
       {
       width: this.isPlainMode ? '800px' : '1000px',
       height: 'auto',
+      maxHeight: '90vh',
       data: {
         isPlainMode: this.isPlainMode,
         workspaceId: this.workspace.id

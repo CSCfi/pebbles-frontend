@@ -2,8 +2,7 @@
 <ng-container *ngIf="data.isPlainMode;else elseMode">
   <form [formGroup]="envCreationPlainFormGroup">
     <h2>Create New Environments</h2>
-    <div class="plain-form-container">
-
+    <mat-dialog-content class="plain-form-container">
       <!-- 1 Env Templates-->
       <mat-form-field appearance="fill">
         <mat-label>Select a template for your new environment</mat-label>
@@ -28,7 +27,7 @@
       <app-dashboard-search-box [labels]="selectedLabels"></app-dashboard-search-box>
       <!-- 5 IDE-->
       <mat-label>IDE (Coding Environment)</mat-label>
-      <mat-radio-group formControlName="ide" [(ngModel)]="ide">
+      <mat-radio-group formControlName="ide" (change)="onChangeIde($event.value)">
         <ul>
           <li>
             <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
@@ -40,7 +39,7 @@
       </mat-radio-group>
       <!-- 6-1 Include External files -->
       <mat-label>Download Method</mat-label>
-      <mat-radio-group formControlName="downloadMethod" [(ngModel)]="downloadMethod">
+      <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)" >
         <ul>
           <li>
             <mat-radio-button [value]="'none'">None</mat-radio-button>
@@ -57,11 +56,11 @@
         </ul>
       </mat-radio-group>
       <!-- 6-2 Source -->
-      <ng-container [ngSwitch]="downloadMethod">
+      <ng-container [ngSwitch]="selectedDownloadMethod">
         <div *ngSwitchCase="'local'">
           <button mat-flat-button color="primary">Upload file</button>
         </div>
-        <div *ngSwitchCase=" ['git','url'].includes(downloadMethod) ? downloadMethod : !downloadMethod ">
+        <div *ngSwitchCase=" ['git','url'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
           <mat-form-field>
             <mat-label>Source(URL)</mat-label>
             <input matInput formControlName="source" placeholder="">
@@ -69,19 +68,19 @@
         </div>
       </ng-container>
       <!-- 6-3 Auto Execution -->
-      <div *ngIf="downloadMethod !== 'none'">
+      <div *ngIf="selectedDownloadMethod !== 'none'">
         <mat-checkbox formControlName="isAutoExecution">Auto Execute (Bash file, unZip)</mat-checkbox>
       </div>
       <!-- 7 Publish -->
       <div class="checkbox-row inline-centering">
         <mat-checkbox formControlName="publish" #check>Publish immediately</mat-checkbox>
       </div>
-      <!-- 7 Submit -->
-      <div class="plain-form-action-buttons">
-        <button class="submit-button" mat-flat-button color="primary" (click)="createEnvironmentByPlainMode()">
-          Create
-        </button>
-      </div>
+    </mat-dialog-content>
+    <!-- 7 Submit -->
+    <div class="plain-form-action-buttons">
+      <button class="submit-button" mat-flat-button color="primary" (click)="createEnvironmentByPlainMode()">
+        Create
+      </button>
       <!-- <button class="cancel-button" mat-flat-button (click)="closeForm()">Cancel</button> -->
     </div>
   </form>
@@ -174,7 +173,7 @@
         <!-- 3.4 IDE -->
         <div class="form-option">
           <mat-label>IDE (Coding Environment)</mat-label>
-          <mat-radio-group formControlName="ide" [(ngModel)]="ide">
+          <mat-radio-group formControlName="ide" (change)="onChangeIde($event.value)">
             <ul>
               <li>
                 <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
@@ -187,7 +186,7 @@
         </div>
         <!-- 3.1 Include External files -->
         <mat-label>Download Method</mat-label>
-        <mat-radio-group formControlName="downloadMethod" [(ngModel)]="downloadMethod">
+        <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
           <ul>
             <li>
               <mat-radio-button [value]="'none'">None</mat-radio-button>
@@ -204,11 +203,11 @@
           </ul>
         </mat-radio-group>
         <!-- 3.2 Source -->
-        <ng-container [ngSwitch]="downloadMethod">
+        <ng-container [ngSwitch]="selectedDownloadMethod">
           <div *ngSwitchCase="'local'">
             <button mat-flat-button color="primary">Upload file</button>
           </div>
-          <div *ngSwitchCase=" ['git','url'].includes(downloadMethod) ? downloadMethod : !downloadMethod ">
+          <div *ngSwitchCase=" ['git','url'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
             <mat-form-field>
               <mat-label>Source(URL)</mat-label>
               <input matInput formControlName="source" placeholder="">
@@ -216,8 +215,8 @@
           </div>
         </ng-container>
         <!-- 3.3 Auto Execution -->
-        <div *ngIf="downloadMethod !== 'none'">
-          <mat-checkbox [(ngModel)]="isAutoExecution">Auto Execute (Bash file, unZip)</mat-checkbox>
+        <div *ngIf="selectedDownloadMethod !== 'none'">
+          <mat-checkbox formControlName="isAutoExecution" >Auto Execute (Bash file, unZip)</mat-checkbox>
         </div>
         <div class="stepper-action-buttons">
           <button class="back" mat-flat-button matStepperPrevious>Back</button>
