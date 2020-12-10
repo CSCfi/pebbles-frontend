@@ -23,7 +23,7 @@ export class EnvironmentTemplateService {
     const url = `${buildConfiguration.apiUrl}/environment_templates`;
     return this.http.get<EnvironmentTemplate[]>(url).pipe(
       map((resp) => {
-        console.log('fetchEnvironmentTemplates got ' + resp);
+        console.log('fetchEnvironmentTemplates got', resp);
         this.environmentTemplates = resp;
         return this.environmentTemplates;
       })

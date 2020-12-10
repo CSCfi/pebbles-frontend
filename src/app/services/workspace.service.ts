@@ -47,7 +47,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
-        console.log('fetchWorkspaces got ' + resp);
+        console.log('fetchWorkspaces() got', resp);
         this.workspaces = resp;
         return this.workspaces;
       })

@@ -49,16 +49,6 @@ export class EnvironmentService {
     return this.environments.filter(env => env.workspace_id === workspaceId);
   }
 
-  updateEnvironment(environment: Environment): Observable<Environment> {
-    const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
-    return this.http.put<Environment>(url, environment).pipe(
-      map((resp) => {
-        console.log('Updated environment' + resp);
-        return resp;
-      })
-    );
-  }
-
   updateEnvironmentStatus(): void {
     // assign instances to environments
     for (const env of this.environments) {
@@ -82,14 +72,15 @@ export class EnvironmentService {
 
     return this.http.get<Environment[]>(url).pipe(
       map((resp) => {
-        console.log('fetchEnvironments got ' + resp);
+        console.log('fetchEnvironments() got', resp);
         // update existing envs
         for (const newEnv of resp) {
-          const existingEnv = this.environments.find(e => e.id === newEnv.id);
-          if (!existingEnv) {
-            this.environments.push(newEnv);
+          if (!newEnv.config){
+            newEnv.config = {};
           }
+          newEnv.description = newEnv.config.description;
         }
+        this.environments = resp;
         this.updateEnvironmentStatus();
         return this.environments;
       })
@@ -130,6 +121,21 @@ export class EnvironmentService {
     return this.http.post<Environment>(url, {workspace_id, name, template_id, config, is_enabled}).pipe(
       map((resp) => {
         console.log('created Environment' + resp);
+        this.fetchEnvironments().subscribe();
+        return resp;
+      })
+    );
+  }
+
+  updateEnvironment(environment: Environment): Observable<Environment> {
+    const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
+    return this.http.put<Environment>(url, environment).pipe(
+      map((resp) => {
+        console.log('Updated environment' + resp);
+        // patch the environment in our environment array for quick response
+        const idx = this.environments.findIndex(i => i.id === environment.id);
+        this.environments[idx] = environment;
+        // fetch environments from backend to get the master
         this.fetchEnvironments().subscribe();
         return resp;
       })

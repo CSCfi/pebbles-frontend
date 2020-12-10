@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Environment } from 'src/app/models/environment';
 
@@ -25,33 +25,32 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
     },
     private environmentService: EnvironmentService,
   ) {
-      // TODO: Needed incase environment is not available (e.g test case)
-      if (this.data.environment) {
-        this.selectedLabels = this.data.environment.config.labels;
-      }
-      else {
-        this.selectedLabels = [];
-      }
+    // TODO: Needed incase environment is not available (e.g test case)
+    if (this.data.environment) {
+      this.selectedLabels = this.data.environment.labels;
+    } else {
+      this.selectedLabels = [];
+    }
   }
 
   ngOnInit(): void {
-      this.environmentItemEditFormGroup = this.formBuilder.group({
-        name: ['', [Validators.required]],
-        description: ['', [Validators.required]],
-        labels: ['', [Validators.required]],
-        ide: ['', [Validators.required]],
-        downloadMethod: [''],
-        environmentVars: [''],
-        isAutoExecution: [''],
-      });
-      if (this.data.environment) {
-        this.ide = this.data.environment.config.ide;
-        this.downloadMethod = this.data.environment.config.downloadMethod;
-        this.isAutoExecution = this.data.environment.config.auto_execution;
-        this.environmentItemEditFormGroup.controls.name.setValue(this.data.environment.config.name);
-        this.environmentItemEditFormGroup.controls.description.setValue(this.data.environment.config.description);
-        this.environmentItemEditFormGroup.controls.environmentVars.setValue(this.data.environment.config.environment_vars);
-      }
+    this.environmentItemEditFormGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      labels: ['', [Validators.required]],
+      ide: ['', [Validators.required]],
+      downloadMethod: [''],
+      environmentVars: [''],
+      isAutoExecution: [''],
+    });
+    if (this.data.environment) {
+      this.ide = this.data.environment.config.ide;
+      this.downloadMethod = this.data.environment.config.downloadMethod;
+      this.isAutoExecution = this.data.environment.config.auto_execution;
+      this.environmentItemEditFormGroup.controls.name.setValue(this.data.environment.name);
+      this.environmentItemEditFormGroup.controls.description.setValue(this.data.environment.config.description);
+      this.environmentItemEditFormGroup.controls.environmentVars.setValue(this.data.environment.config.environment_vars);
+    }
   }
 
   closeForm(): void {
@@ -59,6 +58,8 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
   }
 
   editEnvironmentItem(): void {
+    // duplicate 'name' for now, remove when backend has been refactored
+    this.data.environment.name = this.environmentItemEditFormGroup.controls.name.value;
     this.data.environment.config.name = this.environmentItemEditFormGroup.controls.name.value;
     this.data.environment.config.description = this.environmentItemEditFormGroup.controls.description.value;
     this.data.environment.config.ide = this.environmentItemEditFormGroup.controls.ide.value;
@@ -73,5 +74,4 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
       this.closeForm();
     });
   }
-
 }

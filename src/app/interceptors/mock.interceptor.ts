@@ -39,14 +39,11 @@ export class MockInterceptor implements HttpInterceptor {
       case (endpoint === 'instances' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
-      case (endpoint === 'workspaces' && apiComponents[1] !== undefined && apiComponents[2] === 'users'):
+      case (endpoint === 'environments' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
-      case (endpoint === 'workspaces' && apiComponents[1] === 'workspace_join' && apiComponents[2] !== undefined):
-        objectId = apiComponents[2];
-        break;
-      case (endpoint === 'workspaces' && apiComponents[1] === 'workspace_exit' && apiComponents[2] !== undefined):
-        objectId = apiComponents[2];
+      case (endpoint === 'join_workspace' && apiComponents[1] !== undefined):
+        objectId = apiComponents[1];
         break;
       case (endpoint === 'workspaces' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
@@ -82,15 +79,17 @@ export class MockInterceptor implements HttpInterceptor {
           return createWorkspace();
         case url.endsWith('/environments') && method === 'POST':
           return createEnvironment();
+        case url.includes('/environments') && method === 'PUT':
+          return updateEnvironment();
         case url.endsWith('/instances') && method === 'GET':
           return getInstances();
         case url.includes('/instances') && method === 'DELETE':
           return deleteInstance();
         case url.endsWith('/environments') && method === 'GET':
           return getEnvironments();
-        case url.includes('/workspaces/workspace_join') && method === 'PUT':
+        case url.includes('/join_workspace') && method === 'PUT':
           return joinWorkspace();
-        case url.includes('/workspaces/workspace_exit') && method === 'PUT':
+        case url.includes('/workspaces') && url.includes('/exit') && method === 'PUT':
           return exitWorkspace();
         case url.includes('/workspaces') && endpoint === 'workspaces' && method === 'PUT':
           return updateOwnerWorkspaces();
@@ -188,17 +187,17 @@ export class MockInterceptor implements HttpInterceptor {
     function getEnvironments() {
       const workspaces = database.workspaces;
 
-      const workspaceIds = workspaces.map(ws => {
-        // if (!workspaceIds.includes(ws.id)){
-        return ws.id;
-        // }
-      });
-      console.log(workspaceIds);
-      const environments = database.environments.filter((env) => {
+      const workspaceIds = workspaces.map(ws => ws.id);
+      console.log('mock.getEnvironments() workspaceIds', workspaceIds);
+      let environments = database.environments.filter((env) => {
         return workspaceIds.includes(env.workspace_id);
       });
+      // here we mimic the behaviour of backend which populates the environment object from config
+      environments = environments.map(e => {
+        e.workspace_name = workspaces.find(w => e.workspace_id === w.id).name;
+        return e;
+      });
       return ok(environments);
-      // return ok(database.environments);
     }
 
     function createEnvironment() {
@@ -217,6 +216,14 @@ export class MockInterceptor implements HttpInterceptor {
 
       database.environments.push(environment);
       return ok(environment);
+    }
+
+    function updateEnvironment() {
+      const env = database.environments.find( i => i.id === objectId);
+      env.name = body.name;
+      env.description = body.config.description;
+      env.config = body.config;
+      return ok();
     }
 
     function createInstance() {
