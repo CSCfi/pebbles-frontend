@@ -11,6 +11,15 @@ import { InstanceService } from 'src/app/services/instance.service';
 })
 
 export class InstancePageComponent implements OnInit, OnDestroy {
+  progressMap = new Map<InstanceStates, number>([
+    [InstanceStates.Queueing, 25],
+    [InstanceStates.Provisioning, 50],
+    [InstanceStates.Starting, 75],
+    [InstanceStates.Running, 100],
+    [InstanceStates.Deleting, 100],
+    [InstanceStates.Deleted, 100],
+    [InstanceStates.Failed, 100]
+  ]);
 
   instances: Instance[];
   targetInstance: Instance;
@@ -19,6 +28,7 @@ export class InstancePageComponent implements OnInit, OnDestroy {
   instanceId: string;
   private interval;
   instanceStates = InstanceStates;
+  progress = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +64,7 @@ export class InstancePageComponent implements OnInit, OnDestroy {
       return;
     }
     console.log(this.targetInstance.state);
+    this.progress = this.progressMap.get(this.targetInstance.state);
 
     // if our instance state is 'running', proceed to redirection
     if (this.targetInstance.state === InstanceStates.Running ) {

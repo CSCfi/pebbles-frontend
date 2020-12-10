@@ -174,10 +174,18 @@ export class MockInterceptor implements HttpInterceptor {
         if (instance.state === 'starting') {
           instance.instance_data = {endpoints: [{access: 'assets/images/jupyter_example_content.png'}]};
         }
+
+        // assign a helper attribute for delaying state transitions
+        if (!instance._mockLastStateUpdateTs) {
+          instance._mockLastStateUpdateTs = Date.now();
+        }
         // advance the transitive states
         if (instance.state !== 'running') {
-          instance.state = states[states.indexOf(instance.state) + 1];
-          console.log('instance ' + instance.name + 'now in state ' + instance.state);
+          if (Date.now() - instance._mockLastStateUpdateTs > 5000) {
+            instance.state = states[states.indexOf(instance.state) + 1];
+            console.log('instance ' + instance.name + 'now in state ' + instance.state);
+            instance._mockLastStateUpdateTs = Date.now();
+          }
         }
         result.push(instance);
       }
@@ -247,6 +255,8 @@ export class MockInterceptor implements HttpInterceptor {
         InstanceStates.Queueing,
         ''
       );
+
+      (instance as any)._mockLastStateUpdateTs = Date.now();
       database.instances.push(instance);
 
       return ok(instance);
@@ -260,7 +270,7 @@ export class MockInterceptor implements HttpInterceptor {
 
       if (instance) {
         instance.state = 'deleting';
-
+        instance._mockLastStateUpdateTs = Date.now();
         return ok(instance);
       } else {
         return error('instance not found');
