@@ -1,13 +1,19 @@
-<header id="header" class="z-index-100">
-  <app-welcome-header></app-welcome-header>
-</header>
-<div class="jumbotron" role="main">
-  <!-- <app-message></app-message> -->
-  <app-welcome-login></app-welcome-login>
+<div fxLayout="column">
+  <div class="screen-container" fxLayout="column" fxLayoutAlign="space-between stretch">
+    <app-welcome-header class="header-wrapper"></app-welcome-header>
+    <div class="jumbotron" role="main" fxFlex="grow">
+      <!-- <app-message></app-message> -->
+      <app-welcome-login></app-welcome-login>
+    </div>
+    <div class="bg-pattern-1">
+      <img class="csc-img-1" src="assets/images/csc_pattern_left_bottom.svg" alt="CSC Pattern">
+    </div>
+    <div class="bg-pattern-2">
+      <img class="csc-img-2" src="assets/images/csc_pattern_right_top.svg" alt="CSC Pattern">
+    </div>
+  </div>
+  <!-- <app-welcome-publicity></app-welcome-publicity> -->
+  <app-welcome-footer class="footer-wrapper"></app-welcome-footer>
 </div>
-<div>
-  <app-welcome-publicity></app-welcome-publicity>
-</div>
-<footer id="footer" class="z-index-100 bg-dark text-white">
-  <app-welcome-footer></app-welcome-footer>
-</footer>
+
+

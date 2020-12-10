@@ -26,9 +26,15 @@ export let db = {
       thumbnail: 'python',
       color: '0',
       labels: ['csc', 'python', 'basic', 'self-study'],
-      config: {description: 'created throu wizard', categories: ['basic', 'python'], ide: 'jupyter', downloadMethod: 'git',
+      config: {
+        name: 'Course Introduction to Python (self-study)',
+        description: 'created throu wizard',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
         environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
-        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']}
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '2',
@@ -39,7 +45,15 @@ export let db = {
       thumbnail: 'r-studio',
       color: '1',
       labels: ['csc', 'R-studio', 'basic', 'self-study'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Course Introduction to R (self-study)',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '3',
@@ -50,7 +64,15 @@ export let db = {
       thumbnail: 'python',
       color: '2',
       labels: ['csc', 'python', 'deep learning', 'machine learning', '2020'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Course Practical Deep Learning - 2020',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '4',
@@ -61,8 +83,15 @@ export let db = {
       thumbnail: 'python',
       color: '3',
       labels: ['course-ml', 'python', 'machine learning', '2019'],
-      config: {description: 'fcds', categories: ['basic', 'python'], ide: 'jupyter', downloadMethod: 'none',
-        environment_vars: '', auto_execution: false},
+      config: {
+        name: 'Course Practical Machine Learning 2019',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '5',
@@ -73,7 +102,15 @@ export let db = {
       thumbnail: '',
       color: '4',
       labels: ['csc', 'api', 'python'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Demo Vipunen API',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '6',
@@ -84,7 +121,15 @@ export let db = {
       thumbnail: '',
       color: '5',
       labels: ['csc', 'data-science', 'python'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Jupyter Data Science',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '7',
@@ -95,7 +140,15 @@ export let db = {
       thumbnail: '',
       color: '0',
       labels: ['course-ml', 'data-science', 'python'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Jupyter Machine Learning',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '8',
@@ -106,7 +159,15 @@ export let db = {
       thumbnail: '',
       color: '1',
       labels: ['csc', 'data-science', 'python'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Jupyter PySpark',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '9',
@@ -117,7 +178,15 @@ export let db = {
       thumbnail: '',
       color: '2',
       labels: ['csc', 'data-science', 'r-studio'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'RStudio Server',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '10',
@@ -128,7 +197,15 @@ export let db = {
       thumbnail: '',
       color: '3',
       labels: ['course-ds', 'data-science', 'python'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Jupyter Data Science 1',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '11',
@@ -139,7 +216,15 @@ export let db = {
       thumbnail: '',
       color: '4',
       labels: ['course-ds', 'data-science', 'python'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Jupyter Data Science 2',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '12',
@@ -150,7 +235,15 @@ export let db = {
       thumbnail: '',
       color: '5',
       labels: ['course-ds', 'data-science', 'python'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Jupyter Data Science 3',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     },
     {
       id: '13',
@@ -161,7 +254,15 @@ export let db = {
       thumbnail: '',
       color: '5',
       labels: ['basic'],
-      config: {description: 'bdcjhvdsv'},
+      config: {
+        name: 'Course Introduction to R (self-study)',
+        description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
+        categories: ['basic', 'python'],
+        ide: 'jupyter',
+        downloadMethod: 'git',
+        environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
+      }
     }
   ],
   users: [

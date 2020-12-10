@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
 
@@ -13,9 +13,14 @@ export class AppComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+  private theme = 'user';
+  @HostBinding('class')
+  get themeMode() {
+    return 'custom-theme-' + this.theme ;
+  }
+
   constructor(
     private snackBar: MatSnackBar,
   ) {
-    // this.openAlertBar('Test: Hello Alert message ;)');
   }
 }

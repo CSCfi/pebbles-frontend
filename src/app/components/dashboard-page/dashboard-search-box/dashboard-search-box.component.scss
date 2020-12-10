@@ -13,7 +13,7 @@
 
 .candidate-label-outer {
   border: 1px #DDD solid;
-  background: $light;
+  background: map-get($colors, light);
   padding: 20px;
   border-radius: 5px;
   margin-bottom: 10px;

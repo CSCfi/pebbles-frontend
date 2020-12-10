@@ -1,20 +1,9 @@
 @import "src/styles.scss";
 
-.header{
-  z-index: 200;
+.header-container{
   position: fixed;
-  display: block;
   width: 100%;
-  height: $header-height;
-  border-bottom: 1px solid rgba(0, 70, 80, 0.8);
-
-  &:after{
-    content: "";
-    border-bottom: 1px solid rgba(59, 180, 201,0.5);
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-  }
+  z-index: 200;
 }
 
 .mat-sidenav-container{
@@ -23,7 +12,7 @@
   .mat-sidenav{
     position: fixed;
     margin-top: $header-height;
-    background-color: $my-app-sidenav-background;
+    background-color: map-get($colors, dark);
 
     .sidebar{
       z-index: 100;
@@ -40,8 +29,6 @@
   }
 }
 
-
-
 div.dashboard-page-container{
     // position: absolute;
     // z-index: 100;
@@ -51,5 +38,5 @@ div.dashboard-page-container{
     display: block;
     min-height: calc(100vh - #{$header-height});
     // background-color: #f9fafb!important;
-    background-color: $my-app-background;
+    background-color: map-get($colors, light);
 }

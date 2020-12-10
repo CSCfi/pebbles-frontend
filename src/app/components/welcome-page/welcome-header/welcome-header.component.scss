@@ -1,23 +1,54 @@
+@import "src/styles.scss";
 
-nav {
-    // padding: 50px;
-    // padding: 10px;
-    ul>li>a{
-        text-decoration: underline;
-        letter-spacing: 0.1rem;
+header {
+  height: map-deep-get($layout-set, welcome, header, h);
+  padding: 20px;
+  // background-color: map-get($colors, primary);
+  // border-bottom: 1px solid rgba(0, 70, 80, 0.8);
+
+  // &:after{
+  //   content: "";
+  //   border-bottom: 1px solid rgba(59, 180, 201,0.5);
+  //   position: absolute;
+  //   bottom: 0px;
+  //   width: 100%;
+  // }
+
+  .logo {
+
+    a {
+      color: map-get($colors, white) !important;
+      width: auto;
+      height: auto;
     }
-}
 
-#logo{
-    width: 50px;
-    .mat-icon {
-        transform: scale(1.6);
-        margin: auto;
+    &-inner {
+      // width: 200px;
+      height: 50px;
     }
-}
 
-h1{
-    font-size: 1.8rem;
-    letter-spacing: 0.2rem;
-    margin-top: 8px;
+    &--mark {
+      width: 50px;
+      height: 60px;
+      padding: 5px;
+
+      mat-icon {
+        width: auto;
+        height: auto;
+        font-size: 3.2rem;
+        color: map-get($colors, white);
+      }
+    }
+
+    &--type {
+      padding-top: 15px;
+      font-size: 3.2rem;
+    }
+  }
+
+  ul>li>a {
+    color: map-get($colors, white);
+    text-decoration: underline;
+    letter-spacing: 0.1rem;
+  }
 }

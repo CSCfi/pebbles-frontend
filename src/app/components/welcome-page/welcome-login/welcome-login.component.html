@@ -1,90 +1,65 @@
-<section id="key-content" class="container text-white">
-  <div class="row">
-    <div class="col-6">
-      <div id="login-container" class="mr-5">
-        <h2 class="mb-3">
-          Easy-to-use environments for working with data and programming.
-        </h2>
-        <p class="mb-4">
-          Log in to browse the catalogue of available environments and launch them to get access.
-          Dedicated and disposable environments run in the cloud and can be accessed by web browser.
-        </p>
-        <form class="">
-          <div class="login-buttons">
+<section class="container" fxLayout="row" fxLayoutAlign="center stretch">
+  <div class="login-wrapper">
+    <h2 class="mat-display-2">
+      Easy-to-use environments for working with data and programming.
+    </h2>
+    <div class="mat-display-1">
+      Log in to browse the catalogue of available environments and launch them to get access.
+      Dedicated
+      and disposable environments run in the cloud and can be accessed with any of your connected
+      devices.
+    </div>
+    <form class="">
+      <div class="login-buttons">
+        <a mat-raised-button href="/oauth2?rd=%2Foauth2">
+          <span class="sso-login">Login</span>
+        </a>
+        <button id="special-login-button" mat-button (click)="isLoginFormOpen=!isLoginFormOpen">
+          Special Login
+          <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
+            <mat-icon> chevron_right </mat-icon>
+          </ng-container>
+          <ng-template #elseBlock>
+            <mat-icon> expand_more </mat-icon>
+          </ng-template>
+        </button>
+      </div>
+    </form>
+    <!-- Special Login form -->
+    <mat-accordion class="login-form-outer" multi>
+      <mat-expansion-panel [(expanded)]="isLoginFormOpen">
 
-            <div>
-              <a href="/oauth2?rd=%2Foauth2">
-                <button type="button" class="btn btn-primary login-btn">
-                  <span class="sso-login">SSO Login</span>
-                </button>
-              </a>
-            </div>
-
-            <div>
-              <a [routerLink]="['/haka-login']">
-                <button id="haka-login-btn" class="btn btn-primary login-btn">
-                  <span class="logo-image-holder">
-                    <img src="/assets/images/login/haka_logo.svg" alt="Haka Login">
-                  </span>
-                  <span>Haka Login</span>
-                </button>
-              </a>
-            </div>
-
-            <div>
-              <a [routerLink]="['/csc-login']">
-                <button id="csc-login-btn" class="btn btn-primary login-btn">
-                  <span class="logo-image-holder">
-                    <img src="/assets/images/login/csc_logo.svg" alt="CSC Login">
-                  </span>
-                  <span>CSC Login</span>
-                </button>
-              </a>
-            </div>
-
-            <div>
-              <a [routerLink]="['/virtu-login']">
-                <button id="virtu-login-btn" class="btn btn-primary login-btn">
-                  <span class="logo-image-holder">
-                    <!-- <img src="/assets/images/login/virtu_logo.svg" alt="Virtu Login"> -->
-                  </span>
-                  <span>VIRTU Login</span>
-                </button>
-              </a>
-            </div>
-
-            <!-- TODO: refactor to special-login-btn -->
-            <div id="alternative-login-btn" class="btn-outline-light"
-              (click)="isLoginFormOpen=!isLoginFormOpen">
-                Special Login
-            </div>
-
+        <form (ngSubmit)="onLogin()" [formGroup]="loginFormGroup">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput id="email" placeholder="Email" formControlName="email">
+            </mat-form-field>
           </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
+            </mat-form-field>
+          </div>
+          <button mat-raised-button id="special-login-submit-button" class="shadow-moderate"
+          (click)="onLogin()">
+          Submit
+          </button>
         </form>
 
-        <!-- Special login form -->
-        <mat-accordion class="login-form-outer" multi>
-          <mat-expansion-panel [(expanded)]="isLoginFormOpen">
-            <form (ngSubmit)="onLogin()" novalidate>
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" placeholder="enter email" [(ngModel)]="user.eppn"
-                  name="eppn" required />
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="enter password"
-                  [(ngModel)]="user.password" name="password" required />
-              </div>
-              <button type="submit" id="login-submit-button" class="btn btn-default">Submit</button>
-            </form>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-      </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div>
+      If you want to host your own course using Notebooks.csc.fi,
+      please fill out the
+      <a href="https://www.webropolsurveys.com/S/84118B6BD6E97501.par" target="_blank" rel="noopener">
+        Course request form
+      </a>
     </div>
-    <div id="hero-shots" class="col-6 d-flex justify-content-center">
-      <!-- <img class="mx-4" src="../../assets/images/hero-shots.png" alt="Example screenshots of the Notebooks" srcset="" /> -->
-    </div>
+  </div>
+  <div class="hero-shots">
+    <div class="hero-images"></div>
+    <!-- <img class="mx-4" src="assets/images/hero-shots.png" alt="Example screenshots of the Notebooks" srcset="" /> -->
   </div>
 </section>

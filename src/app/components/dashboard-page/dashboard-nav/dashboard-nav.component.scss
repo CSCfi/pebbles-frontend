@@ -12,7 +12,7 @@
       .mat-button{
         min-width: auto;
         // padding: 0 10px;
-        color: $my-app-sidenav-text;
+        color: map-get($colors, light);
       }
     }
 
@@ -109,7 +109,7 @@
           position: relative;
           white-space: nowrap;
           padding: 5px 18px;
-          color: $my-app-sidenav-text;
+          color: map-get($colors, light);
 
           .icon-holder {
             height: 30px;

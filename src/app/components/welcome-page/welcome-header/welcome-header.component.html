@@ -1,30 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-dark">
-  <a class="navbar-brand d-flex justify-content-start align-items-center" href="#">
-    <div id="logo">
-      <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+<header id="header" role="main">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="logo" fxFlex="0 0 250px">
+      <div class="logo-inner" fxLayout="row" fxLayoutAlign="start">
+        <div class="logo--mark" fxFlex="0 0 50px">
+          <a [routerLink]="['/welcome']">
+            <!-- Dummy -->
+            <mat-icon role="logomark">import_contacts</mat-icon>
+          </a>
+        </div>
+        <div class="logo--type mat-display-4">
+          <a [routerLink]="['/welcome']">Notebooks</a>
+        </div>
+      </div>
     </div>
-    <h1> Notebooks </h1>
-  </a>
 
-  <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+    <ul class="navbar" fxFlex="grow" fxLayoutAlign="end center" fxLayoutGap="18px grid">
+      <li>
+        <a href="https://www.webropolsurveys.com/S/84118B6BD6E97501.par" target="_blank" rel="noopener">Host courses & request</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Why Notebooks?</a>
+      <li>
+        <a href="https://research.csc.fi/en/notebooks-terms-of-use" target="_blank" rel="noopener">Terms & Pricing</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">About us</a>
+      <li>
+        <a href="https://notebooks.csc.fi/accessibility_statement.html" target="_blank" rel="noopener">Accessibility</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Contact us</a>
+      <li>
+        <a href="mailto:notebooks@csc.fi" target="_blank" rel="noopener">Contact us</a>
       </li>
     </ul>
   </div>
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-</nav>
+</header>

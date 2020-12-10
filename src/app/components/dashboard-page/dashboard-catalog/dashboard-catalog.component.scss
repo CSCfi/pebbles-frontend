@@ -96,12 +96,12 @@ section {
       // };
 
       .tab-icon {
-        color: $primary;
+        color: map-get($colors, primary);
         opacity: 1;
       }
 
       .tab-title {
-        color: $primary;
+        color: map-get($colors, primary);
         font-size: 1.3rem !important;
         opacity: 1;
       }
@@ -124,7 +124,7 @@ section {
   padding: 20px !important;
 
   font-size: $font-size-content;
-  font-weight: $font-weight-bold;
+  // font-weight: $font-weight-bold;
   position: relative;
   white-space: nowrap;
   padding: 5px 15px;

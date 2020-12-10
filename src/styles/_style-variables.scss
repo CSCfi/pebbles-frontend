@@ -1,0 +1,109 @@
+
+// ---- Font
+
+$font-families: (
+  base: 'Open Sans, sans-serif',
+  stress: 'Mulish, sans-serif'
+);
+
+//  ---- Color
+$colors: (
+  primary: #1a237e,
+  accent: #00acc1,
+  secondary: #00c7b2,
+  success: #0082bb,
+  danger: #7dc242,
+  info: #006778,
+  warning: #830051,
+  light: #efeff6,
+  dark:  #2e2f39,
+  neutral-dark:  #9cb2c7,
+  white: #fff
+);
+
+// ---- Effect
+$box-shadow: rgba(146, 146, 230, .22);
+
+// ---- layout
+$layout-set:(
+  welcome: (
+    header: (
+      w: 100%,
+      h: 80px,
+      min-h: 80px,
+    ),
+    footer: (
+      w: 100%,
+      h: 100%,
+      min-h: 200px,
+    )
+  ),
+  dashboard: (
+    header: (
+      w: 100%,
+      height: 80px,
+    ),
+    footer: (
+      w: 100%,
+      h: 100px
+    )
+  ),
+);
+// @debug map-deep-get($layout-set, welcome, header, h);
+
+$layouts: (
+  welcome-header-height: 100%,
+  welcome-header-width: 80px,
+  welcome-footer-height: 100%,
+  welcome-footer-width: 100%,
+  dashboard-header-width: 100%,
+  dashboard-header-height: 80px,
+  dashboard-sidebar-width: 250px,
+  dashboard-sidebar-height: 100%,
+  dashboard-footer-width: 100%,
+  dashboard-footer-height: 100px,
+);
+
+@mixin banner {
+  background-color: map-get($colors, primary);
+  color: map-get($colors, white);
+}
+
+$enable-gradients: false;
+$spacer: 1.2rem;
+$border-width: 0;
+$btn-border-radius: 1.35rem;
+$display1-weight: 600;
+$display2-weight: 600;
+$display3-weight: 600;
+
+$navbar-dark-color: #f3f3f3;
+$enable-caret: true;
+$enable-rounded: true;
+$enable-shadows: false;
+$enable-print-styles: true;
+
+$font-size-base: 1.3rem;
+$font-weight-bold-base: 500;
+
+
+$font-size-logo-icon: 3rem;
+$font-size-logo: 2.1rem;
+
+$font-size-sideNav-icon: 2rem;
+$font-size-sideNav: 1.5rem;
+$font-size-sideNav-s: 1.1rem;
+
+$font-size-content-icon: 2rem;
+$font-size-content-icon-s: 1.4rem;
+$font-size-content: $font-size-base;
+$font-size-content-s: 1.1rem;
+
+$transition-base: all .2s ease-in-out;
+$enable-transitions: true;
+
+$header-height: 65px;
+
+$side-nav-width: 250px;
+$border-thin: 1px solid rgba(0, 0, 0, .0625);
+$border-thin-light: 1px solid rgba(255, 255, 255, .0625);

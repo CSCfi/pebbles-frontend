@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 // import { BrowserModule } from '@angular/platform-browser';
 // import { CommonModule } from '@angular/common';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // ---- Custom module
 import { MaterialModule } from 'src/app/material.module';
@@ -62,6 +63,7 @@ import { DashboardEnvironmentItemFormComponent } from './dashboard-environment-i
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
     DashboardRoutingModule,
     MaterialModule,
   ],

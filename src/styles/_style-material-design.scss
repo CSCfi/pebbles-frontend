@@ -1,0 +1,135 @@
+/* ---- Importing Material design ---- */
+
+// ---- Custom Theming for Angular Material
+@import '~@angular/material/theming';
+
+/* ---- TYPOGRAPHY
+------------------------------------- */
+
+  // $display-4 // $display-3 // $display-2 // $display-1
+  // $headline: : <h1>
+  // $title:    : <h2>
+  // $subheading-2: <h3>
+  // $subheading-1: <h4>
+  // $body-2    : Base body text
+  // $body-1:   : Base body text
+  // $caption   : Smaller body and hint text.
+  // $button    : Button
+  // $input     : Form input fields.
+
+/* ---- MEMO: mat-typography-level(
+  $font-size,
+  $line-height,
+  $font-size,
+  $font-weight,
+  $font-family,
+  $letter-spacing
+  )*/
+
+// $font-family-headline: 'Montserrat, sans-serif';
+// $font-family-headline: 'Quicksand, sans-serif';
+
+$custom-typography: mat-typography-config(
+  $font-family: map-get($font-families, base),
+  $display-4:     mat-typography-level(1.8rem, 1.8rem, 300, map-get($font-families, stress), 0.1rem),
+  $display-3:     mat-typography-level(4.6rem, 46px, 400, map-get($font-families, stress)),
+  $display-2:     mat-typography-level(30px, 36px, 400, map-get($font-families, stress)),
+  $display-1:     mat-typography-level(18px, 24px, 300, map-get($font-families, stress)),
+  $headline: mat-typography-level(2.8rem, 32px, 500, map-get($font-families, stress)),
+  $title: mat-typography-level(2.4rem, 32px, 700, map-get($font-families, stress)),
+  $subheading-2: mat-typography-level(1.8rem, 32px, 700, map-get($font-families, stress)),
+  $subheading-1: mat-typography-level(1.5rem, 24px, 400, map-get($font-families, stress)),
+  $button: mat-typography-level(1.6rem, 16px, 500, map-get($font-families, stress), 0.05rem),
+  $body-2: mat-typography-level(1.3rem, 16px, 400, map-get($font-families, base), 0.05rem),
+  $body-1: mat-typography-level(1.2rem, 16px, 300, map-get($font-families, base), 0.05rem),
+);
+
+@include mat-core($custom-typography);
+
+$mat-theming-primary: mat-palette($mat-indigo, 900);
+$mat-theming-accent: mat-palette($mat-light-green, 600);
+$mat-theming-warn: mat-palette($mat-pink, 500);
+// ---- Create theme object
+$mat-theming-theme-user: mat-light-theme($mat-theming-primary, $mat-theming-accent, $mat-theming-warn);
+$mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-accent, $mat-theming-warn);
+
+.custom-theme-user {
+  @include angular-material-theme($mat-theming-theme-user);
+}
+.custom-theme-owner {
+  @include angular-material-theme($mat-theming-theme-owner);
+}
+
+::ng-deep {
+  // ---- Button
+  a.mat-button-base,
+  .mat-button-base {
+    vertical-align: middle;
+    text-transform: uppercase;
+
+    color: map-get($colors, white) !important;
+    font-weight: bold !important;
+    width: 100%;
+    padding: 10px 20px !important;
+    border-radius: 3px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .mat-raised-button{
+    background-color: map-get($colors, success) !important;
+
+    &.shadow-moderate{
+      box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+    }
+  }
+
+  .mat-stroked-button{
+    border-color: map-get($colors, white) !important;
+  }
+
+  // ---- FormGroup
+
+  // .mat-form-field-appearance-outline,
+  // .mat-form-field-outline-start {
+  //   border-right: 1px solid map-get($colors, white) !important;
+  // }
+
+  // .mat-form-field-outline-end {
+  //   border-left: 1px solid map-get($colors, white) !important;
+  // }
+
+  // .mat-form-field-outline-gap {
+  //   border-top: 1px solid map-get($colors, white) !important;
+  //   border-bottom: 1px solid map-get($colors, white) !important;
+  // }
+
+  // ---- Accordion
+  .mat-expansion-panel{
+    background: none;
+
+    .mat-expansion-panel-body {
+      border-color: map-get($colors, white) !important;
+      margin-top: 10px;
+      background-color: rgba(255, 255, 255, 0.5);;
+      box-shadow: none !important;
+      padding: 20px;
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+
+  .mat-icon {
+    font-weight: $font-weight-bold-base;
+  }
+  .mat-fab{
+    border-radius: 50%;
+    vertical-align: middle;
+    box-shadow: none;
+  }
+  .mat-tab-label {
+    opacity: 1 !important;
+  }
+}
+

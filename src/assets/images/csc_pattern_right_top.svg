@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="307px" height="309px" viewBox="0 0 307 309" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>pattern</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.166">
+        <g id="Custom-Preset-Copy" transform="translate(-93.000000, 0.000000)" fill="#F8F9FC" fill-rule="nonzero">
+            <g id="Group_22" transform="translate(246.500000, 154.500000) scale(-1, 1) translate(-246.500000, -154.500000) translate(93.000000, 0.000000)">
+                <rect id="Rectangle_27" opacity="0.498" x="102.608" y="0" width="102.902" height="102.902"></rect>
+                <rect id="Rectangle_28" x="0" y="0" width="102.902" height="102.902"></rect>
+                <rect id="Rectangle_29" opacity="0.501" x="0" y="102.608" width="102.902" height="102.902"></rect>
+                <polygon id="Path_77" opacity="0.501" points="154.059 51.451 256.959 51.451 256.959 154.351 154.059 154.351"></polygon>
+                <rect id="Rectangle_31" opacity="0.247" x="204.335" y="154.059" width="51.451" height="51.451"></rect>
+                <rect id="Rectangle_32" opacity="0.25" x="255.492" y="102.608" width="51.451" height="51.451"></rect>
+                <rect id="Rectangle_33" opacity="0.252" x="255.492" y="0" width="51.451" height="51.451"></rect>
+                <rect id="Rectangle_34" opacity="0.499" x="102.608" y="154.059" width="51.451" height="51.451"></rect>
+                <rect id="Rectangle_35" opacity="0.502" x="51.157" y="205.511" width="51.451" height="51.451"></rect>
+                <rect id="Rectangle_36" x="0" y="205.511" width="51.451" height="51.451"></rect>
+                <rect id="Rectangle_37" opacity="0.499" x="103" y="257" width="51.451" height="51.451"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
