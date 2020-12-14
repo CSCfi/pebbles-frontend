@@ -52,12 +52,12 @@
           </mat-card-content>
         </div>
         <!-- //card-left -->
-        <div class="card-right">
+        <div class="card-right" *ngIf="workspace.name !== 'System.default'">
           <mat-card-actions>
             <button mat-flat-button color="primary" aria-label="workspace delete" (click)="exitWorkspace()">
               <mat-icon class="m-b">exit_to_app</mat-icon>
               <br>
-              <span>Exit</span>
+              <span>Leave workspace</span>
             </button>
           </mat-card-actions>
         </div>

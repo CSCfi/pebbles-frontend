@@ -27,7 +27,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
       tap( res => {
-        console.log(`joined new workspace "${res.name}" with code ${joinCode}`);
+        console.log(`joined workspace "${res.name}" with code ${joinCode}`);
         return res;
       })
     );

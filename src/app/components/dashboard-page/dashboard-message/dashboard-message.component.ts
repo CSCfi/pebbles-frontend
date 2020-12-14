@@ -12,7 +12,7 @@ export class DashboardMessageComponent implements OnInit {
 
   public content = {
     path: 'message',
-    title: 'Message'
+    title: 'Announcements'
   };
 
   constructor(

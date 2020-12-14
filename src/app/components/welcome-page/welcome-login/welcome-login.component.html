@@ -7,9 +7,7 @@
         </h2>
         <p class="mb-4">
           Log in to browse the catalogue of available environments and launch them to get access.
-          Dedicated
-          and disposable environments run in the cloud and can be accessed with any of your connected
-          devices.
+          Dedicated and disposable environments run in the cloud and can be accessed by web browser.
         </p>
         <form class="">
           <div class="login-buttons">
@@ -55,15 +53,16 @@
               </a>
             </div>
 
+            <!-- TODO: refactor to special-login-btn -->
             <div id="alternative-login-btn" class="btn-outline-light"
               (click)="isLoginFormOpen=!isLoginFormOpen">
-                Alternative Login
+                Special Login
             </div>
 
           </div>
         </form>
 
-        <!-- Alternative login form -->
+        <!-- Special login form -->
         <mat-accordion class="login-form-outer" multi>
           <mat-expansion-panel [(expanded)]="isLoginFormOpen">
             <form (ngSubmit)="onLogin()" novalidate>

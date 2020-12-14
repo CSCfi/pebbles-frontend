@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Workspace } from 'src/app/models/workspace';
 import { EnvironmentService } from 'src/app/services/environment.service';
 
+// TODO: rename to DashBoardMyWorkspacesComponent
 @Component({
   selector: 'app-dashboard-workspace',
   templateUrl: './dashboard-workspace.component.html',
@@ -14,7 +15,7 @@ export class DashboardWorkspaceComponent implements OnInit {
 
   public content = {
     path: 'user-workspace',
-    title: 'Joined Workspace'
+    title: 'My workspaces'
   };
 
   // ---- Join Workspace Form

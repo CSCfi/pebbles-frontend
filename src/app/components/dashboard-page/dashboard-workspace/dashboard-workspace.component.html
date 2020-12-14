@@ -1,7 +1,7 @@
 <app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
 
 <section class="workspace-join-input-form">
-  <h3>Join New Workspace</h3>
+  <h3>Join Workspace</h3>
   <form #formDirective="ngForm" [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">
     <mat-form-field appearance="outline" class="join-code-input">
       <mat-label>Join Code</mat-label>
@@ -15,7 +15,6 @@
   </form>
 </section>
 <section class="workspace-list">
-  <!-- <h3>My Joined Workspaces</h3> -->
   <div class="workspace-list" *ngFor="let workspace of workspaces">
     <app-dashboard-workspace-item [workspace]=workspace [content]=content (fetchWorkspacesEvent)="fetchWorkspaces()">
     </app-dashboard-workspace-item>

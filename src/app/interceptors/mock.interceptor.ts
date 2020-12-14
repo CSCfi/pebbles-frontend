@@ -195,7 +195,11 @@ export class MockInterceptor implements HttpInterceptor {
     function getEnvironments() {
       const workspaces = database.workspaces;
 
-      const workspaceIds = workspaces.map(ws => ws.id);
+      const workspaceIds = filterAccessibleWorkspaces(workspaces, localStorage.getItem('user_name')).map(ws => ws.id);
+      // Environments from System.default are accessible always
+      if (workspaceIds.indexOf('ws-0') < 0) {
+        workspaceIds.push('ws-0');
+      }
       console.log('mock.getEnvironments() workspaceIds', workspaceIds);
       let environments = database.environments.filter((env) => {
         return workspaceIds.includes(env.workspace_id);
@@ -294,16 +298,7 @@ export class MockInterceptor implements HttpInterceptor {
 
     function getWorkspaces() {
       const user_name = localStorage.getItem('user_name');
-      const workspaces = database.workspaces.filter(ws => {
-        if (ws.member_eppns && ws.member_eppns.includes(user_name)) {
-          return true;
-        }
-        if (ws.owner_eppn === user_name) {
-          return true;
-        }
-        return false;
-      });
-      return ok(workspaces);
+      return ok(filterAccessibleWorkspaces(database.workspaces, user_name));
     }
 
     function joinWorkspace() {
@@ -427,6 +422,22 @@ export class MockInterceptor implements HttpInterceptor {
 
     function saveDatabase() {
       localStorage.setItem('mock.database', JSON.stringify(database));
+    }
+
+    function filterAccessibleWorkspaces(workspaces: Workspace[], eppn: string) {
+      const isAdmin = database.users.filter(u => u.eppn === eppn).is_admin;
+      return database.workspaces.filter(ws => {
+        if (ws.name === 'System.default' && !isAdmin) {
+          return false;
+        }
+        if (ws.member_eppns && ws.member_eppns.includes(eppn)) {
+          return true;
+        }
+        if (ws.owner_eppn === eppn) {
+          return true;
+        }
+        return false;
+      });
     }
   }
 }

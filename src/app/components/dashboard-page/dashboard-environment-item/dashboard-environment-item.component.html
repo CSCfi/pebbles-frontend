@@ -15,11 +15,11 @@
     <div class="card-details">
       <mat-card-header>
         <mat-card-title>
-          <h3>{{ environment.name }}</h3>
+            {{ environment.name }}
+          <span class='mat-card-subtitle' *ngIf="environment.workspace_name !== 'System.default'">
+            in workspace {{ environment.workspace_name }}
+          </span>
         </mat-card-title>
-        <mat-card-subtitle class="workspace-name" *ngIf="environment.workspace_name">
-          {{ environment.workspace_name }}
-        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <p [innerHTML]="environment.description"></p>
@@ -63,11 +63,11 @@
               <ng-template #elseBlock>xxh xxm</ng-template> -->
               <button mat-flat-button class="environment_start_button" color="accent"
               (click)="openEnvironmentInBrowser()">
-                open
+                Open
               </button>
               <button mat-flat-button class="environment_stop_button" color="accent"
               (click)="stopEnvironment()">
-                delete
+                Shutdown
               </button>
             </div>
 

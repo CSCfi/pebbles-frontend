@@ -21,7 +21,7 @@ export class DashboardCatalogComponent implements OnInit {
 
   public content = {
     path: 'catalog',
-    title: 'Environment Catalog'
+    title: 'Environments'
   };
 
   isSearchFormOpen = false;

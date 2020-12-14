@@ -17,7 +17,7 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
 
   public content = {
     path: 'workspace-owner',
-    title: 'Workspace Owner Tool'
+    title: 'Manage workspaces'
   };
 
   get workspaces(): Workspace[] {

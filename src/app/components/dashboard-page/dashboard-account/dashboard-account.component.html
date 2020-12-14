@@ -6,31 +6,16 @@
       <section class="user-info">
         <div class="row form-group">
           <div class="col-lg-4">
-            <h4>User ID</h4>
-          </div>
-          <div class="col-lg-8">
-            <div>{{ user.id }}</div>
-          </div>
-        </div>
-        <div class="row form-group">
-          <div class="col-lg-4">
-            <h4>User Name</h4>
+            <h4>Username</h4>
           </div>
           <div class="col-lg-8">
             <div>{{ user.eppn }}</div>
           </div>
         </div>
         <div class="row form-group">
+          <!-- TODO: replace with workspace quota display -->
           <div class="col-lg-4">
-            <h4>User email</h4>
-          </div>
-          <div class="col-lg-8">
-            <div> {{ user.email_id }}</div>
-          </div>
-        </div>
-        <div class="row form-group">
-          <div class="col-lg-4">
-            <h4>User Status</h4>
+            <h4>Role</h4>
           </div>
           <div class="col-lg-8">
             <div>
@@ -47,7 +32,7 @@
                 </ng-container>
               </ng-template>
               <ng-template #workspace_manager>Workspace Manager</ng-template>
-              <ng-template #regular_user>Normal User</ng-template>
+              <ng-template #regular_user>Active</ng-template>
             </div>
           </div>
         </div>
