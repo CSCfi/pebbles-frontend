@@ -91,10 +91,14 @@
             <div class="info-container">
 
               <div class="info environment-info">
-                <mat-icon class="m-r">vpn_key</mat-icon>
-                <span class="join-code-text">
+                <mat-icon class="m-r" (click)="showJoinCode = !showJoinCode">vpn_key</mat-icon>
+                <span class="join-code-text" *ngIf = !showJoinCode>
                   ●●●●●●●
                   <mat-icon class="m-l">visibility_off</mat-icon>
+                </span>
+                <span *ngIf=showJoinCode>
+                  {{workspace.join_code}}
+                  <mat-icon class="join-code-text m-l">visibility</mat-icon>
                 </span>
               </div>
 

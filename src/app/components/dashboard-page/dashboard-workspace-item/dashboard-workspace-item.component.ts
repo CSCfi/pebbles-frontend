@@ -21,6 +21,7 @@ export class DashboardWorkspaceItemComponent implements OnInit {
 
   lifetime: number;
   isPlainMode: boolean;
+  showJoinCode: boolean;
 
   get environments(): Environment[] {
     return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
@@ -34,6 +35,7 @@ export class DashboardWorkspaceItemComponent implements OnInit {
   ) {
     this.lifetime = 120; // ---- dummy value for now
     this.isPlainMode = false;
+    this.showJoinCode = false;
   }
 
   ngOnInit(): void {
