@@ -5,7 +5,10 @@
     </iframe>
   </div>
   <ng-template #elseBlock>
-    <div>{{ targetInstance.state }}</div>
+    <!-- TODO: add styles, redesign the layout -->
+    <div>Environment name: {{ targetEnvironment.name }}</div>
+    <div>Environment description: {{ targetEnvironment.description }}</div>
+    <div>Environment state: {{ targetInstance.state }}</div>
     <mat-progress-bar mode="buffer" value="{{ progress }}" bufferValue="{{progress + 25}}"></mat-progress-bar>
   </ng-template>
 </div>

@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Instance, InstanceStates } from 'src/app/models/instance';
 import { InstanceService } from 'src/app/services/instance.service';
+import { Environment } from '../../models/environment';
+import { map } from 'rxjs/operators';
+import { EnvironmentService } from '../../services/environment.service';
 
 @Component({
   selector: 'app-instance-page',
@@ -23,16 +26,18 @@ export class InstancePageComponent implements OnInit, OnDestroy {
 
   instances: Instance[];
   targetInstance: Instance;
+  targetEnvironment: Environment;
   redirectUrl: string;
   iframeSrc: SafeResourceUrl;
   instanceId: string;
-  private interval;
   instanceStates = InstanceStates;
   progress = 0;
+  private interval;
 
   constructor(
     private route: ActivatedRoute,
     private instanceService: InstanceService,
+    private environmentService: EnvironmentService,
     public sanitizer: DomSanitizer
   ) {
     this.instanceId = this.route.snapshot.params.id;
@@ -44,7 +49,8 @@ export class InstancePageComponent implements OnInit, OnDestroy {
       this.checkInstanceStatus();
     }, 1000);
     // we are running in a new window, so we need to trigger instanceService
-    this.instanceService.fetchInstances().toPromise().then(() => console.log('instances fetched'));
+    this.instanceService.fetchInstances().subscribe();
+    this.environmentService.fetchEnvironments().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -55,7 +61,7 @@ export class InstancePageComponent implements OnInit, OnDestroy {
   }
 
   checkInstanceStatus(): void {
-    // instance service refreshes the instances asynchronously, we can simply get the fresh ones
+    // assign environment
     this.targetInstance = this.instanceService.getInstances().find((instance) => {
       return (instance.id === this.instanceId);
     });
@@ -63,11 +69,13 @@ export class InstancePageComponent implements OnInit, OnDestroy {
       console.log('instance ' + this.instanceId + ' not found');
       return;
     }
+    this.targetEnvironment = this.environmentService.get(this.targetInstance.environment_id);
+    // instance service refreshes the instances asynchronously, we can simply get the fresh ones
     console.log(this.targetInstance.state);
     this.progress = this.progressMap.get(this.targetInstance.state);
 
     // if our instance state is 'running', proceed to redirection
-    if (this.targetInstance.state === InstanceStates.Running ) {
+    if (this.targetInstance.state === InstanceStates.Running) {
       clearInterval(this.interval);
       this.interval = 0;
       // ---- Chose way between (redirect|iFrame) to display an instance
