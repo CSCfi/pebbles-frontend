@@ -19,6 +19,10 @@ export class WorkspaceService {
     this.fetchWorkspaces().subscribe();
   }
 
+  getWorkspace(id: string): Workspace {
+    return this.workspaces.find(x => x.id === id);
+  }
+
   getWorkspaces(): Workspace[] {
     return this.workspaces;
   }
@@ -58,7 +62,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users`;
     return this.http.get<User[]>(url).pipe(
       map((resp) => {
-        console.log('fetch Users' + resp);
+        console.log('fetchMembersByWorkspaceId() got', resp);
         return resp;
       })
     );
@@ -75,7 +79,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.post<Workspace>(url, {name, description}).pipe(
       map((resp) => {
-        console.log('created Workspace' + resp);
+        console.log('createWorkspace() got', resp);
         return resp;
       })
     );

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
@@ -16,23 +16,41 @@ export class InstanceService implements OnDestroy {
 
   private instances: Instance[] = [];
   private interval = 0;
+  private intervalValue = -1;
 
   constructor(
     private http: HttpClient,
     private desktopNotificationService: DesktopNotificationService
-    ) {
+  ) {
     this.fetchInstances();
-    this.setPollingInterval(30000);
+    this.setPollingInterval(60 * 1000);
   }
 
   ngOnDestroy(): void {
-    if (this.interval !== 0) {
-      clearInterval(this.interval);
-    }
+    clearInterval(this.interval);
   }
 
   getInstances(): Instance[] {
     return this.instances;
+  }
+
+  getInstance(id: string) {
+    return this.instances.find(x => x.id === id);
+  }
+
+  getInstanceByEnvironmentId(envId: string) {
+    return this.instances.find(i => i.environment_id === envId);
+  }
+
+  fetchInstance(id: string): Observable<Instance> {
+    const url = `${buildConfiguration.apiUrl}/instances/${id}`;
+
+    return this.http.get<Instance>(url).pipe(
+      map(resp => {
+        console.log('fetchInstance() got ', resp);
+        return resp;
+      })
+    );
   }
 
   fetchInstances(): Observable<Instance[]> {
@@ -41,7 +59,7 @@ export class InstanceService implements OnDestroy {
     return this.http.get<Instance[]>(url).pipe(
       map(resp => {
         this.instances = resp;
-        console.log('fetchInstances got ' + resp);
+        console.log('fetchInstances got', resp);
 
         let nonRunning = false;
         for (const inst of this.instances) {
@@ -51,9 +69,9 @@ export class InstanceService implements OnDestroy {
           }
         }
         if (nonRunning) {
-          this.setPollingInterval(4000);
+          this.setPollingInterval(4 * 1000);
         } else if (!nonRunning) {
-          this.setPollingInterval(30000);
+          this.setPollingInterval(60 * 1000);
         }
         this.desktopNotificationService.notifyInstanceLifetime(this.instances);
         return this.instances;
@@ -65,9 +83,8 @@ export class InstanceService implements OnDestroy {
     const url = `${buildConfiguration.apiUrl}/instances`;
 
     return this.http.post<Instance>(url, {environment: environmentId}).pipe(
-      tap(resp => {
+      tap(newInstance => {
         // push the new instance directly to state and trigger a full refresh later
-        const newInstance = new Instance(resp.id, resp.name, resp.environment_id, resp.state, '');
         console.log('created instance ' + newInstance.name);
         this.instances.push(newInstance);
         this.fetchInstances().subscribe();
@@ -84,18 +101,26 @@ export class InstanceService implements OnDestroy {
 
   clearPollingInterval() {
     // console.log('---- stop polling');
-    if (this.interval){
+    if (this.interval) {
       clearInterval(this.interval);
+      this.intervalValue = -1;
     }
   }
 
   private setPollingInterval(intervalMs: number) {
+    // check if the value is already set
+    if (this.intervalValue === intervalMs) {
+      return;
+    }
     console.log('setting polling rate to ' + intervalMs);
-    if (this.interval){
+
+    if (this.interval) {
       clearInterval(this.interval);
     }
     this.interval = window.setInterval(() => {
       this.fetchInstances().subscribe();
     }, intervalMs);
+    this.intervalValue = intervalMs;
   }
+
 }

@@ -19,7 +19,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   @Input() content: any;
 
   get state(): InstanceStates{
-    return this.environment.instance.state;
+    return this.instanceService.getInstance(this.environment.instance_id).state;
   }
 
   constructor(
@@ -70,17 +70,16 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   openEnvironmentInBrowser(): void {
-    const instance = this.environment.instance;
     const origin = this.document.location.origin;
     const url = origin + this.router.serializeUrl(
-      this.router.createUrlTree(['/instance/', instance.id])
+      this.router.createUrlTree(['/instance/', this.environment.instance_id])
     );
     window.open(url, '_blank');
-    // this.router.navigateByUrl('/instance/' + instance.id);
+    // this.router.navigateByUrl('/instance/' + this.environment.instance_id);
   }
 
   stopEnvironment(): void {
-    const instance = this.environment.instance;
+    const instance = this.instanceService.getInstance(this.environment.instance_id);
     instance.state = InstanceStates.Deleting;
     // ---- Delete data for instance-notification que.
     localStorage.removeItem(instance.name);
@@ -91,6 +90,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   actionsVisible() {
-    return this.environment.instance && this.environment.instance.state !== InstanceStates.Deleted;
+    const instance = this.instanceService.getInstance(this.environment.instance_id);
+    return instance && instance.state !== InstanceStates.Deleted;
   }
 }

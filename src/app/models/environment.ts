@@ -11,7 +11,7 @@ export class Environment {
     public thumbnail: string,
     public color: string,
     public labels: string[],
-    public instance?: Instance,
+    public instance_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,
     public config?: any,

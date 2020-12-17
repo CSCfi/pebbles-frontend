@@ -93,7 +93,7 @@ export class MockInterceptor implements HttpInterceptor {
           return exitWorkspace();
         case url.includes('/workspaces') && endpoint === 'workspaces' && method === 'PUT':
           return updateOwnerWorkspaces();
-        case url.includes('/workspaces') && url.endsWith('/users') && method === 'GET':
+        case url.includes('/workspaces') && url.endsWith('/list_users') && method === 'GET':
           return getWorkspacesMembers();
         case url.includes('/workspaces') && method === 'GET':
           return getWorkspaces();
@@ -231,7 +231,7 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     function updateEnvironment() {
-      const env = database.environments.find( i => i.id === objectId);
+      const env = database.environments.find(i => i.id === objectId);
       env.name = body.name;
       env.description = body.config.description;
       env.config = body.config;
@@ -347,7 +347,7 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     function updateOwnerWorkspaces(): Observable<HttpResponse<Workspace>> {
-      database.workspaces = database.workspaces.map(( ws: Workspace ) => {
+      database.workspaces = database.workspaces.map((ws: Workspace) => {
         if (ws.id === objectId) {
           ws.name = body.name;
           ws.description = body.description;
@@ -425,9 +425,17 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     function filterAccessibleWorkspaces(workspaces: Workspace[], eppn: string) {
-      const isAdmin = database.users.filter(u => u.eppn === eppn).is_admin;
+      const user = database.users.find(u => u.eppn === eppn);
+      if (!user) {
+        return [];
+      }
+      const isAdmin = user.is_admin;
+
       return database.workspaces.filter(ws => {
-        if (ws.name === 'System.default' && !isAdmin) {
+        if (isAdmin) {
+          return true;
+        }
+        if (ws.name === 'System.default') {
           return false;
         }
         if (ws.member_eppns && ws.member_eppns.includes(eppn)) {
