@@ -27,12 +27,22 @@ export class MockInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // unpack request to helper variables
-    const {url, method, headers, body} = req;
+    const {method, headers, body} = req;
+    let url = null;
+    let args = null;
     console.log(req);
+    if (req.url.indexOf('?') >= 0) {
+      url = req.url.split('?')[0];
+      args = req.url.split('?')[1];
+    }
+    else {
+      url = req.url;
+    }
     const apiComponents = url.substring(url.lastIndexOf('api/v1/') + 7).split('/');
     const endpoint = apiComponents[0];
     let objectId = null;
     const userName = localStorage.getItem('user_name');
+    const userId = localStorage.getItem('user_id');
 
     switch (true) {
 
@@ -254,6 +264,7 @@ export class MockInterceptor implements HttpInterceptor {
 
       const instance = new Instance(
         instanceId,
+        userId,
         'pb-random-' + instanceId,
         envId,
         InstanceStates.Queueing,
@@ -423,7 +434,7 @@ export class MockInterceptor implements HttpInterceptor {
     function saveDatabase() {
       localStorage.setItem('mock.database', JSON.stringify(database));
     }
-
+    // TODO: take arguments (show_only_mine) into account
     function filterAccessibleWorkspaces(workspaces: Workspace[], eppn: string) {
       const user = database.users.find(u => u.eppn === eppn);
       if (!user) {

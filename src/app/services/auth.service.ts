@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { InstanceService } from 'src/app/services/instance.service';
@@ -9,6 +9,13 @@ import { buildConfiguration } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private instanceService: InstanceService,
+  ) {
+  }
 
   get isAdmin(): boolean {
     return localStorage.getItem('is_admin') === 'true';
@@ -20,13 +27,6 @@ export class AuthService {
 
   get isWorkspaceDetail(): boolean {
     return localStorage.getItem('is_workspace_manager') === 'true';
-  }
-
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private instanceService: InstanceService,
-  ) {
   }
 
   login(user: User): Promise<any> {
@@ -51,7 +51,7 @@ export class AuthService {
     return localStorage.getItem('user_name');
   }
 
-   getUserId(): string {
+  getUserId(): string {
     return localStorage.getItem('user_id');
   }
 

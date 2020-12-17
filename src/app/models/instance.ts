@@ -20,6 +20,7 @@ export class Instance {
 
   constructor(
     public id: string,
+    public user_id: string,
     public name: string,
     public environment_id: string,
     public state: InstanceStates,

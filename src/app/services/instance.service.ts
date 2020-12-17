@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
@@ -20,7 +20,7 @@ export class InstanceService implements OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private desktopNotificationService: DesktopNotificationService
+    private desktopNotificationService: DesktopNotificationService,
   ) {
     this.fetchInstances();
     this.setPollingInterval(60 * 1000);
@@ -54,15 +54,14 @@ export class InstanceService implements OnDestroy {
   }
 
   fetchInstances(): Observable<Instance[]> {
-    const url = `${buildConfiguration.apiUrl}/instances`;
+    // filter out instances that are shown by role (admin, owner, manager) but not owned
+    const url = `${buildConfiguration.apiUrl}/instances?show_only_mine=1`;
 
     return this.http.get<Instance[]>(url).pipe(
-      map(resp => {
-        this.instances = resp;
-        console.log('fetchInstances got', resp);
-
+      map(myInstances => {
+        console.log('fetchInstances got', myInstances);
         let nonRunning = false;
-        for (const inst of this.instances) {
+        for (const inst of myInstances) {
           if (inst.state !== InstanceStates.Running) {
             nonRunning = true;
             break;
@@ -73,6 +72,7 @@ export class InstanceService implements OnDestroy {
         } else if (!nonRunning) {
           this.setPollingInterval(60 * 1000);
         }
+        this.instances = myInstances;
         this.desktopNotificationService.notifyInstanceLifetime(this.instances);
         return this.instances;
       })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,7 +13,8 @@ export class AccountService {
 
   private user: User;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   fetchAccount(userId: string): Observable<User> {
     const url = `${buildConfiguration.apiUrl}/users/${userId}`;
@@ -24,5 +25,4 @@ export class AccountService {
       })
     );
   }
-
 }
