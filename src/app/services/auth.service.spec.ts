@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from './auth.service';
 import { User } from 'src/app/models/user';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -14,7 +15,7 @@ describe('AuthService', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS]
+      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS, MatSnackBar]
     });
     service = TestBed.inject(AuthService);
   });

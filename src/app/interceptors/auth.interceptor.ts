@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
+import { MessageService } from '../services/message.service';
 
 
 @Injectable()
@@ -12,6 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private authService: AuthService,
+    private messageService: MessageService,
     private router: Router) {
   }
 
@@ -38,8 +40,12 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((err: Observable<HttpEvent<any>>) => {
         console.log('AuthInterceptor caught an error');
         if (err instanceof HttpErrorResponse && err.status === 401) {
+          this.messageService.displayError('Authentication failed');
           this.router.navigate(['welcome']).then(() => console.log('router: navigated to welcome'));
           return of(err as any);
+        }
+        if (err instanceof HttpErrorResponse) {
+          this.messageService.displayError(`Error response from server: ${err.message}`);
         }
         throw err;
       })
