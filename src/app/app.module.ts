@@ -7,7 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // ---- Custom Modules
 import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
-// ---- Page Modules
+import { SharedModule } from './components/shared/shared.module';
 import { DashboardModule } from './components/dashboard-page/dashboard.module';
 // ---- Services
 import { AuthService } from 'src/app/services/auth.service';
@@ -24,7 +24,6 @@ import { WelcomeLoginComponent } from './components/welcome-page/welcome-login/w
 import { WelcomePublicityComponent } from './components/welcome-page/welcome-publicity/welcome-publicity.component';
 import { InstancePageComponent } from './components/instance-page/instance-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
-import { HeaderComponent } from './components/common/header/header.component';
 // ---- Interceptors
 import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
 
@@ -38,7 +37,6 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     WelcomeLoginComponent,
     WelcomePublicityComponent,
     InstancePageComponent,
-    HeaderComponent,
   ],
   exports: [
   ],
@@ -47,10 +45,11 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule,
     FlexLayoutModule,
-    DashboardModule,
+    AppRoutingModule,
     MaterialModule,
+    SharedModule,
+    DashboardModule,
   ],
   providers: [
     AuthService,
