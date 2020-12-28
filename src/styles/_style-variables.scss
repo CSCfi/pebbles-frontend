@@ -42,15 +42,19 @@ $layout-set:(
   dashboard: (
     header: (
       w: 100%,
-      h: 70px,
+      h: 65px,
     ),
     footer: (
       w: 100%,
       h: 100px
     ),
-    sidebar: (
+    sidenav: (
       w: 250px,
-      h: 100%
+      h: 100vh
+    ),
+    content: (
+      w: auto,
+      min-h: 100vh
     ),
     button-s: (
       h: 30px,
@@ -58,19 +62,6 @@ $layout-set:(
   ),
 );
 // @debug map-deep-get($layout-set, dashboard, header, h);
-
-$layouts: (
-  welcome-header-height: 100%,
-  welcome-header-width: 80px,
-  welcome-footer-height: 100%,
-  welcome-footer-width: 100%,
-  dashboard-header-width: 100%,
-  dashboard-header-height: 80px,
-  dashboard-sidebar-width: 250px,
-  dashboard-sidebar-height: 100%,
-  dashboard-footer-width: 100%,
-  dashboard-footer-height: 100px,
-);
 
 @mixin banner {
   background-color: map-get($colors, primary);

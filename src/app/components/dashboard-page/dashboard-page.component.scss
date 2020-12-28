@@ -1,27 +1,27 @@
-@import "src/styles_old.scss";
+@import "src/styles.scss";
 
-.header-container{
-  position: fixed;
-  width: 100%;
+.header-container {
   z-index: 200;
+  position: fixed;
+  width: map-deep-get($layout-set, dashboard, header, w);
 }
 
-.mat-sidenav-container{
-  height: (100vh-$header-height);
+.mat-sidenav-container {
+  z-index: 100;
+  height: map-deep-get($layout-set, dashboard, sidenav, h);
+  padding-top: map-deep-get($layout-set, dashboard, header, h);
 
-  .mat-sidenav{
+  .mat-sidenav {
     position: fixed;
-    margin-top: $header-height;
+    margin-top: map-deep-get($layout-set, dashboard, header, h);
     background-color: map-get($colors, dark);
+    border: none !important;
 
-    .sidebar{
-      z-index: 100;
+    .sidebar {
       height: 100%;
       width: 100%;
-
       bottom: 0;
       top: 0;
-      border-right: $border-thin;
       -webkit-transition: all .2s ease;
       -o-transition: all .2s ease;
       transition: all .2s ease;
@@ -30,13 +30,9 @@
 }
 
 div.dashboard-page-container{
-    // position: absolute;
-    // z-index: 100;
-    margin-top: $header-height;
-    // margin-left: $side-nav-width;
+    padding-top: map-deep-get($layout-set, dashboard, sidenav, h);
     padding: 30px;
     display: block;
-    min-height: calc(100vh - #{$header-height});
-    // background-color: #f9fafb!important;
+    min-height: map-deep-get($layout-set, dashboard, content, min-h);
     background-color: map-get($colors, light);
 }

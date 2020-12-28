@@ -1,136 +1,101 @@
-@import "src/styles_old.scss";
+@import "src/styles.scss";
 
 .sidebar-inner {
     position: relative;
     font-size: $font-size-sideNav;
     font-weight: $font-weight-bold-base;
 
-    .nav-toggle-btn{
-      z-index: 200;
-      padding: 15px 10px;
+    ::ng-deep .mat-button {
+      padding-left: 28px !important;
 
-      .mat-button{
-        min-width: auto;
-        // padding: 0 10px;
-        color: map-get($colors, light);
-      }
-    }
-
-    .sidebar-user {
-      border-bottom: $border-thin;
-      // line-height: 0;
-      list-style: none;
-      margin: 0;
-      // padding: 0px 10px 30px;
-      // min-height: 100px;
-      position: relative;
-      -webkit-transition: all .2s ease;
-      -o-transition: all .2s ease;
-      transition: all .2s ease;
-
-      .user-icon{
-        height: 60px;
-        width: 60px;
-        margin: 30px auto 0;
-
-        .mat-icon{
-          font-size: 60px;
-          color: #9cb2c7;
-        }
-      }
-
-      .user-greeting{
-        margin-top: 10px!important;
-        display: block;
-        font-size: $font-size-sideNav-s;
-        padding: 0px 10px;
-        position: relative;
-        white-space: nowrap;
-        text-align: center;
-      }
-
-      .user-name{
-        // margin-top: 5px!important;
-        display: block;
-        padding: 0px 15px;
-        position: relative;
-        white-space: nowrap;
-        text-align: center;
-      }
-
-      .user-role{
-        display: block;
-        padding: 5px 15px;
-        position: relative;
-        white-space: nowrap;
-        text-align: center;
-      }
-
-      .user-logout-btn{
-        margin-top: 10px!important;
-        font-size: $font-size-sideNav-s;
-        font-weight: $font-weight-bold-base;
-        width: 100px;
-        margin: auto;
-        border: 1px solid #9cb2c7;
+      .mat-button-wrapper {
+        float: left;
       }
     }
 
     .sidebar-menu {
-      // border-right: 1px solid rgba(0,0,0,.0625);
-      // height: calc(100vh - 65px);
-      list-style: none;
-      margin: 0;
-      overflow: auto;
-      padding: 0;
       position: relative;
-      border-top: $border-thin-light;
-
-      // &.workspace-owner,
-      // &.outer-link{
-
-      // }
+      // border-top: $border-thin-light;
 
       li{
-        padding: 5px 0 5px !important;
-        margin: 5px 10px;
-        // border-bottom: $border-thin;
-        // border-bottom: 1px #111 solid;
-        // border-top: 1px #4e4e4e solid;
+        border-left: 10px solid map-get($colors, dark);
+        padding-right: 8px;
 
         &.active{
-          background-color: #3b3d48;
-          color: #fff;
-          border-radius: 2px;
+          background-color: rgb(255, 255, 255, .1);
+          color: map-get($colors, white);
+          border-left: 10px solid map-get($colors, accent);
         }
 
         a {
-          display: block;
-          position: relative;
-          white-space: nowrap;
-          padding: 5px 18px;
+          padding: 12px 18px !important;
+
           color: map-get($colors, light);
 
-          .icon-holder {
-            height: 30px;
-            line-height: 30px;
-            display: block;
-
-
-              .mat-icon{
-                vertical-align: middle;
-                line-height: 1;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-              }
-          }
-
-          .title{
-            position: absolute;
-            top: 12px;
-            margin-left: 40px;
+          .title {
+            margin-left: 15px;
           }
         }
       }
     }
+
+    // .sidebar-user {
+    //   border-bottom: $border-thin;
+    //   // line-height: 0;
+    //   list-style: none;
+    //   margin: 0;
+    //   // padding: 0px 10px 30px;
+    //   // min-height: 100px;
+    //   position: relative;
+    //   -webkit-transition: all .2s ease;
+    //   -o-transition: all .2s ease;
+    //   transition: all .2s ease;
+
+    //   .user-icon{
+    //     height: 60px;
+    //     width: 60px;
+    //     margin: 30px auto 0;
+
+    //     .mat-icon{
+    //       font-size: 60px;
+    //       color: #9cb2c7;
+    //     }
+    //   }
+
+    //   .user-greeting{
+    //     margin-top: 10px!important;
+    //     display: block;
+    //     font-size: $font-size-sideNav-s;
+    //     padding: 0px 10px;
+    //     position: relative;
+    //     white-space: nowrap;
+    //     text-align: center;
+    //   }
+
+    //   .user-name{
+    //     // margin-top: 5px!important;
+    //     display: block;
+    //     padding: 0px 15px;
+    //     position: relative;
+    //     white-space: nowrap;
+    //     text-align: center;
+    //   }
+
+    //   .user-role{
+    //     display: block;
+    //     padding: 5px 15px;
+    //     position: relative;
+    //     white-space: nowrap;
+    //     text-align: center;
+    //   }
+
+    //   .user-logout-btn{
+    //     margin-top: 10px!important;
+    //     font-size: $font-size-sideNav-s;
+    //     font-weight: $font-weight-bold-base;
+    //     width: 100px;
+    //     margin: auto;
+    //     border: 1px solid #9cb2c7;
+    //   }
+    // }
   }

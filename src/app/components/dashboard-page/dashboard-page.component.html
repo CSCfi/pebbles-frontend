@@ -1,9 +1,9 @@
 <!-- Design option : header pattern-B -->
-<app-dashboard-header class="header-container desing-b"></app-dashboard-header>
+<app-dashboard-header class="header-container"></app-dashboard-header>
 
 <mat-sidenav-container>
   <!-- SideNav Area -->
-  <mat-sidenav #sidenav mode="side" opened="true"
+  <mat-sidenav #sidenav mode="side" opened="true" class="shadow-m"
   [@onSideNavChange]="isSideNavOpen">
     <app-dashboard-nav class="sidebar"
     (toggleSideNavEvent)="toggleSideNav()"
@@ -18,4 +18,4 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<!-- <app-dashboard-footer class="footer"></app-dashboard-footer> -->
+<app-footer class="footer"></app-footer>

@@ -3,8 +3,7 @@
 .header {
   height: map-deep-get($layout-set, dashboard, header, h);
   background-color: map-get($colors, primary);
-
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
+  padding-top: 5px;
 
   &__nav {
     padding-top: 5px;
