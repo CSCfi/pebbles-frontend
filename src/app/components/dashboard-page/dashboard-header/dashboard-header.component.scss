@@ -1,50 +1,36 @@
 @import "src/styles.scss";
 
-.header{
-  height: $header-height;
+.header {
+  height: map-deep-get($layout-set, dashboard, header, h);
   background-color: map-get($colors, primary);
-  // border-bottom: 1px solid rgba(0, 70, 80, 0.8);
 
-  // &:after{
-  //   content: "";
-  //   border-bottom: 1px solid rgba(59, 180, 201,0.5);
-  //   position: absolute;
-  //   bottom: 0px;
-  //   width: 100%;
-  // }
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
 
-  .logo{
+  &__nav {
+    padding-top: 5px;
 
-    &-inner{
-      // width: 200px;
-      height: 50px;
-    }
+    a {
+      color: map-get($colors, white);
 
-    &mark{
-      width: 70px;
-      height: 60px;
-      padding: 5px;
-
-      a{
-        width: auto;
-        height: auto;
-      }
-
-      mat-icon{
-        width: auto;
-        height: auto;
-        font-size: 4.6rem;
-        color: map-get($colors, white);
+      &:hover {
+        color: map-get($colors, active);
       }
     }
 
-    &type{
+    .user-account {
+      margin-right: 20px;
 
+      .user-name {
+        a {
+          text-decoration: underline;
+        }
+
+        mat-icon {
+          margin-right: 5px;
+          color: map-get($colors, white);
+        }
+      }
     }
-  }
-
-  &-functions{
-    // background-color: map-get($colors, primary);
   }
 }
 

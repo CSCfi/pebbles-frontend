@@ -1,20 +1,20 @@
-<header id="header" role="main">
-  <div class="container" fxLayout="row" fxLayoutAlign="space-between">
+<header id="header" role="header">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
     <div class="logo" fxFlex="0 0 250px">
-      <div class="logo-inner" fxLayout="row" fxLayoutAlign="start">
-        <div class="logo--mark" fxFlex="0 0 50px">
+      <div class="logo__inner" fxLayout="row" fxLayoutAlign="start center">
+        <div class="logo__mark" fxFlex="0 0 45px">
           <a [routerLink]="['/welcome']">
             <!-- Dummy -->
             <mat-icon role="logomark">import_contacts</mat-icon>
           </a>
         </div>
-        <div class="logo--type mat-display-4">
+        <div class="logo__type">
           <a [routerLink]="['/welcome']">Notebooks</a>
         </div>
       </div>
     </div>
 
-    <ul class="navbar" fxFlex="grow" fxLayoutAlign="end center" fxLayoutGap="18px grid">
+    <ul class="navbar" fxFlex="grow" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="18px">
       <li>
         <a href="https://www.webropolsurveys.com/S/84118B6BD6E97501.par" target="_blank" rel="noopener">Host courses & request</a>
       </li>

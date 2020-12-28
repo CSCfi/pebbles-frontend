@@ -1,38 +1,40 @@
-<div class="header" fxLayout="row" fxLayoutAlign="space-between">
-  <div class="logo" fxFlex="0 0 250px">
-    <div class="logo-inner" fxLayout="row" fxLayoutAlign="center">
-      <div class="logomark" fxFlex="0 0 70px">
-        <a [routerLink]="['/dashboard']">
-          <!-- TODO: Change to the Original Logo -->
-          <mat-icon fontSet="material-icons-outlined" role="logomark">import_contacts</mat-icon>
-        </a>
-      </div>
-      <div class="logotype">
-        <a [routerLink]="['/dashboard']"><h1>Notebooks</h1></a>
+<header class="header">
+  <div class="container__fluid" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="logo" fxFlex="0 0 250px">
+      <div class="logo__inner" fxLayout="row" fxLayoutAlign="center center">
+        <div class="logo__mark" fxFlex="0 0 45px">
+          <a [routerLink]="['/dashboard']">
+            <!-- Dummy -->
+            <mat-icon role="logomark">import_contacts</mat-icon>
+          </a>
+        </div>
+        <div class="logo__type">
+          <a [routerLink]="['/dashboard']">Notebooks</a>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- //// Logo -->
+    <!-- //// Logo -->
 
-  <div class="header-functions" fxFlex="grow" fxLayoutAlign="end center">
-    <div class="announcement" *ngIf="getMessages().length">
-      <a [routerLink]="['/dashboard/message']">
-        <mat-icon [matBadge]="getMessages().length.toString()" matBadgeColor="warn" >notifications</mat-icon>
-      </a>
-    </div>
-    <!-- //// announcement -->
-    <div class="user-account">
-      <div class="user-name">
-        <mat-icon fontSet="material-icons-outlined">face</mat-icon>
-        <a [routerLink]="['/dashboard/account']">
-          {{ authService.getUserName() }}
+    <div class="header__nav" fxFlex="grow" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="18px">
+      <div class="announcement" *ngIf="getMessages().length">
+        <a [routerLink]="['/dashboard/message']">
+          <mat-icon [matBadge]="getMessages().length.toString()" matBadgeColor="warn">notifications</mat-icon>
         </a>
       </div>
-      <div class="btn user-logout-btn"
-      (click)="authService.logout()" >
-      Logout
+      <!-- //// announcement -->
+      <div class="user-account centering" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
+        <div class="user-name centering__inline">
+          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+          <a [routerLink]="['/dashboard/account']">
+            {{ authService.getUserName() }}
+          </a>
+        </div>
+        <button mat-stroked-button class="logout-button button-s centering__inline"
+        (click)="authService.logout()">
+          Logout
+        </button>
       </div>
+      <!-- //// user-account -->
     </div>
-    <!-- //// user-account -->
   </div>
-</div>
+</header>

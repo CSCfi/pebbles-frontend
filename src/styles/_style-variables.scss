@@ -15,6 +15,7 @@ $colors: (
   danger: #7dc242,
   info: #006778,
   warning: #830051,
+  active: #830051,
   light: #efeff6,
   dark:  #2e2f39,
   neutral-dark:  #9cb2c7,
@@ -41,15 +42,22 @@ $layout-set:(
   dashboard: (
     header: (
       w: 100%,
-      height: 80px,
+      h: 70px,
     ),
     footer: (
       w: 100%,
       h: 100px
-    )
+    ),
+    sidebar: (
+      w: 250px,
+      h: 100%
+    ),
+    button-s: (
+      h: 30px,
+    ),
   ),
 );
-// @debug map-deep-get($layout-set, welcome, header, h);
+// @debug map-deep-get($layout-set, dashboard, header, h);
 
 $layouts: (
   welcome-header-height: 100%,

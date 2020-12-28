@@ -158,9 +158,73 @@ section.card {
   align-items: center;
 }
 
+// ---- shared styles ---- //
+
 .container {
   display: block;
   width: auto;
   max-width: 1200px;
   margin: auto;
+  height: 100%;
+
+  &__fluid{
+    max-width: 100%;
+    height: 100%;
+  }
+}
+
+.centering{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__inline{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+// ---- shared styles for parts ---- //
+
+.logo {
+
+  a {
+    color: map-get($colors, white) !important;
+    width: auto;
+    height: auto;
+  }
+
+  &__inner {
+    height: 100%;
+    width: auto;
+  }
+
+  &__mark {
+    width: auto;
+    height: auto;
+
+    mat-icon {
+      width: auto;
+      height: auto;
+      font-size: 3.2rem;
+      color: map-get($colors, white);
+    }
+  }
+
+  &__type {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+}
+
+.button-s {
+  height: map-deep-get($layout-set, dashboard, button-s, h);
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  padding: 0 20px !important;
+
+  &:hover {
+    background-color: map-get($colors, active);
+  }
 }
