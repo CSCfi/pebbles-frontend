@@ -40,7 +40,10 @@ export class AuthService {
     }
     localStorage.clear();
     this.instanceService.clearPollingInterval();
-    this.router.navigateByUrl('/').then(() => console.log('router: navigated to /'));
+    this.router.navigateByUrl('/').then(() => {
+      window.location.reload();
+      console.log('router: navigated to /');
+    });
   }
 
   getToken(): string {
