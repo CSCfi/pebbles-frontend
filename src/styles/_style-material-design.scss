@@ -36,12 +36,12 @@ $custom-typography: mat-typography-config(
   $display-2:     mat-typography-level(30px, 36px, 400, map-get($font-families, stress)),
   $display-1:     mat-typography-level(18px, 24px, 300, map-get($font-families, stress)),
   $headline: mat-typography-level(2.8rem, 32px, 500, map-get($font-families, stress)),
-  $title: mat-typography-level(2.4rem, 32px, 700, map-get($font-families, stress)),
+  $title: mat-typography-level(1.8rem, 1.8rem, 500, map-get($font-families, stress)),
   $subheading-2: mat-typography-level(1.8rem, 32px, 700, map-get($font-families, stress)),
   $subheading-1: mat-typography-level(1.5rem, 24px, 400, map-get($font-families, stress)),
-  $button: mat-typography-level(1.6rem, 16px, 500, map-get($font-families, stress), 0.05rem),
-  $body-2: mat-typography-level(1.3rem, 16px, 400, map-get($font-families, base), 0.05rem),
-  $body-1: mat-typography-level(1.2rem, 16px, 300, map-get($font-families, base), 0.05rem),
+  $button: mat-typography-level(1.6rem, 16px, 500, map-get($font-families, stress), 0.08rem),
+  $body-2: mat-typography-level(1.4rem, 16px, 400, map-get($font-families, base), 0.08rem),
+  $body-1: mat-typography-level(1.3rem, 16px, 300, map-get($font-families, base), 0.08rem),
 );
 
 @include mat-core($custom-typography);
@@ -64,27 +64,32 @@ $mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-acce
   // ---- Button
   a.mat-button-base,
   .mat-button-base {
-    vertical-align: middle;
+
     text-transform: uppercase;
-
-    color: map-get($colors, white) !important;
     font-weight: bold !important;
-    width: 100%;
-    padding: 10px 20px !important;
-    border-radius: 3px !important;
-    // margin-bottom: 10px !important;
-  }
 
-  .mat-raised-button{
-    background-color: map-get($colors, success) !important;
-
-    &.shadow-moderate{
-      box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+    &.grow {
+      width: 100%;
     }
-  }
 
-  .mat-stroked-button{
-    border-color: map-get($colors, white) !important;
+    &.prime {
+      @include inversion(primary);
+    }
+
+    &.accent {
+      @include inversion(accent);
+    }
+
+    &.dark {
+      @include inversion(dark);
+    }
+
+    &.mid {
+      padding: 10px 20px;
+    }
+
+    // vertical-align: middle;
+    // border-radius: 3px !important;
   }
 
   // ---- FormGroup
@@ -130,6 +135,11 @@ $mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-acce
   }
   .mat-tab-label {
     opacity: 1 !important;
+  }
+
+  // Card
+  .mat-card-header-text {
+    margin: 0 !important;
   }
 }
 

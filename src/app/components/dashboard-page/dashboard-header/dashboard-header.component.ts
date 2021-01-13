@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message } from 'src/app/models/message';
@@ -13,6 +13,7 @@ import { MessageService } from 'src/app/services/message.service';
 export class DashboardHeaderComponent implements OnInit {
 
   user: User;
+  @Input() styleOption: number;
 
   constructor(
     public authService: AuthService,

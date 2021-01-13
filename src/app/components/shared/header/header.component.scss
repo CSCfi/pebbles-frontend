@@ -10,7 +10,7 @@
     .navbar-brand{
       position: relative;
       display: block;
-      width: $side-nav-width;
+      width: map-deep-get($layout-set, dashboard, sidenav, w);
       height: 100%;
       padding: 0;
       top: 0;

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
-
+import { DashboardSearchBoxComponent } from '../dashboard-search-box/dashboard-search-box.component';
 import { DashboardEnvironmentFormComponent } from './dashboard-environment-form.component';
 
 describe('DashboardEnvironmentFormComponent', () => {
@@ -19,7 +19,10 @@ describe('DashboardEnvironmentFormComponent', () => {
         MaterialModule,
         MatDialogModule
       ],
-      declarations: [ DashboardEnvironmentFormComponent ],
+      declarations: [
+        DashboardEnvironmentFormComponent,
+        DashboardSearchBoxComponent
+       ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,

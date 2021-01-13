@@ -1,56 +1,67 @@
 <div class="sidebar-inner">
-  <!-- Design option : pattern-A -->
-  <!-- <app-dashboard-header></app-dashboard-header> -->
+
+  <div class="logo inversion primary" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <div class="logomark">
+      <mat-icon role="logomark"> import_contacts </mat-icon>
+    </div>
+    <div class="logotype" *ngIf="isTextVisible">
+      <h1> Notebooks </h1>
+    </div>
+  </div>
+
   <div class="nav-toggle-btn">
-    <button mat-button (click)="emitSideNavToggle()">
-      <mat-icon>menu</mat-icon>
+    <button mat-button class="mid"
+    (click)="emitSideNavToggle()">
+      <ng-container *ngIf="isTextVisible; else close">
+        <mat-icon>menu_open</mat-icon>
+      </ng-container>
+      <ng-template #close>
+        <mat-icon>menu</mat-icon>
+      </ng-template>
     </button>
   </div>
+
   <!-- <div class="sidebar-user">
-            <div class="user-icon">
-                <mat-icon fontSet="material-icons-outlined">account_circle</mat-icon>
-            </div>
-            <div class="user-greeting">Welcome Back!</div>
-            <div class="user-name">Tieteen Tietotekniikan</div>
-            <div class="text-center">
-                <div type="button" class="btn user-logout-btn text-primary border-primary">Logout</div>
-            </div>
-        </div> -->
+    <div *ngIf="isTextVisible">
+      <div class="user-icon">
+        <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+      </div>
+      <div class="user-name">
+        admin@org.fi
+        <a [routerLink]="['/dashboard/account']">
+          <mat-icon>info</mat-icon>
+        </a>
+      </div>
+      <div class="announcements">
+        Announcements
+        <a [routerLink]="['/dashboard/message']">
+          <mat-icon [matBadge]="1" matBadgeColor="warn">notifications</mat-icon>
+        </a>
+      </div>
+      <button mat-stroked-button class="logout-button button-s"
+      (click)="authService.logout()">
+        Logout
+      </button>
+    </div>
+  </div> -->
+
   <ul class="sidebar-menu scrollable">
     <li class="nav-item" [class.active]="router.url==='/dashboard/catalog'"
     #tooltip="matTooltip" matTooltip="Environments" [matTooltipDisabled]="true">
-      <a class="sidebar-link centering" [routerLink]="['/dashboard/catalog']">
-        <div class="icon-holder" >
+      <a class="sidebar-link v-centering" [routerLink]="['/dashboard/catalog']">
+        <div class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
         </div>
         <div class="title" *ngIf="isTextVisible">Environments</div>
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/dashboard/user-workspace'"
-    #tooltip="matTooltip" matTooltip="Workspace" [matTooltipDisabled]="true">
-      <a class="sidebar-link centering" [routerLink]="['/dashboard/user-workspace']">
+    #tooltip="matTooltip" matTooltip="My workspaces" [matTooltipDisabled]="true">
+      <a class="sidebar-link v-centering" [routerLink]="['/dashboard/user-workspace']">
         <div class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
+          <mat-icon>people_outline</mat-icon>
         </div>
         <div class="title" *ngIf="isTextVisible">My workspaces</div>
-      </a>
-    </li>
-    <li class="nav-item" [class.active]="router.url==='/dashboard/account'"
-    #tooltip="matTooltip" matTooltip="Account" [matTooltipDisabled]="true">
-      <a class="sidebar-link centering" [routerLink]="['/dashboard/account']">
-        <div class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
-        </div>
-        <div class="title" *ngIf="isTextVisible">Account</div>
-      </a>
-    </li>
-    <li class="nav-item" [class.active]="router.url==='/dashboard/message'"
-    #tooltip="matTooltip" matTooltip="Announcements" [matTooltipDisabled]="true">
-      <a class="sidebar-link centering" [routerLink]="['/dashboard/message']">
-        <div class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">notifications</mat-icon>
-        </div>
-        <div class="title" *ngIf="isTextVisible">Announcements</div>
       </a>
     </li>
   </ul>
@@ -59,7 +70,7 @@
     <ul class="sidebar-menu workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/workspace-owner'"
       #tooltip="matTooltip" matTooltip="Manage workspaces" [matTooltipDisabled]="true">
-        <a class="sidebar-link centering" [routerLink]="['/dashboard/workspace-owner']">
+        <a class="sidebar-link v-centering" [routerLink]="['/dashboard/workspace-owner']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">folder_shared</mat-icon>
           </div>
@@ -70,10 +81,10 @@
   </ng-container>
 
   <ng-container *ngIf="authService.isAdmin">
-    <ul class="sidebar-menu workspace-owner">
+    <ul class="sidebar-menu workspace-owner nav-section">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/admin'"
       #tooltip="matTooltip" matTooltip="Admin Tool" [matTooltipDisabled]="true">
-        <a class="sidebar-link centering" [routerLink]="['/dashboard/admin']">
+        <a class="sidebar-link v-centering" [routerLink]="['/dashboard/admin']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
           </div>
@@ -82,7 +93,7 @@
       </li>
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/statistics'"
       #tooltip="matTooltip" matTooltip="Statistics" [matTooltipDisabled]="true">
-        <a class="sidebar-link centering" [routerLink]="['/dashboard/statistics']">
+        <a class="sidebar-link v-centering" [routerLink]="['/dashboard/statistics']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">bar_chart</mat-icon>
           </div>
@@ -92,10 +103,33 @@
     </ul>
   </ng-container>
 
-  <ul class="sidebar-menu outer-link">
+  <ul class="sidebar-menu scrollable nav-section">
+    <li class="nav-item" [class.active]="router.url==='/dashboard/message'"
+    #tooltip="matTooltip" matTooltip="Announcements" [matTooltipDisabled]="true">
+      <a class="sidebar-link v-centering" [routerLink]="['/dashboard/message']">
+        <div class="icon-holder">
+          <mat-icon fontSet="material-icons-outlined"
+          [matBadge]="1" matBadgeColor="warn">
+            notifications
+          </mat-icon>
+        </div>
+        <div class="title" *ngIf="isTextVisible">Announcements</div>
+      </a>
+    </li>
+    <li class="nav-item" [class.active]="router.url==='/dashboard/account'"
+    #tooltip="matTooltip" matTooltip="Account" [matTooltipDisabled]="true">
+      <a class="sidebar-link v-centering" [routerLink]="['/dashboard/account']">
+        <div class="icon-holder">
+          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+        </div>
+        <div class="title" *ngIf="isTextVisible">Account</div>
+      </a>
+    </li>
+  </ul>
+  <ul class="sidebar-menu outer-link nav-section">
     <li class="nav-item" [class.active]="router.url==='/dashboard/help'"
     #tooltip="matTooltip" matTooltip="Help" [matTooltipDisabled]="true">
-      <a class="sidebar-link centering" [routerLink]="['/dashboard/help']">
+      <a class="sidebar-link v-centering" [routerLink]="['/dashboard/help']">
         <div class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
         </div>
@@ -103,4 +137,13 @@
       </a>
     </li>
   </ul>
+
+  <div class="sidebar-logout">
+    <button class="logout-button"
+    (click)="authService.logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span class="button-text" *ngIf="isTextVisible">Logout</span>
+    </button>
+  </div>
+
 </div>

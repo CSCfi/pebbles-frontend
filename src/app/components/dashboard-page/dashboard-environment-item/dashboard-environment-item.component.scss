@@ -1,198 +1,121 @@
-@import "src/styles_old.scss";
+@import "src/styles.scss";
 
-.environment-item{
-    min-height: 150px;
-    margin-bottom: 25px;
-    padding: 0;
+::ng-deep mat-card{
+  min-height: 150px;
+  padding: 0 !important;
+  overflow: hidden;
 
-    display: flex;
-    border-radius: 5px;
-    align-content: stretch;
-    justify-content: center;
+  .card-media{
+    padding: 20px 0 20px 20px;
+    color: map-get($colors, neutral-dark);
 
-    .pad-right {
-      padding:10px;
+    .thumbnail{
+      font-size: 34px;
     }
 
-    .card-media {
-        padding: 20px;
-        flex: 0 0 110px;
+    .thumbnail i{
+      font-size: 68px !important;
+    }
 
-        .workspace-thumbnail{
-            display: inline-flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #ddd;
-            flex-basis: 110px;
+    .thumbnail .r-studio {
+      font-size: 62px;
+    }
+  }
 
-            img{
-                width: 100%;
-                margin: 0 !important;
-            }
+  .card-details {
+    padding: 20px 20px 10px 20px;
 
-            .workspace-letter{
-                color: #fff;
-                font-size: 5rem;
-                font-weight: bold;
-                text-align: center;
-            }
+    mat-card-header {
+      margin-bottom: 6px;
+      width: 100%;
+
+      .mat-card-header-text{
+        width: 100%;
+
+        mat-card-title {
+          padding-bottom: 5px;
+          border-bottom: 1px solid map-get($colors, light-gray) !important;
         }
 
+        mat-card-subtitle {
+          margin-bottom: 8px;
+          font-size: 1.4rem !important;
+          font-weight: 500;
+          color: map-get($colors, dark) !important;
 
-    }
-
-    .card-details {
-        flex: 1 1 auto;
-        padding: 20px 0;
-
-        .mat-card-header{
-            width: 100%;
-
-            ::ng-deep .mat-card-header-text{
-                width: 100%;
-            }
-
-            .mat-card-title{
-                width: 100%;
-                border-bottom: $border-thin;
-            }
-
-            .mat-card-subtitle{
-                margin-bottom: 5px;
-                color: #999;
-            }
+          .heading {
+            font-size: 11px;
+          }
         }
+      }
+    }
 
-        .label-list{
-            // padding: 10px 0 0 20px;
-            margin: 10px 16px 0 16px;
+    mat-card-content {
 
-            .mat-chip{
-                font-size: 12px;
-                min-height: 22px;
-            }
+      .label-list{
+
+        mat-chip {
+          font-size: 1.1rem !important;
+          min-height: 26px !important;
+          font-weight: 600 !important;
         }
+      }
+    }
+  }
 
-        ::ng-deep .mat-card-content{
-            // padding-top: 5px;
-            margin-bottom: 5px;
+  mat-card-actions {
+    background: map-get($colors, white);
+    padding: 0 !important;
+    margin: 0 !important;
+    // border-left: 1px solid map-get($colors, primary);
 
-            p{
-                margin: 0 16px;
-            }
+    &.active {
+      background: map-get($colors, primary) !important;
+    }
+
+    .progress-spinner-container {
+      position: relative;
+
+      mat-progress-spinner{
+        margin: auto;
+        circle {
+          stroke: map-get($colors, white) !important;
+          shape-rendering: auto;
         }
-    }
+      }
 
-    .instance-actions{
-        flex: 0 0 150px;
-    }
+      .lifetime-info {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        font-weight: 600;
 
-    .card-actions{
-        flex: 0 0 150px;
-    }
-
-    .instance-actions,
-    .card-actions {
-        background: #ddd;
-        border-radius: 0px 5px 5px;
-
-        .mat-card-actions {
-            position: relative;
-            padding: 0;
-            margin: 0;
-            height: 100%;
-
-            .instance-action-ui,
-            .instance-launch-ui {
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
-                align-content: stretch;
-                // justify-content: center;
-            }
-
-            .instance-action-ui {
-                // min-width: 200px;
-
-                .lifetime-info {
-                    border-radius: 0px 5px 0px 0px;
-                    // position: relative;
-                    flex: 0 0 150px;
-                    color: #fff;
-                    background: map-get($colors, accent);
-
-                    display: flex;
-                    flex-direction: column;
-                    align-items: stretch;
-                    align-content: stretch;
-
-                    .instance_time_button{
-                        flex: 0 0 100px;
-                        width: 100%;
-                        display: inline-flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                    }
-
-                    .environment_start_button,
-                    .environment_stop_button {
-                        flex: 0 0 auto;
-                        border-radius: 0;
-                        // border-top: #fff 1px solid;
-                        width: 100%;
-                        display: inline-flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                    }
-
-                    .progress-ring{
-                        position: absolute;
-                        padding: 0 25px;
-                        width: 100%;
-                        height: 100px;
-                    }
-                }
-
-                .instance-detail-button{
-                    flex: 1 1 auto;
-                    border-top: #fff 1px solid;
-                    border-radius: 0 0 5px 0;
-                }
-            }
-
-            .instance-launch-ui {
-
-                .launch-button {
-                    flex-basis: auto;
-                    height: 100%;
-                    width: 100%;
-                    border-radius: 0px 5px 0px 0px;
-                }
-
-                .lifetime-info {
-                    flex-basis: 50px;
-                    // height: 30px;
-                    // padding: 10px;
-                    // position: absolute;
-                    // bottom: 0;
-                    // text-align: center;
-                    color: #fff;
-                    width: 100%;
-                    border-top: #fff 1px solid;
-                    border-radius: 0px 0px 5px 0px;
-                    background: map-get($colors, primary);
-                    display: inline-flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-            }
+        .heading {
+          font-size: 1.1rem;
+          font-weight: 500;
         }
+      }
     }
+
+    .instance-action-ui{
+
+      .launch-button,
+      .open-button,
+      .stop_button {
+        background: transparent;
+        border-top: 1px solid map-get($colors, white);
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 1.4rem !important;
+        line-height: 2.8rem;
+        justify-content: center;
+
+        mat-icon {
+          font-size: 1.4rem !important;
+          height: auto !important;
+        }
+      }
+    }
+  }
 }

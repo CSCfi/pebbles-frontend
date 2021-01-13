@@ -29,7 +29,6 @@ html {
 body {
   height: 100%;
   background: map-get($colors, light);
-
   font-family: map-get($font-families, base);
   font-size: 1.3rem;
   color: map-get($colors, dark);
@@ -53,9 +52,13 @@ h6 {
 }
 
 a {
-  color: map-get($colors, accent);
+  color: map-get($colors, primary);
   text-decoration: none;
   background-color: transparent;
+
+  &.line {
+    text-decoration: underline;
+  }
 
   &:hover{
     color: map-get($colors, warning);
@@ -70,6 +73,18 @@ ul {
 
   li {
     padding: 0;
+  }
+}
+
+dl {
+  margin-bottom: 12px;
+
+  dt {
+    margin-bottom: 8px;
+  }
+
+  dd {
+    margin-bottom: 4px;
   }
 }
 
@@ -188,15 +203,71 @@ section.card {
   }
 }
 
-.centering{
+.v-centering{
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  &__horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 
   &__inline{
     display: inline-flex;
     flex-direction: row;
     align-items: center;
+  }
+}
+
+.u-line {
+  a {
+    text-decoration: underline;
+  }
+}
+
+.inversion{
+  &.primary {
+    @include inversion(primary);
+  }
+
+  &.dark {
+    @include inversion(dark);
+  }
+
+  &.light-gray {
+    @include inversion(neutral-dark);
+  }
+
+  .mat-stroked-button {
+    border: 1px solid map-get($colors, white) !important;
+  }
+}
+
+.dark {
+  background: map-get($colors, dark);
+
+  a {
+    color: map-get($colors, white);
+  }
+
+  &:hover{
+    color: map-get($colors, accent);
+  }
+}
+
+.r {
+  &__all{
+    border-radius: 5px;
+  }
+  &__left{
+    border-radius: 5px 0 0 5px;
+  }
+  &__right{
+    border-radius: 0 5px 5px 0;
   }
 }
 
@@ -228,7 +299,7 @@ section.card {
   }
 
   &__type {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 600;
   }
 }
@@ -240,13 +311,13 @@ section.card {
   padding: 0 20px !important;
 
   &:hover {
-    background-color: map-get($colors, active);
+    background-color: map-get($colors, focus-light);
   }
 }
 
 .mat-icon{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100%;
+  // height: 100%;
   vertical-align: middle;
 }

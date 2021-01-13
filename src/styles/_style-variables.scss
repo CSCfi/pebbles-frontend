@@ -1,4 +1,3 @@
-
 // ---- Font
 
 $font-families: (
@@ -6,9 +5,13 @@ $font-families: (
   stress: 'Mulish, sans-serif'
 );
 
+
 //  ---- Color
+
 $colors: (
   primary: #1a237e,
+  dark-primary: #16145f,
+  light-primary: #222eac,
   accent: #00acc1,
   secondary: #00c7b2,
   success: #0082bb,
@@ -19,17 +22,45 @@ $colors: (
   light: #efeff6,
   dark:  #2e2f39,
   neutral-dark:  #9cb2c7,
-  white: #fff
+  light-dark:  #b7d2eb,
+  gray: #6d7088,
+  light-gray: #c7c7c7,
+  white: #fff,
+  black: #222,
+  transparent:  rgb(255, 255, 255, 0),
+  focus-light: rgb(255, 255, 255, .1),
 );
 
-// ---- Effect
-$box-shadow: rgba(146, 146, 230, .22);
+// ---- color application
+
+@mixin inversion($bg-color) {
+  background-color: map-get($colors, $bg-color);
+  color: map-get($colors, white);
+
+  a,
+  button {
+    color: map-get($colors, white);
+
+    &:hover{
+      color: map-get($colors, accent);
+    }
+  }
+}
+
+// ---- animation
+
+@mixin animation() {
+  -webkit-transition: all .2s ease;
+  -o-transition: all .2s ease;
+  transition: all .2s ease;
+}
 
 // ---- layout
+
 $layout-set:(
   welcome: (
     header: (
-      w: 100%,
+      w: 250px,
       h: 80px,
       min-h: 80px,
     ),
@@ -42,7 +73,7 @@ $layout-set:(
   dashboard: (
     header: (
       w: 100%,
-      h: 65px,
+      h: 60px,
     ),
     footer: (
       w: 100%,
@@ -50,6 +81,10 @@ $layout-set:(
     ),
     sidenav: (
       w: 250px,
+      h: 100vh
+    ),
+    sidenav-min: (
+      w: 80px,
       h: 100vh
     ),
     content: (
@@ -63,13 +98,44 @@ $layout-set:(
 );
 // @debug map-deep-get($layout-set, dashboard, header, h);
 
+.spacer {
+  &__b10 {
+    margin-bottom: 10px !important;
+  }
+}
+
+// ---- Effect
+
+$box-shadow: rgba(146, 146, 230, .22);
+.shadow{
+  &__moderate {
+    box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+  }
+}
+
+// ---- border
+
+$borders: (
+  thin: 1px solid rgba(0, 0, 0, .0625),
+  thin-light: 1px solid rgba(255, 255, 255, .0625),
+  thin-dark: 1px solid rgba(0, 0, 0, .3),
+);
+$border-thin: 1px solid rgba(0, 0, 0, .0625);
+$border-thin-light: 1px solid rgba(255, 255, 255, .0625);
+
+
+// ---- banner
+
 @mixin banner {
   background-color: map-get($colors, primary);
   color: map-get($colors, white);
 }
 
+// ---- banish later
+
 $enable-gradients: false;
 $spacer: 1.2rem;
+
 $border-width: 0;
 $btn-border-radius: 1.35rem;
 $display1-weight: 600;
@@ -84,7 +150,6 @@ $enable-print-styles: true;
 
 $font-size-base: 1.3rem;
 $font-weight-bold-base: 500;
-
 
 $font-size-logo-icon: 3rem;
 $font-size-logo: 2.1rem;
@@ -101,8 +166,4 @@ $font-size-content-s: 1.1rem;
 $transition-base: all .2s ease-in-out;
 $enable-transitions: true;
 
-$header-height: 65px;
 
-$side-nav-width: 250px;
-$border-thin: 1px solid rgba(0, 0, 0, .0625);
-$border-thin-light: 1px solid rgba(255, 255, 255, .0625);

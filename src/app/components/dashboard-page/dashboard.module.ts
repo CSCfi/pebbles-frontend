@@ -74,4 +74,4 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
     DashboardPageComponent
   ],
 })
-export class DashboardModule  { }
+export class DashboardModule { }

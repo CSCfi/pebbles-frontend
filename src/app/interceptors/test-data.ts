@@ -2,33 +2,63 @@
 export let db = {
   instances: [
     {
-      id: '11111',
+      id: '1',
       name: 'pb-alexandria-the-great',
       environment_id: '1',
       state: 'running',
-      instance_data: {endpoints: [{access: 'http://foo/1'}]}
+      instance_data: {endpoints: [{access: 'http://foo/1'}]},
+      lifetime_left: '3000',
+      maximum_lifetime:	'3600'
     },
     {
-      id: '22222',
+      id: '2',
       name: 'pb-kassandra-the-white',
       environment_id: '2',
       state: 'deleted',
-      instance_data: {endpoints: [{access: 'http://foo/2'}]}
+      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      lifetime_left: '600',
+      maximum_lifetime:	'2000'
     },
+    {
+      id: '3',
+      name: 'pb-kassandra-the-white',
+      environment_id: '10',
+      state: 'running',
+      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      lifetime_left: '600',
+      maximum_lifetime:	'2000'
+    },
+    {
+      id: '4',
+      name: 'pb-kassandra-the-white',
+      environment_id: '3',
+      state: 'provisioning',
+      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      lifetime_left: '6000',
+      maximum_lifetime:	'6000'
+    },
+    {
+      id: '5',
+      name: 'pb-kassandra-the-white',
+      environment_id: '5',
+      state: 'failed',
+      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      lifetime_left: '2000',
+      maximum_lifetime:	'2000'
+    }
   ],
   environments: [
     {
       id: '1',
       name: 'Course Introduction to Python (self-study)',
       description: 'Course environment with Jupyter and Python. To be used on <a href=\'https://github.com/csc-training/python-introduction\'>CSC Introduction to Python</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
-      maximumLifetime: '5h',
+      maximumLifetime: '18000',
       workspace_id: 'ws-0',
-      thumbnail: 'python',
-      color: '0',
+      thumbnail: 'jupyter',
       labels: ['csc', 'python', 'basic', 'self-study'],
       config: {
         name: 'Course Introduction to Python (self-study)',
-        description: 'created throu wizard',
+        description: 'created',
         categories: ['basic', 'python'],
         ide: 'jupyter',
         downloadMethod: 'git',
@@ -40,16 +70,15 @@ export let db = {
       id: '2',
       name: 'Course Introduction to R (self-study)',
       description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
-      maximumLifetime: '10h',
+      maximumLifetime: '36000',
       workspace_id: 'ws-0',
       thumbnail: 'r-studio',
-      color: '1',
       labels: ['csc', 'R-studio', 'basic', 'self-study'],
       config: {
         name: 'Course Introduction to R (self-study)',
         description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
         categories: ['basic', 'python'],
-        ide: 'jupyter',
+        ide: 'r-studio',
         downloadMethod: 'git',
         environment_vars: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false, labels: ['Data Analytics', 'Python', 'Jupyter']
@@ -59,10 +88,9 @@ export let db = {
       id: '3',
       name: 'Course Practical Deep Learning - 2020',
       description: 'Environment with Jupyter and Python Machine Learning libraries for Practical Deep Learning.\n\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
-      maximumLifetime: '10h 0m',
+      maximumLifetime: '36000',
       workspace_id: 'ws-0',
-      thumbnail: 'python',
-      color: '2',
+      thumbnail: 'deep-learning',
       labels: ['csc', 'python', 'deep learning', 'machine learning', '2020'],
       config: {
         name: 'Course Practical Deep Learning - 2020',
@@ -78,10 +106,9 @@ export let db = {
       id: '4',
       name: 'Course Practical Machine Learning 2019',
       description: 'Course environment with Jupyter and Python Machine Learning libraries. The environment is short-lived and all data is destroyed at the end of the session. Download your results!',
-      maximumLifetime: '10h 0m',
+      maximumLifetime: '36000',
       workspace_id: 'ws-0',
-      thumbnail: 'python',
-      color: '3',
+      thumbnail: 'machine-learning',
       labels: ['course-ml', 'python', 'machine learning', '2019'],
       config: {
         name: 'Course Practical Machine Learning 2019',
@@ -97,10 +124,9 @@ export let db = {
       id: '5',
       name: 'Demo Vipunen API',
       description: 'Demo environment with Jupyter. Demonstrates the use of Vipunen API with Python and Pandas.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
-      maximumLifetime: '5h',
+      maximumLifetime: '18000',
       workspace_id: '3',
-      thumbnail: '',
-      color: '4',
+      thumbnail: 'jupyter',
       labels: ['csc', 'api', 'python'],
       config: {
         name: 'Demo Vipunen API',
@@ -115,11 +141,10 @@ export let db = {
     {
       id: '6',
       name: 'Jupyter Data Science',
-      maximumLifetime: '5h',
+      maximumLifetime: '18000',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '4',
-      thumbnail: '',
-      color: '5',
+      thumbnail: 'data-science',
       labels: ['csc', 'data-science', 'python'],
       config: {
         name: 'Jupyter Data Science',
@@ -134,11 +159,10 @@ export let db = {
     {
       id: '7',
       name: 'Jupyter Machine Learning',
-      maximumLifetime: '10h',
+      maximumLifetime: '3600',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '5',
-      thumbnail: '',
-      color: '0',
+      thumbnail: 'machine-learning',
       labels: ['course-ml', 'data-science', 'python'],
       config: {
         name: 'Jupyter Machine Learning',
@@ -153,11 +177,10 @@ export let db = {
     {
       id: '8',
       name: 'Jupyter PySpark',
-      maximumLifetime: '5h',
+      maximumLifetime: '7200',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '6',
-      thumbnail: '',
-      color: '1',
+      thumbnail: 'jupyter',
       labels: ['csc', 'data-science', 'python'],
       config: {
         name: 'Jupyter PySpark',
@@ -172,11 +195,10 @@ export let db = {
     {
       id: '9',
       name: 'RStudio Server',
-      maximumLifetime: '15h',
+      maximumLifetime: '54000',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '2',
-      thumbnail: '',
-      color: '2',
+      thumbnail: 'r-studio',
       labels: ['csc', 'data-science', 'r-studio'],
       config: {
         name: 'RStudio Server',
@@ -190,12 +212,11 @@ export let db = {
     },
     {
       id: '10',
-      name: 'Jupyter Data Science 1',
-      maximumLifetime: '1h',
+      name: 'Data Science 1',
+      maximumLifetime: '3600',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '3',
-      thumbnail: '',
-      color: '3',
+      thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python'],
       config: {
         name: 'Jupyter Data Science 1',
@@ -209,15 +230,14 @@ export let db = {
     },
     {
       id: '11',
-      name: 'Jupyter Data Science 2',
-      maximumLifetime: '3h',
+      name: 'Data Science 2',
+      maximumLifetime: '10800',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '3',
-      thumbnail: '',
-      color: '4',
+      thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python'],
       config: {
-        name: 'Jupyter Data Science 2',
+        name: 'Data Science 2',
         description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
         categories: ['basic', 'python'],
         ide: 'jupyter',
@@ -228,12 +248,11 @@ export let db = {
     },
     {
       id: '12',
-      name: 'Jupyter Data Science 3',
-      maximumLifetime: '4h',
+      name: 'Data Science 3',
+      maximumLifetime: '14400',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '3',
-      thumbnail: '',
-      color: '5',
+      thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python'],
       config: {
         name: 'Jupyter Data Science 3',
@@ -247,12 +266,11 @@ export let db = {
     },
     {
       id: '13',
-      name: 'Basic',
-      maximumLifetime: '4h',
+      name: 'Notebooks Basic Tutorial 2021',
+      maximumLifetime: '14400',
       description: 'Very basic environment for testing basic label',
       workspace_id: '3',
-      thumbnail: '',
-      color: '5',
+      thumbnail: 'jupyter',
       labels: ['basic'],
       config: {
         name: 'Course Introduction to R (self-study)',

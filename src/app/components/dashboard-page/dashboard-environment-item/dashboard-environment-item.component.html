@@ -1,97 +1,84 @@
-<li *ngIf="environment">
-  <mat-card class="environment-item" data-environment-item-id="environment.id">
+<ng-container *ngIf="environment">
+  <mat-card class="environment-card r__all" data-environment-item-id="environment.id"
+  fxLayout="row" fxLayoutAlign="space-between stretch">
 
-    <div class="card-media">
-      <div class="workspace-thumbnail">
-        <ng-container *ngIf="getThumbnail(); else elseBlock">
-          <img mat-card-image [src]="getThumbnail()" alt="Thumbnail of the environment">
-        </ng-container>
-        <ng-template #elseBlock>
-          <div class="workspace-letter">{{getCapitals()}}</div>
-        </ng-template>
-      </div>
+    <div class="card-media v-centering__horizontal" fxFlex="0 0 120px">
+      <div class="thumbnail" [innerHTML]="getThumbnail()"></div>
     </div>
 
-    <div class="card-details">
+    <div class="card-details" fxFlex="grow">
       <mat-card-header>
-        <mat-card-title>
-            {{ environment.name }}
-          <span class='mat-card-subtitle' *ngIf="environment.workspace_name !== 'System.default'">
-            in workspace {{ environment.workspace_name }}
-          </span>
-        </mat-card-title>
+        <mat-card-title> {{ environment.name }} </mat-card-title>
+        <mat-card-subtitle *ngIf="environment.workspace_name !== 'System.default'">
+          <span class="heading">@</span> {{ environment.workspace_name }}
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <p [innerHTML]="environment.description"></p>
         <div class="label-list">
           <mat-chip-list aria-label="labels">
             <ng-container *ngFor="let label of environment.labels">
-              <mat-chip color="primary">{{ label }}</mat-chip>
+              <mat-chip>{{ label }}</mat-chip>
             </ng-container>
           </mat-chip-list>
         </div>
       </mat-card-content>
     </div>
-    <div class="pad-right">
-      <div class="card-right" *ngIf="content.path.includes('workspace-owner/detail')">
-        <mat-card-actions>
-          <button mat-flat-button color="primary" (click)="openDialog()">
-            <mat-icon>edit</mat-icon><span> Edit  </span>
-          </button>
-        </mat-card-actions>
-      </div>
-    </div>
 
-    <ng-container *ngIf="content.path === 'catalog'">
-      <div class="instance-actions" *ngIf="actionsVisible(); else LaunchUI">
-        <mat-card-actions>
-          <div class="instance-action-ui">
+    <mat-card-actions class="mat-card-actions inversion light-gray" [ngClass]="{ 'active':getInstance() }"
+    fxFlex="0 0 150px"
+    fxLayout="column" fxLayoutAlign="start stretch"
+    *ngIf="content.path === 'catalog'">
 
-            <div class="lifetime-info">
-              <svg class="progress-ring">
-                <circle class="progress-ring__circle" stroke="#fff" stroke-width="6" fill="transparent" r="38" cx="50"
-                  cy="50" />
-              </svg>
+      <div class="progress-spinner-container v-centering" fxFlex="0 0 135px">
+        <mat-progress-spinner class="environment-spiner-background"
+        diameter="110" strokeWidth="8"
+        [mode]="spinnerMode" [value]="lifetimePercentage">
+        </mat-progress-spinner>
 
-              <button class="instance_time_button">
-                <span class="lifetime-label">Lifetime</span>
-                <span *ngIf="environment.maximumLifetime" class="lifetime-total">
-                  {{ environment.maximumLifetime }}
-                </span>
-              </button>
-              <!-- <ng-template #thenBlock>{{ environment.maximumLifetime }}</ng-template>
-              <ng-template #elseBlock>xxh xxm</ng-template> -->
-              <button mat-flat-button class="environment_start_button" color="accent"
-              (click)="openEnvironmentInBrowser()">
-                Open
-              </button>
-              <button mat-flat-button class="environment_stop_button" color="accent"
-              (click)="stopEnvironment()">
-                Shutdown
-              </button>
-            </div>
-
-            <div class="lifetime-label">State: {{ state }}</div>
-          </div>
-        </mat-card-actions>
-      </div>
-      <ng-template #LaunchUI>
-        <div class="card-actions">
-          <mat-card-actions>
-            <div class="instance-action-ui">
-              <div class="instance-launch-ui">
-                <button mat-flat-button color="primary" class="launch-button" (click)="startEnvironment()">
-                  <mat-icon fontSet="material-icons-outlined">
-                    power_settings_new
-                  </mat-icon>
-                  Start
-                </button>
-                <div class="lifetime-info">{{ environment.maximumLifetime }}</div>
-              </div>
-            </div>
-          </mat-card-actions>
+        <div class="lifetime-info">
+          <ng-container *ngIf="getInstance(); else inactive">
+            <p>{{ lifetimePercentage }} %</p>
+            <p>{{ getInstance().lifetime_left }} / {{ environment.maximumLifetime }}</p>
+          </ng-container>
+          <ng-template #inactive>
+            <p class="heading"> Lifetime </p>
+            <p class="time">{{ environment.maximumLifetime }}</p>
+          </ng-template>
         </div>
-      </ng-template>
-    </ng-container>
+      </div>
+      <div class="instance-action-ui"  fxFlex="grow"
+      fxLayout="column">
+        <!-- Action view 1 : Active Environments -->
+        <ng-container *ngIf="actionsVisible(); else LaunchUI">
+          <button mat-flat-button class="open-button v-centering__inline"
+          (click)="openEnvironmentInBrowser()">
+            Open
+            <mat-icon>launch</mat-icon>
+          </button>
+          <button mat-flat-button class="stop_button v-centering__inline"
+          (click)="stopEnvironment()">
+            Shutdown
+            <mat-icon>close</mat-icon>
+          </button>
+        </ng-container>
+        <!-- Action view 2 : Deactivated environments -->
+        <ng-template #LaunchUI>
+          <button mat-flat-button class="launch-button"
+          (click)="startEnvironment()">
+            <!-- <mat-icon fontSet="material-icons-outlined">power_settings_new</mat-icon> -->
+            Start
+            <!-- <mat-icon>play_arrow</mat-icon> -->
+          </button>
+        </ng-template>
+      </div>
+    </mat-card-actions>
+
+    <mat-card-actions *ngIf="content.path.includes('workspace-owner/detail')">
+      <button mat-flat-button (click)="openDialog()">
+        <mat-icon>edit</mat-icon><span> Edit  </span>
+      </button>
+    </mat-card-actions>
+
   </mat-card>
-</li>
+</ng-container>

@@ -5,130 +5,35 @@ section.container{
 
   .login-wrapper {
     width: 50%;
-    padding: 20px 20px;
+    padding: 20px 20px 20px 0;
     z-index: 300;
 
     .mat-display-2{
       margin-bottom: 20px;
     }
 
-    .mat-display-1{
+    .mat-display-1 {
       margin-bottom: 30px;
+    }
+
+    .mat-expansion-panel {
+      margin-bottom: 20px;
     }
   }
 
   .hero-shots {
+    z-index: 200;
     width: 100%;
     max-width: 500px;
-    padding: 20px 20px;
+    padding: 20px 0 20px 20px;
 
-    .hero-images{
+    .hero-images {
       width: 480px;
       height: 500px;
       margin: auto;
-      float: right;
+      // float: right;
       background: map-get($colors, white);
     }
   }
 
 }
-
-//   padding-top: 30px;
-
-//   .login-buttons {
-//     max-width: 400px;
-
-//     display: flex;
-//     flex-direction: column;
-
-//     .login-btn {
-//       font-size: 1.2rem;
-//       font-weight: 500;
-//       height: 60px;
-//       width: 100%;
-//       border-radius: 30px;
-//       margin-bottom: 10px;
-
-//       display: inline-flex;
-//       // justify-content: flex-start;
-//       justify-content: space-between;
-
-//       .logo-image-holder {
-//         width: 150px;
-//         margin: 5px;
-//         flex-basis: 150px;
-//         border-right: 1px #fff solid;
-
-//         img {
-//           height: 45px;
-//           padding: 5px 10px;
-//         }
-//       }
-
-//       span {
-//         height: 50px;
-//         flex-basis: auto;
-//         width: 100%;
-//         font-size: 1.6rem;
-//         display: inline-flex;
-//         flex-direction: column;
-//         justify-content: center;
-//         padding-right: 30px;
-//       }
-
-//       &#haka-login-btn {
-//         // height: 50px;
-//         img {
-//           padding-top: 10px;
-//           height: 40px;
-//         }
-//       }
-
-//       // Basic css for generic login
-//       .sso-login {
-//         font-size: 2rem;
-//         padding-left: 50px;
-//         color: wheat;
-//         text-align: center;
-//       }
-//     }
-//   }
-
-//   h2 {
-//     font-size: 2.8rem;
-//   }
-
-//   button#alternative-login-btn {
-//     border: solid 1px #fff;
-//   }
-
-//   #login-form {
-//     position: relative;
-//     height: 614px;
-//     width: 740px;
-//     margin: auto;
-
-//     a {
-//       position: relative;
-//       display: block;
-//       width: 100%;
-//       height: 100%;
-//     }
-//   }
-
-//   .mat-expansion-panel {
-//     padding: 20px;
-//     background: none;
-//     box-shadow: none;
-//   }
-
-//   #hero-shots {
-//     max-width: 600px;
-//     text-align: center;
-
-//     img {
-//       width: 100%;
-//       margin: auto;
-//     }
-//   }
-// }

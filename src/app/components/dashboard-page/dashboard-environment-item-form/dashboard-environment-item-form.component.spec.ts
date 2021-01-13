@@ -4,8 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Environment } from 'src/app/models/environment';
-
 import { DashboardEnvironmentItemFormComponent } from './dashboard-environment-item-form.component';
+import { DashboardSearchBoxComponent } from '../dashboard-search-box/dashboard-search-box.component';
 
 describe('DashboardEnvironmentItemFormComponent', () => {
   let component: DashboardEnvironmentItemFormComponent;
@@ -19,7 +19,10 @@ describe('DashboardEnvironmentItemFormComponent', () => {
         FormsModule,
         MaterialModule
       ],
-      declarations: [ DashboardEnvironmentItemFormComponent ],
+      declarations: [
+        DashboardEnvironmentItemFormComponent,
+        DashboardSearchBoxComponent
+       ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,

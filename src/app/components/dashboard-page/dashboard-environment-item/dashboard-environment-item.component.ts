@@ -1,9 +1,10 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, Renderer2 } from '@angular/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Environment } from 'src/app/models/environment';
-import { InstanceStates } from 'src/app/models/instance';
+import { Instance, InstanceStates } from 'src/app/models/instance';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { DashboardEnvironmentItemFormComponent } from '../dashboard-environment-item-form/dashboard-environment-item-form.component';
@@ -18,35 +19,69 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   @Input() environment: Environment;
   @Input() content: any;
 
+  // ---- Setting of a spinner
+  spinnerMode: ProgressSpinnerMode = 'determinate';
+  spinnerValue = 50;
+
   get state(): InstanceStates{
     return this.instanceService.getInstance(this.environment.instance_id).state;
   }
 
+  get lifetimePercentage(): any {
+    const instance = this.getInstance();
+    return instance ? (100 - (30 / 120 ) * 100) : 99;
+  }
+
   constructor(
-    public dialog: MatDialog,
     private router: Router,
+    public dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2,
     private environmentService: EnvironmentService,
     private instanceService: InstanceService,
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     // console.log(`--------- env ${ this.environment.id } --------`);
   }
 
   getThumbnail(): string {
-    // Dummy
-    if (this.environment.thumbnail) {
-      return `assets/images/environment-item-thumb-${this.environment.thumbnail}.png`;
-    } else {
-      return '';
-    }
-  }
+    let element: string;
 
-  getCapitals(): string {
-    // Dummy
-    return 'DL';
+    switch (this.environment.thumbnail) {
+      case 'jupyter':
+        element = '<img src="assets/images/environment-item-thumb-jupyter_gray.svg" width="90">';
+        break;
+      case 'ipython':
+        element = '<i class="las la-book"></i>';
+        break;
+      case 'r-studio':
+        element = '<span class="r-studio">R</span>';
+        break;
+      case 'deep-learning':
+        element = '<i class="las la-brain"></i>';
+        break;
+      case 'machine-learning':
+        element = '<i class="las la-cogs"></i>';
+        break;
+      case 'data-science':
+        element = '<i class="las la-chart-bar"></i>';
+        break;
+      case 'icon':
+        element = `<i class="la las lab lar ${this.environment.thumbnail}"></i>`;
+        break;
+      case 'abbreviation':
+        element = `<span>${this.environment.thumbnail}</span>`;
+        break;
+      case 'text':
+        element = `<span>${this.environment.thumbnail}</span>`;
+        break;
+      default:
+        element = 'No image';
+        break;
+    }
+
+    return element;
   }
 
   openDialog(): void {
@@ -87,6 +122,12 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     this.instanceService.deleteInstance(instance.id).subscribe(_ => {
       console.log('instance deleting process finished');
     });
+  }
+
+
+
+  getInstance(): Instance {
+    return this.instanceService.getInstance(this.environment.instance_id);
   }
 
   actionsVisible() {

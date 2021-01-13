@@ -2,7 +2,7 @@
 
 header {
   height: map-deep-get($layout-set, welcome, header, h);
-  padding: 20px;
+  padding: 40px 20px 20px;
 
   // &:after{
   //   content: "";
@@ -13,8 +13,6 @@ header {
   // }
 
   ul>li>a {
-    color: map-get($colors, white);
-    text-decoration: underline;
     letter-spacing: 0.1rem;
   }
 }

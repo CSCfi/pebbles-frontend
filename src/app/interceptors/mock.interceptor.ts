@@ -214,7 +214,7 @@ export class MockInterceptor implements HttpInterceptor {
       let environments = database.environments.filter((env) => {
         return workspaceIds.includes(env.workspace_id);
       });
-      // here we mimic the behaviour of backend which populates the environment object from config
+      // here we mimic the behavior of backend which populates the environment object from config
       environments = environments.map(e => {
         e.workspace_name = workspaces.find(w => e.workspace_id === w.id).name;
         return e;
@@ -231,9 +231,8 @@ export class MockInterceptor implements HttpInterceptor {
         body.description,
         '1h',
         body.workspace_id,
-        'python',
-        '1',
         ['data analytics'],
+        'jupyter'
       );
 
       database.environments.push(environment);

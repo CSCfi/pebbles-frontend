@@ -1,101 +1,120 @@
 @import "src/styles.scss";
 
-.sidebar-inner {
+::ng-deep .sidebar-inner {
+  position: relative;
+  height: 100%;
+  font-size: $font-size-sideNav;
+  font-weight: $font-weight-bold-base;
+
+  .logo {
+    padding: 25px 5px 10px 5px;
+    height: 70px;
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      padding-top: 4px;
+      // padding-left: 10px;
+      letter-spacing: 1px;
+      line-height: 2.8rem;
+      margin: 0 !important;
+    }
+
+    .logomark {
+      width: auto !important;
+      height: auto !important;
+
+      mat-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 3.2rem;
+        color: map-get($colors, white);
+      }
+    }
+  }
+
+  .mat-button {
+    padding-left: 24px !important;
+    color: map-get($colors, light);
+
+    .mat-button-wrapper {
+      float: left;
+    }
+  }
+
+  .sidebar-menu {
     position: relative;
-    font-size: $font-size-sideNav;
-    font-weight: $font-weight-bold-base;
 
-    ::ng-deep .mat-button {
-      padding-left: 28px !important;
-
-      .mat-button-wrapper {
-        float: left;
-      }
+    &.nav-section {
+      border-top: 1px solid map-get($colors, dark-primary);
     }
 
-    .sidebar-menu {
-      position: relative;
-      // border-top: $border-thin-light;
+    li {
+      border-left: 6px solid map-get($colors, transparent);
+      padding-right: 8px;
 
-      li{
-        border-left: 10px solid map-get($colors, dark);
-        padding-right: 8px;
+      &.active {
+        background-color: map-get($colors, focus-light);
+        border-left: 6px solid map-get($colors, accent);
+      }
 
-        &.active{
-          background-color: rgb(255, 255, 255, .1);
-          color: map-get($colors, white);
-          border-left: 10px solid map-get($colors, accent);
-        }
+      a {
+        padding: 12px 18px !important;
 
-        a {
-          padding: 12px 18px !important;
-
-          color: map-get($colors, light);
-
-          .title {
-            margin-left: 15px;
-          }
+        .title {
+          margin-left: 15px;
         }
       }
     }
+  }
 
-    // .sidebar-user {
-    //   border-bottom: $border-thin;
-    //   // line-height: 0;
-    //   list-style: none;
-    //   margin: 0;
-    //   // padding: 0px 10px 30px;
-    //   // min-height: 100px;
-    //   position: relative;
-    //   -webkit-transition: all .2s ease;
-    //   -o-transition: all .2s ease;
-    //   transition: all .2s ease;
+  .sidebar-logout {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 24px 20px;
 
-    //   .user-icon{
-    //     height: 60px;
-    //     width: 60px;
-    //     margin: 30px auto 0;
+    button {
 
-    //     .mat-icon{
-    //       font-size: 60px;
-    //       color: #9cb2c7;
-    //     }
-    //   }
+      .mat-icon {
+        height: auto;
+        font-size: 1.8rem;
+        text-align: center;
+      }
 
-    //   .user-greeting{
-    //     margin-top: 10px!important;
-    //     display: block;
-    //     font-size: $font-size-sideNav-s;
-    //     padding: 0px 10px;
-    //     position: relative;
-    //     white-space: nowrap;
-    //     text-align: center;
-    //   }
+      .button-text {
+        margin: 0 15px;
+        font-size: 1.2rem;
+      }
+    }
+  }
 
-    //   .user-name{
-    //     // margin-top: 5px!important;
-    //     display: block;
-    //     padding: 0px 15px;
-    //     position: relative;
-    //     white-space: nowrap;
-    //     text-align: center;
-    //   }
+  // .sidebar-user {
+  //   border: map-get($borders, thin-light);
+  //   margin: 0 10px 10px;
+  //   padding: 10px;
+  //   color: map-get($colors, light);
+  //   text-align: center;
+  //   font-size: 1.2rem;
 
-    //   .user-role{
-    //     display: block;
-    //     padding: 5px 15px;
-    //     position: relative;
-    //     white-space: nowrap;
-    //     text-align: center;
-    //   }
-
-    //   .user-logout-btn{
-    //     margin-top: 10px!important;
-    //     font-size: $font-size-sideNav-s;
-    //     font-weight: $font-weight-bold-base;
-    //     width: 100px;
-    //     margin: auto;
-    //     border: 1px solid #9cb2c7;
+  //   .mat-icon {
+  //     font-size: 1.8rem;
+  //   }
+    // .user-icon {
+    //   width: 40px;
+    //   margin: 0 auto;
+    //   text-align: center;
+    //   margin-bottom: 10px;
+    //   .mat-icon {
+    //     font-size: 3.4rem;
     //   }
     // }
-  }
+    // .announcements {
+    //   margin-bottom: 10px;
+    // }
+    // .user-name {
+    //   padding: 0px 10px;
+    //   margin-bottom: 10px;
+    // }
+  // }
+}

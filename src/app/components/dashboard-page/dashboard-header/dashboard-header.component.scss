@@ -2,163 +2,19 @@
 
 .header {
   height: map-deep-get($layout-set, dashboard, header, h);
-  background-color: map-get($colors, primary);
   padding-top: 5px;
 
   &__nav {
     padding-top: 5px;
 
-    a {
-      color: map-get($colors, white);
-
-      &:hover {
-        color: map-get($colors, active);
-      }
-    }
-
     .user-account {
       margin-right: 20px;
 
       .user-name {
-        a {
-          text-decoration: underline;
-        }
-
         mat-icon {
           margin-right: 5px;
-          color: map-get($colors, white);
         }
       }
     }
   }
 }
-
-// .header-container{
-//   // padding: 20px;
-//   height: 100%;
-//   // border-bottom: $border-thin;
-
-//   nav{
-//     height: 100%;
-//     justify-content: space-between;
-
-//     .navbar-brand{
-//       position: relative;
-//       display: block;
-//       // border-right: $border-thin;
-//       width: $side-nav-width;
-//       height: 100%;
-//       padding: 0;
-//       top: 0;
-//       left: 0;
-
-//       .logo{
-//         position: relative;
-//         margin: auto;
-//         // padding-top: 15px;
-//         padding-right: 25px;
-
-//         .logomark{
-//           position: relative;
-//           float: left;
-//           // vertical-align: middle;
-//           top: 0;
-//           left: 0;
-//           // width: 40px;
-//           // height: 40px;
-
-//           .mat-icon{
-//             font-size: $font-size-logo-icon;
-//           }
-//         }
-
-//         .logotype{
-//           position: relative;
-//           top: 6px;
-//           left: 0;
-//           margin-left: 40px;
-//           vertical-align: middle;
-
-//           h1{
-//             font-size: $font-size-logo;
-//             font-weight: $font-weight-bold-base;
-//           }
-//         }
-
-//         a{
-//           color: #fff;
-//         }
-//       }
-
-//     }
-//   }
-// }
-
-// .header-nav{
-//   display: flex;
-//   align-items: stretch;
-//   margin-top: 5px;
-//   color: #fff;
-
-//   .messages{
-//     align-self: stretch;
-//     // margin: 10px 15px;
-//     display: flex;
-//     a{
-//       color: #fff;
-
-//       .mat-icon{
-//         align-items: center;
-//       }
-//     }
-//   }
-// }
-
-// .user-account{
-//   // position: relative;
-//   display: flex;
-//   align-items: center;
-//   align-items: stretch;
-//   margin-right: 10px;
-//   color: #fff;
-//   padding: 0px 10px 0 10px;
-
-//     .user-icon{
-//       height: 40px;
-//       width: 40px;
-//       align-self: center;
-
-//       img{
-//         width: 100%;
-//       }
-//       .mat-icon{
-//         // margin-top: 5px;
-//         font-size: 30px;
-//         color: #fff;
-//       }
-//     }
-
-//     .user-name{
-//       display: inline-flex;
-//       padding: 0px 10px 0 10px;
-//       align-self: center;
-
-//       .mat-icon{
-//         margin-right: 5px;
-//       }
-//       a{
-//         color: #fff;
-//         text-decoration: underline;
-//       }
-//     }
-
-//     .user-logout-btn{
-//       font-size: $font-size-sideNav-s;
-//       font-weight: $font-weight-bold-base;
-//       align-self: center;
-//       width: 100px;
-//       margin: auto;
-//       color: #fff;
-//       border: 1px solid #fff;
-//     }
-// }

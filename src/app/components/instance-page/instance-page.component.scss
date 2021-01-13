@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: $header-height;
+  height: map-deep-get($layout-set, dashboard, header, h);
   border-bottom: 1px solid rgba(0, 70, 80, 0.8);
 
   &:after{
@@ -20,7 +20,7 @@
 }
 
 .instance-container{
-  margin-top: $header-height;
+  margin-top: map-deep-get($layout-set, dashboard, header, h);
   background-color: #000;
   width: 100%;
   height: 100%;

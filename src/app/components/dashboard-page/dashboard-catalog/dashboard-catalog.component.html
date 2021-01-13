@@ -1,23 +1,26 @@
 <app-message></app-message>
 
-<app-dashboard-breadcrumb [content]=content ></app-dashboard-breadcrumb>
+<div class="content-header" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+  <h2 class="title">{{ content.title }}</h2>
 
-<div class="environments-catalog-functions">
-  <button class="edit-tab-dialog-btn mat-button-lg" mat-flat-button (click)="isSearchFormOpen=!isSearchFormOpen">
-    <mat-icon fontSet="material-icons-outlined">
-      search
-    </mat-icon>
-    Search Environments
-  </button>
-  <button class="join-workshop-dialog-btn mat-button-lg" mat-raised-button color="primary"
+  <!-- <mat-form-field appearance="" fxFlex="grow" >
+    <mat-label> <mat-icon fontSet="material-icons-outlined"> search </mat-icon> </mat-label>
+    <input matInput>
+  </mat-form-field> -->
+
+  <div class="environments-catalog-functions" fxLayout="row" fxLayoutAlign="start right" fxLayoutGap="10px">
+    <button mat-fab color="primary" class="shadow__moderate" aria-label="Search environments"
+    #tooltip="matTooltip" matTooltip="Search environments"
+    (click)="isSearchFormOpen=!isSearchFormOpen">
+      <mat-icon fontSet="material-icons-outlined"> search </mat-icon>
+    </button>
+    <button mat-fab color="primary" class="shadow__moderate" aria-label="Join Workspace"
+    #tooltip="matTooltip" matTooltip="Join workspace"
     (click)="openJoinWorkspaceDialog()">
-    <mat-icon fontSet="material-icons-outlined">
-      connect_without_contact
-    </mat-icon>
-    Join Workspace
-  </button>
+      <mat-icon>group_add</mat-icon>
+    </button>
+  </div>
 </div>
-
 
 <!-- Environment Catalogs -->
 <section class="environments-catalog">
@@ -30,7 +33,7 @@
   </mat-accordion>
 
   <!-- Environment Catalogs -->
-  <mat-tab-group animationDuration="0ms" class="my-environment-tab" (selectedTabChange)="changeCatalog($event)">
+  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="my-environment-tab" (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()" class="">
       <mat-tab label="{{ catalog.name }}">
         <ng-template mat-tab-label>
@@ -70,12 +73,14 @@
             <ng-template #elseBlock>
               <div class="label-list"></div>
             </ng-template>
-            <ul *ngFor="let environment of filterEnvironmentsByLabels(selectedCatalog.labels, 'any')">
-              <app-dashboard-environment-item [environment]=environment [content]=content></app-dashboard-environment-item>
-            </ul>
+            <div class="environment-item-container"
+            fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+              <ng-container *ngFor="let environment of filterEnvironmentsByLabels(selectedCatalog.labels, 'any')">
+                <app-dashboard-environment-item class="environment-item" [environment]=environment [content]=content></app-dashboard-environment-item>
+              </ng-container>
+            </div>
           </div>
         </div>
-
       </mat-tab>
     </ng-container>
   </mat-tab-group>

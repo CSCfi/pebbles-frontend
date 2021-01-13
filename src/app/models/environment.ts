@@ -8,14 +8,12 @@ export class Environment {
     public description: string,
     public maximumLifetime: string,
     public workspace_id: string,
-    public thumbnail: string,
-    public color: string,
     public labels: string[],
+    public thumbnail: string,
     public instance_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,
     public config?: any,
-
   ) {
   }
 }

@@ -27,8 +27,8 @@ describe('InstanceService', () => {
     (done: DoneFn) => {
       service.fetchInstances().subscribe(() => {
         const instances = service.getInstances();
-        // one deleted instance in the database
-        expect(instances.length).toBe(TESTDATA.db.instances.length - 1);
+        // two (deleted, failed) invalid instances in the database
+        expect(instances.length).toBe(TESTDATA.db.instances.length - 2);
         done();
       });
     }

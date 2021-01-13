@@ -8,7 +8,6 @@ import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { EnvironmentCategory } from 'src/app/models/environment-category';
 import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
-// import * as TESTDATA from 'src/app/interceptors/test-data';
 
 @Component({
   selector: 'app-dashboard-catalog',

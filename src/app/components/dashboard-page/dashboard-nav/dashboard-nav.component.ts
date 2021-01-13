@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTooltip } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -21,11 +20,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class DashboardNavComponent implements OnInit {
 
   public isTextVisible: boolean;
-
   @ViewChildren('tooltip') tooltips;
-
   @Output() toggleSideNavEvent = new EventEmitter<boolean>();
-
   @Input() set isSideNavOpen(value: boolean){
     this.isTextVisible = value;
     this.toggleToolTips(value);

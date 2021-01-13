@@ -11,10 +11,11 @@
     </div>
     <form class="">
       <div class="login-buttons">
-        <a mat-raised-button href="/oauth2?rd=%2Foauth2">
+        <a mat-raised-button href="/oauth2?rd=%2Foauth2" class="grow mid accent spacer__b10">
           <span class="sso-login">Login</span>
         </a>
-        <button id="special-login-button" mat-button (click)="isLoginFormOpen=!isLoginFormOpen">
+        <button mat-button id="special-login-button"
+        (click)="isLoginFormOpen=!isLoginFormOpen" class="grow prime spacer__b10">
           Special Login
           <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
             <mat-icon> chevron_right </mat-icon>
@@ -42,7 +43,7 @@
               <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
             </mat-form-field>
           </div>
-          <button mat-raised-button id="special-login-submit-button" class="shadow-moderate"
+          <button mat-raised-button id="special-login-submit-button" class="shadow__moderate grow prime"
           (click)="onLogin()">
           Submit
           </button>

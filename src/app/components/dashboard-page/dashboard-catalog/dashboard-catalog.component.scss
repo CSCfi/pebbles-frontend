@@ -1,65 +1,48 @@
-@import "src/styles_old.scss";
+@import "src/styles.scss";
 
-.top-content-header{
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-
-  .content-header-title {
-    margin-bottom: 8px;
+.content-header{
+  .title {
+  font-size: 2.4rem;
   }
 }
 
-.environments-catalog-functions {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-end;
-  align-content: stretch;
-  // margin-right: 30px;
+.tab-contents {
+  padding: 20px !important;
+  max-width: 1000px;
 
-  button {
-    flex-basis: auto;
-    margin-left: 10px;
-  }
+  font-size: $font-size-content;
+  // font-weight: $font-weight-bold;
+  position: relative;
+  white-space: nowrap;
+  padding: 5px 15px;
 }
-
 
 section {
-  margin-bottom: 50px;
-  // padding: 0 30px 30px;
-  position: relative;
-
-  .section-title {
-    margin-bottom: 15px;
-    position: relative;
-
-    .mat-icon {
-      float: left;
-    }
-
-    h3 {
-      margin-bottom: 10px;
-      margin-left: 30px;
-      padding-top: 5px;
-    }
-  }
-
   &.environments-catalog {
+
+    .environment-item-container{
+      margin: auto;
+
+      .environment-item{
+        width: 100%;
+      }
+    }
 
     ::ng-deep .mat-tab-label {
       border-top: #fff solid 1px;
       background: #fff;
-      // border-left: $border-thin;
       border-right: $border-thin;
-      // margin-left: 10px;
     }
 
-    .mat-expansion-panel {
-      margin: 10px 0 15px 0;
+    ::ng-deep .mat-expansion-panel {
+      margin: 6px 0 10px 0;
       box-shadow: none;
 
-      ::ng-deep .mat-expansion-panel-body{
-        padding: 20px 30px;
+      .mat-expansion-panel-content{
+
+        .mat-expansion-panel-body{
+          padding: 10px 30px;
+        }
       }
     }
 
@@ -72,13 +55,6 @@ section {
         margin-left: 5px;
       }
     }
-    // .environments-catalog-header {
-    //   display: flex;
-    //   flex-flow: row wrap;
-    //   justify-content: flex-end;
-
-
-    // }
 
     .catalog-section {
       padding: 10px 0px !important;
@@ -111,24 +87,14 @@ section {
       padding: 0px 30px;
 
       .label-list{
-        min-height: 30px;
+        min-height: 10px;
         padding-top: 5px;
       }
     }
   }
 }
 
-.tab-contents {
-  // background-color: #fff!important;
-  // border: $border-thin;
-  padding: 20px !important;
 
-  font-size: $font-size-content;
-  // font-weight: $font-weight-bold;
-  position: relative;
-  white-space: nowrap;
-  padding: 5px 15px;
-}
 
 .nav-item {
   border-top: $border-thin;
