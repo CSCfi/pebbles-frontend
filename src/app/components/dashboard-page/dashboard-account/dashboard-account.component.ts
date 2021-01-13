@@ -10,7 +10,7 @@ import { User } from 'src/app/models/user';
 })
 export class DashboardAccountComponent implements OnInit {
 
-  user: User = new User();
+  user: User;
   public content = {
     path: 'account',
     title: 'Account'

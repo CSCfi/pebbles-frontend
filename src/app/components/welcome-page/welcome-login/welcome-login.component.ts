@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from 'src/app/services/auth.service';
+import {User} from 'src/app/models/user';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-welcome-login',
@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class WelcomeLoginComponent implements OnInit {
 
-  user: User = new User();
   isLoginFormOpen = false;
   loginFormGroup: FormGroup;
 
@@ -19,27 +18,26 @@ export class WelcomeLoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
-  ){ }
+  ) { }
 
   ngOnInit(): void {
     this.loginFormGroup = this.formBuilder.group({
-      email: ['', [Validators.required]],
+      eppn: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
 
   onLogin(): void {
     console.log('---- onLogin');
-    this.user.eppn = this.loginFormGroup.controls.email.value;
-    this.user.password = this.loginFormGroup.controls.password.value;
-
+    const eppn = this.loginFormGroup.controls.eppn.value;
+    const password = this.loginFormGroup.controls.password.value;
     this.authService
-      .login(this.user)
+      .login(eppn, password)
       .then((session) => {
         console.log(session);
         localStorage.setItem('token', btoa(session.token + ':'));
         localStorage.setItem('user_id', session.user_id);
-        localStorage.setItem('user_name', this.user.eppn);
+        localStorage.setItem('user_name', eppn);
         localStorage.setItem('is_admin', session.is_admin);
         localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
         localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
@@ -50,5 +48,4 @@ export class WelcomeLoginComponent implements OnInit {
         console.log(err);
       });
   }
-
 }

@@ -9,7 +9,7 @@
             <h4>Username</h4>
           </div>
           <div class="col-lg-8">
-            <div>{{ user.eppn }}</div>
+            <div>{{ user?.eppn }}</div>
           </div>
         </div>
         <div class="row form-group">
@@ -19,10 +19,10 @@
           </div>
           <div class="col-lg-8">
             <div>
-              <ng-container *ngIf="user.is_admin; then admin; else not_admin"></ng-container>
+              <ng-container *ngIf="user?.is_admin; then admin; else not_admin"></ng-container>
               <ng-template #admin>Admin</ng-template>
               <ng-template #not_admin>
-                <ng-container *ngIf="user.is_workspace_owner then workspace_owner; else not_workspace_owner">
+                <ng-container *ngIf="user?.is_workspace_owner then workspace_owner; else not_workspace_owner">
                 </ng-container>
               </ng-template>
               <ng-template #workspace_owner>Workspace Owner</ng-template>

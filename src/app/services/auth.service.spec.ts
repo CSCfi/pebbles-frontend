@@ -26,7 +26,7 @@ describe('AuthService', () => {
 
   it('should allow login',
     (done: DoneFn) => {
-      return service.login(new User(null, null, 'admin@example.org', 'admin')).then((resp) => {
+      return service.login('admin@example.org', 'admin').then((resp) => {
         expect(resp).toEqual({
           token: 'fake-token',
           user_id: '1',
