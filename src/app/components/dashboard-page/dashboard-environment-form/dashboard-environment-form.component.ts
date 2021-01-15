@@ -55,7 +55,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
         templateId: ['', [Validators.required]],
         name: ['', [Validators.required]],
         description: ['', [Validators.required]],
-        categories: [''],
+        labels: [''],
         ide: [''],
         downloadMethod: [''],
         source: [''],
@@ -80,7 +80,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       this.wizardProfileFormGroup = this.formBuilder.group({
         name: ['', [Validators.required]],
         description: ['', [Validators.required]],
-        categories: ['']
+        labels: ['']
       });
       this.wizardOptionFormGroup = this.formBuilder.group({
         ide: ['', [Validators.required]],
@@ -118,7 +118,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       {
         name: this.envCreationPlainFormGroup.controls.name.value,
         description: this.envCreationPlainFormGroup.controls.description.value,
-        categories: ['basic', 'python'],
+        labels: ['basic', 'python'],
         ide: this.envCreationPlainFormGroup.controls.ide.value,
         downloadMethod: this.envCreationPlainFormGroup.controls.downloadMethod.value,
         environment_vars: this.envCreationPlainFormGroup.controls.source.value,
@@ -140,7 +140,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       {
         name: this.wizardProfileFormGroup.controls.name.value,
         description: this.wizardProfileFormGroup.controls.description.value,
-        categories: ['basic', 'python'],
+        labels: ['basic', 'python'],
         ide: this.wizardOptionFormGroup.controls.ide.value,
         downloadMethod: this.wizardOptionFormGroup.controls.downloadMethod.value,
         environment_vars: this.wizardOptionFormGroup.controls.source.value,
