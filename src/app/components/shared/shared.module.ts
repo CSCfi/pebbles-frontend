@@ -4,6 +4,10 @@ import { MaterialModule } from 'src/app/material.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MessageComponent } from './message/message.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 
 @NgModule({
@@ -15,6 +19,10 @@ import { MessageComponent } from './message/message.component';
   imports: [
     CommonModule,
     MaterialModule,
+    BrowserModule,
+    HttpClientModule,
+    FlexLayoutModule,
+    AppRoutingModule,
   ],
   exports: [
     HeaderComponent,

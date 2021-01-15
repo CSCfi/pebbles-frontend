@@ -60,6 +60,8 @@ $mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-acce
   @include angular-material-theme($mat-theming-theme-owner);
 }
 
+$progress-linear-bar-height: 6px;
+
 ::ng-deep {
   // ---- Button
   a.mat-button-base,
@@ -127,19 +129,37 @@ $mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-acce
 
   .mat-icon {
     font-weight: $font-weight-bold-base;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align: middle;
   }
+
   .mat-fab{
     border-radius: 50%;
     vertical-align: middle;
     box-shadow: none;
   }
+
   .mat-tab-label {
     opacity: 1 !important;
   }
 
-  // Card
+  // ---- Card
   .mat-card-header-text {
     margin: 0 !important;
   }
-}
 
+  md-progress-linear {
+    height: $progress-linear-bar-height;
+
+    .md-container {
+      height: $progress-linear-bar-height;
+      .md-bar {
+        height: $progress-linear-bar-height;
+      }
+      .md-dashed:before {
+        height: $progress-linear-bar-height;
+      }
+    }
+  }
+}

@@ -1,14 +1,23 @@
-<app-header class="header"></app-header>
-<div *ngIf="targetInstance" class="instance-container">
-  <div class="iframe-container" *ngIf="targetInstance.state===instanceStates.Running; else elseBlock">
-    <iframe id="inlineFrameExample" title="Inline Frame Example" [src]="iframeSrc">
-    </iframe>
+<div class="full-screen-container" fxLayout="column" fxLayoutAlign="space-between stretch">
+  <app-header></app-header>
+  <div class="instance-container" fxLayout="column" fxLayoutAlign="space-between stretch" *ngIf="targetInstance">
+    <div class="status-wrapper" fxLayout="column" fxLayoutAlign="center center">
+      <p>Your environment "{{ targetEnvironment.name }}" is ... </p>
+      <h4 class="state">{{ targetInstance.state }}</h4>
+      <p class="state-percentage">{{ progress }}%</p>
+      <mat-progress-bar
+        [color]="color"
+        [mode]="mode"
+        [value]="progress"
+        [bufferValue]="progress + 25">
+      </mat-progress-bar>
+    </div>
+    <div class="environment-info">
+      <h3 class="environment-title">{{ targetEnvironment.name }}</h3>
+      <p class="environment-description" [innerHTML]="(targetEnvironment.description || 'No description')"
+      [ngClass]="{'centering__text': targetEnvironment.description.length < 100 }">
+      </p>
+    </div>
   </div>
-  <ng-template #elseBlock>
-    <!-- TODO: add styles, redesign the layout -->
-    <div>Environment name: {{ targetEnvironment.name }}</div>
-    <div>Environment description: {{ targetEnvironment.description }}</div>
-    <div>Environment state: {{ targetInstance.state }}</div>
-    <mat-progress-bar mode="buffer" value="{{ progress }}" bufferValue="{{progress + 25}}"></mat-progress-bar>
-  </ng-template>
+  <app-footer></app-footer>
 </div>

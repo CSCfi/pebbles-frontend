@@ -4,7 +4,6 @@ footer {
   color: map-get($colors, white);
   width: map-deep-get($layout-set, welcome, footer, w);
   height: 100%;
-  background: map-get($colors, dark);
   padding: 40px 20px;
   text-align: center;
 
@@ -13,4 +12,9 @@ footer {
     max-width: 280px;
     text-align: left;
   }
+}
+
+.txt-small {
+  opacity: 0.7;
+  font-size: 1.1rem;
 }

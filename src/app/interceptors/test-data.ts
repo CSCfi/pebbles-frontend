@@ -58,7 +58,7 @@ export let db = {
       labels: ['csc', 'python', 'basic', 'self-study'],
       config: {
         name: 'Course Introduction to Python (self-study)',
-        description: 'created',
+        description: '',
         categories: ['basic', 'python'],
         ide: 'jupyter',
         downloadMethod: 'git',

@@ -13,7 +13,6 @@ import { MessageService } from 'src/app/services/message.service';
 export class DashboardHeaderComponent implements OnInit {
 
   user: User;
-  @Input() styleOption: number;
 
   constructor(
     public authService: AuthService,

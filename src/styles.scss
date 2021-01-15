@@ -70,6 +70,7 @@ ul {
   margin: 0;
   padding: 0;
   overflow: auto;
+  line-height: 170%;
 
   li {
     padding: 0;
@@ -78,13 +79,14 @@ ul {
 
 dl {
   margin-bottom: 12px;
+  line-height: 130%;
 
   dt {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
   dd {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
 }
 
@@ -203,6 +205,13 @@ section.card {
   }
 }
 
+.centering {
+  &__text {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 .v-centering{
   display: flex;
   flex-direction: row;
@@ -250,12 +259,13 @@ section.card {
 .dark {
   background: map-get($colors, dark);
 
-  a {
+  a,
+  button {
     color: map-get($colors, white);
-  }
 
-  &:hover{
-    color: map-get($colors, accent);
+    &:hover{
+      color: map-get($colors, accent);
+    }
   }
 }
 
@@ -304,7 +314,7 @@ section.card {
   }
 }
 
-.button-s {
+button.button-s {
   height: map-deep-get($layout-set, dashboard, button-s, h);
   font-size: 1.2rem;
   line-height: 1.2rem;
@@ -315,9 +325,9 @@ section.card {
   }
 }
 
-.mat-icon{
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  // height: 100%;
-  vertical-align: middle;
+.content-header{
+  .title {
+    font-size: 2.4rem;
+    margin: 0 !important;
+  }
 }

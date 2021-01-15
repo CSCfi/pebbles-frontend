@@ -35,7 +35,7 @@
   }
 
   .dashboard-content-container{
-    padding: 20px 30px;
+    padding: 15px 40px;
     display: block;
     min-height: map-deep-get($layout-set, dashboard, content, min-h);
     background-color: map-get($colors, light);

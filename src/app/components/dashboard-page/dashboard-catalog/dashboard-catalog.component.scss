@@ -1,134 +1,71 @@
 @import "src/styles.scss";
 
-.content-header{
+.content-header {
+  margin-bottom: 10px;
+
   .title {
-  font-size: 2.4rem;
+    font-size: 2.6rem;
+    color: map-get($colors, primary);
   }
 }
 
-.tab-contents {
-  padding: 20px !important;
-  max-width: 1000px;
+::ng-deep .environments-catalog {
 
-  font-size: $font-size-content;
-  // font-weight: $font-weight-bold;
-  position: relative;
-  white-space: nowrap;
-  padding: 5px 15px;
-}
-
-section {
-  &.environments-catalog {
-
-    .environment-item-container{
-      margin: auto;
-
-      .environment-item{
-        width: 100%;
-      }
-    }
-
-    ::ng-deep .mat-tab-label {
-      border-top: #fff solid 1px;
-      background: #fff;
-      border-right: $border-thin;
-    }
-
-    ::ng-deep .mat-expansion-panel {
+  mat-accordion {
+    .mat-expansion-panel {
       margin: 6px 0 10px 0;
       box-shadow: none;
 
-      .mat-expansion-panel-content{
+      .mat-expansion-panel-content {
 
-        .mat-expansion-panel-body{
+        .mat-expansion-panel-body {
+          margin-bottom: 10px;
           padding: 10px 30px;
         }
       }
     }
+  }
 
-    .label-list-mini{
-      border-bottom: 1px solid #999;
-      padding-bottom: 5px;
-      margin: 20px 0;
+  mat-tab-group {
+    margin: 10px 0 50px 0;
 
-      .mat-chip{
-        margin-left: 5px;
+    mat-tab-header {
+      .mat-tab-label {
+        background: map-get($colors, white);
+        border-right: map-get($borders , thin);
+
+        .tab-icon {
+          margin-right: 5px;
+          color: map-get($colors, primary);
+        }
+
+        .tab-title {
+          color: map-get($colors, primary);
+          font-size: 1.3rem !important;
+        }
       }
     }
 
-    .catalog-section {
-      padding: 10px 0px !important;
-    }
+    .mat-tab-body-wrapper {
+      padding: 15px 0px !important;
 
-    .tab-icon {
-      margin-right: 5px;
-    }
+      .environment-item-container {
 
-    .my-environment-tab {
-      margin: 0 0 250px 0;
+        .environment-item {
+          width: 100%;
+          max-width: 1000px;
 
-      // ::ng-deep .mat-tab-header-pagination {
-      //   background: #fff !important;
-      // };
-
-      .tab-icon {
-        color: map-get($colors, primary);
-        opacity: 1;
-      }
-
-      .tab-title {
-        color: map-get($colors, primary);
-        font-size: 1.3rem !important;
-        opacity: 1;
-      }
-    }
-
-    .tab-content {
-      padding: 0px 30px;
-
-      .label-list{
-        min-height: 10px;
-        padding-top: 5px;
+          .label-list {
+            min-height: 10px;
+            padding-top: 5px;
+          }
+        }
       }
     }
   }
 }
 
-
-
-.nav-item {
-  border-top: $border-thin;
-  border-right: $border-thin;
-  border-left: $border-thin;
-}
-
-.nav-link {
-  position: relative;
-  display: block;
-  padding: 1rem 1rem;
-
-  background-color: #fff;
-  margin-left: 10px;
-  border-top: $border-thin;
-  border-left: $border-thin;
-  border-right: $border-thin;
-
-  .tab-title {
-    margin-left: 10px;
-    margin-right: 5px;
-  }
-
-  .mat-icon {
-    vertical-align: middle;
-  }
-
-  .close-icon {
-    vertical-align: middle;
-    font-size: 15px;
-    text-align: right;
-  }
-
-}
+// ---- Workspace join dialog
 
 .mat-dialog-container {
   width: 300px;
@@ -151,6 +88,6 @@ form {
   }
 
   .join-workspace-btn {
-    margin: .25em 0 1.34375em 10px;
+    margin: 0.25em 0 1.34375em 10px;
   }
 }

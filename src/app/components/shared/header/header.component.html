@@ -1,40 +1,12 @@
-<div class="header-container bg-info">
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="navbar-brand d-flex justify-content-start align-items-center bg-info">
-      <div class="logo">
-        <div class="logomark">
-          <mat-icon role="img">
-            import_contacts
-          </mat-icon>
-        </div>
-        <div class="logotype">
-          <h1> Notebooks </h1>
-        </div>
+<header class="inversion primary" fxLayout="row">
+  <div class="logo">
+    <div class="logo__inner" fxLayout="row" fxLayoutAlign="center center">
+      <div class="logo__mark" fxFlex="0 0 45px">
+        <mat-icon role="logomark">import_contacts</mat-icon>
       </div>
-      <!---- // div.logo ---->
-    </div>
-    <div class="header-nav">
-      <div class="notifications">
-        <mat-icon matBadge="2" matBadgeColor="warn">notifications</mat-icon>
-      </div>
-      <div class="user-account">
-        <!--
-                <div class="user-icon"  *ngIf="profile.thumbnail; else elseBlock">
-                    <img
-                    class="circle-clip"
-                    [alt]="profile.name"
-                    [src]="'./assets/images/users/'+profile.thumbnail" >
-                </div>
-                <ng-template #elseBlock>
-                    <mat-icon fontSet="material-icons-outlined">face</mat-icon>
-                </ng-template>
-                 -->
-        <div class="user-name">
-          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
-
-        </div>
-        <div class="btn user-logout-btn">Logout</div>
+      <div class="logo__type">
+        Notebooks
       </div>
     </div>
-  </nav>
-</div>
+  </div>
+</header>

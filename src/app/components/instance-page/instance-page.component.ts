@@ -6,6 +6,8 @@ import { InstanceService } from 'src/app/services/instance.service';
 import { Environment } from '../../models/environment';
 import { map } from 'rxjs/operators';
 import { EnvironmentService } from '../../services/environment.service';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressBarMode } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-instance-page',
@@ -33,6 +35,9 @@ export class InstancePageComponent implements OnInit, OnDestroy {
   instanceStates = InstanceStates;
   progress = 0;
   private interval;
+
+  color: ThemePalette = 'primary';
+  mode: ProgressBarMode = 'buffer';
 
   constructor(
     private route: ActivatedRoute,
@@ -80,7 +85,6 @@ export class InstancePageComponent implements OnInit, OnDestroy {
       this.interval = 0;
       // ---- Chose way between (redirect|iFrame) to display an instance
       this.redirectToInstance(this.targetInstance);
-      // this.frameInstance(this.targetInstance);
     }
   }
 
