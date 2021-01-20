@@ -8,9 +8,23 @@ footer {
   text-align: center;
 
   .footer-column {
-    width: 24%;
-    max-width: 280px;
+    width: 30%;
+    max-width: 300px;
     text-align: left;
+
+    .csc-logo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      img {
+        width: 80px;
+      }
+
+      p {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+    }
   }
 }
 

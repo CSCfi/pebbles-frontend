@@ -1,11 +1,9 @@
 import { Component, HostBinding } from '@angular/core';
-
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent {
@@ -14,6 +12,7 @@ export class AppComponent {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   private theme = 'user';
+
   @HostBinding('class')
   get themeMode() {
     return 'custom-theme-' + this.theme ;

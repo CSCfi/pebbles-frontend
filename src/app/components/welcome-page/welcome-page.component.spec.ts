@@ -7,8 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WelcomePageComponent } from './welcome-page.component';
 import { WelcomeHeaderComponent } from './welcome-header/welcome-header.component';
 import { WelcomeLoginComponent } from './welcome-login/welcome-login.component';
-import { WelcomePublicityComponent } from './welcome-publicity/welcome-publicity.component';
-import { WelcomeFooterComponent } from './welcome-footer/welcome-footer.component';
+// import { WelcomePublicityComponent } from './welcome-publicity/welcome-publicity.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
 
@@ -25,11 +24,7 @@ describe('WelcomePageComponent', () => {
         MaterialModule
       ],
       declarations: [
-        WelcomePageComponent,
-        WelcomeHeaderComponent,
-        WelcomeLoginComponent,
-        WelcomePublicityComponent,
-        WelcomeFooterComponent,
+        WelcomePageComponent
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

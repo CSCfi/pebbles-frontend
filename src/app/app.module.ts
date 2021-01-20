@@ -19,7 +19,6 @@ import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { WelcomeHeaderComponent } from './components/welcome-page/welcome-header/welcome-header.component';
-import { WelcomeFooterComponent } from './components/welcome-page/welcome-footer/welcome-footer.component';
 import { WelcomeLoginComponent } from './components/welcome-page/welcome-login/welcome-login.component';
 import { WelcomePublicityComponent } from './components/welcome-page/welcome-publicity/welcome-publicity.component';
 import { InstancePageComponent } from './components/instance-page/instance-page.component';
@@ -33,7 +32,6 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     NotFoundPageComponent,
     WelcomePageComponent,
     WelcomeHeaderComponent,
-    WelcomeFooterComponent,
     WelcomeLoginComponent,
     WelcomePublicityComponent,
     InstancePageComponent,

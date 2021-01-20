@@ -196,8 +196,8 @@ section.card {
   display: block;
   width: auto;
   max-width: 1200px;
-  margin: auto;
-  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 
   &__fluid{
     max-width: 100%;
@@ -282,6 +282,14 @@ section.card {
 }
 
 // ---- shared styles for parts ---- //
+
+.page-container{
+  height: 100%;
+
+  &__screen {
+    height: 100vh;
+  }
+}
 
 .logo {
 
