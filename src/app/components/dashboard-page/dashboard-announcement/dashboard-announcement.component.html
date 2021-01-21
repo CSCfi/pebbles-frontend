@@ -1,0 +1,26 @@
+<app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
+
+<button class="mat-flat-button" color="primary" type="button" (click)="markAnnouncementsAsRead()">
+  Mark announcements as read
+</button>
+
+<section class="announcement-container">
+  <div *ngIf="getAnnouncements().length > 0; else elseBlock">
+    <ul *ngFor="let announcement of getAnnouncements()">
+      <li class="{{ announcement.is_read ? 'announcement' : 'announcement-unread' }}">
+        <div class="subject">{{ announcement.subject }}</div>
+        <span class="date">{{ formatDate(announcement.broadcasted) }}</span>
+        <p class="message">{{ announcement.message }}</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<ng-template #elseBlock>
+  <section class="">
+    <div class="no-message">
+      <mat-icon fontSet="material-icons-outlined">inbox</mat-icon>
+      <span class="message">You have no message yet.</span>
+    </div>
+  </section>
+</ng-template>

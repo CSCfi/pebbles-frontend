@@ -1,7 +1,7 @@
-import { Message, MessageType } from './message';
+import { Announcement} from './announcement';
 
 describe('Message', () => {
   it('should create an message', () => {
-    expect(new Message('0', 'Sep 11 2020', 'subject', 'message', MessageType.System, 'date', true, false)).toBeTruthy();
+    expect(new Announcement('0', '2020-09-01', 'subject', 'message')).toBeTruthy();
   });
 });

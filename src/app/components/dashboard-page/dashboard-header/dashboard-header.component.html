@@ -13,28 +13,5 @@
         </div>
       </div>
     </div>
-    <!-- //// Logo -->
-
-    <div class="header__nav" fxFlex="grow" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="18px">
-      <div class="announcement" *ngIf="getMessages().length">
-        <a [routerLink]="['/dashboard/message']">
-          <mat-icon [matBadge]="getMessages().length.toString()" matBadgeColor="warn">notifications</mat-icon>
-        </a>
-      </div>
-      <!-- //// announcement -->
-      <div class="user-account v-centering u-line" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
-        <div class="user-name v-centering__inline">
-          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
-          <a [routerLink]="['/dashboard/account']">
-            {{ authService.getUserName() }}
-          </a>
-        </div>
-        <button mat-stroked-button class="logout-button button-s centering__inline"
-        (click)="authService.logout()">
-          Logout
-        </button>
-      </div>
-      <!-- //// user-account -->
-    </div>
   </div>
 </header>

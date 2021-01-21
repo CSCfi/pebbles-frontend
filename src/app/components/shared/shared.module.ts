@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { MessageComponent } from './message/message.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -14,7 +13,6 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    MessageComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +25,6 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
   exports: [
     HeaderComponent,
     FooterComponent,
-    MessageComponent,
   ]
 })
 export class SharedModule { }

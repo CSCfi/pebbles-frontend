@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { Message } from 'src/app/models/message';
+import { Announcement } from 'src/app/models/announcement';
 import { MessageService } from 'src/app/services/message.service';
 
 @Component({
@@ -20,9 +20,5 @@ export class DashboardHeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
-
-  getMessages(): Message[] {
-    return this.messageService.getMessages().filter(msg => msg.is_checked === false);
   }
 }

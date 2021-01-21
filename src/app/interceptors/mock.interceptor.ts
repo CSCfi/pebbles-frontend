@@ -61,6 +61,9 @@ export class MockInterceptor implements HttpInterceptor {
       case (endpoint === 'users' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
+      case (endpoint === 'messages' && apiComponents[1] !== undefined):
+        objectId = apiComponents[1];
+        break;
       default:
         // pass through any requests not handled above
         break;
@@ -107,8 +110,10 @@ export class MockInterceptor implements HttpInterceptor {
           return getWorkspacesMembers();
         case url.includes('/workspaces') && method === 'GET':
           return getWorkspaces();
-        case url.endsWith('/notifications') && method === 'GET':
+        case url.endsWith('/messages') && method === 'GET':
           return getMessages();
+        case url.includes('/messages') && method === 'PATCH':
+          return patchMessage();
         case url.includes('/users') && method === 'GET':
           return getUserById();
         case method === 'GET':
@@ -397,8 +402,26 @@ export class MockInterceptor implements HttpInterceptor {
     // }
 
     function getMessages() {
-      const messages = database.messages;
+      const user = database.users.find((i) => {
+        return (i.id === userId);
+      });
+      if (!user) {
+        error(`no user ${userId} found`);
+      }
+      const messages = database.messages.map(m => {
+        m.is_read = m.broadcasted < user.latest_seen_message_ts;
+        return m;
+      });
       return ok(messages);
+    }
+
+    function patchMessage() {
+      // mark as read
+      const user = database.users.find((i) => {
+        return (i.id === userId);
+      });
+      user.latest_seen_message_ts = new Date().toISOString();
+      return ok();
     }
 
     // -----------------------------------------------------------------------------------------------------------------

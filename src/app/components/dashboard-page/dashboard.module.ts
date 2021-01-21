@@ -15,7 +15,7 @@ import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
 
 import { DashboardCatalogComponent, JoinWorkspaceDialogComponent } from './dashboard-catalog/dashboard-catalog.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
-import { DashboardMessageComponent } from './dashboard-message/dashboard-message.component';
+import { DashboardAnnouncementComponent } from './dashboard-announcement/dashboard-announcement.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-statistics.component';
 import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
@@ -42,7 +42,7 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
     DashboardCatalogComponent,
     DashboardWorkspaceComponent,
     DashboardAccountComponent,
-    DashboardMessageComponent,
+    DashboardAnnouncementComponent,
     DashboardWorkspaceOwnerComponent,
     DashboardWorkspaceDetailComponent,
     DashboardAdminComponent,

@@ -5,7 +5,7 @@ import { DashboardPageComponent } from './dashboard-page.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
 import { DashboardCatalogComponent } from './dashboard-catalog/dashboard-catalog.component';
 import { DashboardWorkspaceComponent } from './dashboard-workspace/dashboard-workspace.component';
-import { DashboardMessageComponent } from './dashboard-message/dashboard-message.component';
+import { DashboardAnnouncementComponent } from './dashboard-announcement/dashboard-announcement.component';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
 import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/dashboard-workspace-owner.component';
 import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
@@ -39,8 +39,8 @@ export const routes: Routes = [
         data: { breadcrumbs: ['home', 'account'] }
       },
       {
-        path: 'message', component: DashboardMessageComponent,
-        data: { breadcrumbs: ['home', 'message'] }
+        path: 'announcements', component: DashboardAnnouncementComponent,
+        data: { breadcrumbs: ['home', 'announcements'] }
       },
       {
         path: 'help', component: DashboardHelpComponent,

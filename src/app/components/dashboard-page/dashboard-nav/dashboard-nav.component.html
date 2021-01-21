@@ -21,30 +21,6 @@
     </button>
   </div>
 
-  <!-- <div class="sidebar-user">
-    <div *ngIf="isTextVisible">
-      <div class="user-icon">
-        <mat-icon fontSet="material-icons-outlined">face</mat-icon>
-      </div>
-      <div class="user-name">
-        admin@org.fi
-        <a [routerLink]="['/dashboard/account']">
-          <mat-icon>info</mat-icon>
-        </a>
-      </div>
-      <div class="announcements">
-        Announcements
-        <a [routerLink]="['/dashboard/message']">
-          <mat-icon [matBadge]="1" matBadgeColor="warn">notifications</mat-icon>
-        </a>
-      </div>
-      <button mat-stroked-button class="logout-button button-s"
-      (click)="authService.logout()">
-        Logout
-      </button>
-    </div>
-  </div> -->
-
   <ul class="sidebar-menu scrollable">
     <li class="nav-item" [class.active]="router.url==='/dashboard/catalog'"
     #tooltip="matTooltip" matTooltip="Environments" [matTooltipDisabled]="true">
@@ -104,13 +80,14 @@
   </ng-container>
 
   <ul class="sidebar-menu scrollable nav-section">
-    <li class="nav-item" [class.active]="router.url==='/dashboard/message'"
+    <li class="nav-item" [class.active]="router.url==='/dashboard/announcements'"
     #tooltip="matTooltip" matTooltip="Announcements" [matTooltipDisabled]="true">
-      <a class="sidebar-link v-centering" [routerLink]="['/dashboard/message']">
+      <a class="sidebar-link v-centering" [routerLink]="['/dashboard/announcements']">
         <div class="icon-holder">
           <mat-icon fontSet="material-icons-outlined"
-          [matBadge]="1" matBadgeColor="warn">
-            notifications
+          [matBadge]="getUnreadAnnouncements().length"
+          matBadgeColor="{{getUnreadAnnouncements().length > 0 ? 'warn': 'normal'}}">
+            announcements
           </mat-icon>
         </div>
         <div class="title" *ngIf="isTextVisible">Announcements</div>

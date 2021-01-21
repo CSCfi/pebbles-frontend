@@ -1,8 +1,8 @@
-@import "src/styles_old.scss";
+@import "src/styles.scss";
 
-.message-container{
+.announcement-container {
 
-  .message{
+  .announcement {
     // padding-top: 30px;
     // text-align: center;
     margin-top: 10px;
@@ -11,39 +11,66 @@
     background: #fff;
     border-radius: 5px;
 
-    .subject{
+    .subject {
       border-bottom: 1px solid #ccc;
       padding: 5px;
-      // margin-bottom: 20px;
+      font-weight: bold;
     }
 
-    .date{
+    .date {
       float: right;
     }
 
-    .message{
+    .message {
       padding: 20px 10px;
     }
   }
+
+  .announcement-unread {
+    // padding-top: 30px;
+    // text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+
+    .subject {
+      border-bottom: 1px solid #ccc;
+      padding: 5px;
+      font-weight: bold;
+      // margin-bottom: 20px;
+    }
+
+    .date {
+      float: right;
+      background: pink;
+    }
+
+    .message {
+      padding: 20px 10px;
+    }
+  }
+
 }
 
-.no-message{
+.no-message {
   display: inline-flex;
   width: 100%;
   min-height: 100px;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  color:#999;
+  color: #999;
 
-  .mat-icon{
+  .mat-icon {
     font-size: 8rem;
     margin-bottom: 30px;
     width: auto;
     height: auto;
   }
 
-  .message{
+  .message {
     // padding-top: 30px;
     font-size: 3rem;
     text-align: center;
