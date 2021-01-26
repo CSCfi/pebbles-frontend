@@ -1,10 +1,10 @@
 @import "src/styles.scss";
 
-::ng-deep .sidebar-inner {
+::ng-deep .sidenav-inner {
   position: relative;
   height: 100%;
-  font-size: $font-size-sideNav;
-  font-weight: $font-weight-bold-base;
+  font-size: 1.5rem;
+  font-weight: 600;
 
   .logo {
     padding: 25px 5px 10px 5px;
@@ -33,7 +33,7 @@
     }
   }
 
-  .mat-button {
+  .sidenav-button {
     padding-left: 24px !important;
     color: map-get($colors, light);
 
@@ -42,12 +42,12 @@
     }
   }
 
-  .sidebar-menu {
-    position: relative;
+  .nav-section {
+    border-top: 1px solid map-get($colors, dark-primary);
+  }
 
-    &.nav-section {
-      border-top: 1px solid map-get($colors, dark-primary);
-    }
+  .sidenav-menu {
+    position: relative;
 
     li {
       border-left: 6px solid map-get($colors, transparent);
@@ -68,14 +68,18 @@
     }
   }
 
-  .sidebar-logout {
+  .sidenav-logout {
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding: 10px 24px 20px;
+    padding:  5px 0 15px;
+    font-size: 1.2rem;
+
+    .user-name {
+      padding: 5px 28px;
+    }
 
     button {
-
       .mat-icon {
         height: auto;
         font-size: 1.8rem;
@@ -83,38 +87,9 @@
       }
 
       .button-text {
-        margin: 0 15px;
-        font-size: 1.2rem;
+        margin: 0 10px;
       }
     }
   }
 
-  // .sidebar-user {
-  //   border: map-get($borders, thin-light);
-  //   margin: 0 10px 10px;
-  //   padding: 10px;
-  //   color: map-get($colors, light);
-  //   text-align: center;
-  //   font-size: 1.2rem;
-
-  //   .mat-icon {
-  //     font-size: 1.8rem;
-  //   }
-    // .user-icon {
-    //   width: 40px;
-    //   margin: 0 auto;
-    //   text-align: center;
-    //   margin-bottom: 10px;
-    //   .mat-icon {
-    //     font-size: 3.4rem;
-    //   }
-    // }
-    // .announcements {
-    //   margin-bottom: 10px;
-    // }
-    // .user-name {
-    //   padding: 0px 10px;
-    //   margin-bottom: 10px;
-    // }
-  // }
 }

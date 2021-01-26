@@ -5,7 +5,6 @@ $font-families: (
   stress: 'Mulish, sans-serif'
 );
 
-
 //  ---- Color
 
 $colors: (
@@ -137,40 +136,3 @@ $border-thin-light: 1px solid rgba(255, 255, 255, .0625);
   background-color: map-get($colors, primary);
   color: map-get($colors, white);
 }
-
-// ---- banish later
-
-$enable-gradients: false;
-$spacer: 1.2rem;
-
-$border-width: 0;
-$btn-border-radius: 1.35rem;
-$display1-weight: 600;
-$display2-weight: 600;
-$display3-weight: 600;
-
-$navbar-dark-color: #f3f3f3;
-$enable-caret: true;
-$enable-rounded: true;
-$enable-shadows: false;
-$enable-print-styles: true;
-
-$font-size-base: 1.3rem;
-$font-weight-bold-base: 500;
-
-$font-size-logo-icon: 3rem;
-$font-size-logo: 2.1rem;
-
-$font-size-sideNav-icon: 2rem;
-$font-size-sideNav: 1.5rem;
-$font-size-sideNav-s: 1.1rem;
-
-$font-size-content-icon: 2rem;
-$font-size-content-icon-s: 1.4rem;
-$font-size-content: $font-size-base;
-$font-size-content-s: 1.1rem;
-
-$transition-base: all .2s ease-in-out;
-$enable-transitions: true;
-
-

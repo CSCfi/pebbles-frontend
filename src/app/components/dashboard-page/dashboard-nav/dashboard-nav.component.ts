@@ -33,6 +33,10 @@ export class DashboardNavComponent implements OnInit {
   position = new FormControl('after');
   disabled = new FormControl(false);
 
+  get userName(): string {
+    return this.authService.getUserName();
+  }
+
   constructor(
     public router: Router,
     public authService: AuthService,

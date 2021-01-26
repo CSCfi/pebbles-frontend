@@ -30,18 +30,18 @@
 // $font-family-headline: 'Quicksand, sans-serif';
 
 $custom-typography: mat-typography-config(
-  $font-family: map-get($font-families, base),
-  $display-4:     mat-typography-level(1.8rem, 1.8rem, 300, map-get($font-families, stress), 0.1rem),
-  $display-3:     mat-typography-level(4.6rem, 46px, 400, map-get($font-families, stress)),
-  $display-2:     mat-typography-level(30px, 36px, 400, map-get($font-families, stress)),
-  $display-1:     mat-typography-level(18px, 24px, 300, map-get($font-families, stress)),
-  $headline: mat-typography-level(2.8rem, 32px, 500, map-get($font-families, stress)),
-  $title: mat-typography-level(1.8rem, 1.8rem, 500, map-get($font-families, stress)),
-  $subheading-2: mat-typography-level(1.8rem, 32px, 700, map-get($font-families, stress)),
-  $subheading-1: mat-typography-level(1.5rem, 24px, 400, map-get($font-families, stress)),
-  $button: mat-typography-level(1.6rem, 16px, 500, map-get($font-families, stress), 0.08rem),
-  $body-2: mat-typography-level(1.4rem, 16px, 400, map-get($font-families, base), 0.08rem),
-  $body-1: mat-typography-level(1.3rem, 16px, 300, map-get($font-families, base), 0.08rem),
+  $font-family:   map-get($font-families, base),
+  $display-4:     mat-typography-level(1.8rem, 130%, 300, map-get($font-families, stress), 0.1rem),
+  $display-3:     mat-typography-level(4.6rem, 130%, 400, map-get($font-families, stress), 0.08rem),
+  $display-2:     mat-typography-level(3.0rem, 130%, 500, map-get($font-families, stress), 0.08rem),
+  $display-1:     mat-typography-level(1.6rem, 150%, 300, map-get($font-families, stress), 0.04rem),
+  $headline:      mat-typography-level(2.8rem, 130%, 500, map-get($font-families, stress), 0.04rem),
+  $title:         mat-typography-level(1.8rem, 130%, 500, map-get($font-families, stress), 0.04rem),
+  $subheading-2:  mat-typography-level(1.8rem, 170%, 700, map-get($font-families, stress), 0.04rem),
+  $subheading-1:  mat-typography-level(1.5rem, 170%, 400, map-get($font-families, stress), 0.04rem),
+  $button:        mat-typography-level(1.6rem, 130%, 600, map-get($font-families, stress), 0.1rem),
+  $body-2:        mat-typography-level(1.5rem, 150%, 600, map-get($font-families, base), 0.04rem),
+  $body-1:        mat-typography-level(1.4rem, 150%, 400, map-get($font-families, base), 0.02rem),
 );
 
 @include mat-core($custom-typography);
@@ -128,7 +128,7 @@ $progress-linear-bar-height: 6px;
   }
 
   .mat-icon {
-    font-weight: $font-weight-bold-base;
+    font-weight: 500;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     vertical-align: middle;
