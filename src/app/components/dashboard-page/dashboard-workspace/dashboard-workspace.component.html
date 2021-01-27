@@ -1,5 +1,4 @@
-<app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
-
+<app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
 <section class="workspace-join-input-form">
   <h3>Join Workspace</h3>
   <form #formDirective="ngForm" [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">

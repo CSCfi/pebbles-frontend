@@ -3,7 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { DashboardAnnouncementComponent } from './dashboard-announcement.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DashboardBreadcrumbComponent } from '../dashboard-breadcrumb/dashboard-breadcrumb.component';
 import { MaterialModule } from 'src/app/material.module';
 
 describe('DashboardAnnouncementComponent', () => {
@@ -20,7 +19,6 @@ describe('DashboardAnnouncementComponent', () => {
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       declarations: [
         DashboardAnnouncementComponent,
-        DashboardBreadcrumbComponent
       ]
     })
     .compileComponents();

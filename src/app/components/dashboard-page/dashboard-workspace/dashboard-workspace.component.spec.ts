@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardWorkspaceComponent } from './dashboard-workspace.component';
 import { MaterialModule } from 'src/app/material.module';
-import { DashboardBreadcrumbComponent } from '../dashboard-breadcrumb/dashboard-breadcrumb.component';
 
 describe('DashboardWorkspaceComponent', () => {
   let component: DashboardWorkspaceComponent;
@@ -21,7 +20,6 @@ describe('DashboardWorkspaceComponent', () => {
       ],
       declarations: [
         DashboardWorkspaceComponent,
-        DashboardBreadcrumbComponent
       ]
     })
     .compileComponents();

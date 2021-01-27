@@ -1,4 +1,8 @@
-@import "src/styles_old.scss";
+@import "src/styles.scss";
+
+.content-body {
+  background: map-get($colors, white);
+}
 
 h4 {
   font-size: 1.5rem;
@@ -13,6 +17,8 @@ h5 {
 section {
   margin-top: 20px;
   margin-bottom: 40px;
+
+
 
   .card {
     padding: 20px;

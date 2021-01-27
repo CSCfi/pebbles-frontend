@@ -1,5 +1,4 @@
-<app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
-
+<app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
 <div class="open-wizard">
   <div class="open-wizard-content" *ngIf="workspaces && workspaces.length === 0;else workspaceCreation">
     <span>Create Demo Workspace</span>

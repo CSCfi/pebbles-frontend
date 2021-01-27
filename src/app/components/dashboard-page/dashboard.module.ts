@@ -9,7 +9,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from 'src/app/components/shared/shared.module';
 // ---- Components
 import { DashboardPageComponent } from './dashboard-page.component';
-import { DashboardHeaderComponent } from './dashboard-header/dashboard-header.component';
+import { DashboardContentHeaderComponent } from './dashboard-content-header/dashboard-content-header.component';
 import { DashboardFooterComponent } from './dashboard-footer/dashboard-footer.component';
 import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
 
@@ -31,8 +31,6 @@ import { DashboardWorkspaceFormComponent } from './dashboard-workspace-form/dash
 import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
 import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members/dashboard-workspace-members.component';
 import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folders/dashboard-workspace-folders.component';
-
-import { DashboardBreadcrumbComponent } from './dashboard-breadcrumb/dashboard-breadcrumb.component';
 import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
 // import { MessageComponent } from 'src/app/components/shared/message/message.component';
 
@@ -51,16 +49,15 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
     JoinWorkspaceDialogComponent,
     DashboardEnvironmentItemComponent,
     DashboardWorkspaceItemComponent,
-    DashboardHeaderComponent,
     DashboardFooterComponent,
     DashboardNavComponent,
-    DashboardBreadcrumbComponent,
     DashboardSearchBoxComponent,
     DashboardWorkspaceMembersComponent,
     DashboardWorkspaceFoldersComponent,
     DashboardEnvironmentFormComponent,
     DashboardWorkspaceFormComponent,
     DashboardEnvironmentItemFormComponent,
+    DashboardContentHeaderComponent,
   ],
   imports: [
     FormsModule,

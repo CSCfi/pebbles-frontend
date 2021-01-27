@@ -1,4 +1,4 @@
-<app-dashboard-breadcrumb [content]=content></app-dashboard-breadcrumb>
+<app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
 <div *ngIf="workspace">
   <app-dashboard-workspace-item [content]=content [workspace]=workspace>
   </app-dashboard-workspace-item>

@@ -1,24 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { DashboardHeaderComponent } from './dashboard-header.component';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { DashboardContentHeaderComponent } from './dashboard-content-header.component';
 
-describe('DashboardHeaderComponent', () => {
-  let component: DashboardHeaderComponent;
-  let fixture: ComponentFixture<DashboardHeaderComponent>;
+describe('DashboardContentHeaderComponent', () => {
+  let component: DashboardContentHeaderComponent;
+  let fixture: ComponentFixture<DashboardContentHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
         MaterialModule
       ],
-      declarations: [DashboardHeaderComponent],
+      declarations: [ DashboardContentHeaderComponent ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -26,7 +21,7 @@ describe('DashboardHeaderComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardHeaderComponent);
+    fixture = TestBed.createComponent(DashboardContentHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,14 +1,5 @@
 @import "src/styles.scss";
 
-.content-header {
-  margin-bottom: 10px;
-
-  .title {
-    font-size: 2.6rem;
-    color: map-get($colors, primary);
-  }
-}
-
 ::ng-deep .environments-catalog {
 
   mat-accordion {

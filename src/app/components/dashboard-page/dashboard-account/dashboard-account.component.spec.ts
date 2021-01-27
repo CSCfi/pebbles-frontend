@@ -4,7 +4,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DashboardAccountComponent } from './dashboard-account.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
-import { DashboardBreadcrumbComponent } from '../dashboard-breadcrumb/dashboard-breadcrumb.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DashboardAccountComponent', () => {
@@ -20,7 +19,6 @@ describe('DashboardAccountComponent', () => {
       ],
       declarations: [
         DashboardAccountComponent,
-        DashboardBreadcrumbComponent
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

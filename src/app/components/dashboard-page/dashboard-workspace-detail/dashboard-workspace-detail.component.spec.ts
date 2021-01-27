@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail.component';
 import { MaterialModule } from 'src/app/material.module';
-import { DashboardBreadcrumbComponent } from '../dashboard-breadcrumb/dashboard-breadcrumb.component';
 
 describe('DashboardWorkspaceDetailComponent', () => {
   let component: DashboardWorkspaceDetailComponent;
@@ -13,7 +12,6 @@ describe('DashboardWorkspaceDetailComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         DashboardWorkspaceDetailComponent,
-        DashboardBreadcrumbComponent
       ],
       imports: [
         HttpClientTestingModule,

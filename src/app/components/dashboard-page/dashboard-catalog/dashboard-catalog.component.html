@@ -1,11 +1,5 @@
-<div class="content-header v-centering" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-  <h2 class="title">{{ content.title }}</h2>
-
-  <!-- <mat-form-field appearance="" fxFlex="grow" >
-    <mat-label> <mat-icon fontSet="material-icons-outlined"> search </mat-icon> </mat-label>
-    <input matInput>
-  </mat-form-field> -->
-
+<div class="content-header-wrapper v-centering" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+  <app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
   <div class="environments-catalog-functions" fxLayout="row" fxLayoutAlign="start right" fxLayoutGap="10px">
     <button mat-fab color="primary" class="shadow__moderate" aria-label="Search environments"
     #tooltip="matTooltip" matTooltip="Search environments"
