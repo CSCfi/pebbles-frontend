@@ -2,10 +2,10 @@
 
 ::ng-deep mat-card{
   min-height: 150px;
-  padding: 0 !important;
   overflow: hidden;
 
   .card-media{
+    margin: -16px 0 -16px -16px !important;
     padding: 20px 0 20px 20px;
     color: map-get($colors, neutral-dark);
 
@@ -23,6 +23,7 @@
   }
 
   .card-details {
+    margin: -16px 0 !important;
     padding: 20px 20px 10px 20px;
 
     mat-card-header {
@@ -66,7 +67,7 @@
   mat-card-actions {
     background: map-get($colors, white);
     padding: 0 !important;
-    margin: 0 !important;
+    margin: -16px -16px -16px 0 !important;
     // border-left: 1px solid map-get($colors, primary);
 
     &.active {

@@ -1,18 +1,77 @@
-@import "src/styles_old.scss";
+@import "src/styles.scss";
 
-.mat-icon.m-r{
-  margin-right: 0.5rem;
+::ng-deep .user-workspace {
+  min-height: 100px;
+
+  .card-media{
+    margin: -16px 0px -16px -16px !important;
+    padding: 20px 0;
+
+    mat-icon {
+      color: map-get($colors, light-gray);
+    }
+  }
+
+  .card-info {
+    margin-right: 16px;
+    padding-right: 16px;
+
+    mat-card-header .mat-card-header-text {
+      width: 100%;
+
+      mat-card-title {
+        padding-bottom: 2px;
+        margin-bottom: 4px;
+        border-bottom: 1px solid #c7c7c7 !important;
+        font-size: 1.6rem !important;
+        font-weight: 600;
+      }
+    }
+
+    mat-card-content {
+      margin-bottom: 0px;
+
+      .workspace-description {
+        margin-bottom: 10px;
+      }
+
+      .environment-info{
+        color: map-get($colors, light-gray);
+
+        &.active {
+          color: map-get($colors, primary);
+
+          .environment-info-header span {
+            text-decoration: underline;
+          }
+
+          .environment mat-icon {
+            color: map-get($colors, light-gray);
+          }
+        }
+      }
+    }
+
+    mat-accordion{
+      mat-expansion-panel{
+        box-shadow: none !important;
+
+        .mat-expansion-panel-body {
+          border: 2px solid map-get($colors, light-gray) !important;
+          margin: 10px 0 0 0 !important;
+          padding: 10px 20px !important;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+
+  mat-card-actions{
+    margin: -16px !important;
+    padding: 8px !important;
+  }
 }
 
-.mat-icon.m-l{
-  margin-left: 0.5rem;
-}
-
-.mat-icon.m-b{
-  margin-bottom: 0.5rem;
-}
-
-.user-workspace,
 .workspace-owner {
 
   .workspace-card {

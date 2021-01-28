@@ -36,12 +36,24 @@ $colors: (
   background-color: map-get($colors, $bg-color);
   color: map-get($colors, white);
 
-  a,
-  button {
+  &a,
+  a{
     color: map-get($colors, white);
 
-    &:hover{
+    &:hover {
+      cursor: pointer;
       color: map-get($colors, accent);
+    }
+  }
+
+  &.mat-button-base,
+  .mat-button-base{
+    color: map-get($colors, white);
+
+    &:hover {
+      cursor: pointer;
+      color: map-get($colors, white);
+      background-color: map-get($colors, accent);
     }
   }
 }

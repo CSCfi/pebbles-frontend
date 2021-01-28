@@ -22,6 +22,7 @@ export class DashboardWorkspaceItemComponent implements OnInit {
   lifetime: number;
   isPlainMode: boolean;
   showJoinCode: boolean;
+  panelOpenState: boolean;
 
   get environments(): Environment[] {
     return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
@@ -36,9 +37,18 @@ export class DashboardWorkspaceItemComponent implements OnInit {
     this.lifetime = 120; // ---- dummy value for now
     this.isPlainMode = false;
     this.showJoinCode = false;
+    this.panelOpenState = false;
   }
 
   ngOnInit(): void {
+  }
+
+  // ---- Workspace Card UI ---- //
+
+  toggleEnvironmentList(): void {
+    if ( this.environments.length > 0 ){
+      this.panelOpenState = !this.panelOpenState;
+    }
   }
 
   // ---- Environment ---- //

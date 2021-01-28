@@ -5,13 +5,12 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Workspace } from 'src/app/models/workspace';
 import { EnvironmentService } from 'src/app/services/environment.service';
 
-// TODO: rename to DashBoardMyWorkspacesComponent
 @Component({
-  selector: 'app-dashboard-workspace',
-  templateUrl: './dashboard-workspace.component.html',
-  styleUrls: ['./dashboard-workspace.component.scss']
+  selector: 'app-dashboard-my-workspaces',
+  templateUrl: './dashboard-my-workspaces.component.html',
+  styleUrls: ['./dashboard-my-workspaces.component.scss']
 })
-export class DashboardWorkspaceComponent implements OnInit {
+export class DashboardMyWorkspacesComponent implements OnInit {
 
   public content = {
     path: 'user-workspace',

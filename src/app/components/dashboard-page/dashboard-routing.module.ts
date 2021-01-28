@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardPageComponent } from './dashboard-page.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
 import { DashboardCatalogComponent } from './dashboard-catalog/dashboard-catalog.component';
-import { DashboardWorkspaceComponent } from './dashboard-workspace/dashboard-workspace.component';
+import { DashboardMyWorkspacesComponent } from './dashboard-my-workspaces/dashboard-my-workspaces.component';
 import { DashboardAnnouncementComponent } from './dashboard-announcement/dashboard-announcement.component';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
 import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/dashboard-workspace-owner.component';
@@ -23,7 +23,7 @@ export const routes: Routes = [
         data: { breadcrumbs: [''] }
       },
       {
-        path: 'user-workspace', component: DashboardWorkspaceComponent,
+        path: 'user-workspace', component: DashboardMyWorkspacesComponent,
         data: { breadcrumbs: ['home', 'workspace'] }
       },
       {

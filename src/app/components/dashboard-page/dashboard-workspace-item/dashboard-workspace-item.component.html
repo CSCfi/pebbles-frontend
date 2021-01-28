@@ -1,132 +1,120 @@
-<ng-container *ngIf="content">
+<ng-container *ngIf="content" [ngSwitch]="content.path">
   <!-- There are 3 workspace view mode :
     1.user-workspace
     2.owner-workspace
     3.owner-workspace-detail (owner's workspace control panel)
   -->
-  <div [ngSwitch]="content.path">
-
-    <!-- 1: The single Workspace template in list view for End-user -->
-    <div *ngSwitchCase="'user-workspace'" class="user-workspace">
-      <mat-card class="workspace-card">
-        <div class="card-left">
-          <mat-card-header>
-            <mat-card-title>
-              {{ workspace.name }}
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="workspace-description" [innerHTML]="workspace.description">
-            </div>
-            <div class="info-container">
-              <div class="info environment-info">
-                <mat-icon class="m-r">import_contacts</mat-icon>
-                <mat-chip-list>
-                  <mat-chip color="accent">
-                    {{ environments.length }}
-                  </mat-chip>
-                </mat-chip-list>
-                Environments
-              </div>
-              <div class="info member-info">
-                <mat-icon class="m-r m-l">face</mat-icon>
-                <mat-chip-list>
-                  <mat-chip color="accent">
-                    {{ workspace.owner_eppn }}
-                  </mat-chip>
-                </mat-chip-list>
-              </div>
-            </div>
-            <!-- Open below by dialog window -->
-            <!-- <ul>
-              <ng-container *ngIf="environments; else noEnvironment">
-                <li *ngFor="let environment of environments" class="environment">
-                  <mat-icon fontSet="material-icons-outlined" >import_contacts</mat-icon>
-                  {{ environment.name }}
-                </li>
-              </ng-container>
-              <ng-template #noEnvironment>
-                <p>You have no Environment in this workspace yet.</p>
-              </ng-template>
-            </ul> -->
-          </mat-card-content>
-        </div>
-        <!-- //card-left -->
-        <div class="card-right" *ngIf="workspace.name !== 'System.default'">
-          <mat-card-actions>
-            <button mat-flat-button color="primary" aria-label="workspace delete" (click)="exitWorkspace()">
-              <mat-icon class="m-b">exit_to_app</mat-icon>
-              <br>
-              <span>Leave workspace</span>
-            </button>
-          </mat-card-actions>
-        </div>
-        <!-- //card-right -->
-      </mat-card>
+  <!-- 1: The single Workspace template in list view for End-user -->
+  <mat-card class="user-workspace" fxLayout="row" fxLayoutAlign="space-between stretch"
+    *ngSwitchCase="'user-workspace'">
+    <div class="card-media v-centering__horizontal" fxFlex="0 0 80px">
+      <div class="thumbnail">
+        <mat-icon>people_outline</mat-icon>
+      </div>
     </div>
-    <!-- //*ngSwitchCase="'user-workspace'" -->
+    <div class="card-info" fxFlex="grow">
+      <mat-card-header>
+        <mat-card-title>
+          <!-- <mat-icon class="spacer__r10 ">people_outline</mat-icon> -->
+          {{ workspace.name }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="workspace-description spacer__b20" [innerHTML]="workspace.description"></div>
+        <div class="environment-info" [ngClass]="{'active': environments.length > 0}">
+          <div class="environment-info-header v-centering__inline"
+          (click)="toggleEnvironmentList()">
+            <mat-icon class="material-icons-outlined">book</mat-icon>
+            <mat-icon *ngIf="environments.length">arrow_right</mat-icon>
+            <span class="spacer__l10">{{ environments.length }} Environments</span>
+          </div>
+          <mat-accordion>
+            <mat-expansion-panel
+            [expanded]="panelOpenState">
+              <ul *ngIf="environments">
+                <li class="environment" *ngFor="let environment of environments" >
+                  <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+                  <span class="spacer__l10">{{ environment.name }}</span>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </mat-card-content>
+    </div>
+    <!-- //card-info -->
+    <mat-card-actions class="" *ngIf="workspace.name !== 'System.default'">
+      <button mat-flat-button aria-label="workspace delete" class="full__h inversion light-gray"
+      #tooltip="matTooltip" matTooltip="Leave Workspace"
+      (click)="exitWorkspace()">
+        <mat-icon class="material-icons-outlined">delete</mat-icon>
+        <!-- <span>Leave</span>s -->
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <!-- //*ngSwitchCase="'user-workspace'" -->
 
-    <!-- 2. The single Workspace template in list view for Workspace-owner -->
-    <div *ngSwitchCase="'workspace-owner'" class="workspace-owner">
-      <mat-card class="workspace-card">
-        <div class="card-left">
-          <mat-card-header>
-            <mat-card-title>
-              {{ workspace.name }}
-            </mat-card-title>
-            <button mat-icon-button aria-label="Button for editing workspace"
-            (click)="openEditWorkspaceDialog()">
-              <mat-icon>create</mat-icon>
-            </button>
-            <!-- <mat-card-subtitle>
+  <!-- 2. The single Workspace template in list view for Workspace-owner -->
+  <div *ngSwitchCase="'workspace-owner'" class="workspace-owner">
+    <mat-card class="workspace-card">
+      <div class="card-left">
+        <mat-card-header>
+          <mat-card-title>
+            {{ workspace.name }}
+          </mat-card-title>
+          <button mat-icon-button aria-label="Button for editing workspace"
+          (click)="openEditWorkspaceDialog()">
+            <mat-icon>create</mat-icon>
+          </button>
+          <!-- <mat-card-subtitle>
               Owned by
               <mat-icon class="m-r m-l">face</mat-icon>
               {{ workspace.owner_eppn }}
             </mat-card-subtitle> -->
-          </mat-card-header>
-          <mat-card-content>
-            <div class="workspace-description">
-              {{ workspace.description }}
-            </div>
-            <div class="info-container">
+        </mat-card-header>
+        <mat-card-content>
+          <div class="workspace-description">
+            {{ workspace.description }}
+          </div>
+          <div class="info-container">
 
-              <div class="info environment-info">
-                <mat-icon class="m-r" (click)="showJoinCode = !showJoinCode">vpn_key</mat-icon>
-                <span class="join-code-text" *ngIf = !showJoinCode>
-                  ●●●●●●●
-                  <mat-icon class="m-l">visibility_off</mat-icon>
-                </span>
-                <span *ngIf=showJoinCode>
-                  {{workspace.join_code}}
-                  <mat-icon class="join-code-text m-l">visibility</mat-icon>
-                </span>
-              </div>
-
-              <div class="info environment-info">
-                <mat-icon class="m-r">import_contacts</mat-icon>
-                <mat-chip-list>
-                  <mat-chip color="accent">
-                    {{ environments.length }}
-                  </mat-chip>
-                </mat-chip-list>
-                Environments
-              </div>
-              <div class="info member-info">
-                <mat-icon class="m-r">group</mat-icon>
-                <mat-chip-list>
-                  <mat-chip color="accent">30</mat-chip>
-                </mat-chip-list>
-                Members
-              </div>
-              <div class="info file-info">
-                <mat-icon class="m-r" fontSet="material-icons-outlined">folder</mat-icon>
-                <mat-chip-list>
-                  <mat-chip color="accent">320M</mat-chip>
-                </mat-chip-list>
-                Shared Folder
-              </div>
+            <div class="info environment-info">
+              <mat-icon class="m-r" (click)="showJoinCode = !showJoinCode">vpn_key</mat-icon>
+              <span class="join-code-text" *ngIf="!showJoinCode">
+                ●●●●●●●
+                <mat-icon class="m-l">visibility_off</mat-icon>
+              </span>
+              <span *ngIf=showJoinCode>
+                {{workspace.join_code}}
+                <mat-icon class="join-code-text m-l">visibility</mat-icon>
+              </span>
             </div>
-            <!-- <ul>
+
+            <div class="info environment-info">
+              <mat-icon class="m-r">import_contacts</mat-icon>
+              <mat-chip-list>
+                <mat-chip color="accent">
+                  {{ environments.length }}
+                </mat-chip>
+              </mat-chip-list>
+              Environments
+            </div>
+            <div class="info member-info">
+              <mat-icon class="m-r">group</mat-icon>
+              <mat-chip-list>
+                <mat-chip color="accent">30</mat-chip>
+              </mat-chip-list>
+              Members
+            </div>
+            <div class="info file-info">
+              <mat-icon class="m-r" fontSet="material-icons-outlined">folder</mat-icon>
+              <mat-chip-list>
+                <mat-chip color="accent">320M</mat-chip>
+              </mat-chip-list>
+              Shared Folder
+            </div>
+          </div>
+          <!-- <ul>
               <ng-container *ngIf="environments; else noEnvironment">
                 <li *ngFor="let environment of environments" class="environment">
                   <mat-icon fontSet="material-icons-outlined" >import_contacts</mat-icon>
@@ -137,75 +125,73 @@
                 <p>You have no Environment in this workspace yet.</p>
               </ng-template>
             </ul> -->
-          </mat-card-content>
-        </div>
-        <!-- card-left -->
-        <div class="card-right">
-          <mat-card-actions>
-            <button mat-flat-button color="primary" aria-label="workspace manager" (click)="openWorkspaceDetail()">
-              <mat-icon class="m-b">settings</mat-icon>
-              <br>
-              <span>Manage</span>
-            </button>
-          </mat-card-actions>
-        </div>
-        <!-- //card-right -->
-      </mat-card>
-    </div>
-    <!-- //*ngSwitchCase="'workspace-owner'"  -->
-
-    <!-- 3. The single Workspace template in detail view for Workspace-owner -->
-    <div *ngSwitchDefault class="owner-workspace-detail">
-      <h3 class="workspace-name">
-        {{ workspace.name }}
-        <button mat-icon-button aria-label="Button for editing workspace"
-        (click)="openEditWorkspaceDialog()">
-          <mat-icon>create</mat-icon>
-        </button>
-      </h3>
-
-      <div class="workspace-info">
-        <div>{{ workspace.description }} </div>
-        <div>Lifetime: {{ lifetime }} </div>
-        <div>Join Code: {{ workspace.join_code }} </div>
-        <div>Workspace Owner: {{ workspace.owner_eppn }} </div>
-        <!-- Workspace Manager: {{ workspace.manager_eppns }} -->
+        </mat-card-content>
       </div>
-      <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
-        <mat-tab label="Environments">
-
-          <div class="environment-creation-buttons-container">
-            <div class="">
-              <button color="primary" aria-label="create a new environment" class="inline-centering flat-shadow"
-                (click)="openEnvironmentCreationDialog()">
-                <span>Environment Creation Wizard </span>
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-            <div class="form-option inline-centering">
-              <mat-label>Open in Expert mode</mat-label>
-              <mat-checkbox [(ngModel)]="isPlainMode"></mat-checkbox>
-            </div>
-          </div>
-
-          <div class="environments-container">
-            <ul *ngFor="let environment of getEnvironmentsByWorkspaceId()">
-              <app-dashboard-environment-item [environment]=environment [content]=content>
-              </app-dashboard-environment-item>
-            </ul>
-          </div>
-
-        </mat-tab>
-        <mat-tab label="Members">
-          <app-dashboard-workspace-members [workspaceId]="workspace.id"></app-dashboard-workspace-members>
-        </mat-tab>
-        <mat-tab label="Shared Folders">
-          <app-dashboard-workspace-folders [workspaceId]="workspace.id"></app-dashboard-workspace-folders>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-    <!-- //*ngSwitchDefault -->
-
+      <!-- card-left -->
+      <div class="card-right">
+        <mat-card-actions>
+          <button mat-flat-button color="primary" aria-label="workspace manager" (click)="openWorkspaceDetail()">
+            <mat-icon class="m-b">settings</mat-icon>
+            <br>
+            <span>Manage</span>
+          </button>
+        </mat-card-actions>
+      </div>
+      <!-- //card-right -->
+    </mat-card>
   </div>
-  <!--  //ngSwitch -->
+  <!-- //*ngSwitchCase="'workspace-owner'"  -->
+
+  <!-- 3. The single Workspace template in detail view for Workspace-owner -->
+  <div *ngSwitchDefault class="owner-workspace-detail">
+    <h3 class="workspace-name">
+      {{ workspace.name }}
+      <button mat-icon-button aria-label="Button for editing workspace"
+      (click)="openEditWorkspaceDialog()">
+        <mat-icon>create</mat-icon>
+      </button>
+    </h3>
+
+    <div class="workspace-info">
+      <div>{{ workspace.description }} </div>
+      <div>Lifetime: {{ lifetime }} </div>
+      <div>Join Code: {{ workspace.join_code }} </div>
+      <div>Workspace Owner: {{ workspace.owner_eppn }} </div>
+      <!-- Workspace Manager: {{ workspace.manager_eppns }} -->
+    </div>
+    <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+      <mat-tab label="Environments">
+
+        <div class="environment-creation-buttons-container">
+          <div class="">
+            <button color="primary" aria-label="create a new environment" class="inline-centering flat-shadow"
+              (click)="openEnvironmentCreationDialog()">
+              <span>Environment Creation Wizard </span>
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div class="form-option inline-centering">
+            <mat-label>Open in Expert mode</mat-label>
+            <mat-checkbox [(ngModel)]="isPlainMode"></mat-checkbox>
+          </div>
+        </div>
+
+        <div class="environments-container">
+          <ul *ngFor="let environment of getEnvironmentsByWorkspaceId()">
+            <app-dashboard-environment-item [environment]=environment [content]=content>
+            </app-dashboard-environment-item>
+          </ul>
+        </div>
+
+      </mat-tab>
+      <mat-tab label="Members">
+        <app-dashboard-workspace-members [workspaceId]="workspace.id"></app-dashboard-workspace-members>
+      </mat-tab>
+      <mat-tab label="Shared Folders">
+        <app-dashboard-workspace-folders [workspaceId]="workspace.id"></app-dashboard-workspace-folders>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <!-- //*ngSwitchDefault -->
 </ng-container>
+

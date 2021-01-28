@@ -24,7 +24,7 @@ import { DashboardEnvironmentItemComponent } from './dashboard-environment-item/
 import { DashboardEnvironmentFormComponent } from './dashboard-environment-form/dashboard-environment-form.component';
 import { DashboardEnvironmentItemFormComponent } from './dashboard-environment-item-form/dashboard-environment-item-form.component';
 
-import { DashboardWorkspaceComponent } from './dashboard-workspace/dashboard-workspace.component';
+import { DashboardMyWorkspacesComponent } from './dashboard-my-workspaces/dashboard-my-workspaces.component';
 import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/dashboard-workspace-owner.component';
 import { DashboardWorkspaceItemComponent } from './dashboard-workspace-item/dashboard-workspace-item.component';
 import { DashboardWorkspaceFormComponent } from './dashboard-workspace-form/dashboard-workspace-form.component';
@@ -37,27 +37,27 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
 @NgModule({
   declarations: [
     DashboardPageComponent,
+    DashboardNavComponent,
+    DashboardContentHeaderComponent,
+    DashboardSearchBoxComponent,
+    DashboardFooterComponent,
     DashboardCatalogComponent,
-    DashboardWorkspaceComponent,
-    DashboardAccountComponent,
-    DashboardAnnouncementComponent,
+    DashboardMyWorkspacesComponent,
     DashboardWorkspaceOwnerComponent,
-    DashboardWorkspaceDetailComponent,
     DashboardAdminComponent,
     DashboardStatisticsComponent,
     DashboardHelpComponent,
-    JoinWorkspaceDialogComponent,
-    DashboardEnvironmentItemComponent,
+    DashboardAccountComponent,
+    DashboardAnnouncementComponent,
+    DashboardWorkspaceDetailComponent,
     DashboardWorkspaceItemComponent,
-    DashboardFooterComponent,
-    DashboardNavComponent,
-    DashboardSearchBoxComponent,
+    DashboardWorkspaceFormComponent,
     DashboardWorkspaceMembersComponent,
     DashboardWorkspaceFoldersComponent,
+    JoinWorkspaceDialogComponent,
+    DashboardEnvironmentItemComponent,
     DashboardEnvironmentFormComponent,
-    DashboardWorkspaceFormComponent,
     DashboardEnvironmentItemFormComponent,
-    DashboardContentHeaderComponent,
   ],
   imports: [
     FormsModule,

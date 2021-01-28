@@ -309,6 +309,14 @@ export let db = {
       is_workspace_manager: false,
     },
     {
+      eppn: 'owner-1@example.org',
+      password: 'owner-1',
+      id: '101',
+      is_admin: false,
+      is_workspace_owner: true,
+      is_workspace_manager: false,
+    },
+    {
       eppn: 'owner-2@example.org',
       password: 'owner-2',
       id: '102',
@@ -317,7 +325,7 @@ export let db = {
       is_workspace_manager: false,
     },
     {
-      eppn: 'manager@example.org',
+      eppn: 'co-owner@example.org',
       password: 'manager',
       id: '200',
       is_admin: false,
@@ -382,11 +390,14 @@ export let db = {
       owner_eppn: 'admin@example.org',
       member_eppns: [
         'admin@example.org',
+        'admin-1@example.org',
         'admin-2@example.org',
         'owner@example.org',
+        'owner-1@example.org',
         'owner-2@example.org',
-        'manager@example.org',
-        'manager-2@example.org',
+        'co-owner@example.org',
+        'co-owner-1@example.org',
+        'user@example.org',
         'user-1@example.org',
         'user-2@example.org',
         'user-3@example.org',
@@ -399,7 +410,12 @@ export let db = {
       join_code: 'admin-ws-join-parm0-wuuig',
       description: 'Jupyter Lab environments for Python Basic Course 2021',
       owner_eppn: 'admin@example.org',
-      member_eppns: ['manager-1@example.org', 'user-2@example.org', 'user@example.org', 'user-1@example.org'],
+      member_eppns: [
+        'manager-1@example.org',
+        'user@example.org',
+        'user-2@example.org',
+        'user-1@example.org'
+      ],
     },
     {
       id: '1',
@@ -407,7 +423,7 @@ export let db = {
       join_code: 'admin-ws-join-parm1-wuuig',
       description: 'R-studio environments for R basic Course 2021',
       owner_eppn: 'admin@example.org',
-      member_eppns: ['manager@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
+      member_eppns: ['co-owner@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
     },
     {
       id: '2',

@@ -243,12 +243,20 @@ section.card {
     @include inversion(primary);
   }
 
+  &.accent {
+    @include inversion(accent);
+  }
+
   &.dark {
     @include inversion(dark);
   }
 
   &.light-gray {
     @include inversion(neutral-dark);
+  }
+
+  &.transparent {
+    @include inversion(transparent);
   }
 
   .mat-stroked-button {
@@ -278,6 +286,51 @@ section.card {
   }
   &__right{
     border-radius: 0 5px 5px 0;
+  }
+}
+
+.spacer {
+  &__t{
+    &10{
+      margin-top: 10px;
+    }
+  }
+
+  &__l{
+    &10{
+      margin-left: 10px;
+    }
+  }
+
+  &__r{
+    &10{
+      margin-right: 10px;
+    }
+  }
+
+  &__b{
+    &10{
+      margin-bottom: 10px;
+    }
+    &20{
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.full {
+  &__h {
+    height: 100%;
+  }
+
+  &__w {
+    width: 100%;
+  }
+}
+
+.txt {
+  &__light-gray {
+    color: map-get($colors, light-gray);
   }
 }
 

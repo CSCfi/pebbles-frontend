@@ -2,12 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardWorkspaceComponent } from './dashboard-workspace.component';
+import { DashboardMyWorkspacesComponent } from './dashboard-my-workspaces.component';
 import { MaterialModule } from 'src/app/material.module';
 
-describe('DashboardWorkspaceComponent', () => {
-  let component: DashboardWorkspaceComponent;
-  let fixture: ComponentFixture<DashboardWorkspaceComponent>;
+describe('DashboardMyWorkspacesComponent', () => {
+  let component: DashboardMyWorkspacesComponent;
+  let fixture: ComponentFixture<DashboardMyWorkspacesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,14 +19,14 @@ describe('DashboardWorkspaceComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        DashboardWorkspaceComponent,
+        DashboardMyWorkspacesComponent,
       ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardWorkspaceComponent);
+    fixture = TestBed.createComponent(DashboardMyWorkspacesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

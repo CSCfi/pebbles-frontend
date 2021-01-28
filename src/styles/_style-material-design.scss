@@ -39,7 +39,7 @@ $custom-typography: mat-typography-config(
   $title:         mat-typography-level(1.8rem, 130%, 500, map-get($font-families, stress), 0.04rem),
   $subheading-2:  mat-typography-level(1.8rem, 170%, 700, map-get($font-families, stress), 0.04rem),
   $subheading-1:  mat-typography-level(1.5rem, 170%, 400, map-get($font-families, stress), 0.04rem),
-  $button:        mat-typography-level(1.6rem, 130%, 600, map-get($font-families, stress), 0.1rem),
+  $button:        mat-typography-level(1.4rem, 130%, 600, map-get($font-families, stress), 0.1rem),
   $body-2:        mat-typography-level(1.5rem, 150%, 600, map-get($font-families, base), 0.04rem),
   $body-1:        mat-typography-level(1.4rem, 150%, 400, map-get($font-families, base), 0.02rem),
 );
@@ -47,7 +47,7 @@ $custom-typography: mat-typography-config(
 @include mat-core($custom-typography);
 
 $mat-theming-primary: mat-palette($mat-indigo, 900);
-$mat-theming-accent: mat-palette($mat-light-green, 600);
+$mat-theming-accent: mat-palette($mat-light-blue, 300);
 $mat-theming-warn: mat-palette($mat-pink, 500);
 // ---- Create theme object
 $mat-theming-theme-user: mat-light-theme($mat-theming-primary, $mat-theming-accent, $mat-theming-warn);
@@ -63,7 +63,10 @@ $mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-acce
 $progress-linear-bar-height: 6px;
 
 ::ng-deep {
+
   // ---- Button
+  // ----------------------------------------
+
   a.mat-button-base,
   .mat-button-base {
 
@@ -86,7 +89,7 @@ $progress-linear-bar-height: 6px;
       @include inversion(dark);
     }
 
-    &.mid {
+    &.medium {
       padding: 10px 20px;
     }
 
@@ -95,6 +98,7 @@ $progress-linear-bar-height: 6px;
   }
 
   // ---- FormGroup
+  // ----------------------------------------
 
   // .mat-form-field-appearance-outline,
   // .mat-form-field-outline-start {
@@ -111,6 +115,8 @@ $progress-linear-bar-height: 6px;
   // }
 
   // ---- Accordion
+  // ----------------------------------------
+
   .mat-expansion-panel{
     background: none;
 
@@ -145,9 +151,14 @@ $progress-linear-bar-height: 6px;
   }
 
   // ---- Card
+  // ----------------------------------------
+
   .mat-card-header-text {
     margin: 0 !important;
   }
+
+  // ---- Progress-liner
+  // ----------------------------------------
 
   md-progress-linear {
     height: $progress-linear-bar-height;

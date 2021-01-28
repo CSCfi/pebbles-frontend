@@ -1,0 +1,27 @@
+@import "src/styles.scss";
+
+::ng-deep .workspace-join-input-form {
+
+  form {
+    width: 100%;
+
+    .mat-form-field-appearance-outline {
+      .mat-form-field-wrapper {
+        margin-top: 0;
+      }
+
+      .mat-form-field-outline {
+        background-color: white;
+        border-radius: 5px;
+      }
+    }
+
+    button {
+      height: 70px;
+
+      &:hover {
+        background-color: map-get($colors, accent);
+      }
+    }
+  }
+}

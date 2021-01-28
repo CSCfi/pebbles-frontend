@@ -9,23 +9,22 @@
       and disposable environments run in the cloud and can be accessed with any of your connected
       devices.
     </div>
-    <form class="">
-      <div class="login-buttons">
-        <a mat-raised-button href="/oauth2?rd=%2Foauth2" class="grow mid accent spacer__b10">
-          <span class="sso-login">Login</span>
-        </a>
-        <button mat-button id="special-login-button"
-        (click)="isLoginFormOpen=!isLoginFormOpen" class="grow prime spacer__b10">
-          Special Login
-          <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
-            <mat-icon> chevron_right </mat-icon>
-          </ng-container>
-          <ng-template #elseBlock>
-            <mat-icon> expand_more </mat-icon>
-          </ng-template>
-        </button>
-      </div>
-    </form>
+
+    <div class="login-buttons spacer__b10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+      <a mat-raised-button href="/oauth2?rd=%2Foauth2" class="inversion accent medium">
+        <span class="sso-login">Login</span>
+      </a>
+      <button mat-button id="special-login-button"
+      (click)="isLoginFormOpen=!isLoginFormOpen" class="prime">
+        Special Login
+        <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
+          <mat-icon> chevron_right </mat-icon>
+        </ng-container>
+        <ng-template #elseBlock>
+          <mat-icon> expand_more </mat-icon>
+        </ng-template>
+      </button>
+    </div>
     <!-- Special Login form -->
     <mat-accordion class="login-form-outer" multi>
       <mat-expansion-panel [(expanded)]="isLoginFormOpen">
