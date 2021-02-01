@@ -255,8 +255,10 @@ export class MockInterceptor implements HttpInterceptor {
     function createInstance() {
 
       const {environment: envId} = body;
+      const environment = database.environments.find(env => env.id === envId);
+
       // check if the environment exists
-      if (!envId || !database.environments.find(env => env.id === envId)) {
+      if (!envId || !environment) {
         error('environment not found ' + envId);
       }
       // make sure there aren't existing instances for the environment
@@ -272,7 +274,8 @@ export class MockInterceptor implements HttpInterceptor {
         'pb-random-' + instanceId,
         envId,
         InstanceStates.Queueing,
-        ''
+        '',
+        environment.maximum_lifetime
       );
 
       (instance as any)._mockLastStateUpdateTs = Date.now();

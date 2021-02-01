@@ -41,7 +41,7 @@ $custom-typography: mat-typography-config(
   $subheading-1:  mat-typography-level(1.5rem, 170%, 400, map-get($font-families, stress), 0.04rem),
   $button:        mat-typography-level(1.4rem, 130%, 600, map-get($font-families, stress), 0.1rem),
   $body-2:        mat-typography-level(1.5rem, 150%, 600, map-get($font-families, base), 0.04rem),
-  $body-1:        mat-typography-level(1.4rem, 150%, 400, map-get($font-families, base), 0.02rem),
+  $body-1:        mat-typography-level(1.3rem, 150%, 400, map-get($font-families, base), 0.01rem),
 );
 
 @include mat-core($custom-typography);
@@ -138,6 +138,7 @@ $progress-linear-bar-height: 6px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     vertical-align: middle;
+    // width: auto; // ---- width shouldn't be set as 'auto'
   }
 
   .mat-fab{

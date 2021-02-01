@@ -6,7 +6,7 @@
     (click)="isSearchFormOpen=!isSearchFormOpen">
       <mat-icon fontSet="material-icons-outlined"> search </mat-icon>
     </button>
-    <button mat-fab color="primary" class="shadow__moderate" aria-label="Join Workspace"
+    <button mat-fab color="primary" class="shadow__moderate join-workspace-button" aria-label="Join Workspace"
     #tooltip="matTooltip" matTooltip="Join workspace"
     (click)="openJoinWorkspaceDialog()">
       <mat-icon>group_add</mat-icon>
@@ -56,7 +56,7 @@
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
-            <div class="label-list-mini" *ngIf="selectedCatalog.labels.length > 0; else elseBlock">
+            <div class="label-list-sm" *ngIf="selectedCatalog.labels.length > 0; else elseBlock">
               Filtered by :
               <span *ngFor="let label of selectedCatalog.labels">
                 <mat-chip color="primary">{{ label }}</mat-chip>

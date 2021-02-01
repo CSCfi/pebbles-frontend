@@ -1,120 +1,179 @@
 @import "src/styles.scss";
 
-::ng-deep mat-card{
-  min-height: 150px;
+::ng-deep mat-card {
+  min-height: 130px;
   overflow: hidden;
+  box-shadow: none !important;
+}
 
-  .card-media{
-    margin: -16px 0 -16px -16px !important;
-    padding: 20px 0 20px 20px;
-    color: map-get($colors, neutral-dark);
+::ng-deep .card-media-container {
+  margin: -16px 0 -16px -16px !important;
 
-    .thumbnail{
-      font-size: 34px;
-    }
+  .thumbnail {
+    font-size: 34px;
 
-    .thumbnail i{
+    i {
       font-size: 68px !important;
     }
-
-    .thumbnail .r-studio {
+    .r-studio {
       font-size: 62px;
     }
   }
+}
 
-  .card-details {
-    margin: -16px 0 !important;
-    padding: 20px 20px 10px 20px;
+::ng-deep .card-info-container {
+  padding: 0 10px 0 30px;
 
-    mat-card-header {
-      margin-bottom: 6px;
+  mat-card-header {
+    margin-bottom: 4px;
+
+    .mat-card-header-text {
       width: 100%;
 
-      .mat-card-header-text{
-        width: 100%;
+      mat-card-title {
+        font-weight: 600;
+        padding-bottom: 2px;
+        border-bottom: 1px solid map-get($colors, light-gray) !important;
+        margin-bottom: 5px;
+      }
 
-        mat-card-title {
-          padding-bottom: 5px;
-          border-bottom: 1px solid map-get($colors, light-gray) !important;
-        }
+      mat-card-subtitle {
+        margin-bottom: 2px;
+        font-size: 1.4rem !important;
+        font-weight: 500;
+        color: map-get($colors, dark) !important;
 
-        mat-card-subtitle {
-          margin-bottom: 8px;
-          font-size: 1.4rem !important;
-          font-weight: 500;
-          color: map-get($colors, dark) !important;
+        .meta-info {
+          padding: 4px 4px;
+          font-size: 1.1rem;
+          color: map-get($colors, gray);
+          text-align: right;
 
-          .heading {
-            font-size: 11px;
+          .mat-icon {
+            font-size: 2rem;
+            color: #e0e0e0;
+          }
+
+          .labels {
+            text-decoration: underline;
           }
         }
       }
     }
+  }
 
-    mat-card-content {
+  mat-card-content {
+    margin: 0;
+    text-align: justify;
+    text-justify: inter-word;
 
-      .label-list{
+    a {
+      text-decoration: underline;
+    }
+  }
+}
 
-        mat-chip {
-          font-size: 1.1rem !important;
-          min-height: 26px !important;
-          font-weight: 600 !important;
-        }
+::ng-deep .card-action-container {
+  margin: -16px -16px -16px 0 !important;
+  padding-top: 0 !important;
+  position: relative;
+  height: 140px;
+
+  .background-circle-container,
+  .progress-spinner-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+
+    circle.background-circle {
+      fill: map-get($colors, primary) !important;
+      stroke: #ededed;
+    }
+
+    .environment-spinner {
+      circle {
+        stroke: map-get($colors, accent);
+        transform: scale(1, -1);
+        translate: (0, -100);
+      }
+
+      &.warning circle {
+        stroke: map-get($colors, active);
       }
     }
   }
 
-  mat-card-actions {
-    background: map-get($colors, white);
-    padding: 0 !important;
-    margin: -16px -16px -16px 0 !important;
-    // border-left: 1px solid map-get($colors, primary);
+  .actionable-circle-container {
+    width: 100%;
+    height: 100%;
 
-    &.active {
-      background: map-get($colors, primary) !important;
-    }
+    .circle-button {
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      width: 102px;
+      height: 102px;
+      overflow: hidden;
+      z-index: 1000;
+      color: map-get($colors, accent);
 
-    .progress-spinner-container {
-      position: relative;
-
-      mat-progress-spinner{
-        margin: auto;
-        circle {
-          stroke: map-get($colors, white) !important;
-          shape-rendering: auto;
-        }
+      .mat-icon {
+        font-size: 2.4rem !important;
+        color: map-get($colors, gray);
       }
 
-      .lifetime-info {
-        position: absolute;
-        width: 100%;
-        text-align: center;
-        font-weight: 600;
-
-        .heading {
-          font-size: 1.1rem;
-          font-weight: 500;
-        }
+      .time-left,
+      .state {
+        font-size: 1rem;
+        font-weight: 400;
+        text-transform: capitalize;
+        color:map-get($colors, white);
       }
     }
 
-    .instance-action-ui{
+    .open-button,
+    .shutdown-button {
+      z-index: 2000;
+      background: map-get($colors, transparent) !important;
+      border-radius: 0;
+      width: 100px;
+      justify-content: center;
+      line-height: 1.5rem;
 
-      .launch-button,
-      .open-button,
-      .stop_button {
-        background: transparent;
-        border-top: 1px solid map-get($colors, white);
-        border-radius: 0;
-        width: 100%;
-        height: 100%;
+      .mat-icon {
+        color: map-get($colors, white);
+        font-size: 1.6rem !important;
+      }
+    }
+
+    .open-button {
+      padding-top: 18px;
+      padding-bottom: 5px;
+      font-size: 1.2rem;
+    }
+
+    .shutdown-button {
+      border-top: 1px solid map-get($colors, light-dark);
+      font-size: 1.1rem;
+      .mat-icon {
         font-size: 1.4rem !important;
-        line-height: 2.8rem;
-        justify-content: center;
+        height: 20px;
+      }
+    }
 
-        mat-icon {
-          font-size: 1.4rem !important;
-          height: auto !important;
+    .launch-button {
+      background: map-get($colors, white);
+
+      .mat-icon {
+        color: map-get($colors, light-gray);
+      }
+
+      &:hover {
+        background: map-get($colors, primary);
+        cursor: pointer;
+
+        .mat-icon {
+          color: map-get($colors, accent);
         }
       }
     }

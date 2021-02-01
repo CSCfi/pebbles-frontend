@@ -1,84 +1,108 @@
-<ng-container *ngIf="environment">
-  <mat-card class="environment-card r__all" data-environment-item-id="environment.id"
-  fxLayout="row" fxLayoutAlign="space-between stretch">
-
-    <div class="card-media v-centering__horizontal" fxFlex="0 0 120px">
-      <div class="thumbnail" [innerHTML]="getThumbnail()"></div>
-    </div>
-
-    <div class="card-details" fxFlex="grow">
-      <mat-card-header>
-        <mat-card-title> {{ environment.name }} </mat-card-title>
-        <mat-card-subtitle *ngIf="environment.workspace_name !== 'System.default'">
-          <span class="heading">@</span> {{ environment.workspace_name }}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p [innerHTML]="environment.description"></p>
-        <div class="label-list">
-          <mat-chip-list aria-label="labels">
-            <ng-container *ngFor="let label of environment.labels">
-              <mat-chip>{{ label }}</mat-chip>
-            </ng-container>
-          </mat-chip-list>
+<mat-card class="environment-card r__all" fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="environment"
+  [attr.data-environment-item-id]="environment.id">
+  <!-- Card LEFT section -->
+  <div class="card-media-container v-centering__horizontal inversion light-dark" fxFlex="0 0 140px">
+    <div class="thumbnail" [innerHTML]="thumbnail"></div>
+  </div>
+  <!-- Card CENTER section -->
+  <div class="card-info-container" fxFlex="grow" fxLayout="column" fxLayoutAlign="start stretch">
+    <mat-card-header>
+      <mat-card-title>{{ environment.name }}</mat-card-title>
+      <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
+        <div class="meta-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px">
+          <span class="labels">
+            <mat-icon class="spacer__r5"> label </mat-icon>
+            <span class="heading"
+            #tooltip="matTooltip" matTooltip="{{ labels }}" matTooltipPosition="above">
+            Labels
+            </span>
+          </span>
+          <span class="lifetime">
+            <mat-icon class="spacer__r5">watch_later</mat-icon>
+            <span class="heading">Lifetime: </span>{{ lifetime }}
+          </span>
         </div>
-      </mat-card-content>
+        <div class="workspace-name" *ngIf="environment.workspace_name!=='System.default'">@ {{ environment.workspace_name }}</div>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p [innerHTML]="description"></p>
+    </mat-card-content>
+  </div>
+  <!-- Card RIGHT section -->
+  <mat-card-actions class="card-action-container" [ngClass]="state ? state : '' " fxFlex="0 0 150px"
+    *ngIf="content.path === 'catalog'" fxLayout="column" fxLayoutAlign="center stretch">
+    <!-- Background circle  -->
+    <div class="background-circle-container v-centering">
+      <svg focusable="false">
+        <circle class="background-circle" cx="50%" cy="50%" r="55" stroke-width="10"></circle>
+      </svg>
     </div>
-
-    <mat-card-actions class="mat-card-actions inversion light-gray" [ngClass]="{ 'active':getInstance() }"
-    fxFlex="0 0 150px"
-    fxLayout="column" fxLayoutAlign="start stretch"
-    *ngIf="content.path === 'catalog'">
-
-      <div class="progress-spinner-container v-centering" fxFlex="0 0 135px">
-        <mat-progress-spinner class="environment-spiner-background"
-        diameter="110" strokeWidth="8"
-        [mode]="spinnerMode" [value]="lifetimePercentage">
-        </mat-progress-spinner>
-
-        <div class="lifetime-info">
-          <ng-container *ngIf="getInstance(); else inactive">
-            <p>{{ lifetimePercentage }} %</p>
-            <p>{{ getInstance().lifetime_left }} / {{ environment.maximumLifetime }}</p>
+    <!-- Progress circle -->
+    <div class="progress-spinner-container v-centering__horizontal">
+      <mat-progress-spinner class="environment-spinner" [ngClass]="{'warning': isTimeWarningOn}" diameter="120" strokeWidth="8"
+        [mode]="isSpinnerOn ? 'indeterminate':'determinate'" [value]="lifetimePercentage">
+      </mat-progress-spinner>
+    </div>
+    <!-- Action circle -->
+    <div class="actionable-circle-container v-centering__horizontal">
+      <!-- Action view 1 : Active Environments -->
+      <ng-container *ngIf="actionsVisible(); else LaunchUI">
+        <div class="control-button circle-button v-centering__inline" fxLayout="column" fxLayoutAlign="center center"
+          [ngSwitch]="state">
+          <!-- Instance [Shutdown] -->
+          <ng-container *ngSwitchCase="'deleting'||'deleted'">
+            <div class="state v-centering__inline">
+              {{ state }}
+            </div>
           </ng-container>
-          <ng-template #inactive>
-            <p class="heading"> Lifetime </p>
-            <p class="time">{{ environment.maximumLifetime }}</p>
-          </ng-template>
+          <!-- Instance [Failed] -->
+          <ng-container *ngSwitchCase="'failed'">
+            <button mat-button class="replay-button v-centering__inline" (click)="restartEnvironment()">
+              <div class="button-icon"><mat-icon>replay</mat-icon></div>
+              <div class="state v-centering__inline">
+                {{ state }}
+              </div>
+            </button>
+          </ng-container>
+          <!-- Instance [Running] -->
+          <ng-container *ngSwitchDefault>
+            <button mat-button class="open-button v-centering__inline inversion"
+              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 65px" #tooltip="matTooltip"
+              matTooltip="Enter environment" matTooltipPosition="above" fxLayout="column" fxLayoutAlign="center center"
+              (click)="openEnvironmentInBrowser()">
+              <div class="button-icon"><mat-icon>launch</mat-icon></div>
+              <ng-container *ngIf="lifetimeLeft; else stateBlock">
+                <div class="time-left">{{ lifetimeLeft }}</div>
+              </ng-container>
+              <ng-template #stateBlock>
+                <div class="state v-centering__inline">{{ state }}</div>
+              </ng-template>
+            </button>
+            <button mat-button class="shutdown-button v-centering__inline inversion"
+              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 35px"
+              #tooltip="matTooltip" matTooltip="Stop environment" matTooltipPosition="below" (click)="stopEnvironment()">
+              <div class="button-icon"><mat-icon>close</mat-icon></div>
+              <!-- <span>stop</span> -->
+            </button>
+          </ng-container>
         </div>
-      </div>
-      <div class="instance-action-ui"  fxFlex="grow"
-      fxLayout="column">
-        <!-- Action view 1 : Active Environments -->
-        <ng-container *ngIf="actionsVisible(); else LaunchUI">
-          <button mat-flat-button class="open-button v-centering__inline"
-          (click)="openEnvironmentInBrowser()">
-            Open
-            <mat-icon>launch</mat-icon>
-          </button>
-          <button mat-flat-button class="stop_button v-centering__inline"
-          (click)="stopEnvironment()">
-            Shutdown
-            <mat-icon>close</mat-icon>
-          </button>
-        </ng-container>
-        <!-- Action view 2 : Deactivated environments -->
-        <ng-template #LaunchUI>
-          <button mat-flat-button class="launch-button"
-          (click)="startEnvironment()">
-            <!-- <mat-icon fontSet="material-icons-outlined">power_settings_new</mat-icon> -->
-            Start
-            <!-- <mat-icon>play_arrow</mat-icon> -->
-          </button>
-        </ng-template>
-      </div>
-    </mat-card-actions>
-
-    <mat-card-actions *ngIf="content.path.includes('workspace-owner/detail')">
-      <button mat-flat-button (click)="openDialog()">
-        <mat-icon>edit</mat-icon><span> Edit  </span>
-      </button>
-    </mat-card-actions>
-
-  </mat-card>
-</ng-container>
+      </ng-container>
+      <!-- Action view 2 : Deactivated environments -->
+      <ng-template #LaunchUI>
+        <button mat-button class="launch-button circle-button" fxLayout="column" fxLayoutAlign="center center"
+          #tooltip="matTooltip" matTooltip="Start environment" (click)="startEnvironment()">
+          <div class="button-icon"><mat-icon>power_settings_new</mat-icon></div>
+          <!-- <mat-icon>launch</mat-icon> -->
+          <!-- <span>start</span> -->
+        </button>
+      </ng-template>
+    </div>
+  </mat-card-actions>
+  <!-- View in Manage workspace page -->
+  <mat-card-actions *ngIf="content.path.includes('workspace-owner/detail')">
+    <button mat-flat-button (click)="openDialog()">
+      <mat-icon>edit</mat-icon><span> Edit</span>
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -21,15 +21,87 @@ export class DashboardEnvironmentItemComponent implements OnInit {
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
-  spinnerValue = 50;
 
-  get state(): InstanceStates{
-    return this.instanceService.getInstance(this.environment.instance_id).state;
+  get isSpinnerOn(): boolean {
+    const instance = this.instanceService.getInstance(this.environment.instance_id);
+    if (instance) {
+      switch (this.state) {
+        case 'running':
+        case 'deleted':
+          return false;
+        default:
+          return true;
+      }
+    }
+    return false;
   }
 
-  get lifetimePercentage(): any {
+  get state(): InstanceStates | null {
     const instance = this.getInstance();
-    return instance ? (100 - (30 / 120 ) * 100) : 99;
+    if (instance) {
+      return instance.state;
+    }
+    return null;
+  }
+
+  get labels(): string {
+    return this.environment.labels.join(', ');
+  }
+
+  get isTimeWarningOn(): boolean {
+    return this.lifetimePercentage < 25;
+  }
+
+  get lifetime(): string {
+    const hours = Number(this.environment.maximum_lifetime) / 3600;
+    const mins = Number(this.environment.maximum_lifetime) % 3600;
+    return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
+  }
+
+  get lifetimePercentage(): number {
+    const instance = this.getInstance();
+    if (instance) {
+      const res = Number(instance.lifetime_left) / Number(this.environment.maximum_lifetime) * 100;
+      return Math.floor(res);
+    }
+    return 0;
+  }
+
+  get lifetimeLeft(): string {
+    const instance = this.getInstance();
+    if (instance.state === 'running' && instance.lifetime_left) {
+      const hours: number = Math.floor(instance.lifetime_left / 3600);
+      const mins: number = Math.floor((instance.lifetime_left % 3600) / 60);
+      return `${(hours < 10) ? '0' + hours : hours}:${(mins < 10) ? '0' + mins : mins}`;
+    }
+    return '';
+  }
+
+  get thumbnail(): string {
+    return '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
+    let element = '<i class="las la-book"></i>';
+    if (this.environment.thumbnail) {
+      switch (this.environment.thumbnail) {
+        case 'jupyter':
+          element = '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
+          break;
+        case 'r-studio':
+          element = '<span class="r-studio">R</span>';
+          break;
+        default:
+          element = '<i class="las la-book"></i>';
+          break;
+      }
+    }
+    return element;
+  }
+
+  get description(): string {
+    if (this.environment && this.environment.description) {
+      return this.environment.description;
+    } else {
+      return 'The environment has no description.';
+    }
   }
 
   constructor(
@@ -45,47 +117,10 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     // console.log(`--------- env ${ this.environment.id } --------`);
   }
 
-  getThumbnail(): string {
-    let element: string;
 
-    switch (this.environment.thumbnail) {
-      case 'jupyter':
-        element = '<img src="assets/images/environment-item-thumb-jupyter_gray.svg" width="90">';
-        break;
-      case 'ipython':
-        element = '<i class="las la-book"></i>';
-        break;
-      case 'r-studio':
-        element = '<span class="r-studio">R</span>';
-        break;
-      case 'deep-learning':
-        element = '<i class="las la-brain"></i>';
-        break;
-      case 'machine-learning':
-        element = '<i class="las la-cogs"></i>';
-        break;
-      case 'data-science':
-        element = '<i class="las la-chart-bar"></i>';
-        break;
-      case 'icon':
-        element = `<i class="la las lab lar ${this.environment.thumbnail}"></i>`;
-        break;
-      case 'abbreviation':
-        element = `<span>${this.environment.thumbnail}</span>`;
-        break;
-      case 'text':
-        element = `<span>${this.environment.thumbnail}</span>`;
-        break;
-      default:
-        element = 'No image';
-        break;
-    }
-
-    return element;
-  }
 
   openDialog(): void {
-    this.dialog.open( DashboardEnvironmentItemFormComponent, {
+    this.dialog.open(DashboardEnvironmentItemFormComponent, {
       width: '800px',
       height: 'auto',
       data: {
@@ -99,7 +134,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
 
   startEnvironment(): void {
     console.log(this.environment.id);
-    this.environmentService.startEnvironment(this.environment.id).subscribe( _ => {
+    this.environmentService.startEnvironment(this.environment.id).subscribe(_ => {
       this.openEnvironmentInBrowser();
     });
   }
@@ -114,6 +149,9 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   stopEnvironment(): void {
+    if (!confirm('Have you saved your edited files? Once environment shutdown, it will be deleted.')) {
+      return;
+    }
     const instance = this.instanceService.getInstance(this.environment.instance_id);
     instance.state = InstanceStates.Deleting;
     // ---- Delete data for instance-notification que.
@@ -124,7 +162,9 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     });
   }
 
-
+  restartEnvironment(): void {
+    // ---- write later
+  }
 
   getInstance(): Instance {
     return this.instanceService.getInstance(this.environment.instance_id);

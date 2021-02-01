@@ -10,12 +10,12 @@
       devices.
     </div>
 
-    <div class="login-buttons spacer__b10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-      <a mat-raised-button href="/oauth2?rd=%2Foauth2" class="inversion accent medium">
+    <div class="login-buttons spacer__b10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+      <a mat-raised-button href="/oauth2?rd=%2Foauth2" class="oauth-login-button inversion accent medium">
         <span class="sso-login">Login</span>
       </a>
-      <button mat-button id="special-login-button"
-      (click)="isLoginFormOpen=!isLoginFormOpen" class="prime">
+      <a id="special-login-button" class="special-login-button"
+      (click)="isLoginFormOpen=!isLoginFormOpen">
         Special Login
         <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
           <mat-icon> chevron_right </mat-icon>
@@ -23,7 +23,7 @@
         <ng-template #elseBlock>
           <mat-icon> expand_more </mat-icon>
         </ng-template>
-      </button>
+      </a>
     </div>
     <!-- Special Login form -->
     <mat-accordion class="login-form-outer" multi>

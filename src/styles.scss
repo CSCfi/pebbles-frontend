@@ -123,19 +123,22 @@ input {
   box-shadow: 0 1px 2px 2px rgba(30, 30, 30, 0.3);
 }
 
-// .shadow-1 {
-//   box-shadow: 0 1px 3px rgba(#000, 0.12), 0 1px 2px rgba(#000, 0.24);
-// }
-// .shadow-2 {
-//   box-shadow: 0 3px 6px rgba(#000, 0.16), 0 3px 6px rgba(#000, 0.23);
-// }
-
 .no-shadow {
   box-shadow: none !important;
 }
 
 .flat-shadow {
   box-shadow: 1px 1px 1px 1px rgba(0,0,0,.2) !important;
+}
+
+.shadow{
+  &__moderate {
+    box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+  }
+}
+
+.block {
+  display: block;
 }
 
 .section-title {
@@ -151,7 +154,8 @@ input {
 section.card {
   background: map-get($colors, white);
   border-radius: 5px;
-  box-shadow: 0 1px 2px 1px $box-shadow !important;
+  box-shadow: 0 1px 2px 1px rgba(146, 146, 230, .22) !important;
+
   position: relative;
   margin-bottom: 20px;
 
@@ -176,11 +180,15 @@ section.card {
   }
 }
 
-.label-list-mini{
+.label-list-sm{
+  margin-bottom: 20px;
+
   .mat-chip{
-    font-weight: bold;
-    font-size: 12px;
+    margin-right: 5px;
+    font-size: 1.1rem;
     min-height: 22px;
+    color: map-get($colors, dark);
+    font-weight: 600;
   }
 }
 
@@ -251,8 +259,16 @@ section.card {
     @include inversion(dark);
   }
 
+  &.light-dark {
+    @include inversion(light-dark);
+  }
+
   &.light-gray {
     @include inversion(neutral-dark);
+  }
+
+  &.light-accent {
+    @include inversion(light-accent);
   }
 
   &.transparent {
@@ -303,6 +319,9 @@ section.card {
   }
 
   &__r{
+    &5{
+      margin-right: 5px;
+    }
     &10{
       margin-right: 10px;
     }

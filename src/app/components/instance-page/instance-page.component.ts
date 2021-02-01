@@ -16,6 +16,7 @@ import { ProgressBarMode } from '@angular/material/progress-bar';
 })
 
 export class InstancePageComponent implements OnInit, OnDestroy {
+
   progressMap = new Map<InstanceStates, number>([
     [InstanceStates.Queueing, 25],
     [InstanceStates.Provisioning, 50],
@@ -38,6 +39,11 @@ export class InstancePageComponent implements OnInit, OnDestroy {
 
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'buffer';
+
+  get description(): string {
+    this.targetEnvironment = this.environmentService.get(this.targetInstance.environment_id);
+    return this.targetEnvironment.description || 'No description';
+  }
 
   constructor(
     private route: ActivatedRoute,

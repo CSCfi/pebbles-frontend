@@ -5,13 +5,15 @@
   mat-accordion {
     .mat-expansion-panel {
       margin: 6px 0 10px 0;
-      box-shadow: none;
+      box-shadow: none !important;
+      background: none !important;
 
       .mat-expansion-panel-content {
 
         .mat-expansion-panel-body {
           margin-bottom: 10px;
           padding: 10px 30px;
+          background: map-get($colors, white);
         }
       }
     }
@@ -19,6 +21,12 @@
 
   mat-tab-group {
     margin: 10px 0 50px 0;
+
+    .label-list-sm {
+      .mat-chip {
+        background: map-get($colors, white);
+      }
+    }
 
     mat-tab-header {
       .mat-tab-label {
@@ -34,6 +42,11 @@
           color: map-get($colors, primary);
           font-size: 1.3rem !important;
         }
+      }
+
+      .mat-ink-bar {
+        background-color: map-get($colors , accent) !important;
+        height: 4px;
       }
     }
 

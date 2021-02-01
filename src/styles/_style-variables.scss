@@ -10,18 +10,19 @@ $font-families: (
 $colors: (
   primary: #1a237e,
   dark-primary: #16145f,
-  light-primary: #222eac,
-  accent: #00acc1,
+  light-primary: #2936c4,
+  accent: #20b4da,
+  light-accent:#aed4ff,
   secondary: #00c7b2,
   success: #0082bb,
   danger: #7dc242,
   info: #006778,
   warning: #830051,
-  active: #830051,
+  active: #e91e63,
   light: #efeff6,
   dark:  #2e2f39,
   neutral-dark:  #9cb2c7,
-  light-dark:  #b7d2eb,
+  light-dark:  #acc7e0,
   gray: #6d7088,
   light-gray: #c7c7c7,
   white: #fff,
@@ -116,20 +117,6 @@ $layout-set:(
 );
 // @debug map-deep-get($layout-set, dashboard, header, h);
 
-.spacer {
-  &__b10 {
-    margin-bottom: 10px !important;
-  }
-}
-
-// ---- Effect
-
-$box-shadow: rgba(146, 146, 230, .22);
-.shadow{
-  &__moderate {
-    box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
-  }
-}
 
 // ---- border
 

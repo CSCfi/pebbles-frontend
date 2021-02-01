@@ -6,7 +6,7 @@ export class Environment {
     public id: string,
     public name: string,
     public description: string,
-    public maximumLifetime: string,
+    public maximum_lifetime: string,
     public workspace_id: string,
     public labels: string[],
     public thumbnail: string,
