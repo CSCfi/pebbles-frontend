@@ -1,12 +1,12 @@
 <ng-container *ngIf="content" [ngSwitch]="content.path">
   <!-- There are 3 workspace view mode :
-    1.user-workspace
+    1.my-workspace
     2.owner-workspace
     3.owner-workspace-detail (owner's workspace control panel)
   -->
   <!-- 1: The single Workspace template in list view for End-user -->
-  <mat-card class="user-workspace" fxLayout="row" fxLayoutAlign="space-between stretch"
-    *ngSwitchCase="'user-workspace'">
+  <mat-card class="my-workspaces" fxLayout="row" fxLayoutAlign="space-between stretch"
+    *ngSwitchCase="'my-workspaces'">
     <div class="card-media v-centering__horizontal" fxFlex="0 0 80px">
       <div class="thumbnail">
         <mat-icon>people_outline</mat-icon>
@@ -47,12 +47,11 @@
       <button mat-flat-button aria-label="workspace delete" class="full__h inversion light-gray"
       #tooltip="matTooltip" matTooltip="Leave Workspace"
       (click)="exitWorkspace()">
-        <mat-icon class="material-icons-outlined">delete</mat-icon>
-        <!-- <span>Leave</span>s -->
+        <mat-icon>logout</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>
-  <!-- //*ngSwitchCase="'user-workspace'" -->
+  <!-- //*ngSwitchCase="'my-workspaces'" -->
 
   <!-- 2. The single Workspace template in list view for Workspace-owner -->
   <div *ngSwitchCase="'workspace-owner'" class="workspace-owner">

@@ -333,7 +333,7 @@ export class MockInterceptor implements HttpInterceptor {
           }
           return ws;
         });
-        return ok(objectId);
+        return ok(target_workspaces[0]);
       } else {
         return error('workspace not found');
       }
@@ -478,7 +478,7 @@ export class MockInterceptor implements HttpInterceptor {
           return true;
         }
         if (ws.owner_eppn === eppn) {
-          return true;
+          return false;
         }
         return false;
       });

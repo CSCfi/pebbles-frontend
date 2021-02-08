@@ -23,8 +23,8 @@ export const routes: Routes = [
         data: { breadcrumbs: [''] }
       },
       {
-        path: 'user-workspace', component: DashboardMyWorkspacesComponent,
-        data: { breadcrumbs: ['home', 'workspace'] }
+        path: 'my-workspaces', component: DashboardMyWorkspacesComponent,
+        data: { breadcrumbs: ['home', 'my-workspaces'] }
       },
       {
         path: 'workspace-owner', component: DashboardWorkspaceOwnerComponent,

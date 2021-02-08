@@ -8,6 +8,7 @@ import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { EnvironmentCategory } from 'src/app/models/environment-category';
 import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
+import { DashboardMyWorkspacesComponent } from '../dashboard-my-workspaces/dashboard-my-workspaces.component';
 
 @Component({
   selector: 'app-dashboard-catalog',
@@ -41,11 +42,13 @@ export class DashboardCatalogComponent implements OnInit {
     this.isSearchFormOpen = false;
     // ---- getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
-    // console.log(this.selectedCatalog);
   }
 
-  openJoinWorkspaceDialog() {
-    this.dialog.open(JoinWorkspaceDialogComponent);
+  openJoinWorkspaceDialog(): void {
+    const dialogRef = this.dialog.open(DashboardMyWorkspacesComponent, {
+      height: 'auto', width: '600px'
+    });
+    dialogRef.componentInstance.isPage = false;
   }
 
   // ---- Environment
@@ -65,11 +68,11 @@ export class DashboardCatalogComponent implements OnInit {
     const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
     environmentsCopy.sort((a, b) => {
       if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) &&
-          (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
+        (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
         return (('' + a.name).localeCompare(b.name));
       }
       else if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) ||
-               (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
+        (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
         if (('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) { return 1; }
         else if (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0) { return -1; }
       }
@@ -139,52 +142,5 @@ export class DashboardCatalogComponent implements OnInit {
   getWorkspaceById(workspaceId: string): Workspace {
     const workspaces = this.workspaceService.getWorkspaces();
     return workspaces.find(ws => ws.id === workspaceId);
-  }
-}
-
-@Component({
-  selector: 'app-join-workspace-dialog',
-  templateUrl: 'join-workspace-dialog.component.html',
-  styleUrls: ['./dashboard-catalog.component.scss']
-})
-export class JoinWorkspaceDialogComponent {
-
-  // ---- Join Workspace Form
-  joinWorkspaceForm = new FormGroup({
-    joinCode: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9!-/:-@¥[-`{-~]*$')])
-  });
-
-  constructor(
-    // @Inject(DOCUMENT) private document: Document,
-    private workspaceService: WorkspaceService,
-    private environmentService: EnvironmentService
-  ) {
-  }
-
-  get joinCode(): any {
-    return this.joinWorkspaceForm.get('joinCode');
-  }
-
-  getJoinCode(): void {
-    return this.joinWorkspaceForm.get('joinCode').value;
-  }
-
-  getWorkspaces(): Workspace[] {
-    return this.workspaceService.getWorkspaces();
-  }
-
-  fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(() => {
-      console.log('workspaces fetched');
-    });
-  }
-
-  joinWorkspace(): void {
-    const code = this.joinWorkspaceForm.get('joinCode').value;
-    this.workspaceService.joinWorkspace(code).subscribe(() => {
-      this.joinWorkspaceForm.reset();
-      this.fetchWorkspaces();
-      this.environmentService.fetchEnvironments().subscribe();
-    });
   }
 }

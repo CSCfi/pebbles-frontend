@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,8 +12,11 @@ import { EnvironmentService } from 'src/app/services/environment.service';
 })
 export class DashboardMyWorkspacesComponent implements OnInit {
 
+  public isPage = true;
+  public newWorkspace: Workspace;
+
   public content = {
-    path: 'user-workspace',
+    path: 'my-workspaces',
     title: 'My workspaces'
   };
 
@@ -22,12 +25,6 @@ export class DashboardMyWorkspacesComponent implements OnInit {
     joinCode: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9!-/:-@¥[-`{-~]*$')])
   });
 
-  constructor(
-    private workspaceService: WorkspaceService,
-    private environmentService: EnvironmentService,
-    private authService: AuthService,
-  ) {}
-
   get joinCode(): any {
     return this.joinWorkspaceForm.get('joinCode');
   }
@@ -35,6 +32,13 @@ export class DashboardMyWorkspacesComponent implements OnInit {
   get workspaces(): Workspace[] {
     return this.workspaceService.getWorkspaces();
   }
+
+  constructor(
+    private workspaceService: WorkspaceService,
+    private environmentService: EnvironmentService,
+    private authService: AuthService,
+  ) { }
+
 
   ngOnInit(): void {
     this.fetchWorkspaces();
@@ -48,15 +52,16 @@ export class DashboardMyWorkspacesComponent implements OnInit {
 
   joinWorkspace(formDirective): void {
     const code = this.joinWorkspaceForm.get('joinCode').value;
-    this.workspaceService.joinWorkspace(code).subscribe(() => {
+    this.workspaceService.joinWorkspace(code).subscribe((res) => {
       formDirective.resetForm(); // ---- MEMO: To avoid validation error message
       this.joinWorkspaceForm.reset();
       this.fetchWorkspaces();
+      this.newWorkspace = res;
+      this.environmentService.fetchEnvironments().subscribe();
     });
   }
 
   getEnvironmentsByWorkspaceId(workspaceId: string) {
     return this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
   }
-
 }

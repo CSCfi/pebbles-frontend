@@ -13,7 +13,7 @@ import { DashboardContentHeaderComponent } from './dashboard-content-header/dash
 import { DashboardFooterComponent } from './dashboard-footer/dashboard-footer.component';
 import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
 
-import { DashboardCatalogComponent, JoinWorkspaceDialogComponent } from './dashboard-catalog/dashboard-catalog.component';
+import { DashboardCatalogComponent } from './dashboard-catalog/dashboard-catalog.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
 import { DashboardAnnouncementComponent } from './dashboard-announcement/dashboard-announcement.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
@@ -54,7 +54,6 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
     DashboardWorkspaceFormComponent,
     DashboardWorkspaceMembersComponent,
     DashboardWorkspaceFoldersComponent,
-    JoinWorkspaceDialogComponent,
     DashboardEnvironmentItemComponent,
     DashboardEnvironmentFormComponent,
     DashboardEnvironmentItemFormComponent,

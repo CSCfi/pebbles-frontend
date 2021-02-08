@@ -1,6 +1,8 @@
 @import "src/styles.scss";
 
 ::ng-deep .workspace-join-input-form {
+  max-width: 800px;
+  margin: auto;
 
   form {
     width: 100%;
@@ -23,5 +25,39 @@
         background-color: map-get($colors, accent);
       }
     }
+  }
+}
+
+::ng-deep .workspace-list {
+  max-width: 800px !important;
+  margin: auto;
+}
+
+::ng-deep mat-dialog-container {
+
+  padding: 30px !important;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1a237e;
+  }
+
+  form {
+    width: 100%;
+
+    .join-workspace-btn {
+      margin-top: 3px;
+      height: 70px;
+    }
+  }
+
+  .mat-list-item {
+    font-size: 1.4rem !important;
+    height: 30px !important;
+  }
+
+  .mat-dialog-actions {
+
   }
 }
