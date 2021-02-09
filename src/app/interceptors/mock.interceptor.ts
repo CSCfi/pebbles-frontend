@@ -247,7 +247,7 @@ export class MockInterceptor implements HttpInterceptor {
     function updateEnvironment() {
       const env = database.environments.find(i => i.id === objectId);
       env.name = body.name;
-      env.description = body.config.description;
+      env.description = body.description;
       env.config = body.config;
       return ok();
     }

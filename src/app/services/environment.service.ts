@@ -65,10 +65,13 @@ export class EnvironmentService implements OnDestroy {
       map((resp) => {
         console.log('fetchEnvironments() got', resp);
         for (const newEnv of resp) {
+          // make life easier by making some empty defaults if necessary
           if (!newEnv.config){
             newEnv.config = {};
           }
-          newEnv.description = newEnv.config.description;
+          if (!newEnv.labels) {
+            newEnv.labels = [];
+          }
           const instance = this.instanceService.getInstanceByEnvironmentId(newEnv.id);
           newEnv.instance_id = instance ? instance.id : null;
         }
@@ -104,14 +107,19 @@ export class EnvironmentService implements OnDestroy {
   createEnvironment(
     workspace_id: string,
     name: string,
+    description: string,
     template_id: string,
+    labels: string[],
+    maximum_lifetime: number,
     config: any,
     is_enabled?: boolean
   ): Observable<Environment> {
     const url = `${buildConfiguration.apiUrl}/environments`;
-    return this.http.post<Environment>(url, {workspace_id, name, template_id, config, is_enabled}).pipe(
+    console.log('POSTing a new environment');
+    return this.http.post<Environment>(url,
+      {workspace_id, name, description, labels, template_id, maximum_lifetime, config, is_enabled}).pipe(
       map((resp) => {
-        console.log('created Environment' + resp);
+        console.log('created Environment', resp);
         this.fetchEnvironments().subscribe();
         return resp;
       })
@@ -120,6 +128,7 @@ export class EnvironmentService implements OnDestroy {
 
   updateEnvironment(environment: Environment): Observable<Environment> {
     const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
+    console.log('PUTting environment', environment);
     return this.http.put<Environment>(url, environment).pipe(
       map((resp) => {
         console.log('Updated environment' + resp);

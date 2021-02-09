@@ -48,7 +48,7 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
       this.downloadMethod = this.data.environment.config.downloadMethod;
       this.isAutoExecution = this.data.environment.config.auto_execution;
       this.environmentItemEditFormGroup.controls.name.setValue(this.data.environment.name);
-      this.environmentItemEditFormGroup.controls.description.setValue(this.data.environment.config.description);
+      this.environmentItemEditFormGroup.controls.description.setValue(this.data.environment.description);
       this.environmentItemEditFormGroup.controls.environmentVars.setValue(this.data.environment.config.environment_vars);
     }
   }
@@ -58,19 +58,17 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
   }
 
   editEnvironmentItem(): void {
-    // duplicate 'name' for now, remove when backend has been refactored
     this.data.environment.name = this.environmentItemEditFormGroup.controls.name.value;
-    this.data.environment.config.name = this.environmentItemEditFormGroup.controls.name.value;
-    this.data.environment.config.description = this.environmentItemEditFormGroup.controls.description.value;
+    this.data.environment.description = this.environmentItemEditFormGroup.controls.description.value;
+    this.data.environment.labels = this.selectedLabels;
     this.data.environment.config.ide = this.environmentItemEditFormGroup.controls.ide.value;
-    this.data.environment.config.labels = this.environmentItemEditFormGroup.controls.labels.value;
     this.data.environment.config.downloadMethod = this.environmentItemEditFormGroup.controls.downloadMethod.value;
     this.data.environment.config.auto_execution = this.environmentItemEditFormGroup.controls.isAutoExecution.value;
     this.data.environment.config.environment_vars = this.environmentItemEditFormGroup.controls.environmentVars.value;
     this.environmentService.updateEnvironment(
       this.data.environment
     ).subscribe(_ => {
-      console.log('Updated environment');
+      console.log('Updated environment', this.data.environment);
       this.closeForm();
     });
   }

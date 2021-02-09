@@ -101,6 +101,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   }
 
   selectTemplate(event: Event) {
+    // TODO: looks like this is not called
     this.selectedTemplate = this.environmentTemplates.find(x => x.id === (event.target as HTMLSelectElement).value);
   }
 
@@ -111,14 +112,17 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   }
 
   createEnvironmentByPlainMode(): void {
+    // TODO: this can be removed when selectTemplate() callback starts working
+    this.selectedTemplate = this.environmentTemplateService.getEnvironmentTemplates().find(
+      x => x.id === this.envCreationPlainFormGroup.controls.templateId.value );
     this.environmentService.createEnvironment(
       this.data.workspaceId,
       this.envCreationPlainFormGroup.controls.name.value,
-      this.envCreationPlainFormGroup.controls.templateId.value,
+      this.envCreationPlainFormGroup.controls.description.value,
+      this.selectedTemplate.id,
+      this.selectedLabels,
+      this.selectedTemplate.base_config.maximum_lifetime,
       {
-        name: this.envCreationPlainFormGroup.controls.name.value,
-        description: this.envCreationPlainFormGroup.controls.description.value,
-        labels: ['basic', 'python'],
         ide: this.envCreationPlainFormGroup.controls.ide.value,
         downloadMethod: this.envCreationPlainFormGroup.controls.downloadMethod.value,
         environment_vars: this.envCreationPlainFormGroup.controls.source.value,
@@ -133,14 +137,16 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   }
 
   createEnvironmentByWizardMode(isPublic?: boolean): void {
+    this.selectedTemplate = this.environmentTemplateService.getEnvironmentTemplates().find(
+      x => x.id === this.wizardTemplateFormGroup.controls.templateId.value);
     this.environmentService.createEnvironment(
       this.data.workspaceId,
       this.wizardProfileFormGroup.controls.name.value,
-      this.wizardTemplateFormGroup.controls.templateId.value,
+      this.wizardProfileFormGroup.controls.description.value,
+      this.selectedTemplate.id,
+      this.selectedLabels,
+      this.selectedTemplate.base_config.maximum_lifetime,
       {
-        name: this.wizardProfileFormGroup.controls.name.value,
-        description: this.wizardProfileFormGroup.controls.description.value,
-        labels: ['basic', 'python'],
         ide: this.wizardOptionFormGroup.controls.ide.value,
         downloadMethod: this.wizardOptionFormGroup.controls.downloadMethod.value,
         environment_vars: this.wizardOptionFormGroup.controls.source.value,

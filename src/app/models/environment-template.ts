@@ -4,9 +4,10 @@ export class EnvironmentTemplate {
   constructor(
     public id: string,
     public name: string,
+    public description: string,
     public is_active: boolean,
     public cluster: string,
-    public config: any,
+    public base_config: any,
   ) {
   }
 }

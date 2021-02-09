@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { Environment } from 'src/app/models/environment';
@@ -63,7 +62,7 @@ export class DashboardCatalogComponent implements OnInit {
   // TODO: this takes few seconds in UI to display.
   // Merging sort to fetchEnvironments reduces delay but still takes a sec.
   // Sort is called before fetchEnvironments to reduce, but still see minor glitch.
-  sortEnvironments(environmentsCopy): Environment[] {
+  sortEnvironments(environmentsCopy: Environment[]): Environment[] {
     console.log('sortEnvironments is called');
     const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
     environmentsCopy.sort((a, b) => {
@@ -83,7 +82,7 @@ export class DashboardCatalogComponent implements OnInit {
     return environmentsCopy;
   }
 
-  filterEnvironmentsByLabels(catalogLabels, method): Environment[] {
+  filterEnvironmentsByLabels(catalogLabels: string[], method: string): Environment[] {
     const environmentsCopy = Object.assign([], this.environmentService.getEnvironments());
     const environments = this.sortEnvironments(environmentsCopy);
     if (catalogLabels.length === 0) {

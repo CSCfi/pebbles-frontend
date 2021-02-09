@@ -35,6 +35,7 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchWorkspaces();
+    this.environmentService.fetchEnvironments().subscribe();
   }
 
   fetchWorkspaces(): void {
@@ -95,8 +96,11 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
       this.environmentService.createEnvironment(
         ws.id,
         'Demo Environment',
+        'Demo Environment created by "Create Demo Workspace"',
         envTemplate.id,
-        {description: 'Demo Environment created by "Create Demo Workspace"'},
+        envTemplate.base_config.labels,
+        envTemplate.base_config.maximum_lifetime,
+        {},
         true,
       ).subscribe((env) => {
         console.log('created example Environment ' + env.id);
