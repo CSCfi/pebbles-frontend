@@ -68,19 +68,19 @@
           <!-- Instance [Running] -->
           <ng-container *ngSwitchDefault>
             <button mat-button class="open-button v-centering__inline inversion"
-              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 65px" #tooltip="matTooltip"
+              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 70px" #tooltip="matTooltip"
               matTooltip="Enter environment" matTooltipPosition="above" fxLayout="column" fxLayoutAlign="center center"
               (click)="openEnvironmentInBrowser()">
               <div class="button-icon"><mat-icon>launch</mat-icon></div>
               <ng-container *ngIf="lifetimeLeft; else stateBlock">
-                <div class="time-left">{{ lifetimeLeft }}</div>
+                <div class="time-left"> {{ lifetimeLeft }}</div>
               </ng-container>
               <ng-template #stateBlock>
                 <div class="state v-centering__inline">{{ state }}</div>
               </ng-template>
             </button>
             <button mat-button class="shutdown-button v-centering__inline inversion"
-              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 35px"
+              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 30px"
               #tooltip="matTooltip" matTooltip="Stop environment" matTooltipPosition="below" (click)="stopEnvironment()">
               <div class="button-icon"><mat-icon>close</mat-icon></div>
               <!-- <span>stop</span> -->

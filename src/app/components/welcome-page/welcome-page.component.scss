@@ -3,7 +3,7 @@
 .screen-container {
   @include banner;
 
-  min-height:100vh;
+  min-height: 100vh;
   height: auto;
   background: map-get($colors, primary);
 
@@ -29,7 +29,9 @@
   }
 
   .jumbotron {
+    position: relative;
     padding: 0 20px;
+    height: map-deep-get($layout-set, welcome, jumbotron, h);
   }
 
   .footer-wrapper {

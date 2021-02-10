@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   logout(): void {
-    if (!confirm('Are you sure ?')) {
+    if (!confirm('Are you sure to logout from Notebooks?')) {
       return;
     }
     localStorage.clear();

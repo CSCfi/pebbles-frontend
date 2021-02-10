@@ -77,7 +77,7 @@ export class DashboardWorkspaceItemComponent implements OnInit {
   }
 
   exitWorkspace(): void {
-    if (!confirm('Are you sure to exit from the workspace?')) {
+    if (!confirm(`Are you sure you want to leave workspace "${this.workspace.name}"?`)) {
       return;
     }
     this.workspaceService.exitWorkspace(this.workspace.id).subscribe(() => {

@@ -310,6 +310,9 @@ section.card {
     &10{
       margin-top: 10px;
     }
+    &20{
+      margin-top: 20px !important;
+    }
   }
 
   &__l{
@@ -361,6 +364,11 @@ section.card {
   &__screen {
     height: 100vh;
   }
+}
+
+.content-body {
+  padding: 20px;
+  background-color: map-get($colors, white);
 }
 
 .logo {

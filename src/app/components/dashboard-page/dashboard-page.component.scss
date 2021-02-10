@@ -6,22 +6,13 @@
   padding-top: 0 !important;
   margin-top: 0 !important;
 
-  &.no-header {
-    padding-top: 0 !important;
-    // border-top: 6px solid map-get($colors,primary) !important;
-
-    .mat-sidenav {
-      // border-top: 6px solid map-get($colors,primary) !important;
-      margin-top: 0 !important;
-    }
-  }
-
   .mat-sidenav {
     position: fixed;
     border: none !important;
+    width:  map-deep-get($layout-set, dashboard, sidenav, w);
 
     &.minimize {
-      width: map-deep-get($layout-set, dashboard, sidenav-min, w)
+      width: map-deep-get($layout-set, dashboard, sidenav-min, w);
     }
 
     app-dashboard-nav{
@@ -34,11 +25,19 @@
     }
   }
 
-  .dashboard-content-container{
-    padding: 15px 40px;
-    display: block;
-    min-height: map-deep-get($layout-set, dashboard, content, min-h);
-    background-color: map-get($colors, light);
+  mat-sidenav-content {
+    // margin-left: 250px;
+
+    &.expanded {
+      margin-left: 80px !important;
+    }
+
+    .dashboard-content-container{
+      padding: 15px 40px;
+      display: block;
+      min-height: map-deep-get($layout-set, dashboard, content, min-h);
+      background-color: map-get($colors, light);
+    }
   }
 }
 

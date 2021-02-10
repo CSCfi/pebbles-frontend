@@ -7,14 +7,13 @@
   font-weight: 600;
 
   .logo {
-    padding: 25px 5px 10px 5px;
-    height: 70px;
+    padding: 25px 5px 30px 5px;
+    height: 100px;
 
     h1 {
       font-size: 2.8rem;
       font-weight: 600;
       padding-top: 4px;
-      // padding-left: 10px;
       letter-spacing: 1px;
       line-height: 2.8rem;
       margin: 0 !important;
@@ -34,11 +33,13 @@
   }
 
   .sidenav-button {
-    padding-left: 24px !important;
+    min-width: 61px;
+    margin-left: 6px;
     color: map-get($colors, light);
 
-    .mat-button-wrapper {
-      float: left;
+    &:hover {
+      background-color: map-get($colors, transparent) !important;
+      color: map-get($colors, accent) !important;
     }
   }
 
@@ -72,7 +73,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding:  5px 0 15px;
+    padding:  5px 0 20px;
     font-size: 1.2rem;
 
     .user-name {
@@ -80,6 +81,8 @@
     }
 
     button {
+      padding: 0 16px;
+
       .mat-icon {
         height: auto;
         font-size: 1.8rem;
