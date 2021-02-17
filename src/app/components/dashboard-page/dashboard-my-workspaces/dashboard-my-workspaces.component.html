@@ -6,7 +6,7 @@
       <mat-form-field appearance="outline" class="join-code-input" fxFlex="grow">
         <mat-label>Enter join Code</mat-label>
         <input matInput placeholder="Enter join code" formControlName="joinCode" />
-        <mat-error *ngIf="joinCode.invalid" [ngClass]="'error'">error</mat-error>
+        <mat-error *ngIf="isJoinCodeValid"> [ngClass]="'error'">error</mat-error>
       </mat-form-field>
       <button mat-flat-button type="submit" class="primary inversion" fxFlex="0 0 220px">
         <!-- Join Workspace -->
@@ -36,7 +36,7 @@
           <mat-form-field appearance="outline" class="join-code-input" fxFlex="grow">
             <mat-label>Join Code</mat-label>
             <input matInput placeholder="Placeholder" formControlName="joinCode" fxFlex="0 0 220px" />
-            <mat-error *ngIf="joinCode.invalid" [ngClass]="'error'">error</mat-error>
+            <mat-error *ngIf="isJoinCodeValid" [ngClass]="'error'">error</mat-error>
           </mat-form-field>
           <button mat-flat-button class="join-workspace-btn inversion primary" (click)="joinWorkspace(formDirective)"
             autofocus>

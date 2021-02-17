@@ -49,7 +49,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   get isTimeWarningOn(): boolean {
-    return this.lifetimePercentage < 25;
+    return this.lifetimePercentage < 25 && !this.isSpinnerOn;
   }
 
   get lifetime(): string {
@@ -117,8 +117,6 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     // console.log(`--------- env ${ this.environment.id } --------`);
   }
 
-
-
   openDialog(): void {
     this.dialog.open(DashboardEnvironmentItemFormComponent, {
       width: '800px',
@@ -133,9 +131,13 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   // ----------------------------------------
 
   startEnvironment(): void {
-    console.log(this.environment.id);
+    const instance = this.instanceService.getInstance(this.environment.instance_id);
     this.environmentService.startEnvironment(this.environment.id).subscribe(_ => {
-      this.openEnvironmentInBrowser();
+      if (instance) {
+        this.openEnvironmentInBrowser();
+      } else {
+        setTimeout(() => { this.openEnvironmentInBrowser(); }, 2000);
+      }
     });
   }
 
@@ -158,7 +160,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     localStorage.removeItem(instance.name);
 
     this.instanceService.deleteInstance(instance.id).subscribe(_ => {
-      console.log('instance deleting process finished');
+      // console.log('instance deleting process finished');
     });
   }
 

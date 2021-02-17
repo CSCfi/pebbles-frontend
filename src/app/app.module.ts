@@ -1,6 +1,6 @@
 // ---- Modules
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -57,6 +57,7 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ENVIRONMENT_SPECIFIC_PROVIDERS,
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   bootstrap: [
     AppComponent
   ]

@@ -19,7 +19,7 @@
     }
 
     button {
-      height: 70px;
+      height: 60px;
 
       &:hover {
         background-color: map-get($colors, accent);
@@ -37,9 +37,9 @@
 
   padding: 30px !important;
 
-  h2 {
+  .mat-dialog-title {
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 600 !important;
     color: #1a237e;
   }
 

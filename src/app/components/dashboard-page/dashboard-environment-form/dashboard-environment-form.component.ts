@@ -33,7 +33,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DashboardEnvironmentFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      isPlainMode: boolean,
+      isPlainFormOn: boolean,
       workspaceId: string
     },
     private formBuilder: FormBuilder,
@@ -49,7 +49,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
 
     this.selectedDownloadMethod = 'none';
 
-    if (this.data.isPlainMode) {
+    if (this.data.isPlainFormOn) {
       console.log('----> plain mode');
       this.envCreationPlainFormGroup = this.formBuilder.group({
         templateId: ['', [Validators.required]],

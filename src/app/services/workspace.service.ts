@@ -52,6 +52,15 @@ export class WorkspaceService {
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
         console.log('fetchWorkspaces() got', resp);
+        for (const ws of resp) {
+          // make life easier by making some empty defaults if necessary
+          if (!ws.member_eppns) {
+            ws.member_eppns = [];
+          }
+          if (!ws.manager_eppns) {
+            ws.manager_eppns = [];
+          }
+        }
         this.workspaces = resp;
         return this.workspaces;
       })

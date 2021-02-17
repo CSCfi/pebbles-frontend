@@ -114,6 +114,10 @@ $progress-linear-bar-height: 6px;
   //   border-bottom: 1px solid map-get($colors, white) !important;
   // }
 
+  .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.7em 0;
+  }
+
   // ---- Accordion
   // ----------------------------------------
 

@@ -53,8 +53,8 @@ $colors: (
 
     &:hover {
       cursor: pointer;
-      color: map-get($colors, white);
-      background-color: map-get($colors, accent);
+      color: map-get($colors, white) !important;
+      background-color: map-get($colors, accent) !important;
     }
   }
 }

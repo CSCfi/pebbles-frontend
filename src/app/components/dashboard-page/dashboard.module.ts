@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 // import { BrowserModule } from '@angular/platform-browser';
-// import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // ---- Custom module
@@ -59,6 +59,7 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
     DashboardEnvironmentItemFormComponent,
   ],
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
@@ -69,5 +70,6 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
   exports: [
     DashboardPageComponent
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DashboardModule { }

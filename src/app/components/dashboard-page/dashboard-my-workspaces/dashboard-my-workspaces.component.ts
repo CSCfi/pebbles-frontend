@@ -25,8 +25,12 @@ export class DashboardMyWorkspacesComponent implements OnInit {
     joinCode: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9!-/:-@¥[-`{-~]*$')])
   });
 
-  get joinCode(): any {
-    return this.joinWorkspaceForm.get('joinCode');
+  get isJoinCodeValid(): boolean {
+    return this.joinWorkspaceForm.get('joinCode').valid;
+  }
+
+  get joinCode(): string {
+    return this.joinWorkspaceForm.get('joinCode').value;
   }
 
   get workspaces(): Workspace[] {
@@ -51,8 +55,7 @@ export class DashboardMyWorkspacesComponent implements OnInit {
   }
 
   joinWorkspace(formDirective): void {
-    const code = this.joinWorkspaceForm.get('joinCode').value;
-    this.workspaceService.joinWorkspace(code).subscribe((res) => {
+    this.workspaceService.joinWorkspace(this.joinCode).subscribe((res) => {
       formDirective.resetForm(); // ---- MEMO: To avoid validation error message
       this.joinWorkspaceForm.reset();
       this.fetchWorkspaces();

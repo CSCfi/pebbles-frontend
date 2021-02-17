@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { EnvironmentService } from '../../../services/environment.service';
@@ -13,6 +14,7 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
 
   workspaceId: string;
   workspace: Workspace;
+  selectedTabLabel: string;
 
   public content = {
     path: 'workspace-owner/detail/:id',
@@ -20,6 +22,7 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
   };
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private workspaceService: WorkspaceService,
     private environmentService: EnvironmentService,
@@ -30,12 +33,16 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getWorkspaceById(this.workspaceId);
     this.environmentService.fetchEnvironments().subscribe();
+    // ---- To know which button in the manage workspace was clicked
+    if (window.history.state) {
+      this.selectedTabLabel = window.history.state.label;
+    }
   }
 
   getWorkspaceById(workspaceId: string): void {
     this.workspaceService.fetchWorkspaces().subscribe((resp) => {
       console.log(resp);
-      this.workspace = resp.find( ws => ws.id === workspaceId );
+      this.workspace = resp.find(ws => ws.id === workspaceId);
     });
   }
 }

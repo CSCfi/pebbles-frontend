@@ -53,45 +53,11 @@
     .mat-tab-body-wrapper {
       padding: 15px 0px !important;
 
-      .environment-item-container {
-
-        .environment-item {
-          width: 100%;
-          max-width: 1000px;
-
-          .label-list {
-            min-height: 10px;
-            padding-top: 5px;
-          }
-        }
+      .catalog-section {
+        margin: auto;
+        max-width: 1000px;
+        width: 100%;
       }
     }
-  }
-}
-
-// ---- Workspace join dialog
-
-.mat-dialog-container {
-  width: 300px;
-}
-
-.mat-dialog-title {
-  color: green;
-  border-bottom: 1px solid #e6e6f2;
-  padding-bottom: 5px;
-  margin-bottom: 20px;
-}
-
-form {
-  display: inline-flex;
-
-  .join-code-input {
-    max-width: 500px;
-    min-width: 350px;
-    // width: 50vw;
-  }
-
-  .join-workspace-btn {
-    margin: 0.25em 0 1.34375em 10px;
   }
 }

@@ -1,14 +1,12 @@
 <div class="content-header-wrapper v-centering" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
   <app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
   <div class="environments-catalog-functions" fxLayout="row" fxLayoutAlign="start right" fxLayoutGap="10px">
-    <button mat-fab color="primary" class="shadow__moderate" aria-label="Search environments"
-    #tooltip="matTooltip" matTooltip="Search environments"
-    (click)="isSearchFormOpen=!isSearchFormOpen">
+    <button mat-fab aria-label="Search environments" class="shadow__moderate inversion primary" #tooltip="matTooltip"
+      matTooltip="Search environments" (click)="isSearchFormOpen=!isSearchFormOpen">
       <mat-icon fontSet="material-icons-outlined"> search </mat-icon>
     </button>
-    <button mat-fab color="primary" class="shadow__moderate join-workspace-button" aria-label="Join Workspace"
-    #tooltip="matTooltip" matTooltip="Join workspace"
-    (click)="openJoinWorkspaceDialog()">
+    <button mat-fab class="inversion primary shadow__moderate join-workspace-button" aria-label="Join Workspace"
+      #tooltip="matTooltip" matTooltip="Join workspace" (click)="openJoinWorkspaceDialog()">
       <mat-icon>group_add</mat-icon>
     </button>
   </div>
@@ -25,7 +23,8 @@
   </mat-accordion>
 
   <!-- Environment Catalogs -->
-  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="my-environment-tab" (selectedTabChange)="changeCatalog($event)">
+  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="my-environment-tab"
+    (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()" class="">
       <mat-tab label="{{ catalog.name }}">
         <ng-template mat-tab-label>
@@ -65,10 +64,10 @@
             <ng-template #elseBlock>
               <div class="label-list"></div>
             </ng-template>
-            <div class="environment-item-container"
-            fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div class="environment-item-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
               <ng-container *ngFor="let environment of filterEnvironmentsByLabels(selectedCatalog.labels, 'any')">
-                <app-dashboard-environment-item class="environment-item" [environment]=environment [content]=content></app-dashboard-environment-item>
+                <app-dashboard-environment-item class="environment-item" [environment]=environment [content]=content>
+                </app-dashboard-environment-item>
               </ng-container>
             </div>
           </div>

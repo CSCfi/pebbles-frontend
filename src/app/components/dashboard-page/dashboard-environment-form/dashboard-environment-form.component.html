@@ -1,5 +1,5 @@
 <!------------ Plain Mode ------------>
-<ng-container *ngIf="data.isPlainMode;else elseMode">
+<ng-container *ngIf="data.isPlainFormOn;else elseMode">
   <form [formGroup]="envCreationPlainFormGroup">
     <h2>Create New Environments</h2>
     <mat-dialog-content class="plain-form-container">

@@ -1,9 +1,10 @@
 @import "src/styles.scss";
 
-::ng-deep .my-workspaces {
+.my-workspaces,
+.workspace-owner {
   min-height: 100px;
 
-  .card-media{
+  .card-media {
     margin: -16px 0px -16px -16px !important;
     padding: 20px 0;
 
@@ -15,27 +16,56 @@
   .card-info {
     margin-right: 16px;
     padding-right: 16px;
+    line-height: 22px;
 
-    mat-card-header .mat-card-header-text {
-      width: 100%;
+    mat-card-header {
+      border-bottom: 1px solid map-get($colors, light-gray);
 
-      mat-card-title {
-        padding-bottom: 2px;
-        margin-bottom: 4px;
-        border-bottom: 1px solid #c7c7c7 !important;
-        font-size: 1.6rem !important;
-        font-weight: 600;
+      .mat-card-title {
+        margin-bottom: 5px;
+      }
+
+      .mat-card-header-text {
+        width: 100%;
+
+        mat-card-title {
+          padding-bottom: 2px;
+          margin-bottom: 4px;
+          border-bottom: 1px solid #c7c7c7 !important;
+          font-size: 1.6rem !important;
+          font-weight: 600;
+        }
       }
     }
 
     mat-card-content {
       margin-bottom: 0px;
+    }
 
-      .workspace-description {
-        margin-bottom: 10px;
+    mat-chip-list {
+      margin: 2px;
+
+      mat-chip:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  mat-card-actions {
+    margin: -16px !important;
+    padding: 8px !important;
+  }
+}
+
+::ng-deep .my-workspaces {
+  .card-info {
+    mat-card-content {
+
+      .workspace-info-container {
+        border-top: 1px solid map-get($colors, light-gray);
       }
 
-      .environment-info{
+      .environment-info {
         color: map-get($colors, light-gray);
 
         &.active {
@@ -52,8 +82,8 @@
       }
     }
 
-    mat-accordion{
-      mat-expansion-panel{
+    mat-accordion {
+      mat-expansion-panel {
         box-shadow: none !important;
 
         .mat-expansion-panel-body {
@@ -65,164 +95,17 @@
       }
     }
   }
-
-  mat-card-actions{
-    margin: -16px !important;
-    padding: 8px !important;
-  }
 }
 
 .workspace-owner {
+  .workspace-info-container {
+    .info {
+      color: map-get($colors, primary) !important;
+      height: 30px;
 
-  .workspace-card {
-    padding: 0;
-    margin-bottom: 10px;
-    min-height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-
-    .card-left {
-      flex-grow: 1;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: stretch;
-
-      .mat-card-header {
-        ::ng-deep .mat-card-header-text{
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          // justify-content: space-between;
-          // align-items: stretch;
-          padding: 20px 0 5px 0;
-          // border-bottom: $border-thin;
-
-          .mat-card-title{
-            margin: 0;
-          }
-
-          .mat-card-subtitle{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin: 0;
-          }
-        }
-      }
-
-      .mat-card-content{
-        margin: 0;
-
-        .workspace-description{
-          padding: 10px 20px;
-        }
-
-        .info-container {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: stretch;
-          padding: 0;
-
-          border-top: $border-thin;
-
-          .info{
-            flex-grow: 1;
-            display: inline-flex;
-            align-items: center;
-            width: 100%;
-            padding: 10px 20px;
-
-            .mat-chip-list{
-              margin-right: 1rem;
-            }
-
-            .join-code-text{
-              color: #aaa;
-              margin-left: 1rem;
-              display: inline-flex;
-              align-items: center;
-            }
-          }
-
-          li.environment {
-            display: flex;
-            align-items: center;
-          }
-        }
-      }
-    }
-
-    .card-right {
-      display: flex;
-      // flex-basis: 100px;
-      justify-content: space-between;
-      align-items: stretch;
-
-      .mat-card-actions {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-
-        button {
-          display: inline-block;
-          align-items: center;
-          width: 100%;
-          height: 100%;
-          border-radius: 0 5px 5px 0;
-
-          border: 2px solid map-get($colors, primary);
-
-          span {
-            font-size: 12px;
-          }
-        }
+      &:hover {
+        cursor: pointer;
       }
     }
   }
 }
-
-.owner-workspace-detail {
-
-  h3{
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-
-  .workspace-info{
-    border: 2px solid map-get($colors, primary);
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 30px;
-  }
-
-  .environments-container {
-    padding: 20px;
-  }
-
-  .environment-creation-buttons-container {
-    padding: 0 20px;
-
-    button {
-      padding: 20px;
-      color: #fff;
-      background: map-get($colors, primary);
-      border-radius: 5px;
-      width: 100%;
-      // justify-content: flex-end;
-    }
-
-    .form-option{
-      width: 100%;
-      padding: 10px 20px;
-      justify-content: flex-end;
-    }
-  }
-}
-
-::ng-deep .mat-tab-body-wrapper{
-  padding: 20px 20px;
-}
-
