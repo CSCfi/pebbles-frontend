@@ -21,6 +21,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
+  isWaitingInterval = false;
 
   get isSpinnerOn(): boolean {
     const instance = this.instanceService.getInstance(this.environment.instance_id);
@@ -131,12 +132,16 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   // ----------------------------------------
 
   startEnvironment(): void {
+    this.isWaitingInterval = true;
     const instance = this.instanceService.getInstance(this.environment.instance_id);
     this.environmentService.startEnvironment(this.environment.id).subscribe(_ => {
       if (instance) {
         this.openEnvironmentInBrowser();
       } else {
-        setTimeout(() => { this.openEnvironmentInBrowser(); }, 2000);
+        setTimeout(() => {
+          this.isWaitingInterval = false;
+          this.openEnvironmentInBrowser();
+        }, 1600);
       }
     });
   }
@@ -146,7 +151,9 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     const url = origin + this.router.serializeUrl(
       this.router.createUrlTree(['/instance/', this.environment.instance_id])
     );
-    window.open(url, '_blank');
+    if (!this.isWaitingInterval) {
+      window.open(url, '_blank');
+    }
     // this.router.navigateByUrl('/instance/' + this.environment.instance_id);
   }
 
