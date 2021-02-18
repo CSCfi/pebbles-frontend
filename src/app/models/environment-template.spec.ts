@@ -1,7 +1,8 @@
-import { EnvironmentTemplate } from './environment-template';
+import {EnvironmentTemplate, EnvironmentType} from './environment-template';
 
 describe('EnvironmentTemplate', () => {
   it('should create an instance', () => {
-    expect(new EnvironmentTemplate('id', 'name', 'description', true, 'cluster', {description: 'dummy'})).toBeTruthy();
+    expect(new EnvironmentTemplate('id', 'name', 'description',
+      EnvironmentType.Jupyter, true, 'cluster', {description: 'dummy'})).toBeTruthy();
   });
 });
