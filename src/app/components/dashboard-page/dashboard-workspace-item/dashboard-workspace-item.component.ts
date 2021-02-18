@@ -5,8 +5,6 @@ import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { DashboardEnvironmentFormComponent } from '../dashboard-environment-form/dashboard-environment-form.component';
-import { DashboardWorkspaceFormComponent } from '../dashboard-workspace-form/dashboard-workspace-form.component';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 @Component({
@@ -18,26 +16,16 @@ export class DashboardWorkspaceItemComponent implements OnInit {
 
   @Input() workspace: Workspace;
   @Input() content: any;
-  @Input() selectedTabLabel: string;
   @Output() fetchWorkspacesEvent = new EventEmitter();
 
   // ---- Activate below when lifetime is introduced in workspace
   // lifetime: number;
-  isPlainFormOn: boolean;
+
   showJoinCode: boolean;
   panelOpenState: boolean;
-  tabLabels = ['environments', 'members'];
 
   get environments(): Environment[] {
     return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
-  }
-
-  get selectedTabIndex(): number {
-    if (this.selectedTabLabel) {
-      return this.tabLabels.indexOf(this.selectedTabLabel);
-    } else {
-      return 0;
-    }
   }
 
   constructor(
@@ -47,16 +35,11 @@ export class DashboardWorkspaceItemComponent implements OnInit {
     private environmentService: EnvironmentService,
   ) {
     // this.lifetime = 120; // ---- dummy value for now
-    this.isPlainFormOn = false;
     this.showJoinCode = false;
     this.panelOpenState = false;
   }
 
   ngOnInit(): void {
-  }
-
-  getEnvironmentsByWorkspaceId() {
-    return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
   }
 
   toggleEnvironmentList(): void {
@@ -78,8 +61,14 @@ export class DashboardWorkspaceItemComponent implements OnInit {
 
   // ---- Manage Workspaces ---- //
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent, {
+  openWorkspaceDetail(tab) {
+    this.router.navigateByUrl(
+      `/dashboard/workspace-owner/detail/${this.workspace.id}`,
+      { state: { label: tab } });
+  }
+
+  openJoinCodeDialog() {
+    const dialogRef = this.dialog.open( DialogComponent, {
       width: '500px',
       data: {
         dialogTitle: 'Workspace Join Code',
@@ -95,34 +84,5 @@ export class DashboardWorkspaceItemComponent implements OnInit {
     });
   }
 
-  openEnvironmentCreationDialog(): void {
-    const dialogRef = this.dialog.open(DashboardEnvironmentFormComponent,
-      {
-        width: this.isPlainFormOn ? '800px' : '1000px',
-        height: 'auto',
-        maxHeight: '90vh',
-        data: {
-          isPlainFormOn: this.isPlainFormOn,
-          workspaceId: this.workspace.id
-        }
-      });
-  }
 
-  openWorkspaceDetail(tab) {
-    this.router.navigateByUrl(
-      `/dashboard/workspace-owner/detail/${this.workspace.id}`,
-      { state: { label: tab } });
-  }
-
-  openEditWorkspaceDialog(): void {
-    const dialogRef = this.dialog.open(DashboardWorkspaceFormComponent,
-      {
-        width: '800px',
-        height: 'auto',
-        data: {
-          isCreationMode: false,
-          workspace: this.workspace
-        }
-      });
-  }
 }

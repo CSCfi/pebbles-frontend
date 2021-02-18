@@ -11,7 +11,8 @@ export class DashboardAnnouncementComponent implements OnInit {
 
   public content = {
     path: 'announcements',
-    title: 'Announcements'
+    title: 'Announcements',
+    identifier: 'announcements'
   };
 
   constructor(

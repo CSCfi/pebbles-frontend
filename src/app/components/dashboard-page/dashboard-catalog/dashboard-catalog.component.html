@@ -1,12 +1,12 @@
 <div class="content-header-wrapper v-centering" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
   <app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
   <div class="environments-catalog-functions" fxLayout="row" fxLayoutAlign="start right" fxLayoutGap="10px">
-    <button mat-fab aria-label="Search environments" class="shadow__moderate inversion primary" #tooltip="matTooltip"
+    <button mat-fab aria-label="Search environments" class="shadow__moderate inversion primary"
       matTooltip="Search environments" (click)="isSearchFormOpen=!isSearchFormOpen">
       <mat-icon fontSet="material-icons-outlined"> search </mat-icon>
     </button>
     <button mat-fab class="inversion primary shadow__moderate join-workspace-button" aria-label="Join Workspace"
-      #tooltip="matTooltip" matTooltip="Join workspace" (click)="openJoinWorkspaceDialog()">
+      matTooltip="Join workspace" (click)="openJoinWorkspaceDialog()">
       <mat-icon>group_add</mat-icon>
     </button>
   </div>

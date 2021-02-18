@@ -1,5 +1,59 @@
-<app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
-<div *ngIf="workspace">
-  <app-dashboard-workspace-item [content]="content" [workspace]="workspace" [selectedTabLabel]="selectedTabLabel">
-  </app-dashboard-workspace-item>
+<div class="header-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
+  <app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
+  <div class="workspace-actions" fxFlex="0 0 150px" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-fab color="primary" aria-label="Edit workspace" class="inversion primary shadow-s"
+      matTooltip="Edit workspace" (click)="openEditWorkspaceDialog()">
+      <mat-icon>create</mat-icon>
+    </button>
+    <!-- <button mat-fab color="primary" aria-label="Delete workspace" class="inversion primary shadow-s"
+      matTooltip="Delete workspace" (click)="openDeleteWorkspaceDialog()">
+      <mat-icon>delete_outline</mat-icon>
+    </button> -->
+  </div>
 </div>
+
+<ng-container *ngIf="workspace">
+
+  <dl class="workspace-info spacer__t20">
+    <dt>Description</dt>
+    <dd>{{ workspace.description || 'no description' }}</dd>
+    <dt>Join Code</dt>
+    <dd>{{ workspace.join_code }}</dd>
+    <!-- <div>Lifetime: {{ workspace.lifetime }}</div> -->
+  </dl>
+
+  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" [selectedIndex]="selectedTabIndex">
+    <mat-tab label="Environments">
+      <div class="environment-actions spacer__t20">
+        <button mat-flat-button class="open-environment-creation-wizard-button inversion primary"
+          aria-label="create a new environment" (click)="openEnvironmentCreationDialog('wizard')">
+          <mat-icon class="spacer__r10">auto_awesome</mat-icon>
+          <span>create new environment by wizard</span>
+        </button>
+        <a class="open-environment-creation-form-button spacer__t10" aria-label="create a new environment"
+          (click)="openEnvironmentCreationDialog('plain')">
+          <mat-icon class="spacer__r5">add</mat-icon>
+          <span>create new environment by form</span>
+        </a>
+        <!-- <div class="form-option inline-centering">
+          <mat-label>Open in Expert mode</mat-label>
+          <mat-checkbox [(ngModel)]="isPlainFormOn"></mat-checkbox>
+        </div> -->
+      </div>
+      <div class="environments-container" fxLayout="column" fxLayoutGap="15px">
+        <ng-container *ngFor="let environment of getEnvironments()">
+          <app-dashboard-environment-item [environment]="environment" [content]="content">
+          </app-dashboard-environment-item>
+        </ng-container>
+      </div>
+    </mat-tab>
+    <mat-tab label="Members">
+      <app-dashboard-workspace-members [workspaceId]="workspace.id"></app-dashboard-workspace-members>
+    </mat-tab>
+    <!--
+        <mat-tab label="Shared Folders">
+        <app-dashboard-workspace-folders [workspaceId]="workspace.id"></app-dashboard-workspace-folders>
+      </mat-tab>
+      -->
+  </mat-tab-group>
+</ng-container>

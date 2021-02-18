@@ -62,6 +62,7 @@ a {
 
   &:hover{
     color: map-get($colors, warning);
+    cursor: pointer;
   }
 }
 
@@ -154,7 +155,7 @@ input {
 section.card {
   background: map-get($colors, white);
   border-radius: 5px;
-  box-shadow: 0 1px 2px 1px rgba(146, 146, 230, .22) !important;
+  // box-shadow: 0 1px 2px 1px rgba(146, 146, 230, .22) !important;
 
   position: relative;
   margin-bottom: 20px;
@@ -185,7 +186,7 @@ section.card {
 
   .mat-chip{
     padding: 5px 12px 7px !important;
-    margin-right: 5px;
+    margin-right: 0;
     font-size: 1.1rem;
     min-height: 22px;
     color: map-get($colors, dark);
@@ -197,6 +198,16 @@ section.card {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
+}
+
+.fab {
+  font-size: 1.1rem;
+  padding: 2px 10px;
+  display: inline-block;
+  min-width: 30px;
+  height: 20px;
+  text-align: center;
+  border-radius: 13px;
 }
 
 // ---- shared styles ---- //
@@ -295,8 +306,17 @@ section.card {
 }
 
 .r {
+  &__no{
+    border-radius: 0;
+  }
   &__all{
     border-radius: 5px;
+  }
+  &__top{
+    border-radius: 5px 5px 0 0;
+  }
+  &__bottom{
+    border-radius: 0 0 5px 5px;
   }
   &__left{
     border-radius: 5px 0 0 5px;
@@ -338,6 +358,9 @@ section.card {
   }
 
   &__b{
+    &5{
+      margin-bottom: 5px !important;
+    }
     &10{
       margin-bottom: 10px !important;
     }

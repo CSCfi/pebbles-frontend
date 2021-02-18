@@ -61,7 +61,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: true
     },
     {
       id: '2',
@@ -76,7 +77,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: false
     },
     {
       id: '3',
@@ -91,7 +93,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: true
     },
     {
       id: '4',
@@ -106,7 +109,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: false
     },
     {
       id: '5',
@@ -121,7 +125,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: true
     },
     {
       id: '6',
@@ -136,7 +141,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: false
     },
     {
       id: '7',
@@ -151,7 +157,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: true
     },
     {
       id: '8',
@@ -166,7 +173,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: false
     },
     {
       id: '9',
@@ -181,7 +189,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: true
     },
     {
       id: '10',
@@ -196,7 +205,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: false
     },
     {
       id: '11',
@@ -211,7 +221,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: true
     },
     {
       id: '12',
@@ -226,7 +237,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: false
     },
     {
       id: '13',
@@ -241,7 +253,8 @@ export let db = {
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
-      }
+      },
+      is_enabled: true
     }
   ],
   users: [
@@ -432,14 +445,20 @@ export let db = {
       id: 'et-1',
       name: 'test template 1',
       is_active: true,
-      cluster: 'dummy cluster',
+      cluster: 'dummy cluster 1',
+      base_config: {
+        maximum_lifetime: '7200'
+      },
       config: {description: 'test template in mock data'},
     },
     {
       id: 'et-2',
       name: 'Example',
       is_active: true,
-      cluster: 'dummy cluster',
+      cluster: 'dummy cluster 2',
+      base_config: {
+        maximum_lifetime: '7200'
+      },
       config: {description: 'Template for demo workspace environment'},
     },
   ],

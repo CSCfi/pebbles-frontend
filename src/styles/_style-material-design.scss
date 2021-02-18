@@ -158,8 +158,14 @@ $progress-linear-bar-height: 6px;
   // ---- Card
   // ----------------------------------------
 
-  .mat-card-header-text {
-    margin: 0 !important;
+  mat-card {
+    box-shadow: 0 1px 3px 0px rgba(0,0,0,.1) !important;
+
+    .mat-card-header-text {
+      color: rgba(0, 0, 0, 0.77);
+      margin: 0 !important;
+      width: 100%;
+    }
   }
 
   // ---- Progress-liner

@@ -1,8 +1,10 @@
 <div class="members-container">
   <ng-container *ngIf="tableList.length > 0; else noMember">
     <!-- Search Box -->
+
     <mat-form-field>
-      <mat-label>Filter</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <!-- <mat-label>Filter</mat-label> -->
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
 

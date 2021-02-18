@@ -9,7 +9,8 @@ export class DashboardStatisticsComponent implements OnInit {
 
   public content = {
     path: 'statistics',
-    title: 'Statistics'
+    title: 'Statistics',
+    identifier: 'statistics'
   };
 
   constructor() { }

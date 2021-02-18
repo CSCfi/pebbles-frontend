@@ -112,7 +112,7 @@ export class EnvironmentService implements OnDestroy {
     labels: string[],
     maximum_lifetime: number,
     config: any,
-    is_enabled?: boolean
+    is_enabled: boolean
   ): Observable<Environment> {
     const url = `${buildConfiguration.apiUrl}/environments`;
     console.log('POSTing a new environment');
@@ -132,12 +132,8 @@ export class EnvironmentService implements OnDestroy {
     return this.http.put<Environment>(url, environment).pipe(
       map((resp) => {
         console.log('Updated environment' + resp);
-        // patch the environment in our environment array for quick response
-        const idx = this.environments.findIndex(i => i.id === environment.id);
-        this.environments[idx] = environment;
-        // fetch environments from backend to get the master
         this.fetchEnvironments().subscribe();
-        return resp;
+        return environment;
       })
     );
   }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EnvironmentService } from 'src/app/services/environment.service';
@@ -67,7 +67,7 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
     this.data.environment.config.download_url = this.environmentItemEditFormGroup.controls.downloadUrl.value;
     this.environmentService.updateEnvironment(
       this.data.environment
-    ).subscribe(_ => {
+    ).subscribe( _ => {
       console.log('Updated environment', this.data.environment);
       this.closeForm();
     });

@@ -1,12 +1,13 @@
 <ng-container *ngIf="content" [ngSwitch]="content.path">
-  <!-- There are 3 workspace view mode :
-    1.my-workspace
-    2.owner-workspace
-    3.owner-workspace-detail (owner's workspace control panel)
+
+  <!-- There are 2 type of "workspace view" depended on each mode :
+    1.my-workspace mode
+    2.owner-workspace (manage workspace) mode
   -->
-  <!-- 1: The single Workspace template in list view for End-user -->
+
+  <!-- 1.'my-workspace' mode: Workspace item template for End-user -->
   <mat-card class="my-workspaces" fxLayout="row" fxLayoutAlign="space-between stretch"
-    *ngSwitchCase="'my-workspaces'">
+  *ngSwitchCase="'my-workspaces'">
     <div class="card-media v-centering__horizontal" fxFlex="0 0 80px">
       <div class="thumbnail">
         <mat-icon>people_outline</mat-icon>
@@ -14,25 +15,20 @@
     </div>
     <div class="card-info" fxFlex="grow">
       <mat-card-header>
-        <mat-card-title>
-          <!-- <mat-icon class="spacer__r10 ">people_outline</mat-icon> -->
-          {{ workspace.name }}
-        </mat-card-title>
+        <mat-card-title>{{ workspace.name }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="workspace-description spacer__b20 spacer__t10" [innerHTML]="workspace.description"></div>
         <div class="environment-info" [ngClass]="{'active': environments.length > 0}">
-          <div class="environment-info-header v-centering__inline"
-          (click)="toggleEnvironmentList()">
+          <div class="environment-info-header v-centering__inline" (click)="toggleEnvironmentList()">
             <mat-icon class="material-icons-outlined">book</mat-icon>
             <mat-icon *ngIf="environments.length">arrow_right</mat-icon>
             <span class="spacer__l10">{{ environments.length }} Environments</span>
           </div>
           <mat-accordion>
-            <mat-expansion-panel
-            [expanded]="panelOpenState">
+            <mat-expansion-panel [expanded]="panelOpenState">
               <ul *ngIf="environments">
-                <li class="environment" *ngFor="let environment of environments" >
+                <li class="environment" *ngFor="let environment of environments">
                   <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
                   <span class="spacer__l10">{{ environment.name }}</span>
                 </li>
@@ -45,17 +41,15 @@
     <!-- //card-info -->
     <mat-card-actions class="" *ngIf="workspace.name !== 'System.default'">
       <button mat-flat-button aria-label="workspace delete" class="full__h inversion light-gray"
-      #tooltip="matTooltip" matTooltip="Leave Workspace"
-      (click)="exitWorkspace()">
+        matTooltip="Leave Workspace" (click)="exitWorkspace()">
         <mat-icon>logout</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>
   <!-- //*ngSwitchCase="'my-workspaces'" -->
 
-  <!-- 2. The single Workspace template in list view for Workspace-owner -->
-  <mat-card class="workspace-owner" fxLayout="row" fxLayoutAlign="space-between stretch"
-    *ngSwitchCase="'workspace-owner'">
+  <!-- 2.'owner-workspace' mode: Workspace item template for Workspace-owner -->
+  <mat-card *ngSwitchDefault class="workspace-owner" fxLayout="row" fxLayoutAlign="space-between stretch">
     <div class="card-media v-centering__horizontal" fxFlex="0 0 80px">
       <div class="thumbnail">
         <mat-icon>people_outline</mat-icon>
@@ -71,17 +65,17 @@
         <div class="workspace-description spacer__b20 spacer__t10" [innerHTML]="workspace.description"></div>
         <div class="workspace-info-container" fxLayout="row wrap" fxLayoutAlign="space-between stretch">
 
-          <div class="info join-code-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start stretch"
-            (click)="openDialog()">
+          <div class="info join-code-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px"
+            fxLayoutAlign="start stretch" (click)="openJoinCodeDialog()">
             <span>Join code</span>
             <mat-icon>vpn_key</mat-icon>
             <mat-chip-list class="label-list-sm">
-              <mat-chip (click)="openDialog()"> ●●●●●●● </mat-chip>
+              <mat-chip (click)="openJoinCodeDialog()"> ●●●●●●● </mat-chip>
             </mat-chip-list>
           </div>
 
-          <div class="info environment-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start stretch"
-          (click)="openWorkspaceDetail('environments')">
+          <div class="info environment-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px"
+            fxLayoutAlign="start stretch" (click)="openWorkspaceDetail('environments')">
             <span>Environments</span>
             <mat-icon class="material-icons-outlined">book</mat-icon>
             <mat-chip-list class="label-list-sm">
@@ -89,15 +83,15 @@
             </mat-chip-list>
           </div>
 
-          <div class="info member-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start stretch"
-          (click)="openWorkspaceDetail('members')">
+          <div class="info member-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px"
+            fxLayoutAlign="start stretch" (click)="openWorkspaceDetail('members')">
             <span>Members</span>
             <mat-icon>person_outline</mat-icon>
             <mat-chip-list class="label-list-sm">
               <mat-chip>{{ workspace.member_eppns.length }}</mat-chip>
             </mat-chip-list>
           </div>
-
+          <!-- Share folder will be introduced in a future -->
           <!-- <div class="info file-info">
             <mat-icon class="m-r" fontSet="material-icons-outlined">folder</mat-icon>
             <mat-chip-list>
@@ -105,76 +99,16 @@
             </mat-chip-list>
             Shared Folder
           </div> -->
-
         </div>
       </mat-card-content>
     </div>
     <!-- //card-info -->
-
     <mat-card-actions class="card-actions v-centering__horizontal" fxFlex="0 0 80px">
       <button mat-flat-button aria-label="workspace manager" class="full__h inversion light-gray"
-        *ngIf="workspace.name !== 'System.default'"
-        #tooltip="matTooltip" matTooltip="Open workspace manager"
+        *ngIf="workspace.name !== 'System.default'" matTooltip="Open workspace manager"
         (click)="openWorkspaceDetail('')">
         <mat-icon>settings</mat-icon>
       </button>
     </mat-card-actions>
-
   </mat-card>
-  <!-- //*ngSwitchCase="'workspace-owner'"  -->
-
-  <!-- 3. The single Workspace template in detail view for Workspace-owner -->
-  <div *ngSwitchDefault class="owner-workspace-detail">
-    <h3 class="workspace-name">
-      {{ workspace.name }}
-      <button mat-icon-button aria-label="Button for editing workspace"
-      (click)="openEditWorkspaceDialog()">
-        <mat-icon>create</mat-icon>
-      </button>
-    </h3>
-
-    <div class="workspace-info">
-      <div>{{ workspace.description }} </div>
-      <!-- <div>Lifetime: {{ workspace.lifetime }}</div> -->
-      <div>Join Code: {{ workspace.join_code }} </div>
-      <div>Workspace Owner: {{ workspace.owner_eppn }} </div>
-      <!-- Workspace Manager: {{ workspace.manager_eppns }} -->
-    </div>
-
-    <mat-tab-group mat-align-tabs="center" animationDuration="0ms"
-    [selectedIndex]="selectedTabIndex">
-      <mat-tab routerLink="/environments" label="Environments">
-
-        <div class="environment-creation-buttons-container">
-          <div class="">
-            <button color="primary" aria-label="create a new environment" class="inline-centering flat-shadow"
-              (click)="openEnvironmentCreationDialog()">
-              <span>Environment Creation Wizard </span>
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-          <div class="form-option inline-centering">
-            <mat-label>Open in Expert mode</mat-label>
-            <mat-checkbox [(ngModel)]="isPlainFormOn"></mat-checkbox>
-          </div>
-        </div>
-
-        <div class="environments-container">
-          <ul *ngFor="let environment of getEnvironmentsByWorkspaceId()">
-            <app-dashboard-environment-item [environment]=environment [content]=content>
-            </app-dashboard-environment-item>
-          </ul>
-        </div>
-
-      </mat-tab>
-      <mat-tab routerLink="/members" label="Members">
-        <app-dashboard-workspace-members [workspaceId]="workspace.id"></app-dashboard-workspace-members>
-      </mat-tab>
-      <!-- <mat-tab label="Shared Folders">
-        <app-dashboard-workspace-folders [workspaceId]="workspace.id"></app-dashboard-workspace-folders>
-      </mat-tab> -->
-    </mat-tab-group>
-  </div>
-  <!-- //*ngSwitchDefault -->
 </ng-container>
-

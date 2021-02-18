@@ -1,0 +1,43 @@
+@import "src/styles.scss";
+
+dl.workspace-info {
+  padding: 20px 20px 10px;
+  background: map-get($colors, white);
+  max-width: 1000px;
+  margin: auto;
+
+  dt {
+    position: absolute;
+  }
+
+  dd {
+    margin-left: 100px;
+    min-height: 25px;
+  }
+}
+
+::ng-deep mat-tab-group{
+  .mat-tab-body-wrapper{
+    padding: 5px 0 80px;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+
+    mat-card {
+      min-height: 130px;
+    }
+  }
+}
+
+.open-environment-creation-wizard-button,
+.open-environment-creation-form-button {
+  width: 100%;
+  height: 55px;
+}
+
+.open-environment-creation-form-button {
+  text-transform: uppercase;
+  text-decoration: underline;
+  display: block;
+  text-align: center;
+}

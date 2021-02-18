@@ -1,108 +1,215 @@
-<mat-card class="environment-card r__all" fxLayout="row" fxLayoutAlign="space-between stretch" *ngIf="environment"
-  [attr.data-environment-item-id]="environment.id">
-  <!-- Card LEFT section -->
-  <div class="card-media-container v-centering__horizontal inversion light-dark" fxFlex="0 0 140px">
-    <div class="thumbnail" [innerHTML]="thumbnail"></div>
-  </div>
-  <!-- Card CENTER section -->
-  <div class="card-info-container" fxFlex="grow" fxLayout="column" fxLayoutAlign="start stretch">
-    <mat-card-header>
-      <mat-card-title>{{ environment.name }}</mat-card-title>
-      <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
-        <div class="meta-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px">
-          <span class="labels">
-            <mat-icon class="spacer__r5"> label </mat-icon>
-            <span class="heading"
-            #tooltip="matTooltip" matTooltip="{{ labels }}" matTooltipPosition="above">
-            Labels
-            </span>
-          </span>
-          <span class="lifetime">
-            <mat-icon class="spacer__r5">watch_later</mat-icon>
-            <span class="heading">Lifetime: </span>{{ lifetime }}
-          </span>
-        </div>
-        <div class="workspace-name" *ngIf="environment.workspace_name!=='System.default'">@ {{ environment.workspace_name }}</div>
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p [innerHTML]="description"></p>
-    </mat-card-content>
-  </div>
-  <!-- Card RIGHT section -->
-  <mat-card-actions class="card-action-container" [ngClass]="state ? state : '' " fxFlex="0 0 150px"
-    *ngIf="content.path === 'catalog'" fxLayout="column" fxLayoutAlign="center stretch">
-    <!-- Background circle  -->
-    <div class="background-circle-container v-centering">
-      <svg focusable="false">
-        <circle class="background-circle" cx="50%" cy="50%" r="55" stroke-width="10"></circle>
-      </svg>
+<ng-container *ngIf="environment">
+  <mat-card fxLayout="row" fxLayoutAlign="space-between stretch" [attr.data-environment-item-id]="environment.id"
+    class="environment-card r__all" [ngClass]="{
+    'catalog':content.identifier==='catalog',
+    'workspace-owner-detail':content.identifier==='workspace-owner-detail',
+    'draft': isDraft}">
+
+    <!-- Card LEFT section -->
+    <div class="card-media-container v-centering__horizontal inversion light-dark" fxFlex="0 0 130px">
+      <div class="thumbnail" [innerHTML]="thumbnail"></div>
     </div>
-    <!-- Progress circle -->
-    <div class="progress-spinner-container v-centering__horizontal">
-      <mat-progress-spinner class="environment-spinner" [ngClass]="{'warning': isTimeWarningOn}" diameter="120" strokeWidth="8"
-        [mode]="isSpinnerOn ? 'indeterminate':'determinate'" [value]="lifetimePercentage">
-      </mat-progress-spinner>
-    </div>
-    <!-- Action circle -->
-    <div class="actionable-circle-container v-centering__horizontal">
-      <!-- Action view 1 : Active Environments -->
-      <ng-container *ngIf="actionsVisible(); else LaunchUI">
-        <div class="control-button circle-button v-centering__inline" fxLayout="column" fxLayoutAlign="center center"
-          [ngSwitch]="state">
-          <!-- Instance [Shutdown] -->
-          <ng-container *ngSwitchCase="'deleting'||'deleted'">
-            <div class="state v-centering__inline">
-              {{ state }}
+    <!-- //// End of Left section -->
+
+    <!-- Card CENTER section -->
+    <div fxFlex="grow" fxLayout="column" fxLayoutAlign="start stretch" class="card-info-container">
+      <!-- Card CENTER section conditional view
+      1. UI for environment-catalog
+      2. UI for workspace-owner-detail -> #elseCenterBlock
+      -->
+      <!-- 1. UI for environment-catalog -->
+      <ng-container *ngIf="content.identifier==='catalog'; else elseCenterBlock">
+        <mat-card-header>
+          <mat-card-title>{{ environment.name }}</mat-card-title>
+          <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
+            <div class="meta-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px">
+              <span class="labels">
+                <mat-icon class="spacer__r5">label</mat-icon>
+                <span matTooltip="{{labels}}" matTooltipPosition="above" class="heading">Labels</span>
+              </span>
+              <span class="lifetime">
+                <mat-icon class="spacer__r5">watch_later</mat-icon>
+                <span class="heading">Lifetime: </span>{{lifetime}}
+              </span>
             </div>
-          </ng-container>
-          <!-- Instance [Failed] -->
-          <ng-container *ngSwitchCase="'failed'">
-            <button mat-button class="replay-button v-centering__inline" (click)="restartEnvironment()">
-              <div class="button-icon"><mat-icon>replay</mat-icon></div>
-              <div class="state v-centering__inline">
-                {{ state }}
-              </div>
-            </button>
-          </ng-container>
-          <!-- Instance [Running] -->
-          <ng-container *ngSwitchDefault>
-            <button mat-button class="open-button v-centering__inline inversion"
-              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 70px" #tooltip="matTooltip"
-              matTooltip="Enter environment" matTooltipPosition="above" fxLayout="column" fxLayoutAlign="center center"
-              (click)="openEnvironmentInBrowser()">
-              <div class="button-icon"><mat-icon>launch</mat-icon></div>
-              <ng-container *ngIf="lifetimeLeft; else stateBlock">
-                <div class="time-left"> {{ lifetimeLeft }}</div>
-              </ng-container>
-              <ng-template #stateBlock>
-                <div class="state v-centering__inline">{{ state }}</div>
-              </ng-template>
-            </button>
-            <button mat-button class="shutdown-button v-centering__inline inversion"
-              [ngClass]="state=='running'?'primary':'accent'" fxFlex="0 0 30px"
-              #tooltip="matTooltip" matTooltip="Stop environment" matTooltipPosition="below" (click)="stopEnvironment()">
-              <div class="button-icon"><mat-icon>close</mat-icon></div>
-              <!-- <span>stop</span> -->
-            </button>
-          </ng-container>
-        </div>
+            <div *ngIf="environment.workspace_name!=='System.default'" class="workspace-name">
+              @ {{ environment.workspace_name }}
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p [innerHTML]="description"></p>
+        </mat-card-content>
       </ng-container>
-      <!-- Action view 2 : Deactivated environments -->
-      <ng-template #LaunchUI>
-        <button mat-button class="launch-button circle-button" fxLayout="column" fxLayoutAlign="center center"
-          #tooltip="matTooltip" matTooltip="Start environment" (click)="startEnvironment()">
-          <div class="button-icon"><mat-icon>power_settings_new</mat-icon></div>
-          <!-- <mat-icon>launch</mat-icon> -->
-          <!-- <span>start</span> -->
-        </button>
+      <!-- 2. UI for workspace-owner-detail -->
+      <ng-template #elseCenterBlock>
+        <mat-card-header>
+          <mat-card-title>{{ environment.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p [innerHTML]="description" class="description"></p>
+          <div fxLayout="column" fxLayoutGap="40px" class="detail">
+            <dl>
+              <dt>lifetime</dt>
+              <dd>{{ lifetime }}</dd>
+              <dt>labels</dt>
+              <dd>
+                <ng-container *ngFor="let label of labels.split(',')">
+                  <span class="fab category-label spacer__r5 spacer__b5">{{label}}</span>
+                </ng-container>
+              </dd>
+            </dl>
+            <ng-container *ngIf="!isDraft">
+              <dl>
+                <!-- <dt>GPU</dt>
+                <dd>inactive</dd> -->
+                <dt>users</dt>
+                <dd>
+                  <span class="fab inversion accent spacer__r5">25</span> active users<mat-icon>expand_more</mat-icon>
+                </dd>
+              </dl>
+            </ng-container>
+          </div>
+        </mat-card-content>
       </ng-template>
     </div>
-  </mat-card-actions>
-  <!-- View in Manage workspace page -->
-  <mat-card-actions *ngIf="content.path.includes('workspace-owner/detail')">
-    <button mat-flat-button (click)="openDialog()">
-      <mat-icon>edit</mat-icon><span> Edit</span>
-    </button>
-  </mat-card-actions>
-</mat-card>
+    <!-- //// END of CENTER section-->
+
+    <!-- Card RIGHT section -->
+    <!--
+      Card RIGHT section conditional view
+        1. UI for environment-catalog
+        2. UI for workspace-owner-detail -> #elseRightBlock
+    -->
+    <!-- 1. UI for environment-catalog -->
+    <ng-container *ngIf="content.identifier==='catalog'; else elseRightBlock">
+      <mat-card-actions fxFlex="0 0 150px" fxLayout="column" fxLayoutAlign="center stretch"
+        class="card-action-container">
+        <!-- Background circle  -->
+        <div class="background-circle-container v-centering">
+          <svg focusable="false">
+            <circle class="background-circle" cx="50%" cy="50%" r="55" stroke-width="10"></circle>
+          </svg>
+        </div>
+        <!-- Progress circle -->
+        <div class="progress-spinner-container v-centering__horizontal">
+          <mat-progress-spinner
+            diameter="120"
+            strokeWidth="8"
+            [mode]="isSpinnerOn ? 'indeterminate':'determinate'"
+            [value]="lifetimePercentage"
+            class="environment-spinner"
+            [ngClass]="{'warning': isTimeWarningOn}"
+          >
+          </mat-progress-spinner>
+        </div>
+        <!-- Actionable circle -->
+        <div class="actionable-circle-container v-centering__horizontal">
+          <!--  Actionable Circle conditional UI
+          1. UI for active environment instance
+          2. Launch Button for environment card -> #LaunchUI
+          -->
+          <!-- 1: active environment instance -->
+          <ng-container *ngIf="actionsVisible(); else LaunchUI">
+            <!-- Switch UI based on the state of instance
+              A. Shutdown -> 'deleting'||'deleted'
+              B. Failed -> 'failed'
+              C. Running -> *ngSwitchDefault
+            -->
+            <div fxLayout="column" fxLayoutAlign="center center"
+              class="control-button circle-button v-centering__inline" [ngSwitch]="state">
+              <!-- A: Instance [Shutdown] -->
+              <ng-container *ngSwitchCase="'deleting'||'deleted'">
+                <div class="state v-centering__inline">
+                  {{ state }}
+                </div>
+              </ng-container>
+              <!-- B: Instance [Failed] -->
+              <ng-container *ngSwitchCase="'failed'">
+                <button mat-button class="replay-button v-centering__inline" (click)="restartEnvironment()">
+                  <div class="button-icon">
+                    <mat-icon>replay</mat-icon>
+                  </div>
+                  <div class="state v-centering__inline">{{ state }}</div>
+                </button>
+              </ng-container>
+              <!-- Instance [Running] -->
+              <ng-container *ngSwitchDefault>
+                <button mat-button matTooltip="Enter environment" matTooltipPosition="above" fxFlex="0 0 70px"
+                  fxLayout="column" fxLayoutAlign="center center" class="open-button v-centering__inline inversion"
+                  (click)="openEnvironmentInBrowser()">
+                  <div class="button-icon">
+                    <mat-icon>launch</mat-icon>
+                  </div>
+                  <ng-container *ngIf="lifetimeLeft; else stateBlock">
+                    <div class="time-left"> {{ lifetimeLeft }}</div>
+                  </ng-container>
+                  <ng-template #stateBlock>
+                    <div class="state v-centering__inline">{{ state }}</div>
+                  </ng-template>
+                </button>
+                <button mat-button fxFlex="0 0 30px" matTooltip="Stop environment" matTooltipPosition="below"
+                  class="shutdown-button v-centering__inline inversion" (click)="stopEnvironment()">
+                  <div class="button-icon">
+                    <mat-icon>close</mat-icon>
+                  </div>
+                  <!-- <span>stop</span> -->
+                </button>
+              </ng-container>
+            </div>
+            <!-- //// END of Switch -->
+          </ng-container>
+          <!-- //// END of 1: active environment instance -->
+          <!-- Action view 2 : Launch Button for environment card -->
+          <ng-template #LaunchUI>
+            <button mat-button matTooltip="Start environment" fxLayout="column" fxLayoutAlign="center center"
+              class="launch-button circle-button" (click)="startEnvironment()">
+              <div class="button-icon">
+                <mat-icon>power_settings_new</mat-icon>
+              </div>
+            </button>
+          </ng-template>
+          <!-- //// END of 2. Launch Button for environment card -->
+        </div>
+        <!-- //// END od Actionable circle -->
+      </mat-card-actions>
+    </ng-container>
+    <ng-template #elseRightBlock>
+      <!-- View in Manage workspace page -->
+      <mat-card-actions fxFlex="0 0 80px" fxLayout="column" fxLayoutAlign="space-between stretch"
+        class="card-action-container r__all">
+        <button mat-button fxFlex="grow" class="inversion light-gray" [matMenuTriggerFor]="menu"
+          aria-label="open environment menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngIf="isDraft" (click)="toggleEnvironmentActivation(true)">
+            <mat-icon fontSet="material-icons-outlined">cloud</mat-icon>
+            <span>activate environment</span>
+          </button>
+          <button mat-menu-item *ngIf="!isDraft" (click)="toggleEnvironmentActivation(false)">
+            <mat-icon fontSet="material-icons-outlined">cloud_off</mat-icon>
+            <span>deactivate environment</span>
+          </button>
+          <button mat-menu-item *ngIf="!isDraft" (click)="toggleGpuActivation(true)" disabled>
+            <mat-icon>local_fire_department</mat-icon>
+            <span>activate GPU</span>
+          </button>
+          <button mat-menu-item (click)="openEditEnvironmentDialog()">
+            <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+            <span>edit environment</span>
+          </button>
+          <button mat-menu-item (click)="copyEnvironment()">
+            <mat-icon>content_copy</mat-icon>
+            <span>copy environment</span>
+          </button>
+          <button mat-menu-item (click)="deleteEnvironment()" disabled>
+            <mat-icon>delete_outline</mat-icon>
+            <span>delete environment</span>
+          </button>
+        </mat-menu>
+      </mat-card-actions>
+    </ng-template>
+    <!-- //// END of RIGHT section -->
+  </mat-card>
+</ng-container>

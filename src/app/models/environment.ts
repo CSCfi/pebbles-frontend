@@ -10,6 +10,7 @@ export class Environment {
     public workspace_id: string,
     public labels: string[],
     public thumbnail: string,
+    public is_enabled: boolean,
     public instance_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,

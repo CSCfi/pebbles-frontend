@@ -237,7 +237,8 @@ export class MockInterceptor implements HttpInterceptor {
         '1h',
         body.workspace_id,
         ['data analytics'],
-        'jupyter'
+        'jupyter',
+        body.is_enabled
       );
 
       database.environments.push(environment);
@@ -249,7 +250,7 @@ export class MockInterceptor implements HttpInterceptor {
       env.name = body.name;
       env.description = body.description;
       env.config = body.config;
-      return ok();
+      return ok(env);
     }
 
     function createInstance() {

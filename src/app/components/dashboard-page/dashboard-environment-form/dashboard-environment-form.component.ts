@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EnvironmentTemplate } from 'src/app/models/environment-template';
 import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
@@ -105,12 +104,6 @@ export class DashboardEnvironmentFormComponent implements OnInit {
     this.selectedTemplate = this.environmentTemplates.find(x => x.id === (event.target as HTMLSelectElement).value);
   }
 
-  fetchEnvironments(): void {
-    this.environmentService.fetchEnvironments().subscribe(() => {
-      console.log('environments fetched');
-    });
-  }
-
   createEnvironmentByPlainMode(): void {
     // TODO: this can be removed when selectTemplate() callback starts working
     this.selectedTemplate = this.environmentTemplateService.getEnvironmentTemplates().find(
@@ -130,9 +123,8 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       },
       this.envCreationPlainFormGroup.controls.publish.value || false,
     ).subscribe((env) => {
-      console.log('created example Environment ' + env.id);
+      // console.log('created example Environment ' + env.id);
       this.closeForm();
-      this.fetchEnvironments(); // ---- Need?
     });
   }
 
@@ -154,9 +146,8 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       },
       isPublic || false,
     ).subscribe((env) => {
-      console.log('created example Environment ' + env.id);
+      // console.log('created example Environment ' + env.id);
       this.closeForm();
-      this.fetchEnvironments(); // ---- Need?
     });
   }
 

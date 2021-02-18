@@ -9,7 +9,8 @@ export class DashboardHelpComponent implements OnInit {
 
   public content = {
     path: 'help',
-    title: 'Help'
+    title: 'Help',
+    identifier: 'help'
   };
 
   constructor() { }

@@ -3,9 +3,8 @@
 <div mat-dialog-content *ngIf="this.data.dialogClipboard" class="spacer__t20">
   <div class="dialog-clipboard" fxLayout="row" fxLayoutAlign="space-evenly stretch" fxLayoutGap="10px" >
     <div fxFlex="grow">{{ this.data.dialogClipboard }}</div>
-    <button [cdkCopyToClipboard]="this.data.dialogClipboard" fxFlex="0 0 25px" #tooltip="matTooltip" matTooltip="Copy to clipboard"><mat-icon>content_copy</mat-icon></button>
+    <button [cdkCopyToClipboard]="this.data.dialogClipboard" fxFlex="0 0 25px" matTooltip="Copy to clipboard"><mat-icon>content_copy</mat-icon></button>
   </div>
-
 </div>
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end" class="spacer__t30">

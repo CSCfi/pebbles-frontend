@@ -1,12 +1,15 @@
 @import "src/styles.scss";
 
-::ng-deep mat-card {
-  min-height: 130px;
-  overflow: hidden;
-  box-shadow: none !important;
+// ---- Common Style
+// -------------------------------------------
+
+.mat-card.catalog,
+.mat-card.workspace-owner-detail {
+  min-height: 145px;
 }
 
-::ng-deep .card-media-container {
+.mat-card.catalog .card-media-container,
+.mat-card.workspace-owner-detail .card-media-container{
   margin: -16px 0 -16px -16px !important;
 
   .thumbnail {
@@ -21,63 +24,99 @@
   }
 }
 
-::ng-deep .card-info-container {
-  padding: 0 10px 0 30px;
+::ng-deep .mat-card.catalog .card-info-container,
+::ng-deep .mat-card.workspace-owner-detail .card-info-container{
 
-  mat-card-header {
+  .mat-card-header {
     margin-bottom: 4px;
 
-    .mat-card-header-text {
-      width: 100%;
+    .mat-card-title {
+      font-weight: 600;
+      border-bottom: 1px solid map-get($colors, light-gray) !important;
+      margin-bottom: 5px;
+      padding-bottom: 4px;
+    }
 
-      mat-card-title {
-        font-weight: 600;
-        padding-bottom: 2px;
-        border-bottom: 1px solid map-get($colors, light-gray) !important;
-        margin-bottom: 5px;
-      }
+    .mat-card-subtitle {
+      margin-bottom: 2px;
+      font-size: 1.4rem !important;
+      font-weight: 500;
+      color: map-get($colors, dark) !important;
 
-      mat-card-subtitle {
-        margin-bottom: 2px;
-        font-size: 1.4rem !important;
-        font-weight: 500;
-        color: map-get($colors, dark) !important;
+      .meta-info {
+        padding: 4px 4px;
+        font-size: 1.1rem;
+        color: map-get($colors, gray);
+        text-align: right;
 
-        .meta-info {
-          padding: 4px 4px;
-          font-size: 1.1rem;
-          color: map-get($colors, gray);
-          text-align: right;
+        .mat-icon {
+          font-size: 2rem;
+          color: #e0e0e0;
+        }
 
-          .mat-icon {
-            font-size: 2rem;
-            color: #e0e0e0;
-          }
-
-          .labels {
-            text-decoration: underline;
-          }
+        .labels {
+          text-decoration: underline;
         }
       }
     }
   }
 
-  mat-card-content {
+  .mat-card-content {
     margin: 0;
-    text-align: justify;
-    text-justify: inter-word;
+    // text-align: justify;
+    // text-justify: inter-word;
 
     a {
-      text-decoration: underline;
+      text-decoration: underline !important;
     }
   }
 }
 
-::ng-deep .card-action-container {
+// ---- Unique Style for .card-info-container
+// -------------------------------------------
+
+.catalog .card-info-container {
+  padding: 0 10px 0 30px !important;
+}
+
+.workspace-owner-detail .card-info-container {
+  padding: 0 30px 0 30px;
+
+  .detail {
+    background: #efefef;
+    border-radius: 5px;
+    padding: 14px 20px 4px;
+
+    .category-label {
+      background: #ddd;
+    }
+  }
+
+  dl {
+    margin-bottom: 0px !important;
+
+    dt {
+      position: absolute;
+      width: 60px;
+      text-transform: capitalize;
+      color: #999;
+    }
+
+    dd{
+      margin-left: 65px;
+      font-size: 1.1rem;
+      min-height: 20px;
+    }
+  }
+}
+
+// ---- Unique Style for .card-action-container
+// -------------------------------------------
+
+::ng-deep .catalog .card-action-container {
   margin: -16px -16px -16px 0 !important;
-  padding-top: 0 !important;
-  position: relative;
   height: 140px;
+  position: relative;
 
   .background-circle-container,
   .progress-spinner-container {
@@ -176,6 +215,57 @@
           color: map-get($colors, accent);
         }
       }
+    }
+  }
+}
+
+.workspace-owner-detail .card-action-container {
+  margin: -16px -16px -16px 0 !important;
+  padding: 8px !important;
+
+  .edit-environment-button,
+  .activate-environment-button,
+  .deactivate-environment-button {
+    border-bottom: 1px solid map-get($colors, white);
+  }
+}
+
+
+::ng-deep .workspace-owner-detail.draft {
+
+  .card-media-container{
+    background: map-get($colors, light-gray) !important;
+  }
+
+  .card-info-container {
+    color: map-get($colors, light-gray) !important;
+    padding: 0 30px 0 30px !important;
+
+
+    mat-card-title {
+      color: map-get($colors, light-gray) !important;
+    }
+
+    mat-card-content .description{
+      a {
+        color: map-get($colors, light-gray) !important;
+      }
+
+      .workspace-name,
+      .meta-info {
+        color: map-get($colors, light-gray) !important;
+      }
+
+      .fab {
+        color: map-get($colors,light-gray);
+        background: map-get($colors, white) !important;
+      }
+    }
+  }
+
+  .mat-card-actions {
+    button {
+      background: map-get($colors, light-gray) !important;
     }
   }
 }

@@ -3,6 +3,7 @@
 .my-workspaces,
 .workspace-owner {
   min-height: 100px;
+  box-shadow: 0 1px 3px 0px rgba(0,0,0,.1) !important;
 
   .card-media {
     margin: -16px 0px -16px -16px !important;
@@ -108,4 +109,8 @@
       }
     }
   }
+}
+
+.owner-workspace-detail {
+
 }

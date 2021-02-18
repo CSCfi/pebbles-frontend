@@ -70,6 +70,5 @@ import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-se
   exports: [
     DashboardPageComponent
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DashboardModule { }

@@ -9,7 +9,8 @@ export class DashboardAdminComponent implements OnInit {
 
   public content = {
     path: 'admin',
-    title: 'Admin tool'
+    title: 'Admin tool',
+    identifier: 'admin-tool'
   };
 
   constructor() { }

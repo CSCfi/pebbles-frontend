@@ -13,7 +13,8 @@ export class DashboardAccountComponent implements OnInit {
   user: User;
   public content = {
     path: 'account',
-    title: 'Account'
+    title: 'Account',
+    identifier: 'account'
   };
 
   constructor(

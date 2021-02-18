@@ -17,7 +17,8 @@ export class DashboardMyWorkspacesComponent implements OnInit {
 
   public content = {
     path: 'my-workspaces',
-    title: 'My workspaces'
+    title: 'My workspaces',
+    identifier: 'my-workspace'
   };
 
   // ---- Join Workspace Form

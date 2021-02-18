@@ -29,6 +29,5 @@ import { DialogComponent } from 'src/app/components/shared/dialog/dialog.compone
     HeaderComponent,
     FooterComponent,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class SharedModule { }
