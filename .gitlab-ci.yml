@@ -3,7 +3,7 @@ image: node:14.11.0
 variables:
   PRIVATE_IMAGE: $CI_DOCKER_REPOSITORY_PRIVATE/pebbles-frontend
   PUBLIC_IMAGE: $CI_DOCKER_REPOSITORY_PUBLIC/pebbles-frontend
-  PUBLISH_IMAGE: $CI_DOCKER_REPOSITORY_PUBLISH/pebbles
+  PUBLISH_IMAGE: $CI_DOCKER_REPOSITORY_PUBLISH/pebbles-frontend
 
 # cache setting, by default only pull files
 cache: &global_cache
