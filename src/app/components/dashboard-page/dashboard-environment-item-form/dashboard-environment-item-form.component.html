@@ -15,14 +15,14 @@
     <br>
     <app-dashboard-search-box [labels]="selectedLabels"></app-dashboard-search-box>
     <br>
-    <mat-label>IDE (Coding Environment)</mat-label>
-    <mat-radio-group formControlName="ide" [(ngModel)]="ide">
+    <mat-label>Jupyter interface</mat-label>
+    <mat-radio-group formControlName="jupyterInterface" [(ngModel)]="jupyterInterface">
       <ul>
         <li>
-          <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
+          <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
         </li>
         <li>
-          <mat-radio-button [value]="'ipython'">IPython</mat-radio-button>
+          <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
         </li>
       </ul>
     </mat-radio-group>
@@ -33,24 +33,18 @@
           <mat-radio-button [value]="'none'">None</mat-radio-button>
         </li>
         <li>
-          <mat-radio-button [value]="'git'">Git clone from Repository</mat-radio-button>
+          <mat-radio-button [value]="'git-clone'">Git clone a repository</mat-radio-button>
         </li>
         <li>
-          <mat-radio-button [value]="'url'">Download by URL</mat-radio-button>
-        </li>
-        <li>
-          <mat-radio-button [value]="'local'">Upload from your computer</mat-radio-button>
+          <mat-radio-button [value]="'http-get'">Download by URL</mat-radio-button>
         </li>
       </ul>
     </mat-radio-group>
     <ng-container [ngSwitch]="downloadMethod">
-      <div *ngSwitchCase="'local'">
-        <button mat-flat-button color="primary">Upload file</button>
-      </div>
-      <div *ngSwitchCase=" ['git','url'].includes(downloadMethod) ? downloadMethod : !downloadMethod ">
+      <div *ngSwitchCase=" ['git-clone','http-get'].includes(downloadMethod) ? downloadMethod : !downloadMethod ">
         <mat-form-field>
           <mat-label>Source(URL)</mat-label>
-          <input matInput formControlName="environmentVars">
+          <input matInput formControlName="downloadUrl">
         </mat-form-field>
       </div>
     </ng-container>
@@ -65,4 +59,3 @@
     </div>
   </div>
 </form>
-

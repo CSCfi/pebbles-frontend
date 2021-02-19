@@ -25,15 +25,15 @@
       </mat-form-field>
       <!-- 4 Category-->
       <app-dashboard-search-box [labels]="selectedLabels"></app-dashboard-search-box>
-      <!-- 5 IDE-->
-      <mat-label>IDE (Coding Environment)</mat-label>
-      <mat-radio-group formControlName="ide" (change)="onChangeIde($event.value)">
+      <!-- 5 Jupyter Interface-->
+      <mat-label>Interface</mat-label>
+      <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
         <ul>
           <li>
-            <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
+            <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
           </li>
           <li>
-            <mat-radio-button [value]="'ipython'">IPython</mat-radio-button>
+            <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
           </li>
         </ul>
       </mat-radio-group>
@@ -170,16 +170,16 @@
             </p>
           </div>
         </div>
-        <!-- 3.4 IDE -->
+        <!-- 3.4 Jupyter Interface -->
         <div class="form-option">
-          <mat-label>IDE (Coding Environment)</mat-label>
-          <mat-radio-group formControlName="ide" (change)="onChangeIde($event.value)">
+          <mat-label>Interface</mat-label>
+          <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
             <ul>
               <li>
-                <mat-radio-button [value]="'jupyter'">JupyterLab</mat-radio-button>
+                <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
               </li>
               <li>
-                <mat-radio-button [value]="'ipython'">IPython</mat-radio-button>
+                <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
               </li>
             </ul>
           </mat-radio-group>
@@ -192,13 +192,10 @@
               <mat-radio-button [value]="'none'">None</mat-radio-button>
             </li>
             <li>
-              <mat-radio-button [value]="'git'">Git clone from Repository</mat-radio-button>
+              <mat-radio-button [value]="'git-clone'">Git clone a repository</mat-radio-button>
             </li>
             <li>
-              <mat-radio-button [value]="'url'">Download by URL</mat-radio-button>
-            </li>
-            <li>
-              <mat-radio-button [value]="'local'">Upload from your computer</mat-radio-button>
+              <mat-radio-button [value]="'http-get'">Download by URL</mat-radio-button>
             </li>
           </ul>
         </mat-radio-group>
@@ -207,7 +204,7 @@
           <div *ngSwitchCase="'local'">
             <button mat-flat-button color="primary">Upload file</button>
           </div>
-          <div *ngSwitchCase=" ['git','url'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
+          <div *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
             <mat-form-field>
               <mat-label>Source(URL)</mat-label>
               <input matInput formControlName="source" placeholder="">

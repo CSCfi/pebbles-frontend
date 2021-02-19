@@ -23,7 +23,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   // ---- Values for Radio Input
   selectedTemplate: EnvironmentTemplate;
   selectedLabels: string[];
-  selectedIde: string;
+  selectedJupyterInterface: string;
   selectedDownloadMethod: string;
 
   get environmentTemplates() {
@@ -56,7 +56,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
         name: ['', [Validators.required]],
         description: ['', [Validators.required]],
         labels: [''],
-        ide: [''],
+        jupyterInterface: ['', [Validators.required]],
         downloadMethod: [''],
         source: [''],
         isAutoExecution: [''],
@@ -65,7 +65,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
 
       // ---- Set default value
       this.envCreationPlainFormGroup.controls.publish.setValue(false);
-      this.envCreationPlainFormGroup.controls.ide.setValue('jupyter');
+      this.envCreationPlainFormGroup.controls.jupyterInterface.setValue('lab');
       this.envCreationPlainFormGroup.controls.downloadMethod.setValue('none');
       this.envCreationPlainFormGroup.controls.isAutoExecution.setValue(false);
       this.envCreationPlainFormGroup.controls.publish.setValue(false);
@@ -83,13 +83,13 @@ export class DashboardEnvironmentFormComponent implements OnInit {
         labels: ['']
       });
       this.wizardOptionFormGroup = this.formBuilder.group({
-        ide: ['', [Validators.required]],
+        jupyterInterface: ['', [Validators.required]],
         downloadMethod: [''],
         source: [''],
         isAutoExecution: [''],
       });
       // ---- Set default value
-      this.wizardOptionFormGroup.controls.ide.setValue('jupyter');
+      this.wizardOptionFormGroup.controls.jupyterInterface.setValue('lab');
       this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
       this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
     }
@@ -123,9 +123,9 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       this.selectedLabels,
       this.selectedTemplate.base_config.maximum_lifetime,
       {
-        ide: this.envCreationPlainFormGroup.controls.ide.value,
-        downloadMethod: this.envCreationPlainFormGroup.controls.downloadMethod.value,
-        environment_vars: this.envCreationPlainFormGroup.controls.source.value,
+        jupyter_interface: this.envCreationPlainFormGroup.controls.jupyterInterface.value,
+        download_method: this.envCreationPlainFormGroup.controls.downloadMethod.value,
+        download_url: this.envCreationPlainFormGroup.controls.source.value,
         auto_execution: this.envCreationPlainFormGroup.controls.isAutoExecution.value,
       },
       this.envCreationPlainFormGroup.controls.publish.value || false,
@@ -147,9 +147,9 @@ export class DashboardEnvironmentFormComponent implements OnInit {
       this.selectedLabels,
       this.selectedTemplate.base_config.maximum_lifetime,
       {
-        ide: this.wizardOptionFormGroup.controls.ide.value,
-        downloadMethod: this.wizardOptionFormGroup.controls.downloadMethod.value,
-        environment_vars: this.wizardOptionFormGroup.controls.source.value,
+        jupyter_interface: this.wizardOptionFormGroup.controls.jupyterInterface.value,
+        download_method: this.wizardOptionFormGroup.controls.downloadMethod.value,
+        download_url: this.wizardOptionFormGroup.controls.source.value,
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
       },
       isPublic || false,
@@ -164,7 +164,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
     this.selectedDownloadMethod = val;
   }
 
-  onChangeIde(val: string) {
-    this.selectedIde = val;
+  onChangeJupyterInterface(val: string) {
+    this.selectedJupyterInterface = val;
   }
 }

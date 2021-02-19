@@ -60,8 +60,8 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
 
   createWorkspace(): void {
     this.workspaceService.createWorkspace(
-      Workspace.DEMO_WORKSPACE_NAME,
-      'Demo workspace for ' + this.authService.getUserName()
+      'New Workspace',
+      'Workspace for ' + this.authService.getUserName()
     ).subscribe(_ => {
       console.log('created new Workspace');
       this.fetchWorkspaces();

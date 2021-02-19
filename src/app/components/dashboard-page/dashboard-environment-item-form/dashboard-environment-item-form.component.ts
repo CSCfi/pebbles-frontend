@@ -14,7 +14,7 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
   environmentItemEditFormGroup: FormGroup;
   isAutoExecution: boolean;
   downloadMethod: string;
-  ide: string;
+  jupyterInterface: string;
   selectedLabels: string[];
 
   constructor(
@@ -38,18 +38,18 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       labels: ['', [Validators.required]],
-      ide: ['', [Validators.required]],
+      jupyterInterface: ['', [Validators.required]],
       downloadMethod: [''],
-      environmentVars: [''],
+      downloadUrl: [''],
       isAutoExecution: [''],
     });
     if (this.data.environment) {
-      this.ide = this.data.environment.config.ide;
-      this.downloadMethod = this.data.environment.config.downloadMethod;
-      this.isAutoExecution = this.data.environment.config.auto_execution;
       this.environmentItemEditFormGroup.controls.name.setValue(this.data.environment.name);
       this.environmentItemEditFormGroup.controls.description.setValue(this.data.environment.description);
-      this.environmentItemEditFormGroup.controls.environmentVars.setValue(this.data.environment.config.environment_vars);
+      this.jupyterInterface = this.data.environment.config.jupyter_interface;
+      this.downloadMethod = this.data.environment.config.download_method;
+      this.environmentItemEditFormGroup.controls.downloadUrl.setValue(this.data.environment.config.download_url);
+      this.isAutoExecution = this.data.environment.config.auto_execution;
     }
   }
 
@@ -61,10 +61,10 @@ export class DashboardEnvironmentItemFormComponent implements OnInit {
     this.data.environment.name = this.environmentItemEditFormGroup.controls.name.value;
     this.data.environment.description = this.environmentItemEditFormGroup.controls.description.value;
     this.data.environment.labels = this.selectedLabels;
-    this.data.environment.config.ide = this.environmentItemEditFormGroup.controls.ide.value;
-    this.data.environment.config.downloadMethod = this.environmentItemEditFormGroup.controls.downloadMethod.value;
+    this.data.environment.config.jupyter_interface = this.environmentItemEditFormGroup.controls.jupyterInterface.value;
+    this.data.environment.config.download_method = this.environmentItemEditFormGroup.controls.downloadMethod.value;
     this.data.environment.config.auto_execution = this.environmentItemEditFormGroup.controls.isAutoExecution.value;
-    this.data.environment.config.environment_vars = this.environmentItemEditFormGroup.controls.environmentVars.value;
+    this.data.environment.config.download_url = this.environmentItemEditFormGroup.controls.downloadUrl.value;
     this.environmentService.updateEnvironment(
       this.data.environment
     ).subscribe(_ => {
