@@ -68,10 +68,6 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
     });
   }
 
-  openDeleteWorkspaceDialog(): void {
-    // ---- TODO: code here later
-  }
-
   openEditWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(DashboardWorkspaceFormComponent,
       {

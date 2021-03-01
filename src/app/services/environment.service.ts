@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { InstanceService } from './instance.service';
 import { WorkspaceService } from './workspace.service';
 import { Environment } from 'src/app/models/environment';
@@ -54,7 +54,7 @@ export class EnvironmentService implements OnDestroy {
     return this.environments;
   }
 
-  getEnvironmentsByWorkspaceId(workspaceId: string) {
+  getEnvironmentsByWorkspaceId(workspaceId: string): Environment[] {
     return this.environments.filter(env => env.workspace_id === workspaceId);
   }
 
@@ -136,5 +136,15 @@ export class EnvironmentService implements OnDestroy {
         return environment;
       })
     );
+  }
+
+  // ---- TODO: discuss about the way to introduce
+  deleteEnvironment(environment: Environment): Observable<Environment> {
+    const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
+    console.log('Deleting environment', environment);
+    return this.http.delete<Environment>(url).pipe(tap(resp => {
+      console.log(resp);
+      this.fetchEnvironments().subscribe();
+    }));
   }
 }

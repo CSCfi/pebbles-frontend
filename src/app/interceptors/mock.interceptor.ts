@@ -94,6 +94,8 @@ export class MockInterceptor implements HttpInterceptor {
           return createEnvironment();
         case url.includes('/environments') && method === 'PUT':
           return updateEnvironment();
+        case url.includes('/environments') && method === 'DELETE':
+          return deleteEnvironment();
         case url.endsWith('/instances') && method === 'GET':
           return getInstances();
         case url.includes('/instances') && method === 'DELETE':
@@ -250,6 +252,12 @@ export class MockInterceptor implements HttpInterceptor {
       env.name = body.name;
       env.description = body.description;
       env.config = body.config;
+      return ok(env);
+    }
+
+    function deleteEnvironment() {
+      const env = database.environments.find(i => i.id === objectId);
+      database.environments = database.environments.filter(i => i.id !== objectId);
       return ok(env);
     }
 

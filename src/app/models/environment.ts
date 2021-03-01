@@ -1,4 +1,3 @@
-import { Instance } from './instance';
 import { Workspace } from './workspace';
 
 export class Environment {

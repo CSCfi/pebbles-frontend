@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
 
   @Input() environment: Environment;
   @Input() content: any;
+  @Output() getEnvironmentsEvent = new EventEmitter<string>();
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
@@ -137,18 +138,22 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     // ---- TODO: place holder. write later !
   }
 
-  copyEnvironment() {
+  copyEnvironment(): void {
     // ---- TODO: place holder. write later !
   }
 
-  toggleGpuActivation(active) {
+  toggleGpuActivation(active): void {
     // ---- TODO: place holder. write later !
   }
 
-  deleteEnvironment() {
+  deleteEnvironment(): void {
     if (!confirm(`Are you sure you want to delete this environment "${this.environment.name}"?`)) {
       return;
     }
+    this.environmentService.deleteEnvironment(this.environment).subscribe( _ => {
+      console.log('environment deleting process finished');
+      this.getEnvironmentsEvent.emit();
+    });
   }
 
   // ---- Instance
@@ -202,7 +207,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     return this.instanceService.getInstance(this.environment.instance_id);
   }
 
-  actionsVisible() {
+  actionsVisible(): boolean {
     const instance = this.instanceService.getInstance(this.environment.instance_id);
     return instance && instance.state !== InstanceStates.Deleted;
   }

@@ -42,7 +42,7 @@
       </div>
       <div class="environments-container" fxLayout="column" fxLayoutGap="15px">
         <ng-container *ngFor="let environment of getEnvironments()">
-          <app-dashboard-environment-item [environment]="environment" [content]="content">
+          <app-dashboard-environment-item [environment]="environment" [content]="content" (getEnvironmentsEvent)="getEnvironments()">
           </app-dashboard-environment-item>
         </ng-container>
       </div>
