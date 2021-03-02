@@ -135,7 +135,11 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   toggleEnvironmentActivation(isActive: boolean): void {
-    // ---- TODO: place holder. write later !
+    this.environment.is_enabled = isActive;
+    this.environmentService.updateEnvironment(this.environment).subscribe(_ => {
+      console.log('Updated environment');
+      this.getEnvironmentsEvent.emit();
+    });
   }
 
   copyEnvironment(): void {

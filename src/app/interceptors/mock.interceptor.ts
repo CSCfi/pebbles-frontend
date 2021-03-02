@@ -252,7 +252,8 @@ export class MockInterceptor implements HttpInterceptor {
       env.name = body.name;
       env.description = body.description;
       env.config = body.config;
-      return ok(env);
+      env.is_enabled = body.is_enabled;
+      return ok();
     }
 
     function deleteEnvironment() {

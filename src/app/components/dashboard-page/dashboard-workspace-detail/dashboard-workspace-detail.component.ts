@@ -37,7 +37,6 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private workspaceService: WorkspaceService,
@@ -69,24 +68,21 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
   }
 
   openEditWorkspaceDialog(): void {
-    const dialogRef = this.dialog.open(DashboardWorkspaceFormComponent,
-      {
+    const dialogRef = this.dialog.open(DashboardWorkspaceFormComponent, {
         width: '800px',
         height: 'auto',
         data: {
           isCreationMode: false,
           workspace: this.workspace
         }
-      }).afterClosed()
-      .subscribe( _ => {
+      }).afterClosed().subscribe(_ => {
         this.getEnvironments();
       });
   }
 
   openEnvironmentCreationDialog(mode): void {
     this.isPlainFormOn = mode === 'wizard' ? false : true;
-    const dialogRef = this.dialog.open(DashboardEnvironmentFormComponent,
-      {
+    const dialogRef = this.dialog.open(DashboardEnvironmentFormComponent, {
         width: this.isPlainFormOn ? '800px' : '1000px',
         height: 'auto',
         maxHeight: '90vh',
@@ -94,8 +90,7 @@ export class DashboardWorkspaceDetailComponent implements OnInit {
           isPlainFormOn: this.isPlainFormOn,
           workspaceId: this.workspace.id
         }
-      }).afterClosed()
-      .subscribe( _ => {
+      }).afterClosed().subscribe( _ => {
         this.getEnvironments();
       });
   }

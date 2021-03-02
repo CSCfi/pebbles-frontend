@@ -130,8 +130,8 @@ export class EnvironmentService implements OnDestroy {
     const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
     console.log('PUTting environment', environment);
     return this.http.put<Environment>(url, environment).pipe(
-      map((resp) => {
-        console.log('Updated environment' + resp);
+      map(_ => {
+        console.log('Updated environment');
         this.fetchEnvironments().subscribe();
         return environment;
       })
