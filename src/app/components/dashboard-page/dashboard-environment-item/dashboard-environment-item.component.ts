@@ -143,7 +143,13 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   copyEnvironment(): void {
-    // ---- TODO: place holder. write later !
+    if (!confirm(`Are you sure you want to copy this environment "${this.environment.name}"?`)) {
+      return;
+    }
+    this.environmentService.copyEnvironment(this.environment).subscribe( _ => {
+      console.log('Environment copying process finished');
+      this.getEnvironmentsEvent.emit();
+    });
   }
 
   toggleGpuActivation(active): void {

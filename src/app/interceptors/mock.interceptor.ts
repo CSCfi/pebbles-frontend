@@ -49,6 +49,9 @@ export class MockInterceptor implements HttpInterceptor {
       case (endpoint === 'instances' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
+      case (endpoint === 'environments' && apiComponents[1] === 'environment_copy'):
+        objectId = apiComponents[2];
+        break;
       case (endpoint === 'environments' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
@@ -88,20 +91,22 @@ export class MockInterceptor implements HttpInterceptor {
           return authenticate();
         case url.endsWith('/instances') && method === 'POST':
           return createInstance();
-        case url.endsWith('/workspaces') && method === 'POST':
-          return createWorkspace();
         case url.endsWith('/environments') && method === 'POST':
           return createEnvironment();
+        case url.includes('/environments/environment_copy') && method === 'PUT':
+          return copyEnvironment();
         case url.includes('/environments') && method === 'PUT':
           return updateEnvironment();
         case url.includes('/environments') && method === 'DELETE':
           return deleteEnvironment();
+        case url.endsWith('/environments') && method === 'GET':
+          return getEnvironments();
         case url.endsWith('/instances') && method === 'GET':
           return getInstances();
         case url.includes('/instances') && method === 'DELETE':
           return deleteInstance();
-        case url.endsWith('/environments') && method === 'GET':
-          return getEnvironments();
+        case url.endsWith('/workspaces') && method === 'POST':
+          return createWorkspace();
         case url.includes('/join_workspace') && method === 'PUT':
           return joinWorkspace();
         case url.includes('/workspaces') && url.includes('/exit') && method === 'PUT':
@@ -245,6 +250,24 @@ export class MockInterceptor implements HttpInterceptor {
 
       database.environments.push(environment);
       return ok(environment);
+    }
+
+    function copyEnvironment() {
+      const env = database.environments.find(i => i.id === objectId);
+      const envId = Math.random().toString(36).substring(2, 8);
+      const environment = new Environment(
+        envId,
+        `${env.name} - Copy`,
+        env.description,
+        '1h',
+        env.workspace_id,
+        env.labels,
+        env.thumbnail,
+        env.is_enabled
+      );
+
+      database.environments.push(environment);
+      return ok();
     }
 
     function updateEnvironment() {

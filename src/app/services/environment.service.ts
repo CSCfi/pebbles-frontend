@@ -126,6 +126,18 @@ export class EnvironmentService implements OnDestroy {
     );
   }
 
+  copyEnvironment(environment: Environment): Observable<Environment> {
+    const url = `${buildConfiguration.apiUrl}/environments/environment_copy/${environment.id}`;
+
+    return this.http.put<Environment>(url, null).pipe(
+      map(_ => {
+        console.log('The Environment copied');
+        this.fetchEnvironments().subscribe();
+        return environment;
+      })
+    );
+  }
+
   updateEnvironment(environment: Environment): Observable<Environment> {
     const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
     console.log('PUTting environment', environment);
