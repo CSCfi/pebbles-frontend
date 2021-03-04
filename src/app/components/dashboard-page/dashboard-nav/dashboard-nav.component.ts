@@ -4,6 +4,7 @@ import {FormControl} from '@angular/forms';
 import {AuthService} from 'src/app/services/auth.service';
 import {Announcement} from '../../../models/announcement';
 import {MessageService} from '../../../services/message.service';
+import {InstanceService} from '../../../services/instance.service';
 
 // export enum DashboardPages {
 //   Catalog = 'catalog',
@@ -41,6 +42,7 @@ export class DashboardNavComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     public messageService: MessageService,
+    public instanceService: InstanceService,
   ) {
     // fetch announcements to update the nav bar unread announcements number
     this.messageService.fetchAnnouncements().subscribe();
@@ -53,7 +55,7 @@ export class DashboardNavComponent implements OnInit {
     this.toggleSideNavEvent.emit();
   }
 
-  toggleToolTips(value) {
+  toggleToolTips(value): void {
     if (!this.tooltips) {
       return;
     }
@@ -69,5 +71,13 @@ export class DashboardNavComponent implements OnInit {
 
   getUnreadAnnouncements(): Announcement[] {
     return this.messageService.getUnreadAnnouncements();
+  }
+
+  logout(): void {
+    if (!confirm('Are you sure to logout from Notebooks?')) {
+      return;
+    }
+    this.authService.logout();
+    this.instanceService.clearPollingInterval();
   }
 }

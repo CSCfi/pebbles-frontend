@@ -3,9 +3,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Environment } from 'src/app/models/environment';
 import { DashboardEnvironmentItemFormComponent } from './dashboard-environment-item-form.component';
 import { DashboardSearchBoxComponent } from '../dashboard-search-box/dashboard-search-box.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('DashboardEnvironmentItemFormComponent', () => {
   let component: DashboardEnvironmentItemFormComponent;
@@ -17,7 +17,8 @@ describe('DashboardEnvironmentItemFormComponent', () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
-        MaterialModule
+        MaterialModule,
+        RouterTestingModule,
       ],
       declarations: [
         DashboardEnvironmentItemFormComponent,

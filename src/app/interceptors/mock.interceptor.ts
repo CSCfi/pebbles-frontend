@@ -34,8 +34,7 @@ export class MockInterceptor implements HttpInterceptor {
     if (req.url.indexOf('?') >= 0) {
       url = req.url.split('?')[0];
       args = req.url.split('?')[1];
-    }
-    else {
+    } else {
       url = req.url;
     }
     const apiComponents = url.substring(url.lastIndexOf('api/v1/') + 7).split('/');
@@ -182,14 +181,21 @@ export class MockInterceptor implements HttpInterceptor {
         'deleted',
         'failed',
       ];
-      const terminalStates = ['deleted', 'failed'];
+      const transitiveStates = ['queueing', 'provisioning', 'starting', 'deleting'];
 
-      const instances = database.instances;
       const result = [];
+      const accessibleEnvIds = getAccessibleEnvironments(userName).map(e => e.id);
+      const accessibleInstances = getAccessibleInstances(userName);
 
-      for (const instance of instances) {
+      for (const instance of accessibleInstances) {
+        // filter out instances from environments user does not have access to
+        if (accessibleEnvIds.indexOf(instance.environment_id) < 0) {
+          continue;
+        }
+        // filter out instances for other users, unless the user is an admin or can manage the workspace
+
         // filter out deleted instances
-        if (terminalStates.indexOf(instance.state) >= 0) {
+        if (instance.state === 'deleted') {
           continue;
         }
         // assign an endpoint to instance that is starting
@@ -202,7 +208,7 @@ export class MockInterceptor implements HttpInterceptor {
           instance._mockLastStateUpdateTs = Date.now();
         }
         // advance the transitive states
-        if (instance.state !== 'running') {
+        if (transitiveStates.indexOf(instance.state) >= 0) {
           if (Date.now() - instance._mockLastStateUpdateTs > 5000) {
             instance.state = states[states.indexOf(instance.state) + 1];
             console.log('instance ' + instance.name + 'now in state ' + instance.state);
@@ -217,7 +223,7 @@ export class MockInterceptor implements HttpInterceptor {
     function getEnvironments() {
       const workspaces = database.workspaces;
 
-      const workspaceIds = filterAccessibleWorkspaces(workspaces, localStorage.getItem('user_name')).map(ws => ws.id);
+      const workspaceIds = getAccessibleWorkspaces(localStorage.getItem('user_name')).map(ws => ws.id);
       // Environments from System.default are accessible always
       if (workspaceIds.indexOf('ws-0') < 0) {
         workspaceIds.push('ws-0');
@@ -308,7 +314,8 @@ export class MockInterceptor implements HttpInterceptor {
         envId,
         InstanceStates.Queueing,
         '',
-        environment.maximum_lifetime
+        environment.maximum_lifetime,
+        userName,
       );
 
       (instance as any)._mockLastStateUpdateTs = Date.now();
@@ -349,7 +356,7 @@ export class MockInterceptor implements HttpInterceptor {
 
     function getWorkspaces() {
       const user_name = localStorage.getItem('user_name');
-      return ok(filterAccessibleWorkspaces(database.workspaces, user_name));
+      return ok(getAccessibleWorkspaces(user_name));
     }
 
     function joinWorkspace() {
@@ -492,8 +499,9 @@ export class MockInterceptor implements HttpInterceptor {
     function saveDatabase() {
       localStorage.setItem('mock.database', JSON.stringify(database));
     }
+
     // TODO: take arguments (show_only_mine) into account
-    function filterAccessibleWorkspaces(workspaces: Workspace[], eppn: string) {
+    function getAccessibleWorkspaces(eppn: string) {
       const user = database.users.find(u => u.eppn === eppn);
       if (!user) {
         return [];
@@ -511,10 +519,48 @@ export class MockInterceptor implements HttpInterceptor {
           return true;
         }
         if (ws.owner_eppn === eppn) {
-          return false;
+          return true;
         }
         return false;
       });
+    }
+
+    function getAccessibleEnvironments(eppn: string) {
+      const workspaceIds = getAccessibleWorkspaces(eppn).map(ws => ws.id);
+      // Environments from System.default are accessible always
+      if (workspaceIds.indexOf('ws-0') < 0) {
+        workspaceIds.push('ws-0');
+      }
+      console.log('mock.getEnvironments() workspaceIds', workspaceIds);
+      return database.environments.filter((env) => {
+        return workspaceIds.includes(env.workspace_id);
+      });
+    }
+
+    function getAccessibleInstances(eppn: string) {
+      const user = database.users.find(u => u.eppn === eppn);
+      if (!user) {
+        return [];
+      }
+      const ownedWorkspaceIds = getAccessibleWorkspaces(eppn).filter(w => w.owner_eppn === eppn).map(w => w.id);
+      const result = [];
+
+      for (const instance of database.instances) {
+        const instanceEnvironment = database.environments.find(e => e.id === instance.environment_id);
+        // admin gets all instances
+        if (user.is_admin) {
+          result.push(instance);
+        }
+        // pick instances owned by the user
+        else if (instance.user_id === user.id) {
+          result.push(instance);
+        }
+        // pick instances for other users, if the user owns the workspace
+        else if (ownedWorkspaceIds.indexOf(instanceEnvironment.workspace_id) >= 0){
+          result.push(instance);
+        }
+      }
+      return result;
     }
   }
 }

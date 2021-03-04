@@ -25,5 +25,6 @@ export class Instance {
     public environment_id: string,
     public state: InstanceStates,
     public url: string,
-    public lifetime_left?: number) {}
+    public lifetime_left?: number,
+    public username?: string) {}
 }

@@ -1,11 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 
 import { Instance, InstanceStates } from 'src/app/models/instance';
 import { buildConfiguration } from '../../environments/environment';
+import {AuthService} from './auth.service';
 
 
 @Injectable({
@@ -17,10 +18,11 @@ export class InstanceService implements OnDestroy {
   private instances: Instance[] = [];
   private interval = 0;
   private intervalValue = -1;
-
+  private lastUpdateTs = 0;
   constructor(
     private http: HttpClient,
     private desktopNotificationService: DesktopNotificationService,
+    private authService: AuthService,
   ) {
     this.fetchInstances();
     this.setPollingInterval(60 * 1000);
@@ -31,6 +33,11 @@ export class InstanceService implements OnDestroy {
   }
 
   getInstances(): Instance[] {
+    // filter out instances that are shown by role (admin, owner, manager) but not owned
+    return this.instances.filter(i => i.user_id === this.authService.getUserId());
+  }
+
+  getAllInstances(): Instance[] {
     return this.instances;
   }
 
@@ -39,7 +46,7 @@ export class InstanceService implements OnDestroy {
   }
 
   getInstanceByEnvironmentId(envId: string) {
-    return this.instances.find(i => i.environment_id === envId);
+    return this.getInstances().find(i => i.environment_id === envId);
   }
 
   fetchInstance(id: string): Observable<Instance> {
@@ -54,8 +61,8 @@ export class InstanceService implements OnDestroy {
   }
 
   fetchInstances(): Observable<Instance[]> {
-    // filter out instances that are shown by role (admin, owner, manager) but not owned
-    const url = `${buildConfiguration.apiUrl}/instances?show_only_mine=1`;
+
+    const url = `${buildConfiguration.apiUrl}/instances`;
 
     return this.http.get<Instance[]>(url).pipe(
       map(myInstances => {
@@ -73,7 +80,10 @@ export class InstanceService implements OnDestroy {
           this.setPollingInterval(60 * 1000);
         }
         this.instances = myInstances;
-        this.desktopNotificationService.notifyInstanceLifetime(this.instances);
+        // show notifications for instances owned by the user, filtered in getInstances()
+        this.desktopNotificationService.notifyInstanceLifetime(this.getInstances());
+        // update the timestamp
+        this.lastUpdateTs = Date.now();
         return this.instances;
       })
     );
@@ -105,6 +115,10 @@ export class InstanceService implements OnDestroy {
       clearInterval(this.interval);
       this.intervalValue = -1;
     }
+  }
+
+  getLastUpdateTs(): number {
+    return this.lastUpdateTs;
   }
 
   private setPollingInterval(intervalMs: number) {

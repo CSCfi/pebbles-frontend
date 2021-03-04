@@ -47,6 +47,15 @@
           <div class="title" *ngIf="isTextVisible">Manage workspaces</div>
         </a>
       </li>
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/environment-instances'"
+      #tooltip="matTooltip" matTooltip="Environment instances" [matTooltipDisabled]="true">
+        <a class="sidenav-link v-centering" [routerLink]="['/dashboard/environment-instances']">
+          <div class="icon-holder">
+            <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
+          </div>
+          <div class="title" *ngIf="isTextVisible">Environment instances</div>
+        </a>
+      </li>
     </ul>
   </ng-container>
 

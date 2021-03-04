@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InstanceService } from './instance.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
 import * as TESTDATA from '../interceptors/test-data';
+import {RouterTestingModule} from '@angular/router/testing';
 
 
 describe('InstanceService', () => {
@@ -11,12 +12,15 @@ describe('InstanceService', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS]
     });
     service = TestBed.inject(InstanceService);
     localStorage.removeItem('mock.database');
+    localStorage.setItem('user_id', '1');
+    localStorage.setItem('user_name', 'admin@example.org');
   });
 
   it('should be created', () => {
@@ -26,9 +30,10 @@ describe('InstanceService', () => {
   it('should populate instances with fetchInstances',
     (done: DoneFn) => {
       service.fetchInstances().subscribe(() => {
-        const instances = service.getInstances();
+        const instances = service.getAllInstances();
         // two (deleted, failed) invalid instances in the database
-        expect(instances.length).toBe(TESTDATA.db.instances.length - 2);
+        // TODO: when UI can handle failed instances, check the expected number below
+        expect(instances.length).toBe(TESTDATA.db.instances.length - 1);
         done();
       });
     }

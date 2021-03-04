@@ -8,7 +8,9 @@ export let db = {
       state: 'running',
       instance_data: {endpoints: [{access: 'http://foo/1'}]},
       lifetime_left: '3000',
-      maximum_lifetime:	'3600'
+      maximum_lifetime:	'3600',
+      user_id: '1',
+      username: 'admin@example.org',
     },
     {
       id: '2',
@@ -17,34 +19,54 @@ export let db = {
       state: 'deleted',
       instance_data: {endpoints: [{access: 'http://foo/2'}]},
       lifetime_left: '600',
-      maximum_lifetime:	'2000'
+      maximum_lifetime:	'2000',
+      user_id: '1',
+      username: 'admin@example.org',
     },
     {
       id: '3',
-      name: 'pb-kassandra-the-white',
-      environment_id: '10',
+      name: 'pb-kassandra-the-patient',
+      environment_id: '12',
       state: 'running',
-      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      instance_data: {endpoints: [{access: 'http://foo/3'}]},
       lifetime_left: '600',
-      maximum_lifetime:	'2000'
+      maximum_lifetime:	'2000',
+      user_id: '101',
+      username: 'owner-1@example.org',
     },
     {
       id: '4',
-      name: 'pb-kassandra-the-white',
-      environment_id: '3',
+      name: 'pb-rick-the-shiny',
+      environment_id: '1',
       state: 'provisioning',
-      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      instance_data: {endpoints: [{access: 'http://foo/4'}]},
       lifetime_left: '6000',
-      maximum_lifetime:	'6000'
+      maximum_lifetime:	'6000',
+      user_id: '201',
+      username: 'owner-1@example.org',
     },
     {
       id: '5',
-      name: 'pb-kassandra-the-white',
-      environment_id: '5',
-      state: 'failed',
-      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      name: 'pb-bart-the-yellow',
+      environment_id: '1',
+      // TODO: change this to failed, once the UI has been updated to deal with failed instances
+      state: 'running',
+      instance_data: {endpoints: [{access: 'http://foo/5'}]},
       lifetime_left: '2000',
-      maximum_lifetime:	'2000'
+      maximum_lifetime:	'2000',
+      user_id: '301',
+      username: 'user-1@example.org',
+    },
+    {
+      id: '6',
+      name: 'pb-maggie-the-wise',
+      environment_id: '12',
+      state: 'running',
+      instance_data: {endpoints: [{access: 'http://foo/6'}]},
+      lifetime_left: '2000',
+      maximum_lifetime:	'2000',
+      user_id: '301',
+      username: 'user-1@example.org',
     }
   ],
   environments: [
@@ -229,7 +251,7 @@ export let db = {
       name: 'Data Science 3',
       maximum_lifetime: '14400',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
-      workspace_id: '3',
+      workspace_id: '6',
       thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python'],
       config: {
@@ -413,7 +435,7 @@ export let db = {
       join_code: 'admin-ws-join-parm3-wuuig',
       description: 'R-studio environments for Machine Learning Course 2019',
       owner_eppn: 'admin-1@example.org',
-      member_eppns: ['admin@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
+      member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '4',
@@ -421,7 +443,7 @@ export let db = {
       join_code: 'admin-ws-join-parm4-wuuig',
       description: 'R-studio environments for Data Science course 2021',
       owner_eppn: 'admin@example.org',
-      member_eppns: ['admin-1@example.org', 'owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
+      member_eppns: ['owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '5',
@@ -429,15 +451,15 @@ export let db = {
       join_code: 'admin-ws-join-parm5-wuuig',
       description: 'R-studio environments for Data Analytics Seminar, CSC university',
       owner_eppn: 'owner@example.org',
-      member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
+      member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '6',
       name: 'NLP Project',
       join_code: 'admin-ws-join-parm6-wuuig',
       description: 'IPython environments for NLP Project of Computer Engineering Department, CSC university',
-      owner_eppn: 'owner@example.org',
-      member_eppns: ['admin-1@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
+      owner_eppn: 'owner-1@example.org',
+      member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
     }
   ],
   environment_templates: [

@@ -8,6 +8,7 @@ import { Instance, InstanceStates } from 'src/app/models/instance';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { DashboardEnvironmentItemFormComponent } from '../dashboard-environment-item-form/dashboard-environment-item-form.component';
+import {Utilities} from '../../../utilities';
 
 @Component({
   selector: 'app-dashboard-environment-item',
@@ -73,9 +74,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
 
   get lifetimeLeft(): string {
     if (this.instance.state === 'running' && this.instance.lifetime_left) {
-      const hours: number = Math.floor(this.instance.lifetime_left / 3600);
-      const mins: number = Math.floor((this.instance.lifetime_left % 3600) / 60);
-      return `${(hours < 10) ? '0' + hours : hours}:${(mins < 10) ? '0' + mins : mins}`;
+      return Utilities.lifetimeToString(this.instance.lifetime_left);
     }
     return '';
   }

@@ -5,6 +5,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardSearchBoxComponent } from '../dashboard-search-box/dashboard-search-box.component';
 import { DashboardEnvironmentFormComponent } from './dashboard-environment-form.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('DashboardEnvironmentFormComponent', () => {
   let component: DashboardEnvironmentFormComponent;
@@ -17,7 +18,8 @@ describe('DashboardEnvironmentFormComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         MaterialModule,
-        MatDialogModule
+        MatDialogModule,
+        RouterTestingModule
       ],
       declarations: [
         DashboardEnvironmentFormComponent,

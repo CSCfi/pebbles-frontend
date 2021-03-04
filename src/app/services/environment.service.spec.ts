@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { EnvironmentService } from './environment.service';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('EnvironmentService', () => {
   let service: EnvironmentService;
@@ -9,7 +10,8 @@ describe('EnvironmentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule
       ],
       declarations: [
       ],

@@ -1,0 +1,32 @@
+@import "src/styles.scss";
+
+.environment-instances-container {
+  padding: 0 20px;
+
+  .mat-form-field{
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    margin: auto;
+
+    .mat-header-row {
+      background: map-get($colors, light-dark);
+      height: 40px;
+
+      .mat-header-cell {
+        color: map-get($colors, white);
+        border-bottom: none;
+      }
+    }
+
+    th,td{
+      vertical-align: middle;
+    }
+
+    th{
+      text-transform: capitalize;
+    }
+  }
+}
