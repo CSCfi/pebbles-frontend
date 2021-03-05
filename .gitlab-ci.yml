@@ -61,7 +61,7 @@ ng-build:
 
 ng-test:
   stage: test
-  image: trion/ng-cli-karma:9.1.5
+  image: trion/ng-cli-karma:10.0.0
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -71,11 +71,10 @@ ng-test:
     - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
 
     # run Karma/Jasmine unit tests
-    - ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
-
+    - ng test --no-watch --no-progress --browsers=ChromiumHeadlessCI
 ng-e2e:
   stage: test
-  image: trion/ng-cli-karma:9.1.5
+  image: trion/ng-cli-karma:10.0.0
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -88,7 +87,7 @@ ng-e2e:
 
     # run Protractor end-to-end tests. Chrome and ChromeDriver need to be in sync
     # in ng-cli-karma image, protractor.conf.ci.js and here
-    - webdriver-manager update --versions.chrome=81.0.4044.138
+    - webdriver-manager update --versions.chrome=83.0.4103.116
     - ng e2e --protractor-config e2e/protractor.conf.ci.js
 
 build-image:

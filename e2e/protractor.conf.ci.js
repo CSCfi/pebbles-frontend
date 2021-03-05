@@ -16,7 +16,7 @@ exports.config = {
       args: ["--headless"]
     }
   },
-  chromeDriver: '../node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_81.0.4044.138',
+  chromeDriver: '../node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_83.0.4103.116',
   directConnect: true,
   framework: "jasmine",
   jasmineNodeOpts: {
