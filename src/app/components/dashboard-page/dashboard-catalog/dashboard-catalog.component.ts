@@ -84,8 +84,8 @@ export class DashboardCatalogComponent implements OnInit {
   }
 
   filterEnvironmentsByLabels(catalogLabels: string[], method: string): Environment[] {
-    const environmentsCopy = Object.assign([], this.environmentService.getEnvironments());
-    const environments = this.sortEnvironments(environmentsCopy);
+    let environments = this.environmentService.getEnvironments().filter(env => env.is_enabled);
+    environments = this.sortEnvironments(environments);
     if (catalogLabels.length === 0) {
       // ---- ALL catalog tab
       return environments;

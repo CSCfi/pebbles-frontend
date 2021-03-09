@@ -118,6 +118,12 @@ $progress-linear-bar-height: 6px;
     padding: 0.7em 0;
   }
 
+  // ---- Tab
+  // ----------------------------------------
+  .mat-tab-body-content {
+    overflow: hidden;
+  }
+
   // ---- Accordion
   // ----------------------------------------
 
