@@ -1,21 +1,30 @@
 <div class="sidenav-inner">
   <!-- Logo -->
-  <div class="logo inversion primary" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-    <div class="logomark">
-      <mat-icon role="logomark">import_contacts</mat-icon>
-    </div>
-    <div class="logotype" *ngIf="isTextVisible">
-      <h1> Notebooks </h1>
-    </div>
+  <div class="logo inversion primary" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+    <a class="sidenav-link v-centering" [routerLink]="['/dashboard/catalog']">
+      <div class="logomark">
+        <mat-icon role="logomark">import_contacts</mat-icon>
+      </div>
+      <div class="logotype spacer__l10" *ngIf="isTextVisible">
+        <h1> Notebooks </h1>
+      </div>
+    </a>
   </div>
 
   <!-- Navigation Panel Control -->
-  <button mat-button class="sidenav-button" (click)="emitSideNavToggle()">
-    <mat-icon>menu</mat-icon>
+  <button mat-button
+  #tooltip="matTooltip" matTooltip="Expand side navigation"
+  class="sidenav-button" (click)="emitSideNavToggle()">
+    <ng-container *ngIf="isTextVisible ; else elseBlock">
+      <mat-icon>more_vert</mat-icon>
+    </ng-container>
+    <ng-template #elseBlock>
+      <mat-icon>menu</mat-icon>
+    </ng-template>
   </button>
 
   <!-- Menu -->
-  <ul class="sidenav-menu scrollable">
+  <ul class="sidenav-menu scrollable nav-section">
     <li class="nav-item" [class.active]="router.url==='/dashboard/catalog'"
     #tooltip="matTooltip" matTooltip="Environments" [matTooltipDisabled]="true">
       <a class="sidenav-link v-centering" [routerLink]="['/dashboard/catalog']">
@@ -37,7 +46,7 @@
   </ul>
 
   <ng-container *ngIf="authService.isWorkspaceOwner">
-    <ul class="sidenav-menu workspace-owner">
+    <ul class="sidenav-menu workspace-owner nav-section">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/workspace-owner'"
       #tooltip="matTooltip" matTooltip="Manage workspaces" [matTooltipDisabled]="true">
         <a class="sidenav-link v-centering" [routerLink]="['/dashboard/workspace-owner']">
@@ -51,7 +60,7 @@
       #tooltip="matTooltip" matTooltip="Environment instances" [matTooltipDisabled]="true">
         <a class="sidenav-link v-centering" [routerLink]="['/dashboard/environment-instances']">
           <div class="icon-holder">
-            <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
+            <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
           </div>
           <div class="title" *ngIf="isTextVisible">Environment instances</div>
         </a>
@@ -60,7 +69,7 @@
   </ng-container>
 
   <ng-container *ngIf="authService.isAdmin">
-    <ul class="sidenav-menu workspace-owner nav-section">
+    <ul class="sidenav-menu workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/admin'"
       #tooltip="matTooltip" matTooltip="Admin tool" [matTooltipDisabled]="true">
         <a class="sidenav-link v-centering" [routerLink]="['/dashboard/admin']">

@@ -64,7 +64,7 @@ export class DashboardCatalogComponent implements OnInit {
   // Merging sort to fetchEnvironments reduces delay but still takes a sec.
   // Sort is called before fetchEnvironments to reduce, but still see minor glitch.
   sortEnvironments(environmentsCopy: Environment[]): Environment[] {
-    console.log('sortEnvironments is called');
+    // console.log('sortEnvironments is called');
     const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
     environmentsCopy.sort((a, b) => {
       if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) &&

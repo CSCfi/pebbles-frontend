@@ -166,6 +166,8 @@ $progress-linear-bar-height: 6px;
 
   mat-card {
     box-shadow: 0 1px 3px 0px rgba(0,0,0,.1) !important;
+    border-radius: 3px !important;
+    overflow: hidden;
 
     .mat-card-header-text {
       color: rgba(0, 0, 0, 0.77);

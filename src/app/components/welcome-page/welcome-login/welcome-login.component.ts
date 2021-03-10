@@ -63,6 +63,7 @@ export class WelcomeLoginComponent implements OnInit {
         localStorage.setItem('is_admin', session.is_admin);
         localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
         localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
+        localStorage.setItem('is_sidenav_open', 'true');
 
         this.router.navigateByUrl('/dashboard').then(() => console.log('router: navigated to /dashboard'));
       })

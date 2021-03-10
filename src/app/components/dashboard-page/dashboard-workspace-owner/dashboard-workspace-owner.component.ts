@@ -69,7 +69,7 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
     });
   }
 
-  createDemoWorkspace() {
+  createDemoWorkspace(): void {
     console.log('creating demo workspace with example environment');
 
     if (this.workspaceService.getWorkspaces().length > 0) {
