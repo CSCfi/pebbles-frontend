@@ -1,9 +1,15 @@
 @import "src/styles.scss";
 
-::ng-deep .content-header {
-  // min-height: 75px;
-  margin-bottom: 10px;
+.content-header {
+  height: 80px;
+  overflow: hidden;
+  padding: 30px 40px 5px;
+  // background: map-get($colors, white);
+  // margin-bottom: 10px;
+  border-bottom: 1px solid #fff;
+  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
   min-height: 60px;
+  width: 100%;
 
   .title {
     font-size: 2.6rem;

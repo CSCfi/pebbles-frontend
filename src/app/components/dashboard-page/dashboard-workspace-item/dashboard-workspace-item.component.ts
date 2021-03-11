@@ -61,13 +61,13 @@ export class DashboardWorkspaceItemComponent implements OnInit {
 
   // ---- Manage Workspaces ---- //
 
-  openWorkspaceDetail(tab) {
+  openWorkspaceDetail(tab): void {
     this.router.navigateByUrl(
       `/dashboard/workspace-owner/detail/${this.workspace.id}`,
       { state: { label: tab } });
   }
 
-  openJoinCodeDialog() {
+  openJoinCodeDialog(): void {
     const dialogRef = this.dialog.open( DialogComponent, {
       width: '500px',
       data: {
@@ -83,6 +83,4 @@ export class DashboardWorkspaceItemComponent implements OnInit {
       // this.animal = result;
     });
   }
-
-
 }

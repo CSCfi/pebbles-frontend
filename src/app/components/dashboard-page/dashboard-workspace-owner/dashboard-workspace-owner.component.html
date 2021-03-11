@@ -1,25 +1,27 @@
 <app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
 
-<div class="workspace-actions-container">
-  <ng-container *ngIf="workspaces && workspaces.length === 0; else workspaceCreationBlock">
-    <button mat-flat-button class="inversion primary" aria-label="create demo workspace"
-      (click)="createDemoWorkspace()">
-      <mat-icon>add</mat-icon>
-      <span>Create demo workspace</span>
-    </button>
-  </ng-container>
-  <ng-template #workspaceCreationBlock>
-    <button mat-flat-button class="inversion primary" aria-label="create a new workspace"
-      (click)="openWorkspaceCreationDialog()">
-      <mat-icon class="spacer__r5">add</mat-icon>
-      <span>Create new workspace</span>
-    </button>
-  </ng-template>
-</div>
+<div class="content-container">
+  <div class="workspace-actions-container">
+    <ng-container *ngIf="workspaces && workspaces.length === 0; else workspaceCreationBlock">
+      <button mat-flat-button class="inversion primary" aria-label="create demo workspace"
+        (click)="createDemoWorkspace()">
+        <mat-icon>add</mat-icon>
+        <span>Create demo workspace</span>
+      </button>
+    </ng-container>
+    <ng-template #workspaceCreationBlock>
+      <button mat-flat-button class="inversion primary" aria-label="create a new workspace"
+        (click)="openWorkspaceCreationDialog()">
+        <mat-icon class="spacer__r5">add</mat-icon>
+        <span>Create new workspace</span>
+      </button>
+    </ng-template>
+  </div>
 
-<section class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-  <ng-container *ngFor="let workspace of workspaces">
-    <app-dashboard-workspace-item *ngIf="isOwner(workspace)" [workspace]="workspace" [content]="content">
-    </app-dashboard-workspace-item>
-  </ng-container>
-</section>
+  <section class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+    <ng-container *ngFor="let workspace of workspaces">
+      <app-dashboard-workspace-item *ngIf="isOwner(workspace)" [workspace]="workspace" [content]="content">
+      </app-dashboard-workspace-item>
+    </ng-container>
+  </section>
+</div>

@@ -1,27 +1,29 @@
 <ng-container *ngIf="this.isPage; else dialogBlock">
   <app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
-  <section class="workspace-join-input-form spacer__b10">
-    <form fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px" #formDirective="ngForm"
-      [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">
-      <mat-form-field appearance="outline" class="join-code-input" fxFlex="grow">
-        <mat-label>Enter join Code</mat-label>
-        <input matInput placeholder="Enter join code" formControlName="joinCode" />
-        <mat-error *ngIf="isJoinCodeValid"> [ngClass]="'error'">error</mat-error>
-      </mat-form-field>
-      <button mat-flat-button type="submit" class="primary inversion" fxFlex="0 0 220px">
-        <!-- Join Workspace -->
-        <mat-icon>add</mat-icon>
-        <span class="spacer__l10">Join workspace</span>
-      </button>
-    </form>
-  </section>
-  <section class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-    <ng-container *ngFor="let workspace of workspaces">
-      <app-dashboard-workspace-item [workspace]="workspace" [content]="content"
-        (fetchWorkspacesEvent)="fetchWorkspaces()">
-      </app-dashboard-workspace-item>
-    </ng-container>
-  </section>
+  <div class="content-container">
+    <section class="workspace-join-input-form spacer__b10">
+      <form fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px" #formDirective="ngForm"
+        [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">
+        <mat-form-field appearance="outline" class="join-code-input" fxFlex="grow">
+          <mat-label>Enter join Code</mat-label>
+          <input matInput placeholder="Enter join code" formControlName="joinCode" />
+          <mat-error *ngIf="isJoinCodeValid"> [ngClass]="'error'">error</mat-error>
+        </mat-form-field>
+        <button mat-flat-button type="submit" class="primary inversion" fxFlex="0 0 220px">
+          <!-- Join Workspace -->
+          <mat-icon>add</mat-icon>
+          <span class="spacer__l10">Join workspace</span>
+        </button>
+      </form>
+    </section>
+    <section class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+      <ng-container *ngFor="let workspace of workspaces">
+        <app-dashboard-workspace-item [workspace]="workspace" [content]="content"
+          (fetchWorkspacesEvent)="fetchWorkspaces()">
+        </app-dashboard-workspace-item>
+      </ng-container>
+    </section>
+  </div>
 </ng-container>
 <ng-template #dialogBlock>
   <div class="mat-typography dialog-container">
