@@ -32,7 +32,7 @@ import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/
 import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members/dashboard-workspace-members.component';
 import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folders/dashboard-workspace-folders.component';
 import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
-import {DashboardEnvironmentInstancesComponent} from './dashboard-environment-instances/dashboard-environment-instances.component';
+import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environments/dashboard-active-environments.component';
 // import { MessageComponent } from 'src/app/components/shared/message/message.component';
 
 @NgModule({
@@ -46,7 +46,7 @@ import {DashboardEnvironmentInstancesComponent} from './dashboard-environment-in
     DashboardMyWorkspacesComponent,
     DashboardWorkspaceOwnerComponent,
     DashboardAdminComponent,
-    DashboardEnvironmentInstancesComponent,
+    DashboardActiveEnvironmentsComponent,
     DashboardStatisticsComponent,
     DashboardHelpComponent,
     DashboardAccountComponent,

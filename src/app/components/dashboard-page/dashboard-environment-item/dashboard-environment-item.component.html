@@ -106,10 +106,10 @@
         <!-- Actionable circle -->
         <div class="actionable-circle-container v-centering__horizontal">
           <!--  Actionable Circle conditional UI
-          1. UI for active environment instance
+          1. UI for active active environment
           2. Launch Button for environment card -> #LaunchUI
           -->
-          <!-- 1: active environment instance -->
+          <!-- 1: active active environment -->
           <ng-container *ngIf="actionsVisible(); else LaunchUI">
             <!-- Switch UI based on the state of instance
               A. Shutdown -> 'deleting'||'deleted'
@@ -159,7 +159,7 @@
             </div>
             <!-- //// END of Switch -->
           </ng-container>
-          <!-- //// END of 1: active environment instance -->
+          <!-- //// END of 1: active active environment -->
           <!-- Action view 2 : Launch Button for environment card -->
           <ng-template #LaunchUI>
             <button mat-button matTooltip="Start environment" fxLayout="column" fxLayoutAlign="center center"

@@ -3,7 +3,7 @@
 <div class="environment-instances-container">
   <ng-container *ngIf="tableRowData.length > 0; else noInstances">
 
-    <!-- environment instances list -->
+    <!-- active environments list -->
     <table mat-table [dataSource]="dataSource">
 
       <!-- checkbox column -->
@@ -59,12 +59,12 @@
   <!-- No instances -->
   <ng-template #noInstances>
     <p *ngIf="lastUpdateTs === 0">...Loading...</p>
-    <p *ngIf="lastUpdateTs > 0">No instances</p>
+    <p *ngIf="lastUpdateTs > 0">No active environments</p>
   </ng-template>
 </div>
 
 <div>
   <button mat-flat-button (click)="deleteSelectedInstances()" [disabled]="selection.isEmpty()">
-    Delete selected instances
+    Stop selected environments
   </button>
 </div>

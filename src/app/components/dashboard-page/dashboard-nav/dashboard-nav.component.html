@@ -57,12 +57,12 @@
         </a>
       </li>
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/environment-instances'"
-      #tooltip="matTooltip" matTooltip="Environment instances" [matTooltipDisabled]="true">
+      #tooltip="matTooltip" matTooltip="Active environments" [matTooltipDisabled]="true">
         <a class="sidenav-link v-centering" [routerLink]="['/dashboard/environment-instances']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
           </div>
-          <div class="title" *ngIf="isTextVisible">Environment instances</div>
+          <div class="title" *ngIf="isTextVisible">Active environments</div>
         </a>
       </li>
     </ul>

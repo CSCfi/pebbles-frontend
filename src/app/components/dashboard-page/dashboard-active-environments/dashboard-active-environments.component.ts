@@ -19,14 +19,14 @@ export interface InstanceTableRow {
 
 @Component({
   selector: 'app-dashboard-environment-instances',
-  templateUrl: './dashboard-environment-instances.component.html',
-  styleUrls: ['./dashboard-environment-instances.component.scss']
+  templateUrl: './dashboard-active-environments.component.html',
+  styleUrls: ['./dashboard-active-environments.component.scss']
 })
-export class DashboardEnvironmentInstancesComponent implements OnInit, OnDestroy {
+export class DashboardActiveEnvironmentsComponent implements OnInit, OnDestroy {
 
   public content = {
     path: 'environment-instances',
-    title: 'Environment instances',
+    title: 'Active environments',
     identifier: 'environment-instances'
   };
 

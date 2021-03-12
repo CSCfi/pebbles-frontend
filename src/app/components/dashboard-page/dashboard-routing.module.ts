@@ -12,7 +12,7 @@ import { DashboardHelpComponent } from './dashboard-help/dashboard-help.componen
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-statistics.component';
 import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
-import {DashboardEnvironmentInstancesComponent} from './dashboard-environment-instances/dashboard-environment-instances.component';
+import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environments/dashboard-active-environments.component';
 
 export const routes: Routes = [
   {
@@ -49,7 +49,7 @@ export const routes: Routes = [
       },
 
       {
-        path: 'environment-instances', component: DashboardEnvironmentInstancesComponent,
+        path: 'environment-instances', component: DashboardActiveEnvironmentsComponent,
         data: { breadcrumbs: ['home', 'environment-instances'] }
       },
       {

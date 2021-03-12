@@ -1,12 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {DashboardEnvironmentInstancesComponent} from './dashboard-environment-instances.component';
+import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environments.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-describe('DashboardEnvironmentInstancesComponent', () => {
-  let component: DashboardEnvironmentInstancesComponent;
-  let fixture: ComponentFixture<DashboardEnvironmentInstancesComponent>;
+describe('DashboardActiveEnvironmentsComponent', () => {
+  let component: DashboardActiveEnvironmentsComponent;
+  let fixture: ComponentFixture<DashboardActiveEnvironmentsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,14 +15,14 @@ describe('DashboardEnvironmentInstancesComponent', () => {
         RouterTestingModule,
       ],
       declarations: [
-        DashboardEnvironmentInstancesComponent,
+        DashboardActiveEnvironmentsComponent,
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardEnvironmentInstancesComponent);
+    fixture = TestBed.createComponent(DashboardActiveEnvironmentsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
