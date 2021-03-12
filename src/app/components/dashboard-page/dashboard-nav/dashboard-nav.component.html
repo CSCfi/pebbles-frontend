@@ -56,9 +56,9 @@
           <div class="title" *ngIf="isTextVisible">Manage workspaces</div>
         </a>
       </li>
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/environment-instances'"
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/dashboard/active-environments'"
       #tooltip="matTooltip" matTooltip="Active environments" [matTooltipDisabled]="true">
-        <a class="sidenav-link v-centering" [routerLink]="['/dashboard/environment-instances']">
+        <a class="sidenav-link v-centering" [routerLink]="['/dashboard/active-environments']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
           </div>

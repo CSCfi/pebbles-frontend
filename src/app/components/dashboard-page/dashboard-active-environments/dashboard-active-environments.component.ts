@@ -18,16 +18,16 @@ export interface InstanceTableRow {
 }
 
 @Component({
-  selector: 'app-dashboard-environment-instances',
+  selector: 'app-dashboard-active-environments',
   templateUrl: './dashboard-active-environments.component.html',
   styleUrls: ['./dashboard-active-environments.component.scss']
 })
 export class DashboardActiveEnvironmentsComponent implements OnInit, OnDestroy {
 
   public content = {
-    path: 'environment-instances',
+    path: 'active-environments',
     title: 'Active environments',
-    identifier: 'environment-instances'
+    identifier: 'active-environments'
   };
 
   displayedColumns: string[] = [

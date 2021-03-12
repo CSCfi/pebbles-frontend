@@ -49,8 +49,8 @@ export const routes: Routes = [
       },
 
       {
-        path: 'environment-instances', component: DashboardActiveEnvironmentsComponent,
-        data: { breadcrumbs: ['home', 'environment-instances'] }
+        path: 'active-environments', component: DashboardActiveEnvironmentsComponent,
+        data: { breadcrumbs: ['home', 'active-environments'] }
       },
       {
         path: 'admin', component: DashboardAdminComponent,
