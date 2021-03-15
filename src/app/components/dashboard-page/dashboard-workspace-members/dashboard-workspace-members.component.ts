@@ -41,17 +41,38 @@ export class DashboardWorkspaceMembersComponent implements OnInit {
   fetchMembers(): void {
     this.workspaceService.fetchMembersByWorkspaceId(this.workspaceId).subscribe((resp) => {
       console.log('members in the workspace fetched');
-      this.tableList = resp.map((member, i) => {
-        // ---- authority(+ icon) is for now 'end user'
-        // ---- To get value of this, we need to have a logic to detect 'workspace-manager' later.
-        return {
+      const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
+      const ownerKey = workspaceUserKeys.shift();
+      this.tableList.push({
           select: false,
-          index: i,
+          index: this.tableList.length,
           icon: 'account_circle',
-          authority: 'end user',
-          email: member.eppn,
-        };
+          authority: ownerKey,
+          email: resp[ownerKey].eppn,
+          });
+      const managerKey = workspaceUserKeys.shift();
+      resp[managerKey].forEach((member, index) => {
+        if (member.eppn !== resp[ownerKey].eppn) {
+          this.tableList.push({
+              select: false,
+              index: this.tableList.length,
+              icon: 'account_circle',
+              authority: managerKey,
+              email: member.eppn,
+              });
+        }
       });
+      for (const key of workspaceUserKeys) {
+        resp[key].forEach((member, index) => {
+        this.tableList.push({
+            select: false,
+            index: this.tableList.length,
+            icon: 'account_circle',
+            authority: key,
+            email: member.eppn,
+            });
+        });
+      }
       this.dataSource = new MatTableDataSource(this.tableList);
     });
   }

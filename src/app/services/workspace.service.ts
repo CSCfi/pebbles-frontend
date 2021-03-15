@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
+import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
 import { Folder } from 'src/app/models/folder';
 import * as TESTDATA from 'src/app/interceptors/test-data';
 import { buildConfiguration } from '../../environments/environment';
@@ -67,9 +68,9 @@ export class WorkspaceService {
     );
   }
 
-  fetchMembersByWorkspaceId(workspaceId: string): Observable<User[]> {
+  fetchMembersByWorkspaceId(workspaceId: string): Observable<WorkspaceUserList> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users`;
-    return this.http.get<User[]>(url).pipe(
+    return this.http.get<WorkspaceUserList>(url).pipe(
       map((resp) => {
         console.log('fetchMembersByWorkspaceId() got', resp);
         return resp;
