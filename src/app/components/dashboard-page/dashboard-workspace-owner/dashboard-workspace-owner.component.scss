@@ -24,6 +24,13 @@
     .workspace-list {
       max-width: 400px !important;
 
+      .mat-badge-content{
+        font-weight: 500;
+        width: 25px;
+        font-size: 0.9rem;
+        color: white;
+      }
+
       .workspace-widget {
         // background-color: map-get($colors, light-gray);
         // color: map-get($colors, white);
@@ -31,6 +38,10 @@
         font-weight: 600;
         border-left: 8px solid map-get($colors, white);
         cursor: pointer;
+
+        .card-media {
+          margin: -16px 0px -16px -16px !important;
+        }
 
         &.selected {
           border-left: 8px solid map-get($colors, accent);
@@ -45,21 +56,11 @@
 
 .workspace-detail-container {
   height: 100%;
-  // padding: 20px 15px 20px 15px;
   position: relative;
-  // background-color: map-get($colors, light2);
   border-top: 1px solid map-get($colors, light);
   border-left: 1px solid map-get($colors, light);
 
   .workspace-detail{
     min-height: 100%;
   }
-}
-
-.card-media {
-  margin: -16px 0px -16px -16px !important;
-}
-
-.mat-card-header {
-  font-size: 1.6rem !important;
 }

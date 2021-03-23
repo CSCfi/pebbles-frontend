@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Workspace } from 'src/app/models/workspace';
@@ -11,28 +12,41 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 })
 export class DashboardWorkspaceFormComponent implements OnInit {
 
-  workspaceCreationFormGroup: FormGroup;
+  workspaceForm: FormGroup;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
     private formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<DashboardWorkspaceFormComponent>,
+    private workspaceService: WorkspaceService,
     @Inject(MAT_DIALOG_DATA) public data: {
       isCreationMode: boolean,
       workspace?: Workspace,
-    },
-    public dialogRef: MatDialogRef<DashboardWorkspaceFormComponent>,
-    private workspaceService: WorkspaceService,
+    }
   ) {
   }
 
   ngOnInit(): void {
-    this.workspaceCreationFormGroup = this.formBuilder.group({
+    this.setReactiveForm();
+    if (!this.data.isCreationMode) {
+      this.workspaceForm.controls.name.setValue(this.data.workspace.name);
+      this.workspaceForm.controls.description.setValue(this.data.workspace.description);
+    }
+  }
+
+  setReactiveForm() {
+    this.workspaceForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
     });
-    if (!this.data.isCreationMode) {
-      this.workspaceCreationFormGroup.controls.name.setValue(this.data.workspace.name);
-      this.workspaceCreationFormGroup.controls.description.setValue(this.data.workspace.description);
-    }
+  }
+
+  public errorHandling = (control: string, error: string) => {
+    return this.workspaceForm.controls[control].hasError(error);
+  }
+
+  submitForm() {
+    console.log(this.workspaceForm.value);
   }
 
   closeForm(): void {
@@ -47,22 +61,20 @@ export class DashboardWorkspaceFormComponent implements OnInit {
 
   createWorkspace(): void {
     this.workspaceService.createWorkspace(
-      this.workspaceCreationFormGroup.controls.name.value,
-      this.workspaceCreationFormGroup.controls.description.value
-    ).subscribe(_ => {
-      console.log('created new workspace');
-      this.closeForm();
-      this.fetchWorkspaces();
+      this.workspaceForm.controls.name.value,
+      this.workspaceForm.controls.description.value
+    ).subscribe(resp => {
+      this.dialogRef.close(resp);
     });
   }
 
   updateWorkspace(): void {
-    this.data.workspace.name = this.workspaceCreationFormGroup.controls.name.value;
-    this.data.workspace.description = this.workspaceCreationFormGroup.controls.description.value;
+    this.data.workspace.name = this.workspaceForm.controls.name.value;
+    this.data.workspace.description = this.workspaceForm.controls.description.value;
 
-    this.workspaceService.updateWorkspace(this.data.workspace).subscribe( _ => {
+    this.workspaceService.updateWorkspace(this.data.workspace).subscribe(resp => {
       console.log('updated workspace');
-      this.closeForm();
+      this.dialogRef.close(resp);
       this.fetchWorkspaces();
     });
   }

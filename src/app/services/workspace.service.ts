@@ -31,9 +31,9 @@ export class WorkspaceService {
   joinWorkspace(joinCode: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
-      tap( res => {
-        console.log(`joined workspace "${res.name}" with code ${joinCode}`);
-        return res;
+      tap( resp => {
+        console.log(`joined workspace "${resp.name}" with code ${joinCode}`);
+        return resp;
       })
     );
   }
@@ -52,7 +52,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
-        console.log('fetchWorkspaces() got', resp);
+        // console.log('fetchWorkspaces() got', resp);
         for (const ws of resp) {
           // make life easier by making some empty defaults if necessary
           if (!ws.member_eppns) {
@@ -62,7 +62,7 @@ export class WorkspaceService {
             ws.manager_eppns = [];
           }
         }
-        this.workspaces = resp;
+        this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
         return this.workspaces;
       })
     );

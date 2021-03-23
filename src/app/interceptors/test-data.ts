@@ -382,6 +382,8 @@ export let db = {
       name: 'System.default',
       join_code: 'admin-ws-join-parm0-wuuig',
       description: 'System default workspace',
+      create_ts: 1616572104,
+      expiry_ts: 1632124104,
       owner_eppn: 'admin@example.org',
       member_eppns: [
         'admin@example.org',
@@ -404,6 +406,8 @@ export let db = {
       name: 'Python Basic Course 2021',
       join_code: 'admin-ws-join-parm0-wuuig',
       description: 'Jupyter Lab environments for Python Basic Course 2021',
+      create_ts: 1616572105,
+      expiry_ts: 1632124105,
       owner_eppn: 'admin@example.org',
       member_eppns: [
         'manager-1@example.org',
@@ -417,6 +421,8 @@ export let db = {
       name: 'R Basic Course 2021',
       join_code: 'admin-ws-join-parm1-wuuig',
       description: 'R-studio environments for R basic Course 2021',
+      create_ts: 1616572106,
+      expiry_ts: 1632124106,
       owner_eppn: 'admin@example.org',
       member_eppns: ['co-owner@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
     },
@@ -425,6 +431,8 @@ export let db = {
       name: 'Deep Learning Course 2020',
       join_code: 'admin-ws-join-parm2-wuuig',
       description: 'Jupyter Lab environments for Deep Learning Course 2020',
+      create_ts: 1616572107,
+      expiry_ts: 1632124107,
       owner_eppn: 'admin-1@example.org',
       member_eppns: ['manager-1@example.org', 'admin@example.org', 'user@example.org', 'user-2@example.org', 'user-3@example.org']
     },
@@ -433,6 +441,8 @@ export let db = {
       name: 'Machine Learning Course 2019',
       join_code: 'admin-ws-join-parm3-wuuig',
       description: 'R-studio environments for Machine Learning Course 2019',
+      create_ts: 1616572108,
+      expiry_ts: 1632124108,
       owner_eppn: 'admin-1@example.org',
       member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
@@ -441,6 +451,8 @@ export let db = {
       name: 'Data Science course 2021',
       join_code: 'admin-ws-join-parm4-wuuig',
       description: 'R-studio environments for Data Science course 2021',
+      create_ts: 1616572109,
+      expiry_ts: 1632124109,
       owner_eppn: 'admin@example.org',
       member_eppns: ['owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
@@ -449,6 +461,8 @@ export let db = {
       name: 'Data Analytics Seminar',
       join_code: 'admin-ws-join-parm5-wuuig',
       description: 'R-studio environments for Data Analytics Seminar, CSC university',
+      create_ts: 1616572114,
+      expiry_ts: 1632124114,
       owner_eppn: 'owner@example.org',
       member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
@@ -457,6 +471,8 @@ export let db = {
       name: 'NLP Project',
       join_code: 'admin-ws-join-parm6-wuuig',
       description: 'IPython environments for NLP Project of Computer Engineering Department, CSC university',
+      create_ts: 1616572115,
+      expiry_ts: 1632124115,
       owner_eppn: 'owner-1@example.org',
       member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
     }

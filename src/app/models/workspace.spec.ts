@@ -7,7 +7,9 @@ describe('Workspace', () => {
       '12345678',
       'DL Course 2021',
       'descriptions.....',
-      'admin@test.org'
+      1616572104,
+      1632124104,
+      'admin@test.org',
       )).toBeTruthy();
   });
 });

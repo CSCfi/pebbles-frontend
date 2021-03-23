@@ -27,7 +27,7 @@ export class MockInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // unpack request to helper variables
-    const {method, headers, body} = req;
+    const { method, headers, body } = req;
     let url = null;
     let args = null;
     console.log(req);
@@ -134,7 +134,7 @@ export class MockInterceptor implements HttpInterceptor {
     // route functions
 
     function authenticate() {
-      const {eppn, password} = body;
+      const { eppn, password } = body;
       const users = database.users;
       const user = users.find(x => x.eppn === eppn && x.password === password);
       if (!user) {
@@ -200,7 +200,7 @@ export class MockInterceptor implements HttpInterceptor {
         }
         // assign an endpoint to instance that is starting
         if (instance.state === 'starting') {
-          instance.instance_data = {endpoints: [{access: 'assets/images/jupyter_example_content.png'}]};
+          instance.instance_data = { endpoints: [{ access: 'assets/images/jupyter_example_content.png' }] };
         }
 
         // assign a helper attribute for delaying state transitions
@@ -300,7 +300,7 @@ export class MockInterceptor implements HttpInterceptor {
 
     function createInstance() {
 
-      const {environment: envId} = body;
+      const { environment: envId } = body;
       const environment = database.environments.find(env => env.id === envId);
 
       // check if the environment exists
@@ -348,13 +348,18 @@ export class MockInterceptor implements HttpInterceptor {
 
     function createWorkspace() {
       const workspaceId = Math.random().toString(36).substring(2, 8);
+      const currentDate = new Date();
+      const createTs = Math.floor(currentDate.getTime() / 1000);
+      const expiryTs = Math.floor(currentDate.setMonth(currentDate.getMonth() + 3) / 1000);
 
       const workspace = new Workspace(
         workspaceId,
         body.name + '-12345',
         body.name,
         body.description,
-        userName,
+        createTs,
+        expiryTs,
+        userName
       );
 
       database.workspaces.push(workspace);
@@ -479,16 +484,16 @@ export class MockInterceptor implements HttpInterceptor {
 
     function ok(reqBody?) {
       saveDatabase();
-      return of(new HttpResponse({status: 200, body: reqBody}));
+      return of(new HttpResponse({ status: 200, body: reqBody }));
     }
 
     function error(message) {
       saveDatabase();
-      return throwError({error: {message}});
+      return throwError({ error: { message } });
     }
 
     function unauthorized() {
-      return throwError(new HttpErrorResponse({status: 401, error: {message: 'Unauthorised'}}));
+      return throwError(new HttpErrorResponse({ status: 401, error: { message: 'Unauthorised' } }));
     }
 
     function isLoggedIn() {
@@ -563,7 +568,7 @@ export class MockInterceptor implements HttpInterceptor {
           result.push(instance);
         }
         // pick instances for other users, if the user owns the workspace
-        else if (ownedWorkspaceIds.indexOf(instanceEnvironment.workspace_id) >= 0){
+        else if (ownedWorkspaceIds.indexOf(instanceEnvironment.workspace_id) >= 0) {
           result.push(instance);
         }
       }

@@ -1,41 +1,64 @@
-<form [formGroup]="workspaceCreationFormGroup">
+<form [formGroup]="workspaceForm" novalidate>
   <ng-container *ngIf="data.isCreationMode;else editMode">
-    <h2>Create New Workspace</h2>
-    <div class="instruction">
-      <span class="material-icons"> help_outline </span>
+    <h2 class="form-title">Create new workspace</h2>
+    <div class="instruction spacer__b30" fxLayout="row" fxLayoutGap="20px">
+      <div class="form-help-icon" fxFlex="0 0 100px">
+        <mat-icon>help_outline</mat-icon>
+      </div>
       <div class="instruction-text">
-        <h3 class="question"> What is the workspace ? </h3>
-        <p class="answer">
-          Explanations Explanations Explanations Explanations Explanations Explanations Explanations Explanations
-          Explanations Explanations
-        </p>
+        <h3 class="question">What is Workspace?</h3>
+        <div class="answer">
+          "Workspace" is the virtual space where you can share customized competing environments and materials with
+          students or collaborators.
+          User can join your Workspace with the shared "Join Code".
+        </div>
+        <div class="warning spacer__t20">
+          <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
+          Note: Each Workspace is valid for 6 months.
+        </div>
       </div>
     </div>
   </ng-container>
   <ng-template #editMode>
     <h2>Edit Workspace</h2>
   </ng-template>
-  <div class="plain-form-container">
+  <div class="form-container" fxLayout="column" fxLayoutAlign="start stretch">
     <!-- Name -->
-    <mat-form-field appearance="fill">
-      <mat-label>New workspace name</mat-label>
-      <input matInput formControlName="name">
+    <mat-form-field appearance="outline">
+      <mat-label>Set name for your workspace</mat-label>
+      <input matInput formControlName="name" placeholder="Workspace name">
+      <!-- <mat-hint>Ex) Machine Learning Basis A</mat-hint> -->
+      <mat-error *ngIf="errorHandling('name', 'required')">
+        You must provide a <strong>workspace name</strong>
+      </mat-error>
     </mat-form-field>
-    <br>
     <!-- Description-->
-    <mat-form-field appearance="fill">
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description"></textarea>
+    <mat-form-field appearance="outline">
+      <mat-label>Describe about your workspace</mat-label>
+      <textarea matInput formControlName="description" placeholder="Workspace description"></textarea>
+      <!-- error -->
+      <mat-error *ngIf="errorHandling('description', 'required')">
+        You must provide a <strong>description about workspace</strong>
+      </mat-error>
+      <!-- <mat-hint>Ex) </mat-hint> -->
     </mat-form-field>
     <!-- Submit -->
-    <div class="button-row">
+    <div class="button-row" fxLayout="row">
       <ng-container *ngIf="data.isCreationMode;else updateButton">
-        <button class="submit-button" mat-flat-button color="primary" (click)="createWorkspace()">Create</button>
+        <button mat-flat-button color="primary" class="submit-button" fxFlex="grow"
+          [disabled]="!workspaceForm.valid"
+          (click)="createWorkspace()">
+          Create
+        </button>
       </ng-container>
       <ng-template #updateButton>
-        <button class="submit-button" mat-flat-button color="primary" (click)="updateWorkspace()">Update</button>
+        <button mat-flat-button color="primary" class="submit-button" fxFlex="grow"
+          [disabled]="!workspaceForm.valid"
+          (click)="updateWorkspace()">
+          Update
+        </button>
       </ng-template>
-      <button class="cancel-button" mat-flat-button (click)="closeForm()">Cancel</button>
+      <button class="cancel-button" mat-flat-button (click)="closeForm()" fxFlex="0 0 100px">Cancel</button>
     </div>
   </div>
 </form>

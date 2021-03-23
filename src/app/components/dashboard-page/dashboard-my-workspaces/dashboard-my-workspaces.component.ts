@@ -56,11 +56,11 @@ export class DashboardMyWorkspacesComponent implements OnInit {
   }
 
   joinWorkspace(formDirective): void {
-    this.workspaceService.joinWorkspace(this.joinCode).subscribe((res) => {
+    this.workspaceService.joinWorkspace(this.joinCode).subscribe((resp) => {
       formDirective.resetForm(); // ---- MEMO: To avoid validation error message
       this.joinWorkspaceForm.reset();
+      this.newWorkspace = resp;
       this.fetchWorkspaces();
-      this.newWorkspace = res;
       this.environmentService.fetchEnvironments().subscribe();
     });
   }
