@@ -182,8 +182,6 @@ section.card {
 }
 
 .label-list-sm{
-  margin-bottom: 20px;
-
   .mat-chip{
     padding: 5px 12px 7px !important;
     margin-right: 0;
@@ -192,6 +190,16 @@ section.card {
     color: map-get($colors, dark);
     font-weight: 600;
   }
+}
+
+.mat-chip-sm {
+  border-radius: 15px;
+  padding: 2px 12px 0px!important;
+  margin-right: 0;
+  font-size: 1.1rem;
+  min-height: 22px;
+  color: map-get($colors, dark);
+  font-weight: 600;
 }
 
 .inline-centering{
@@ -459,3 +467,43 @@ button.button-s {
   }
 }
 
+// ---- z-index
+
+.hero-shots {
+  z-index: 200;
+}
+
+.login-wrapper {
+  z-index: 300;
+}
+
+.mat-sidenav-container {
+  z-index: 100;
+}
+
+.app-dashboard-content-header{
+  display: block;
+  z-index: 2;
+}
+
+.workspace-owner-content-wrapper {
+  z-index: auto;
+
+  .workspace-list-container {
+    z-index: 2;
+  }
+
+  .workspace-detail-container {
+    display: block;
+    z-index: auto;
+  }
+}
+
+.circle-button {
+  z-index: 1000;
+}
+
+.open-button,
+.shutdown-button {
+  z-index: 2000;
+}

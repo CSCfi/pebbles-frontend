@@ -53,7 +53,7 @@
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
-            <div class="label-list-sm" *ngIf="selectedCatalog.labels.length > 0; else elseBlock">
+            <div class="label-list-sm spacer__b20" *ngIf="selectedCatalog.labels.length > 0; else elseBlock">
               Filtered by :
               <span *ngFor="let label of selectedCatalog.labels">
                 <mat-chip color="primary">{{ label }}</mat-chip>
@@ -64,7 +64,7 @@
             </ng-template>
             <div class="environment-item-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
               <ng-container *ngFor="let environment of filterEnvironmentsByLabels(selectedCatalog.labels, 'any')">
-                <app-dashboard-environment-item class="environment-item" [environment]=environment [content]=content>
+                <app-dashboard-environment-item class="environment-item" [environment]="environment" [content]="content">
                 </app-dashboard-environment-item>
               </ng-container>
             </div>

@@ -21,6 +21,9 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
     identifier: 'workspace-owner'
   };
 
+  selectedWorkspaceId: string;
+  selectedWorkspace: Workspace;
+
   get workspaces(): Workspace[] {
     return this.workspaceService.getWorkspaces();
   }
@@ -42,11 +45,21 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
   fetchWorkspaces(): void {
     this.workspaceService.fetchWorkspaces().subscribe((resp) => {
       console.log('workspaces fetched');
+      if (!this.selectedWorkspaceId) {
+        this.selectedWorkspaceId = this.workspaces[0].id;
+      }
+      this.getWorkspaceItem(this.selectedWorkspaceId);
     });
   }
 
   isOwner(workspace: Workspace): boolean {
     return workspace.owner_eppn === this.authService.getUserName();
+  }
+
+  getWorkspaceItem(workspaceId: string): void {
+    this.selectedWorkspaceId = workspaceId;
+    this.selectedWorkspace = this.workspaceService.getWorkspace(this.selectedWorkspaceId);
+    console.log( this.selectedWorkspace);
   }
 
   openWorkspaceCreationDialog(): void {

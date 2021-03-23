@@ -1,13 +1,5 @@
-<ng-container *ngIf="content" [ngSwitch]="content.path">
-
-  <!-- There are 2 type of "workspace view" depended on each mode :
-    1.my-workspace mode
-    2.owner-workspace (manage workspace) mode
-  -->
-
-  <!-- 1.'my-workspace' mode: Workspace item template for End-user -->
-  <mat-card class="my-workspaces" fxLayout="row" fxLayoutAlign="space-between stretch"
-  *ngSwitchCase="'my-workspaces'">
+<ng-container *ngIf="content">
+  <mat-card class="my-workspaces" fxLayout="row" fxLayoutAlign="space-between stretch">
     <div class="card-media v-centering__horizontal" fxFlex="0 0 80px">
       <div class="thumbnail">
         <mat-icon>people_outline</mat-icon>
@@ -43,71 +35,6 @@
       <button mat-flat-button aria-label="workspace delete" class="full__h inversion light-gray"
         matTooltip="Leave Workspace" (click)="exitWorkspace()">
         <mat-icon>logout</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-  <!-- //*ngSwitchCase="'my-workspaces'" -->
-
-  <!-- 2.'owner-workspace' mode: Workspace item template for Workspace-owner -->
-  <mat-card *ngSwitchDefault class="workspace-owner" fxLayout="row" fxLayoutAlign="space-between stretch">
-    <div class="card-media v-centering__horizontal" fxFlex="0 0 80px">
-      <div class="thumbnail">
-        <mat-icon>people_outline</mat-icon>
-      </div>
-    </div>
-    <div class="card-info" fxFlex="grow">
-      <mat-card-header>
-        <mat-card-title>
-          {{ workspace.name }}
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="workspace-description spacer__b20 spacer__t10" [innerHTML]="workspace.description"></div>
-        <div class="workspace-info-container" fxLayout="row wrap" fxLayoutAlign="space-between stretch">
-
-          <div class="info join-code-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px"
-            fxLayoutAlign="start stretch" (click)="openJoinCodeDialog()">
-            <span>Join code</span>
-            <mat-icon>vpn_key</mat-icon>
-            <mat-chip-list class="label-list-sm">
-              <mat-chip (click)="openJoinCodeDialog()"> ●●●●●●● </mat-chip>
-            </mat-chip-list>
-          </div>
-
-          <div class="info environment-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px"
-            fxLayoutAlign="start stretch" (click)="openWorkspaceDetail('environments')">
-            <span>Environments</span>
-            <mat-icon class="material-icons-outlined">book</mat-icon>
-            <mat-chip-list class="label-list-sm">
-              <mat-chip>{{ environments.length }}</mat-chip>
-            </mat-chip-list>
-          </div>
-
-          <div class="info member-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutGap="5px"
-            fxLayoutAlign="start stretch" (click)="openWorkspaceDetail('members')">
-            <span>Members</span>
-            <mat-icon>person_outline</mat-icon>
-            <mat-chip-list class="label-list-sm">
-              <mat-chip>{{ workspace.member_eppns.length }}</mat-chip>
-            </mat-chip-list>
-          </div>
-          <!-- Share folder will be introduced in a future -->
-          <!-- <div class="info file-info">
-            <mat-icon class="m-r" fontSet="material-icons-outlined">folder</mat-icon>
-            <mat-chip-list>
-              <mat-chip color="accent">320M</mat-chip>
-            </mat-chip-list>
-            Shared Folder
-          </div> -->
-        </div>
-      </mat-card-content>
-    </div>
-    <!-- //card-info -->
-    <mat-card-actions class="card-actions v-centering__horizontal" fxFlex="0 0 80px">
-      <button mat-flat-button aria-label="workspace manager" class="full__h inversion light-gray"
-        *ngIf="workspace.name !== 'System.default'" matTooltip="Open workspace manager"
-        (click)="openWorkspaceDetail('')">
-        <mat-icon>settings</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>

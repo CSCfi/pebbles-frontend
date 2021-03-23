@@ -1,0 +1,90 @@
+<ng-container *ngIf="workspace">
+  <div class="workspace-detail-container">
+    <div class="workspace-detail-header" fxLayout="row" fxLayoutGap="20px">
+      <div class="workspace-name v-centering__inline" fxFlex="grow">
+        <mat-icon class="spacer__r5">navigate_next</mat-icon>
+        <mat-icon class="spacer__r5">people_outline</mat-icon>
+        {{ workspace.name || 'no name' }}
+      </div>
+      <div class="workspace-info" fxLayout="row" fxLayoutGap="20px">
+        <div class="join-code-info">
+          <span class="function-title v-centering__inline">Join code</span>
+          <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
+            <mat-icon class="spacer__r5">vpn_key</mat-icon>
+            <mat-chip class="mat-chip-sm">● ● ● ● ● ● ●</mat-chip>
+          </div>
+        </div>
+        <div class="expiration-date-info">
+          <span class="function-title v-centering__inline">Expiring by</span>
+          <span class="expiration-date v-centering__inline">2021-08-04</span>
+        </div>
+      </div>
+    </div>
+    <!-- //// workspace-detail-header  -->
+
+    <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="spacer__r5">Environments</span>
+          <mat-chip class="mat-chip-sm">10</mat-chip>
+        </ng-template>
+        <div class="environment-actions"
+        fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+          <!-- <button mat-flat-button class="open-environment-creation-wizard-button inversion primary"
+            aria-label="create a new environment" (click)="openEnvironmentCreationDialog('wizard')">
+            <mat-icon class="spacer__r10">auto_awesome</mat-icon>
+            <span>create new environment by wizard</span>
+          </button> -->
+          <!-- <a class="open-environment-creation-form-button spacer__t10" aria-label="create a new environment"
+            (click)="openEnvironmentCreationDialog('plain')">
+            <mat-icon class="spacer__r5">add</mat-icon>
+            <span>create new environment by form</span>
+          </a> -->
+        </div>
+        <div class="environments">
+          <!-- <app-dashboard-workspace-environments [workspace]="workspace"></app-dashboard-workspace-environments> -->
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="spacer__r5">Members</span>
+          <mat-chip class="mat-chip-sm">10</mat-chip>
+        </ng-template>
+        <!-- <app-dashboard-workspace-members [workspace]="workspace"></app-dashboard-workspace-members> -->
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="spacer__r5">
+            Profile
+          </span>
+          <mat-icon>settings</mat-icon>
+        </ng-template>
+        <!-- <div class="workspace-actions">
+           <button mat-fab color="primary" aria-label="Edit workspace" class="inversion primary shadow-s"
+            matTooltip="Edit workspace" (click)="openEditWorkspaceDialog()">
+            <mat-icon class="spacer__l10">create</mat-icon>
+          </button>
+          <button mat-fab color="primary" aria-label="Delete workspace" class="inversion primary shadow-s"
+            matTooltip="Delete workspace" (click)="openDeleteWorkspaceDialog()">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div> -->
+        <dl class="workspace-info spacer__t20">
+          <dt>Workspace name</dt>
+          <dd>{{ workspace.name || 'no name' }}</dd>
+          <dt>Workspace description</dt>
+          <dd>{{ workspace.description || 'no description' }}</dd>
+          <dt>Join code</dt>
+          <dd>{{ workspace.join_code }}</dd>
+          <dt>Created at</dt>
+          <dd>2021-08-04</dd>
+          <dt>Expiration Date</dt>
+          <dd>2021-08-04</dd>
+        </dl>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</ng-container>

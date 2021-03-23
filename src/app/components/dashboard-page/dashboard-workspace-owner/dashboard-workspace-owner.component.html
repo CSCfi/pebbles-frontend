@@ -1,27 +1,43 @@
-<app-dashboard-content-header [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
+<app-dashboard-content-header class="app-dashboard-content-header" [content]="content" [isSearchOn]="false">
+</app-dashboard-content-header>
 
-<div class="content-container">
-  <div class="workspace-actions-container">
-    <ng-container *ngIf="workspaces && workspaces.length === 0; else workspaceCreationBlock">
-      <button mat-flat-button class="inversion primary" aria-label="create demo workspace"
-        (click)="createDemoWorkspace()">
-        <mat-icon>add</mat-icon>
-        <span>Create demo workspace</span>
-      </button>
-    </ng-container>
-    <ng-template #workspaceCreationBlock>
-      <button mat-flat-button class="inversion primary" aria-label="create a new workspace"
-        (click)="openWorkspaceCreationDialog()">
-        <mat-icon class="spacer__r5">add</mat-icon>
-        <span>Create new workspace</span>
-      </button>
-    </ng-template>
+<div class="workspace-owner-content-wrapper">
+  <!-- Left Column : Workspace -->
+  <div class="workspace-list-container" fxFlex="0 0 300px" fxLayout="column" fxLayoutGap="10px">
+    <div class="workspaces-actions-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <ng-container *ngIf="workspaces && workspaces.length === 0; else workspaceCreationBlock">
+        <button mat-flat-button class="create-demo-workspace-button inversion primary"
+          aria-label="create demo workspace" (click)="createDemoWorkspace()">
+          <mat-icon>add</mat-icon>
+          <span>Create demo workspace</span>
+        </button>
+      </ng-container>
+      <ng-template #workspaceCreationBlock>
+        <button mat-flat-button class="create-workspace-button inversion primary" aria-label="create a new workspace"
+          (click)="openWorkspaceCreationDialog()">
+          <mat-icon class="spacer__r5">add</mat-icon>
+          <span>Create workspace</span>
+        </button>
+      </ng-template>
+    </div>
+    <div class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <ng-container *ngFor="let workspace of workspaces">
+        <mat-card fxLayout="row" fxLayoutAlign="space-between stretch" class="workspace-widget"
+          [ngClass]="{ 'selected': workspace.id === selectedWorkspaceId }" (click)="getWorkspaceItem(workspace.id)">
+          <div class="card-media v-centering__horizontal" fxFlex="0 0 45px">
+            <mat-icon>people_outline</mat-icon>
+          </div>
+          <mat-card-content class="card-info" fxFlex="grow">
+            {{ workspace.name }}
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+    </div>
   </div>
 
-  <section class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-    <ng-container *ngFor="let workspace of workspaces">
-      <app-dashboard-workspace-item *ngIf="isOwner(workspace)" [workspace]="workspace" [content]="content">
-      </app-dashboard-workspace-item>
-    </ng-container>
-  </section>
+  <!-- Right Column : Workspace -->
+  <div class="workspace-detail-container" fxFlex="grow">
+    <app-dashboard-workspace-item-detail [workspace]="selectedWorkspace" class="app-dashboard-workspace-item-detail">
+    </app-dashboard-workspace-item-detail>
+  </div>
 </div>

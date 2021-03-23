@@ -7,32 +7,34 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from 'src/app/components/shared/shared.module';
-// ---- Components
+// ---- structural components
 import { DashboardPageComponent } from './dashboard-page.component';
 import { DashboardContentHeaderComponent } from './dashboard-content-header/dashboard-content-header.component';
 import { DashboardFooterComponent } from './dashboard-footer/dashboard-footer.component';
 import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
-
+// ---- content component
 import { DashboardCatalogComponent } from './dashboard-catalog/dashboard-catalog.component';
+import { DashboardMyWorkspacesComponent } from './dashboard-my-workspaces/dashboard-my-workspaces.component';
+import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/dashboard-workspace-owner.component';
+import { DashboardActiveEnvironmentsComponent } from './dashboard-active-environments/dashboard-active-environments.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
 import { DashboardAnnouncementComponent } from './dashboard-announcement/dashboard-announcement.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-statistics.component';
 import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
-
+// ---- environment parts component
 import { DashboardEnvironmentItemComponent } from './dashboard-environment-item/dashboard-environment-item.component';
 import { DashboardEnvironmentFormComponent } from './dashboard-environment-form/dashboard-environment-form.component';
 import { DashboardEnvironmentItemFormComponent } from './dashboard-environment-item-form/dashboard-environment-item-form.component';
-
-import { DashboardMyWorkspacesComponent } from './dashboard-my-workspaces/dashboard-my-workspaces.component';
-import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/dashboard-workspace-owner.component';
+// ---- workspace parts component
 import { DashboardWorkspaceItemComponent } from './dashboard-workspace-item/dashboard-workspace-item.component';
+import { DashboardWorkspaceItemDetailComponent } from './dashboard-workspace-item-detail/dashboard-workspace-item-detail.component';
 import { DashboardWorkspaceFormComponent } from './dashboard-workspace-form/dashboard-workspace-form.component';
-import { DashboardWorkspaceDetailComponent } from './dashboard-workspace-detail/dashboard-workspace-detail.component';
 import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members/dashboard-workspace-members.component';
 import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folders/dashboard-workspace-folders.component';
+// ---- shared component
 import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
-import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environments/dashboard-active-environments.component';
+import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-environments/dashboard-workspace-environments.component';
 // import { MessageComponent } from 'src/app/components/shared/message/message.component';
 
 @NgModule({
@@ -51,7 +53,6 @@ import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environme
     DashboardHelpComponent,
     DashboardAccountComponent,
     DashboardAnnouncementComponent,
-    DashboardWorkspaceDetailComponent,
     DashboardWorkspaceItemComponent,
     DashboardWorkspaceFormComponent,
     DashboardWorkspaceMembersComponent,
@@ -59,6 +60,8 @@ import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environme
     DashboardEnvironmentItemComponent,
     DashboardEnvironmentFormComponent,
     DashboardEnvironmentItemFormComponent,
+    DashboardWorkspaceItemDetailComponent,
+    DashboardWorkspaceEnvironmentsComponent,
   ],
   imports: [
     CommonModule,
@@ -69,6 +72,7 @@ import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environme
     MaterialModule,
     SharedModule,
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports: [
     DashboardPageComponent
   ],

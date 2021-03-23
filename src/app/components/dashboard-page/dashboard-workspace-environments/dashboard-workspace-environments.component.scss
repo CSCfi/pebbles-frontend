@@ -1,0 +1,43 @@
+@import "src/styles.scss";
+
+.workspace-environments-container {
+
+  th.mat-header-cell:first-of-type,
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type {
+    padding-left: 10px;
+  }
+
+  .mat-form-field{
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    margin: auto;
+
+    .thumb img {
+      padding: 5px;
+      background-color: map-get($colors, light-gray);
+    }
+
+    .mat-header-row {
+      background: #ddd;
+      height: 40px;
+
+      .mat-header-cell {
+        color: map-get($colors, white);
+        border-bottom: none;
+      }
+    }
+
+    th,td{
+      vertical-align: middle;
+      padding: 10px;
+    }
+
+    th{
+      text-transform: capitalize;
+    }
+  }
+}

@@ -1,0 +1,73 @@
+@import "src/styles.scss";
+
+.workspace-detail-container {
+  background: map-get($colors, white);
+  height: 100%;
+
+  .workspace-detail-header {
+    padding: 10px 20px 10px 15px;
+    border-bottom: 1px solid map-get($colors, light2);
+
+    .workspace-name {
+      font-weight: 600;
+      font-size: 1.6rem;
+    }
+
+    .workspace-info{
+      margin-top: -5px;
+      margin-bottom: -5px;
+      padding: 0 15px;
+      border-left: 1px solid map-get($colors, light);
+
+      .function-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .open-join-code-button {
+        width: 120px;
+        cursor: pointer;
+
+        .mat-chip-list .mat-chip{
+          cursor: pointer
+        }
+      }
+    }
+
+    .expiration-date-info{
+      padding: 0 15px;
+      border-left: 1px solid map-get($colors, light);
+
+      .expiration-date {
+        height: 24px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+::ng-deep .mat-tab-labels {
+  // background: map-get($colors, light);
+
+  .mat-tab-label{
+    height: 45px;
+    border-right: 1px solid map-get($colors, light);
+    background: map-get($colors, white);
+
+    &:first-child {
+      border-left: 1px solid map-get($colors, light);
+    }
+
+    .mat-icon {
+      color: map-get($colors, light-gray);
+    }
+  }
+}
+
+::ng-deep .mat-tab-body-content {
+  padding: 10px 20px !important;
+}
+
+.open-environment-creation-form-button{
+  text-align: center;
+}

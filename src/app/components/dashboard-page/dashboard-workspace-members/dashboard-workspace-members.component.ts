@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkspaceService } from 'src/app/services/workspace.service';
+import { Workspace } from 'src/app/models/workspace';
 
 export interface MemberTable {
   select: boolean;
@@ -18,7 +19,7 @@ export interface MemberTable {
 })
 export class DashboardWorkspaceMembersComponent implements OnInit {
 
-  @Input() workspaceId: string;
+  @Input() workspace: Workspace;
   displayedColumns: string[] = ['select', 'index', 'icon', 'email', 'authority'];
   dataSource: MatTableDataSource<MemberTable>;
   selection = new SelectionModel<MemberTable>(true, []);
@@ -30,7 +31,9 @@ export class DashboardWorkspaceMembersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchMembers();
+    if (this.workspace) {
+      this.fetchMembers();
+    }
   }
 
   applyFilter(event: Event) {
@@ -39,7 +42,7 @@ export class DashboardWorkspaceMembersComponent implements OnInit {
   }
 
   fetchMembers(): void {
-    this.workspaceService.fetchMembersByWorkspaceId(this.workspaceId).subscribe((resp) => {
+    this.workspaceService.fetchMembersByWorkspaceId(this.workspace.id).subscribe((resp) => {
       console.log('members in the workspace fetched');
       const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
       const ownerKey = workspaceUserKeys.shift();

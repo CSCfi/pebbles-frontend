@@ -28,9 +28,9 @@
   }
 }
 
-::ng-deep .workspace-list {
+.workspace-list {
   max-width: 800px !important;
-  margin: auto;
+  margin: 0 auto;
 }
 
 ::ng-deep mat-dialog-container {
