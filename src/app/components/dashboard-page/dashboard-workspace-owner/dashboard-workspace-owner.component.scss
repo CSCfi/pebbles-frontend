@@ -48,6 +48,10 @@
           background-color: map-get($colors, white);
           color: map-get($colors, dark);
           // margin-right: -20px;
+
+          .workspace-selected-arrow {
+            margin-right: -16px;
+          }
         }
       }
     }

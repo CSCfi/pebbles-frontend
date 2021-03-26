@@ -26,8 +26,15 @@
           <div class="card-media v-centering__horizontal" fxFlex="0 0 45px">
             <mat-icon>people_outline</mat-icon>
           </div>
-          <mat-card-content class="card-info" fxFlex="grow" matBadge="new" matBadgePosition="above after" matBadgeColor="accent" [matBadgeHidden]="!isNewWorkspace(workspace.id)">
-            {{ workspace.name }}
+          <mat-card-content class="card-info" fxFlex="grow"
+            fxLayout="row" fxLayoutAlign="space-between stretch"
+            matBadge="new" matBadgePosition="above after" matBadgeColor="accent"
+            [matBadgeHidden]="!isNewWorkspace(workspace.id)">
+            <div class="workspace-name" fxFlex="grow">{{ workspace.name }}</div>
+            <div class="workspace-selected-arrow v-centering__horizontal" fxFlex="0 0 25px"
+              *ngIf="workspace.id === selectedWorkspaceId">
+              <mat-icon>navigate_next</mat-icon>
+            </div>
           </mat-card-content>
         </mat-card>
       </ng-container>
@@ -36,7 +43,8 @@
 
   <!-- Right Column : Workspace Detail -->
   <div class="workspace-detail-container" fxFlex="grow">
-    <app-dashboard-workspace-item-detail [workspace]="selectedWorkspace" class="app-dashboard-workspace-item-detail">
+    <app-dashboard-workspace-item-detail class="app-dashboard-workspace-item-detail"
+      [workspace]="selectedWorkspace" (deleteWorkspaceEvent)="deleteWorkspace()">
     </app-dashboard-workspace-item-detail>
   </div>
 </div>

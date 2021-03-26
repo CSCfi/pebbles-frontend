@@ -202,6 +202,19 @@ section.card {
   font-weight: 600;
 }
 
+.chip {
+  &__sm {
+    padding: 2px 12px 0px !important;
+    color: map-get($colors, dark);
+    font-weight: 600;
+    background-color: map-get($colors, light2);
+
+    border-radius: 15px;
+    min-height: 22px;
+    font-size: 1.1rem;
+  }
+}
+
 .inline-centering{
   display: inline-flex;
   flex-direction: row;

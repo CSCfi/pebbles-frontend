@@ -116,6 +116,8 @@ export class MockInterceptor implements HttpInterceptor {
           return getWorkspacesMembers();
         case url.includes('/workspaces') && method === 'GET':
           return getWorkspaces();
+        case url.includes('/workspaces') && method === 'DELETE':
+          return deleteWorkspace();
         case url.endsWith('/messages') && method === 'GET':
           return getMessages();
         case url.includes('/messages') && method === 'PATCH':
@@ -332,7 +334,6 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     function deleteInstance() {
-
       const instance = database.instances.find((i) => {
         return (i.id === objectId);
       });
@@ -439,22 +440,22 @@ export class MockInterceptor implements HttpInterceptor {
       return ok(objectId);
     }
 
-    // function deleteWorkspace() {
-    //   const workspace = database.workspaces.find((ws) => {
-    //     return (ws.id === objectId);
-    //   });
+    function deleteWorkspace() {
+      const workspace = database.workspaces.find((ws) => {
+        return (ws.id === objectId);
+      });
 
-    //   const workspaces = database.workspaces.filter((ws) => {
-    //     return (ws.id !== objectId);
-    //   });
-    //   database.workspaces = workspaces;
+      const workspaces = database.workspaces.filter((ws) => {
+        return (ws.id !== objectId);
+      });
+      database.workspaces = workspaces;
 
-    //   if (workspace) {
-    //     return ok(workspace);
-    //   } else {
-    //     return error('workspace not found');
-    //   }
-    // }
+      if (workspace) {
+        return ok(workspace);
+      } else {
+        return error('workspace not found');
+      }
+    }
 
     function getMessages() {
       const user = database.users.find((i) => {

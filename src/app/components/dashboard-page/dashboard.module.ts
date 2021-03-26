@@ -1,13 +1,14 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 // import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 // ---- Custom module
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from 'src/app/components/shared/shared.module';
-// ---- structural components
+// ---- Structural components
 import { DashboardPageComponent } from './dashboard-page.component';
 import { DashboardContentHeaderComponent } from './dashboard-content-header/dashboard-content-header.component';
 import { DashboardFooterComponent } from './dashboard-footer/dashboard-footer.component';
@@ -68,6 +69,7 @@ import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-e
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    ClipboardModule,
     DashboardRoutingModule,
     MaterialModule,
     SharedModule,

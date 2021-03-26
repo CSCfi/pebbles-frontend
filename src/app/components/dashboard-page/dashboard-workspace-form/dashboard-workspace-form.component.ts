@@ -12,51 +12,40 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 })
 export class DashboardWorkspaceFormComponent implements OnInit {
 
-  workspaceForm: FormGroup;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  public workspaceForm: FormGroup;
+
+  errorHandling = (control: string, error: string) => {
+    return this.workspaceForm.controls[control].hasError(error);
+  }
 
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<DashboardWorkspaceFormComponent>,
-    private workspaceService: WorkspaceService,
     @Inject(MAT_DIALOG_DATA) public data: {
       isCreationMode: boolean,
       workspace?: Workspace,
-    }
+    },
+    private workspaceService: WorkspaceService
   ) {
   }
 
   ngOnInit(): void {
-    this.setReactiveForm();
+    this.initReactiveForm();
     if (!this.data.isCreationMode) {
       this.workspaceForm.controls.name.setValue(this.data.workspace.name);
       this.workspaceForm.controls.description.setValue(this.data.workspace.description);
     }
   }
 
-  setReactiveForm() {
+  initReactiveForm(): void {
     this.workspaceForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
     });
   }
 
-  public errorHandling = (control: string, error: string) => {
-    return this.workspaceForm.controls[control].hasError(error);
-  }
-
-  submitForm() {
-    console.log(this.workspaceForm.value);
-  }
-
   closeForm(): void {
     this.dialogRef.close();
-  }
-
-  fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(() => {
-      console.log('workspaces fetched');
-    });
   }
 
   createWorkspace(): void {
@@ -65,17 +54,6 @@ export class DashboardWorkspaceFormComponent implements OnInit {
       this.workspaceForm.controls.description.value
     ).subscribe(resp => {
       this.dialogRef.close(resp);
-    });
-  }
-
-  updateWorkspace(): void {
-    this.data.workspace.name = this.workspaceForm.controls.name.value;
-    this.data.workspace.description = this.workspaceForm.controls.description.value;
-
-    this.workspaceService.updateWorkspace(this.data.workspace).subscribe(resp => {
-      console.log('updated workspace');
-      this.dialogRef.close(resp);
-      this.fetchWorkspaces();
     });
   }
 }

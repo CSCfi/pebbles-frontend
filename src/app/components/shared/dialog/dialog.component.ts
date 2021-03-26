@@ -27,6 +27,10 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+
   copyText(): void {
     console.log(this.data);
   }

@@ -13,7 +13,7 @@
       font-size: 1.6rem;
     }
 
-    .workspace-info{
+    .workspace-info {
       margin-top: -5px;
       margin-bottom: -5px;
       padding: 0 15px;
@@ -34,7 +34,7 @@
       }
     }
 
-    .expiration-date-info{
+    .expiration-date-info {
       padding: 0 15px;
       border-left: 1px solid map-get($colors, light);
 
@@ -44,30 +44,98 @@
       }
     }
   }
-}
 
-::ng-deep .mat-tab-labels {
-  // background: map-get($colors, light);
+  ::ng-deep .mat-tab-header {
+    .mat-tab-labels {
+      // background: map-get($colors, light);
 
-  .mat-tab-label{
-    height: 45px;
-    border-right: 1px solid map-get($colors, light);
-    background: map-get($colors, white);
+      .mat-tab-label{
+        height: 45px;
+        border-right: 1px solid map-get($colors, light);
+        background: map-get($colors, white);
 
-    &:first-child {
-      border-left: 1px solid map-get($colors, light);
+        &:first-child {
+          border-left: 1px solid map-get($colors, light);
+        }
+
+        .mat-icon {
+          color: map-get($colors, light-gray);
+        }
+      }
     }
+  }
 
-    .mat-icon {
-      color: map-get($colors, light-gray);
+  ::ng-deep .mat-tab-body-wrapper {
+    .mat-tab-body-content {
+      padding: 10px 30px 30px !important;
+
+      dl{
+        display: grid;
+        grid-template-columns: 180px auto;
+
+        dt {
+          grid-column: 1;
+        }
+
+        dd {
+          grid-column: 2;
+
+          .preview {
+            position: relative;
+
+            p {
+              margin-right: 40px;
+            }
+
+            button {
+              color: map-get($colors, light2);
+              position: absolute;
+              top: -10px;
+              right: 0;
+            }
+          }
+
+          .mat-form-field {
+            width: 100%;
+
+            .mat-form-field-wrapper {
+              padding-bottom: 1em;
+            }
+
+            .mat-form-field-infix {
+              border-top: none;
+            }
+
+            textarea {
+              height: 80px;
+              padding: 15px 0;
+            }
+          }
+
+          .join-code {
+            font-weight: 600;
+          }
+
+          .join-code-renew-button {
+            .mat-icon {
+              color: map-get($colors, light2);
+            }
+          }
+        }
+      }
+
+      .workspace-update-button,
+      .workspace-edit-cancel-button,
+      .workspace-delete-button {
+        width: 100%;
+        height: 40px;
+      }
+
+      .workspace-update-button {
+        color: white;
+      }
     }
   }
 }
 
-::ng-deep .mat-tab-body-content {
-  padding: 10px 20px !important;
-}
 
-.open-environment-creation-form-button{
-  text-align: center;
-}

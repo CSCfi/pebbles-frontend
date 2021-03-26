@@ -20,11 +20,11 @@ export class DashboardPageComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(): void {
     this.setSideNav();
   }
 
-  setSideNav() {
+  setSideNav(): void {
     this.contentWidth = window.innerWidth;
     this.isSideNavOpen = localStorage.getItem('is_sidenav_open') === 'true';
     if (this.contentWidth < 1000) {

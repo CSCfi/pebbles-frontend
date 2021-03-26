@@ -2,8 +2,8 @@
   <div class="workspace-detail-container">
     <div class="workspace-detail-header" fxLayout="row" fxLayoutGap="20px">
       <div class="workspace-name v-centering__inline" fxFlex="grow">
-        <mat-icon class="spacer__r5">navigate_next</mat-icon>
-        <mat-icon class="spacer__r5">people_outline</mat-icon>
+        <!-- <mat-icon class="spacer__r5">navigate_next</mat-icon> -->
+        <mat-icon class="spacer__r10">people_outline</mat-icon>
         {{ workspace.name || 'no name' }}
       </div>
       <div class="workspace-info" fxLayout="row" fxLayoutGap="20px">
@@ -11,12 +11,12 @@
           <span class="function-title v-centering__inline">Join code</span>
           <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
             <mat-icon class="spacer__r5">vpn_key</mat-icon>
-            <mat-chip class="mat-chip-sm">● ● ● ● ● ● ●</mat-chip>
+            <div class="chip__sm">● ● ● ● ● ● ●</div>
           </div>
         </div>
         <div class="expiration-date-info">
           <span class="function-title v-centering__inline">Expiring by</span>
-          <span class="expiration-date v-centering__inline">2021-08-04</span>
+          <span class="expiration-date v-centering__inline">{{ expiry_date }}</span>
         </div>
       </div>
     </div>
@@ -57,9 +57,7 @@
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <span class="spacer__r5">
-            Profile
-          </span>
+          <span class="spacer__r5">Info</span>
           <mat-icon>settings</mat-icon>
         </ng-template>
         <!-- <div class="workspace-actions">
@@ -72,19 +70,66 @@
             <mat-icon>delete_outline</mat-icon>
           </button>
         </div> -->
-        <dl class="workspace-info spacer__t20">
-          <dt>Workspace name</dt>
-          <dd>{{ workspace.name || 'no name' }}</dd>
-          <dt>Workspace description</dt>
-          <dd>{{ workspace.description || 'no description' }}</dd>
-          <dt>Join code</dt>
-          <dd>{{ workspace.join_code }}</dd>
-          <dt>Created at</dt>
-          <dd>2021-08-04</dd>
-          <dt>Expiration Date</dt>
-          <dd>2021-08-04</dd>
-        </dl>
+        <form [formGroup]="workspaceEditForm" novalidate>
+          <dl class="workspace-info spacer__t20">
+            <dt class="spacer__b30">Created on</dt>
+            <dd>{{ created_date }}</dd>
+            <dt class="spacer__b30">Expiring on</dt>
+            <dd>{{ expiry_date }}</dd>
+            <dt>
+              Workspace name
+            </dt>
+            <dd>
+              <div class="preview" *ngIf="!isNameEditOn">
+                <p>{{ workspace.name }}</p>
+                <button mat-icon-button aria-label="edit"
+                  *ngIf="isEditable" (click)="editWorkspaceName()">
+                  <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+                </button>
+              </div>
+              <mat-form-field appearance="outline" *ngIf="isNameEditOn">
+                <input matInput formControlName="name">
+              </mat-form-field>
+            </dd>
+            <dt>
+              Workspace description
+            </dt>
+            <dd>
+              <div class="preview" *ngIf="!isDescriptionEditOn">
+                <p [innerHTML]="workspace.description || 'No description'"></p>
+                <button mat-icon-button aria-label="edit"
+                  *ngIf="isEditable" (click)="editWorkspaceDescription()">
+                  <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+                </button>
+              </div>
+              <mat-form-field appearance="outline" *ngIf="isDescriptionEditOn">
+                <textarea matInput formControlName="description"></textarea>
+              </mat-form-field>
+            </dd>
+            <dt class="join-code-title v-centering">Join code</dt>
+            <dd fxLayout="row" fxLayoutAlign="space-between center">
+              <span class="join-code">{{ workspace.join_code }}</span>
+            </dd>
+          </dl>
+          <button mat-flat-button class="workspace-update-button spacer__t20" color="accent"
+          [disabled]="!isWorkspaceInputChanged || !workspaceEditForm.valid"
+            (click)="updateWorkspace()">
+            save changes
+          </button>
+          <button mat-stroked-button class="workspace-edit-cancel-button spacer__t10"
+            *ngIf="isWorkspaceInputChanged"
+            (click)="cancelChanges()">
+            cancel changes
+          </button>
+
+          <button mat-stroked-button class="workspace-delete-button spacer__t10"
+            *ngIf="isDeletable"
+            (click)="deleteWorkspace()">
+            <mat-icon class="spacer__r5">delete_outline</mat-icon> delete workspace
+          </button>
+        </form>
       </mat-tab>
     </mat-tab-group>
+
   </div>
 </ng-container>

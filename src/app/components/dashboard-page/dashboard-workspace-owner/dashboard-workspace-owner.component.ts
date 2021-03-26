@@ -53,6 +53,11 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
     });
   }
 
+  deleteWorkspace(): void {
+    this.selectedWorkspaceId = '';
+    this.fetchWorkspaces();
+  }
+
   isOwner(workspace: Workspace): boolean {
     return workspace.owner_eppn === this.authService.getUserName();
   }
@@ -139,10 +144,4 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
     }
     return false;
   }
-
-  // deleteWorkspace(workspaceId: string): void {
-  //   this.workspaceService.deleteWorkspace(workspaceId).subscribe(() => {
-  //     this.fetchWorkspaces();
-  //   });
-  // }
 }

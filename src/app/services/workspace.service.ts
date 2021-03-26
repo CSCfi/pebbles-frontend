@@ -100,7 +100,6 @@ export class WorkspaceService {
     return this.http.put<Workspace>(url, {
         name: workspace.name,
         description: workspace.description,
-        // ---- For future use
         // join_code: workspace.join_code,
         // owner_eppn: workspace.owner_eppn,
         // role: null
@@ -114,5 +113,13 @@ export class WorkspaceService {
         console.log('Updated Workspace');
       })
     );
+  }
+
+  // ---- Discuss later
+  deleteWorkspace(id: string): Observable<Workspace> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${id}`;
+    return this.http.delete<Workspace>(url).pipe(tap(_ => {
+      this.fetchWorkspaces().subscribe();
+    }));
   }
 }
