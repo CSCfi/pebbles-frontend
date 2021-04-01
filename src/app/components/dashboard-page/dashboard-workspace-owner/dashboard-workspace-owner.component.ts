@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
@@ -7,6 +8,7 @@ import { EnvironmentService } from 'src/app/services/environment.service';
 import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
 import { EnvironmentTemplate } from 'src/app/models/environment-template';
 import { DashboardWorkspaceFormComponent } from '../dashboard-workspace-form/dashboard-workspace-form.component';
+
 
 @Component({
   selector: 'app-dashboard-workspace-owner',
@@ -22,7 +24,6 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
   };
 
   public selectedWorkspaceId: string;
-  public selectedWorkspace: Workspace;
   public newWorkspace: Workspace;
 
   get workspaces(): Workspace[] {
@@ -30,41 +31,59 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
   }
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     public workspaceService: WorkspaceService,
     private authService: AuthService,
     private environmentService: EnvironmentService,
     private environmentTemplateService: EnvironmentTemplateService,
   ) {
+    if (this.route.snapshot.firstChild){
+      this.selectedWorkspaceId = this.route.snapshot.firstChild.params.workspaceId;
+    }
   }
 
   ngOnInit(): void {
     this.fetchWorkspaces();
-    this.environmentService.fetchEnvironments().subscribe();
   }
 
   fetchWorkspaces(): void {
     this.workspaceService.fetchWorkspaces().subscribe((resp) => {
       console.log('workspaces fetched');
+      // ---- If no workspaceId wasn't retrieved from URL, display the newest workspace.
       if (!this.selectedWorkspaceId) {
-        this.selectedWorkspaceId = this.workspaces[0].id;
+        this.viewWorkspaceItemDetail(this.workspaces[0].id);
       }
-      this.getWorkspaceItem(this.selectedWorkspaceId);
     });
   }
 
-  deleteWorkspace(): void {
-    this.selectedWorkspaceId = '';
-    this.fetchWorkspaces();
+  viewWorkspaceItemDetail(workspaceId): void {
+    this.selectedWorkspaceId = workspaceId;
+    this.router.navigate(['dashboard', 'workspace-owner', workspaceId]);
   }
 
   isOwner(workspace: Workspace): boolean {
     return workspace.owner_eppn === this.authService.getUserName();
   }
 
-  getWorkspaceItem(workspaceId: string): void {
-    this.selectedWorkspaceId = workspaceId;
-    this.selectedWorkspace = this.workspaceService.getWorkspace(this.selectedWorkspaceId);
+  // ---- workspace creation
+  // ----------------------------------------
+  createWorkspace(): void {
+    this.workspaceService.createWorkspace(
+      'New Workspace',
+      'Workspace for ' + this.authService.getUserName()
+    ).subscribe(_ => {
+      console.log('created new Workspace');
+      this.fetchWorkspaces();
+    });
+  }
+
+  isNewWorkspace(id: string): boolean {
+    if (this.newWorkspace) {
+      return this.newWorkspace.id === id;
+    }
+    return false;
   }
 
   openWorkspaceCreationDialog(): void {
@@ -82,18 +101,7 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
         this.newWorkspace = resp;
         this.selectedWorkspaceId = resp.id;
         this.fetchWorkspaces();
-        this.getWorkspaceItem(this.selectedWorkspaceId);
       }
-    });
-  }
-
-  createWorkspace(): void {
-    this.workspaceService.createWorkspace(
-      'New Workspace',
-      'Workspace for ' + this.authService.getUserName()
-    ).subscribe(_ => {
-      console.log('created new Workspace');
-      this.fetchWorkspaces();
     });
   }
 
@@ -136,12 +144,5 @@ export class DashboardWorkspaceOwnerComponent implements OnInit {
       });
     });
     this.fetchWorkspaces();
-  }
-
-  isNewWorkspace(id: string): boolean {
-    if (this.newWorkspace) {
-      return this.newWorkspace.id === id;
-    }
-    return false;
   }
 }

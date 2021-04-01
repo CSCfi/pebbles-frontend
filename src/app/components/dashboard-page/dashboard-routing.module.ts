@@ -11,7 +11,8 @@ import { DashboardWorkspaceOwnerComponent } from './dashboard-workspace-owner/da
 import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-statistics.component';
-import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environments/dashboard-active-environments.component';
+import { DashboardActiveEnvironmentsComponent } from './dashboard-active-environments/dashboard-active-environments.component';
+import { DashboardWorkspaceItemDetailComponent } from './dashboard-workspace-item-detail/dashboard-workspace-item-detail.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +29,10 @@ export const routes: Routes = [
       },
       {
         path: 'workspace-owner', component: DashboardWorkspaceOwnerComponent,
-        data: { breadcrumbs: ['home', 'workspace-owner'] }
+        data: { breadcrumbs: ['home', 'workspace-owner'] },
+        children: [
+          { path: ':workspaceId', component: DashboardWorkspaceItemDetailComponent }
+        ]
       },
       {
         path: 'account', component: DashboardAccountComponent,

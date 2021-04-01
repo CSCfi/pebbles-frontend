@@ -20,7 +20,7 @@ export class WorkspaceService {
     this.fetchWorkspaces().subscribe();
   }
 
-  getWorkspace(id: string): Workspace {
+  getWorkspaceById(id: string): Workspace {
     return this.workspaces.find(x => x.id === id);
   }
 

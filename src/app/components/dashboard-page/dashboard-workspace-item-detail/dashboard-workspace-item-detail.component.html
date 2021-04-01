@@ -1,8 +1,8 @@
-<ng-container *ngIf="workspace">
-  <div class="workspace-detail-container">
+<div class="workspace-detail-container" fxLayout="column" fxLayoutAlign="start stretch">
+  <ng-container *ngIf="workspace; else elseBlock">
+    <!-- workspace-detail-header -->
     <div class="workspace-detail-header" fxLayout="row" fxLayoutGap="20px">
       <div class="workspace-name v-centering__inline" fxFlex="grow">
-        <!-- <mat-icon class="spacer__r5">navigate_next</mat-icon> -->
         <mat-icon class="spacer__r10">people_outline</mat-icon>
         {{ workspace.name || 'no name' }}
       </div>
@@ -20,116 +20,116 @@
         </div>
       </div>
     </div>
-    <!-- //// workspace-detail-header  -->
-
+    <!-- //// workspace-detail-header -->
+    <!-- workspace-detail-tab
+      1. Environments tab
+      2. Members tab
+      3. Information tab
+    -->
     <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
-
+      <!-- 1. Environments tab -->
       <mat-tab>
         <ng-template mat-tab-label>
           <span class="spacer__r5">Environments</span>
           <mat-chip class="mat-chip-sm">10</mat-chip>
         </ng-template>
-        <div class="environment-actions"
-        fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-          <!-- <button mat-flat-button class="open-environment-creation-wizard-button inversion primary"
+        <ng-template matTabContent>
+          <div class="environment-actions" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+            <!-- <button mat-flat-button class="open-environment-creation-wizard-button inversion primary"
             aria-label="create a new environment" (click)="openEnvironmentCreationDialog('wizard')">
             <mat-icon class="spacer__r10">auto_awesome</mat-icon>
             <span>create new environment by wizard</span>
           </button> -->
-          <!-- <a class="open-environment-creation-form-button spacer__t10" aria-label="create a new environment"
+            <!-- <a class="open-environment-creation-form-button spacer__t10" aria-label="create a new environment"
             (click)="openEnvironmentCreationDialog('plain')">
             <mat-icon class="spacer__r5">add</mat-icon>
             <span>create new environment by form</span>
           </a> -->
-        </div>
-        <div class="environments">
-          <!-- <app-dashboard-workspace-environments [workspace]="workspace"></app-dashboard-workspace-environments> -->
-        </div>
+          </div>
+          <div class="environments">
+            <!-- <app-dashboard-workspace-environments></app-dashboard-workspace-environments> -->
+          </div>
+        </ng-template>
       </mat-tab>
-
+      <!-- 2. Members tab -->
       <mat-tab>
         <ng-template mat-tab-label>
           <span class="spacer__r5">Members</span>
-          <mat-chip class="mat-chip-sm">10</mat-chip>
+          <mat-chip class="mat-chip-sm">20</mat-chip>
         </ng-template>
-        <!-- <app-dashboard-workspace-members [workspace]="workspace"></app-dashboard-workspace-members> -->
+        <ng-template matTabContent>
+          <app-dashboard-workspace-members [workspace]="workspace"></app-dashboard-workspace-members>
+        </ng-template>
       </mat-tab>
-
+      <!-- 3. Information tab -->
       <mat-tab>
         <ng-template mat-tab-label>
           <span class="spacer__r5">Info</span>
           <mat-icon>settings</mat-icon>
         </ng-template>
-        <!-- <div class="workspace-actions">
-           <button mat-fab color="primary" aria-label="Edit workspace" class="inversion primary shadow-s"
-            matTooltip="Edit workspace" (click)="openEditWorkspaceDialog()">
-            <mat-icon class="spacer__l10">create</mat-icon>
-          </button>
-          <button mat-fab color="primary" aria-label="Delete workspace" class="inversion primary shadow-s"
-            matTooltip="Delete workspace" (click)="openDeleteWorkspaceDialog()">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-        </div> -->
-        <form [formGroup]="workspaceEditForm" novalidate>
-          <dl class="workspace-info spacer__t20">
-            <dt class="spacer__b30">Created on</dt>
-            <dd>{{ created_date }}</dd>
-            <dt class="spacer__b30">Expiring on</dt>
-            <dd>{{ expiry_date }}</dd>
-            <dt>
-              Workspace name
-            </dt>
-            <dd>
-              <div class="preview" *ngIf="!isNameEditOn">
-                <p>{{ workspace.name }}</p>
-                <button mat-icon-button aria-label="edit"
-                  *ngIf="isEditable" (click)="editWorkspaceName()">
-                  <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
-                </button>
-              </div>
-              <mat-form-field appearance="outline" *ngIf="isNameEditOn">
-                <input matInput formControlName="name">
-              </mat-form-field>
-            </dd>
-            <dt>
-              Workspace description
-            </dt>
-            <dd>
-              <div class="preview" *ngIf="!isDescriptionEditOn">
-                <p [innerHTML]="workspace.description || 'No description'"></p>
-                <button mat-icon-button aria-label="edit"
-                  *ngIf="isEditable" (click)="editWorkspaceDescription()">
-                  <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
-                </button>
-              </div>
-              <mat-form-field appearance="outline" *ngIf="isDescriptionEditOn">
-                <textarea matInput formControlName="description"></textarea>
-              </mat-form-field>
-            </dd>
-            <dt class="join-code-title v-centering">Join code</dt>
-            <dd fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="join-code">{{ workspace.join_code }}</span>
-            </dd>
-          </dl>
-          <button mat-flat-button class="workspace-update-button spacer__t20" color="accent"
-          [disabled]="!isWorkspaceInputChanged || !workspaceEditForm.valid"
-            (click)="updateWorkspace()">
-            save changes
-          </button>
-          <button mat-stroked-button class="workspace-edit-cancel-button spacer__t10"
-            *ngIf="isWorkspaceInputChanged"
-            (click)="cancelChanges()">
-            cancel changes
-          </button>
-
-          <button mat-stroked-button class="workspace-delete-button spacer__t10"
-            *ngIf="isDeletable"
-            (click)="deleteWorkspace()">
-            <mat-icon class="spacer__r5">delete_outline</mat-icon> delete workspace
-          </button>
-        </form>
+        <ng-template matTabContent>
+          <form [formGroup]="workspaceEditForm" novalidate>
+            <dl class="workspace-info spacer__t20">
+              <dt class="spacer__b30">Created on</dt>
+              <dd>{{ created_date }}</dd>
+              <dt class="spacer__b30">Expiring on</dt>
+              <dd>{{ expiry_date }}</dd>
+              <dt>
+                Workspace name
+              </dt>
+              <dd>
+                <div class="preview" *ngIf="!isWorkspaceNameEditOn">
+                  <p>{{ workspace.name }}</p>
+                  <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
+                    <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+                  </button>
+                </div>
+                <mat-form-field appearance="outline" *ngIf="isWorkspaceNameEditOn">
+                  <input matInput formControlName="name">
+                </mat-form-field>
+              </dd>
+              <dt>
+                Workspace description
+              </dt>
+              <dd>
+                <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
+                  <p [innerHTML]="workspace.description || 'No description'"></p>
+                  <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceDescription()">
+                    <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+                  </button>
+                </div>
+                <mat-form-field appearance="outline" *ngIf="isWorkspaceDescriptionEditOn">
+                  <textarea matInput formControlName="description"></textarea>
+                </mat-form-field>
+              </dd>
+              <dt class="join-code-title v-centering">Join code</dt>
+              <dd fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="join-code">{{ workspace.join_code }}</span>
+              </dd>
+            </dl>
+            <button mat-flat-button class="workspace-update-button spacer__t20" color="accent"
+              [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
+              save changes
+            </button>
+            <button mat-stroked-button class="workspace-edit-cancel-button spacer__t10" *ngIf="isWorkspaceFormChanged"
+              (click)="cancelChanges()">
+              cancel changes
+            </button>
+            <button mat-stroked-button class="workspace-delete-button spacer__t10" *ngIf="isDeletable"
+              (click)="deleteWorkspace()">
+              <mat-icon class="spacer__r5">delete_outline</mat-icon> delete workspace
+            </button>
+          </form>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
-
-  </div>
-</ng-container>
+  </ng-container>
+  <ng-template #elseBlock>
+    <div class="error-message">
+      <h3>{{ notFoundMessage }}</h3>
+      <p>
+        Please select another workspace from the left column.
+      </p>
+    </div>
+  </ng-template>
+</div>

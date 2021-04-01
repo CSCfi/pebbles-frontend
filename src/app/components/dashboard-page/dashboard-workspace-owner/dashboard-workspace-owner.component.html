@@ -1,4 +1,5 @@
-<app-dashboard-content-header class="app-dashboard-content-header" [content]="content" [isSearchOn]="false"></app-dashboard-content-header>
+<app-dashboard-content-header class="app-dashboard-content-header" [content]="content" [isSearchOn]="false">
+</app-dashboard-content-header>
 
 <div class="workspace-owner-content-wrapper">
   <!-- Left Column : Workspace list -->
@@ -22,12 +23,12 @@
     <div class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
       <ng-container *ngFor="let workspace of workspaces">
         <mat-card fxLayout="row" fxLayoutAlign="space-between stretch" class="workspace-widget"
-          [ngClass]="{ 'selected': workspace.id === selectedWorkspaceId }" (click)="getWorkspaceItem(workspace.id)">
+          [ngClass]="{ 'selected': workspace.id === selectedWorkspaceId }"
+          (click)="viewWorkspaceItemDetail(workspace.id)">
           <div class="card-media v-centering__horizontal" fxFlex="0 0 45px">
             <mat-icon>people_outline</mat-icon>
           </div>
-          <mat-card-content class="card-info" fxFlex="grow"
-            fxLayout="row" fxLayoutAlign="space-between stretch"
+          <mat-card-content class="card-info" fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between stretch"
             matBadge="new" matBadgePosition="above after" matBadgeColor="accent"
             [matBadgeHidden]="!isNewWorkspace(workspace.id)">
             <div class="workspace-name" fxFlex="grow">{{ workspace.name }}</div>
@@ -43,8 +44,6 @@
 
   <!-- Right Column : Workspace Detail -->
   <div class="workspace-detail-container" fxFlex="grow">
-    <app-dashboard-workspace-item-detail class="app-dashboard-workspace-item-detail"
-      [workspace]="selectedWorkspace" (deleteWorkspaceEvent)="deleteWorkspace()">
-    </app-dashboard-workspace-item-detail>
+    <router-outlet></router-outlet>
   </div>
 </div>

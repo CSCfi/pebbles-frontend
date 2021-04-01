@@ -136,6 +136,15 @@
       }
     }
   }
+
+  .error-message {
+    margin: 20px;
+    padding: 20px;
+    color: map-get($colors, white);
+    background-color: map-get($colors, light-dark);
+    text-align: center;
+    border-radius: 5px;
+  }
 }
 
 

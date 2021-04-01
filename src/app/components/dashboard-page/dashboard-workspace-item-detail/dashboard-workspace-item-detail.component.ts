@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
@@ -10,7 +11,6 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
-
 @Component({
   selector: 'app-dashboard-workspace-item-detail',
   templateUrl: './dashboard-workspace-item-detail.component.html',
@@ -18,15 +18,23 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class DashboardWorkspaceItemDetailComponent implements OnInit {
 
-  @Output() deleteWorkspaceEvent = new EventEmitter();
-  public isWorkspaceInputChanged = false;
-  public workspaceEditForm: FormGroup;
   // public tabLabels = ['environments', 'members', 'info'];
   // public selectedTabLabel: string;
+  public notFoundMessage = 'No workspace';
+
+  // ---- variables for workspace environments tab
   public isPlainFormOn = false;
   public isEnvironmentCreationWizard = true;
-  public isNameEditOn = false;
-  public isDescriptionEditOn = false;
+
+
+  // ---- variables for workspace members tab
+  // public members: WorkspaceUserList;
+
+  // ---- variables for workspace info tab
+  public workspaceEditForm: FormGroup;
+  public isWorkspaceFormChanged = false;
+  public isWorkspaceNameEditOn = false;
+  public isWorkspaceDescriptionEditOn = false;
 
   public content = {
     path: 'workspace-owner/detail/:id',
@@ -34,16 +42,8 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
     identifier: 'workspace-owner-item-detail'
   };
 
-  private ws: Workspace;
-
-  @Input() set workspace(workspace: Workspace) {
-    this.ws = workspace;
-    this.initReactiveForm(workspace);
-  }
-
-  get workspace(): Workspace {
-    return this.ws;
-  }
+  public workspaces: Workspace[];
+  public workspace: Workspace;
 
   get userName(): string {
     return this.authService.getUserName();
@@ -89,18 +89,28 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
   // }
 
   constructor(
+    private route: ActivatedRoute,
     public dialog: MatDialog, // JoinCode
     private formBuilder: FormBuilder,
     private workspaceService: WorkspaceService,
     private authService: AuthService
-  ) {}
+  ) {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('workspaceId');
+      this.workspaceService.fetchWorkspaces().subscribe( resp => {
+        this.workspaces = resp;
+        this.workspace = this.workspaceService.getWorkspaceById(id);
+        this.initReactiveForm(this.workspace);
+      });
+    });
+  }
 
   ngOnInit(): void {
 
   }
 
   initReactiveForm(workspace: Workspace): void {
-    this.isWorkspaceInputChanged = false;
+    this.isWorkspaceFormChanged = false;
     if (workspace) {
       this.workspaceEditForm = this.formBuilder.group({
         name: [workspace.name, [Validators.required]],
@@ -110,19 +120,19 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
   }
 
   editWorkspaceName(): void {
-    this.isNameEditOn = true;
-    this.isWorkspaceInputChanged = true;
+    this.isWorkspaceNameEditOn = true;
+    this.isWorkspaceFormChanged = true;
   }
 
   editWorkspaceDescription(): void {
-    this.isDescriptionEditOn = true;
-    this.isWorkspaceInputChanged = true;
+    this.isWorkspaceDescriptionEditOn = true;
+    this.isWorkspaceFormChanged = true;
   }
 
   cancelChanges(): void {
     this.initReactiveForm(this.workspace);
-    this.isNameEditOn = false;
-    this.isDescriptionEditOn = false;
+    this.isWorkspaceNameEditOn = false;
+    this.isWorkspaceDescriptionEditOn = false;
   }
 
   updateWorkspace(): void {
@@ -131,8 +141,8 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
 
     this.workspaceService.updateWorkspace(this.workspace).subscribe(_ => {
       this.initReactiveForm(this.workspace);
-      this.isNameEditOn = false;
-      this.isDescriptionEditOn = false;
+      this.isWorkspaceNameEditOn = false;
+      this.isWorkspaceDescriptionEditOn = false;
     });
   }
 
@@ -146,10 +156,11 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
         dialogActions: ['confirm', 'cancel']
       }
     });
-    dialogRef.afterClosed().subscribe( resp => {
-      if (resp){
-        this.workspaceService.deleteWorkspace(this.workspace.id).subscribe(() => {
-          this.deleteWorkspaceEvent.emit();
+    dialogRef.afterClosed().subscribe(params => {
+      if (params){
+        this.workspaceService.deleteWorkspace(this.workspace.id).subscribe(resp => {
+          this.workspace = null;
+          this.notFoundMessage = `Workspace [${resp.name}] has been successfully deleted`;
         });
       }
     });
