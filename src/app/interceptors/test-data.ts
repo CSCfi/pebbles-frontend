@@ -49,8 +49,7 @@ export let db = {
       id: '5',
       name: 'pb-bart-the-yellow',
       environment_id: '1',
-      // TODO: change this to failed, once the UI has been updated to deal with failed instances
-      state: 'running',
+      state: 'failed',
       instance_data: {endpoints: [{access: 'http://foo/5'}]},
       lifetime_left: '2000',
       maximum_lifetime:	'2000',

@@ -93,12 +93,14 @@ export class DesktopNotificationService {
           localStorage.removeItem(inst.name);
           break;
         case InstanceStates.Failed:
-          // ---- Notify when the environment fail to be instance
-          DesktopNotificationService.showNotification(
-            `Error! Your Environment failed to be provisioned.`,
-            'Please try again in a moment. If the error persists, contact support.'
-          );
-          localStorage.removeItem(inst.name);
+          if (!sent_notifications.includes(InstanceLifetimeLevel.Failed)) {
+            // ---- Notify when the environment fail to be instance
+            DesktopNotificationService.showNotification(
+              `Error! Your Environment failed to be provisioned.`,
+              'Please try again in a moment. If the error persists, contact support.'
+            );
+            sent_notifications.push(InstanceLifetimeLevel.Failed);
+          }
           break;
         default:
           console.log(inst.state, DesktopNotificationService.secondsToMinutesText(inst.lifetime_left));

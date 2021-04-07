@@ -11,7 +11,8 @@ export enum InstanceStates {
 export enum InstanceLifetimeLevel {
   Full = 'full',
   Short = 'short',
-  Dying = 'dying'
+  Dying = 'dying',
+  Failed = 'failed'
 }
 
 export class Instance {

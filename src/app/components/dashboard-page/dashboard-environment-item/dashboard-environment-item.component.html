@@ -126,9 +126,9 @@
               </ng-container>
               <!-- B: Instance [Failed] -->
               <ng-container *ngSwitchCase="'failed'">
-                <button mat-button class="replay-button v-centering__inline" (click)="restartEnvironment()">
+                <button mat-button class="shutdown-button v-centering__inline" (click)="stopEnvironment()">
                   <div class="button-icon">
-                    <mat-icon>replay</mat-icon>
+                    <mat-icon>close</mat-icon>
                   </div>
                   <div class="state v-centering__inline">{{ state }}</div>
                 </button>

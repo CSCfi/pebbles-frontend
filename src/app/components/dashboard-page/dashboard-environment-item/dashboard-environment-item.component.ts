@@ -8,7 +8,7 @@ import { Instance, InstanceStates } from 'src/app/models/instance';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { DashboardEnvironmentItemFormComponent } from '../dashboard-environment-item-form/dashboard-environment-item-form.component';
-import {Utilities} from '../../../utilities';
+import { Utilities } from '../../../utilities';
 
 @Component({
   selector: 'app-dashboard-environment-item',
@@ -29,8 +29,9 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     const instance = this.instanceService.getInstance(this.environment.instance_id);
     if (instance) {
       switch (this.state) {
-        case 'running':
-        case 'deleted':
+        case InstanceStates.Running:
+        case InstanceStates.Deleted:
+        case InstanceStates.Failed:
           return false;
         default:
           return true;
@@ -55,7 +56,7 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   get isTimeWarningOn(): boolean {
-    return this.lifetimePercentage < 25 && !this.isSpinnerOn;
+    return (this.instance?.state === InstanceStates.Failed || this.lifetimePercentage < 25) && !this.isSpinnerOn;
   }
 
   get lifetime(): string {
@@ -65,15 +66,26 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   get lifetimePercentage(): number {
-    if (this.instance) {
-      const res = Number(this.instance.lifetime_left) / Number(this.environment.maximum_lifetime) * 100;
-      return Math.floor(res);
+    if (!this.instance) {
+      return 0;
     }
-    return 0;
+    switch (this.instance.state) {
+      case InstanceStates.Deleted:
+      case InstanceStates.Deleting:
+        return 0;
+      case InstanceStates.Queueing:
+      case InstanceStates.Provisioning:
+      case InstanceStates.Starting:
+      case InstanceStates.Failed:
+        return 100;
+      default:
+        const res = Number(this.instance.lifetime_left) / Number(this.environment.maximum_lifetime) * 100;
+        return Math.floor(res);
+    }
   }
 
   get lifetimeLeft(): string {
-    if (this.instance.state === 'running' && this.instance.lifetime_left) {
+    if (this.instance.state === InstanceStates.Running && this.instance.lifetime_left) {
       return Utilities.lifetimeToString(this.instance.lifetime_left);
     }
     return '';
@@ -195,7 +207,9 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   stopEnvironment(): void {
-    if (!confirm('Have you saved your edited files? Once environment shutdown, it will be deleted.')) {
+    // confirm deletion for non-failed instances
+    if (this.instance.state !== InstanceStates.Failed
+      && !confirm('Have you saved your edited files? Once environment shutdown, it will be deleted.')) {
       return;
     }
     const instance = this.instanceService.getInstance(this.environment.instance_id);
@@ -206,10 +220,6 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     this.instanceService.deleteInstance(instance.id).subscribe(_ => {
       // console.log('instance deleting process finished');
     });
-  }
-
-  restartEnvironment(): void {
-    // ---- write later
   }
 
   getInstance(): Instance {

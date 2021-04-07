@@ -209,7 +209,14 @@ export class MockInterceptor implements HttpInterceptor {
         }
         // advance the transitive states
         if (transitiveStates.indexOf(instance.state) >= 0) {
-          if (Date.now() - instance._mockLastStateUpdateTs > 5000) {
+          // to mimic random failures, tune the probability below
+          if (Math.random() < 0.0) {
+            instance.state = InstanceStates.Failed;
+            console.log('instance ' + instance.name + 'now in state ' + instance.state);
+            instance._mockLastStateUpdateTs = Date.now();
+            instance.is_failed = true;
+          }
+          else if (Date.now() - instance._mockLastStateUpdateTs > 5000) {
             instance.state = states[states.indexOf(instance.state) + 1];
             console.log('instance ' + instance.name + 'now in state ' + instance.state);
             instance._mockLastStateUpdateTs = Date.now();
