@@ -374,6 +374,14 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
+    },
+    {
+      eppn: 'user-5@example.org',
+      password: 'user-5',
+      id: '401',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
     }
   ],
   workspaces: [
@@ -385,7 +393,10 @@ export let db = {
       create_ts: 1616572104,
       expiry_ts: 1632124104,
       owner_eppn: 'admin@example.org',
-      member_eppns: [
+      manager_users: [
+        'admin@example.org'
+      ],
+      normal_users: [
         'admin@example.org',
         'admin-1@example.org',
         'admin-2@example.org',
@@ -407,9 +418,12 @@ export let db = {
       join_code: 'admin-ws-join-parm0-wuuig',
       description: 'Jupyter Lab environments for Python Basic Course 2021',
       create_ts: 1616572105,
-      expiry_ts: 1632124105,
+      expiry_ts: 1732124105,
       owner_eppn: 'admin@example.org',
-      member_eppns: [
+      manager_users: [
+        'admin@example.org'
+      ],
+      normal_users: [
         'manager-1@example.org',
         'user@example.org',
         'user-2@example.org',
@@ -422,9 +436,13 @@ export let db = {
       join_code: 'admin-ws-join-parm1-wuuig',
       description: 'R-studio environments for R basic Course 2021',
       create_ts: 1616572106,
-      expiry_ts: 1632124106,
+      expiry_ts: 1832124106,
       owner_eppn: 'admin@example.org',
-      member_eppns: ['co-owner@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
+      manager_users: [
+        'admin@example.org'
+      ],
+      normal_users: ['co-owner@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
+      banned_users: ['user-5@example.org']
     },
     {
       id: '2',
@@ -432,9 +450,13 @@ export let db = {
       join_code: 'admin-ws-join-parm2-wuuig',
       description: 'Jupyter Lab environments for Deep Learning Course 2020',
       create_ts: 1616572107,
-      expiry_ts: 1632124107,
+      expiry_ts: 1932124107,
       owner_eppn: 'admin-1@example.org',
-      member_eppns: ['manager-1@example.org', 'admin@example.org', 'user@example.org', 'user-2@example.org', 'user-3@example.org']
+      manager_users: [
+        'admin@example.org',
+        'admin-1@example.org'
+      ],
+      normal_users: ['manager-1@example.org', 'admin@example.org', 'user@example.org', 'user-2@example.org', 'user-3@example.org']
     },
     {
       id: '3',
@@ -442,9 +464,13 @@ export let db = {
       join_code: 'admin-ws-join-parm3-wuuig',
       description: 'R-studio environments for Machine Learning Course 2019',
       create_ts: 1616572108,
-      expiry_ts: 1632124108,
+      expiry_ts: 2032124108,
       owner_eppn: 'admin-1@example.org',
-      member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
+      manager_users: [
+        'admin@example.org',
+        'admin-1@example.org'
+      ],
+      normal_users: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
     },
     {
       id: '4',
@@ -452,9 +478,13 @@ export let db = {
       join_code: 'admin-ws-join-parm4-wuuig',
       description: 'R-studio environments for Data Science course 2021',
       create_ts: 1616572109,
-      expiry_ts: 1632124109,
+      expiry_ts: 2132124109,
       owner_eppn: 'admin@example.org',
-      member_eppns: ['owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org']
+      manager_users: [
+        'admin@example.org'
+      ],
+      normal_users: ['owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org'],
+      banned_users: ['user-5@example.org']
     },
     {
       id: '5',
@@ -462,9 +492,14 @@ export let db = {
       join_code: 'admin-ws-join-parm5-wuuig',
       description: 'R-studio environments for Data Analytics Seminar, CSC university',
       create_ts: 1616572114,
-      expiry_ts: 1632124114,
+      expiry_ts: 2232124114,
       owner_eppn: 'owner@example.org',
-      member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
+      manager_users: [
+        'admin@example.org',
+        'owner@example.org',
+      ],
+      normal_users: ['user@example.org', 'user-2@example.org', 'user-1@example.org'],
+      banned_users: ['user-5@example.org']
     },
     {
       id: '6',
@@ -472,9 +507,14 @@ export let db = {
       join_code: 'admin-ws-join-parm6-wuuig',
       description: 'IPython environments for NLP Project of Computer Engineering Department, CSC university',
       create_ts: 1616572115,
-      expiry_ts: 1632124115,
+      expiry_ts: 2332124115,
       owner_eppn: 'owner-1@example.org',
-      member_eppns: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
+      manager_users: [
+        'admin@example.org',
+        'owner-1@example.org'
+      ],
+      normal_users: ['user@example.org', 'user-2@example.org', 'user-1@example.org'],
+      banned_users: ['user-5@example.org']
     }
   ],
   environment_templates: [

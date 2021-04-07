@@ -1,15 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
-import { WorkspaceService } from 'src/app/services/workspace.service';
-import { Workspace } from 'src/app/models/workspace';
+import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
 
 export interface MemberTable {
   select: boolean;
   index: number;
-  icon: string;
+  role: string;
   email: string;
-  authority: string;
 }
 
 @Component({
@@ -17,23 +15,25 @@ export interface MemberTable {
   templateUrl: './dashboard-workspace-members.component.html',
   styleUrls: ['./dashboard-workspace-members.component.scss']
 })
-export class DashboardWorkspaceMembersComponent implements OnInit {
+export class DashboardWorkspaceMembersComponent implements OnInit, OnChanges {
 
-  @Input() workspace: Workspace;
-  displayedColumns: string[] = ['select', 'index', 'icon', 'email', 'authority'];
+  @Input() memberList: WorkspaceUserList;
+  displayedColumns: string[] = ['select', 'index', 'role', 'email', 'menu'];
   dataSource: MatTableDataSource<MemberTable>;
+
   selection = new SelectionModel<MemberTable>(true, []);
   tableList = [];
 
   constructor(
-    private workspaceService: WorkspaceService
   ) {
   }
 
   ngOnInit(): void {
-    if (this.workspace) {
-      this.fetchMembers();
-    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.tableList = [];
+    this.viewMembers();
   }
 
   applyFilter(event: Event) {
@@ -41,54 +41,48 @@ export class DashboardWorkspaceMembersComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  fetchMembers(): void {
-    this.workspaceService.fetchMembersByWorkspaceId(this.workspace.id).subscribe((resp) => {
-      console.log('members in the workspace fetched');
+  viewMembers(): void {
       const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
       const ownerKey = workspaceUserKeys.shift();
       this.tableList.push({
-          select: false,
-          index: this.tableList.length,
-          icon: 'account_circle',
-          authority: ownerKey,
-          email: resp[ownerKey].eppn,
-          });
+        select: false,
+        index: this.tableList.length + 1,
+        role: ownerKey,
+        eppn: this.memberList[ownerKey].eppn,
+      });
       const managerKey = workspaceUserKeys.shift();
-      resp[managerKey].forEach((member, index) => {
-        if (member.eppn !== resp[ownerKey].eppn) {
+      this.memberList[managerKey].forEach((member, index) => {
+        if (member.eppn !== this.memberList[ownerKey].eppn) {
           this.tableList.push({
-              select: false,
-              index: this.tableList.length,
-              icon: 'account_circle',
-              authority: managerKey,
-              email: member.eppn,
-              });
+            select: false,
+            index: this.tableList.length + 1,
+            role: managerKey,
+            eppn: member.eppn,
+          });
         }
       });
       for (const key of workspaceUserKeys) {
-        resp[key].forEach((member, index) => {
-        this.tableList.push({
+        this.memberList[key].forEach((member, index) => {
+          this.tableList.push({
             select: false,
-            index: this.tableList.length,
-            icon: 'account_circle',
-            authority: key,
-            email: member.eppn,
-            });
+            index: this.tableList.length + 1,
+            role: key,
+            eppn: member.eppn
+          });
         });
       }
       this.dataSource = new MatTableDataSource(this.tableList);
-    });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
+  isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle(): void {
     this.isAllSelected() ?
         this.selection.clear() :
         this.dataSource.data.forEach(row => this.selection.select(row));

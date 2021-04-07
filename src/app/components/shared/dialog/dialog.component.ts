@@ -8,9 +8,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DialogComponent implements OnInit {
 
-  @Input() dialogTitle;
-  @Input() dialogContent;
-  @Input() dialog;
+  @Input() dialogTitle: string;
+  @Input() dialogContent: string;
+  @Input() dialog: any; // ---- TODO: Check we need it or not
+
   public isClipboardOn = false;
 
   constructor(
@@ -34,5 +35,4 @@ export class DialogComponent implements OnInit {
   copyText(): void {
     console.log(this.data);
   }
-
 }

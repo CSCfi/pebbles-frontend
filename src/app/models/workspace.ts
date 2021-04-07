@@ -13,5 +13,7 @@ export class Workspace {
     public owner_eppn: string,
     public manager_eppns?: string[],
     public member_eppns?: string[],
+    public manager_users?: string[],
+    public normal_users?: string[],
   ) { }
 }

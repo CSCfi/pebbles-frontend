@@ -1,7 +1,6 @@
 @import "src/styles.scss";
 
 .members-container {
-  padding: 0 20px;
 
   .mat-form-field{
     width: 100%;
@@ -12,7 +11,7 @@
     margin: auto;
 
     .mat-header-row {
-      background: map-get($colors, light-dark);
+      background: map-get($colors, light2);
       height: 40px;
 
       .mat-header-cell {
@@ -27,6 +26,35 @@
 
     th{
       text-transform: capitalize;
+    }
+
+    .mat-header-cell,
+    .mat-cell {
+      padding: 0;
+      text-align: center;
+
+      &.left-align {
+        text-align: left;
+      }
+    }
+
+    .mat-table-sticky {
+      border-left: 1px solid map-get($colors, light);
+      border-right: 1px solid map-get($colors, light);
+      width: 50px;
+    }
+
+    .role {
+      color: map-get($colors, accent);
+      .owner {
+        color: map-get($colors, active);
+      }
+      .manager {
+        color: map-get($colors, danger);
+      }
+      .banned {
+        color: map-get($colors, dark);
+      }
     }
   }
 }

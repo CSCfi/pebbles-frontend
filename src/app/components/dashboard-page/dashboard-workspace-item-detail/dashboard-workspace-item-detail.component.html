@@ -55,10 +55,12 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <span class="spacer__r5">Members</span>
-          <mat-chip class="mat-chip-sm">20</mat-chip>
+          <mat-chip class="mat-chip-sm" *ngIf="memberList">{{ memberCount }}</mat-chip>
         </ng-template>
         <ng-template matTabContent>
-          <app-dashboard-workspace-members [workspace]="workspace"></app-dashboard-workspace-members>
+          <app-dashboard-workspace-members
+            [memberList]="memberList" *ngIf="memberList">
+          </app-dashboard-workspace-members>
         </ng-template>
       </mat-tab>
       <!-- 3. Information tab -->

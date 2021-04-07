@@ -1,15 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+
+import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
+import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentService } from '../../../services/environment.service';
-import { DashboardEnvironmentFormComponent } from '../dashboard-environment-form/dashboard-environment-form.component';
-import { DashboardWorkspaceFormComponent } from '../dashboard-workspace-form/dashboard-workspace-form.component';
-import { DialogComponent } from '../../shared/dialog/dialog.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+// import { Environment } from 'src/app/models/environment';
+// import { EnvironmentService } from '../../../services/environment.service';
+// import { DashboardEnvironmentFormComponent } from '../dashboard-environment-form/dashboard-environment-form.component';
+// import { DashboardWorkspaceFormComponent } from '../dashboard-workspace-form/dashboard-workspace-form.component';
 
 @Component({
   selector: 'app-dashboard-workspace-item-detail',
@@ -17,24 +20,6 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./dashboard-workspace-item-detail.component.scss']
 })
 export class DashboardWorkspaceItemDetailComponent implements OnInit {
-
-  // public tabLabels = ['environments', 'members', 'info'];
-  // public selectedTabLabel: string;
-  public notFoundMessage = 'No workspace';
-
-  // ---- variables for workspace environments tab
-  public isPlainFormOn = false;
-  public isEnvironmentCreationWizard = true;
-
-
-  // ---- variables for workspace members tab
-  // public members: WorkspaceUserList;
-
-  // ---- variables for workspace info tab
-  public workspaceEditForm: FormGroup;
-  public isWorkspaceFormChanged = false;
-  public isWorkspaceNameEditOn = false;
-  public isWorkspaceDescriptionEditOn = false;
 
   public content = {
     path: 'workspace-owner/detail/:id',
@@ -44,6 +29,21 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
 
   public workspaces: Workspace[];
   public workspace: Workspace;
+  public notFoundMessage = 'No workspace';
+
+  // ---- variables for workspace environments tab
+  // public isPlainFormOn = false;
+  // public isEnvironmentCreationWizard = true;
+
+  // ---- variables for workspace members tab
+  public memberList: WorkspaceUserList;
+  public users: User[];
+
+  // ---- variables for workspace info tab
+  public workspaceEditForm: FormGroup;
+  public isWorkspaceFormChanged = false;
+  public isWorkspaceNameEditOn = false;
+  public isWorkspaceDescriptionEditOn = false;
 
   get userName(): string {
     return this.authService.getUserName();
@@ -69,11 +69,16 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
   get isDeletable(): boolean {
     if (this.workspace.name === 'System.default') {
       return false;
-    }
-    if (this.workspace.owner_eppn === this.userName) {
+    } else if (this.workspace.owner_eppn === this.userName) {
       return true;
+    } else {
+      return false;
     }
-    return false;
+  }
+
+  get memberCount(): number {
+    const managers = this.memberList.manager_users.filter(user => user.eppn !== this.memberList.owner.eppn);
+    return this.memberList.normal_users.length + managers.length + 1;
   }
 
   // get selectedTabIndex(): number {
@@ -96,17 +101,22 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
     private authService: AuthService
   ) {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('workspaceId');
-      this.workspaceService.fetchWorkspaces().subscribe( resp => {
-        this.workspaces = resp;
-        this.workspace = this.workspaceService.getWorkspaceById(id);
-        this.initReactiveForm(this.workspace);
-      });
+      this.getWorkspaceById(params.get('workspaceId'));
     });
   }
 
   ngOnInit(): void {
 
+  }
+
+  getWorkspaceById(workspaceId: string): void {
+    this.workspaceService.fetchWorkspaces().subscribe(resp => {
+      this.workspaces = resp;
+      this.workspace = this.workspaceService.getWorkspaceById(workspaceId);
+      this.initReactiveForm(this.workspace);
+      this.content.title = `Workspace: ${this.workspace.name}`;
+      this.getMembersByWorkspaceId(workspaceId);
+    });
   }
 
   initReactiveForm(workspace: Workspace): void {
@@ -171,25 +181,12 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
   //   return environments.sort((a, b) => Number(b.is_enabled) - Number(a.is_enabled));
   // }
 
-  // getWorkspaceById(workspaceId: string): void {
-  //   this.workspaceService.fetchWorkspaces().subscribe((resp) => {
-  //     this.workspace = resp.find(ws => ws.id === workspaceId);
-  //     this.content.title = `Workspace: ${this.workspace.name}`;
-  //   });
-  // }
-
-  // openEditWorkspaceDialog(): void {
-  //   const dialogRef = this.dialog.open(DashboardWorkspaceFormComponent, {
-  //       width: '800px',
-  //       height: 'auto',
-  //       data: {
-  //         isCreationMode: false,
-  //         workspace: this.workspace
-  //       }
-  //     }).afterClosed().subscribe(_ => {
-  //       this.getEnvironments();
-  //     });
-  // }
+  getMembersByWorkspaceId(workspaceId: string): any {
+    this.workspaceService.fetchMembersByWorkspaceId(workspaceId).subscribe(resp => {
+      this.memberList = resp;
+      return this.memberList;
+    });
+  }
 
   // openEnvironmentCreationDialog(mode): void {
   //   this.isPlainFormOn = mode === 'wizard' ? false : true;

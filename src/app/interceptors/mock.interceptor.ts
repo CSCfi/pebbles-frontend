@@ -15,6 +15,7 @@ import { Instance, InstanceStates } from 'src/app/models/instance';
 import { User } from 'src/app/models/user';
 import { Workspace } from '../models/workspace';
 import { Environment } from '../models/environment';
+import { WorkspaceUserList } from '../models/workspace-user-list';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
 
@@ -160,14 +161,22 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     function getUserById() {
-      const account = database.users.find((i) => {
-        return (i.id === objectId);
+      const account = database.users.find((user) => {
+        return (user.id === objectId);
       });
       if (account) {
         return ok(account);
       } else {
         return error('account not found');
       }
+    }
+
+    function getUserByEppn(eppn) {
+      return database.users.find((user) => {
+        if (user.eppn === eppn) {
+          return user;
+        }
+      });
     }
 
     // mimic instance lifetime behavior
@@ -380,8 +389,8 @@ export class MockInterceptor implements HttpInterceptor {
         const user_name = localStorage.getItem('user_name');
         database.workspaces = database.workspaces.map(ws => {
           if (ws.join_code === objectId) {
-            if (!ws.member_eppns.includes(user_name)) {
-              ws.member_eppns.push(user_name);
+            if (!ws.normal_users.includes(user_name)) {
+              ws.normal_users.push(user_name);
             }
           }
           return ws;
@@ -397,21 +406,26 @@ export class MockInterceptor implements HttpInterceptor {
         return ws.id === objectId;
       });
       if (targetWorkspace) {
-        // ---- MEMO: This approach has more lines but is logically better.
-        const workspaceMembers = [];
-        if (targetWorkspace.member_eppns) {
-          for (const eppn of targetWorkspace.member_eppns) {
-            const member = database.users.find(user => {
-              return user.eppn === eppn;
-            });
-            if (member) {
-              workspaceMembers.push(member);
-            } else {
-              console.log(`The User data ${eppn} not found in test-data.ts`);
+        const workspaceUserList = {
+          owner: {},
+          manager_users: [],
+          normal_users: [],
+          banned_users: []
+        };
+
+        workspaceUserList.owner = getUserByEppn(targetWorkspace.owner_eppn);
+        const workspaceUserKeys = ['manager_users', 'normal_users', 'banned_users'];
+        workspaceUserKeys.forEach((key) => {
+          if (targetWorkspace[key]) {
+            for (const user of targetWorkspace[key]) {
+              const foundUser = getUserByEppn(user);
+              if (foundUser) {
+                workspaceUserList[key].push(foundUser);
+              }
             }
           }
-        }
-        return ok(workspaceMembers);
+        });
+        return ok(workspaceUserList);
       } else {
         return error('workspace not found');
       }
@@ -432,8 +446,8 @@ export class MockInterceptor implements HttpInterceptor {
       const user_name = localStorage.getItem('user_name');
       database.workspaces = database.workspaces.map((ws) => {
         if (ws.id === objectId) {
-          const index = ws.member_eppns.indexOf(user_name);
-          ws.member_eppns.splice(index, 1);
+          const index = ws.normal_users.indexOf(user_name);
+          ws.normal_users.splice(index, 1);
         }
         return ws;
       });
@@ -528,7 +542,7 @@ export class MockInterceptor implements HttpInterceptor {
         if (ws.name === 'System.default') {
           return false;
         }
-        if (ws.member_eppns && ws.member_eppns.includes(eppn)) {
+        if (ws.normal_users && ws.normal_users.includes(eppn)) {
           return true;
         }
         if (ws.owner_eppn === eppn) {
