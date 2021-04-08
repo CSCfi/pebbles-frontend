@@ -8,6 +8,7 @@ import { Instance, InstanceStates } from 'src/app/models/instance';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { Utilities } from '../../../utilities';
+import { EnvironmentType } from '../../../models/environment-template';
 
 @Component({
   selector: 'app-dashboard-environment-item',
@@ -91,22 +92,23 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   get thumbnail(): string {
-    return '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
-    let element = '<i class="las la-book"></i>';
-    if (this.environment.thumbnail) {
-      switch (this.environment.thumbnail) {
-        case 'jupyter':
-          element = '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
-          break;
-        case 'r-studio':
-          element = '<span class="r-studio">R</span>';
-          break;
-        default:
-          element = '<i class="las la-book"></i>';
-          break;
-      }
+    // TODO: when backend supports environment type in API, simply use that
+    let environmentType = EnvironmentType.Generic;
+    if (this.environment?.labels.indexOf('jupyter') >= 0) {
+      environmentType = EnvironmentType.Jupyter;
     }
-    return element;
+    else if (this.environment?.labels.indexOf('rstudio') >= 0) {
+      environmentType = EnvironmentType.RStudio;
+    }
+
+    switch (environmentType) {
+      case EnvironmentType.Jupyter:
+        return '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
+      case EnvironmentType.RStudio:
+        return '<span class="r-studio">R</span>';
+      default:
+        return '<i class="las la-book"></i>';
+    }
   }
 
   get description(): string {

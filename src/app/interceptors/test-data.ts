@@ -76,7 +76,7 @@ export let db = {
       maximum_lifetime: '18000',
       workspace_id: 'ws-0',
       thumbnail: 'jupyter',
-      labels: ['csc', 'python', 'basic', 'self-study'],
+      labels: ['csc', 'python', 'basic', 'self-study', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -112,7 +112,7 @@ export let db = {
       maximum_lifetime: '36000',
       workspace_id: 'ws-0',
       thumbnail: 'deep-learning',
-      labels: ['csc', 'python', 'deep learning', 'machine learning', '2020'],
+      labels: ['csc', 'python', 'deep learning', 'machine learning', '2020', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -130,7 +130,7 @@ export let db = {
       maximum_lifetime: '36000',
       workspace_id: 'ws-0',
       thumbnail: 'machine-learning',
-      labels: ['course-ml', 'python', 'machine learning', '2019'],
+      labels: ['course-ml', 'python', 'machine learning', '2019', 'jupyter'],
       config: {
         jupyter_interface: 'lab',
         download_method: 'http-get',
@@ -148,7 +148,7 @@ export let db = {
       maximum_lifetime: '18000',
       workspace_id: '3',
       thumbnail: 'jupyter',
-      labels: ['csc', 'api', 'python'],
+      labels: ['csc', 'api', 'python', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -166,7 +166,7 @@ export let db = {
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '4',
       thumbnail: 'data-science',
-      labels: ['csc', 'data-science', 'python'],
+      labels: ['csc', 'data-science', 'python', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -184,7 +184,7 @@ export let db = {
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '5',
       thumbnail: 'machine-learning',
-      labels: ['course-ml', 'data-science', 'python'],
+      labels: ['course-ml', 'data-science', 'python', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -202,7 +202,7 @@ export let db = {
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '6',
       thumbnail: 'jupyter',
-      labels: ['csc', 'data-science', 'python'],
+      labels: ['csc', 'data-science', 'python', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -220,7 +220,7 @@ export let db = {
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '2',
       thumbnail: 'r-studio',
-      labels: ['csc', 'data-science', 'r-studio'],
+      labels: ['csc', 'data-science', 'rstudio'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -238,7 +238,7 @@ export let db = {
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '3',
       thumbnail: 'ipython',
-      labels: ['course-ds', 'data-science', 'python'],
+      labels: ['course-ds', 'data-science', 'python', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -256,7 +256,7 @@ export let db = {
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '3',
       thumbnail: 'ipython',
-      labels: ['course-ds', 'data-science', 'python'],
+      labels: ['course-ds', 'data-science', 'python', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -274,7 +274,7 @@ export let db = {
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '6',
       thumbnail: 'ipython',
-      labels: ['course-ds', 'data-science', 'python'],
+      labels: ['course-ds', 'data-science', 'python', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -292,7 +292,7 @@ export let db = {
       description: 'Very basic environment for testing basic label',
       workspace_id: '3',
       thumbnail: 'jupyter',
-      labels: ['basic'],
+      labels: ['basic', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
