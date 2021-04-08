@@ -58,6 +58,7 @@ export class DashboardActiveEnvironmentsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.interval);
+    this.interval = 0;
   }
 
   updateRowData(): void {

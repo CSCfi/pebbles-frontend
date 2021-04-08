@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 
 import { Instance, InstanceStates } from 'src/app/models/instance';
@@ -29,7 +29,7 @@ export class InstanceService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.interval);
+    this.clearPollingInterval();
   }
 
   getInstances(): Instance[] {
@@ -85,6 +85,14 @@ export class InstanceService implements OnDestroy {
         // update the timestamp
         this.lastUpdateTs = Date.now();
         return this.instances;
+      }),
+      catchError( err => {
+        console.log('InstanceService.fetchInstances got error ', err);
+        if (err.status === 401) {
+          console.log('InstanceService stopping instance polling');
+          this.clearPollingInterval();
+        }
+        return throwError('Error fetching instances');
       })
     );
   }
@@ -113,6 +121,7 @@ export class InstanceService implements OnDestroy {
     // console.log('---- stop polling');
     if (this.interval) {
       clearInterval(this.interval);
+      this.interval = 0;
       this.intervalValue = -1;
     }
   }
@@ -130,6 +139,7 @@ export class InstanceService implements OnDestroy {
 
     if (this.interval) {
       clearInterval(this.interval);
+      this.interval = 0;
     }
     this.interval = window.setInterval(() => {
       this.fetchInstances().subscribe();

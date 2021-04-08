@@ -4,7 +4,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Instance, InstanceStates } from 'src/app/models/instance';
 import { InstanceService } from 'src/app/services/instance.service';
 import { Environment } from '../../models/environment';
-import { map } from 'rxjs/operators';
 import { EnvironmentService } from '../../services/environment.service';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressBarMode } from '@angular/material/progress-bar';
@@ -68,6 +67,7 @@ export class InstancePageComponent implements OnInit, OnDestroy {
     // clean the interval
     if (this.interval !== 0) {
       clearInterval(this.interval);
+      this.interval = 0;
     }
   }
 

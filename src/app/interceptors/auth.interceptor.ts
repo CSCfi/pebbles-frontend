@@ -42,7 +42,6 @@ export class AuthInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse && err.status === 401) {
           this.messageService.displayError('Authentication failed');
           this.router.navigate(['welcome']).then(() => console.log('router: navigated to welcome'));
-          return of(err as any);
         }
         if (err instanceof HttpErrorResponse) {
           this.messageService.displayError(`Error response from server: ${err.message}`);

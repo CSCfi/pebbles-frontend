@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { InstanceService } from './instance.service';
 import { WorkspaceService } from './workspace.service';
 import { Environment } from 'src/app/models/environment';
@@ -23,7 +23,7 @@ export class EnvironmentService implements OnDestroy {
     // private notificationService: NotificationService
   ) {
     this.interval = window.setInterval(() => {
-      this.fetchEnvironments();
+      this.fetchEnvironments().subscribe();
     }, 60 * 1000);
 
     // make sure we populate the service state in order to be able to assign the instances
@@ -38,7 +38,7 @@ export class EnvironmentService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.interval);
+    this.clearPollingInterval();
   }
 
   get(environmentId: string): Environment {
@@ -81,6 +81,14 @@ export class EnvironmentService implements OnDestroy {
         }
         this.environments = resp;
         return this.environments;
+      }),
+      catchError( err => {
+        console.log('EnvironmentService.fetchEnvironments() got error ', err);
+        if (err.status === 401) {
+          console.log('EnvironmentService stopping environment polling');
+          this.clearPollingInterval();
+        }
+        return throwError('Error fetching environments');
       })
     );
   }
@@ -163,4 +171,13 @@ export class EnvironmentService implements OnDestroy {
       this.fetchEnvironments().subscribe();
     }));
   }
+
+  clearPollingInterval() {
+    // console.log('---- stop polling');
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = 0;
+    }
+  }
+
 }
