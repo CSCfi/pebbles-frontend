@@ -34,23 +34,3 @@ cd ~/src/gitlab.ci.csc.fi/pebbles/pebbles-frontend/
 # create runtime image with multi-stage
 docker build . -t pebbles-frontend:latest -f deployment/Dockerfile.multi-stage
 ```
-
-# Build with old AngularJS code included
-
-```shell script
-# change to project root directory
-cd ~/src/gitlab.ci.csc.fi/pebbles/pebbles-frontend/
-
-# install dependencies
-npm install
-
-# build the application (production build here)
-npm run-script build:prod
-
-# copy AngularJS code from Pebbles-repo, assuming it is cloned as sibling directory
-cp -r ../pebbles/pebbles/static/index.html dist/pebbles-frontend/admin.html
-cp -r ../pebbles/pebbles/static/{img,js,css,fonts,partials} dist/pebbles-frontend/.
-
-# create runtime image by copying the compiled application in it
-docker build . -t pebbles-frontend:latest -f deployment/Dockerfile.runtime
-```

@@ -101,15 +101,6 @@ build-image:
     # copy compiled application from cache to runtime image. This assumes cache accessible by all runners
     - echo "Going to build and push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}"
 
-    # copy AngularJS code from pebbles -repo. Try to use the same branch name if it exists
-    - cd /tmp/
-    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/pebbles/pebbles.git
-    - cd pebbles
-    - git checkout -b ${CI_COMMIT_REF_NAME} -t origin/${CI_COMMIT_REF_NAME} || true
-    - cd ${CI_PROJECT_DIR}
-    - cp -r /tmp/pebbles/pebbles/static/index.html dist/pebbles-frontend/admin.html
-    - for dir in img js css fonts partials; do cp -r /tmp/pebbles/pebbles/static/${dir} dist/pebbles-frontend/.; done
-
     # build the runtime image from files in 'dist/pebbles-frontend'
     - docker build --tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} . --file=deployment/Dockerfile.runtime
     - docker push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}
