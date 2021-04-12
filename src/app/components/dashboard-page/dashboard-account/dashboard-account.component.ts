@@ -34,4 +34,7 @@ export class DashboardAccountComponent implements OnInit {
     });
   }
 
+  is_workspace_owner() {
+    return this.authService.isWorkspaceOwner;
+  }
 }

@@ -8,8 +8,6 @@ export class User {
     public workspace_quota?: number,
     public is_active?: boolean,
     public is_admin?: boolean,
-    public is_workspace_owner?: boolean,
-    public is_workspace_manager?: boolean,
     public is_deleted?: boolean,
     public is_blocked?: boolean,
     public expiry_date?: string,

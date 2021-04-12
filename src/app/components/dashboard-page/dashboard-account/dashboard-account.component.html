@@ -23,7 +23,7 @@
               <ng-container *ngIf="user?.is_admin; then admin; else not_admin"></ng-container>
               <ng-template #admin>Admin</ng-template>
               <ng-template #not_admin>
-                <ng-container *ngIf="user?.is_workspace_owner then workspace_owner; else not_workspace_owner">
+                <ng-container *ngIf="is_workspace_owner() then workspace_owner; else not_workspace_owner">
                 </ng-container>
               </ng-template>
               <ng-template #workspace_owner>Workspace Owner</ng-template>

@@ -23,7 +23,7 @@ export class AuthService {
     return localStorage.getItem('is_workspace_owner') === 'true';
   }
 
-  get isWorkspaceDetail(): boolean {
+  get isWorkspaceManager(): boolean {
     return localStorage.getItem('is_workspace_manager') === 'true';
   }
 
