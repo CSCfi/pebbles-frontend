@@ -10,6 +10,8 @@ export class Environment {
     public labels: string[],
     public thumbnail: string,
     public is_enabled: boolean,
+    public template_id?: string,
+    public template_name?: string,
     public instance_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,

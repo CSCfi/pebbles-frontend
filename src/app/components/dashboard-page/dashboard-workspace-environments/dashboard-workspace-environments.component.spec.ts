@@ -3,6 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-environments.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('DashboardWorkspaceEnvironmentsComponent', () => {
   let component: DashboardWorkspaceEnvironmentsComponent;
@@ -10,12 +12,14 @@ describe('DashboardWorkspaceEnvironmentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [ DashboardWorkspaceEnvironmentsComponent ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
         MaterialModule
       ],
-      declarations: [ DashboardWorkspaceEnvironmentsComponent ]
+      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   });

@@ -25,7 +25,7 @@ import { DashboardStatisticsComponent } from './dashboard-statistics/dashboard-s
 import { DashboardHelpComponent } from './dashboard-help/dashboard-help.component';
 // ---- environment parts component
 import { DashboardEnvironmentItemComponent } from './dashboard-environment-item/dashboard-environment-item.component';
-import { DashboardEnvironmentFormComponent } from './dashboard-environment-form/dashboard-environment-form.component';
+import { DashboardEnvironmentWizardFormComponent } from './dashboard-environment-wizard-form/dashboard-environment-wizard-form.component';
 import { DashboardEnvironmentItemFormComponent } from './dashboard-environment-item-form/dashboard-environment-item-form.component';
 // ---- workspace parts component
 import { DashboardWorkspaceItemComponent } from './dashboard-workspace-item/dashboard-workspace-item.component';
@@ -36,6 +36,7 @@ import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folder
 // ---- shared component
 import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
 import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-environments/dashboard-workspace-environments.component';
+import { DashboardInstanceButtonComponent } from './dashboard-instance-button/dashboard-instance-button.component';
 // import { MessageComponent } from 'src/app/components/shared/message/message.component';
 
 @NgModule({
@@ -59,10 +60,11 @@ import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-e
     DashboardWorkspaceMembersComponent,
     DashboardWorkspaceFoldersComponent,
     DashboardEnvironmentItemComponent,
-    DashboardEnvironmentFormComponent,
+    DashboardEnvironmentWizardFormComponent,
     DashboardEnvironmentItemFormComponent,
     DashboardWorkspaceItemDetailComponent,
     DashboardWorkspaceEnvironmentsComponent,
+    DashboardInstanceButtonComponent,
   ],
   imports: [
     CommonModule,

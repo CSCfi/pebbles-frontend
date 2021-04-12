@@ -1,8 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Environment } from 'src/app/models/environment';
 import { Instance, InstanceStates } from 'src/app/models/instance';
 import { EnvironmentService } from 'src/app/services/environment.service';
@@ -10,23 +9,23 @@ import { InstanceService } from 'src/app/services/instance.service';
 import { Utilities } from '../../../utilities';
 
 @Component({
-  selector: 'app-dashboard-environment-item',
-  templateUrl: './dashboard-environment-item.component.html',
-  styleUrls: ['./dashboard-environment-item.component.scss']
+  selector: 'app-dashboard-instance-button',
+  templateUrl: './dashboard-instance-button.component.html',
+  styleUrls: ['./dashboard-instance-button.component.scss']
 })
-export class DashboardEnvironmentItemComponent implements OnInit {
+export class DashboardInstanceButtonComponent implements OnInit {
 
-  @Input() environment: Environment;
-  @Input() content: any;
-  @Output() getEnvironmentsEvent = new EventEmitter<string>();
+  @Input() environmentId: string;
+  public environment: Environment;
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
   isWaitingInterval = false;
+  diameter = 120;
+  strokeWidth = 8;
 
   get isSpinnerOn(): boolean {
-    const instance = this.instanceService.getInstance(this.environment.instance_id);
-    if (instance) {
+    if (this.instance) {
       switch (this.state) {
         case InstanceStates.Running:
         case InstanceStates.Deleted:
@@ -50,12 +49,12 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     return null;
   }
 
-  get labels(): string {
-    return this.environment.labels.join(', ');
+  get isInstanceActive(): boolean {
+    return this.instance && this.instance.state !== InstanceStates.Deleted;
   }
 
   get isTimeWarningOn(): boolean {
-    return (this.instance?.state === InstanceStates.Failed || this.lifetimePercentage < 25) && !this.isSpinnerOn;
+    return this.lifetimePercentage < 25 && !this.isSpinnerOn;
   }
 
   get lifetime(): string {
@@ -84,90 +83,23 @@ export class DashboardEnvironmentItemComponent implements OnInit {
   }
 
   get lifetimeLeft(): string {
-    if (this.instance.state === InstanceStates.Running && this.instance.lifetime_left) {
+    if (this.instance.state === 'running' && this.instance.lifetime_left) {
       return Utilities.lifetimeToString(this.instance.lifetime_left);
     }
     return '';
   }
 
-  get thumbnail(): string {
-    return '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
-    let element = '<i class="las la-book"></i>';
-    if (this.environment.thumbnail) {
-      switch (this.environment.thumbnail) {
-        case 'jupyter':
-          element = '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
-          break;
-        case 'r-studio':
-          element = '<span class="r-studio">R</span>';
-          break;
-        default:
-          element = '<i class="las la-book"></i>';
-          break;
-      }
-    }
-    return element;
-  }
-
-  get description(): string {
-    if (this.environment && this.environment.description) {
-      return this.environment.description;
-    } else {
-      return 'The environment has no description.';
-    }
-  }
-
-  get isDraft(): boolean {
-    return this.environment.is_enabled ? false : true;
-  }
-
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2,
+    private router: Router,
     private environmentService: EnvironmentService,
     private instanceService: InstanceService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    // console.log(`--------- env ${ this.environment.id } --------`);
+    // console.log(this.environmentId);
+    this.environment = this.environmentService.getEnvironmentById(this.environmentId);
   }
-
-  toggleEnvironmentActivation(isActive: boolean): void {
-    this.environment.is_enabled = isActive;
-    this.environmentService.updateEnvironment(this.environment).subscribe(_ => {
-      console.log('Updated environment');
-      this.getEnvironmentsEvent.emit();
-    });
-  }
-
-  copyEnvironment(): void {
-    if (!confirm(`Are you sure you want to copy this environment "${this.environment.name}"?`)) {
-      return;
-    }
-    this.environmentService.copyEnvironment(this.environment).subscribe( _ => {
-      console.log('Environment copying process finished');
-      this.getEnvironmentsEvent.emit();
-    });
-  }
-
-  toggleGpuActivation(active): void {
-    // ---- TODO: place holder. write later !
-  }
-
-  deleteEnvironment(): void {
-    if (!confirm(`Are you sure you want to delete this environment "${this.environment.name}"?`)) {
-      return;
-    }
-    this.environmentService.deleteEnvironment(this.environment).subscribe( _ => {
-      console.log('environment deleting process finished');
-      this.getEnvironmentsEvent.emit();
-    });
-  }
-
-  // ---- Instance
-  // ----------------------------------------
 
   startEnvironment(): void {
     this.isWaitingInterval = true;
@@ -209,14 +141,5 @@ export class DashboardEnvironmentItemComponent implements OnInit {
     this.instanceService.deleteInstance(instance.id).subscribe(_ => {
       // console.log('instance deleting process finished');
     });
-  }
-
-  getInstance(): Instance {
-    return this.instanceService.getInstance(this.environment.instance_id);
-  }
-
-  actionsVisible(): boolean {
-    const instance = this.instanceService.getInstance(this.environment.instance_id);
-    return instance && instance.state !== InstanceStates.Deleted;
   }
 }

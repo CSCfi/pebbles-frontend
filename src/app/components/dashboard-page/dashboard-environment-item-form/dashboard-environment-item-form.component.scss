@@ -3,6 +3,7 @@
 h2 {
   width: 100%;
   text-align: center;
+  font-weight: 600;
 }
 
 .mat-form-field {
@@ -22,7 +23,21 @@ h2 {
 }
 
 form {
-  margin-top: 20px;
+  // margin-top: 20px;
   padding: 20px 0;
+  .form-container {
+    h3 {
+      font-size: 1.4rem;
+    }
+
+    ul {
+      height: auto;
+      overflow: hidden;
+    }
+  }
 }
 
+.mat-dialog-container {
+  overflow: scroll;
+  border: 3px solid #333;
+}

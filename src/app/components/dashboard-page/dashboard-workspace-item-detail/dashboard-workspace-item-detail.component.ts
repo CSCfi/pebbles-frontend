@@ -9,10 +9,8 @@ import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-// import { Environment } from 'src/app/models/environment';
-// import { EnvironmentService } from '../../../services/environment.service';
-// import { DashboardEnvironmentFormComponent } from '../dashboard-environment-form/dashboard-environment-form.component';
-// import { DashboardWorkspaceFormComponent } from '../dashboard-workspace-form/dashboard-workspace-form.component';
+import { Environment } from 'src/app/models/environment';
+import { EnvironmentService } from '../../../services/environment.service';
 
 @Component({
   selector: 'app-dashboard-workspace-item-detail',
@@ -32,8 +30,7 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
   public notFoundMessage = 'No workspace';
 
   // ---- variables for workspace environments tab
-  // public isPlainFormOn = false;
-  // public isEnvironmentCreationWizard = true;
+  public environments: Environment[];
 
   // ---- variables for workspace members tab
   public memberList: WorkspaceUserList;
@@ -89,16 +86,13 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
   //   }
   // }
 
-  // get environments(): Environment[] {
-  //   return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
-  // }
-
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog, // JoinCode
     private formBuilder: FormBuilder,
     private workspaceService: WorkspaceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private environmentService: EnvironmentService
   ) {
     this.route.paramMap.subscribe(params => {
       this.getWorkspaceById(params.get('workspaceId'));
@@ -106,7 +100,6 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   getWorkspaceById(workspaceId: string): void {
@@ -116,6 +109,7 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
       this.initReactiveForm(this.workspace);
       this.content.title = `Workspace: ${this.workspace.name}`;
       this.getMembersByWorkspaceId(workspaceId);
+      this.getEnvironmentsByWorkspaceId(workspaceId);
     });
   }
 
@@ -139,7 +133,7 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
     this.isWorkspaceFormChanged = true;
   }
 
-  cancelChanges(): void {
+  cancelWorkspaceEditing(): void {
     this.initReactiveForm(this.workspace);
     this.isWorkspaceNameEditOn = false;
     this.isWorkspaceDescriptionEditOn = false;
@@ -176,32 +170,18 @@ export class DashboardWorkspaceItemDetailComponent implements OnInit {
     });
   }
 
-  // getEnvironments(): Environment[] {
-  //   const environments = this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
-  //   return environments.sort((a, b) => Number(b.is_enabled) - Number(a.is_enabled));
-  // }
-
-  getMembersByWorkspaceId(workspaceId: string): any {
-    this.workspaceService.fetchMembersByWorkspaceId(workspaceId).subscribe(resp => {
-      this.memberList = resp;
-      return this.memberList;
+  getEnvironmentsByWorkspaceId(workspaceId: string): void{
+    this.environmentService.fetchEnvironments().subscribe(_ => {
+      const environments = this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
+      this.environments = environments.sort((a, b) => Number(b.is_enabled) - Number(a.is_enabled));
     });
   }
 
-  // openEnvironmentCreationDialog(mode): void {
-  //   this.isPlainFormOn = mode === 'wizard' ? false : true;
-  //   const dialogRef = this.dialog.open(DashboardEnvironmentFormComponent, {
-  //       width: this.isPlainFormOn ? '800px' : '1000px',
-  //       height: 'auto',
-  //       maxHeight: '90vh',
-  //       data: {
-  //         isPlainFormOn: this.isPlainFormOn,
-  //         workspaceId: this.workspace.id
-  //       }
-  //     }).afterClosed().subscribe( _ => {
-  //       this.getEnvironments();
-  //     });
-  // }
+  getMembersByWorkspaceId(workspaceId: string): void {
+    this.workspaceService.fetchMembersByWorkspaceId(workspaceId).subscribe(resp => {
+      this.memberList = resp;
+    });
+  }
 
   openJoinCodeDialog(): void {
     const dialogRef = this.dialog.open( DialogComponent, {

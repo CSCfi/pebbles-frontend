@@ -2,6 +2,12 @@
 
 .workspace-environments-container {
 
+  .environment-actions {
+    button {
+      height: 45px;
+    }
+  }
+
   th.mat-header-cell:first-of-type,
   td.mat-cell:first-of-type,
   td.mat-footer-cell:first-of-type {
@@ -13,31 +19,35 @@
   }
 
   table {
-    width: 100%;
-    margin: auto;
+    // width: 100%;
+    // margin: auto;
 
-    .thumb img {
-      padding: 5px;
-      background-color: map-get($colors, light-gray);
-    }
+    .thumbnail{
+      width: 60px;
 
-    .mat-header-row {
-      background: #ddd;
-      height: 40px;
+      .thumbnail-placeholder {
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+        background-color: map-get($colors, light-gray);
 
-      .mat-header-cell {
-        color: map-get($colors, white);
-        border-bottom: none;
+        &.published {
+          background-color: map-get($colors, accent);
+        }
+
+        img {
+          width: 100%;
+        }
       }
     }
 
-    th,td{
-      vertical-align: middle;
-      padding: 10px;
-    }
-
-    th{
-      text-transform: capitalize;
+    .environment-name {
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: map-get($colors, dark);
+      width: 100%;
+      margin-bottom: 5px;
+      // border-bottom: 1px solid map-get($colors, light);
     }
   }
 }

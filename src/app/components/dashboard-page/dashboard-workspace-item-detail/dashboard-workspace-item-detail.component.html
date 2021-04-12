@@ -31,23 +31,15 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <span class="spacer__r5">Environments</span>
-          <mat-chip class="mat-chip-sm">10</mat-chip>
+          <mat-chip class="mat-chip-sm" *ngIf="environments">{{ environments.length }}</mat-chip>
         </ng-template>
         <ng-template matTabContent>
-          <div class="environment-actions" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-            <!-- <button mat-flat-button class="open-environment-creation-wizard-button inversion primary"
-            aria-label="create a new environment" (click)="openEnvironmentCreationDialog('wizard')">
-            <mat-icon class="spacer__r10">auto_awesome</mat-icon>
-            <span>create new environment by wizard</span>
-          </button> -->
-            <!-- <a class="open-environment-creation-form-button spacer__t10" aria-label="create a new environment"
-            (click)="openEnvironmentCreationDialog('plain')">
-            <mat-icon class="spacer__r5">add</mat-icon>
-            <span>create new environment by form</span>
-          </a> -->
-          </div>
           <div class="environments">
-            <!-- <app-dashboard-workspace-environments></app-dashboard-workspace-environments> -->
+            <app-dashboard-workspace-environments
+              [environments]="environments" [workspaceId]="workspace.id"
+              (fetchEnvironmentEvent)="getEnvironmentsByWorkspaceId(workspace.id)"
+              *ngIf="environments">
+            </app-dashboard-workspace-environments>
           </div>
         </ng-template>
       </mat-tab>
@@ -114,7 +106,7 @@
               save changes
             </button>
             <button mat-stroked-button class="workspace-edit-cancel-button spacer__t10" *ngIf="isWorkspaceFormChanged"
-              (click)="cancelChanges()">
+              (click)="cancelWorkspaceEditing()">
               cancel changes
             </button>
             <button mat-stroked-button class="workspace-delete-button spacer__t10" *ngIf="isDeletable"

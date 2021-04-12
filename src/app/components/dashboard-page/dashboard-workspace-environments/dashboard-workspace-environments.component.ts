@@ -1,20 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
-import { WorkspaceService } from 'src/app/services/workspace.service';
-import { Workspace } from 'src/app/models/workspace';
+import { MatDialog } from '@angular/material/dialog';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
+import { DashboardEnvironmentWizardFormComponent } from '../dashboard-environment-wizard-form/dashboard-environment-wizard-form.component';
+import { DashboardEnvironmentItemFormComponent } from '../dashboard-environment-item-form/dashboard-environment-item-form.component';
 
 export interface EnvironmentTable {
-  isSelected: boolean;
+  select: boolean;
   index: number;
-  environmentName: string;
+  id: string;
+  name: string;
   description: string;
   username: string;
   state: string;
-  lifetimeLeft: string;
-  instanceId: string;
+  lifetime: string;
+  labels: string[];
+  instance_id: string;
 }
 
 @Component({
@@ -22,63 +25,73 @@ export interface EnvironmentTable {
   templateUrl: './dashboard-workspace-environments.component.html',
   styleUrls: ['./dashboard-workspace-environments.component.scss']
 })
-export class DashboardWorkspaceEnvironmentsComponent implements OnInit {
+export class DashboardWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
 
-  @Input() workspace: Workspace;
-  environments: Environment[];
-  tableList = [];
-  isDraft = false;
+  @Input() environments: Environment[];
+  @Input() workspaceId: string;
+  @Output() fetchEnvironmentEvent = new EventEmitter();
 
-  displayedColumns: string[] = [ 'isSelected', 'thumb', 'name', 'description', 'lifetime', 'labels', 'action'];
-  selection = new SelectionModel<EnvironmentTable>(true, []);
-  tableRowData: EnvironmentTable[] = [];
+  public isEnvironmentCreationWizard = true;
+
+  displayedColumns: string[] = ['thumbnail', 'name', 'labels', 'state', 'launch', 'edit', 'menu'];
   dataSource: MatTableDataSource<EnvironmentTable>;
+  selection = new SelectionModel<EnvironmentTable>(true, []);
+  tableList = [];
+
+  get thumbnail(): string {
+    return '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="100%">';
+  }
+
+  // isWaitingInterval: boolean;
 
   constructor(
-    private workspaceService: WorkspaceService,
     public environmentService: EnvironmentService,
+    public dialog: MatDialog,
   ) {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<EnvironmentTable>(this.tableRowData);
-    this.environmentService.fetchEnvironments().subscribe( _ => {
-      this.fetchTableData();
-    });
   }
 
-  fetchTableData(): void {
-    this.environments = this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
+  ngOnChanges(changes: SimpleChanges): void {
+    this.tableList = [];
+    this.viewEnvironments();
+  }
+
+  viewEnvironments(): void {
     this.tableList = this.environments.map((env, i) => {
-    return {
+      return {
         select: false,
+        is_enabled: env.is_enabled,
         index: i,
+        id: env.id,
         name: env.name,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. [MORE]',
-        lifetime: env.maximum_lifetime,
-        labels: env.labels
+        description: env.description,
+        maximum_lifetime: env.maximum_lifetime,
+        labels: env.labels,
+        instance_id: env.instance_id
       };
     });
     this.dataSource = new MatTableDataSource(this.tableList);
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
+  isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle(): void {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
@@ -89,39 +102,74 @@ export class DashboardWorkspaceEnvironmentsComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.index + 1}`;
   }
 
-  toggleEnvironmentActivation(isActive: boolean): void {
-    // this.environment.is_enabled = isActive;
-    // this.environmentService.updateEnvironment(this.environment).subscribe(_ => {
-    //   console.log('Updated environment');
-    //   this.getEnvironmentsEvent.emit();
-    // });
+  getTargetEnvironment(id: string): Environment {
+    return this.environments.find( env => env.id === id);
   }
 
-  copyEnvironment(): void {
-    // if (!confirm(`Are you sure you want to copy this environment "${this.environment.name}"?`)) {
-    //   return;
-    // }
-    // this.environmentService.copyEnvironment(this.environment).subscribe( _ => {
-    //   console.log('Environment copying process finished');
-    //   this.getEnvironmentsEvent.emit();
-    // });
+  getLifetime(sec: number): string {
+    const hours = sec / 3600;
+    const mins = sec % 3600;
+    return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
+  }
+
+  toggleEnvironmentActivation(isActive: boolean, environmentId: string): void {
+    const environment = this.getTargetEnvironment(environmentId);
+    environment.is_enabled = isActive;
+    this.environmentService.updateEnvironment(environment).subscribe(_ => {
+      console.log('Updated environment');
+      this.fetchEnvironmentEvent.emit();
+    });
+  }
+
+  copyEnvironment(environmentId: string): void {
+    const environment = this.getTargetEnvironment(environmentId);
+    if (!confirm(`Are you sure you want to copy this environment "${environment.name}"?`)) {
+      return;
+    }
+    this.environmentService.copyEnvironment(environment).subscribe( _ => {
+      console.log('Environment copying process finished');
+      this.fetchEnvironmentEvent.emit();
+    });
   }
 
   toggleGpuActivation(active): void {
     // ---- TODO: place holder. write later !
   }
 
-  deleteEnvironment(): void {
-    // if (!confirm(`Are you sure you want to delete this environment "${this.environment.name}"?`)) {
-    //   return;
-    // }
-    // this.environmentService.deleteEnvironment(this.environment).subscribe( _ => {
-    //   console.log('environment deleting process finished');
-    //   this.getEnvironmentsEvent.emit();
-    // });
+  deleteEnvironment(environmentId: string): void {
+    const environment = this.getTargetEnvironment(environmentId);
+    if (!confirm(`Are you sure you want to delete this environment "${environment.name}"?`)) {
+      return;
+    }
+    this.environmentService.deleteEnvironment(environment).subscribe( _ => {
+      console.log('environment deleting process finished');
+      this.fetchEnvironmentEvent.emit();
+    });
   }
 
-  openEditEnvironmentDialog() {
+  openEnvironmentItemFormDialog(environmentId: string|null): void {
+    this.dialog.open(DashboardEnvironmentItemFormComponent, {
+      width: '800px',
+      height: '90vh',
+      data: {
+        workspaceId: this.workspaceId,
+        environment: environmentId ? this.getTargetEnvironment(environmentId) : null
+      }
+    }).afterClosed().subscribe(_ => {
+      this.fetchEnvironmentEvent.emit();
+    });
+  }
 
+  openEnvironmentWizardDialog(): void {
+    const dialogRef = this.dialog.open(DashboardEnvironmentWizardFormComponent, {
+      width: '1000px',
+      height: 'auto',
+      maxHeight: '90vh',
+      data: {
+        workspaceId: this.workspaceId
+      }
+    }).afterClosed().subscribe(_ => {
+      this.fetchEnvironmentEvent.emit();
+    });
   }
 }

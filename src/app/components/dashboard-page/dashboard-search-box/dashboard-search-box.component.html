@@ -1,14 +1,13 @@
-<mat-form-field class="chip-list">
-
+<mat-form-field class="chip-list" appearance="fill">
+  <mat-label>choose labels from the list below</mat-label>
   <mat-chip-list #chipList aria-label="keyword selection">
-    <!-- <ng-container *ngIf="catalog"> -->
     <mat-chip *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
       (removed)="removeLabel(label)" selected>
       {{label}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
-    <!-- </ng-container> -->
-    <input placeholder="labels for new search" #labelInput [formControl]="labelCtrl" [matAutocomplete]="auto"
+    <input #labelInput
+      [formControl]="labelCtrl" [matAutocomplete]="auto"
       [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
   </mat-chip-list>

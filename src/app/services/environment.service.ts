@@ -54,6 +54,10 @@ export class EnvironmentService implements OnDestroy {
     return this.environments;
   }
 
+  getEnvironmentById(environmentId: string): Environment {
+    return this.environments.find(env => env.id === environmentId);
+  }
+
   getEnvironmentsByWorkspaceId(workspaceId: string): Environment[] {
     return this.environments.filter(env => env.workspace_id === workspaceId);
   }

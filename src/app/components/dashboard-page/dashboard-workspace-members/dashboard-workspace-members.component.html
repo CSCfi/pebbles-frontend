@@ -4,14 +4,19 @@
     <!-- Search Box -->
     <mat-form-field>
       <mat-icon matPrefix>search</mat-icon>
-      <!-- <mat-label>Filter</mat-label> -->
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
 
-    <!-- Member List -->
+    <!-- members table -->
+    <!--
+      - icon column
+      - role column
+      - eppn (email) column
+      - menu button column
+     -->
     <table mat-table [dataSource]="dataSource">
-
       <!-- Checkbox Column -->
+      <!--
       <ng-container matColumnDef="select" sticky>
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
@@ -24,48 +29,49 @@
           </mat-checkbox>
         </td>
       </ng-container>
-      <!-- Index Column -->
-      <ng-container matColumnDef="index">
-        <th mat-header-cell *matHeaderCellDef>no</th>
-        <td mat-cell *matCellDef="let element"> {{element.index}} </td>
-      </ng-container>
-      <!-- Role Column -->
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef>role</th>
-        <td mat-cell *matCellDef="let element" class="role">
-          <!-- class="{{element.role}}" -->
+      -->
+      <!-- Role column -->
+      <ng-container matColumnDef="icon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="role-icon">
           <ng-container [ngSwitch]="element.role">
             <mat-icon *ngSwitchCase="'owner'" class="owner" matTooltip="workspace owner">manage_accounts</mat-icon>
-            <mat-icon *ngSwitchCase="'manager_users'" class="manager" matTooltip="workspace manager">manage_accounts</mat-icon>
+            <mat-icon *ngSwitchCase="'manager_users'" class="manager" matTooltip="workspace co-owner">manage_accounts</mat-icon>
             <mat-icon *ngSwitchCase="'banned_users'" class="banned" matTooltip="workspace banned user">person_off</mat-icon>
             <mat-icon *ngSwitchDefault class="user" matTooltip="workspace end user">person</mat-icon>
           </ng-container>
         </td>
       </ng-container>
-      <!-- Eppn Column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef class="left-align">email</th>
-        <td mat-cell *matCellDef="let element" class="left-align">{{element.eppn}}</td>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>role</th>
+        <td mat-cell *matCellDef="let element" class="role">
+          {{ getUserCategory(element.role) }}
+        </td>
       </ng-container>
-      <!-- menu Column -->
+      <!-- eppn column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>email</th>
+        <td mat-cell *matCellDef="let element">{{element.eppn}}</td>
+      </ng-container>
+      <!-- menu column -->
       <ng-container matColumnDef="menu" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef class="centering">menu</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-button [matMenuTriggerFor]="menu" aria-label="open environment menu" *ngIf="element.role !== 'owner'">
+          <button mat-button [matMenuTriggerFor]="menu" aria-label="open environment menu" [disabled]="element.role === 'owner'">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item>
               <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
-              <span>transfer ownership to the user</span>
+              <span>transfer ownership</span>
             </button>
             <button mat-menu-item *ngIf="element.role !== 'manager_users'" >
               <mat-icon fontSet="material-icons-outlined">manage_accounts</mat-icon>
-              <span>appoint the user as manager</span>
+              <span>promote to co-owner</span>
             </button>
             <button mat-menu-item *ngIf="element.role === 'manager_users'" >
               <mat-icon fontSet="material-icons-outlined">person</mat-icon>
-              <span>appoint the user as end-user</span>
+              <span>demote to end-user</span>
             </button>
             <button mat-menu-item>
               <mat-icon fontSet="material-icons-outlined">person_off</mat-icon>
@@ -74,7 +80,6 @@
           </mat-menu>
         </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

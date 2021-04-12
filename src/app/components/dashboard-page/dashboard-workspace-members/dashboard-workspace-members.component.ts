@@ -1,7 +1,14 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
+
+export enum UserCategory {
+  owner = 'Workspace owner',
+  manager_users = 'Workspace co-owner',
+  normal_users = 'Workspace user',
+  banned_users = 'Banned user'
+}
 
 export interface MemberTable {
   select: boolean;
@@ -18,7 +25,7 @@ export interface MemberTable {
 export class DashboardWorkspaceMembersComponent implements OnInit, OnChanges {
 
   @Input() memberList: WorkspaceUserList;
-  displayedColumns: string[] = ['select', 'index', 'role', 'email', 'menu'];
+  displayedColumns: string[] = ['icon', 'role', 'email', 'menu'];
   dataSource: MatTableDataSource<MemberTable>;
 
   selection = new SelectionModel<MemberTable>(true, []);
@@ -31,47 +38,48 @@ export class DashboardWorkspaceMembersComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     this.tableList = [];
     this.viewMembers();
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  getUserCategory(role: string): void {
+    return UserCategory[role];
   }
 
   viewMembers(): void {
-      const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
-      const ownerKey = workspaceUserKeys.shift();
-      this.tableList.push({
-        select: false,
-        index: this.tableList.length + 1,
-        role: ownerKey,
-        eppn: this.memberList[ownerKey].eppn,
-      });
-      const managerKey = workspaceUserKeys.shift();
-      this.memberList[managerKey].forEach((member, index) => {
-        if (member.eppn !== this.memberList[ownerKey].eppn) {
-          this.tableList.push({
-            select: false,
-            index: this.tableList.length + 1,
-            role: managerKey,
-            eppn: member.eppn,
-          });
-        }
-      });
-      for (const key of workspaceUserKeys) {
-        this.memberList[key].forEach((member, index) => {
-          this.tableList.push({
-            select: false,
-            index: this.tableList.length + 1,
-            role: key,
-            eppn: member.eppn
-          });
+    const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
+    const ownerKey = workspaceUserKeys.shift();
+    this.tableList.push({
+      select: false,
+      role: ownerKey,
+      eppn: this.memberList[ownerKey].eppn,
+    });
+    const managerKey = workspaceUserKeys.shift();
+    this.memberList[managerKey].forEach((member, index) => {
+      if (member.eppn !== this.memberList[ownerKey].eppn) {
+        this.tableList.push({
+          select: false,
+          role: managerKey,
+          eppn: member.eppn,
         });
       }
-      this.dataSource = new MatTableDataSource(this.tableList);
+    });
+    for (const key of workspaceUserKeys) {
+      this.memberList[key].forEach((member, index) => {
+        this.tableList.push({
+          select: false,
+          role: key,
+          eppn: member.eppn
+        });
+      });
+    }
+    this.dataSource = new MatTableDataSource(this.tableList);
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -84,8 +92,8 @@ export class DashboardWorkspaceMembersComponent implements OnInit, OnChanges {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle(): void {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */

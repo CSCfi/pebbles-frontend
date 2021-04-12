@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members.component';
 import { MaterialModule } from 'src/app/material.module';
+import { DashboardWorkspaceMembersComponent } from './dashboard-workspace-members.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 
 describe('DashboardWorkspaceMembersComponent', () => {

@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardSearchBoxComponent } from '../dashboard-search-box/dashboard-search-box.component';
-import { DashboardEnvironmentFormComponent } from './dashboard-environment-form.component';
+import { DashboardEnvironmentWizardFormComponent } from './dashboard-environment-wizard-form.component';
 import {RouterTestingModule} from '@angular/router/testing';
 
-describe('DashboardEnvironmentFormComponent', () => {
-  let component: DashboardEnvironmentFormComponent;
-  let fixture: ComponentFixture<DashboardEnvironmentFormComponent>;
+describe('DashboardEnvironmentWizardFormComponent', () => {
+  let component: DashboardEnvironmentWizardFormComponent;
+  let fixture: ComponentFixture<DashboardEnvironmentWizardFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -22,7 +22,7 @@ describe('DashboardEnvironmentFormComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        DashboardEnvironmentFormComponent,
+        DashboardEnvironmentWizardFormComponent,
         DashboardSearchBoxComponent
        ],
       providers: [
@@ -40,7 +40,7 @@ describe('DashboardEnvironmentFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardEnvironmentFormComponent);
+    fixture = TestBed.createComponent(DashboardEnvironmentWizardFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

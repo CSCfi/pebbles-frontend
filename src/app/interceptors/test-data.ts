@@ -83,7 +83,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: true
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '2',
@@ -99,7 +101,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: false
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '3',
@@ -115,7 +119,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: true
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '4',
@@ -131,7 +137,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: false
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '5',
@@ -147,7 +155,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: true
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '6',
@@ -163,7 +173,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: false
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '7',
@@ -179,7 +191,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: true
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '8',
@@ -195,7 +209,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: false
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '9',
@@ -211,7 +227,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: true
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '10',
@@ -227,7 +245,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: false
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '11',
@@ -243,7 +263,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: true
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '12',
@@ -259,7 +281,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: false
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Example',
     },
     {
       id: '13',
@@ -275,7 +299,9 @@ export let db = {
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
-      is_enabled: true
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Example',
     }
   ],
   users: [

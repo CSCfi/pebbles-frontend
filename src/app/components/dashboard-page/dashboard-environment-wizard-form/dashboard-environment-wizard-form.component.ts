@@ -1,20 +1,18 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EnvironmentTemplate } from 'src/app/models/environment-template';
 import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
 import { EnvironmentService } from 'src/app/services/environment.service';
-import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
 
 @Component({
-  selector: 'app-dashboard-environment-form',
-  templateUrl: './dashboard-environment-form.component.html',
-  styleUrls: ['./dashboard-environment-form.component.scss']
+  selector: 'app-dashboard-environment-wizard-form',
+  templateUrl: './dashboard-environment-wizard-form.component.html',
+  styleUrls: ['./dashboard-environment-wizard-form.component.scss']
 })
-export class DashboardEnvironmentFormComponent implements OnInit {
+export class DashboardEnvironmentWizardFormComponent implements OnInit {
 
   envCreationPlainFormGroup: FormGroup;
-  isLinear: boolean;
   wizardTemplateFormGroup: FormGroup;
   wizardProfileFormGroup: FormGroup;
   wizardOptionFormGroup: FormGroup;
@@ -30,15 +28,13 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   }
 
   constructor(
-    public dialogRef: MatDialogRef<DashboardEnvironmentFormComponent>,
+    public dialogRef: MatDialogRef<DashboardEnvironmentWizardFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      isPlainFormOn: boolean,
       workspaceId: string
     },
     private formBuilder: FormBuilder,
     private environmentTemplateService: EnvironmentTemplateService,
     private environmentService: EnvironmentService,
-    private catalogService: EnvironmentCategoryService,
   ) {
     console.log(this.data);
     this.selectedLabels = [];
@@ -47,52 +43,24 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.selectedDownloadMethod = 'none';
-
-    if (this.data.isPlainFormOn) {
-      console.log('----> plain mode');
-      this.envCreationPlainFormGroup = this.formBuilder.group({
-        templateId: ['', [Validators.required]],
-        name: ['', [Validators.required]],
-        description: ['', [Validators.required]],
-        labels: [''],
-        jupyterInterface: ['', [Validators.required]],
-        downloadMethod: [''],
-        source: [''],
-        isAutoExecution: [''],
-        publish: ['', [Validators.required]],
-      });
-
-      // ---- Set default value
-      this.envCreationPlainFormGroup.controls.publish.setValue(false);
-      this.envCreationPlainFormGroup.controls.jupyterInterface.setValue('lab');
-      this.envCreationPlainFormGroup.controls.downloadMethod.setValue('none');
-      this.envCreationPlainFormGroup.controls.isAutoExecution.setValue(false);
-      this.envCreationPlainFormGroup.controls.publish.setValue(false);
-
-    } else {
-      // ---- Mat Stepper Setting
-      this.isLinear = true;
-
-      this.wizardTemplateFormGroup = this.formBuilder.group({
-        templateId: ['', [Validators.required]]
-      });
-      this.wizardProfileFormGroup = this.formBuilder.group({
-        name: ['', [Validators.required]],
-        description: ['', [Validators.required]],
-        labels: ['']
-      });
-      this.wizardOptionFormGroup = this.formBuilder.group({
-        jupyterInterface: ['', [Validators.required]],
-        downloadMethod: [''],
-        source: [''],
-        isAutoExecution: [''],
-      });
-      // ---- Set default value
-      this.wizardOptionFormGroup.controls.jupyterInterface.setValue('lab');
-      this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
-      this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
-    }
-
+    this.wizardTemplateFormGroup = this.formBuilder.group({
+      templateId: ['', [Validators.required]]
+    });
+    this.wizardProfileFormGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      labels: ['']
+    });
+    this.wizardOptionFormGroup = this.formBuilder.group({
+      jupyterInterface: ['', [Validators.required]],
+      downloadMethod: [''],
+      source: [''],
+      isAutoExecution: [''],
+    });
+    // ---- Set default value
+    this.wizardOptionFormGroup.controls.jupyterInterface.setValue('lab');
+    this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
+    this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
   }
 
   closeForm(): void {
@@ -107,7 +75,7 @@ export class DashboardEnvironmentFormComponent implements OnInit {
   createEnvironmentByPlainMode(): void {
     // TODO: this can be removed when selectTemplate() callback starts working
     this.selectedTemplate = this.environmentTemplateService.getEnvironmentTemplates().find(
-      x => x.id === this.envCreationPlainFormGroup.controls.templateId.value );
+      x => x.id === this.envCreationPlainFormGroup.controls.templateId.value);
     this.environmentService.createEnvironment(
       this.data.workspaceId,
       this.envCreationPlainFormGroup.controls.name.value,
