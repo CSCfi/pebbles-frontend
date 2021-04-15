@@ -2,8 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardMyWorkspacesComponent } from './dashboard-my-workspaces.component';
 import { MaterialModule } from 'src/app/material.module';
+import { DashboardContentHeaderComponent } from '../dashboard-content-header/dashboard-content-header.component';
+import { DashboardMyWorkspacesComponent } from './dashboard-my-workspaces.component';
 
 describe('DashboardMyWorkspacesComponent', () => {
   let component: DashboardMyWorkspacesComponent;
@@ -20,6 +21,7 @@ describe('DashboardMyWorkspacesComponent', () => {
       ],
       declarations: [
         DashboardMyWorkspacesComponent,
+        DashboardContentHeaderComponent
       ]
     })
     .compileComponents();

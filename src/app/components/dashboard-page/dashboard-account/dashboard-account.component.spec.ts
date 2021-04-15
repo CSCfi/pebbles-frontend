@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DashboardAccountComponent } from './dashboard-account.component';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+
+import { DashboardAccountComponent } from './dashboard-account.component';
+import { DashboardContentHeaderComponent } from '../dashboard-content-header/dashboard-content-header.component';
 
 describe('DashboardAccountComponent', () => {
   let component: DashboardAccountComponent;
@@ -19,6 +21,7 @@ describe('DashboardAccountComponent', () => {
       ],
       declarations: [
         DashboardAccountComponent,
+        DashboardContentHeaderComponent
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

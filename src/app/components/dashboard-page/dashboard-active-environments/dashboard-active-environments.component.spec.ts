@@ -1,8 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import {DashboardActiveEnvironmentsComponent} from './dashboard-active-environments.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { DashboardContentHeaderComponent } from '../dashboard-content-header/dashboard-content-header.component';
+import { DashboardActiveEnvironmentsComponent } from './dashboard-active-environments.component';
 
 describe('DashboardActiveEnvironmentsComponent', () => {
   let component: DashboardActiveEnvironmentsComponent;
@@ -16,6 +17,7 @@ describe('DashboardActiveEnvironmentsComponent', () => {
       ],
       declarations: [
         DashboardActiveEnvironmentsComponent,
+        DashboardContentHeaderComponent
       ]
     })
       .compileComponents();
