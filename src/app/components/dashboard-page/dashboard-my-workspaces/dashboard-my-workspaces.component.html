@@ -17,11 +17,16 @@
       </form>
     </section>
     <section class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-      <ng-container *ngFor="let workspace of workspaces">
-        <app-dashboard-workspace-item [workspace]="workspace" [content]="content"
-          (fetchWorkspacesEvent)="fetchWorkspaces()">
-        </app-dashboard-workspace-item>
+      <ng-container *ngIf="workspaces.length > 0; else noWorkspaces">
+        <ng-container *ngFor="let workspace of workspaces">
+          <app-dashboard-workspace-item [workspace]="workspace" [content]="content"
+            (fetchWorkspacesEvent)="fetchWorkspaces()">
+          </app-dashboard-workspace-item>
+        </ng-container>
       </ng-container>
+      <ng-template #noWorkspaces>
+        <p>You are currently not a member of any workspaces</p>
+      </ng-template>
     </section>
   </div>
 </ng-container>
