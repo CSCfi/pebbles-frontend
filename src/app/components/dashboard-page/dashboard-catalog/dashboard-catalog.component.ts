@@ -27,6 +27,10 @@ export class DashboardCatalogComponent implements OnInit {
   isSearchFormOpen = false;
   selectedCatalog: EnvironmentCategory;
 
+  get environments(): Environment[] {
+    return this.filterEnvironmentsByLabels(this.selectedCatalog.labels, 'any');
+  }
+
   constructor(
     public dialog: MatDialog,
     private environmentService: EnvironmentService,

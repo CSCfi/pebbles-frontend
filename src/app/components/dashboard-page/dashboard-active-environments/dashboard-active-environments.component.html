@@ -2,6 +2,11 @@
 
 <div class="active-environments-container content-container">
   <ng-container *ngIf="tableRowData.length > 0; else noInstances">
+    <div>
+      <button mat-flat-button (click)="deleteSelectedInstances()" [disabled]="selection.isEmpty()">
+        Stop selected environments
+      </button>
+    </div>
 
     <!-- active environments list -->
     <table mat-table [dataSource]="dataSource">
@@ -10,12 +15,12 @@
       <ng-container matColumnDef="isSelected">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
           <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
           </mat-checkbox>
         </td>
       </ng-container>
@@ -58,13 +63,17 @@
 
   <!-- No instances -->
   <ng-template #noInstances>
-    <p *ngIf="lastUpdateTs === 0">...Loading...</p>
-    <p *ngIf="lastUpdateTs > 0">No active environments</p>
+    <div class="message-container">
+      <div class="empty" *ngIf="lastUpdateTs === 0">
+        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+        <span class="message">...Loading...</span>
+      </div>
+      <div class="empty" *ngIf="lastUpdateTs > 0">
+        <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
+        <span class="message">
+          No active environments
+        </span>
+      </div>
+    </div>
   </ng-template>
-</div>
-
-<div>
-  <button mat-flat-button (click)="deleteSelectedInstances()" [disabled]="selection.isEmpty()">
-    Stop selected environments
-  </button>
 </div>

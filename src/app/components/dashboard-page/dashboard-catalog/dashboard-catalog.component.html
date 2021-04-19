@@ -53,21 +53,29 @@
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
-            <div class="label-list-sm spacer__b20" *ngIf="selectedCatalog.labels.length > 0; else elseBlock">
+            <div class="label-list-sm spacer__b20" *ngIf="selectedCatalog.labels.length > 0">
               Filtered by :
               <span *ngFor="let label of selectedCatalog.labels">
                 <mat-chip color="primary">{{ label }}</mat-chip>
               </span>
             </div>
-            <ng-template #elseBlock>
-              <div class="label-list"></div>
-            </ng-template>
-            <div class="environment-item-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
-              <ng-container *ngFor="let environment of filterEnvironmentsByLabels(selectedCatalog.labels, 'any')">
-                <app-dashboard-environment-item class="environment-item" [environment]="environment" [content]="content">
+
+            <div *ngIf="environments.length > 0; else noEnvironmentBlock" class="environment-item-container"
+              fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+              <ng-container *ngFor="let environment of environments">
+                <app-dashboard-environment-item class="environment-item" [environment]="environment"
+                  [content]="content">
                 </app-dashboard-environment-item>
               </ng-container>
             </div>
+            <ng-template #noEnvironmentBlock>
+              <div class="message-container">
+                <div class="empty">
+                  <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+                  <span class="message">No environments found</span>
+                </div>
+              </div>
+            </ng-template>
           </div>
         </div>
       </mat-tab>

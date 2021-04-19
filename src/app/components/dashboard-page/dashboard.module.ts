@@ -37,6 +37,7 @@ import { DashboardWorkspaceFoldersComponent } from './dashboard-workspace-folder
 import { DashboardSearchBoxComponent } from './dashboard-search-box/dashboard-search-box.component';
 import { DashboardWorkspaceEnvironmentsComponent } from './dashboard-workspace-environments/dashboard-workspace-environments.component';
 import { DashboardInstanceButtonComponent } from './dashboard-instance-button/dashboard-instance-button.component';
+import { DashboardContentStateComponent } from './dashboard-content-state/dashboard-content-state.component';
 // import { MessageComponent } from 'src/app/components/shared/message/message.component';
 
 @NgModule({
@@ -65,6 +66,7 @@ import { DashboardInstanceButtonComponent } from './dashboard-instance-button/da
     DashboardWorkspaceItemDetailComponent,
     DashboardWorkspaceEnvironmentsComponent,
     DashboardInstanceButtonComponent,
+    DashboardContentStateComponent,
   ],
   imports: [
     CommonModule,
