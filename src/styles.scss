@@ -470,7 +470,7 @@ section.card {
 }
 
 button.button-s {
-  height: map-deep-get($layout-set, dashboard, button-s, h);
+  height: map-deep-get($layout-set, main, button-s, h);
   font-size: 1.2rem;
   line-height: 1.2rem;
   padding: 0 20px !important;
@@ -525,7 +525,7 @@ button.button-s {
   z-index: 100;
 }
 
-.app-dashboard-content-header{
+.app-main-content-header{
   display: block;
   z-index: 2;
 }

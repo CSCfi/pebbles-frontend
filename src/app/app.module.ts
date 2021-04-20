@@ -8,7 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './components/shared/shared.module';
-import { DashboardModule } from './components/dashboard-page/dashboard.module';
+import { MainModule } from './components/main-page/main.module';
 // ---- Services
 import { AuthService } from 'src/app/services/auth.service';
 import { EnvironmentService } from 'src/app/services/environment.service';
@@ -47,7 +47,7 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     AppRoutingModule,
     MaterialModule,
     SharedModule,
-    DashboardModule,
+    MainModule,
   ],
   providers: [
     AuthService,

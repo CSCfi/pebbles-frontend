@@ -1,15 +1,15 @@
 import { browser, by, element, ExpectedConditions, logging } from 'protractor';
 
 import { WelcomePage } from './welcome.po';
-import { DashboardPage } from './dashboard.po';
+import { MainPage } from './main.po';
 
 describe('Pebbles SPA', () => {
   let welcomePage: WelcomePage;
-  let dashboardPage: DashboardPage;
+  let mainPage: MainPage;
 
   beforeEach(() => {
     welcomePage = new WelcomePage();
-    dashboardPage = new DashboardPage();
+    mainPage = new MainPage();
   });
 
   it('should display Notebooks as title', () => {
@@ -37,8 +37,8 @@ describe('Pebbles SPA', () => {
   //   welcomePage.navigateTo();
   //   welcomePage.login('admin@example.org', 'admin');
   //   browser.sleep(3000);
-  //   browser.wait(ExpectedConditions.urlContains('dashboard/catalog'), 5000).then(() => {
-  //     console.log('on dashboard');
+  //   browser.wait(ExpectedConditions.urlContains('main/catalog'), 5000).then(() => {
+  //     console.log('on main');
   //   });
   // });
 

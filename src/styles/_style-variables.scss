@@ -96,7 +96,7 @@ $layout-set:(
       min-h: 200px,
     )
   ),
-  dashboard: (
+  main: (
     header: (
       w: 100%,
       h: 60px,
@@ -122,7 +122,7 @@ $layout-set:(
     ),
   ),
 );
-// @debug map-deep-get($layout-set, dashboard, header, h);
+// @debug map-deep-get($layout-set, main, header, h);
 
 
 // ---- border

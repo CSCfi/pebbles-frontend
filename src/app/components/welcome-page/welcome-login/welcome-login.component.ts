@@ -65,7 +65,7 @@ export class WelcomeLoginComponent implements OnInit {
         localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
         localStorage.setItem('is_sidenav_open', 'true');
 
-        this.router.navigateByUrl('/dashboard').then(() => console.log('router: navigated to /dashboard'));
+        this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
       })
       .catch((err) => {
         console.log(err);

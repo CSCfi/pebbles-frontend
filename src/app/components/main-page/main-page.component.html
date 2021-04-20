@@ -1,0 +1,17 @@
+<mat-sidenav-container>
+  <!-- SideNav Area -->
+  <mat-sidenav #sidenav opened mode="side" class="shadow-m inversion primary"
+    [ngClass]="{'minimize':!isSideNavOpen}">
+
+    <app-main-nav class="sidebar" (toggleSideNavEvent)="toggleSideNav()" [isSideNavOpen]="isSideNavOpen">
+    </app-main-nav>
+
+  </mat-sidenav>
+  <!-- Main Page Area -->
+  <mat-sidenav-content [ngClass]="{'expanded':!isSideNavOpen}">
+    <div class="main-content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<!-- <app-footer class="footer"></app-footer> -->

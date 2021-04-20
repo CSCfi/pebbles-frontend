@@ -1,0 +1,43 @@
+<ng-container *ngIf="environment">
+  <mat-card fxLayout="row" fxLayoutAlign="space-between stretch" [attr.data-environment-item-id]="environment.id"
+    class="environment-card r__all" [ngClass]="{
+    'catalog':content.identifier==='catalog',
+    'draft': isDraft}">
+    <!-- Card LEFT section -->
+    <div class="card-media-container v-centering__horizontal inversion light-dark" fxFlex="0 0 130px">
+      <div class="thumbnail" [innerHTML]="thumbnail"></div>
+    </div>
+    <!-- //// End of Left section -->
+
+    <!-- Card CENTER section -->
+    <div fxFlex="grow" fxLayout="column" fxLayoutAlign="start stretch" class="card-info-container">
+      <mat-card-header>
+        <mat-card-title>{{ environment.name }}</mat-card-title>
+        <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
+          <div class="meta-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px">
+            <span class="labels">
+              <mat-icon class="spacer__r5">label</mat-icon>
+              <span matTooltip="{{labels}}" matTooltipPosition="above" class="heading">Labels</span>
+            </span>
+            <span class="lifetime">
+              <mat-icon class="spacer__r5">watch_later</mat-icon>
+              <span class="heading">Lifetime: </span>{{lifetime}}
+            </span>
+          </div>
+          <div *ngIf="environment.workspace_name!=='System.default'" class="workspace-name">
+            @ {{ environment.workspace_name }}
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p [innerHTML]="description"></p>
+      </mat-card-content>
+    </div>
+    <!-- //// END of CENTER section-->
+
+    <!-- Card RIGHT section -->
+    <mat-card-actions fxFlex="0 0 150px" class="card-action-container">
+      <app-main-instance-button [environmentId]="environment.id"></app-main-instance-button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>

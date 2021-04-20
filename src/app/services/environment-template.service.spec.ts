@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { EnvironmentTemplateService } from './environment-template.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DashboardCatalogComponent } from '../components/dashboard-page/dashboard-catalog/dashboard-catalog.component';
+import { MainCatalogComponent } from '../components/main-page/main-catalog/main-catalog.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
 
 describe('EnvironmentTemplateService', () => {

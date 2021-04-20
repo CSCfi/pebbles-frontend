@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
-import { DashboardRoutingModule } from './components/dashboard-page/dashboard-routing.module';
+import { MainRoutingModule } from './components/main-page/main-routing.module';
 import { InstancePageComponent } from './components/instance-page/instance-page.component';
 
 const routes: Routes = [
@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'virtu-login', redirectTo: 'welcome', pathMatch: 'full' },
   // ---- //
   { path: 'welcome', component: WelcomePageComponent },
-  { path: 'dashboard', loadChildren: './components/dashboard-page/dashboard-routing.module'},
+  { path: 'main', loadChildren: './components/main-page/main-routing.module'},
   { path: 'instance/:id', component: InstancePageComponent },
   { path: '**', component: NotFoundPageComponent },
 ];
@@ -22,7 +22,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
-    DashboardRoutingModule,
+    MainRoutingModule,
   ],
   exports: [RouterModule]
 })

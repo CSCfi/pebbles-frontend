@@ -1,0 +1,151 @@
+<mat-horizontal-stepper linear="true" #stepper>
+
+  <!-- 1 Env Templates-->
+  <mat-step [stepControl]="wizardTemplateFormGroup">
+    <form [formGroup]="wizardTemplateFormGroup">
+      <ng-template matStepLabel>Environment Template</ng-template>
+      <div class="instruction">
+        <span class="material-icons"> help_outline </span>
+        <div class="instruction-text">
+          <h3 class="question"> What is Environment Template? </h3>
+          <p class="answer">
+            Explanations Explanations Explanations Explanations Explanations Explanations Explanations Explanations
+            Explanations Explanations
+          </p>
+        </div>
+      </div>
+      <mat-label class="form-label">Select an environment template for your new environment </mat-label>
+      <div class="form-ui-container">
+        <mat-radio-group formControlName="templateId">
+          <ul *ngFor="let tmpl of environmentTemplates">
+            <li>
+              <mat-radio-button [(value)]="tmpl.id">
+                <span>{{ tmpl.name }}</span> : {{ tmpl.description }}
+              </mat-radio-button>
+            </li>
+          </ul>
+        </mat-radio-group>
+      </div>
+      <div class="stepper-action-buttons">
+        <button class="next" mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- 2 Environment profile setting-->
+  <mat-step [stepControl]="wizardProfileFormGroup">
+    <form [formGroup]="wizardProfileFormGroup">
+      <ng-template matStepLabel>Environment Profile</ng-template>
+      <div class="instruction">
+        <span class="material-icons"> help_outline </span>
+        <div class="instruction-text">
+          <h3 class="question">How new environment is seen by members?</h3>
+          <p class="answer">
+            Explanations Explanations Explanations Explanations Explanations Explanations Explanations Explanations
+            Explanations Explanations
+          </p>
+        </div>
+      </div>
+      <!-- 2-1 Name -->
+      <mat-form-field>
+        <mat-label>Environment Name</mat-label>
+        <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
+      </mat-form-field>
+      <!-- 2-2 Description -->
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
+      </mat-form-field>
+      <!-- 2-3 Label search component -->
+      <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
+
+      <div class="stepper-action-buttons">
+        <button class="back" mat-flat-button matStepperPrevious>Back</button>
+        <button class="next" mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- 3 Environment option setting-->
+  <mat-step [stepControl]="wizardOptionFormGroup">
+    <form [formGroup]="wizardOptionFormGroup">
+      <ng-template matStepLabel>Customize</ng-template>
+      <div class="instruction">
+        <span class="material-icons"> help_outline </span>
+        <div class="instruction-text">
+          <h3 class="question">Want to customize your environment?</h3>
+          <p class="answer">
+            Explanations Explanations Explanations Explanations Explanations Explanations Explanations Explanations
+            Explanations Explanations
+          </p>
+        </div>
+      </div>
+      <!-- 3.4 Jupyter Interface -->
+      <div class="form-option">
+        <mat-label>Interface</mat-label>
+        <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
+          <ul>
+            <li>
+              <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
+            </li>
+          </ul>
+        </mat-radio-group>
+      </div>
+      <!-- 3.1 Include External files -->
+      <mat-label>Download Method</mat-label>
+      <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
+        <ul>
+          <li>
+            <mat-radio-button [value]="'none'">None</mat-radio-button>
+          </li>
+          <li>
+            <mat-radio-button [value]="'git-clone'">Git clone a repository</mat-radio-button>
+          </li>
+          <li>
+            <mat-radio-button [value]="'http-get'">Download by URL</mat-radio-button>
+          </li>
+        </ul>
+      </mat-radio-group>
+      <!-- 3.2 Source -->
+      <ng-container [ngSwitch]="selectedDownloadMethod">
+        <div *ngSwitchCase="'local'">
+          <button mat-flat-button color="primary">Upload file</button>
+        </div>
+        <div
+          *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
+          <mat-form-field>
+            <mat-label>Source(URL)</mat-label>
+            <input matInput formControlName="source" placeholder="">
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <!-- 3.3 Auto Execution -->
+      <div *ngIf="selectedDownloadMethod !== 'none'">
+        <mat-checkbox formControlName="isAutoExecution">Auto Execute (Bash file, unZip)</mat-checkbox>
+      </div>
+      <div class="stepper-action-buttons">
+        <button class="back" mat-flat-button matStepperPrevious>Back</button>
+        <button class="next" mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <!-- 4 Submit-->
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>Congratulations! You are almost done.</p>
+    <div class="stepper-action-buttons">
+      <button mat-flat-button matStepperPrevious>
+        Back
+      </button>
+      <button mat-flat-button color="accent" (click)="createEnvironmentByWizardMode(true)">
+        Publish Environment
+      </button>
+      <button mat-flat-button color="primary" (click)="createEnvironmentByWizardMode(false)">
+        Save Environment as Draft
+      </button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

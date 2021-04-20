@@ -1,0 +1,84 @@
+<app-main-content-header [content]="content" [isSearchOn]="false"></app-main-content-header>
+<div class="environments-catalog-functions" fxLayout="row" fxLayoutAlign="start right" fxLayoutGap="10px">
+  <button mat-fab aria-label="Search environments" class="shadow__moderate inversion primary"
+    matTooltip="Search environments" (click)="isSearchFormOpen=!isSearchFormOpen">
+    <mat-icon fontSet="material-icons-outlined"> search </mat-icon>
+  </button>
+  <button mat-fab class="inversion primary shadow__moderate join-workspace-button" aria-label="Join Workspace"
+    matTooltip="Join workspace" (click)="openJoinWorkspaceDialog()">
+    <mat-icon>group_add</mat-icon>
+  </button>
+</div>
+
+<!-- Environment Catalogs -->
+<section class="environments-catalog content-container">
+
+  <!-- Environment Catalog Search -->
+  <mat-accordion class="search-form-outer" multi>
+    <mat-expansion-panel [(expanded)]="isSearchFormOpen" *ngIf="selectedCatalog">
+      <app-main-search-box [labels]=selectedCatalog.labels></app-main-search-box>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- Environment Catalogs -->
+  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="my-environment-tab"
+    (selectedTabChange)="changeCatalog($event)">
+    <ng-container *ngFor="let catalog of getCatalogs()" class="">
+      <mat-tab label="{{ catalog.name }}">
+        <ng-template mat-tab-label>
+          <div [ngSwitch]="catalog.type">
+            <ng-container *ngSwitchCase="'all'">
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                apps
+              </mat-icon>
+            </ng-container>
+            <ng-container *ngSwitchCase="'search'">
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                search
+              </mat-icon>
+            </ng-container>
+            <!-- <ng-container *ngSwitchCase="'workspace'" >
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                group
+              </mat-icon>
+            </ng-container> -->
+            <!-- <ng-container *ngSwitchCase="'label'">
+              <mat-icon class="tab-icon" fontSet="material-icons-outlined">
+                label
+              </mat-icon>
+            </ng-container> -->
+          </div>
+          <span class="tab-title">{{ catalog.name }}</span>
+        </ng-template>
+
+        <div class="tab-content">
+          <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
+            <div class="label-list-sm spacer__b20" *ngIf="selectedCatalog.labels.length > 0">
+              Filtered by :
+              <span *ngFor="let label of selectedCatalog.labels">
+                <mat-chip color="primary">{{ label }}</mat-chip>
+              </span>
+            </div>
+
+            <div *ngIf="environments.length > 0; else noEnvironmentBlock" class="environment-item-container"
+              fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+              <ng-container *ngFor="let environment of environments">
+                <app-main-environment-item class="environment-item" [environment]="environment"
+                  [content]="content">
+                </app-main-environment-item>
+              </ng-container>
+            </div>
+            <ng-template #noEnvironmentBlock>
+              <div class="message-container">
+                <div class="empty">
+                  <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+                  <span class="message">No environments found</span>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</section>
