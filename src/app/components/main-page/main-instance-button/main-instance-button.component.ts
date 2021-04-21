@@ -16,7 +16,6 @@ import { Utilities } from '../../../utilities';
 export class MainInstanceButtonComponent implements OnInit {
 
   @Input() environmentId: string;
-  public environment: Environment;
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
@@ -36,6 +35,10 @@ export class MainInstanceButtonComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  get environment(): Environment {
+    return this.environmentService.getEnvironmentById(this.environmentId);
   }
 
   get instance(): Instance {
@@ -98,7 +101,6 @@ export class MainInstanceButtonComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.environmentId);
-    this.environment = this.environmentService.getEnvironmentById(this.environmentId);
   }
 
   startEnvironment(): void {
