@@ -115,7 +115,6 @@ export class WorkspaceService {
     );
   }
 
-  // ---- Discuss later
   deleteWorkspace(id: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${id}`;
     return this.http.delete<Workspace>(url).pipe(tap(_ => {

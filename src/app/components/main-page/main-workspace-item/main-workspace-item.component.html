@@ -31,7 +31,7 @@
       </mat-card-content>
     </div>
     <!-- //card-info -->
-    <mat-card-actions class="" *ngIf="workspace.name !== 'System.default'">
+    <mat-card-actions class="" *ngIf="workspace.name.startsWith('System.') === false">
       <button mat-flat-button aria-label="workspace delete" class="full__h inversion light-gray"
         matTooltip="Leave Workspace" (click)="exitWorkspace()">
         <mat-icon>logout</mat-icon>

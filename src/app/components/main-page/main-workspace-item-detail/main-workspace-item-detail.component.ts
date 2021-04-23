@@ -57,20 +57,19 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
   }
 
   get isEditable(): boolean {
-    if (this.workspace.name === 'System.default') {
+    if (this.workspace.name.startsWith('System.')) {
       return false;
     }
     return true;
   }
 
   get isDeletable(): boolean {
-    if (this.workspace.name === 'System.default') {
-      return false;
-    } else if (this.workspace.owner_eppn === this.userName) {
-      return true;
-    } else {
+    // System workspaces cannot be deleted
+    if (this.workspace.name.startsWith('System.')) {
       return false;
     }
+    // only owner or admin can delete workspaces
+    return this.authService.isAdmin || this.workspace.owner_eppn === this.userName;
   }
 
   get memberCount(): number {

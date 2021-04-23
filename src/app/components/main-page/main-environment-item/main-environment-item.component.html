@@ -24,7 +24,7 @@
               <span class="heading">Lifetime: </span>{{lifetime}}
             </span>
           </div>
-          <div *ngIf="environment.workspace_name!=='System.default'" class="workspace-name">
+          <div *ngIf="environment.workspace_name.startsWith('System.') === false" class="workspace-name">
             @ {{ environment.workspace_name }}
           </div>
         </mat-card-subtitle>
