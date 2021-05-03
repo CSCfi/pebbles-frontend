@@ -1,7 +1,7 @@
 <form [formGroup]="workspaceForm" novalidate>
   <ng-container *ngIf="data.isCreationMode;else editMode">
     <h2 class="form-title">Create new workspace</h2>
-    <div class="instruction spacer__b30" fxLayout="row" fxLayoutGap="20px">
+    <div class="instruction mb-30" fxLayout="row" fxLayoutGap="20px">
       <div class="form-help-icon" fxFlex="0 0 100px">
         <mat-icon>help_outline</mat-icon>
       </div>
@@ -12,7 +12,7 @@
           students or collaborators.
           User can join your Workspace with the shared "Join Code".
         </div>
-        <div class="warning spacer__t20">
+        <div class="warning mt-20">
           <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
           Note: Each Workspace is valid for 6 months.
         </div>

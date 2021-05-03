@@ -20,8 +20,8 @@ export class MainInstanceButtonComponent implements OnInit {
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
   isWaitingInterval = false;
-  diameter = 120;
-  strokeWidth = 8;
+  diameter = 110;
+  strokeWidth = 6;
 
   get isSpinnerOn(): boolean {
     if (this.instance) {

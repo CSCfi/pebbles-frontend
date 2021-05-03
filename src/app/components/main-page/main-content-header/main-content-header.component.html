@@ -1,11 +1,15 @@
 <ng-container *ngIf="content">
-  <div class="content-header v-centering" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="30px">
-    <h2 class="title" [innerHTML]="content.title"></h2>
-    <div class="search-form" fxFlex="grow" fxLayout="row" *ngIf="isSearchOn">
-      <mat-icon fontSet="material-icons-outlined">search</mat-icon>
+  <div class="content-header v-centering"
+    fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+
+    <h2 class="title" [innerHTML]="content.title" fxFlex="0 0 auto"></h2>
+
+    <form class="search-form" *ngIf="isSearchOn" fxFlex="grow">
       <mat-form-field appearance="outline">
-        <input matInput>
+        <input matInput type="search">
+        <span matPrefix><mat-icon>search</mat-icon></span>
       </mat-form-field>
-    </div>
+    </form>
+
   </div>
 </ng-container>

@@ -2,7 +2,7 @@
   <app-header></app-header>
   <div class="instance-container" fxLayout="column" fxLayoutAlign="space-between stretch" *ngIf="targetInstance">
     <div class="status-wrapper" fxLayout="column" fxLayoutAlign="center center">
-      <p class="spacer__b10">Your environment "{{ targetEnvironment.name }}" is ... </p>
+      <p class="mb-10">Your environment "{{ targetEnvironment.name }}" is ... </p>
       <h4 class="state">{{ targetInstance.state }}</h4>
       <p class="state-percentage">{{ progress }}%</p>
       <mat-progress-bar

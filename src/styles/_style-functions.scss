@@ -6,7 +6,26 @@
     }
     $map: map-get($map, $key);
   }
-
   @return $map;
 }
 
+$space-amounts: (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100);
+$sides: (
+  "": "all",
+  "t": "top",
+  "b": "bottom",
+  "l": "left",
+  "r": "right",
+);
+
+@each $space in $space-amounts {
+  @each $prefix, $value in $sides {
+    $property: if($prefix == '', '', -#{$value});
+    .m#{$prefix}-#{$space} {
+      margin#{$property}: #{$space}px !important;
+    }
+    .p#{$prefix}-#{$space} {
+      padding#{$property}: #{$space}px !important;
+    }
+  }
+}

@@ -1,8 +1,8 @@
 @import "src/styles.scss";
 
-::ng-deep .workspace-join-input-form {
+.workspace-join-input-form {
   max-width: 800px;
-  margin: auto;
+  margin:  20px auto;
 
   form {
     width: 100%;
@@ -57,7 +57,4 @@
     height: 30px !important;
   }
 
-  .mat-dialog-actions {
-
-  }
 }

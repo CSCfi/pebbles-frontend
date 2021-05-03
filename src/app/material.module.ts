@@ -14,7 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
-// import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 // import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
@@ -49,7 +49,7 @@ import { MatTableModule } from '@angular/material/table';
         MatMenuModule,
         MatSidenavModule,
         MatBadgeModule,
-        // MatToolbarModule,
+        MatToolbarModule,
         MatListModule,
         // MatGridListModule,
         MatCardModule,
@@ -82,7 +82,7 @@ import { MatTableModule } from '@angular/material/table';
         MatMenuModule,
         MatSidenavModule,
         MatBadgeModule,
-        // MatToolbarModule,
+        MatToolbarModule,
         MatListModule,
         // MatGridListModule,
         MatCardModule,

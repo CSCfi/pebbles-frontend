@@ -1,33 +1,68 @@
 @import "src/styles.scss";
 
 .content-header {
-  height: 80px;
+  height: 70px;
+  width: 100%;
   overflow: hidden;
-  padding: 30px 40px 5px;
+  padding: 10px 40px 0px;
   // background: map-get($colors, white);
   // margin-bottom: 10px;
   border-bottom: 1px solid #fff;
   box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
-  min-height: 60px;
-  width: 100%;
 
-  .title {
-    font-size: 2.6rem;
+  h2.title {
+
+    font-size: 1.8rem;
     font-weight: 600;
     color: map-get($colors, primary);
     margin-bottom: 0 !important;
   }
 
-  mat-form-field {
-    width: 100%;
-  }
+  form.search-form {
+    height: 100%;
+    margin-top: -10px;
+    margin-bottom: -20px;
+    box-sizing: border-box;
 
-  .search-form {
-    mat-icon {
-      padding: 20px 0 0 0;
-      width: 60px;
-      height: 60px;
-      font-size: 4rem;
+    input:-internal-autofill-selected {
+      background-color: transparent !important;
+    }
+
+    ::ng-deep mat-form-field {
+      height: 100%;
+      width: 100%;
+
+      .mat-form-field-wrapper {
+        height: 100%;
+
+        .mat-form-field-flex {
+          height: 100%;
+
+          .mat-form-field-outline {
+            $borderRadius: 40px;
+            height: 100%;
+
+            .mat-form-field-outline-start {
+              border-radius: 40px 0 0 40px;
+              width: 40px !important;
+            }
+
+            .mat-form-field-outline-end {
+              border-radius: 0 40px 40px 0;
+            }
+          }
+
+          .mat-form-field-prefix {
+            top: -5px !important;
+          }
+
+          .mat-form-field-infix {
+            left: 4px;
+            padding: 5px;
+            border-top: none;
+          }
+        }
+      }
     }
   }
 }

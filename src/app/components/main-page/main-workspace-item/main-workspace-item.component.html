@@ -10,19 +10,19 @@
         <mat-card-title>{{ workspace.name }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="workspace-description spacer__b20 spacer__t10" [innerHTML]="workspace.description"></div>
+        <div class="workspace-description mb-20 mt-10" [innerHTML]="workspace.description"></div>
         <div class="environment-info" [ngClass]="{'active': environments.length > 0}">
           <div class="environment-info-header v-centering__inline" (click)="toggleEnvironmentList()">
             <mat-icon class="material-icons-outlined">book</mat-icon>
             <mat-icon *ngIf="environments.length">arrow_right</mat-icon>
-            <span class="spacer__l10">{{ environments.length }} Environments</span>
+            <span class="ml-10">{{ environments.length }} Environments</span>
           </div>
           <mat-accordion>
             <mat-expansion-panel [expanded]="panelOpenState">
               <ul *ngIf="environments">
                 <li class="environment" *ngFor="let environment of environments">
                   <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-                  <span class="spacer__l10">{{ environment.name }}</span>
+                  <span class="ml-10">{{ environment.name }}</span>
                 </li>
               </ul>
             </mat-expansion-panel>

@@ -1,18 +1,5 @@
 @import "src/styles.scss";
 
-header {
+.header {
   height: map-deep-get($layout-set, welcome, header, h);
-  padding: 40px 20px 20px;
-
-  // &:after{
-  //   content: "";
-  //   border-bottom: 1px solid rgba(59, 180, 201,0.5);
-  //   position: absolute;
-  //   bottom: 0px;
-  //   width: 100%;
-  // }
-
-  ul>li>a {
-    letter-spacing: 0.1rem;
-  }
 }

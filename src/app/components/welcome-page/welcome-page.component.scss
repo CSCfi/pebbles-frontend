@@ -29,8 +29,6 @@
   }
 
   .jumbotron {
-    position: relative;
-    padding: 0 20px;
     height: map-deep-get($layout-set, welcome, jumbotron, h);
   }
 

@@ -3,12 +3,12 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output, Renderer2 } fro
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { EnvironmentType } from '../../../models/environment-template';
 import { Environment } from 'src/app/models/environment';
 import { Instance, InstanceStates } from 'src/app/models/instance';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { Utilities } from '../../../utilities';
-import { EnvironmentType } from '../../../models/environment-template';
 
 @Component({
   selector: 'app-main-environment-item',
@@ -91,7 +91,7 @@ export class MainEnvironmentItemComponent implements OnInit {
     return '';
   }
 
-  get thumbnail(): string {
+  get environmentType(): EnvironmentType {
     // TODO: when backend supports environment type in API, simply use that
     let environmentType = EnvironmentType.Generic;
     if (this.environment?.labels.indexOf('jupyter') >= 0) {
@@ -100,15 +100,7 @@ export class MainEnvironmentItemComponent implements OnInit {
     else if (this.environment?.labels.indexOf('rstudio') >= 0) {
       environmentType = EnvironmentType.RStudio;
     }
-
-    switch (environmentType) {
-      case EnvironmentType.Jupyter:
-        return '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="90">';
-      case EnvironmentType.RStudio:
-        return '<span class="r-studio">R</span>';
-      default:
-        return '<i class="las la-book"></i>';
-    }
+    return environmentType;
   }
 
   get description(): string {

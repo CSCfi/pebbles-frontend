@@ -1,7 +1,7 @@
 <ng-container *ngIf="this.isPage; else dialogBlock">
   <app-main-content-header [content]="content" [isSearchOn]="false"></app-main-content-header>
   <div class="content-container">
-    <section class="workspace-join-input-form spacer__b10">
+    <section class="workspace-join-input-form mb-10">
       <form fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px" #formDirective="ngForm"
         [formGroup]="joinWorkspaceForm" (ngSubmit)="joinWorkspace(formDirective)">
         <mat-form-field appearance="outline" class="join-code-input" fxFlex="grow">
@@ -12,7 +12,7 @@
         <button mat-flat-button type="submit" class="primary inversion" fxFlex="0 0 220px">
           <!-- Join Workspace -->
           <mat-icon>add</mat-icon>
-          <span class="spacer__l10">Join workspace</span>
+          <span class="ml-10">Join workspace</span>
         </button>
       </form>
     </section>
@@ -40,7 +40,7 @@
 <ng-template #dialogBlock>
   <div class="mat-typography dialog-container">
     <h2 mat-dialog-title class="v-centering">
-      <!-- <mat-icon class="spacer__r10">people_outline</mat-icon> -->
+      <!-- <mat-icon class="mr-10">people_outline</mat-icon> -->
       Join Workspace
     </h2>
     <mat-dialog-content>
@@ -58,7 +58,7 @@
           </button>
         </form>
 
-        <div class="workspace-list spacer__t10" *ngIf="workspaces.length > 0 ; else noWorkspaceBlock">
+        <div class="workspace-list mt-10" *ngIf="workspaces.length > 0 ; else noWorkspaceBlock">
           <mat-list>
             <div mat-subheader>My Workspaces</div>
             <mat-list-item *ngFor="let workspace of workspaces">

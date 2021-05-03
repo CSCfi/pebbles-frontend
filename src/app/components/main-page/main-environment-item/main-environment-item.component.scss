@@ -5,41 +5,67 @@
 
 .mat-card.catalog,
 .mat-card.workspace-owner-detail {
-  min-height: 145px;
+  min-height: 126px;
 }
 
-.mat-card.catalog .card-media-container,
-.mat-card.workspace-owner-detail .card-media-container{
-  margin: -16px 0 -16px -16px !important;
+.mat-card.catalog .card-media-container {
+  margin: -8px 0 -8px -8px !important;
+  border-radius: 3px;
+
+  &.rstudio {
+    .thumbnail {
+      span {
+        font-size: 1.6rem;
+        font-weight: 600;
+      }
+    }
+  }
+  &.jupyter {
+    //   background-color: #ffb95e;
+    .thumbnail {
+      span {
+        font-size: 1.6rem;
+        font-weight: 600;
+      }
+    }
+  }
 
   .thumbnail {
-    font-size: 34px;
-
     i {
-      font-size: 68px !important;
-    }
-    .r-studio {
-      font-size: 62px;
+      font-size: 6.0rem;
     }
   }
 }
 
-::ng-deep .mat-card.catalog .card-info-container,
-::ng-deep .mat-card.workspace-owner-detail .card-info-container{
+
+::ng-deep .mat-card.catalog .card-info-container {
+  margin: -4px;
 
   .mat-card-header {
-    margin-bottom: 4px;
 
     .mat-card-title {
-      font-weight: 600;
-      border-bottom: 1px solid map-get($colors, light-gray) !important;
-      margin-bottom: 5px;
-      padding-bottom: 4px;
+      border-bottom: 1px solid #c7c7c7 !important;
+      padding-bottom: 0px;
+    }
+
+    .workspace-name {
+      .mat-icon {
+        color: map-get($colors , light-active);
+        font-size: 1.8rem;
+        height: auto;
+        width: auto;
+        margin-top: -2px;
+        margin-right: 3px;
+
+        &.public {
+          color: #ccc;
+        }
+      }
     }
 
     .mat-card-subtitle {
       margin-bottom: 2px;
-      font-size: 1.4rem !important;
+      font-size: 1.3rem !important;
       font-weight: 500;
       color: map-get($colors, dark) !important;
 
@@ -51,11 +77,7 @@
 
         .mat-icon {
           font-size: 2rem;
-          color: #e0e0e0;
-        }
-
-        .labels {
-          text-decoration: underline;
+          color: #ccc;
         }
       }
     }
@@ -63,8 +85,7 @@
 
   .mat-card-content {
     margin: 0;
-    // text-align: justify;
-    // text-justify: inter-word;
+    font-size: 1.2rem;
 
     a {
       text-decoration: underline !important;
@@ -115,57 +136,6 @@
 
 .catalog .card-action-container {
   margin: -16px -16px -16px 0 !important;
-  height: 120px;
+  padding: 0;
   position: relative;
-}
-
-.workspace-owner-detail .card-action-container {
-  margin: -16px -16px -16px 0 !important;
-  padding: 8px !important;
-
-  .edit-environment-button,
-  .activate-environment-button,
-  .deactivate-environment-button {
-    border-bottom: 1px solid map-get($colors, white);
-  }
-}
-
-
-::ng-deep .workspace-owner-detail.draft {
-
-  .card-media-container{
-    background: map-get($colors, light-gray) !important;
-  }
-
-  .card-info-container {
-    color: map-get($colors, light-gray) !important;
-    padding: 0 30px 0 30px !important;
-
-
-    mat-card-title {
-      color: map-get($colors, light-gray) !important;
-    }
-
-    mat-card-content .description{
-      a {
-        color: map-get($colors, light-gray) !important;
-      }
-
-      .workspace-name,
-      .meta-info {
-        color: map-get($colors, light-gray) !important;
-      }
-
-      .fab {
-        color: map-get($colors,light-gray);
-        background: map-get($colors, white) !important;
-      }
-    }
-  }
-
-  .mat-card-actions {
-    button {
-      background: map-get($colors, light-gray) !important;
-    }
-  }
 }

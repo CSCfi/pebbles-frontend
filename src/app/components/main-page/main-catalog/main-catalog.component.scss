@@ -3,7 +3,16 @@
 .environments-catalog-functions {
   position: absolute;
   right: 40px;
-  top: 18px;
+  top: 14px;
+
+  button {
+    height: 50px;
+    width: 50px;
+
+    ::ng-deep .mat-button-wrapper{
+      padding: 0 !important
+    }
+  }
 }
 
 ::ng-deep .environments-catalog {

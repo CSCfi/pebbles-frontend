@@ -3,14 +3,14 @@
     <!-- workspace-detail-header -->
     <div class="workspace-detail-header" fxLayout="row" fxLayoutGap="20px">
       <div class="workspace-name v-centering__inline" fxFlex="grow">
-        <mat-icon class="spacer__r10">people_outline</mat-icon>
+        <mat-icon class="mr-10">people_outline</mat-icon>
         {{ workspace.name || 'no name' }}
       </div>
       <div class="workspace-info" fxLayout="row" fxLayoutGap="20px">
         <div class="join-code-info">
           <span class="function-title v-centering__inline">Join code</span>
           <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
-            <mat-icon class="spacer__r5">vpn_key</mat-icon>
+            <mat-icon class="mr-5">vpn_key</mat-icon>
             <div class="chip__sm">● ● ● ● ● ● ●</div>
           </div>
         </div>
@@ -30,7 +30,7 @@
       <!-- 1. Environments tab -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <span class="spacer__r5">Environments</span>
+          <span class="mr-5">Environments</span>
           <mat-chip class="mat-chip-sm" *ngIf="environments">{{ environments.length }}</mat-chip>
         </ng-template>
         <ng-template matTabContent>
@@ -46,7 +46,7 @@
       <!-- 2. Members tab -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <span class="spacer__r5">Members</span>
+          <span class="mr-5">Members</span>
           <mat-chip class="mat-chip-sm" *ngIf="memberList">{{ memberCount }}</mat-chip>
         </ng-template>
         <ng-template matTabContent>
@@ -58,15 +58,15 @@
       <!-- 3. Information tab -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <span class="spacer__r5">Info</span>
+          <span class="mr-5">Info</span>
           <mat-icon>settings</mat-icon>
         </ng-template>
         <ng-template matTabContent>
           <form [formGroup]="workspaceEditForm" novalidate>
-            <dl class="workspace-info spacer__t20">
-              <dt class="spacer__b30">Created on</dt>
+            <dl class="workspace-info mt-20">
+              <dt class="mb-30">Created on</dt>
               <dd>{{ created_date }}</dd>
-              <dt class="spacer__b30">Expiring on</dt>
+              <dt class="mb-30">Expiring on</dt>
               <dd>{{ expiry_date }}</dd>
               <dt>
                 Workspace name
@@ -101,17 +101,17 @@
                 <span class="join-code">{{ workspace.join_code }}</span>
               </dd>
             </dl>
-            <button mat-flat-button class="workspace-update-button spacer__t20" color="accent"
+            <button mat-flat-button class="workspace-update-button mt-20" color="accent"
               [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
               save changes
             </button>
-            <button mat-stroked-button class="workspace-edit-cancel-button spacer__t10" *ngIf="isWorkspaceFormChanged"
+            <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
               (click)="cancelWorkspaceEditing()">
               cancel changes
             </button>
-            <button mat-stroked-button class="workspace-delete-button spacer__t10" *ngIf="isDeletable"
+            <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
               (click)="deleteWorkspace()">
-              <mat-icon class="spacer__r5">delete_outline</mat-icon> delete workspace
+              <mat-icon class="mr-5">delete_outline</mat-icon> delete workspace
             </button>
           </form>
         </ng-template>

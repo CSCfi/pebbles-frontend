@@ -5,8 +5,10 @@
 
 /* ---- TYPOGRAPHY
 ------------------------------------- */
-
-  // $display-4 // $display-3 // $display-2 // $display-1
+  // $display-1 -> Logo with styled font
+  // $display-2 -> body with styled font
+  // $display-3 -> headline with stress font
+  // $display-4 -> body with stress font
   // $headline: : <h1>
   // $title:    : <h2>
   // $subheading-2: <h3>
@@ -17,31 +19,26 @@
   // $button    : Button
   // $input     : Form input fields.
 
-/* ---- MEMO: mat-typography-level(
-  $font-size,
-  $line-height,
-  $font-size,
-  $font-weight,
-  $font-family,
-  $letter-spacing
-  )*/
-
-// $font-family-headline: 'Montserrat, sans-serif';
-// $font-family-headline: 'Quicksand, sans-serif';
+/* ---- MEMO:
+mat-typography-level(
+  $font-size, $line-height, $font-size, $font-weight, $font-family, $letter-spacing
+)
+---- */
 
 $custom-typography: mat-typography-config(
   $font-family:   map-get($font-families, base),
-  $display-4:     mat-typography-level(1.8rem, 130%, 300, map-get($font-families, stress), 0.1rem),
-  $display-3:     mat-typography-level(4.6rem, 130%, 400, map-get($font-families, stress), 0.08rem),
-  $display-2:     mat-typography-level(3.0rem, 130%, 500, map-get($font-families, stress), 0.08rem),
-  $display-1:     mat-typography-level(1.6rem, 150%, 300, map-get($font-families, stress), 0.04rem),
-  $headline:      mat-typography-level(2.8rem, 130%, 500, map-get($font-families, stress), 0.04rem),
-  $title:         mat-typography-level(1.8rem, 130%, 500, map-get($font-families, stress), 0.04rem),
-  $subheading-2:  mat-typography-level(1.8rem, 170%, 700, map-get($font-families, stress), 0.04rem),
-  $subheading-1:  mat-typography-level(1.5rem, 170%, 400, map-get($font-families, stress), 0.04rem),
-  $button:        mat-typography-level(1.4rem, 130%, 600, map-get($font-families, stress), 0.1rem),
-  $body-2:        mat-typography-level(1.5rem, 150%, 600, map-get($font-families, base), 0.04rem),
-  $body-1:        mat-typography-level(1.3rem, 150%, 400, map-get($font-families, base), 0.01rem),
+  $display-4:     mat-typography-level(1.4rem, 150%, 400, map-get($font-families, base), 0.04rem),
+  $display-3:     mat-typography-level(3.0rem, 120%, 500, map-get($font-families, styled), 0.04rem),
+  $display-2:     mat-typography-level(1.4rem, 105%, 500, map-get($font-families, styled), 0.08rem),
+  $display-1:     mat-typography-level(2.8rem, 105%, 600, map-get($font-families, styled), 0.08rem),
+
+  $headline:      mat-typography-level(2.8rem, 130%, 500, map-get($font-families, styled), 0.04rem),
+  $title:         mat-typography-level(1.6rem, 130%, 600, map-get($font-families, styled), 0.02rem),
+  $subheading-2:  mat-typography-level(1.8rem, 170%, 700, map-get($font-families, styled), 0.04rem),
+  $subheading-1:  mat-typography-level(1.5rem, 170%, 400, map-get($font-families, styled), 0.04rem),
+  $button:        mat-typography-level(1.5rem, 110%, 500, map-get($font-families, styled), 0.1rem),
+  $body-2:        mat-typography-level(1.1rem, 150%, 400, map-get($font-families, base), 0.04rem),
+  $body-1:        mat-typography-level(1.3rem, 150%, 400, map-get($font-families, base), 0.02rem),
 );
 
 @include mat-core($custom-typography);
@@ -63,6 +60,10 @@ $mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-acce
 $progress-linear-bar-height: 6px;
 
 ::ng-deep {
+
+  // .mat-display-1 {
+  //   margin-bottom: 0 !important;
+  // }
 
   // ---- Button
   // ----------------------------------------
