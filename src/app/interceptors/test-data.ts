@@ -311,7 +311,8 @@ export let db = {
       id: '1',
       is_admin: true,
       is_workspace_owner: true,
-      is_workspace_manager: true
+      is_workspace_manager: true,
+      workspace_quota: 0
     },
     {
       eppn: 'admin-1@example.org',
@@ -319,7 +320,8 @@ export let db = {
       id: '001',
       is_admin: true,
       is_workspace_owner: true,
-      is_workspace_manager: true
+      is_workspace_manager: true,
+      workspace_quota: 0
     },
     {
       eppn: 'owner@example.org',
@@ -328,6 +330,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
+      workspace_quota: 2
     },
     {
       eppn: 'owner-1@example.org',
@@ -336,6 +339,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
+      workspace_quota: 2
     },
     {
       eppn: 'owner-2@example.org',
@@ -344,6 +348,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
+      workspace_quota: 2
     },
     {
       eppn: 'co-owner@example.org',
@@ -352,6 +357,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: true,
+      workspace_quota: 0
     },
     {
       eppn: 'manager-1@example.org',
@@ -360,6 +366,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: true,
+      workspace_quota: 0
     },
     {
       eppn: 'user@example.org',
@@ -368,6 +375,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
+      workspace_quota: 0
     },
     {
       eppn: 'user-1@example.org',
@@ -376,6 +384,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
+      workspace_quota: 0
     },
     {
       eppn: 'user-2@example.org',
@@ -384,6 +393,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
+      workspace_quota: 0
     },
     {
       eppn: 'user-3@example.org',
@@ -392,6 +402,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
+      workspace_quota: 0
     },
     {
       eppn: 'user-4@example.org',
@@ -400,6 +411,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
+      workspace_quota: 0
     },
     {
       eppn: 'user-5@example.org',
@@ -408,6 +420,7 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
+      workspace_quota: 0
     }
   ],
   workspaces: [

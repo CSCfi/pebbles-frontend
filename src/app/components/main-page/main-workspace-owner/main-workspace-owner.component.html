@@ -7,14 +7,18 @@
     <div class="workspaces-actions-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
       <ng-container *ngIf="workspaces && workspaces.length === 0; else workspaceCreationBlock">
         <button mat-flat-button class="create-demo-workspace-button inversion primary"
-          aria-label="create demo workspace" (click)="createDemoWorkspace()">
+                aria-label="create demo workspace" (click)="createDemoWorkspace()">
           <mat-icon>add</mat-icon>
           <span>Create demo workspace</span>
         </button>
       </ng-container>
       <ng-template #workspaceCreationBlock>
-        <button mat-flat-button class="create-workspace-button inversion primary" aria-label="create a new workspace"
-          (click)="openWorkspaceCreationDialog()">
+        <button mat-flat-button
+                class="create-workspace-button"
+                [ngClass]="{'inversion primary': isQuotaLeft()}"
+                aria-label="create a new workspace"
+                [disabled]="!isQuotaLeft()"
+                (click)="openWorkspaceCreationDialog()">
           <mat-icon class="mr-5">add</mat-icon>
           <span>Create workspace</span>
         </button>
@@ -23,17 +27,17 @@
     <div class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
       <ng-container *ngFor="let workspace of workspaces">
         <mat-card fxLayout="row" fxLayoutAlign="space-between stretch" class="workspace-widget"
-          [ngClass]="{ 'selected': workspace.id === selectedWorkspaceId }"
-          (click)="viewWorkspaceItemDetail(workspace.id)">
+                  [ngClass]="{ 'selected': workspace.id === selectedWorkspaceId }"
+                  (click)="viewWorkspaceItemDetail(workspace.id)">
           <div class="card-media v-centering__horizontal" fxFlex="0 0 45px">
             <mat-icon>people_outline</mat-icon>
           </div>
           <mat-card-content class="card-info" fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between stretch"
-            matBadge="new" matBadgePosition="above after" matBadgeColor="accent"
-            [matBadgeHidden]="!isNewWorkspace(workspace.id)">
+                            matBadge="new" matBadgePosition="above after" matBadgeColor="accent"
+                            [matBadgeHidden]="!isNewWorkspace(workspace.id)">
             <div class="workspace-name" fxFlex="grow">{{ workspace.name }}</div>
             <div class="workspace-selected-arrow v-centering__horizontal" fxFlex="0 0 25px"
-              *ngIf="workspace.id === selectedWorkspaceId">
+                 *ngIf="workspace.id === selectedWorkspaceId">
               <mat-icon>navigate_next</mat-icon>
             </div>
           </mat-card-content>

@@ -8,6 +8,8 @@ import { EnvironmentService } from 'src/app/services/environment.service';
 import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
 import { EnvironmentTemplate } from 'src/app/models/environment-template';
 import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
+import { AccountService } from '../../../services/account.service';
+import { User } from '../../../models/user';
 
 
 @Component({
@@ -25,6 +27,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   public selectedWorkspaceId: string;
   public newWorkspace: Workspace;
+  public user: User;
 
   get workspaces(): Workspace[] {
     return this.workspaceService.getWorkspaces();
@@ -36,16 +39,20 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     public dialog: MatDialog,
     public workspaceService: WorkspaceService,
     private authService: AuthService,
+    private accountService: AccountService,
     private environmentService: EnvironmentService,
     private environmentTemplateService: EnvironmentTemplateService,
   ) {
-    if (this.route.snapshot.firstChild){
+    if (this.route.snapshot.firstChild) {
       this.selectedWorkspaceId = this.route.snapshot.firstChild.params.workspaceId;
     }
   }
 
   ngOnInit(): void {
     this.fetchWorkspaces();
+    this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
+      this.user = user;
+    });
   }
 
   fetchWorkspaces(): void {
@@ -64,7 +71,16 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   }
 
   isOwner(workspace: Workspace): boolean {
-    return workspace.owner_eppn === this.authService.getUserName();
+    return workspace.owner_eppn === this.user?.eppn;
+  }
+
+  isQuotaLeft(): boolean {
+    // no quota for admin
+    if (this.authService.isAdmin) {
+      return true;
+    }
+    const ownedWorkspaces = this.workspaceService.getWorkspaces().filter(x => this.isOwner(x));
+    return this.user && ownedWorkspaces.length < this.user.workspace_quota;
   }
 
   // ---- workspace creation
@@ -87,7 +103,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   }
 
   openWorkspaceCreationDialog(): void {
-    const dialogRef = this.dialog.open( MainWorkspaceFormComponent, {
+    const dialogRef = this.dialog.open(MainWorkspaceFormComponent, {
       width: '800px',
       height: 'auto',
       data: {
@@ -118,7 +134,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     const envTemplate = this.environmentTemplateService.getEnvironmentTemplates().find((x) => {
       return x.name === EnvironmentTemplate.EXAMPLE_TEMPLATE_NAME ? x : null;
     });
-    if (! envTemplate) {
+    if (!envTemplate) {
       console.log(`no template "${EnvironmentTemplate.EXAMPLE_TEMPLATE_NAME}" for example environment found`);
       return;
     }
