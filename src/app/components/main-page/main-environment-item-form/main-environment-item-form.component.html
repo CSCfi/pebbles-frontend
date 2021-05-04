@@ -6,8 +6,8 @@
       <h3>environment template</h3>
       <ng-container *ngIf="isCreationMode; else templateNameBlock">
         <mat-form-field appearance="fill">
-          <mat-select (change)="selectTemplate($event)" formControlName="templateId">
-            <mat-option value="option" *ngFor="let tmpl of environmentTemplates" [(value)]="tmpl.id">
+          <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
+            <mat-option *ngFor="let tmpl of environmentTemplates" value="{{ tmpl.id }}">
               {{ tmpl.name }}
             </mat-option>
           </mat-select>
@@ -41,15 +41,15 @@
     </div>
 
     <!-- 5 Jupyter Interface-->
-    <div class="form-container mt-20">
-      <h3>Computational Interface</h3>
+    <div class="form-container mt-20" *ngIf="environmentType=='jupyter'">
+      <h3>Jupyter interface</h3>
       <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
         <ul>
           <li>
-            <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
+            <mat-radio-button [value]="'lab'">Lab</mat-radio-button>
           </li>
           <li>
-            <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
+            <mat-radio-button [value]="'notebook'">Notebook</mat-radio-button>
           </li>
         </ul>
       </mat-radio-group>

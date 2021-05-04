@@ -85,7 +85,7 @@ export let db = {
       },
       is_enabled: true,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '2',
@@ -96,14 +96,14 @@ export let db = {
       thumbnail: 'r-studio',
       labels: ['csc', 'R-studio', 'basic', 'self-study'],
       config: {
-        jupyterInterface: 'r-studio',
+        jupyter_interface: 'lab',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
         auto_execution: false,
       },
       is_enabled: false,
-      template_id: 'et-2',
-      template_name: 'Example',
+      template_id: 'et-3',
+      template_name: 'RStudio Template 1'
     },
     {
       id: '3',
@@ -121,7 +121,7 @@ export let db = {
       },
       is_enabled: true,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '4',
@@ -139,7 +139,7 @@ export let db = {
       },
       is_enabled: false,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '5',
@@ -157,7 +157,7 @@ export let db = {
       },
       is_enabled: true,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '6',
@@ -175,7 +175,7 @@ export let db = {
       },
       is_enabled: false,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '7',
@@ -193,7 +193,7 @@ export let db = {
       },
       is_enabled: true,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '8',
@@ -211,7 +211,7 @@ export let db = {
       },
       is_enabled: false,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '9',
@@ -229,7 +229,7 @@ export let db = {
       },
       is_enabled: true,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '10',
@@ -247,7 +247,7 @@ export let db = {
       },
       is_enabled: false,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '11',
@@ -265,7 +265,7 @@ export let db = {
       },
       is_enabled: true,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '12',
@@ -283,7 +283,7 @@ export let db = {
       },
       is_enabled: false,
       template_id: 'et-2',
-      template_name: 'Example',
+      template_name: 'Jupyter Template 2'
     },
     {
       id: '13',
@@ -300,8 +300,8 @@ export let db = {
         auto_execution: false,
       },
       is_enabled: true,
-      template_id: 'et-2',
-      template_name: 'Example',
+      template_id: 'et-1',
+      template_name: 'Jupyter Template 1'
     }
   ],
   users: [
@@ -546,23 +546,36 @@ export let db = {
   environment_templates: [
     {
       id: 'et-1',
-      name: 'test template 1',
+      name: 'Jupyter Template 1',
+      description: 'Example template for Jupyter',
+      environment_type: 'jupyter',
       is_active: true,
       cluster: 'dummy cluster 1',
       base_config: {
         maximum_lifetime: '7200'
       },
-      config: {description: 'test template in mock data'},
     },
     {
       id: 'et-2',
-      name: 'Example',
+      name: 'Jupyter Template 2',
+      description: 'Another example template for Jupyter',
+      environment_type: 'jupyter',
+      is_active: true,
+      cluster: 'dummy cluster 1',
+      base_config: {
+        maximum_lifetime: '7200'
+      },
+    },
+    {
+      id: 'et-3',
+      name: 'RStudio Template 1',
+      description: 'Example template for RStudio',
+      environment_type: 'rstudio',
       is_active: true,
       cluster: 'dummy cluster 2',
       base_config: {
         maximum_lifetime: '7200'
       },
-      config: {description: 'Template for demo workspace environment'},
     },
   ],
   environment_categories: [

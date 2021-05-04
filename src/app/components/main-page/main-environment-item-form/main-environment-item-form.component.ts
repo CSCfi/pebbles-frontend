@@ -4,7 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
-import { EnvironmentTemplate } from 'src/app/models/environment-template';
+import { EnvironmentTemplate, EnvironmentType } from 'src/app/models/environment-template';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-main-environment-item-form',
@@ -16,8 +17,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
   environmentItemEditFormGroup: FormGroup;
 
   isAutoExecution: boolean;
-  downloadMethod: string;
-  jupyterInterface: string;
+  environmentType: EnvironmentType;
 
   // ---- Values for Radio Input
   selectedLabels: string[];
@@ -78,6 +78,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     this.environmentItemEditFormGroup.controls.downloadMethod.setValue('none');
     this.environmentItemEditFormGroup.controls.isAutoExecution.setValue(false);
     this.environmentItemEditFormGroup.controls.publish.setValue(false);
+    this.environmentType = EnvironmentType.Generic;
   }
 
   setEditForm(): void {
@@ -88,6 +89,9 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     } else {
       this.isAutoExecution = false;
     }
+    this.environmentType = this.environmentTemplateService.getEnvironmentTemplates().find(
+      x => x.id === this.data.environment.template_id
+    ).environment_type;
 
     this.environmentItemEditFormGroup = this.formBuilder.group({
       templateId: [{
@@ -152,9 +156,8 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     });
   }
 
-  selectTemplate(event: Event) {
-    // TODO: looks like this is not called
-    this.selectedTemplate = this.environmentTemplates.find(x => x.id === (event.target as HTMLSelectElement).value);
+  onChangeTemplate(event: MatSelectChange) {
+    this.environmentType = this.environmentTemplates.find(x => x.id === event.source.value).environment_type;
   }
 
   onChangeDownloadMethod(val: string) {
