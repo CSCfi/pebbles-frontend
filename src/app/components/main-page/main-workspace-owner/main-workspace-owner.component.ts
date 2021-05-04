@@ -100,6 +100,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
         console.log(`Dialog result: ${resp}`);
         this.newWorkspace = resp;
         this.selectedWorkspaceId = resp.id;
+        this.viewWorkspaceItemDetail(resp.id);
         this.fetchWorkspaces();
       }
     });
