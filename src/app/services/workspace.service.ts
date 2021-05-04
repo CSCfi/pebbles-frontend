@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
@@ -26,6 +26,17 @@ export class WorkspaceService {
 
   getWorkspaces(): Workspace[] {
     return this.workspaces;
+  }
+
+  getOwnedWorkspaces(user: User): Workspace[] {
+    // return workspaces where given user has owner role
+    return this.workspaces.filter(x => x.owner_eppn === user.eppn);
+  }
+
+  getManagedWorkspaces(user: User): Workspace[] {
+    // return workspaces where given user has owner role
+    // TODO fetch workspace associations and filter based on manager role
+    return [];
   }
 
   joinWorkspace(joinCode: string): Observable<Workspace> {

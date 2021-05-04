@@ -30,7 +30,17 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   public user: User;
 
   get workspaces(): Workspace[] {
-    return this.workspaceService.getWorkspaces();
+    // admins see all workspaces
+    if (this.authService.isAdmin) {
+      return this.workspaceService.getWorkspaces();
+    }
+    // no user fetched yet, empty result initially
+    if (!this.user) {
+      return [];
+    }
+    // TODO: change this to managed workspaces
+    // return owned workspaces
+    return this.workspaceService.getOwnedWorkspaces(this.user);
   }
 
   constructor(
@@ -59,7 +69,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     this.workspaceService.fetchWorkspaces().subscribe((resp) => {
       console.log('workspaces fetched');
       // ---- If no workspaceId wasn't retrieved from URL, display the newest workspace.
-      if (!this.selectedWorkspaceId) {
+      if (!this.selectedWorkspaceId && this.workspaces?.length > 0) {
         this.viewWorkspaceItemDetail(this.workspaces[0].id);
       }
     });
