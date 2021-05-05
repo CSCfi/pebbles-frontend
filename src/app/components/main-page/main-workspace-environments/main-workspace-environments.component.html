@@ -52,7 +52,23 @@
       <ng-container matColumnDef="thumbnail">
         <th mat-header-cell *matHeaderCellDef></th>
         <td class="thumbnail centering border__right" mat-cell *matCellDef="let element">
-          <div class="thumbnail-placeholder" [ngClass]="{'published': element.is_enabled}" [innerHTML]="thumbnail">
+          <div class="thumbnail-placeholder"
+               [ngClass]="{'published': element.is_enabled, 'draft': !element.is_enabled}"
+          >
+            <div class="thumbnail" [ngSwitch]="element.type">
+              <div *ngSwitchCase="'jupyter'">
+                <i class="lab la-python"></i><br/>
+                <span>Jupyter</span>
+              </div>
+              <div *ngSwitchCase="'rstudio'">
+                <i class="lab la-r-project"></i><br/>
+                <span>RStudio</span>
+              </div>
+              <div *ngSwitchDefault>
+                <i class="las la-book"></i><br/>
+                <span>Generic</span>
+              </div>
+            </div>
           </div>
         </td>
       </ng-container>
@@ -87,7 +103,7 @@
       <ng-container matColumnDef="state">
         <th mat-header-cell *matHeaderCellDef class="border__left centering">state / lifetime</th>
         <td mat-cell *matCellDef="let element" class="font-s border__left centering">
-          <div>{{ element.is_enabled ? 'public' : 'draft' }}</div>
+          <div>{{ element.is_enabled ? 'published' : 'draft' }}</div>
           <div>{{ getLifetime(element.maximum_lifetime) }}</div>
         </td>
       </ng-container>
@@ -118,11 +134,11 @@
           <mat-menu #menu="matMenu">
             <button mat-menu-item *ngIf="!element.is_enabled" (click)="toggleEnvironmentActivation(true, element.id)">
               <mat-icon fontSet="material-icons-outlined">cloud</mat-icon>
-              <span>activate environment</span>
+              <span>publish</span>
             </button>
             <button mat-menu-item *ngIf="element.is_enabled" (click)="toggleEnvironmentActivation(false, element.id)">
               <mat-icon fontSet="material-icons-outlined">cloud_off</mat-icon>
-              <span>deactivate environment</span>
+              <span>make draft</span>
             </button>
             <button mat-menu-item *ngIf="element.is_enabled" (click)="toggleGpuActivation(true)" disabled>
               <mat-icon>local_fire_department</mat-icon>

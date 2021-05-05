@@ -6,6 +6,7 @@ import { InstanceService } from './instance.service';
 import { WorkspaceService } from './workspace.service';
 import { Environment } from 'src/app/models/environment';
 import { buildConfiguration } from '../../environments/environment';
+import { EnvironmentType } from '../models/environment-template';
 
 
 @Injectable({
@@ -78,6 +79,17 @@ export class EnvironmentService implements OnDestroy {
           }
           const instance = this.instanceService.getInstanceByEnvironmentId(newEnv.id);
           newEnv.instance_id = instance ? instance.id : null;
+          if (! newEnv.environment_type) {
+            if (newEnv.labels.indexOf('jupyter') >= 0) {
+              newEnv.environment_type = EnvironmentType.Jupyter;
+            }
+            else if (newEnv.labels.indexOf('rstudio') >= 0) {
+              newEnv.environment_type = EnvironmentType.RStudio;
+            }
+            else{
+              newEnv.environment_type = EnvironmentType.Generic;
+            }
+          }
         }
         this.environments = resp;
         return this.environments;

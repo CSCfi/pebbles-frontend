@@ -92,15 +92,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   get environmentType(): EnvironmentType {
-    // TODO: when backend supports environment type in API, simply use that
-    let environmentType = EnvironmentType.Generic;
-    if (this.environment?.labels.indexOf('jupyter') >= 0) {
-      environmentType = EnvironmentType.Jupyter;
-    }
-    else if (this.environment?.labels.indexOf('rstudio') >= 0) {
-      environmentType = EnvironmentType.RStudio;
-    }
-    return environmentType;
+    return this.environment?.environment_type;
   }
 
   get description(): string {

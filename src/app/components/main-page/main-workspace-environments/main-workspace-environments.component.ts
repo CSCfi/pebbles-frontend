@@ -6,6 +6,7 @@ import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { MainEnvironmentWizardFormComponent } from '../main-environment-wizard-form/main-environment-wizard-form.component';
 import { MainEnvironmentItemFormComponent } from '../main-environment-item-form/main-environment-item-form.component';
+import { EnvironmentType } from '../../../models/environment-template';
 
 export interface EnvironmentTable {
   select: boolean;
@@ -13,6 +14,7 @@ export interface EnvironmentTable {
   id: string;
   name: string;
   description: string;
+  type: EnvironmentType;
   username: string;
   state: string;
   lifetime: string;
@@ -38,12 +40,6 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
   selection = new SelectionModel<EnvironmentTable>(true, []);
   tableList = [];
 
-  get thumbnail(): string {
-    return '<img src="assets/images/environment-item-thumb-jupyter_white.svg" width="100%">';
-  }
-
-  // isWaitingInterval: boolean;
-
   constructor(
     public environmentService: EnvironmentService,
     public dialog: MatDialog,
@@ -67,6 +63,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
         id: env.id,
         name: env.name,
         description: env.description,
+        type: env.environment_type,
         maximum_lifetime: env.maximum_lifetime,
         labels: env.labels,
         instance_id: env.instance_id
@@ -103,7 +100,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
   }
 
   getTargetEnvironment(id: string): Environment {
-    return this.environments.find( env => env.id === id);
+    return this.environments.find(env => env.id === id);
   }
 
   getLifetime(sec: number): string {
@@ -126,7 +123,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
     if (!confirm(`Are you sure you want to copy this environment "${environment.name}"?`)) {
       return;
     }
-    this.environmentService.copyEnvironment(environment).subscribe( _ => {
+    this.environmentService.copyEnvironment(environment).subscribe(_ => {
       console.log('Environment copying process finished');
       this.fetchEnvironmentEvent.emit();
     });
@@ -141,13 +138,13 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
     if (!confirm(`Are you sure you want to delete this environment "${environment.name}"?`)) {
       return;
     }
-    this.environmentService.deleteEnvironment(environment).subscribe( _ => {
+    this.environmentService.deleteEnvironment(environment).subscribe(_ => {
       console.log('environment deleting process finished');
       this.fetchEnvironmentEvent.emit();
     });
   }
 
-  openEnvironmentItemFormDialog(environmentId: string|null): void {
+  openEnvironmentItemFormDialog(environmentId: string | null): void {
     this.dialog.open(MainEnvironmentItemFormComponent, {
       width: '800px',
       height: '90vh',

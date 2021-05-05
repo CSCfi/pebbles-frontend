@@ -1,3 +1,4 @@
+import { EnvironmentType } from './environment-template';
 import { Workspace } from './workspace';
 
 export class Environment {
@@ -12,6 +13,7 @@ export class Environment {
     public is_enabled: boolean,
     public template_id?: string,
     public template_name?: string,
+    public environment_type?: EnvironmentType,
     public instance_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,
