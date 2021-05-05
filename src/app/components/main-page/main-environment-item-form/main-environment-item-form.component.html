@@ -8,7 +8,7 @@
         <mat-form-field appearance="fill">
           <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
             <mat-option *ngFor="let tmpl of environmentTemplates" value="{{ tmpl.id }}">
-              {{ tmpl.name }}
+              {{ tmpl.name }} : {{ tmpl.description }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- 5 Jupyter Interface-->
-    <div class="form-container mt-20" *ngIf="environmentType=='jupyter'">
+    <div class="form-container mt-20" *ngIf="environmentType==='jupyter'">
       <h3>Jupyter interface</h3>
       <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
         <ul>

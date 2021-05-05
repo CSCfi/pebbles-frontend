@@ -1,4 +1,4 @@
-<mat-horizontal-stepper linear="true" #stepper>
+<mat-horizontal-stepper linear="true" #stepper class="mat-typography">
 
   <!-- 1 Env Templates-->
   <mat-step [stepControl]="wizardTemplateFormGroup">
@@ -14,7 +14,7 @@
           </p>
         </div>
       </div>
-      <mat-label class="form-label">Select an environment template for your new environment </mat-label>
+      <mat-label class="form-label">Select an environment template for your new environment</mat-label>
       <div class="form-ui-container">
         <mat-radio-group formControlName="templateId">
           <ul *ngFor="let tmpl of environmentTemplates">
@@ -81,7 +81,7 @@
         </div>
       </div>
       <!-- 3.4 Jupyter Interface -->
-      <div class="form-option">
+      <div class="form-option" *ngIf="selectedTemplate && selectedTemplate.environment_type==='jupyter'">
         <mat-label>Interface</mat-label>
         <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
           <ul>
@@ -111,10 +111,10 @@
       </mat-radio-group>
       <!-- 3.2 Source -->
       <ng-container [ngSwitch]="selectedDownloadMethod">
-        <div *ngSwitchCase="'local'">
+        <div class="item" *ngSwitchCase="'local'">
           <button mat-flat-button color="primary">Upload file</button>
         </div>
-        <div
+        <div class="item"
           *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
           <mat-form-field>
             <mat-label>Source(URL)</mat-label>
@@ -123,9 +123,13 @@
         </div>
       </ng-container>
       <!-- 3.3 Auto Execution -->
-      <div *ngIf="selectedDownloadMethod !== 'none'">
+      <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
+      <div class="item">
+        <mat-label>Auto Execution</mat-label> <br>
         <mat-checkbox formControlName="isAutoExecution">Auto Execute (Bash file, unZip)</mat-checkbox>
       </div>
+
+      <!-- Stepper -->
       <div class="stepper-action-buttons">
         <button class="back" mat-flat-button matStepperPrevious>Back</button>
         <button class="next" mat-flat-button color="primary" matStepperNext>Next</button>
@@ -133,19 +137,29 @@
     </form>
   </mat-step>
   <!-- 4 Submit-->
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>Congratulations! You are almost done.</p>
-    <div class="stepper-action-buttons">
-      <button mat-flat-button matStepperPrevious>
-        Back
-      </button>
-      <button mat-flat-button color="accent" (click)="createEnvironmentByWizardMode(true)">
-        Publish Environment
-      </button>
-      <button mat-flat-button color="primary" (click)="createEnvironmentByWizardMode(false)">
-        Save Environment as Draft
-      </button>
-    </div>
+  <mat-step [stepControl]="wizardPublishFormGroup">
+    <form [formGroup]="wizardPublishFormGroup">
+      <ng-template matStepLabel>Done</ng-template>
+      <p>Congratulations! You are almost done.</p>
+      <h3>Publication</h3>
+      <mat-radio-group formControlName="isActive">
+        <ul>
+          <li>
+            <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
+          </li>
+          <li>
+            <mat-radio-button [value]="false">Save as a draft</mat-radio-button>
+          </li>
+        </ul>
+      </mat-radio-group>
+      <div class="stepper-action-buttons">
+        <button mat-flat-button matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" (click)="createEnvironmentByWizardMode()">
+          Create Environment
+        </button>
+      </div>
+    </form>
   </mat-step>
 </mat-horizontal-stepper>

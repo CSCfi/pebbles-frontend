@@ -12,19 +12,24 @@ import { EnvironmentService } from 'src/app/services/environment.service';
 })
 export class MainEnvironmentWizardFormComponent implements OnInit {
 
-  envCreationPlainFormGroup: FormGroup;
   wizardTemplateFormGroup: FormGroup;
   wizardProfileFormGroup: FormGroup;
   wizardOptionFormGroup: FormGroup;
+  wizardPublishFormGroup: FormGroup;
 
   // ---- Values for Radio Input
-  selectedTemplate: EnvironmentTemplate;
   selectedLabels: string[];
   selectedJupyterInterface: string;
   selectedDownloadMethod: string;
 
-  get environmentTemplates() {
+  get environmentTemplates(): EnvironmentTemplate[] {
     return this.environmentTemplateService.getEnvironmentTemplates();
+  }
+
+  get selectedTemplate(): EnvironmentTemplate {
+    return this.environmentTemplates.find(
+      x => x.id === this.wizardTemplateFormGroup.controls.templateId.value
+    );
   }
 
   constructor(
@@ -41,7 +46,6 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.selectedDownloadMethod = 'none';
     this.wizardTemplateFormGroup = this.formBuilder.group({
       templateId: ['', [Validators.required]]
@@ -57,48 +61,21 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
       source: [''],
       isAutoExecution: [''],
     });
+    this.wizardPublishFormGroup = this.formBuilder.group({
+      isActive: ['', [Validators.required]]
+    });
     // ---- Set default value
     this.wizardOptionFormGroup.controls.jupyterInterface.setValue('lab');
     this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
     this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
+    this.wizardPublishFormGroup.controls.isActive.setValue(false);
   }
 
   closeForm(): void {
     this.dialogRef.close();
   }
 
-  selectTemplate(event: Event) {
-    // TODO: looks like this is not called
-    this.selectedTemplate = this.environmentTemplates.find(x => x.id === (event.target as HTMLSelectElement).value);
-  }
-
-  createEnvironmentByPlainMode(): void {
-    // TODO: this can be removed when selectTemplate() callback starts working
-    this.selectedTemplate = this.environmentTemplateService.getEnvironmentTemplates().find(
-      x => x.id === this.envCreationPlainFormGroup.controls.templateId.value);
-    this.environmentService.createEnvironment(
-      this.data.workspaceId,
-      this.envCreationPlainFormGroup.controls.name.value,
-      this.envCreationPlainFormGroup.controls.description.value,
-      this.selectedTemplate.id,
-      this.selectedLabels,
-      this.selectedTemplate.base_config.maximum_lifetime,
-      {
-        jupyter_interface: this.envCreationPlainFormGroup.controls.jupyterInterface.value,
-        download_method: this.envCreationPlainFormGroup.controls.downloadMethod.value,
-        download_url: this.envCreationPlainFormGroup.controls.source.value,
-        auto_execution: this.envCreationPlainFormGroup.controls.isAutoExecution.value,
-      },
-      this.envCreationPlainFormGroup.controls.publish.value || false,
-    ).subscribe((env) => {
-      // console.log('created example Environment ' + env.id);
-      this.closeForm();
-    });
-  }
-
-  createEnvironmentByWizardMode(isPublic?: boolean): void {
-    this.selectedTemplate = this.environmentTemplateService.getEnvironmentTemplates().find(
-      x => x.id === this.wizardTemplateFormGroup.controls.templateId.value);
+  createEnvironmentByWizardMode(): void {
     this.environmentService.createEnvironment(
       this.data.workspaceId,
       this.wizardProfileFormGroup.controls.name.value,
@@ -112,18 +89,18 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
         download_url: this.wizardOptionFormGroup.controls.source.value,
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
       },
-      isPublic || false,
+      this.wizardPublishFormGroup.controls.isActive.value
     ).subscribe((env) => {
       // console.log('created example Environment ' + env.id);
       this.closeForm();
     });
   }
 
-  onChangeDownloadMethod(val: string) {
+  onChangeDownloadMethod(val: string): void {
     this.selectedDownloadMethod = val;
   }
 
-  onChangeJupyterInterface(val: string) {
+  onChangeJupyterInterface(val: string): void {
     this.selectedJupyterInterface = val;
   }
 }
