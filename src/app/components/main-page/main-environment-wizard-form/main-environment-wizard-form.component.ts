@@ -96,6 +96,14 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
     });
   }
 
+  onChangeTemplate(val: string): void {
+    const et = this.selectedTemplate;
+    // take the default label values from the template
+    if (et.base_config.labels) {
+      this.selectedLabels = et.base_config.labels.slice();
+    }
+  }
+
   onChangeDownloadMethod(val: string): void {
     this.selectedDownloadMethod = val;
   }

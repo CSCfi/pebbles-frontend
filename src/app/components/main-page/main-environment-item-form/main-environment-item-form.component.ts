@@ -157,7 +157,12 @@ export class MainEnvironmentItemFormComponent implements OnInit {
   }
 
   onChangeTemplate(event: MatSelectChange) {
-    this.environmentType = this.environmentTemplates.find(x => x.id === event.source.value).environment_type;
+    const et = this.environmentTemplates.find(x => x.id === event.source.value);
+    this.environmentType = et.environment_type;
+    // take the default label values from the template
+    if (et.base_config.labels) {
+      this.selectedLabels = et.base_config.labels.slice();
+    }
   }
 
   onChangeDownloadMethod(val: string) {

@@ -93,8 +93,8 @@ export let db = {
       description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       maximum_lifetime: '36000',
       workspace_id: 'ws-0',
-      thumbnail: 'r-studio',
-      labels: ['csc', 'R-studio', 'basic', 'self-study'],
+      thumbnail: 'rstudio',
+      labels: ['csc', 'rstudio', 'basic', 'self-study'],
       config: {
         jupyter_interface: 'lab',
         download_method: 'http-get',
@@ -219,7 +219,7 @@ export let db = {
       maximum_lifetime: '54000',
       description: 'General-purpose environment with Jupyter and data science packages.\n\nThe environment is short-lived and all data is destroyed at the end of the session. Download your results!',
       workspace_id: '2',
-      thumbnail: 'r-studio',
+      thumbnail: 'rstudio',
       labels: ['csc', 'data-science', 'rstudio'],
       config: {
         jupyter_interface: 'notebook',
@@ -473,7 +473,7 @@ export let db = {
       id: '1',
       name: 'R Basic Course 2021',
       join_code: 'admin-ws-join-parm1-wuuig',
-      description: 'R-studio environments for R basic Course 2021',
+      description: 'RStudio environments for R basic Course 2021',
       create_ts: 1616572106,
       expiry_ts: 1832124106,
       owner_eppn: 'admin@example.org',
@@ -501,7 +501,7 @@ export let db = {
       id: '3',
       name: 'Machine Learning Course 2019',
       join_code: 'admin-ws-join-parm3-wuuig',
-      description: 'R-studio environments for Machine Learning Course 2019',
+      description: 'RStudio environments for Machine Learning Course 2019',
       create_ts: 1616572108,
       expiry_ts: 2032124108,
       owner_eppn: 'admin-1@example.org',
@@ -515,7 +515,7 @@ export let db = {
       id: '4',
       name: 'Data Science course 2021',
       join_code: 'admin-ws-join-parm4-wuuig',
-      description: 'R-studio environments for Data Science course 2021',
+      description: 'RStudio environments for Data Science course 2021',
       create_ts: 1616572109,
       expiry_ts: 2132124109,
       owner_eppn: 'admin@example.org',
@@ -529,7 +529,7 @@ export let db = {
       id: '5',
       name: 'Data Analytics Seminar',
       join_code: 'admin-ws-join-parm5-wuuig',
-      description: 'R-studio environments for Data Analytics Seminar, CSC university',
+      description: 'RStudio environments for Data Analytics Seminar, CSC university',
       create_ts: 1616572114,
       expiry_ts: 2232124114,
       owner_eppn: 'owner@example.org',
@@ -565,7 +565,8 @@ export let db = {
       is_active: true,
       cluster: 'dummy cluster 1',
       base_config: {
-        maximum_lifetime: '7200'
+        maximum_lifetime: '7200',
+        labels: ['jupyter', 'python']
       },
     },
     {
@@ -576,7 +577,8 @@ export let db = {
       is_active: true,
       cluster: 'dummy cluster 1',
       base_config: {
-        maximum_lifetime: '7200'
+        maximum_lifetime: '7200',
+        labels: ['jupyter', 'python']
       },
     },
     {
@@ -587,7 +589,8 @@ export let db = {
       is_active: true,
       cluster: 'dummy cluster 2',
       base_config: {
-        maximum_lifetime: '7200'
+        maximum_lifetime: '7200',
+        labels: ['rstudio']
       },
     },
   ],
@@ -606,7 +609,7 @@ export let db = {
     },
     {
       name: 'RStudio',
-      labels: ['r-studio']
+      labels: ['rstudio']
     },
   ],
   notifications: [

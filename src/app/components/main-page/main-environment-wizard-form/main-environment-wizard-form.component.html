@@ -19,11 +19,11 @@
       <div class="form-items">
         <mat-label class="form-label mat-subheading-1 mb-0">Select an environment template for your new environment.</mat-label>
         <div class="form-ui-container mb-10">
-          <mat-radio-group formControlName="templateId">
+          <mat-radio-group formControlName="templateId" (change)="onChangeTemplate($event.value)">
             <ul>
               <ng-container *ngFor="let tmpl of environmentTemplates">
                 <li>
-                  <mat-radio-button [(value)]="tmpl.id">
+                  <mat-radio-button [value]="tmpl.id">
                     <span class="template-name mat-subheading-2">{{ tmpl.name }}</span>
                     <span class="template-description ml-10">: {{ tmpl.description }}</span>
                   </mat-radio-button>

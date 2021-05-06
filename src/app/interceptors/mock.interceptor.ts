@@ -267,7 +267,7 @@ export class MockInterceptor implements HttpInterceptor {
         body.description,
         '1h',
         body.workspace_id,
-        ['data analytics'],
+        body.labels,
         'jupyter',
         body.is_enabled,
         body.template_id,
