@@ -135,7 +135,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   createDemoWorkspace(): void {
     console.log('creating demo workspace with example environment');
 
-    if (this.workspaceService.getWorkspaces().length > 0) {
+    if (this.workspaceService.getOwnedWorkspaces(this.user).length > 0) {
       console.log('user already has workspaces, refusing to create demo workspace');
       return;
     }
