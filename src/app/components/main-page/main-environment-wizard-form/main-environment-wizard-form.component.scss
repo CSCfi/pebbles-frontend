@@ -1,10 +1,5 @@
 @import "src/styles.scss";
 
-h2 {
-  width: 100%;
-  text-align: center;
-}
-
 .mat-form-field {
   width: 100%;
 }
@@ -31,86 +26,72 @@ h2 {
 
 .mat-stepper-horizontal,
 .mat-stepper-vertical {
-  padding: 30px;
+  padding: 20px 10px 0px;
+  min-height: 500px;
 }
 
 .mat-form-field {
   width: 100%;
 }
 
+.mat-form-field-label {
+  color: rgba(0,0,0,90);
+}
+
 form {
-  margin-top: 20px;
-  padding: 20px 0;
-
-  .plain-form-container{
-    border: 2px solid map-get($colors, primary);
-    margin: 0;
-    border-radius: 5px;
-    padding: 20px;
-  }
-
   .instruction {
     width: 100%;
-    padding: 25px 20px;
-    display: inline-flex;
-    font-size: 1.8rem;
-    line-height: 175%;
-    color: #ddd;
+    padding: 15px 15px 10px 20px;
+    color: #777;
     border: 6px solid #eee;
     border-radius: 20px;
     margin-bottom: 30px;
+    line-height: 175%;
 
-    .material-icons {
-      flex-basis: 140px;
-      display: block;
-      left: 0;
+    .help-icon {
+      color: #ccc;
+      height: auto;
+      width: auto;
       font-size: 10rem;
     }
+  }
 
-    .instruction-text {
-      text-align: left;
-      flex-grow: 2;
-      padding-left: 30px;
+  .form-items {
+    width: 600px;
+    margin: auto;
 
-      .question {
-        font-size: 2.6rem;
-        margin-bottom: 10px;
-      }
+    .form-item {
+      margin-bottom: 20px;
     }
   }
 
   .form-label{
-    font-size: 2rem;
-    display: inline-block;
     width: 100%;
-    text-align: center;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
   }
 
   .form-ui-container{
     margin: auto;
-    padding: 20px 10px;
+    padding: 10px 10px 30px;
     max-width: 600px;
-    // border: $border-thin;
-    // border-radius: 5px;
+  }
+
+  ul {
+    line-height: 200%;
   }
 }
 
 .plain-form-action-buttons,
 .stepper-action-buttons {
-  display: flex;
-  align-items: stretch;
-  margin-top: 20px;
+
+  .back {
+    border: 1px #DDD solid;
+    color: #999;
+  }
 
   button{
     margin: auto;
-    padding: 10px;
+    height: 40px;
     flex-grow: 2;
   }
-}
-
-.text-lg {
-  font-size: 200%;
-  display: inline;
-  color: darkblue;
 }
