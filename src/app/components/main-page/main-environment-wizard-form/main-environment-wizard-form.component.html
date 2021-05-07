@@ -8,16 +8,16 @@
       <div class="instruction mt-10 mb-20" fxLayout="row" fxLayoutAlign="space-between center">
         <mat-icon class="help-icon" fxFlex="0 0 120px">help_outline</mat-icon>
         <div class="instruction-text" fxFlex="grow">
-          <h3 class="question subheading-1"> What is Environment and template ?</h3>
+          <h3 class="question subheading-1">What is Environment?</h3>
           <p class="answer">
-            Environment is a cloud virtual machine which can be run in the each member's device via a browser.
-            Workspace owner can create your own customized environments from templates below.
+            Environment defines the content that users access by starting a browser based isolated session.
+            As workspace owner/manager, you can create your own customized environments from templates below.
           </p>
         </div>
       </div>
 
       <div class="form-items">
-        <mat-label class="form-label mat-subheading-1 mb-0">Select an environment template for your new environment.</mat-label>
+        <mat-label class="form-label mat-subheading-1 mb-0">Select a template for your new environment.</mat-label>
         <div class="form-ui-container mb-10">
           <mat-radio-group formControlName="templateId" (change)="onChangeTemplate($event.value)">
             <ul>
@@ -53,18 +53,18 @@
           <h3 class="question">How new environment is seen by members?</h3>
           <p class="answer">
             Members of your workspace can find your environment in the environments page.
-            Carefully consider names, descriptions and labels to let them easier to identify and find your created environment.
+            Carefully consider names, descriptions and labels to let them identify and find the content.
           </p>
         </div>
       </div>
       <!-- 2-1 Name -->
       <mat-form-field>
-        <mat-label class="mat-subheading-2">Environment Name</mat-label>
+        <mat-label class="mat-subheading-2">Environment name</mat-label>
         <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
       </mat-form-field>
       <!-- 2-2 Description -->
       <mat-form-field>
-        <mat-label class="mat-subheading-2">Description</mat-label>
+        <mat-label class="mat-subheading-2">Description (can contain HTML formatting)</mat-label>
         <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
       </mat-form-field>
       <!-- 2-3 Label search component -->
@@ -85,17 +85,23 @@
   <!-- 3 Environment option setting-->
   <mat-step [stepControl]="wizardOptionFormGroup">
     <form [formGroup]="wizardOptionFormGroup">
-      <ng-template matStepLabel>Customize</ng-template>
+      <ng-template matStepLabel>Content</ng-template>
       <div class="instruction mt-10 mb-20" fxLayout="row" fxLayoutAlign="space-between center">
         <mat-icon class="help-icon" fxFlex="0 0 120px">help_outline</mat-icon>
         <div class="instruction-text" fxFlex="grow">
-          <h3 class="question">Want to customize your environment?</h3>
-          <p class="answer">
-            Customize settings according to what you want to do.
-            <li>You can provide 'Environment Variables' for docker.</li>
-            <li>You can fetch files form your own github repo (containing your files, datasets).</li>
-            <li>You can install custom libraries etc by using bash file.</li>
-          </p>
+          <h3 class="question">Adding content to your environment</h3>
+          <div class="answer">
+            <p>Customize settings according to what you want to do.</p>
+            <ul>
+              <li>
+                You can fetch files, datasets or other material from a public Git repository, object storage or any
+                public web site
+              </li>
+              <li>
+                You can install custom libraries etc by using a script that is executed during startup. (TODO)
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="form-items mb-40">
@@ -148,8 +154,10 @@
         <!-- 3.3 Auto Execution -->
         <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
         <div class="form-item">
-          <mat-label class="mat-subheading-2">Auto Execution (Bash file, unZip)</mat-label> <br>
-          <mat-checkbox formControlName="isAutoExecution"><span class="mat-subheading-2 mr-10">On</span> : Init files will be executed when the environment is launched.</mat-checkbox>
+          <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label> <br>
+          <mat-checkbox disabled formControlName="isAutoExecution">
+            <span class="mat-subheading-2 mr-10">On</span> : Execute or unpack downloaded file when the environment is launched.
+          </mat-checkbox>
         </div>
       </div>
 
@@ -168,17 +176,17 @@
   <!-- 4 Submit-->
   <mat-step [stepControl]="wizardPublishFormGroup">
     <form [formGroup]="wizardPublishFormGroup">
-      <ng-template matStepLabel>Done</ng-template>
+      <ng-template matStepLabel>Finalize</ng-template>
       <div class="form-items mb-50">
         <div class="mat-subheading-1 mb-20">Congratulations! Your new environment is almost ready.</div>
-        <mat-label class="mat-subheading-2">Publication</mat-label>
+        <mat-label class="mat-subheading-2">Visibility</mat-label>
         <mat-radio-group formControlName="isActive">
           <ul>
             <li>
               <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
             </li>
             <li>
-              <mat-radio-button [value]="false">Save as a draft</mat-radio-button>
+              <mat-radio-button [value]="false">Save as a draft (visible only to owners and managers)</mat-radio-button>
             </li>
           </ul>
         </mat-radio-group>
