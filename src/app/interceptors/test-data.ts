@@ -593,6 +593,18 @@ export let db = {
         labels: ['rstudio']
       },
     },
+    {
+      id: 'et-4',
+      name: 'Example',
+      description: 'Demo workspace example template',
+      environment_type: 'jupyter',
+      is_active: true,
+      cluster: 'dummy cluster 1',
+      base_config: {
+        maximum_lifetime: '7200',
+        labels: ['jupyter', 'python']
+      },
+    },
   ],
   environment_categories: [
     {

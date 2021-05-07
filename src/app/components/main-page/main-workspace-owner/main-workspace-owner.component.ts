@@ -28,6 +28,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   public selectedWorkspaceId: string;
   public newWorkspace: Workspace;
   public user: User;
+  public createDemoWorkspaceClickTs: number;
 
   get workspaces(): Workspace[] {
     // admins see all workspaces
@@ -53,6 +54,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     private environmentService: EnvironmentService,
     private environmentTemplateService: EnvironmentTemplateService,
   ) {
+    this.createDemoWorkspaceClickTs = 0;
     if (this.route.snapshot.firstChild) {
       this.selectedWorkspaceId = this.route.snapshot.firstChild.params.workspaceId;
     }
@@ -138,7 +140,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   createDemoWorkspace(): void {
     console.log('creating demo workspace with example environment');
-
+    this.createDemoWorkspaceClickTs = Date.now();
     if (this.workspaceService.getOwnedWorkspaces(this.user).length > 0) {
       console.log('user already has workspaces, refusing to create demo workspace');
       return;
@@ -175,5 +177,12 @@ export class MainWorkspaceOwnerComponent implements OnInit {
         this.fetchWorkspaces();
       });
     });
+  }
+
+  showDemoButton(): boolean {
+    // check that we know about our workspaces and that there is more than 2 seconds since the last click
+    return this.workspaces
+      && this.workspaces.length === 0
+      && Date.now() - this.createDemoWorkspaceClickTs > 2 * 1000;
   }
 }
