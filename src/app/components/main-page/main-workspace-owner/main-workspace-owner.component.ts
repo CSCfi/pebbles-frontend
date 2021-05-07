@@ -68,7 +68,11 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   fetchWorkspaces(): void {
     this.workspaceService.fetchWorkspaces().subscribe((resp) => {
       console.log('workspaces fetched');
-      // ---- If no workspaceId wasn't retrieved from URL, display the newest workspace.
+      // If no workspaceId wasn't retrieved from URL, or we don't have the selected workspace anymore,
+      // display the newest workspace.
+      if (resp.filter(x => x.id === this.selectedWorkspaceId).length === 0) {
+        this.selectedWorkspaceId = null;
+      }
       if (!this.selectedWorkspaceId && this.workspaces?.length > 0) {
         this.viewWorkspaceItemDetail(this.workspaces[0].id);
       }
@@ -168,8 +172,8 @@ export class MainWorkspaceOwnerComponent implements OnInit {
         true,
       ).subscribe((env) => {
         console.log('created example Environment ' + env.id);
+        this.fetchWorkspaces();
       });
     });
-    this.fetchWorkspaces();
   }
 }
