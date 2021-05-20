@@ -64,7 +64,7 @@
             <mat-radio-button [value]="'none'">None</mat-radio-button>
           </li>
           <li>
-            <mat-radio-button [value]="'git'">Git clone from Repository</mat-radio-button>
+            <mat-radio-button [value]="'git-clone'">Git clone from Repository</mat-radio-button>
           </li>
           <li>
             <mat-radio-button [value]="'http-get'">Download the file from URL</mat-radio-button>
@@ -82,7 +82,7 @@
         <div *ngSwitchCase="'local'">
           <button mat-flat-button color="primary">Upload file</button>
         </div>
-        <div *ngSwitchCase=" ['git','http-get'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
+        <div *ngSwitchCase=" ['git-clone','http-get'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
           <h3>Source(URL)</h3>
           <mat-form-field appearance="fill">
             <input matInput formControlName="source">
