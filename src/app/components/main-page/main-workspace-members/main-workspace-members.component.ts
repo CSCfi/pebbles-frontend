@@ -53,15 +53,15 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges {
     this.tableList.push({
       select: false,
       role: ownerKey,
-      eppn: this.memberList[ownerKey].eppn,
+      ext_id: this.memberList[ownerKey].ext_id,
     });
     const managerKey = workspaceUserKeys.shift();
     this.memberList[managerKey].forEach((member, index) => {
-      if (member.eppn !== this.memberList[ownerKey].eppn) {
+      if (member.ext_id !== this.memberList[ownerKey].ext_id) {
         this.tableList.push({
           select: false,
           role: managerKey,
-          eppn: member.eppn,
+          ext_id: member.ext_id,
         });
       }
     });
@@ -70,7 +70,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges {
         this.tableList.push({
           select: false,
           role: key,
-          eppn: member.eppn
+          ext_id: member.ext_id
         });
       });
     }

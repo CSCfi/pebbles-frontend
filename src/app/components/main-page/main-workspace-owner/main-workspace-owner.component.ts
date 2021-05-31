@@ -87,7 +87,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   }
 
   isOwner(workspace: Workspace): boolean {
-    return workspace.owner_eppn === this.user?.eppn;
+    return workspace.owner_ext_id === this.user?.ext_id;
   }
 
   isQuotaLeft(): boolean {

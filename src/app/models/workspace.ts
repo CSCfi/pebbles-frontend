@@ -10,9 +10,9 @@ export class Workspace {
     public description: string,
     public create_ts: number,
     public expiry_ts: number,
-    public owner_eppn: string,
-    public manager_eppns?: string[],
-    public member_eppns?: string[],
+    public owner_ext_id: string,
+    public manager_ext_ids?: string[],
+    public member_ext_ids?: string[],
     public manager_users?: string[],
     public normal_users?: string[],
   ) { }

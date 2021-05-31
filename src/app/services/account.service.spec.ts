@@ -25,7 +25,7 @@ describe('AccountService', () => {
       service.fetchAccount('1').subscribe((resp) => {
         expect(resp).toEqual(jasmine.objectContaining({
           id: '1',
-          eppn: 'admin@example.org',
+          ext_id: 'admin@example.org',
           // password: 'admin',
           is_admin: true,
           is_workspace_owner: true,

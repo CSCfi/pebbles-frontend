@@ -27,9 +27,9 @@ export class AuthService {
     return localStorage.getItem('is_workspace_manager') === 'true';
   }
 
-  login(eppn: string, password: string): Promise<any> {
+  login(ext_id: string, password: string): Promise<any> {
     const url = `${buildConfiguration.apiUrl}/sessions`;
-    return this.http.post(url, {eppn, password}).toPromise();
+    return this.http.post(url, {ext_id, password}).toPromise();
   }
 
   logout(): void {

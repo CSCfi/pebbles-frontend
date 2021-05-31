@@ -11,7 +11,7 @@
     <!--
       - icon column
       - role column
-      - eppn (email) column
+      - ext_id (email) column
       - menu button column
      -->
     <table mat-table [dataSource]="dataSource">
@@ -48,10 +48,10 @@
           {{ getUserCategory(element.role) }}
         </td>
       </ng-container>
-      <!-- eppn column -->
+      <!-- ext_id column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>email</th>
-        <td mat-cell *matCellDef="let element">{{element.eppn}}</td>
+        <td mat-cell *matCellDef="let element">{{element.ext_id}}</td>
       </ng-container>
       <!-- menu column -->
       <ng-container matColumnDef="menu" stickyEnd>

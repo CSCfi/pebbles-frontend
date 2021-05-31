@@ -306,7 +306,7 @@ export let db = {
   ],
   users: [
     {
-      eppn: 'admin@example.org',
+      ext_id: 'admin@example.org',
       password: 'admin',
       id: '1',
       is_admin: true,
@@ -315,7 +315,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'admin-1@example.org',
+      ext_id: 'admin-1@example.org',
       password: 'admin-1',
       id: '001',
       is_admin: true,
@@ -324,7 +324,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'owner@example.org',
+      ext_id: 'owner@example.org',
       password: 'owner',
       id: '100',
       is_admin: false,
@@ -333,7 +333,7 @@ export let db = {
       workspace_quota: 2
     },
     {
-      eppn: 'owner-1@example.org',
+      ext_id: 'owner-1@example.org',
       password: 'owner-1',
       id: '101',
       is_admin: false,
@@ -342,7 +342,7 @@ export let db = {
       workspace_quota: 2
     },
     {
-      eppn: 'owner-2@example.org',
+      ext_id: 'owner-2@example.org',
       password: 'owner-2',
       id: '102',
       is_admin: false,
@@ -351,7 +351,7 @@ export let db = {
       workspace_quota: 2
     },
     {
-      eppn: 'co-owner@example.org',
+      ext_id: 'co-owner@example.org',
       password: 'manager',
       id: '200',
       is_admin: false,
@@ -360,7 +360,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'manager-1@example.org',
+      ext_id: 'manager-1@example.org',
       password: 'manager-1',
       id: '201',
       is_admin: false,
@@ -369,7 +369,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'user@example.org',
+      ext_id: 'user@example.org',
       password: 'user',
       id: '300',
       is_admin: false,
@@ -378,7 +378,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'user-1@example.org',
+      ext_id: 'user-1@example.org',
       password: 'user-1',
       id: '301',
       is_admin: false,
@@ -387,7 +387,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'user-2@example.org',
+      ext_id: 'user-2@example.org',
       password: 'user-2',
       id: '302',
       is_admin: false,
@@ -396,7 +396,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'user-3@example.org',
+      ext_id: 'user-3@example.org',
       password: 'user-3',
       id: '303',
       is_admin: false,
@@ -405,7 +405,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'user-4@example.org',
+      ext_id: 'user-4@example.org',
       password: 'user-4',
       id: '304',
       is_admin: false,
@@ -414,7 +414,7 @@ export let db = {
       workspace_quota: 0
     },
     {
-      eppn: 'user-5@example.org',
+      ext_id: 'user-5@example.org',
       password: 'user-5',
       id: '401',
       is_admin: false,
@@ -431,7 +431,7 @@ export let db = {
       description: 'System default workspace',
       create_ts: 1616572104,
       expiry_ts: 1632124104,
-      owner_eppn: 'admin@example.org',
+      owner_ext_id: 'admin@example.org',
       manager_users: [
         'admin@example.org'
       ],
@@ -458,7 +458,7 @@ export let db = {
       description: 'Jupyter Lab environments for Python Basic Course 2021',
       create_ts: 1616572105,
       expiry_ts: 1732124105,
-      owner_eppn: 'admin@example.org',
+      owner_ext_id: 'admin@example.org',
       manager_users: [
         'admin@example.org'
       ],
@@ -476,7 +476,7 @@ export let db = {
       description: 'RStudio environments for R basic Course 2021',
       create_ts: 1616572106,
       expiry_ts: 1832124106,
-      owner_eppn: 'admin@example.org',
+      owner_ext_id: 'admin@example.org',
       manager_users: [
         'admin@example.org'
       ],
@@ -490,7 +490,7 @@ export let db = {
       description: 'Jupyter Lab environments for Deep Learning Course 2020',
       create_ts: 1616572107,
       expiry_ts: 1932124107,
-      owner_eppn: 'admin-1@example.org',
+      owner_ext_id: 'admin-1@example.org',
       manager_users: [
         'admin@example.org',
         'admin-1@example.org'
@@ -504,7 +504,7 @@ export let db = {
       description: 'RStudio environments for Machine Learning Course 2019',
       create_ts: 1616572108,
       expiry_ts: 2032124108,
-      owner_eppn: 'admin-1@example.org',
+      owner_ext_id: 'admin-1@example.org',
       manager_users: [
         'admin@example.org',
         'admin-1@example.org'
@@ -518,7 +518,7 @@ export let db = {
       description: 'RStudio environments for Data Science course 2021',
       create_ts: 1616572109,
       expiry_ts: 2132124109,
-      owner_eppn: 'admin@example.org',
+      owner_ext_id: 'admin@example.org',
       manager_users: [
         'admin@example.org'
       ],
@@ -532,7 +532,7 @@ export let db = {
       description: 'RStudio environments for Data Analytics Seminar, CSC university',
       create_ts: 1616572114,
       expiry_ts: 2232124114,
-      owner_eppn: 'owner@example.org',
+      owner_ext_id: 'owner@example.org',
       manager_users: [
         'admin@example.org',
         'owner@example.org',
@@ -547,7 +547,7 @@ export let db = {
       description: 'IPython environments for NLP Project of Computer Engineering Department, CSC university',
       create_ts: 1616572115,
       expiry_ts: 2332124115,
-      owner_eppn: 'owner-1@example.org',
+      owner_ext_id: 'owner-1@example.org',
       manager_users: [
         'admin@example.org',
         'owner-1@example.org'

@@ -43,7 +43,7 @@ export class WelcomeLoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginFormGroup = this.formBuilder.group({
-      eppn: ['', [Validators.required]],
+      ext_id: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
     setTimeout(() => { this.isImageVisible0 = true; }, 300);
@@ -51,15 +51,15 @@ export class WelcomeLoginComponent implements OnInit {
 
   onLogin(): void {
     console.log('---- onLogin');
-    const eppn = this.loginFormGroup.controls.eppn.value;
+    const ext_id = this.loginFormGroup.controls.ext_id.value;
     const password = this.loginFormGroup.controls.password.value;
     this.authService
-      .login(eppn, password)
+      .login(ext_id, password)
       .then((session) => {
         console.log(session);
         localStorage.setItem('token', btoa(session.token + ':'));
         localStorage.setItem('user_id', session.user_id);
-        localStorage.setItem('user_name', eppn);
+        localStorage.setItem('user_name', ext_id);
         localStorage.setItem('is_admin', session.is_admin);
         localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
         localStorage.setItem('is_workspace_manager', session.is_workspace_manager);

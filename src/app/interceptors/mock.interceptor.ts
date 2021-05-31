@@ -137,11 +137,11 @@ export class MockInterceptor implements HttpInterceptor {
     // route functions
 
     function authenticate() {
-      const { eppn, password } = body;
+      const { ext_id, password } = body;
       const users = database.users;
-      const user = users.find(x => x.eppn === eppn && x.password === password);
+      const user = users.find(x => x.ext_id === ext_id && x.password === password);
       if (!user) {
-        return error('EPPN or password is incorrect');
+        return error('Login or password is incorrect');
       }
       return ok({
         user_id: user.id,
@@ -171,9 +171,9 @@ export class MockInterceptor implements HttpInterceptor {
       }
     }
 
-    function getUserByEppn(eppn) {
+    function getUserByEppn(ext_id) {
       return database.users.find((user) => {
-        if (user.eppn === eppn) {
+        if (user.ext_id === ext_id) {
           return user;
         }
       });
@@ -415,7 +415,7 @@ export class MockInterceptor implements HttpInterceptor {
           banned_users: []
         };
 
-        workspaceUserList.owner = getUserByEppn(targetWorkspace.owner_eppn);
+        workspaceUserList.owner = getUserByEppn(targetWorkspace.owner_ext_id);
         const workspaceUserKeys = ['manager_users', 'normal_users', 'banned_users'];
         workspaceUserKeys.forEach((key) => {
           if (targetWorkspace[key]) {
@@ -530,8 +530,8 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     // TODO: take arguments (show_only_mine) into account
-    function getAccessibleWorkspaces(eppn: string) {
-      const user = database.users.find(u => u.eppn === eppn);
+    function getAccessibleWorkspaces(ext_id: string) {
+      const user = database.users.find(u => u.ext_id === ext_id);
       if (!user) {
         return [];
       }
@@ -544,18 +544,18 @@ export class MockInterceptor implements HttpInterceptor {
         if (ws.name === 'System.default') {
           return false;
         }
-        if (ws.normal_users && ws.normal_users.includes(eppn)) {
+        if (ws.normal_users && ws.normal_users.includes(ext_id)) {
           return true;
         }
-        if (ws.owner_eppn === eppn) {
+        if (ws.owner_ext_id === ext_id) {
           return true;
         }
         return false;
       });
     }
 
-    function getAccessibleEnvironments(eppn: string) {
-      const workspaceIds = getAccessibleWorkspaces(eppn).map(ws => ws.id);
+    function getAccessibleEnvironments(ext_id: string) {
+      const workspaceIds = getAccessibleWorkspaces(ext_id).map(ws => ws.id);
       // Environments from System.default are accessible always
       if (workspaceIds.indexOf('ws-0') < 0) {
         workspaceIds.push('ws-0');
@@ -566,12 +566,12 @@ export class MockInterceptor implements HttpInterceptor {
       });
     }
 
-    function getAccessibleInstances(eppn: string) {
-      const user = database.users.find(u => u.eppn === eppn);
+    function getAccessibleInstances(ext_id: string) {
+      const user = database.users.find(u => u.ext_id === ext_id);
       if (!user) {
         return [];
       }
-      const ownedWorkspaceIds = getAccessibleWorkspaces(eppn).filter(w => w.owner_eppn === eppn).map(w => w.id);
+      const ownedWorkspaceIds = getAccessibleWorkspaces(ext_id).filter(w => w.owner_ext_id === ext_id).map(w => w.id);
       const result = [];
 
       for (const instance of database.instances) {

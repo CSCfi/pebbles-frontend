@@ -69,11 +69,11 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
       return false;
     }
     // only owner or admin can delete workspaces
-    return this.authService.isAdmin || this.workspace.owner_eppn === this.userName;
+    return this.authService.isAdmin || this.workspace.owner_ext_id === this.userName;
   }
 
   get memberCount(): number {
-    const managers = this.memberList.manager_users.filter(user => user.eppn !== this.memberList.owner.eppn);
+    const managers = this.memberList.manager_users.filter(user => user.ext_id !== this.memberList.owner.ext_id);
     return this.memberList.normal_users.length + managers.length + 1;
   }
 

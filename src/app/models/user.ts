@@ -2,7 +2,7 @@
 export class User {
   constructor(
     public id: string,
-    public eppn: string,
+    public ext_id: string,
     public email_id?: string,
     public pseudonym?: string,
     public workspace_quota?: number,

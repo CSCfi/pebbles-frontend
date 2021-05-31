@@ -30,7 +30,7 @@ export class WorkspaceService {
 
   getOwnedWorkspaces(user: User): Workspace[] {
     // return workspaces where given user has owner role
-    return this.workspaces.filter(x => x.owner_eppn === user.eppn);
+    return this.workspaces.filter(x => x.owner_ext_id === user.ext_id);
   }
 
   getManagedWorkspaces(user: User): Workspace[] {
@@ -66,11 +66,11 @@ export class WorkspaceService {
         // console.log('fetchWorkspaces() got', resp);
         for (const ws of resp) {
           // make life easier by making some empty defaults if necessary
-          if (!ws.member_eppns) {
-            ws.member_eppns = [];
+          if (!ws.member_ext_ids) {
+            ws.member_ext_ids = [];
           }
-          if (!ws.manager_eppns) {
-            ws.manager_eppns = [];
+          if (!ws.manager_ext_ids) {
+            ws.manager_ext_ids = [];
           }
         }
         this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
@@ -112,12 +112,12 @@ export class WorkspaceService {
         name: workspace.name,
         description: workspace.description,
         // join_code: workspace.join_code,
-        // owner_eppn: workspace.owner_eppn,
+        // owner_ext_id: workspace.owner_ext_id,
         // role: null
         // user_config:{
         //     // banned_users: workspace.banned_users,
-        //     managers: workspace.manager_eppns,
-        //     owner:[{id: workspace.owner_eppn}]
+        //     managers: workspace.manager_ext_ids,
+        //     owner:[{id: workspace.owner_ext_id}]
         //   }
       }).pipe(
       map( _ => {
