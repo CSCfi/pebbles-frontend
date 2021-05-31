@@ -1,8 +1,7 @@
 @import "src/styles.scss";
 
-.app-main-content-header {
-  display: block;
-  border-bottom: 1px solid map-get($colors, light);
+.content-header-container {
+  border-bottom: 1px solid map-get($colors, gray2) !important;
   box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
 }
 
@@ -17,7 +16,7 @@
 
   .workspace-list-container {
     height: 100%;
-    padding: 10px 15px 20px 40px;
+    padding: 10px 15px 20px 15px;
     border-right: 1px solid map-get($colors, white);
     box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
 

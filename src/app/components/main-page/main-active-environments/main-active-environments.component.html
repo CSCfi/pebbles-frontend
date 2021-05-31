@@ -1,8 +1,17 @@
-<app-main-content-header [content]="content" [isSearchOn]="false"></app-main-content-header>
-
+<div class="content-header-container"
+  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  <app-main-content-header
+    fxFlex="grow"
+    (emitApplyFilter)="applyFilter($event)"
+    [content]="content"
+    [isSearchOn]="true"
+    [isAutocompleteDisabled]="true"
+    [labels]="[]">
+  </app-main-content-header>
+</div>
 <div class="active-environments-container content-container">
   <ng-container *ngIf="tableRowData.length > 0; else noInstances">
-    <div>
+    <div class="mt-10 mb-10">
       <button mat-flat-button (click)="deleteSelectedInstances()" [disabled]="selection.isEmpty()">
         Stop selected environments
       </button>

@@ -1,6 +1,13 @@
 
-<app-main-content-header [content]="content" [isSearchOn]="false"></app-main-content-header>
-
+<div class="content-header-container"
+  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  <app-main-content-header
+    fxFlex="grow"
+    [content]="content"
+    [isSearchOn]="false"
+    [labels]="null">
+  </app-main-content-header>
+</div>
 <section class="content-container">
   <div class="content card content-body">
     <form role="form">

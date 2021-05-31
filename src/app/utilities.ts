@@ -4,4 +4,15 @@ export class Utilities {
     const mins: number = Math.floor((lifetime % 3600) / 60);
     return `${(hours < 10) ? '0' + hours : hours}:${(mins < 10) ? '0' + mins : mins}`;
   }
+
+  public static resetText(str: string): string {
+    str = str.replace(new RegExp('<mark>', 'gi'), (match) => '');
+    str = str.replace(new RegExp('</mark>', 'gi'), (match) => '');
+    return str;
+  }
+
+  public static cleanText(str: string): string {
+    str = this.resetText(str);
+    return str.toLocaleLowerCase().trim();
+  }
 }

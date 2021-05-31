@@ -199,13 +199,19 @@ section.card {
 }
 
 .mat-chip-sm {
-  border-radius: 15px;
-  padding: 2px 12px 0px!important;
+  border-radius: 12px;
+  padding: 5px 12px 5px 12px !important;
   margin-right: 0;
-  font-size: 1.1rem;
-  min-height: 22px;
+  font-size: 1.2rem;
+  min-height: 24px;
   color: map-get($colors, dark);
   font-weight: 600;
+
+  .mat-icon {
+    font-size: 1.4rem;
+    margin-left: 4px;
+    margin-right: -6px;
+  }
 }
 
 .chip {
@@ -260,7 +266,7 @@ section.card {
   }
 }
 
-.v-centering{
+.v-centering {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -393,6 +399,18 @@ a.u-line,
   margin: auto;
 }
 
+.content-header-container {
+  min-height: map-deep-get($layout-set, main, header, min-h);
+  width: 100%;
+  padding: 10px 40px 0px;
+  border-bottom: 1px solid map-get($colors , white);
+  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+
+  .content-headline {
+    padding-top: 15px;
+  }
+}
+
 .content-body {
   padding: 20px;
   background-color: map-get($colors, white);
@@ -437,7 +455,6 @@ button.button-s {
   .empty,
   .under-construction {
     display: inline-flex;
-    // min-height: 100px;
     height: 100%;
     width: 100%;
 

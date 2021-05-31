@@ -24,11 +24,12 @@ $colors: (
   light-active: #f8cdc3,
   light: #efeff6,
   light2: #cfcfd6,
+  light3: #e0e0f1,
   dark:  #2e2f39,
   neutral-dark:  #9cb2c7,
   light-dark:  #acc7e0,
   gray: #6d7088,
-  gray2: #a7a7a7,Quicksand
+  gray2: #a7a7a7,
   light-gray: #c7c7c7,
   extra-light-gray: #eeeeee,
   white: #fff,
@@ -80,7 +81,7 @@ $layout-set:(
     header: (
       w: 100%,
       h: auto,
-      min-h: 80px,
+      min-h: 70px,
     )
   ),
   welcome: (
@@ -102,7 +103,8 @@ $layout-set:(
   main: (
     header: (
       w: 100%,
-      h: 60px,
+      h: 70px,
+      min-h: 70px,
     ),
     footer: (
       w: 100%,

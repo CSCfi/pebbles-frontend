@@ -39,6 +39,7 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
   lastUpdateTs = 0;
   dataSource: MatTableDataSource<InstanceTableRow>;
   interval = 0;
+  queryText = '';
 
   constructor(
     public instanceService: InstanceService,
@@ -61,10 +62,10 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
     this.interval = 0;
   }
 
-  updateRowData(): void {
+  updateRowData(force = false): void {
     // first check if we already have the latest data
     const instanceServiceUpdateTs = this.instanceService.getLastUpdateTs();
-    if (this.lastUpdateTs === instanceServiceUpdateTs) {
+    if (!force && this.lastUpdateTs === instanceServiceUpdateTs) {
       return;
     }
     this.lastUpdateTs = instanceServiceUpdateTs;
@@ -100,6 +101,7 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
     }
     // create a new datasource to trigger table rendering
     this.dataSource = new MatTableDataSource<InstanceTableRow>(this.tableRowData);
+    this.dataSource.filter = Utilities.cleanText(this.queryText);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -138,5 +140,10 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
       row.state = 'deleting';
     }
     this.selection.clear();
+  }
+
+  applyFilter(value: string ): void {
+    this.queryText = value;
+    this.updateRowData(true);
   }
 }

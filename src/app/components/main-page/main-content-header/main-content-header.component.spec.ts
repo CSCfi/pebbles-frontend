@@ -3,6 +3,8 @@ import { MaterialModule } from 'src/app/material.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MainContentHeaderComponent } from './main-content-header.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+// import { MatAutocomplete } from '@angular/material/autocomplete';
 
 describe('MainContentHeaderComponent', () => {
   let component: MainContentHeaderComponent;
@@ -11,6 +13,7 @@ describe('MainContentHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         MaterialModule
       ],
       declarations: [ MainContentHeaderComponent ],

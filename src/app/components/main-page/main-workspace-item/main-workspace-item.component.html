@@ -7,7 +7,7 @@
     </div>
     <div class="card-info" fxFlex="grow">
       <mat-card-header>
-        <mat-card-title>{{ workspace.name }}</mat-card-title>
+        <mat-card-title [innerHTML]="workspace.name"></mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="workspace-description mb-20 mt-10" [innerHTML]="workspace.description"></div>

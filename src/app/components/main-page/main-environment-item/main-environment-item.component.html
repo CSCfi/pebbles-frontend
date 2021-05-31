@@ -20,7 +20,7 @@
     <!-- Card CENTER section -->
     <div fxFlex="grow" fxLayout="column" fxLayoutAlign="start stretch" class="card-info-container">
       <mat-card-header>
-        <mat-card-title class="mat-title mb-5">{{ environment.name }}</mat-card-title>
+        <mat-card-title class="mat-title mb-5" [innerHTML]="environment.name"></mat-card-title>
         <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
           <div class="meta-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px">
             <span class="labels">

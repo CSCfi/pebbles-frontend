@@ -1,2 +1,10 @@
-<app-main-content-header [content]="content" [isSearchOn]="true"></app-main-content-header>
+<div class="content-header-container"
+  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  <app-main-content-header
+    fxFlex="grow"
+    [content]="content"
+    [isSearchOn]="false"
+    [labels]="null">
+  </app-main-content-header>
+</div>
 <app-main-content-state></app-main-content-state>

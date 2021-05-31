@@ -1,15 +1,19 @@
 @import "src/styles.scss";
 
+.check-button {
+  height: 45px;
+  background: map-get($colors, light-active);
+  color: map-get($colors, primary);
+  font-weight: 600;
+}
+
+
 .announcement-container {
-
   .announcement {
-    // padding-top: 30px;
-    // text-align: center;
     margin-top: 10px;
     margin-bottom: 20px;
     padding: 20px;
     background: #fff;
-    border-radius: 5px;
 
     .subject {
       border-bottom: 1px solid #ccc;
@@ -24,31 +28,12 @@
     .message {
       padding: 20px 10px;
     }
-  }
 
-  .announcement-unread {
-    // padding-top: 30px;
-    // text-align: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-
-    .subject {
-      border-bottom: 1px solid #ccc;
-      padding: 5px;
-      font-weight: bold;
-      // margin-bottom: 20px;
-    }
-
-    .date {
-      float: right;
-      background: pink;
-    }
-
-    .message {
-      padding: 20px 10px;
+    &.unread {
+      .date {
+        float: right;
+        background: pink;
+      }
     }
   }
 }

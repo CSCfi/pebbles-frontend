@@ -66,7 +66,7 @@ import { MainContentStateComponent } from './main-content-state/main-content-sta
     MainWorkspaceItemDetailComponent,
     MainWorkspaceEnvironmentsComponent,
     MainInstanceButtonComponent,
-    MainContentStateComponent,
+    MainContentStateComponent
   ],
   imports: [
     CommonModule,

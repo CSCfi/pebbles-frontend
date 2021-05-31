@@ -1,5 +1,15 @@
 <ng-container *ngIf="this.isPage; else dialogBlock">
-  <app-main-content-header [content]="content" [isSearchOn]="false"></app-main-content-header>
+  <div class="content-header-container"
+  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+    <app-main-content-header
+    fxFlex="grow"
+    (emitApplyFilter)="applyFilter($event)"
+    [content]="content"
+    [isSearchOn]="true"
+    [isAutocompleteDisabled]="true"
+    [labels]="[]">
+    </app-main-content-header>
+  </div>
   <div class="content-container">
     <section class="workspace-join-input-form mb-10">
       <form fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px" #formDirective="ngForm"

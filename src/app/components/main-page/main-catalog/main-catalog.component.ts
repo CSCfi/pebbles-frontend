@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatAccordion } from '@angular/material/expansion';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Workspace } from 'src/app/models/workspace';
@@ -8,6 +7,7 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 import { EnvironmentCategory } from 'src/app/models/environment-category';
 import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
 import { MainMyWorkspacesComponent } from '../main-my-workspaces/main-my-workspaces.component';
+import { Utilities } from 'src/app/utilities';
 
 @Component({
   selector: 'app-main-catalog',
@@ -16,19 +16,24 @@ import { MainMyWorkspacesComponent } from '../main-my-workspaces/main-my-workspa
 })
 export class MainCatalogComponent implements OnInit {
 
-  @ViewChild(MatAccordion) accordion: MatAccordion;
-
   public content = {
     path: 'catalog',
     title: 'Environments',
     identifier: 'catalog'
   };
 
-  isSearchFormOpen = false;
   selectedCatalog: EnvironmentCategory;
+  queryText = '';
 
   get environments(): Environment[] {
-    return this.filterEnvironmentsByLabels(this.selectedCatalog.labels, 'any');
+    let envs = this.environmentService.getEnvironments().filter(env => {
+      env.name = Utilities.resetText(env.name);
+      env.description = Utilities.resetText(env.description);
+      return env.is_enabled;
+    });
+    envs = this.filterEnvironmentsByLabels(envs, this.selectedCatalog.labels, 'any');
+    envs = this.filterEnvironmentsByText(envs, this.queryText);
+    return this.sortEnvironments(envs);
   }
 
   constructor(
@@ -43,7 +48,7 @@ export class MainCatalogComponent implements OnInit {
     this.fetchEnvironments();
     this.fetchCatalogs();
     this.fetchWorkspaces();
-    this.isSearchFormOpen = false;
+    // this.isSearchFormOpen = false;
     // ---- getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }
@@ -87,32 +92,65 @@ export class MainCatalogComponent implements OnInit {
     return environmentsCopy;
   }
 
-  filterEnvironmentsByLabels(catalogLabels: string[], method: string): Environment[] {
-    let environments = this.environmentService.getEnvironments().filter(env => env.is_enabled);
-    environments = this.sortEnvironments(environments);
+  filterEnvironmentsByLabels(objects: Environment[], catalogLabels: string[], method: string): Environment[] {
     if (catalogLabels.length === 0) {
       // ---- ALL catalog tab
-      return environments;
+      return objects;
+
     } else {
 
       if (method === 'any') {
         // ---- Any label matches search
-        return environments.filter(env => {
-          const envLabels = env.labels.map(label => label.toLowerCase());
+        return objects.filter(obj => {
+          const objLabels = obj.labels.map(label => label.toLowerCase());
           for (const x of catalogLabels) {
-            if (envLabels.includes(x.toLowerCase())) {
+            if (objLabels.includes(x.toLowerCase())) {
               return true;
             }
           }
         });
+
       } else {
         // ---- All labels match search
-        return environments.filter(env => {
-          const envLabels = env.labels.map(label => label.toLowerCase());
-          return catalogLabels.every(catLabel => envLabels.includes(catLabel.toLowerCase()));
+        return objects.filter(obj => {
+          const objLabels = obj.labels.map(label => label.toLowerCase());
+          return catalogLabels.every(catLabel => objLabels.includes(catLabel.toLowerCase()));
         });
       }
     }
+  }
+
+  applyFilter(value: string): void {
+    this.queryText = value;
+  }
+
+  filterEnvironmentsByText(objects: Environment[], term: string): Environment[] {
+    term = Utilities.cleanText(term);
+    if (term === '') {
+      return objects;
+    } else {
+      objects = objects.filter(obj => {
+        let isMatch = false;
+        // ---- Search in name
+        if (Utilities.cleanText(obj.name).indexOf(term) > -1) {
+          obj.name = obj.name.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
+          isMatch = true;
+        }
+        // ---- Search in description
+        if (Utilities.cleanText(obj.description).indexOf(term) > -1) {
+          obj.description = obj.description.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
+          isMatch = true;
+        }
+        // ---- Search in label
+        if (obj.labels.indexOf(term) > -1) {
+          isMatch = true;
+        }
+        if (isMatch) {
+          return obj;
+        }
+      });
+    }
+    return objects;
   }
 
   // ---- Catalogs

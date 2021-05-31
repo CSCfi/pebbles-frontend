@@ -1,26 +1,21 @@
-<app-main-content-header [content]="content" [isSearchOn]="false"></app-main-content-header>
-<div class="environments-catalog-functions" fxLayout="row" fxLayoutAlign="start right" fxLayoutGap="10px">
-  <button mat-fab aria-label="Search environments" class="shadow__moderate inversion primary"
-    matTooltip="Search environments" (click)="isSearchFormOpen=!isSearchFormOpen">
-    <mat-icon fontSet="material-icons-outlined"> search </mat-icon>
-  </button>
-  <button mat-fab class="inversion primary shadow__moderate join-workspace-button" aria-label="Join Workspace"
-    matTooltip="Join workspace" (click)="openJoinWorkspaceDialog()">
-    <mat-icon>group_add</mat-icon>
+<div class="content-header-container" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  <app-main-content-header fxFlex="grow"
+    (emitApplyFilter)="applyFilter($event)"
+    [content]="content"
+    [isSearchOn]="true"
+    [isAutocompleteDisabled]="true"
+    [labels]="selectedCatalog ? selectedCatalog.labels : []">
+  </app-main-content-header>
+  <button mat-button fxFlex="0 0 180px" class="shadow__moderate join-workspace-button" aria-label="Join Workspace"
+    matTooltip="Join workspace"
+    (click)="openJoinWorkspaceDialog()">
+    <mat-icon class="mr-5">group_add</mat-icon>
+    Join workspace
   </button>
 </div>
 
 <!-- Environment Catalogs -->
 <section class="environments-catalog content-container">
-
-  <!-- Environment Catalog Search -->
-  <mat-accordion class="search-form-outer" multi>
-    <mat-expansion-panel [(expanded)]="isSearchFormOpen" *ngIf="selectedCatalog">
-      <app-main-search-box [labels]=selectedCatalog.labels></app-main-search-box>
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <!-- Environment Catalogs -->
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="my-environment-tab"
     (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()" class="">
@@ -53,18 +48,17 @@
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
-            <div class="label-list-sm mb-20" *ngIf="selectedCatalog.labels.length > 0">
+            <!-- <div class="label-list-sm mb-20" *ngIf="selectedCatalog.labels.length > 0">
               Filtered by :
               <span *ngFor="let label of selectedCatalog.labels">
-                <mat-chip color="primary">{{ label }}</mat-chip>
+                <mat-chip color="primary" class="mr-5">{{ label }}</mat-chip>
               </span>
-            </div>
+            </div> -->
 
             <div *ngIf="environments.length > 0; else noEnvironmentBlock" class="environment-item-container"
               fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
               <ng-container *ngFor="let environment of environments">
-                <app-main-environment-item class="environment-item" [environment]="environment"
-                  [content]="content">
+                <app-main-environment-item class="environment-item" [environment]="environment" [content]="content">
                 </app-main-environment-item>
               </ng-container>
             </div>

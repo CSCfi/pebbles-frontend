@@ -15,6 +15,14 @@ export class MainAnnouncementComponent implements OnInit {
     identifier: 'announcements'
   };
 
+  get isAllRead() {
+    return this.announcements.filter( item => !item.is_read ).length === 0;
+  }
+
+  get announcements(): Announcement[] {
+    return this.messageService.getAnnouncements();
+  }
+
   constructor(
     public messageService: MessageService
   ) {

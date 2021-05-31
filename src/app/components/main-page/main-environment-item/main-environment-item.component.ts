@@ -1,12 +1,9 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, Input, OnInit, Output, Renderer2 } from '@angular/core';
+
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { EnvironmentType } from '../../../models/environment-template';
 import { Environment } from 'src/app/models/environment';
 import { Instance, InstanceStates } from 'src/app/models/instance';
-import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { Utilities } from '../../../utilities';
 
@@ -108,101 +105,10 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
-    @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2,
-    private environmentService: EnvironmentService,
     private instanceService: InstanceService,
   ) { }
 
   ngOnInit(): void {
-    // console.log(`--------- env ${ this.environment.id } --------`);
   }
 
-  toggleEnvironmentActivation(isActive: boolean): void {
-    this.environment.is_enabled = isActive;
-    this.environmentService.updateEnvironment(this.environment).subscribe(_ => {
-      console.log('Updated environment');
-      this.getEnvironmentsEvent.emit();
-    });
-  }
-
-  copyEnvironment(): void {
-    if (!confirm(`Are you sure you want to copy this environment "${this.environment.name}"?`)) {
-      return;
-    }
-    this.environmentService.copyEnvironment(this.environment).subscribe( _ => {
-      console.log('Environment copying process finished');
-      this.getEnvironmentsEvent.emit();
-    });
-  }
-
-  toggleGpuActivation(active): void {
-    // ---- TODO: place holder. write later !
-  }
-
-  deleteEnvironment(): void {
-    if (!confirm(`Are you sure you want to delete this environment "${this.environment.name}"?`)) {
-      return;
-    }
-    this.environmentService.deleteEnvironment(this.environment).subscribe( _ => {
-      console.log('environment deleting process finished');
-      this.getEnvironmentsEvent.emit();
-    });
-  }
-
-  // ---- Instance
-  // ----------------------------------------
-
-  startEnvironment(): void {
-    this.isWaitingInterval = true;
-    const instance = this.instanceService.getInstance(this.environment.instance_id);
-    this.environmentService.startEnvironment(this.environment.id).subscribe(_ => {
-      if (instance) {
-        this.openEnvironmentInBrowser();
-      } else {
-        setTimeout(() => {
-          this.isWaitingInterval = false;
-          this.openEnvironmentInBrowser();
-        }, 1600);
-      }
-    });
-  }
-
-  openEnvironmentInBrowser(): void {
-    const origin = this.document.location.origin;
-    const url = origin + this.router.serializeUrl(
-      this.router.createUrlTree(['/instance/', this.environment.instance_id])
-    );
-    if (!this.isWaitingInterval) {
-      window.open(url, '_blank');
-    }
-    // this.router.navigateByUrl('/instance/' + this.environment.instance_id);
-  }
-
-  stopEnvironment(): void {
-    // confirm deletion for non-failed instances
-    if (this.instance.state !== InstanceStates.Failed
-      && !confirm('Have you saved your edited files? Once environment shutdown, it will be deleted.')) {
-      return;
-    }
-    const instance = this.instanceService.getInstance(this.environment.instance_id);
-    instance.state = InstanceStates.Deleting;
-    // ---- Delete data for instance-notification que.
-    localStorage.removeItem(instance.name);
-
-    this.instanceService.deleteInstance(instance.id).subscribe(_ => {
-      // console.log('instance deleting process finished');
-    });
-  }
-
-  getInstance(): Instance {
-    return this.instanceService.getInstance(this.environment.instance_id);
-  }
-
-  actionsVisible(): boolean {
-    const instance = this.instanceService.getInstance(this.environment.instance_id);
-    return instance && instance.state !== InstanceStates.Deleted;
-  }
 }

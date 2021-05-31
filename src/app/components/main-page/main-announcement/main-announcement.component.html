@@ -1,13 +1,27 @@
-<app-main-content-header [content]="content" [isSearchOn]="false"></app-main-content-header>
+<div class="content-header-container"
+  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  <app-main-content-header
+    fxFlex="grow"
+    [content]="content"
+    [isSearchOn]="false"
+    [labels]="null">
+  </app-main-content-header>
+  <button mat-button fxFlex="0 0 280px"
+    class="check-button mat-flat-button mt-5" type="button"
+    (click)="markAnnouncementsAsRead()"
+    [disabled]="isAllRead"
+    >
+    <mat-icon>check</mat-icon>
+    Mark announcements as read
+  </button>
+</div>
 <div class="content-container">
   <div *ngIf="getAnnouncements().length > 0; else elseBlock">
-    <button class="mat-flat-button" color="primary" type="button" (click)="markAnnouncementsAsRead()">
-      Mark announcements as read
-    </button>
+
 
     <section class="announcement-container">
       <ul *ngFor="let announcement of getAnnouncements()">
-        <li class="{{ announcement.is_read ? 'announcement' : 'announcement-unread' }}">
+        <li class="{{ announcement.is_read ? 'announcement' : 'announcement unread' }}">
           <div class="subject">{{ announcement.subject }}</div>
           <span class="date">{{ formatDate(announcement.broadcasted) }}</span>
           <p class="message">{{ announcement.message }}</p>
@@ -17,7 +31,6 @@
   </div>
 
   <ng-template #elseBlock>
-
     <section class="message-container">
       <div class="empty">
         <mat-icon fontSet="material-icons-outlined">mail</mat-icon>

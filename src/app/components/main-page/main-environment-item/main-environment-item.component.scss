@@ -6,6 +6,10 @@
 .mat-card.catalog,
 .mat-card.workspace-owner-detail {
   min-height: 126px;
+  border-top: 1px solid map-get($colors , light3);
+  border-left: 1px solid map-get($colors , light2);
+  border-right: 1px solid map-get($colors , light2);
+  border-bottom: 1px solid map-get($colors , light2);
 }
 
 .mat-card.catalog .card-media-container {
@@ -21,7 +25,7 @@
     }
   }
   &.jupyter {
-    //   background-color: #ffb95e;
+
     .thumbnail {
       span {
         font-size: 1.6rem;
@@ -71,7 +75,7 @@
 
       .meta-info {
         padding: 4px 4px;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         color: map-get($colors, gray);
         text-align: right;
 
@@ -85,7 +89,7 @@
 
   .mat-card-content {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 
     a {
       text-decoration: underline !important;

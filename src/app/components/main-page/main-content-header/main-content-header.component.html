@@ -1,15 +1,48 @@
 <ng-container *ngIf="content">
-  <div class="content-header v-centering"
-    fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+  <div class="content-header"
+    fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="30px">
+    <!-- title -->
+    <h2 class="mat-headline content-headline" [innerHTML]="content.title" fxFlex="0 0 auto"></h2>
 
-    <h2 class="title" [innerHTML]="content.title" fxFlex="0 0 auto"></h2>
-
+    <!-- search form -->
     <form class="search-form" *ngIf="isSearchOn" fxFlex="grow">
-      <mat-form-field appearance="outline">
-        <input matInput type="search">
+      <mat-form-field class="chip-list" appearance="fill">
+
         <span matPrefix><mat-icon>search</mat-icon></span>
+        <mat-chip-list #chipList aria-label="keyword and text search">
+          <!-- chips -->
+          <mat-chip class="selected-label mat-chip-sm"
+            *ngFor="let label of labels"
+            [selectable]="isLabelSelectable"
+            [removable]="isLabelRemovable"
+            (removed)="removeLabel(label)">
+            {{label}}
+            <mat-icon matChipRemove *ngIf="isLabelRemovable">cancel</mat-icon>
+          </mat-chip>
+          <!-- input -->
+          <input
+            matInput
+            #labelInput
+            (keyup)="queryTextAdded($event)"
+            [formControl]="inputCtrl"
+            [matAutocompleteDisabled]="isAutocompleteDisabled"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        </mat-chip-list>
+        <!-- label selection panel -->
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="labelSelected($event)">
+          <mat-option *ngFor="let label of candidateLabels" [value]="label">
+            <mat-chip class="mat-chip-sm inversion accent"
+              (click)="labelClicked($event)">
+              {{label}}
+            </mat-chip>
+          </mat-option>
+        </mat-autocomplete>
+
       </mat-form-field>
     </form>
-
   </div>
 </ng-container>

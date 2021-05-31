@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
 import { MainActiveEnvironmentsComponent } from './main-active-environments.component';
+import { MaterialModule } from 'src/app/material.module';
 
 describe('MainActiveEnvironmentsComponent', () => {
   let component: MainActiveEnvironmentsComponent;
@@ -14,6 +15,7 @@ describe('MainActiveEnvironmentsComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        MaterialModule
       ],
       declarations: [
         MainActiveEnvironmentsComponent,

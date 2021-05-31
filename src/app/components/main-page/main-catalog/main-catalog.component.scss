@@ -1,18 +1,10 @@
 @import "src/styles.scss";
 
-.environments-catalog-functions {
-  position: absolute;
-  right: 40px;
-  top: 14px;
-
-  button {
-    height: 50px;
-    width: 50px;
-
-    ::ng-deep .mat-button-wrapper{
-      padding: 0 !important
-    }
-  }
+.join-workspace-button {
+  margin-top: 2px;
+  height: 45px;
+  background: map-get($colors, light-active);
+  color: map-get($colors, primary);
 }
 
 ::ng-deep .environments-catalog {
@@ -47,6 +39,8 @@
       .mat-tab-label {
         background: map-get($colors, white);
         border-right: map-get($borders , thin);
+        border-right: 1px solid map-get($colors , light3);
+        border-top: 1px solid map-get($colors , light3);
 
         .tab-icon {
           margin-right: 5px;
@@ -56,6 +50,7 @@
         .tab-title {
           color: map-get($colors, primary);
           font-size: 1.3rem !important;
+          font-weight: 600;
         }
       }
 
