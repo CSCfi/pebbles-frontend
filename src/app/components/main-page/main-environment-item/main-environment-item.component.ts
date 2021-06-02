@@ -110,5 +110,4 @@ export class MainEnvironmentItemComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

@@ -1,64 +1,18 @@
-<div class="workspace-detail-container" fxLayout="column" fxLayoutAlign="start stretch">
+<div class="workspace-item-detail-container">
   <ng-container *ngIf="workspace; else elseBlock">
-    <!-- workspace-detail-header -->
-    <div class="workspace-detail-header" fxLayout="row" fxLayoutGap="20px">
-      <div class="workspace-name v-centering__inline" fxFlex="grow">
-        <mat-icon class="mr-10">people_outline</mat-icon>
-        {{ workspace.name || 'no name' }}
-      </div>
-      <div class="workspace-info" fxLayout="row" fxLayoutGap="20px">
-        <div class="join-code-info">
-          <span class="function-title v-centering__inline">Join code</span>
-          <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
-            <mat-icon class="mr-5">vpn_key</mat-icon>
-            <div class="chip__sm">● ● ● ● ● ● ●</div>
-          </div>
-        </div>
-        <div class="expiration-date-info">
-          <span class="function-title v-centering__inline">Expiring by</span>
-          <span class="expiration-date v-centering__inline">{{ expiry_date }}</span>
-        </div>
-      </div>
-    </div>
-    <!-- //// workspace-detail-header -->
-    <!-- workspace-detail-tab
+    <!--
+      workspace-detail-tab
       1. Environments tab
       2. Members tab
       3. Information tab
     -->
-    <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
-      <!-- 1. Environments tab -->
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span class="mr-5">Environments</span>
-          <mat-chip class="mat-chip-sm" *ngIf="environments">{{ environments.length }}</mat-chip>
-        </ng-template>
-        <ng-template matTabContent>
-          <div class="environments">
-            <app-main-workspace-environments
-              [environments]="environments" [workspaceId]="workspace.id"
-              (fetchEnvironmentEvent)="getEnvironmentsByWorkspaceId(workspace.id)"
-              *ngIf="environments">
-            </app-main-workspace-environments>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <!-- 2. Members tab -->
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span class="mr-5">Members</span>
-          <mat-chip class="mat-chip-sm" *ngIf="memberList">{{ memberCount }}</mat-chip>
-        </ng-template>
-        <ng-template matTabContent>
-          <app-main-workspace-members
-            [memberList]="memberList" *ngIf="memberList">
-          </app-main-workspace-members>
-        </ng-template>
-      </mat-tab>
+    <mat-tab-group mat-align-tabs="center" animationDuration="0ms"
+      [selectedIndex]="1">
       <!-- 3. Information tab -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <span class="mr-5">Info</span>
+          <mat-icon class="mr-5">people_outline</mat-icon>
+          <span class="mr-5">{{ workspace.name || 'no name' }}</span>
           <mat-icon>settings</mat-icon>
         </ng-template>
         <ng-template matTabContent>
@@ -98,7 +52,10 @@
               </dd>
               <dt class="join-code-title v-centering">Join code</dt>
               <dd fxLayout="row" fxLayoutAlign="space-between center">
-                <span class="join-code">{{ workspace.join_code }}</span>
+                <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
+                  <mat-icon class="mr-5">vpn_key</mat-icon>
+                  <div class="chip__m">● ● ● ● ● ●</div>
+                </div>
               </dd>
             </dl>
             <button mat-flat-button class="workspace-update-button mt-20" color="accent"
@@ -116,6 +73,30 @@
           </form>
         </ng-template>
       </mat-tab>
+      <!-- 1. Environments tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="mr-5">Environments</span>
+          <mat-chip class="mat-chip-sm" *ngIf="environments">{{ environments.length }}</mat-chip>
+        </ng-template>
+        <ng-template matTabContent class="environments">
+          <app-main-workspace-environments [environments]="environments" [workspaceId]="workspace.id"
+            (fetchEnvironmentEvent)="getEnvironmentsByWorkspaceId(workspace.id)" *ngIf="environments">
+          </app-main-workspace-environments>
+        </ng-template>
+      </mat-tab>
+      <!-- 2. Members tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="mr-5">Members</span>
+          <mat-chip class="mat-chip-sm" *ngIf="memberList">{{ memberCount }}</mat-chip>
+        </ng-template>
+        <ng-template matTabContent>
+          <app-main-workspace-members [memberList]="memberList" *ngIf="memberList">
+          </app-main-workspace-members>
+        </ng-template>
+      </mat-tab>
+
     </mat-tab-group>
   </ng-container>
   <ng-template #elseBlock>

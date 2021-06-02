@@ -35,7 +35,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
 
   public isEnvironmentCreationWizard = true;
 
-  displayedColumns: string[] = ['thumbnail', 'name', 'labels', 'state', 'launch', 'edit', 'menu'];
+  displayedColumns: string[] = ['thumbnail', 'name', 'state', 'launch', 'edit', 'menu'];
   dataSource: MatTableDataSource<EnvironmentTable>;
   selection = new SelectionModel<EnvironmentTable>(true, []);
   tableList = [];

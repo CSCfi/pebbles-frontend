@@ -2,6 +2,11 @@
 
 .my-workspaces,
 .workspace-owner {
+  border-top: 1px solid map-get($colors , light3);
+  border-left: 1px solid map-get($colors , light2);
+  border-right: 1px solid map-get($colors , light2);
+  border-bottom: 1px solid map-get($colors , light2);
+
   min-height: 100px;
   box-shadow: 0 1px 3px 0px rgba(0,0,0,.1) !important;
 

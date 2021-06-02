@@ -43,45 +43,51 @@
 
 
 ::ng-deep .mat-card.catalog .card-info-container {
-  margin: -4px;
+  margin: -8px;
 
   .mat-card-header {
 
     .mat-card-title {
       border-bottom: 1px solid #c7c7c7 !important;
       padding-bottom: 0px;
-    }
-
-    .workspace-name {
-      .mat-icon {
-        color: map-get($colors , light-active);
-        font-size: 1.8rem;
-        height: auto;
-        width: auto;
-        margin-top: -2px;
-        margin-right: 3px;
-
-        &.public {
-          color: #ccc;
-        }
-      }
+      margin-top: 2px;
     }
 
     .mat-card-subtitle {
-      margin-bottom: 2px;
-      font-size: 1.3rem !important;
+      padding: 5px 0 2px 0;
+      margin-bottom: 0;
       font-weight: 500;
       color: map-get($colors, dark) !important;
 
       .meta-info {
-        padding: 4px 4px;
-        font-size: 1.2rem;
-        color: map-get($colors, gray);
-        text-align: right;
+        // padding: 6px 0;
 
+        .lifetime{
+          font-size: 1.2rem;
+          color: map-get($colors, gray);
+          text-align: right;
+
+          .mat-icon {
+            height: 18px;
+            width: 18px;
+            font-size: 1.8rem;
+            color: #ccc;
+          }
+        }
+      }
+
+      .workspace-name {
         .mat-icon {
-          font-size: 2rem;
-          color: #ccc;
+          color: map-get($colors , light-active);
+          font-size: 1.8rem;
+          height: auto;
+          width: auto;
+          margin-top: -2px;
+          margin-right: 3px;
+
+          &.public {
+            color: #ccc;
+          }
         }
       }
     }
@@ -93,6 +99,31 @@
 
     a {
       text-decoration: underline !important;
+    }
+
+    .description {
+      min-height: 24px;
+      margin-bottom: 8px;
+      line-height: 130%;
+    }
+
+    .labels {
+      margin-left: -2px;
+      margin-bottom: 4px;
+
+      .mat-icon {
+        height: 12px;
+        font-size: 1.8rem;
+        color: #ccc;
+      }
+
+      .chip__sm{
+        background-color: map-get($colors, white);
+        color: #555;
+        font-weight: 500;
+        border: 1px #ddd solid;
+        font-size: 1.1rem;
+      }
     }
   }
 }
@@ -143,3 +174,4 @@
   padding: 0;
   position: relative;
 }
+

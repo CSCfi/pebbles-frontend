@@ -197,8 +197,6 @@ $progress-linear-bar-height: 6px;
   .mat-table {
     width: 100%;
     margin: auto;
-    border-left: 1px solid map-get($colors, light);
-    border-right: 1px solid map-get($colors, light);
 
     .mat-header-row {
       background: map-get($colors, light2);
@@ -218,16 +216,18 @@ $progress-linear-bar-height: 6px;
       text-transform: capitalize;
     }
 
+
+
     .mat-header-cell,
     .mat-cell {
       padding: 5px !important;
 
       &.border{
         &__left {
-          border-left: 1px solid map-get($colors, light);
+          border-left: map-get($borders , thin);
         }
         &__right {
-          border-right: 1px solid map-get($colors, light);
+          border-right: map-get($borders , thin);
         }
       }
 
@@ -246,8 +246,6 @@ $progress-linear-bar-height: 6px;
     }
 
     .mat-table-sticky {
-      border-left: 1px solid map-get($colors, light);
-      border-right: 1px solid map-get($colors, light);
       width: 50px !important;
 
       .mat-button {

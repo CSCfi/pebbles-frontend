@@ -1,16 +1,17 @@
-<div class="content-header-container"
-  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+<div class="content-header-container">
   <app-main-content-header
     fxFlex="grow"
     [content]="content"
-    [isSearchOn]="false"
+    [isSearchOn]="true"
     [labels]="null">
   </app-main-content-header>
 </div>
 
-<div class="workspace-owner-content-wrapper">
+<div class="workspace-owner-content-wrapper" fxLayout="row" fxLayoutAlign="space-between stretch">
   <!-- Left Column : Workspace list -->
-  <div class="workspace-list-container" fxFlex="0 0 300px" fxLayout="column" fxLayoutGap="10px">
+  <div class="workspace-list-container mt-10 mr-15 ml-15" fxFlex="0 0 300px"
+    fxLayout="column" fxLayoutGap="10px">
+    <!-- Workspace Buttons -->
     <div class="workspaces-actions-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
       <ng-container *ngIf="showDemoButton(); else workspaceCreationBlock">
         <button mat-flat-button class="create-demo-workspace-button inversion primary"
@@ -21,31 +22,54 @@
       </ng-container>
       <ng-template #workspaceCreationBlock>
         <button mat-flat-button
-                class="create-workspace-button"
-                [ngClass]="{'inversion primary': isQuotaLeft()}"
-                aria-label="create a new workspace"
-                [disabled]="!isQuotaLeft()"
-                (click)="openWorkspaceCreationDialog()">
+          class="create-workspace-button"
+          [ngClass]="{'inversion primary': isQuotaLeft()}"
+          aria-label="create a new workspace"
+          [disabled]="!isQuotaLeft()"
+          (click)="openWorkspaceCreationDialog()">
           <mat-icon class="mr-5">add</mat-icon>
           <span>Create workspace</span>
         </button>
       </ng-template>
     </div>
-    <div class="workspace-list" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+    <!-- Workspace List -->
+    <div class="workspace-list">
       <ng-container *ngFor="let workspace of workspaces">
-        <mat-card fxLayout="row" fxLayoutAlign="space-between stretch" class="workspace-widget"
-                  [ngClass]="{ 'selected': workspace.id === selectedWorkspaceId }"
-                  (click)="viewWorkspaceItemDetail(workspace.id)">
-          <div class="card-media v-centering__horizontal" fxFlex="0 0 45px">
-            <mat-icon>people_outline</mat-icon>
-          </div>
-          <mat-card-content class="card-info" fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between stretch"
-                            matBadge="new" matBadgePosition="above after" matBadgeColor="accent"
-                            [matBadgeHidden]="!isNewWorkspace(workspace.id)">
-            <div class="workspace-name" fxFlex="grow">{{ workspace.name }}</div>
+        <mat-card class="workspace-widget mb-5"
+          [ngClass]="{'selected': isWorkspaceSelected(workspace)}"
+          (click)="viewWorkspaceItemDetail(workspace.id)">
+          <!-- widget header -->
+          <div class="card-header" fxLayout="row" fxLayoutAlign="space-between stretch">
+            <div class="card-media v-centering__horizontal" fxFlex="0 0 45px">
+              <mat-icon>people_outline</mat-icon>
+            </div>
+            <div class="workspace-name v-centering" fxFlex="grow"
+              matBadge="new" matBadgePosition="above after" matBadgeColor="accent"
+              [matBadgeHidden]="!isNewWorkspace(workspace.id)">
+              {{ workspace.name }}
+            </div>
             <div class="workspace-selected-arrow v-centering__horizontal" fxFlex="0 0 25px"
-                 *ngIf="workspace.id === selectedWorkspaceId">
+              *ngIf="workspace.id === selectedWorkspaceId">
               <mat-icon>navigate_next</mat-icon>
+            </div>
+          </div>
+          <!-- widget detail -->
+          <mat-card-content class="card-info" fxLayout="column"
+            *ngIf="isWorkspaceSelected(workspace)">
+            <div class="description pb-10">
+              {{ workspace.description }}
+            </div>
+            <div class="join-code-info pt-10 pb-10" fxLayout="row" fxLayoutAlign="space-between stretch">
+              <span class="function-title" fxFlex="0 0 75px">Join code</span>
+              <div class="open-join-code-button" fxLayout="row"
+                (click)="openJoinCodeDialog(workspace)">
+                <mat-icon class="mr-5">vpn_key</mat-icon>
+                <div class="chip__m">● ● ● ● ● ● ●</div>
+              </div>
+            </div>
+            <div class="expiration-date-info pt-10" fxLayout="row" fxLayoutAlign="space-between stretch">
+              <span class="function-title" fxFlex="0 0 75px">Expiring by</span>
+              <span class="expiration-date">{{ getExpiry_date(workspace) }}</span>
             </div>
           </mat-card-content>
         </mat-card>

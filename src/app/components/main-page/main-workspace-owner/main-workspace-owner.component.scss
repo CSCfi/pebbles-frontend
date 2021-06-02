@@ -6,7 +6,8 @@
 }
 
 .workspace-owner-content-wrapper{
-  height: 100vh;
+  height: calc(100vh - 70px);
+  overflow: hidden;
 
   .workspaces-actions-container {
       button {
@@ -15,13 +16,45 @@
   }
 
   .workspace-list-container {
-    height: 100%;
-    padding: 10px 15px 20px 15px;
-    border-right: 1px solid map-get($colors, white);
-    box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+    overflow: hidden;
+    // border-right: 1px solid map-get($colors, white);
+    // box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
 
     .workspace-list {
-      max-width: 400px !important;
+      // max-width: 400px !important;
+      overflow: auto;
+
+      .mat-card {
+        padding: 5px 16px;
+        border-top: 1px solid map-get($colors , light3);
+        border-left: 8px solid map-get($colors , light2);
+        border-right: 1px solid map-get($colors , light2);
+        border-bottom: 1px solid map-get($colors , light2);
+
+        .card-header {
+          min-height: 30px;
+          padding: 15px 0px;
+        }
+
+        .card-info {
+          min-height: 30px;
+          border-top: map-get($borders, thin-dark);
+          padding: 10px 0;
+          margin-left: -16px;
+          margin-right: -16px;
+          padding: 15px 20px;
+
+          .description {
+            font-weight: 500;
+            font-size: 1.3rem;
+            border-bottom: map-get($borders, thin);
+          }
+
+          .join-code-info {
+            border-bottom: map-get($borders, thin);
+          }
+        }
+      }
 
       .mat-badge-content{
         font-weight: 500;
@@ -35,7 +68,7 @@
         // color: map-get($colors, white);
         color: map-get($colors, gray2);
         font-weight: 600;
-        border-left: 8px solid map-get($colors, white);
+        // border-left: 8px solid map-get($colors, white);
         cursor: pointer;
 
         .card-media {
@@ -51,6 +84,17 @@
           .workspace-selected-arrow {
             margin-right: -16px;
           }
+
+          .open-join-code-button {
+
+            .mat-icon {
+              color: map-get( $colors, gray);
+            }
+
+            .chip__m{
+              background-color: map-get( $colors, light2);
+            }
+          }
         }
       }
     }
@@ -58,12 +102,6 @@
 }
 
 .workspace-detail-container {
-  height: 100%;
-  position: relative;
-  border-top: 1px solid map-get($colors, light);
-  border-left: 1px solid map-get($colors, light);
-
-  .workspace-detail{
-    min-height: 100%;
-  }
+  background: map-get($colors, light2);
+  border-left: map-get($borders , thin);
 }

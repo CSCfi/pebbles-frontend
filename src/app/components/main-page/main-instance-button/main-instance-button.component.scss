@@ -103,9 +103,11 @@
 
   .launch-button {
     background: map-get($colors, white);
+    border: 1px solid #DDD;
 
     .mat-icon {
-      color: map-get($colors, light-gray);
+      // color: map-get($colors, light-gray);
+      color: map-get($colors, light-active);
     }
 
     &:hover {

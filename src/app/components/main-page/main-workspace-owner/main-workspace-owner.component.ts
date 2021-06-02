@@ -10,6 +10,7 @@ import { EnvironmentTemplate } from 'src/app/models/environment-template';
 import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
 import { AccountService } from '../../../services/account.service';
 import { User } from '../../../models/user';
+import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 
 @Component({
@@ -99,6 +100,10 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     return this.user && ownedWorkspaces.length < this.user.workspace_quota;
   }
 
+  isWorkspaceSelected(workspace: Workspace): boolean {
+    return workspace.id === this.selectedWorkspaceId;
+  }
+
   // ---- workspace creation
   // ----------------------------------------
   createWorkspace(): void {
@@ -184,5 +189,25 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     return this.workspaces
       && this.workspaces.length === 0
       && Date.now() - this.createDemoWorkspaceClickTs > 2 * 1000;
+  }
+
+  openJoinCodeDialog(workspace: Workspace): void {
+    const dialogRef = this.dialog.open( DialogComponent, {
+      width: '500px',
+      data: {
+        dialogTitle: 'Workspace join code',
+        dialogContent: `<p>Share the join code below to the users you want to share your workspace.</p>`,
+        dialogClipboard: workspace.join_code,
+        dialogActions: ['close']
+      }
+    });
+    dialogRef.afterClosed().subscribe( _ => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  getExpiry_date(workspace: Workspace): string {
+    const date = new Date(workspace.expiry_ts * 1000);
+    return `${ date.getDate() } / ${ date.getMonth() + 1 } / ${ date.getFullYear() }`;
   }
 }

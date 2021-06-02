@@ -216,13 +216,28 @@ section.card {
 
 .chip {
   &__sm {
-    padding: 2px 12px 0px !important;
-    color: map-get($colors, dark);
     font-weight: 600;
+    color: map-get($colors, dark);
     background-color: map-get($colors, light2);
+    margin-right: 3px;
+    line-height: 100%;
 
+    min-height: 20px;
+    padding: 0px 8px 2px !important;
+    border-radius: 10px;
+    font-size: 1.0rem;
+  }
+
+  &__m {
+    font-weight: 600;
+    color: map-get($colors, dark);
+    background-color: map-get($colors, light2);
+    margin-right: 3px;
+    line-height: 100%;
+
+    min-height: 26px;
+    padding: 6px 12px 0px !important;
     border-radius: 15px;
-    min-height: 22px;
     font-size: 1.1rem;
   }
 }

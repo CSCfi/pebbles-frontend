@@ -1,73 +1,56 @@
 @import "src/styles.scss";
 
 .join-workspace-button {
-  margin-top: 2px;
+  margin-top: 4px;
   height: 45px;
   background: map-get($colors, light-active);
   color: map-get($colors, primary);
 }
 
-::ng-deep .environments-catalog {
+.environments-catalog {
+  ::ng-deep .mat-tab-header {
+    background-color: map-get($colors , light3);
+    padding-top: 15px;
+    margin: -5px -40px 0;
+    border-bottom: none;
 
-  mat-accordion {
-    .mat-expansion-panel {
-      margin: 6px 0 10px 0;
-      box-shadow: none !important;
-      background: none !important;
+    .mat-ripple {
+      background: map-get($colors, white);
+    }
 
-      .mat-expansion-panel-content {
+    .mat-tab-label {
+      border-right: 1px solid map-get($colors, light3);
+      border-bottom: 1px solid map-get($colors, light3);
 
-        .mat-expansion-panel-body {
-          margin-bottom: 10px;
-          padding: 10px 30px;
-          background: map-get($colors, white);
-        }
+      &:last-child{
+        border-right: none;
       }
+
+      .tab-icon {
+        margin-right: 5px;
+        color: map-get($colors, primary);
+      }
+
+      .tab-title {
+        color: map-get($colors, primary);
+        font-size: 1.3rem !important;
+        font-weight: 600;
+      }
+    }
+
+    .mat-ink-bar {
+      background-color: map-get($colors , accent) !important;
+      height: 5px;
     }
   }
 
-  mat-tab-group {
-    margin: 10px 0 50px 0;
+  ::ng-deep .mat-tab-body-wrapper {
+    padding: 15px 0px !important;
 
-    .label-list-sm {
-      .mat-chip {
-        background: map-get($colors, white);
-      }
-    }
-
-    mat-tab-header {
-      .mat-tab-label {
-        background: map-get($colors, white);
-        border-right: map-get($borders , thin);
-        border-right: 1px solid map-get($colors , light3);
-        border-top: 1px solid map-get($colors , light3);
-
-        .tab-icon {
-          margin-right: 5px;
-          color: map-get($colors, primary);
-        }
-
-        .tab-title {
-          color: map-get($colors, primary);
-          font-size: 1.3rem !important;
-          font-weight: 600;
-        }
-      }
-
-      .mat-ink-bar {
-        background-color: map-get($colors , accent) !important;
-        height: 4px;
-      }
-    }
-
-    .mat-tab-body-wrapper {
-      padding: 15px 0px !important;
-
-      .catalog-section {
-        margin: auto;
-        max-width: 1000px;
-        width: 100%;
-      }
+    .catalog-section {
+      margin: auto;
+      max-width: 1200px;
+      width: 100%;
     }
   }
 }

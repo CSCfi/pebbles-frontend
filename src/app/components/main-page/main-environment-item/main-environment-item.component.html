@@ -1,14 +1,15 @@
 <ng-container *ngIf="environment">
-  <mat-card fxLayout="row" fxLayoutAlign="space-between stretch" [attr.data-environment-item-id]="environment.id"
-    class="catalog environment-card r__all">
+  <mat-card class="catalog environment-card r__all" fxLayout="row" fxLayoutAlign="space-between stretch"
+    [attr.data-environment-item-id]="environment.id">
     <!-- Card LEFT section -->
-    <div class="card-media-container v-centering__horizontal inversion light-dark" [ngClass]="{'jupyter':environmentType==='jupyter', 'rstudio':environmentType==='rstudio'}" fxFlex="0 0 110px">
+    <div class="card-media-container v-centering__horizontal inversion light-dark"
+      [ngClass]="{'jupyter':environmentType==='jupyter', 'rstudio':environmentType==='rstudio'}" fxFlex="0 0 110px">
       <div class="thumbnail" [ngSwitch]="environmentType">
         <div *ngSwitchCase="'jupyter'">
-          <i class="lab la-python"></i><br/><span>Jupyter</span>
+          <i class="lab la-python"></i><br /><span>Jupyter</span>
         </div>
         <div *ngSwitchCase="'rstudio'">
-          <i class="lab la-r-project"></i><br/><span>RStudio</span>
+          <i class="lab la-r-project"></i><br /><span>RStudio</span>
         </div>
         <div *ngSwitchDefault>
           <i class="las la-book"></i>
@@ -18,18 +19,14 @@
     <!-- //// End of Left section -->
 
     <!-- Card CENTER section -->
-    <div fxFlex="grow" fxLayout="column" fxLayoutAlign="start stretch" class="card-info-container">
+    <div fxFlex="grow" class="card-info-container">
       <mat-card-header>
         <mat-card-title class="mat-title mb-5" [innerHTML]="environment.name"></mat-card-title>
         <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
-          <div class="meta-info" fxFlex="0 0 200px" fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px">
-            <span class="labels">
-              <mat-icon class="mr-5">label</mat-icon>
-              <span matTooltip="{{labels}}" matTooltipPosition="above" class="heading">Labels</span>
-            </span>
-            <span class="lifetime">
-              <mat-icon class="mr-5">watch_later</mat-icon>
-              <span class="heading">Lifetime: </span>{{lifetime}}
+          <div class="meta-info" fxFlex="0 0 100px">
+            <span class="lifetime v-centering__inline">
+              <mat-icon class="mr-5 v-centering__inline">watch_later</mat-icon>
+              <span class="heading">Lifetime: {{lifetime}}</span>
             </span>
           </div>
           <div class="workspace-name">
@@ -42,8 +39,13 @@
           </div>
         </mat-card-subtitle>
       </mat-card-header>
-      <mat-card-content>
-        <p [innerHTML]="description"></p>
+      <mat-card-content fxLayout="column" fxLayoutAlign="space-between stretch">
+        <div class="description" [innerHTML]="description" #environmentDescription></div>
+        <div class="labels">
+          <ng-container *ngFor="let label of labels.split(',')">
+            <span class="chip__sm">{{ label.trim() }}</span>
+          </ng-container>
+        </div>
       </mat-card-content>
     </div>
     <!-- //// END of CENTER section-->

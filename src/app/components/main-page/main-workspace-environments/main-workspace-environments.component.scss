@@ -1,6 +1,8 @@
 @import "src/styles.scss";
 
 .workspace-environments-container {
+  height: 100%;
+  overflow: hidden;
 
   .environment-actions {
     button {
@@ -8,37 +10,42 @@
     }
   }
 
-  th.mat-header-cell:first-of-type,
-  td.mat-cell:first-of-type,
-  td.mat-footer-cell:first-of-type {
-    padding-left: 10px;
-  }
+  // th.mat-header-cell:first-of-type,
+  // td.mat-cell:first-of-type,
+  // td.mat-footer-cell:first-of-type {
+  //   padding-left: 10px;
+  // }
 
   .mat-form-field{
     width: 100%;
   }
 
+  .table-container {
+    height: 100%;
+    overflow: auto;
+  }
+
   table {
-    // width: 100%;
-    // margin: auto;
+    width: 100%;
+    margin: auto;
 
     .thumbnail {
-      width: 70px;
+      text-align: center;
 
       .thumbnail-placeholder {
-        width: 40px;
-        height: 40px;
+        margin: auto;
 
         &.published {
           color: map-get($colors, dark);
         }
 
         &.draft {
-          color: map-get($colors, light);
+          color: map-get($colors, light-gray);
         }
 
         i {
           font-size: 40px;
+          margin: auto;
         }
       }
    }
@@ -50,6 +57,16 @@
       width: 100%;
       margin-bottom: 5px;
       // border-bottom: 1px solid map-get($colors, light);
+    }
+  }
+
+  .labels {
+    .chip__sm{
+      background-color: map-get($colors, white);
+      color: #555;
+      font-weight: 500;
+      border: 1px #ddd solid;
+      font-size: 1.1rem;
     }
   }
 }
