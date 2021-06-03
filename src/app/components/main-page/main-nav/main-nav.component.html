@@ -47,9 +47,9 @@
 
   <ng-container *ngIf="authService.isWorkspaceOwner">
     <ul class="sidenav-menu workspace-owner nav-section">
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/workspace-owner'"
+      <li class="nav-item workspace-owner-item" [class.active]="router.url.startsWith('/main/workspace-owner/')"
       #tooltip="matTooltip" matTooltip="Manage workspaces" [matTooltipDisabled]="true">
-        <a class="sidenav-link v-centering" [routerLink]="['/main/workspace-owner']">
+        <a class="sidenav-link v-centering" (click)="reload('/main/workspace-owner')">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">folder_shared</mat-icon>
           </div>

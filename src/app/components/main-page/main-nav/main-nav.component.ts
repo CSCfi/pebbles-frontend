@@ -23,7 +23,7 @@ import {InstanceService} from '../../../services/instance.service';
 export class MainNavComponent implements OnInit {
 
   public isTextVisible: boolean;
-  @ViewChildren('tooltip') tooltips;
+  @ViewChildren('tooltip') tooltips: any;
   @Output() toggleSideNavEvent = new EventEmitter<boolean>();
 
   @Input() set isSideNavOpen(value: boolean) {
@@ -49,6 +49,11 @@ export class MainNavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  reload(link: string): void {
+    this.router.navigate(['/'], {skipLocationChange: true})
+      .then(() => { this.router.navigate([link]); });
   }
 
   emitSideNavToggle(): void {
