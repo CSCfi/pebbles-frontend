@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces.component';
@@ -12,16 +11,14 @@ describe('MainMyWorkspacesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MaterialModule,
-        RouterTestingModule
-      ],
       declarations: [
         MainMyWorkspacesComponent,
         MainContentHeaderComponent
+      ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MaterialModule
       ]
     })
     .compileComponents();

@@ -6,8 +6,8 @@ import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { EnvironmentCategory } from 'src/app/models/environment-category';
 import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
-import { MainMyWorkspacesComponent } from '../main-my-workspaces/main-my-workspaces.component';
 import { Utilities } from 'src/app/utilities';
+import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
 
 @Component({
   selector: 'app-main-catalog',
@@ -23,6 +23,7 @@ export class MainCatalogComponent implements OnInit {
   };
 
   selectedCatalog: EnvironmentCategory;
+  referenceEnvironmentId: string;
   queryText = '';
 
   get environments(): Environment[] {
@@ -48,16 +49,15 @@ export class MainCatalogComponent implements OnInit {
     this.fetchEnvironments();
     this.fetchCatalogs();
     this.fetchWorkspaces();
-    // this.isSearchFormOpen = false;
-    // ---- getCategoryById('1') : 1 means 'all category'
+    // ---- MEMO: getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }
 
   openJoinWorkspaceDialog(): void {
-    const dialogRef = this.dialog.open(MainMyWorkspacesComponent, {
+    const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
       height: 'auto', width: '600px'
     });
-    dialogRef.componentInstance.isPage = false;
+    dialogRef.componentInstance.content = this.content;
   }
 
   // ---- Environment

@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MainContentHeaderComponent } from './main-content-header.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-// import { MatAutocomplete } from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('MainContentHeaderComponent', () => {
   let component: MainContentHeaderComponent;
@@ -14,6 +14,8 @@ describe('MainContentHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
         MaterialModule
       ],
       declarations: [ MainContentHeaderComponent ],

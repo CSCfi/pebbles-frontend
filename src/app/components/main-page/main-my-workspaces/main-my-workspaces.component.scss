@@ -1,35 +1,14 @@
 @import "src/styles.scss";
 
-.workspace-join-input-form {
-  max-width: 800px;
-  margin:  20px auto;
-
-  form {
-    width: 100%;
-
-    .mat-form-field-appearance-outline {
-      .mat-form-field-wrapper {
-        margin-top: 0;
-      }
-
-      .mat-form-field-outline {
-        background-color: white;
-        border-radius: 5px;
-      }
-    }
-
-    button {
-      height: 60px;
-
-      &:hover {
-        background-color: map-get($colors, accent);
-      }
-    }
-  }
+.join-workspace-button {
+  margin-top: 4px;
+  height: 45px;
+  background: map-get($colors, light-active);
+  color: map-get($colors, primary);
 }
 
 .workspace-list {
-  max-width: 800px !important;
+  max-width: 1200px !important;
   margin: 0 auto;
 }
 
@@ -56,5 +35,4 @@
     font-size: 1.4rem !important;
     height: 30px !important;
   }
-
 }

@@ -461,6 +461,10 @@ button.button-s {
   &:hover {
     background-color: map-get($colors, focus-light);
   }
+
+  &.mat-button-disabled:hover {
+    background-color: map-get($colors, light-gray) !important;
+  }
 }
 
 .message-container {

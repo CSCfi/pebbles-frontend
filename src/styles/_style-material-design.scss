@@ -125,42 +125,27 @@ $progress-linear-bar-height: 6px;
     overflow: hidden;
   }
 
-  // ---- Accordion
-  // ----------------------------------------
-
-  .mat-expansion-panel{
-    background: none;
-
-    .mat-expansion-panel-body {
-      border-color: map-get($colors, white) !important;
-      margin-top: 10px;
-      background-color: rgba(255, 255, 255, 0.5);;
-      box-shadow: none !important;
-      padding: 20px;
-
-      .mat-form-field {
-        width: 100%;
-      }
-    }
-  }
-
-  .mat-icon {
-    font-weight: 500;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    vertical-align: middle;
-    // width: auto; // ---- width shouldn't be set as 'auto'
-  }
-
-  .mat-fab{
-    border-radius: 50%;
-    vertical-align: middle;
-    box-shadow: none;
-  }
-
   .mat-tab-label {
     opacity: 1 !important;
   }
+
+  // ---- Accordion
+  // ----------------------------------------
+
+  // .mat-expansion-panel{
+  //   background: none !important;
+
+  //   .mat-expansion-panel-body {
+  //     background: none !important;
+  //     box-shadow: none !important;
+  //     padding: 0;
+  //     padding-bottom: 10px !important;
+
+  //     .mat-form-field {
+  //       width: 100%;
+  //     }
+  //   }
+  // }
 
   // ---- Card
   // ----------------------------------------
@@ -216,8 +201,6 @@ $progress-linear-bar-height: 6px;
       text-transform: capitalize;
     }
 
-
-
     .mat-header-cell,
     .mat-cell {
       padding: 5px !important;
@@ -253,5 +236,19 @@ $progress-linear-bar-height: 6px;
         padding: 0;
       }
     }
+  }
+
+  .mat-icon {
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align: middle;
+    // width: auto; // ---- width shouldn't be set as 'auto'
+  }
+
+  .mat-fab{
+    border-radius: 50%;
+    vertical-align: middle;
+    box-shadow: none;
   }
 }

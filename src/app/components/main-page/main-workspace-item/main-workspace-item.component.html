@@ -1,41 +1,51 @@
-<ng-container *ngIf="content">
-  <mat-card class="my-workspaces" fxLayout="row" fxLayoutAlign="space-between stretch">
-    <div class="card-media v-centering__horizontal" fxFlex="0 0 80px">
-      <div class="thumbnail">
-        <mat-icon>people_outline</mat-icon>
+<div class="my-workspaces" *ngIf="workspace">
+  <mat-card class="my-workspaces-card">
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between center">
+      <mat-card-title class="workspace-name mb-0" fxFlex="grow">
+        <mat-icon class="mr-10">people_outline</mat-icon>
+        <span [innerHTML]="workspace.name"></span>
+      </mat-card-title>
+      <button mat-button class="workspace-item-menu" [matMenuTriggerFor]="menu" aria-label="open environment menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item aria-label="workspace delete" matTooltip="Leave Workspace"
+          [disabled]="workspace.name.startsWith('System.') === true" (click)="exitWorkspace()">
+          <mat-icon>logout</mat-icon>Exit workspace
+        </button>
+        <button mat-menu-item aria-label="Send message" matTooltip="Send message" [disabled]="true">
+          <mat-icon>mail_outline</mat-icon>Send message
+        </button>
+      </mat-menu>
+    </mat-card-header>
+    <!-- //// workspace-info -->
+    <mat-card-content>
+      <div class="workspace-description mt-10 mb-5" [innerHTML]="workspace.description">
       </div>
-    </div>
-    <div class="card-info" fxFlex="grow">
-      <mat-card-header>
-        <mat-card-title [innerHTML]="workspace.name"></mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="workspace-description mb-20 mt-10" [innerHTML]="workspace.description"></div>
-        <div class="environment-info" [ngClass]="{'active': environments.length > 0}">
+      <div class="environment-list" *ngIf="environments" [ngClass]="{'active': environments.length > 0}">
+        <ng-container *ngIf="environments">
           <div class="environment-info-header v-centering__inline" (click)="toggleEnvironmentList()">
-            <mat-icon class="material-icons-outlined">book</mat-icon>
-            <mat-icon *ngIf="environments.length">arrow_right</mat-icon>
+            <mat-icon class="material-icons-outlined">list</mat-icon>
+            <ng-container *ngIf="environments.length > 0">
+              <mat-icon *ngIf="!panelOpenState ; else openedPanelBlock">arrow_right</mat-icon>
+              <ng-template #openedPanelBlock>
+                <mat-icon *ngIf="panelOpenState">arrow_drop_down</mat-icon>
+              </ng-template>
+            </ng-container>
             <span class="ml-10">{{ environments.length }} Environments</span>
           </div>
-          <mat-accordion>
-            <mat-expansion-panel [expanded]="panelOpenState">
-              <ul *ngIf="environments">
-                <li class="environment" *ngFor="let environment of environments">
-                  <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-                  <span class="ml-10">{{ environment.name }}</span>
-                </li>
-              </ul>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-      </mat-card-content>
-    </div>
-    <!-- //card-info -->
-    <mat-card-actions class="" *ngIf="workspace.name.startsWith('System.') === false">
-      <button mat-flat-button aria-label="workspace delete" class="full__h inversion light-gray"
-        matTooltip="Leave Workspace" (click)="exitWorkspace()">
-        <mat-icon>logout</mat-icon>
-      </button>
-    </mat-card-actions>
+        </ng-container>
+      </div>
+    </mat-card-content>
   </mat-card>
-</ng-container>
+
+  <mat-accordion *ngIf="environments && environments.length > 0">
+    <mat-expansion-panel [expanded]="panelOpenState">
+      <div class="environment-item" *ngFor="let environment of environments">
+        <div class="tree"></div>
+        <app-main-environment-item [environment]="environment">
+        </app-main-environment-item>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -5,8 +5,19 @@ section.container{
 
   .login-wrapper {
 
-    .mat-expansion-panel {
+    ::ng-deep .mat-expansion-panel {
       margin-bottom: 20px;
+
+      .mat-expansion-panel-body {
+        border-color: map-get($colors, white) !important;
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow: none !important;
+        padding: 20px;
+
+        .mat-form-field {
+          width: 100%;
+        }
+      }
     }
 
     .special-login-button {

@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { EnvironmentType } from '../../../models/environment-template';
 import { Environment } from 'src/app/models/environment';
@@ -15,8 +15,6 @@ import { Utilities } from '../../../utilities';
 export class MainEnvironmentItemComponent implements OnInit {
 
   @Input() environment: Environment;
-  @Input() content: any;
-  @Output() getEnvironmentsEvent = new EventEmitter<string>();
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';

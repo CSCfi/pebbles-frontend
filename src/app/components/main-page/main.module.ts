@@ -33,6 +33,7 @@ import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail/m
 import { MainWorkspaceFormComponent } from './main-workspace-form/main-workspace-form.component';
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
 import { MainWorkspaceFoldersComponent } from './main-workspace-folders/main-workspace-folders.component';
+import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog/main-join-workspace-dialog.component';
 // ---- shared component
 import { MainSearchBoxComponent } from './main-search-box/main-search-box.component';
 import { MainWorkspaceEnvironmentsComponent } from './main-workspace-environments/main-workspace-environments.component';
@@ -66,7 +67,8 @@ import { MainContentStateComponent } from './main-content-state/main-content-sta
     MainWorkspaceItemDetailComponent,
     MainWorkspaceEnvironmentsComponent,
     MainInstanceButtonComponent,
-    MainContentStateComponent
+    MainContentStateComponent,
+    MainJoinWorkspaceDialogComponent
   ],
   imports: [
     CommonModule,

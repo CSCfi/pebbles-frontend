@@ -1,121 +1,78 @@
 @import "src/styles.scss";
 
-.my-workspaces,
-.workspace-owner {
+.my-workspaces-card {
   border-top: 1px solid map-get($colors , light3);
   border-left: 1px solid map-get($colors , light2);
   border-right: 1px solid map-get($colors , light2);
   border-bottom: 1px solid map-get($colors , light2);
 
-  min-height: 100px;
-  box-shadow: 0 1px 3px 0px rgba(0,0,0,.1) !important;
+  // min-height: 80px;
+  // box-shadow: 0 1px 3px 0px rgba(0,0,0,.1) !important;
 
-  .card-media {
-    margin: -16px 0px -16px -16px !important;
-    padding: 20px 0;
-
-    mat-icon {
-      color: map-get($colors, light-gray);
-    }
-  }
-
-  .card-info {
-    margin-right: 16px;
-    padding-right: 16px;
-    line-height: 22px;
-
-    mat-card-header {
+  mat-card-header {
+    mat-card-title {
       border-bottom: 1px solid map-get($colors, light-gray);
-
-      .mat-card-title {
-        margin-bottom: 5px;
-      }
-
-      .mat-card-header-text {
-        width: 100%;
-
-        mat-card-title {
-          padding-bottom: 2px;
-          margin-bottom: 4px;
-          border-bottom: 1px solid #c7c7c7 !important;
-          font-size: 1.6rem !important;
-          font-weight: 600;
-        }
-      }
+      font-size: 1.6rem !important;
+      font-weight: 600;
     }
 
-    mat-card-content {
-      margin-bottom: 0px;
+    .workspace-item-menu {
+      margin-top: -8px;
+      margin-right: -8px;
     }
 
-    mat-chip-list {
-      margin: 2px;
-
-      mat-chip:hover {
-        cursor: pointer;
-      }
+    .mat-icon {
+      margin-top: -4px;
     }
   }
 
-  mat-card-actions {
-    margin: -16px !important;
-    padding: 8px !important;
+  .workspace-description {
+    font-size: 1.3rem;
   }
-}
 
-::ng-deep .my-workspaces {
-  .card-info {
-    mat-card-content {
+  .environment-list {
+    // width: 50%;
+    color: map-get($colors, light-gray);
+    &:hover {
+      cursor: pointer;
+    }
 
-      .workspace-info-container {
-        border-top: 1px solid map-get($colors, light-gray);
-      }
+    &.active {
+      color: map-get($colors, primary);
 
-      .environment-info {
+      .environment mat-icon {
         color: map-get($colors, light-gray);
-
-        &.active {
-          color: map-get($colors, primary);
-
-          .environment-info-header span {
-            text-decoration: underline;
-          }
-
-          .environment mat-icon {
-            color: map-get($colors, light-gray);
-          }
-        }
-      }
-    }
-
-    mat-accordion {
-      mat-expansion-panel {
-        box-shadow: none !important;
-
-        .mat-expansion-panel-body {
-          border: 2px solid map-get($colors, light-gray) !important;
-          margin: 10px 0 0 0 !important;
-          padding: 10px 20px !important;
-          border-radius: 5px;
-        }
       }
     }
   }
 }
 
-.workspace-owner {
-  .workspace-info-container {
-    .info {
-      color: map-get($colors, primary) !important;
-      height: 30px;
+.my-workspaces {
+  ::ng-deep .mat-expansion-panel {
+    box-shadow: none !important;
+    margin-left: 30px;
+    background: none;
+    border-radius: 0;
 
-      &:hover {
-        cursor: pointer;
-      }
+    .mat-expansion-panel-body {
+      border-radius: 0;
+      padding: 0 0 16px 24px;
     }
   }
-}
 
-.owner-workspace-detail {
+  .tree {
+    position: absolute;
+    min-height: 140px;
+    height: 110%;
+    width: 15px;
+    top: -55%;
+    left: 0;
+    border-bottom: 3px solid #bbb;
+    border-left: 3px solid #bbb;
+  }
 
+  .environment-item {
+    padding-left: 15px;
+    position: relative;
+  }
 }

@@ -1,11 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-main-workspace-item',
@@ -15,31 +12,23 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 export class MainWorkspaceItemComponent implements OnInit {
 
   @Input() workspace: Workspace;
-  @Input() content: any;
   @Output() fetchWorkspacesEvent = new EventEmitter();
-
-  // ---- Activate below when lifetime is introduced in workspace
-  // lifetime: number;
-
-  showJoinCode: boolean;
   panelOpenState: boolean;
-
-  get environments(): Environment[] {
-    return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
-  }
+  environments: Environment[];
 
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
     private workspaceService: WorkspaceService,
     private environmentService: EnvironmentService,
   ) {
-    // this.lifetime = 120; // ---- dummy value for now
-    this.showJoinCode = false;
-    this.panelOpenState = false;
   }
 
   ngOnInit(): void {
+    this.panelOpenState = true;
+    if (this.workspace) {
+      this.environmentService.fetchEnvironments().subscribe(_ => {
+        this.environments = this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
+      });
+    }
   }
 
   toggleEnvironmentList(): void {
@@ -48,7 +37,10 @@ export class MainWorkspaceItemComponent implements OnInit {
     }
   }
 
-  // ---- My Workspaces ---- //
+  // directToEnvironment(environmentId: string): void {
+  //   // this.router.navigateByUrl('/main/catalog#' + environmentId);
+  //   this.router.navigate(['/main/catalog'], {queryParams: {id: environmentId}});
+  // }
 
   exitWorkspace(): void {
     if (!confirm(`Are you sure you want to leave workspace "${this.workspace.name}"?`)) {
@@ -56,31 +48,6 @@ export class MainWorkspaceItemComponent implements OnInit {
     }
     this.workspaceService.exitWorkspace(this.workspace.id).subscribe(() => {
       this.fetchWorkspacesEvent.emit();
-    });
-  }
-
-  // ---- Manage Workspaces ---- //
-
-  openWorkspaceDetail(tab): void {
-    this.router.navigateByUrl(
-      `/main/workspace-owner/detail/${this.workspace.id}`,
-      { state: { label: tab } });
-  }
-
-  openJoinCodeDialog(): void {
-    const dialogRef = this.dialog.open( DialogComponent, {
-      width: '500px',
-      data: {
-        dialogTitle: 'Workspace Join Code',
-        dialogContent: `<p>Share the join code below to the users you want to share your workspace.</p>`,
-        dialogClipboard: this.workspace.join_code,
-        dialogActions: ['close']
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
     });
   }
 }

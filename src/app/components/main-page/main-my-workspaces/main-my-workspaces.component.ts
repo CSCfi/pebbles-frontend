@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-// import { AuthService } from 'src/app/services/auth.service';
 import { Workspace } from 'src/app/models/workspace';
-import { EnvironmentService } from 'src/app/services/environment.service';
 import { Utilities } from 'src/app/utilities';
+import { MatDialog } from '@angular/material/dialog';
+import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
 
 @Component({
   selector: 'app-main-my-workspaces',
@@ -19,22 +18,9 @@ export class MainMyWorkspacesComponent implements OnInit {
     identifier: 'my-workspace'
   };
 
-  public isPage = true;
   public newWorkspace: Workspace;
   queryText = '';
-
-  // ---- Join Workspace Form
-  joinWorkspaceForm = new FormGroup({
-    joinCode: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9!-/:-@¥[-`{-~]*$')])
-  });
-
-  get isJoinCodeValid(): boolean {
-    return this.joinWorkspaceForm.get('joinCode').valid;
-  }
-
-  get joinCode(): string {
-    return this.joinWorkspaceForm.get('joinCode').value;
-  }
+  workspaceCount = 0;
 
   get workspaces(): Workspace[] {
     const wss = this.workspaceService.getWorkspaces().map(ws => {
@@ -46,18 +32,17 @@ export class MainMyWorkspacesComponent implements OnInit {
   }
 
   constructor(
+    public dialog: MatDialog,
     private workspaceService: WorkspaceService,
-    private environmentService: EnvironmentService,
   ) { }
-
 
   ngOnInit(): void {
     this.fetchWorkspaces();
   }
 
   fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(() => {
-      console.log('workspaces fetched');
+    this.workspaceService.fetchWorkspaces().subscribe(resp => {
+      this.workspaceCount = resp.length;
     });
   }
 
@@ -90,17 +75,10 @@ export class MainMyWorkspacesComponent implements OnInit {
     return objects;
   }
 
-  joinWorkspace(formDirective): void {
-    this.workspaceService.joinWorkspace(this.joinCode).subscribe((resp) => {
-      formDirective.resetForm(); // ---- MEMO: To avoid validation error message
-      this.joinWorkspaceForm.reset();
-      this.newWorkspace = resp;
-      this.fetchWorkspaces();
-      this.environmentService.fetchEnvironments().subscribe();
+  openJoinWorkspaceDialog(): void {
+    const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
+      height: 'auto', width: '600px'
     });
-  }
-
-  getEnvironmentsByWorkspaceId(workspaceId: string) {
-    return this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
+    dialogRef.componentInstance.content = this.content;
   }
 }

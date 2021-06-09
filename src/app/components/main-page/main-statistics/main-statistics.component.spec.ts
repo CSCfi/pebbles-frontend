@@ -1,7 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from 'src/app/material.module';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
+import { MainContentStateComponent } from '../main-content-state/main-content-state.component';
 import { MainStatisticsComponent } from './main-statistics.component';
 
 describe('MainStatisticsComponent', () => {
@@ -12,11 +14,13 @@ describe('MainStatisticsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MainStatisticsComponent,
-        MainContentHeaderComponent
+        MainContentHeaderComponent,
+        MainContentStateComponent
        ],
       imports: [
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MaterialModule
       ]
     })
     .compileComponents();

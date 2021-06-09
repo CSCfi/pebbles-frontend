@@ -1,6 +1,7 @@
 <ng-container *ngIf="environment">
-  <mat-card class="catalog environment-card r__all" fxLayout="row" fxLayoutAlign="space-between stretch"
-    [attr.data-environment-item-id]="environment.id">
+  <mat-card class="catalog environment-card r__all mt-10"
+    fxLayout="row" fxLayoutAlign="space-between stretch"
+    [attr.id]="'env-'+environment.id">
     <!-- Card LEFT section -->
     <div class="card-media-container v-centering__horizontal inversion light-dark"
       [ngClass]="{'jupyter':environmentType==='jupyter', 'rstudio':environmentType==='rstudio'}" fxFlex="0 0 110px">
@@ -21,7 +22,7 @@
     <!-- Card CENTER section -->
     <div fxFlex="grow" class="card-info-container">
       <mat-card-header>
-        <mat-card-title class="mat-title mb-5" [innerHTML]="environment.name"></mat-card-title>
+        <mat-card-title class="environment-name mat-title mb-5" [innerHTML]="environment.name"></mat-card-title>
         <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
           <div class="meta-info" fxFlex="0 0 100px">
             <span class="lifetime v-centering__inline">

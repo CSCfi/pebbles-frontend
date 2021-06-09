@@ -1,8 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from 'src/app/material.module';
 
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
+import { MainContentStateComponent } from '../main-content-state/main-content-state.component';
 import { MainAdminComponent } from './main-admin.component';
 
 describe('MainAdminComponent', () => {
@@ -13,11 +15,13 @@ describe('MainAdminComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MainAdminComponent,
-        MainContentHeaderComponent
+        MainContentHeaderComponent,
+        MainContentStateComponent
       ],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MaterialModule
       ]
     })
     .compileComponents();
