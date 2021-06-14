@@ -8,11 +8,12 @@ import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspac
 import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
-import { MainHelpComponent } from './main-help/main-help.component';
 import { MainAdminComponent } from './main-admin/main-admin.component';
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
 import { MainActiveEnvironmentsComponent } from './main-active-environments/main-active-environments.component';
 import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail/main-workspace-item-detail.component';
+import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
+import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
 
 export const routes: Routes = [
   {
@@ -43,8 +44,12 @@ export const routes: Routes = [
         data: { breadcrumbs: ['home', 'announcements'] }
       },
       {
-        path: 'help', component: MainHelpComponent,
-        data: { breadcrumbs: ['home', 'help'] }
+        path: 'help',
+        children: [
+          { path: '', redirectTo: 'faq', pathMatch: 'full' },
+          { path: 'faq', component: MainHelpFaqComponent },
+          { path: 'contact', component: MainHelpContactComponent }
+        ]
       },
 
       {

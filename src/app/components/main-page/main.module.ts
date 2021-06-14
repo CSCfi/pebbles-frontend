@@ -22,7 +22,9 @@ import { MainAccountComponent } from './main-account/main-account.component';
 import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
 import { MainAdminComponent } from './main-admin/main-admin.component';
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
-import { MainHelpComponent } from './main-help/main-help.component';
+import { MainHelpNavComponent } from './main-help-nav/main-help-nav.component';
+import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
+import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
 // ---- environment parts component
 import { MainEnvironmentItemComponent } from './main-environment-item/main-environment-item.component';
 import { MainEnvironmentWizardFormComponent } from './main-environment-wizard-form/main-environment-wizard-form.component';
@@ -54,7 +56,9 @@ import { MainContentStateComponent } from './main-content-state/main-content-sta
     MainAdminComponent,
     MainActiveEnvironmentsComponent,
     MainStatisticsComponent,
-    MainHelpComponent,
+    MainHelpNavComponent,
+    MainHelpFaqComponent,
+    MainHelpContactComponent,
     MainAccountComponent,
     MainAnnouncementComponent,
     MainWorkspaceItemComponent,

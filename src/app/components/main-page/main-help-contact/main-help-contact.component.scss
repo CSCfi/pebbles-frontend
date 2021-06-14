@@ -1,0 +1,70 @@
+@import "src/styles.scss";
+
+.content-container {
+  max-width: 1200px;
+  margin: auto;
+
+  h2 {
+    width: 100%;
+    font-size: 3rem;
+    text-align: center;
+    color: map-get($colors, primary);
+    border-bottom: 2px solid map-get($colors, primary);
+  }
+}
+
+.message-container {
+  padding: 20px;
+  height: 300px;
+  text-align: center;
+
+  .examples {
+    position: relative;
+    padding: 20px 50px;
+    width: 600px;
+    height: auto;
+    overflow: unset;
+    margin: 0 auto;
+    border-radius: 50px;
+    background: map-get($colors, light-dark);
+    font-size: 1.8rem;
+    color: white;
+    font-weight: bold;
+  }
+
+  .examples::before {
+      display: block;
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 55%;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0px 20px 20px 20px;
+      border-color: transparent transparent transparent map-get($colors, light-dark);
+    }
+
+  .contact-info {
+    width: 100%;
+    color: map-get($colors, primary);
+
+    .mat-icon {
+      font-size: 8rem;
+      margin-bottom: 20px;
+      width: auto;
+      height: auto;
+    }
+
+    h3 {
+      font-weight: 600;
+      font-size: 2rem;
+
+    }
+
+    .address {
+       font-size: 1.6rem;
+    }
+
+  }
+}

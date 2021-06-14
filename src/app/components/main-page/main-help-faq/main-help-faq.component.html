@@ -1,0 +1,37 @@
+<div class="content-header-container"
+     fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="30px">
+  <app-main-content-header
+    fxFlex="grow"
+    (emitApplyFilter)="applyFilter($event)"
+    [content]="content"
+    [isSearchOn]="true"
+    [isAutocompleteDisabled]="true"
+    [labels]="null">
+  </app-main-content-header>
+</div>
+<app-main-help-nav></app-main-help-nav>
+<div class="content-container">
+  <section class="mt-30">
+    <div class="help-title">
+      <h2 class="mat-title ">FAQ</h2>
+    </div>
+    <ng-container *ngIf="faqs.length>0">
+      <mat-accordion class="example-headers-align " *ngFor="let faq of faqs" multi>
+        <h3 class="mat-title mt-40">{{ faq.name }}</h3>
+        <ng-container *ngIf="faq.content.length>0 ;else noContent">
+          <mat-expansion-panel *ngFor="let content of faq.content" [(expanded)]="isAllExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span [innerHTML]="content.question"></span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <span [innerHTML]="content.answer"></span>
+          </mat-expansion-panel>
+        </ng-container>
+        <ng-template #noContent>
+          No item is found.
+        </ng-template>
+      </mat-accordion>
+    </ng-container>
+  </section>
+</div>

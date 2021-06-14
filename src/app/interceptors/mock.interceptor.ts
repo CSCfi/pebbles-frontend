@@ -487,6 +487,10 @@ export class MockInterceptor implements HttpInterceptor {
       return ok(messages);
     }
 
+    function getFaqs() {
+      return ok(database.faqs);
+    }
+
     function patchMessage() {
       // mark as read
       const user = database.users.find((i) => {

@@ -1,0 +1,32 @@
+@import "src/styles.scss";
+
+.content-container {
+  max-width: 1200px;
+  margin: auto;
+  //height: calc(100vh - 70px);
+  //overflow: auto;
+
+  h2 {
+    width: 100%;
+    font-size: 3rem;
+    text-align: center;
+    color: map-get($colors, primary);
+    border-bottom: 2px solid map-get($colors, primary);
+  }
+
+  ::ng-deep mat-expansion-panel-header {
+    height: auto;
+    padding: 20px;
+
+    mat-panel-title {
+      font-weight: 500;
+      font-size: 1.5rem;
+    }
+  }
+
+  ::ng-deep .mat-expansion-panel-body {
+    height: auto;
+    padding: 20px;
+    background: map-get($colors, light-accent);
+  }
+}

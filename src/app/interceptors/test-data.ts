@@ -6,9 +6,9 @@ export let db = {
       name: 'pb-alexandria-the-great',
       environment_id: '1',
       state: 'running',
-      instance_data: {endpoints: [{access: 'http://foo/1'}]},
+      instance_data: {endpoints: [{access: 'https://foo/1'}]},
       lifetime_left: '3000',
-      maximum_lifetime:	'3600',
+      maximum_lifetime: '3600',
       user_id: '1',
       username: 'admin@example.org',
     },
@@ -17,9 +17,9 @@ export let db = {
       name: 'pb-kassandra-the-white',
       environment_id: '2',
       state: 'deleted',
-      instance_data: {endpoints: [{access: 'http://foo/2'}]},
+      instance_data: {endpoints: [{access: 'https://foo/2'}]},
       lifetime_left: '600',
-      maximum_lifetime:	'2000',
+      maximum_lifetime: '2000',
       user_id: '1',
       username: 'admin@example.org',
     },
@@ -28,9 +28,9 @@ export let db = {
       name: 'pb-kassandra-the-patient',
       environment_id: '12',
       state: 'running',
-      instance_data: {endpoints: [{access: 'http://foo/3'}]},
+      instance_data: {endpoints: [{access: 'https://foo/3'}]},
       lifetime_left: '600',
-      maximum_lifetime:	'2000',
+      maximum_lifetime: '2000',
       user_id: '101',
       username: 'owner-1@example.org',
     },
@@ -39,9 +39,9 @@ export let db = {
       name: 'pb-rick-the-shiny',
       environment_id: '1',
       state: 'provisioning',
-      instance_data: {endpoints: [{access: 'http://foo/4'}]},
+      instance_data: {endpoints: [{access: 'https://foo/4'}]},
       lifetime_left: '6000',
-      maximum_lifetime:	'6000',
+      maximum_lifetime: '6000',
       user_id: '201',
       username: 'owner-1@example.org',
     },
@@ -50,9 +50,9 @@ export let db = {
       name: 'pb-bart-the-yellow',
       environment_id: '1',
       state: 'failed',
-      instance_data: {endpoints: [{access: 'http://foo/5'}]},
+      instance_data: {endpoints: [{access: 'https://foo/5'}]},
       lifetime_left: '2000',
-      maximum_lifetime:	'2000',
+      maximum_lifetime: '2000',
       user_id: '301',
       username: 'user-1@example.org',
     },
@@ -61,9 +61,9 @@ export let db = {
       name: 'pb-maggie-the-wise',
       environment_id: '12',
       state: 'running',
-      instance_data: {endpoints: [{access: 'http://foo/6'}]},
+      instance_data: {endpoints: [{access: 'https://foo/6'}]},
       lifetime_left: '2000',
-      maximum_lifetime:	'2000',
+      maximum_lifetime: '2000',
       user_id: '301',
       username: 'user-1@example.org',
     }
@@ -666,6 +666,47 @@ export let db = {
       broadcasted: '2020-09-10T11:09:04.889550',
       is_checked: false,
       is_important: false,
+    },
+  ],
+  help: [
+    {
+      name: 'Category 1',
+      content: [
+        {
+          question: 'category 1 question 1',
+          answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+        },
+        {
+          question: 'category 1 question 2',
+          answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        },
+      ]
+    },
+    {
+      name: 'Category 2',
+      content: [
+        {
+          question: 'category 2 question 1',
+          answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        },
+        {
+          question: 'category 2 question 2',
+          answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        },
+      ]
+    },
+    {
+      name: 'Category 3',
+      content: [
+        {
+          question: 'category 3 question 1',
+          answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        },
+        {
+          question: 'category 3 question 2',
+          answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        },
+      ]
     },
   ],
   folders: [

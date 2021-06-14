@@ -1,0 +1,35 @@
+<div class="content-header-container"
+     fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="30px">
+  <app-main-content-header
+    fxFlex="grow"
+    [content]="content"
+    [isSearchOn]="true"
+    [isAutocompleteDisabled]="true"
+    [labels]="null">
+  </app-main-content-header>
+</div>
+
+<app-main-help-nav></app-main-help-nav>
+
+<div class="content-container">
+  <section class="mt-30">
+    <div class="help-title">
+      <h2 class="mat-title mb-30">Contact us</h2>
+    </div>
+
+    <div class="message-container">
+      <ul class="examples mb-40">
+        <li>Is something out of order?</li>
+        <li>Do you want to request a new environment template?</li>
+        <li>Do you want to host a course?</li>
+      </ul>
+      <div class="contact-info">
+        <mat-icon fontSet="material-icons-outlined">business</mat-icon>
+        <h3 class="mb-10">Service Desk</h3>
+        <div class="address mb-20">
+          <a href="mailto:servicedesk@example.org">servicedesk@example.org</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
