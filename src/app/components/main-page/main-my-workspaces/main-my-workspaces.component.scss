@@ -7,12 +7,28 @@
   color: map-get($colors, primary);
 }
 
+.action-buttons,
 .workspace-list {
   max-width: 1200px !important;
   margin: 0 auto;
 }
 
-::ng-deep mat-dialog-container {
+.action-buttons{
+  text-align: right;
+
+  button {
+    font-weight: 500 !important;
+    font-size: 1.2rem;
+    color: map-get($colors, light-gray);
+    padding: 0 10px 0 5px;
+  }
+
+  mat-icon{
+    color: map-get($colors, light-gray);
+  }
+}
+
+mat-dialog-container {
 
   padding: 30px !important;
 

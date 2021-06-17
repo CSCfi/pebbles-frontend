@@ -39,7 +39,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-accordion *ngIf="environments && environments.length > 0">
+  <mat-accordion *ngIf="environments && environments.length > 0" multi>
     <mat-expansion-panel [expanded]="panelOpenState">
       <div class="environment-item" *ngFor="let environment of environments">
         <div class="tree"></div>

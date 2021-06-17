@@ -10,7 +10,19 @@
 </div>
 
 <div class="content-container" *ngIf="workspaces">
-  <section class="workspace-list mt-20" *ngIf="workspaceCount > 0 ; else noMembershipBlock" fxLayout="column"
+
+  <div class="action-buttons mt-5">
+    <button mat-button (click)="openAll()">
+      <mat-icon>account_tree</mat-icon>
+      Expand
+    </button>
+    <button mat-button (click)="closeAll()">
+      <mat-icon>unfold_less</mat-icon>
+      Close
+    </button>
+  </div>
+
+  <section class="workspace-list mt-5" *ngIf="workspaceCount > 0 ; else noMembershipBlock" fxLayout="column"
     fxLayoutAlign="start stretch" fxLayoutGap="10px">
     <ng-container *ngIf="workspaces.length > 0; else noWorkspaceBlock">
       <ng-container *ngFor="let workspace of workspaces">

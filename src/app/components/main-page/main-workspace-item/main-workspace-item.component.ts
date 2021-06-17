@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-main-workspace-item',
@@ -13,6 +14,7 @@ export class MainWorkspaceItemComponent implements OnInit {
 
   @Input() workspace: Workspace;
   @Output() fetchWorkspacesEvent = new EventEmitter();
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState: boolean;
   environments: Environment[];
 

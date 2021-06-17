@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Workspace } from 'src/app/models/workspace';
 import { Utilities } from 'src/app/utilities';
 import { MatDialog } from '@angular/material/dialog';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
+import {MainWorkspaceItemComponent} from '../main-workspace-item/main-workspace-item.component';
 
 @Component({
   selector: 'app-main-my-workspaces',
@@ -17,6 +18,9 @@ export class MainMyWorkspacesComponent implements OnInit {
     title: 'My workspaces',
     identifier: 'my-workspace'
   };
+
+  // @ViewChild(MainWorkspaceItemComponent) workspaceItem: MainWorkspaceItemComponent;
+  @ViewChildren(MainWorkspaceItemComponent) workspaceItems: QueryList<MainWorkspaceItemComponent>;
 
   public newWorkspace: Workspace;
   queryText = '';
@@ -38,6 +42,22 @@ export class MainMyWorkspacesComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchWorkspaces();
+  }
+
+  openAll(): void{
+    this.workspaceItems.map( item => {
+      if (item.accordion) {
+        item.accordion.openAll();
+      }
+    });
+  }
+
+  closeAll(): void{
+    this.workspaceItems.map( item => {
+      if (item.accordion) {
+        item.accordion.closeAll();
+      }
+    });
   }
 
   fetchWorkspaces(): void {
