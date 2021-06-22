@@ -643,29 +643,29 @@ export let db = {
       id: 'm12345',
       subject: 'Renewal Open',
       message: 'The Notebooks end-user interface has been renewed. We appreciate any type of feedback from your.',
-      broadcasted: '2020-09-15T11:09:04.889550',
+      broadcasted: '2021-06-15T11:59:00',
+      is_read: false
     },
     {
       id: 'm98765',
       subject: 'Announcement: Accessibility improvement',
       message: 'We have been improved interface accessibility. If you want to know the detail, visit accessibility policy of CSC.',
-      broadcasted: '2020-09-16T11:09:04.889550',
+      broadcasted: '2021-06-16T11:09:21',
+      is_read: false
     },
     {
       id: 'm00000',
       subject: 'This is Important Announcement: Change your password',
       message: 'For the security, Please change your account password of Notebooks.',
-      broadcasted: '2020-09-17T11:09:04.889550',
-      is_checked: true,
-      is_important: true,
+      broadcasted: '2021-06-17T11:09:45',
+      is_read: false
     },
     {
       id: 'm00011',
       subject: 'Announcement: Computing Resources limited',
       message: 'Your instance runs slower than usual.',
-      broadcasted: '2020-09-10T11:09:04.889550',
-      is_checked: false,
-      is_important: false,
+      broadcasted: '2020-12-10T15:55:14',
+      is_read: false
     },
   ],
   help: [

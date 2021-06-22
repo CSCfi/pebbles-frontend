@@ -1,32 +1,28 @@
 <div class="content-header-container"
   fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
   <app-main-content-header
-    fxFlex="grow"
     [content]="content"
     [isSearchOn]="false"
     [labels]="null">
   </app-main-content-header>
-  <button mat-button fxFlex="0 0 280px"
+  <button mat-button
     class="check-button mat-flat-button mt-5" type="button"
     (click)="markAnnouncementsAsRead()"
-    [disabled]="isAllRead"
-    >
+    [disabled]="isAllRead">
     <mat-icon>check</mat-icon>
-    Mark announcements as read
+    Mark as read
   </button>
 </div>
 <div class="content-container">
   <div *ngIf="getAnnouncements().length > 0; else elseBlock">
-
-
     <section class="announcement-container">
-      <ul *ngFor="let announcement of getAnnouncements()">
-        <li class="{{ announcement.is_read ? 'announcement' : 'announcement unread' }}">
-          <div class="subject">{{ announcement.subject }}</div>
+      <ng-container *ngFor="let announcement of getAnnouncements()">
+        <div class="{{ announcement.is_read ? 'announcement' : 'announcement unread' }}">
+          <div class="subject mat-title">{{ announcement.subject }}</div>
           <span class="date">{{ formatDate(announcement.broadcasted) }}</span>
           <p class="message">{{ announcement.message }}</p>
-        </li>
-      </ul>
+        </div>
+      </ng-container>
     </section>
   </div>
 

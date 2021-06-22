@@ -43,7 +43,11 @@ export class MainAnnouncementComponent implements OnInit {
   }
 
   formatDate(dateStr: string): string {
-    return new Date(dateStr).toISOString();
+    // window.navigator.language should be covered well in modern browsers
+    // https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage/languages
+    return new Date(dateStr).toLocaleString(
+      window.navigator.language ? window.navigator.language : 'en-gb'
+    );
   }
 
   markAnnouncementsAsRead() {

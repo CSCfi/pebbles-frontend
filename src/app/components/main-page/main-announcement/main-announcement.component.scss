@@ -9,31 +9,62 @@
 
 
 .announcement-container {
+
   .announcement {
+    position: relative;
     margin-top: 10px;
     margin-bottom: 20px;
-    padding: 20px;
+    padding: 15px 20px 25px;
     background: #fff;
+    overflow: hidden;
+
+    border: 3px solid map-get($colors, light3);
+    border-radius: 8px;
 
     .subject {
       border-bottom: 1px solid #ccc;
-      padding: 5px;
+      padding: 3px 110px 2px 5px;
       font-weight: bold;
+      margin: 0;
+    }
+
+    &.unread {
+      .subject:before {
+        content: "Unread";
+        position: relative;
+        top: -2px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        background: map-get($colors, light-active);
+        padding: 2px 8px;
+        margin-left: -5px;
+        margin-right: 5px;
+        border-radius: 8px;
+      }
     }
 
     .date {
-      float: right;
-    }
-
-    .message {
-      padding: 20px 10px;
+      position: absolute;
+      right: 0px;
+      top: 0;
+      padding: 1px 10px;
+      font-size: 1.2rem;
+      background: map-get($colors, light3);
     }
 
     &.unread {
       .date {
         float: right;
-        background: pink;
+        background: map-get($colors, light-active);
       }
     }
+
+    .message {
+      padding: 10px 5px 0;
+      margin: 0;
+    }
+
+
+
   }
 }
