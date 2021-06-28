@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
@@ -9,7 +9,7 @@ describe('MainWorkspaceOwnerComponent', () => {
   let component: MainWorkspaceOwnerComponent;
   let fixture: ComponentFixture<MainWorkspaceOwnerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MainWorkspaceOwnerComponent,

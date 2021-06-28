@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceFoldersComponent } from './main-workspace-folders.component';
@@ -7,7 +7,7 @@ describe('MainWorkspaceFoldersComponent', () => {
   let component: MainWorkspaceFoldersComponent;
   let fixture: ComponentFixture<MainWorkspaceFoldersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MainWorkspaceFoldersComponent ],
       imports: [

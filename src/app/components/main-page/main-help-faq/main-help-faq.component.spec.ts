@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MainHelpFaqComponent } from './main-help-faq.component';
 import {MainHelpNavComponent} from '../main-help-nav/main-help-nav.component';
@@ -11,7 +11,7 @@ describe('MainHelpFaqComponent', () => {
   let component: MainHelpFaqComponent;
   let fixture: ComponentFixture<MainHelpFaqComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MainHelpFaqComponent,

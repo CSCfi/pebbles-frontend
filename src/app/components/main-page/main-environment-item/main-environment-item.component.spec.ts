@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MainEnvironmentItemComponent } from './main-environment-item.component';
@@ -10,7 +10,7 @@ describe('MainEnvironmentItemComponent', () => {
   let component: MainEnvironmentItemComponent;
   let fixture: ComponentFixture<MainEnvironmentItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,

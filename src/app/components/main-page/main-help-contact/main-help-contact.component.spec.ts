@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MainHelpContactComponent } from './main-help-contact.component';
 import {MainContentHeaderComponent} from '../main-content-header/main-content-header.component';
@@ -11,7 +11,7 @@ describe('MainHelpContactComponent', () => {
   let component: MainHelpContactComponent;
   let fixture: ComponentFixture<MainHelpContactComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MainContentHeaderComponent,

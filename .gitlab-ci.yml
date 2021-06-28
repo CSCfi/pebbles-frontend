@@ -36,7 +36,9 @@ static-analysis:
     - test -e /usr/local/bin/webdriver-manager || ln -s $PWD/node_modules/.bin/webdriver-manager /usr/local/bin/webdriver-manager
 
     - ng lint
-    - npm audit --audit-level=moderate || echo "Failing disabled temporarily, needs Angular update"
+    # report all vulnerabilities, fail on moderate ones
+    - npm audit --prod --audit-level=moderate
+    - npm audit --prod || true
     - node_modules/.bin/linthtml .
 
 ng-build:
@@ -61,7 +63,7 @@ ng-build:
 
 ng-test:
   stage: test
-  image: trion/ng-cli-karma:10.0.0
+  image: trion/ng-cli-karma:11.2.12
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -74,7 +76,7 @@ ng-test:
     - ng test --no-watch --no-progress --browsers=ChromiumHeadlessCI
 ng-e2e:
   stage: test
-  image: trion/ng-cli-karma:10.0.0
+  image: trion/ng-cli-karma:11.2.12
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -87,7 +89,7 @@ ng-e2e:
 
     # run Protractor end-to-end tests. Chrome and ChromeDriver need to be in sync
     # in ng-cli-karma image, protractor.conf.ci.js and here
-    - webdriver-manager update --versions.chrome=83.0.4103.116
+    - webdriver-manager update --versions.chrome=90.0.4430.212
     - ng e2e --protractor-config e2e/protractor.conf.ci.js
 
 build-image:

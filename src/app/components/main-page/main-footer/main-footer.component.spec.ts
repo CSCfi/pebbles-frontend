@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MainFooterComponent } from './main-footer.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../../../environments/environment';
@@ -7,7 +7,7 @@ describe('MainFooterComponent', () => {
   let component: MainFooterComponent;
   let fixture: ComponentFixture<MainFooterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MainFooterComponent ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],

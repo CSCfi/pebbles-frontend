@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
@@ -10,7 +10,7 @@ describe('MainContentHeaderComponent', () => {
   let component: MainContentHeaderComponent;
   let fixture: ComponentFixture<MainContentHeaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
