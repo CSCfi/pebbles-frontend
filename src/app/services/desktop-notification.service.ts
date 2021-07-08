@@ -6,10 +6,6 @@ import { Instance, InstanceLifetimeLevel, InstanceStates } from 'src/app/models/
 })
 export class DesktopNotificationService {
 
-  constructor() {
-    this.initDesktopNotification();
-  }
-
   static showNotification(notificationTitle: string, notificationBody?: string): void {
     const options = {
       body: notificationBody,
@@ -19,38 +15,45 @@ export class DesktopNotificationService {
     console.log('displayed notification "' + notification.title + '"');
   }
 
+  static getPermissionState(): string {
+    // no notification support, return 'denied'
+    if (!('Notification' in window)) {
+      return null;
+    }
+    // https://developer.mozilla.org/en-US/docs/Web/API/notification
+    // possible values are 'granted', 'denied', 'default'
+    return Notification.permission;
+  }
+
   static secondsToMinutesText(secs: number): string {
     const mins = Math.round(secs / 60);
     if (mins > 60) {
       const hours = mins / 60;
       const rem_mins = mins - (hours * 60);
-      return `${hours} H ${rem_mins} M`;
+      return `${hours}h ${rem_mins}m`;
     } else {
-      return `${mins} Mins`;
+      return `${mins} min`;
     }
   }
 
-  // ---- Check user's desktop notification setting
-  initDesktopNotification() {
-    if (!('Notification' in window)) {
-      alert('This browser does not support desktop notifications');
-
-    } else if (Notification.permission === 'granted') {
-      // ---- for debugging
-      // this.showNotification('Hello Notification！', 'This is the notification test.');
-      console.log('permission to show notifications granted previously');
-    } else if (Notification.permission !== 'denied') {
-
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          console.log('permission to show notifications granted');
-          DesktopNotificationService.showNotification('Notifications activated!', 'We will notify you of the Environment status.');
-        }
-      });
+  // ---- Asks permission for desktop notifications
+  public initDesktopNotification(callback: NotificationPermissionCallback): void {
+    try {
+      // first try the deprecated version that works also on Safari
+      Notification.requestPermission(callback);
+    }
+    catch (error) {
+      // if the browser does not accept the deprecated callback as an argument, try the new Promise based version
+      Notification.requestPermission().then(callback);
     }
   }
 
   public notifyInstanceLifetime(instances: Instance[]): void {
+
+    // only try to show notifications if we have the permission to do so
+    if (DesktopNotificationService.getPermissionState() !== 'granted') {
+      return;
+    }
 
     // get the notifications already sent for all instances
     let notification_states: {} = JSON.parse(localStorage.getItem('notification_states'));

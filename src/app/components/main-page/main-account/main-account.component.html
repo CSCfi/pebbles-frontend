@@ -1,6 +1,5 @@
-
 <div class="content-header-container"
-  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+     fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
   <app-main-content-header
     fxFlex="grow"
     [content]="content"
@@ -30,11 +29,11 @@
               <ng-container *ngIf="user?.is_admin; then admin; else not_admin"></ng-container>
               <ng-template #admin>Admin</ng-template>
               <ng-template #not_admin>
-                <ng-container *ngIf="is_workspace_owner() then workspace_owner; else not_workspace_owner">
+                <ng-container *ngIf="isWorkspaceOwner() then workspace_owner; else not_workspace_owner">
                 </ng-container>
               </ng-template>
               <ng-template #workspace_owner>Workspace Owner</ng-template>
-              <ng-template #not_workspace_owner >
+              <ng-template #not_workspace_owner>
                 <!-- TODO : Check how to integrate workspace manager depending on rest of UI design -->
                 <ng-container *ngIf=" user ; then regular_user else workspace_manager">
                 </ng-container>
@@ -44,6 +43,33 @@
             </div>
           </div>
         </div>
+      </section>
+      <section>
+        <div class="col-lg-4">
+          <h4>Desktop notifications</h4>
+        </div>
+        <ng-container [ngSwitch]="getDesktopNotificationPermissionState()">
+          <div *ngSwitchCase="'default'">
+            <div class="row">
+              We can show desktop notifications when Environments are started or are about to expire.
+            </div>
+            <button mat-flat-button color="primary" (click)="askForDesktopNotificationPermission()">
+              Initialize desktop notifications
+            </button>
+          </div>
+          <div *ngSwitchCase="'granted'">
+            Desktop notifications are active. You can control the permissions in your browser's preferences.
+          </div>
+          <div *ngSwitchCase="'denied'">
+            Desktop notifications are blocked. You can control the permissions in your browser's preferences.
+          </div>
+          <div *ngSwitchCase="'asking'">
+            Waiting for permission dialog.
+          </div>
+          <div *ngSwitchCase="null">
+            This browser does not support desktop notifications.
+          </div>
+        </ng-container>
       </section>
     </form>
   </div>
