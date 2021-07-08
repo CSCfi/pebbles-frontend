@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user';
-import { Router } from '@angular/router';
 import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
@@ -11,7 +9,6 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
   ) {
   }
 
@@ -34,10 +31,8 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
-    this.router.navigateByUrl('/').then(() => {
-      window.location.reload();
-      console.log('router: navigated to /');
-    });
+    console.log('redirecting to oauth2 sign out url');
+    window.open('/oauth2/sign_out?rd=%2F', '_self');
   }
 
   getToken(): string {

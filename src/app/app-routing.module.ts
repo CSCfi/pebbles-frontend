@@ -8,10 +8,8 @@ import { InstancePageComponent } from './components/instance-page/instance-page.
 
 const routes: Routes = [
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-  // ---- Fix each SSO login path later
-  { path: 'haka-login', redirectTo: 'welcome', pathMatch: 'full' },
-  { path: 'csc-login', redirectTo: 'welcome', pathMatch: 'full' },
-  { path: 'virtu-login', redirectTo: 'welcome', pathMatch: 'full' },
+  // ---- Development deployment fallback for missing oauth2-proxy sign_out
+  { path: 'oauth2/sign_out', redirectTo: 'welcome', pathMatch: 'full' },
   // ---- //
   { path: 'welcome', component: WelcomePageComponent },
   { path: 'main', loadChildren: './components/main-page/main-routing.module'},
