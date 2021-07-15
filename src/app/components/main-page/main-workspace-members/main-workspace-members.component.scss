@@ -7,6 +7,20 @@
   }
 
   table {
+    ::ng-deep tr.mat-header-row {
+      height: 30px;
+      th {
+        font-size: 1.1rem !important;
+      }
+
+      td {
+        font-size: 1.2rem !important;
+      }
+    }
+
+    .mat-column-index {
+      font-size: 1.0rem;
+    }
     .role-icon {
       color: map-get($colors, accent);
       width: 50px;
@@ -22,4 +36,16 @@
       }
     }
   }
+}
+
+::ng-deep mat-option:last-child:before{
+    content: 'All';
+    float: left;
+    text-transform: none;
+    top: 4px;
+    position: relative;
+}
+::ng-deep mat-option:last-child .mat-option-text{
+  display: none;
+  position: relative;
 }

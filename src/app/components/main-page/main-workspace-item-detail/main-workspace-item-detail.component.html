@@ -92,7 +92,7 @@
           <mat-chip class="mat-chip-sm" *ngIf="memberList">{{ memberCount }}</mat-chip>
         </ng-template>
         <ng-template matTabContent>
-          <app-main-workspace-members [memberList]="memberList" *ngIf="memberList">
+          <app-main-workspace-members [workspaceId]="workspaceId" *ngIf="memberList">
           </app-main-workspace-members>
         </ng-template>
       </mat-tab>

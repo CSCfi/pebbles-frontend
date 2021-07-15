@@ -25,6 +25,7 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
     identifier: 'workspace-owner-item-detail'
   };
 
+  public workspaceId = null;
   public workspaces: Workspace[];
   public workspace: Workspace;
   public notFoundMessage = 'No workspace';
@@ -94,7 +95,8 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
     private environmentService: EnvironmentService
   ) {
     this.route.paramMap.subscribe(params => {
-      this.getWorkspaceById(params.get('workspaceId'));
+      this.workspaceId = params.get('workspaceId');
+      this.getWorkspaceById(this.workspaceId);
     });
   }
 

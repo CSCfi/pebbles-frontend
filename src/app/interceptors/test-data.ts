@@ -416,7 +416,133 @@ export let db = {
     {
       ext_id: 'user-5@example.org',
       password: 'user-5',
-      id: '401',
+      id: '405',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-6@example.org',
+      password: 'user-6',
+      id: '406',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-7@example.org',
+      password: 'user-7',
+      id: '407',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-8@example.org',
+      password: 'user-8',
+      id: '408',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-9@example.org',
+      password: 'user-9',
+      id: '409',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-10@example.org',
+      password: 'user-10',
+      id: '310',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-11@example.org',
+      password: 'user-11',
+      id: '311',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-12@example.org',
+      password: 'user-12',
+      id: '312',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-13@example.org',
+      password: 'user-13',
+      id: '313',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-14@example.org',
+      password: 'user-14',
+      id: '314',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-15@example.org',
+      password: 'user-15',
+      id: '415',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-16@example.org',
+      password: 'user-16',
+      id: '416',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-17@example.org',
+      password: 'user-17',
+      id: '417',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-18@example.org',
+      password: 'user-18',
+      id: '418',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: false,
+      workspace_quota: 0
+    },
+    {
+      ext_id: 'user-19@example.org',
+      password: 'user-19',
+      id: '419',
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
@@ -449,6 +575,21 @@ export let db = {
         'user-2@example.org',
         'user-3@example.org',
         'user-4@example.org',
+        'user-5@example.org',
+        'user-6@example.org',
+        'user-7@example.org',
+        'user-8@example.org',
+        'user-9@example.org',
+        'user-10@example.org',
+        'user-11@example.org',
+        'user-12@example.org',
+        'user-13@example.org',
+        'user-14@example.org',
+        'user-15@example.org',
+        'user-16@example.org',
+        'user-17@example.org',
+        'user-18@example.org',
+        'user-19@example.org'
       ],
     },
     {

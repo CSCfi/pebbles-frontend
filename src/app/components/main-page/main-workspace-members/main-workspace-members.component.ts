@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { OnChanges, Component, Input, ViewChild, SimpleChanges } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
+import { WorkspaceService } from '../../../services/workspace.service';
 
 export enum UserCategory {
   owner = 'Workspace owner',
@@ -11,8 +12,8 @@ export enum UserCategory {
 }
 
 export interface MemberTable {
-  select: boolean;
   index: number;
+  select: boolean;
   role: string;
   email: string;
 }
@@ -22,85 +23,116 @@ export interface MemberTable {
   templateUrl: './main-workspace-members.component.html',
   styleUrls: ['./main-workspace-members.component.scss']
 })
-export class MainWorkspaceMembersComponent implements OnInit, OnChanges {
+export class MainWorkspaceMembersComponent implements OnChanges {
 
-  @Input() memberList: WorkspaceUserList;
-  displayedColumns: string[] = ['icon', 'role', 'email', 'menu'];
+  displayedColumns: string[] = ['index', 'icon', 'role', 'email', 'action'];
   dataSource: MatTableDataSource<MemberTable>;
-
   selection = new SelectionModel<MemberTable>(true, []);
-  tableList = [];
+  memberList: MemberTable[] = [];
+
+  // ---- Paginator
+  isPaginatorVisible = true;
+  minUnitNumber = 10;
+
+  @Input() workspaceId: string;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  get pageSizeOptions(): number[]{
+    if (this.dataSource) {
+      const unitNumbers = [];
+      for ( let i = 1; i < this.dataSource.data.length / this.minUnitNumber; i++) {
+        unitNumbers.push(this.minUnitNumber * i);
+      }
+      unitNumbers.push(this.dataSource.data.length);
+      return unitNumbers;
+    }
+    return [this.minUnitNumber];
+  }
 
   constructor(
+    private workspaceService: WorkspaceService,
   ) {
   }
 
-  ngOnInit(): void {
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    this.tableList = [];
-    this.viewMembers();
+    this.workspaceService.fetchMembersByWorkspaceId(changes.workspaceId.currentValue).subscribe(resp => {
+      this.memberList = this.composeDataSource(resp);
+      this.dataSource = new MatTableDataSource(this.memberList);
+      this.dataSource.paginator = this.paginator;
+      // ---- Pagenator becomes invisible after data has been inserted
+      this.isPaginatorVisible = this.memberList.length > this.minUnitNumber ? true : false;
+    });
   }
 
-  getUserCategory(role: string): void {
+  getUserCategory(role: string): string {
     return UserCategory[role];
   }
 
-  viewMembers(): void {
+  composeDataSource(data): MemberTable[] {
     const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
     const ownerKey = workspaceUserKeys.shift();
-    this.tableList.push({
+    const returns = [];
+    let index = 1;
+    returns.push({
+      index,
       select: false,
       role: ownerKey,
-      ext_id: this.memberList[ownerKey].ext_id,
+      email: data[ownerKey].ext_id,
     });
     const managerKey = workspaceUserKeys.shift();
-    this.memberList[managerKey].forEach((member, index) => {
-      if (member.ext_id !== this.memberList[ownerKey].ext_id) {
-        this.tableList.push({
+    data[managerKey].forEach((member) => {
+      if (member.ext_id !== data[ownerKey].ext_id) {
+        index = index + 1;
+        returns.push({
+          index,
           select: false,
           role: managerKey,
-          ext_id: member.ext_id,
+          email: member.ext_id,
         });
       }
     });
     for (const key of workspaceUserKeys) {
-      this.memberList[key].forEach((member, index) => {
-        this.tableList.push({
+      data[key].forEach((member) => {
+        index = index + 1;
+        returns.push({
+          index,
           select: false,
           role: key,
-          ext_id: member.ext_id
+          email: member.ext_id
         });
       });
     }
-    this.dataSource = new MatTableDataSource(this.tableList);
+    return returns;
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  // applyFilter(event: Event): void {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  //
+  //   if (this.dataSource.paginator) {
+  //     this.dataSource.paginator.firstPage();
+  //   }
+  // }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected(): boolean {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+  // isAllSelected(): boolean {
+  //   const numSelected = this.selection.selected.length;
+  //   const numRows = this.dataSource.data.length;
+  //   return numSelected === numRows;
+  // }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }
+  // masterToggle(): void {
+  //   this.isAllSelected() ?
+  //     this.selection.clear() :
+  //     this.dataSource.data.forEach(row => this.selection.select(row));
+  // }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: MemberTable): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.index + 1}`;
-  }
+  // checkboxLabel(row?: MemberTable): string {
+  //   if (!row) {
+  //     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+  //   }
+  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.index + 1}`;
+  // }
 }
