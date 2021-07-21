@@ -80,7 +80,7 @@
           <mat-chip class="mat-chip-sm" *ngIf="environments">{{ environments.length }}</mat-chip>
         </ng-template>
         <ng-template matTabContent class="environments">
-          <app-main-workspace-environments [environments]="environments" [workspaceId]="workspace.id"
+          <app-main-workspace-environments [workspaceId]="workspace.id"
             (fetchEnvironmentEvent)="getEnvironmentsByWorkspaceId(workspace.id)" *ngIf="environments">
           </app-main-workspace-environments>
         </ng-template>

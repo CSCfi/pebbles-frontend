@@ -2,7 +2,7 @@
 
 .workspace-environments-container {
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
 
   .environment-actions {
     button {
@@ -10,19 +10,8 @@
     }
   }
 
-  // th.mat-header-cell:first-of-type,
-  // td.mat-cell:first-of-type,
-  // td.mat-footer-cell:first-of-type {
-  //   padding-left: 10px;
-  // }
-
   .mat-form-field{
     width: 100%;
-  }
-
-  .table-container {
-    height: 100%;
-    overflow: auto;
   }
 
   table {
@@ -69,4 +58,16 @@
       font-size: 1.1rem;
     }
   }
+}
+
+::ng-deep mat-option:last-child:before{
+    content: 'All';
+    float: left;
+    text-transform: none;
+    top: 4px;
+    position: relative;
+}
+::ng-deep mat-option:last-child .mat-option-text{
+  display: none;
+  position: relative;
 }

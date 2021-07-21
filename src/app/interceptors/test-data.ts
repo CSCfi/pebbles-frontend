@@ -272,7 +272,7 @@ export let db = {
       name: 'Data Science 3',
       maximum_lifetime: '14400',
       description: 'General-purpose environment with Jupyter and data science packages.',
-      workspace_id: '6',
+      workspace_id: '3',
       thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python', 'jupyter', 'machine learning'],
       config: {
@@ -287,6 +287,42 @@ export let db = {
     },
     {
       id: '13',
+      name: 'Data Science 4',
+      maximum_lifetime: '14400',
+      description: 'General-purpose environment with Jupyter and data science packages.',
+      workspace_id: '3',
+      thumbnail: 'ipython',
+      labels: ['course-ds', 'data-science', 'python', 'jupyter', 'machine learning'],
+      config: {
+        jupyter_interface: 'notebook',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Jupyter Template 2'
+    },
+    {
+      id: '14',
+      name: 'Data Science 5',
+      maximum_lifetime: '14400',
+      description: 'General-purpose environment with Jupyter and data science packages.',
+      workspace_id: '3',
+      thumbnail: 'ipython',
+      labels: ['course-ds', 'data-science', 'python', 'jupyter', 'machine learning'],
+      config: {
+        jupyter_interface: 'notebook',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Jupyter Template 2'
+    },
+    {
+      id: '15',
       name: 'Notebooks Basic Tutorial 2021',
       maximum_lifetime: '14400',
       description: 'Very basic environment for testing basic label',
@@ -302,6 +338,42 @@ export let db = {
       is_enabled: true,
       template_id: 'et-1',
       template_name: 'Jupyter Template 1'
+    },
+    {
+      id: '16',
+      name: 'Notebooks Basic Tutorial 2020',
+      maximum_lifetime: '14400',
+      description: 'Very basic environment for testing basic label',
+      workspace_id: 'ws-0',
+      thumbnail: 'jupyter',
+      labels: ['basic', 'jupyter'],
+      config: {
+        jupyter_interface: 'notebook',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: true,
+      template_id: 'et-1',
+      template_name: 'Jupyter Template 1'
+    },
+    {
+      id: '17',
+      name: 'Jupyter Data Science',
+      maximum_lifetime: '18000',
+      description: 'General-purpose environment with Jupyter and data science packages.',
+      workspace_id: 'ws-0',
+      thumbnail: 'data-science',
+      labels: ['csc', 'data-science', 'python', 'jupyter'],
+      config: {
+        jupyter_interface: 'notebook',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: false,
+      template_id: 'et-2',
+      template_name: 'Jupyter Template 2'
     }
   ],
   users: [
