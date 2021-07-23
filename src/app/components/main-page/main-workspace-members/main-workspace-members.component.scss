@@ -1,10 +1,6 @@
 @import "src/styles.scss";
 
-.members-container {
-
-  .mat-form-field{
-    width: 100%;
-  }
+.workspace-members-container {
 
   table {
     ::ng-deep tr.mat-header-row {
@@ -21,6 +17,7 @@
     .mat-column-index {
       font-size: 1.0rem;
     }
+
     .role-icon {
       color: map-get($colors, accent);
       width: 50px;
@@ -45,6 +42,7 @@
     top: 4px;
     position: relative;
 }
+
 ::ng-deep mat-option:last-child .mat-option-text{
   display: none;
   position: relative;

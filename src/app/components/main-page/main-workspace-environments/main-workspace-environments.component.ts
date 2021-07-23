@@ -1,13 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { Environment } from 'src/app/models/environment';
+import { EnvironmentType } from '../../../models/environment-template';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { MainEnvironmentWizardFormComponent } from '../main-environment-wizard-form/main-environment-wizard-form.component';
 import { MainEnvironmentItemFormComponent } from '../main-environment-item-form/main-environment-item-form.component';
-import { EnvironmentType } from '../../../models/environment-template';
-import { MatPaginator } from '@angular/material/paginator';
+import { Utilities } from '../../../utilities';
 
 export interface EnvironmentTable {
   select: boolean;
@@ -29,43 +31,44 @@ export interface EnvironmentTable {
 })
 export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
 
-  displayedColumns: string[] = ['thumbnail', 'name', 'state', 'launch', 'edit', 'menu'];
-  dataSource: MatTableDataSource<EnvironmentTable>;
-  selection = new SelectionModel<EnvironmentTable>(true, []);
-  environmentList = [];
-  environments: Environment[] = [];
+  public displayedColumns: string[] = ['thumbnail', 'name', 'state', 'launch', 'edit', 'menu'];
+  public dataSource: MatTableDataSource<EnvironmentTable>;
+  public selection = new SelectionModel<EnvironmentTable>(true, []);
+  public  workspaceId: string;
+  public environmentList = [];
+  public environments: Environment[] = [];
   // ---- Paginator
-  isPaginatorVisible = true;
-  minUnitNumber = 5;
+  public isPaginatorVisible = true;
+  public minUnitNumber = 5;
 
-  @Input() workspaceId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Output() fetchEnvironmentEvent = new EventEmitter();
 
   get pageSizeOptions(): number[]{
-    if (this.dataSource) {
-      const unitNumbers = [];
-      for ( let i = 1; i < this.dataSource.data.length / this.minUnitNumber; i++) {
-        unitNumbers.push(this.minUnitNumber * i);
-      }
-      unitNumbers.push(this.dataSource.data.length);
-      return unitNumbers;
-    }
-    return [this.minUnitNumber];
+    return Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
   }
 
   constructor(
+    private route: ActivatedRoute,
     public environmentService: EnvironmentService,
     public dialog: MatDialog,
   ) {
+     this.route.paramMap.subscribe(params => {
+      this.workspaceId = params.get('workspaceId');
+      this.getEnvironmentsByWorkspaceId(this.workspaceId);
+    });
   }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.getEnvironmentsByWorkspaceId(changes.workspaceId.currentValue);
+  }
+
+  getEnvironmentsByWorkspaceId(workspaceId): void {
     this.environmentService.fetchEnvironments().subscribe(_ => {
-      const environments = this.environmentService.getEnvironmentsByWorkspaceId(changes.workspaceId.currentValue);
+      const environments = this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
       this.environments = environments.sort((a, b) => Number(b.is_enabled) - Number(a.is_enabled));
       this.environmentList = this.composeDataSource();
       this.dataSource = new MatTableDataSource(this.environmentList);

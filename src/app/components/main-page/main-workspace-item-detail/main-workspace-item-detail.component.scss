@@ -1,181 +1,100 @@
 @import "src/styles.scss";
 
-.workspace-item-detail-container {
-  height: 100%;
-  // padding: 10px;
+.workspace-setting-container {
 
-  .workspace-detail-header {
-    padding: 10px 20px 10px 15px;
-    border-bottom: 1px solid map-get($colors, light2);
-    background: map-get($colors, white);
+  .workspace-info {
+    .open-join-code-button {
+      width: 120px;
+      cursor: pointer;
 
-    .workspace-name {
-      font-weight: 600;
-      font-size: 1.6rem;
+      .mat-chip-list .mat-chip {
+        cursor: pointer
+      }
+    }
+  }
+
+  .expiration-date-info {
+    padding: 0 15px;
+    border-left: 1px solid map-get($colors, light);
+
+    .expiration-date {
+      height: 24px;
+      white-space: nowrap;
+    }
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: 180px auto;
+
+    dt {
+      grid-column: 1;
     }
 
-    .workspace-info {
-      margin-top: -5px;
-      margin-bottom: -5px;
-      padding: 0 15px;
-      border-left: 1px solid map-get($colors, light);
+    dd {
+      grid-column: 2;
 
-      .function-title {
-        font-size: 1.1rem;
+      .preview {
+        position: relative;
+
+        p {
+          margin-right: 40px;
+        }
+
+        button {
+          color: map-get($colors, light2);
+          position: absolute;
+          top: -15px;
+          right: 0;
+        }
+      }
+
+      .mat-form-field {
+        width: 100%;
+
+        .mat-form-field-wrapper {
+          padding-bottom: 1em;
+        }
+
+        .mat-form-field-infix {
+          border-top: none;
+        }
+
+        textarea {
+          height: 80px;
+          padding: 15px 0;
+        }
+      }
+
+      .join-code {
         font-weight: 600;
       }
 
-      .open-join-code-button {
-        width: 120px;
-        cursor: pointer;
-
-        .mat-chip-list .mat-chip{
-          cursor: pointer
-        }
-      }
-    }
-
-    .expiration-date-info {
-      padding: 0 15px;
-      border-left: 1px solid map-get($colors, light);
-
-      .expiration-date {
-        height: 24px;
-        white-space: nowrap;
-      }
-    }
-  }
-
-  ::ng-deep .mat-tab-header {
-    // background-color: map-get($colors, light2);
-    padding-top: 10px;
-    background-color: map-get($colors , light3);
-    border-bottom: none;
-
-    .mat-ink-bar {
-      background-color: map-get($colors , primary) !important;
-      height: 5px;
-    }
-
-    .mat-tab-label {
-        height: 45px;
-        border-left: none;
-        border-right: 1px solid map-get($colors, light-gray);
-        border-bottom: 1px solid map-get($colors, light-gray);
-        background: map-get($colors, white);
-
-        &:last-child {
-          border-right: none;
-        }
-
-        .mat-chip {
-          background-color: map-get($colors, accent);
-          color: white;
-        }
-
+      .join-code-renew-button {
         .mat-icon {
-          color: map-get($colors, primary);
-        }
-
-        .mat-tab-label-content {
-          color: map-get($colors, primary);
-          font-size: 1.3rem !important;
-          font-weight: 600;
-        }
-    }
-  }
-
-  ::ng-deep .mat-tab-group {
-    height: 100%;
-
-    .mat-tab-body-wrapper {
-      background: map-get($colors, white);
-      height: 100%;
-
-      .mat-tab-body {
-        height: 100%;
-      }
-
-      .mat-tab-body-content {
-        padding: 10px 20px 30px 20px !important;
-        max-width: 1000px;
-        margin: auto;
-
-        dl{
-          display: grid;
-          grid-template-columns: 180px auto;
-
-          dt {
-            grid-column: 1;
-          }
-
-          dd {
-            grid-column: 2;
-
-            .preview {
-              position: relative;
-
-              p {
-                margin-right: 40px;
-              }
-
-              button {
-                color: map-get($colors, light2);
-                position: absolute;
-                top: -10px;
-                right: 0;
-              }
-            }
-
-            .mat-form-field {
-              width: 100%;
-
-              .mat-form-field-wrapper {
-                padding-bottom: 1em;
-              }
-
-              .mat-form-field-infix {
-                border-top: none;
-              }
-
-              textarea {
-                height: 80px;
-                padding: 15px 0;
-              }
-            }
-
-            .join-code {
-              font-weight: 600;
-            }
-
-            .join-code-renew-button {
-              .mat-icon {
-                color: map-get($colors, light2);
-              }
-            }
-          }
-        }
-
-        .workspace-update-button,
-        .workspace-edit-cancel-button,
-        .workspace-delete-button {
-          width: 100%;
-          height: 40px;
-        }
-
-        .workspace-update-button {
-          color: white;
+          color: map-get($colors, light2);
         }
       }
     }
   }
 
-  .error-message {
-    margin: 20px;
-    padding: 20px;
-    color: map-get($colors, white);
-    background-color: map-get($colors, light-dark);
-    text-align: center;
-    border-radius: 5px;
+  .workspace-update-button,
+  .workspace-edit-cancel-button,
+  .workspace-delete-button {
+    width: 100%;
+    height: 40px;
   }
+
+  .workspace-update-button {
+    color: white;
+  }
+}
+
+.error-message {
+  margin: 20px;
+  padding: 20px;
+  color: map-get($colors, white);
+  background-color: map-get($colors, light-dark);
+  text-align: center;
+  border-radius: 5px;
 }

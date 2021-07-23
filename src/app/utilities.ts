@@ -15,4 +15,16 @@ export class Utilities {
     str = this.resetText(str);
     return str.toLocaleLowerCase().trim();
   }
+
+  public static getPageSizeOptions(dataSource, minUnitNumber): number[]{
+    if (dataSource) {
+      const unitNumbers = [];
+      for ( let i = 1; i < dataSource.data.length / minUnitNumber; i++) {
+        unitNumbers.push(minUnitNumber * i);
+      }
+      unitNumbers.push(dataSource.data.length);
+      return unitNumbers;
+    }
+    return [minUnitNumber];
+  }
 }

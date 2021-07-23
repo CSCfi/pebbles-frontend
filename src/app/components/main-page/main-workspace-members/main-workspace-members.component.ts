@@ -1,8 +1,10 @@
 import { OnChanges, Component, Input, ViewChild, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkspaceService } from '../../../services/workspace.service';
+import { Utilities } from '../../../utilities';
 
 export enum UserCategory {
   owner = 'Workspace owner',
@@ -25,37 +27,38 @@ export interface MemberTable {
 })
 export class MainWorkspaceMembersComponent implements OnChanges {
 
-  displayedColumns: string[] = ['index', 'icon', 'role', 'email', 'action'];
-  dataSource: MatTableDataSource<MemberTable>;
-  selection = new SelectionModel<MemberTable>(true, []);
-  memberList: MemberTable[] = [];
+  public displayedColumns: string[] = ['index', 'icon', 'role', 'email', 'action'];
+  public dataSource: MatTableDataSource<MemberTable>;
+  public selection = new SelectionModel<MemberTable>(true, []);
+  public workspaceId: string;
+  public memberList: MemberTable[] = [];
 
   // ---- Paginator
-  isPaginatorVisible = true;
-  minUnitNumber = 10;
+  public isPaginatorVisible = true;
+  public minUnitNumber = 10;
 
-  @Input() workspaceId: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   get pageSizeOptions(): number[]{
-    if (this.dataSource) {
-      const unitNumbers = [];
-      for ( let i = 1; i < this.dataSource.data.length / this.minUnitNumber; i++) {
-        unitNumbers.push(this.minUnitNumber * i);
-      }
-      unitNumbers.push(this.dataSource.data.length);
-      return unitNumbers;
-    }
-    return [this.minUnitNumber];
+    return Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
   }
 
   constructor(
+    private route: ActivatedRoute,
     private workspaceService: WorkspaceService,
   ) {
+    this.route.paramMap.subscribe(params => {
+      this.workspaceId = params.get('workspaceId');
+      this.getMembersByWorkspaceId(this.workspaceId);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.workspaceService.fetchMembersByWorkspaceId(changes.workspaceId.currentValue).subscribe(resp => {
+    this.getMembersByWorkspaceId(changes.workspaceId.currentValue);
+  }
+
+  getMembersByWorkspaceId(workspaceId): void {
+    this.workspaceService.fetchMembersByWorkspaceId(workspaceId).subscribe(resp => {
       this.memberList = this.composeDataSource(resp);
       this.dataSource = new MatTableDataSource(this.memberList);
       this.dataSource.paginator = this.paginator;

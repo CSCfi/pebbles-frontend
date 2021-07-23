@@ -5,15 +5,15 @@
   box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
 }
 
-.workspace-owner-content-wrapper{
+.workspace-owner-content-wrapper {
   height: calc(100vh - 70px);
   width: 100%;
   overflow: hidden;
 
   .workspaces-actions-container {
-      button {
-        height: 55px;
-      }
+    button {
+      height: 55px;
+    }
   }
 
   .workspace-list-container {
@@ -103,6 +103,57 @@
 }
 
 .workspace-detail-container {
-  background: map-get($colors, light2);
-  border-left: map-get($borders , thin);
+  background: map-get($colors, white);
+  border-left: map-get($borders , thin-dark);
+  height: 100%;
+
+  ::ng-deep .mat-tab-header {
+    padding-top: 10px;
+    background-color: map-get($colors , light3);
+    border-bottom: none;
+
+    .mat-ink-bar {
+      background-color: map-get($colors , primary) !important;
+      height: 5px;
+    }
+
+    .mat-tab-link {
+      height: 45px;
+      border-left: none;
+      border-right: 1px solid map-get($colors, light-gray);
+      border-bottom: 1px solid map-get($colors, light-gray);
+      background: map-get($colors, white);
+      color: map-get($colors, primary);
+      font-size: 1.3rem !important;
+      font-weight: 600;
+      opacity: 1;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      .mat-chip {
+        background-color: map-get($colors, accent);
+        color: white;
+      }
+
+      .mat-icon {
+        color: map-get($colors, primary);
+      }
+    }
+  }
+
+  .error-message {
+    margin: 20px;
+    padding: 20px;
+    color: map-get($colors, white);
+    background-color: map-get($colors, light-dark);
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  .workspace-detail-tab-content {
+    height: calc(100% - 55px);
+    overflow: hidden;
+  }
 }

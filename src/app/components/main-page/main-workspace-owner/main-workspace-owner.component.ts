@@ -21,29 +21,40 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 export class MainWorkspaceOwnerComponent implements OnInit {
 
   public content = {
-    path: 'workspace-owner',
+    path: 'main/workspace-owner',
     title: 'Manage workspaces',
     identifier: 'workspace-owner'
   };
 
   public selectedWorkspaceId: string;
+  public selectedWorkspace: Workspace;
   public newWorkspace: Workspace;
   public user: User;
+  public environmentCount = 0;
+  public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
+  public notFoundMessage = 'No workspace';
+  public navLinks = [
+    { location: '/info', label: '', icon: '' },
+    { location: '/environments', label: 'Environments', icon: 'account_circle' },
+    { location: '/members', label: 'Members', icon: 'work' }
+  ];
 
-  get workspaces(): Workspace[] {
-    // admins see all workspaces
-    if (this.authService.isAdmin) {
-      return this.workspaceService.getWorkspaces();
-    }
-    // no user fetched yet, empty result initially
-    if (!this.user) {
-      return [];
-    }
-    // TODO: change this to managed workspaces
-    // return owned workspaces
-    return this.workspaceService.getOwnedWorkspaces(this.user);
+  public workspaces: Workspace[] = [];
+
+  get isDemoButtonShown(): boolean {
+    // check that we know about our workspaces and that there is more than 2 seconds since the last click
+    return this.workspaces.length === 0
+      && Date.now() - this.createDemoWorkspaceClickTs > 2 * 1000;
   }
+
+  // get selectedTabIndex(): number {
+  //   if (this.selectedTabLabel) {
+  //     return this.tabLabels.indexOf(this.selectedTabLabel);
+  //   } else {
+  //     return 0;
+  //   }
+  // }
 
   constructor(
     private router: Router,
@@ -56,35 +67,63 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     private environmentTemplateService: EnvironmentTemplateService,
   ) {
     this.createDemoWorkspaceClickTs = 0;
-    if (this.route.snapshot.firstChild) {
-      this.selectedWorkspaceId = this.route.snapshot.firstChild.params.workspaceId;
-    }
+    this.fetchWorkspaces();
   }
 
   ngOnInit(): void {
-    this.fetchWorkspaces();
-    this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
-      this.user = user;
-    });
   }
 
   fetchWorkspaces(): void {
     this.workspaceService.fetchWorkspaces().subscribe((resp) => {
       console.log('workspaces fetched');
-      // If no workspaceId wasn't retrieved from URL, or we don't have the selected workspace anymore,
-      // display the newest workspace.
-      if (resp.filter(x => x.id === this.selectedWorkspaceId).length === 0) {
-        this.selectedWorkspaceId = null;
-      }
-      if (!this.selectedWorkspaceId && this.workspaces?.length > 0) {
-        this.viewWorkspaceItemDetail(this.workspaces[0].id);
-      }
+      this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
+        this.user = user;
+        if (this.user) {
+          // ---- admins see all workspaces
+          if (this.user.is_admin) {
+            this.workspaces = this.workspaceService.getWorkspaces();
+          } else {
+            // ---- TODO: change this to managed workspaces
+            // ---- return owned workspaces
+            this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
+          }
+        } else {
+          // ---- no user fetched yet, empty result initially
+          this.workspaces = [];
+        }
+        this.selectWorkspace();
+      });
     });
   }
 
-  viewWorkspaceItemDetail(workspaceId): void {
+  selectWorkspace(): void {
+    if (this.route.snapshot.firstChild) {
+      this.selectedWorkspaceId = this.route.snapshot.firstChild.params.workspaceId;
+      this.selectedWorkspace = this.workspaces.find(x => x.id === this.selectedWorkspaceId);
+    } else {
+      // ---- MEMO:
+      // ---- If no workspaceId wasn't retrieved from URL,
+      // ---- or we don't have the selected workspace anymore by deleting,
+      // ---- display the newest workspace.
+      if (this.workspaces.length > 0) {
+        this.selectedWorkspace = this.workspaces[0];
+        this.selectedWorkspaceId = this.workspaces[0].id;
+        this.navigateToWorkspaceItem(this.selectedWorkspaceId);
+      } else {
+        this.selectedWorkspaceId = null;
+        this.selectedWorkspace = null;
+      }
+    }
+    // this.selectedWorkspace = this.selectedWorkspaceId ?
+    //     this.workspaces.find(x => x.id === this.selectedWorkspaceId) : null;
+  }
+
+  navigateToWorkspaceItem(workspaceId): void {
     this.selectedWorkspaceId = workspaceId;
-    this.router.navigate(['main', 'workspace-owner', workspaceId]);
+    this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then( r => {
+        console.log(r);
+      }
+    );
   }
 
   isOwner(workspace: Workspace): boolean {
@@ -101,7 +140,12 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   }
 
   isWorkspaceSelected(workspace: Workspace): boolean {
-    return workspace.id === this.selectedWorkspaceId;
+    if (workspace.id === this.selectedWorkspaceId) {
+      // this.selectedWorkspace = workspace;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // ---- workspace creation
@@ -137,7 +181,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
         console.log(`Dialog result: ${resp}`);
         this.newWorkspace = resp;
         this.selectedWorkspaceId = resp.id;
-        this.viewWorkspaceItemDetail(resp.id);
+        this.navigateToWorkspaceItem(resp.id);
         this.fetchWorkspaces();
       }
     });
@@ -184,12 +228,11 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     });
   }
 
-  showDemoButton(): boolean {
-    // check that we know about our workspaces and that there is more than 2 seconds since the last click
-    return this.workspaces
-      && this.workspaces.length === 0
-      && Date.now() - this.createDemoWorkspaceClickTs > 2 * 1000;
-  }
+  // showDemoButton(): boolean {
+  //   // check that we know about our workspaces and that there is more than 2 seconds since the last click
+  //   return this.workspaces.length === 0
+  //     && Date.now() - this.createDemoWorkspaceClickTs > 2 * 1000;
+  // }
 
   openJoinCodeDialog(workspace: Workspace): void {
     const dialogRef = this.dialog.open( DialogComponent, {

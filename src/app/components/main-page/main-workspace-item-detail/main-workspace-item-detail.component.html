@@ -1,110 +1,65 @@
-<div class="workspace-item-detail-container">
-  <ng-container *ngIf="workspace; else elseBlock">
-    <!--
-      workspace-detail-tab
-      1. Environments tab
-      2. Members tab
-      3. Information tab
-    -->
-    <mat-tab-group mat-align-tabs="center" animationDuration="0ms"
-      [selectedIndex]="1">
-      <!-- 3. Information tab -->
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr-5">people_outline</mat-icon>
-          <span class="mr-5">{{ workspace.name || 'no name' }}</span>
-          <mat-icon>settings</mat-icon>
-        </ng-template>
-        <ng-template matTabContent>
-          <form [formGroup]="workspaceEditForm" novalidate>
-            <dl class="workspace-info mt-20">
-              <dt class="mb-30">Created on</dt>
-              <dd>{{ created_date }}</dd>
-              <dt class="mb-30">Expiring on</dt>
-              <dd>{{ expiry_date }}</dd>
-              <dt>
-                Workspace name
-              </dt>
-              <dd>
-                <div class="preview" *ngIf="!isWorkspaceNameEditOn">
-                  <p>{{ workspace.name }}</p>
-                  <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
-                    <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
-                  </button>
-                </div>
-                <mat-form-field appearance="outline" *ngIf="isWorkspaceNameEditOn">
-                  <input matInput formControlName="name">
-                </mat-form-field>
-              </dd>
-              <dt>
-                Workspace description
-              </dt>
-              <dd>
-                <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
-                  <p [innerHTML]="workspace.description || 'No description'"></p>
-                  <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceDescription()">
-                    <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
-                  </button>
-                </div>
-                <mat-form-field appearance="outline" *ngIf="isWorkspaceDescriptionEditOn">
-                  <textarea matInput formControlName="description"></textarea>
-                </mat-form-field>
-              </dd>
-              <dt class="join-code-title v-centering">Join code</dt>
-              <dd fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
-                  <mat-icon class="mr-5">vpn_key</mat-icon>
-                  <div class="chip__m">● ● ● ● ● ●</div>
-                </div>
-              </dd>
-            </dl>
-            <button mat-flat-button class="workspace-update-button mt-20" color="accent"
-              [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
-              save changes
-            </button>
-            <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
-              (click)="cancelWorkspaceEditing()">
-              cancel changes
-            </button>
-            <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
-              (click)="deleteWorkspace()">
-              <mat-icon class="mr-5">delete_outline</mat-icon> delete workspace
-            </button>
-          </form>
-        </ng-template>
-      </mat-tab>
-      <!-- 1. Environments tab -->
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span class="mr-5">Environments</span>
-          <mat-chip class="mat-chip-sm" *ngIf="environments">{{ environments.length }}</mat-chip>
-        </ng-template>
-        <ng-template matTabContent class="environments">
-          <app-main-workspace-environments [workspaceId]="workspace.id"
-            (fetchEnvironmentEvent)="getEnvironmentsByWorkspaceId(workspace.id)" *ngIf="environments">
-          </app-main-workspace-environments>
-        </ng-template>
-      </mat-tab>
-      <!-- 2. Members tab -->
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span class="mr-5">Members</span>
-          <mat-chip class="mat-chip-sm" *ngIf="memberList">{{ memberCount }}</mat-chip>
-        </ng-template>
-        <ng-template matTabContent>
-          <app-main-workspace-members [workspaceId]="workspaceId" *ngIf="memberList">
-          </app-main-workspace-members>
-        </ng-template>
-      </mat-tab>
-
-    </mat-tab-group>
-  </ng-container>
-  <ng-template #elseBlock>
-    <div class="error-message">
-      <h3>{{ notFoundMessage }}</h3>
-      <p>
-        Please select another workspace from the left column.
-      </p>
-    </div>
-  </ng-template>
+<div class="workspace-setting-container p-20" *ngIf="workspace; else elseBlock">
+  <form [formGroup]="workspaceEditForm" novalidate
+    class="m-20">
+    <dl class="workspace-info">
+      <dt>
+        Workspace name
+      </dt>
+      <dd>
+        <div class="preview" *ngIf="!isWorkspaceNameEditOn">
+          <p>{{ workspace.name }}</p>
+          <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
+            <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+          </button>
+        </div>
+        <mat-form-field appearance="outline" *ngIf="isWorkspaceNameEditOn">
+          <input matInput formControlName="name">
+        </mat-form-field>
+      </dd>
+      <dt>
+        Workspace description
+      </dt>
+      <dd>
+        <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
+          <p [innerHTML]="workspace.description || 'No description'"></p>
+          <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceDescription()">
+            <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+          </button>
+        </div>
+        <mat-form-field appearance="outline" *ngIf="isWorkspaceDescriptionEditOn">
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </dd>
+      <dt class="join-code-title v-centering mb-50">Join code</dt>
+      <dd fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
+          <mat-icon class="mr-5">vpn_key</mat-icon>
+          <div class="chip__m">● ● ● ● ● ●</div>
+        </div>
+      </dd>
+      <dt class="">Created on</dt>
+      <dd>{{ created_date }}</dd>
+      <dt class="mb-30">Expiring on</dt>
+      <dd>{{ expiry_date }}</dd>
+    </dl>
+    <button mat-flat-button class="workspace-update-button mt-20" color="accent"
+            [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
+      save changes
+    </button>
+    <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
+            (click)="cancelWorkspaceEditing()">
+      cancel changes
+    </button>
+    <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
+            (click)="deleteWorkspace()">
+      <mat-icon class="mr-5">delete_outline</mat-icon>
+      delete workspace
+    </button>
+  </form>
 </div>
+<ng-template #elseBlock>
+  <div class="error-message">
+    <h3>The workspace has been successfully deleted.</h3>
+    <p> Please select another workspace from the left column. </p>
+  </div>
+</ng-template>

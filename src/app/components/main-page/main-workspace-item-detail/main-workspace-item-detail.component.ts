@@ -4,13 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { DialogComponent } from '../../shared/dialog/dialog.component';
-import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
-import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentService } from '../../../services/environment.service';
 
 @Component({
   selector: 'app-main-workspace-item-detail',
@@ -20,24 +16,14 @@ import { EnvironmentService } from '../../../services/environment.service';
 export class MainWorkspaceItemDetailComponent implements OnInit {
 
   public content = {
-    path: 'workspace-owner/detail/:id',
-    title: 'Workspace item Detail',
-    identifier: 'workspace-owner-item-detail'
+    path: 'workspace-owner/:id/setting',
+    title: 'Workspace item setting',
+    identifier: 'workspace-owner-item-setting'
   };
 
   public workspaceId = null;
-  public workspaces: Workspace[];
   public workspace: Workspace;
-  public notFoundMessage = 'No workspace';
 
-  // ---- variables for workspace environments tab
-  public environments: Environment[];
-
-  // ---- variables for workspace members tab
-  public memberList: WorkspaceUserList;
-  public users: User[];
-
-  // ---- variables for workspace info tab
   public workspaceEditForm: FormGroup;
   public isWorkspaceFormChanged = false;
   public isWorkspaceNameEditOn = false;
@@ -73,26 +59,12 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
     return this.authService.isAdmin || this.workspace.owner_ext_id === this.userName;
   }
 
-  get memberCount(): number {
-    const managers = this.memberList.manager_users.filter(user => user.ext_id !== this.memberList.owner.ext_id);
-    return this.memberList.normal_users.length + managers.length + 1;
-  }
-
-  // get selectedTabIndex(): number {
-  //   if (this.selectedTabLabel) {
-  //     return this.tabLabels.indexOf(this.selectedTabLabel);
-  //   } else {
-  //     return 0;
-  //   }
-  // }
-
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog, // JoinCode
     private formBuilder: FormBuilder,
     private workspaceService: WorkspaceService,
     private authService: AuthService,
-    private environmentService: EnvironmentService
   ) {
     this.route.paramMap.subscribe(params => {
       this.workspaceId = params.get('workspaceId');
@@ -104,13 +76,10 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
   }
 
   getWorkspaceById(workspaceId: string): void {
-    this.workspaceService.fetchWorkspaces().subscribe(resp => {
-      this.workspaces = resp;
+    this.workspaceService.fetchWorkspaces().subscribe(_ => {
       this.workspace = this.workspaceService.getWorkspaceById(workspaceId);
       this.initReactiveForm(this.workspace);
       this.content.title = `Workspace: ${this.workspace.name}`;
-      this.getMembersByWorkspaceId(workspaceId);
-      this.getEnvironmentsByWorkspaceId(workspaceId);
     });
   }
 
@@ -165,22 +134,8 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
       if (params){
         this.workspaceService.deleteWorkspace(this.workspace.id).subscribe(resp => {
           this.workspace = null;
-          this.notFoundMessage = `Workspace [${resp.name}] has been successfully deleted`;
         });
       }
-    });
-  }
-
-  getEnvironmentsByWorkspaceId(workspaceId: string): void{
-    this.environmentService.fetchEnvironments().subscribe(_ => {
-      const environments = this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
-      this.environments = environments.sort((a, b) => Number(b.is_enabled) - Number(a.is_enabled));
-    });
-  }
-
-  getMembersByWorkspaceId(workspaceId: string): void {
-    this.workspaceService.fetchMembersByWorkspaceId(workspaceId).subscribe(resp => {
-      this.memberList = resp;
     });
   }
 

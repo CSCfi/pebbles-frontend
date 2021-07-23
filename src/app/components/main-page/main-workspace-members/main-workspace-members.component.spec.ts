@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceMembersComponent } from './main-workspace-members.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MainWorkspaceMembersComponent', () => {
   let component: MainWorkspaceMembersComponent;
@@ -13,6 +14,7 @@ describe('MainWorkspaceMembersComponent', () => {
       declarations: [ MainWorkspaceMembersComponent ],
       imports: [
         HttpClientTestingModule,
+        RouterTestingModule,
         MaterialModule
       ],
       providers: [

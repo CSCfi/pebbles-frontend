@@ -2,16 +2,34 @@
 
 .workspace-environments-container {
   height: 100%;
+  width: 100%;
   overflow: auto;
 
   .environment-actions {
+    height: auto;
+    text-align: right;
+
     button {
       height: 45px;
+      color: map-get($colors, primary);
+    }
+
+    .open-environment-creation-wizard-button {
+      background: map-get($colors, light-active);
+    }
+
+    .open-environment-creation-form-button {
+      border: 2px solid map-get($colors, primary);
     }
   }
 
   .mat-form-field{
     width: 100%;
+  }
+
+  .table-container {
+    overflow: auto;
+    height: auto;
   }
 
   table {

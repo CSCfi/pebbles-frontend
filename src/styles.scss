@@ -521,15 +521,8 @@ button.button-s {
 }
 
 .workspace-owner-content-wrapper {
-  z-index: auto;
-
   .workspace-list-container {
     z-index: 2;
-  }
-
-  .workspace-detail-container {
-    display: block;
-    z-index: auto;
   }
 }
 
