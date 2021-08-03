@@ -87,13 +87,8 @@
           }
 
           .open-join-code-button {
-
             .mat-icon {
-              color: map-get( $colors, gray);
-            }
-
-            .chip__m{
-              background-color: map-get( $colors, light2);
+              color: map-get( $colors, light2);
             }
           }
         }
@@ -124,7 +119,7 @@
       border-bottom: 1px solid map-get($colors, light-gray);
       background: map-get($colors, white);
       color: map-get($colors, primary);
-      font-size: 1.3rem !important;
+      font-size: 1.4rem !important;
       font-weight: 600;
       opacity: 1;
 
@@ -132,13 +127,16 @@
         border-right: none;
       }
 
-      .mat-chip {
+      .chip__m {
         background-color: map-get($colors, accent);
         color: white;
+        padding: 1px 12px 0 !important;
+        font-size: 1.0rem;
       }
 
       .mat-icon {
         color: map-get($colors, primary);
+        margin-right: 4px;
       }
     }
   }

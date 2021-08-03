@@ -59,14 +59,14 @@
           <mat-card-content class="card-info" fxLayout="column"
                             *ngIf="isWorkspaceSelected(workspace)">
             <div class="description pb-10">
-              {{ workspace.description }}
+              {{ workspace.description || 'No description for the workspace' }}
             </div>
             <div class="join-code-info pt-10 pb-10" fxLayout="row" fxLayoutAlign="space-between stretch">
               <span class="function-title" fxFlex="0 0 75px">Join code</span>
               <div class="open-join-code-button" fxLayout="row"
                    (click)="openJoinCodeDialog(workspace)">
                 <mat-icon class="mr-5">vpn_key</mat-icon>
-                <div class="chip__m">● ● ● ● ● ● ●</div>
+                <div class="chip__hidden v-centering__inline">● ● ● ● ● ● ●</div>
               </div>
             </div>
             <div class="expiration-date-info pt-10" fxLayout="row" fxLayoutAlign="space-between stretch">
@@ -88,20 +88,24 @@
            [routerLink]="[selectedWorkspaceId+'/info']"
            routerLinkActive #info="routerLinkActive"
            [active]="info.isActive">
-          <mat-icon class="mr-5" fontSet="material-icons-outlined">settings</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
           {{ selectedWorkspace.name }}
         </a>
         <a mat-tab-link
            [routerLink]="[selectedWorkspaceId+'/environments']"
            routerLinkActive #environments="routerLinkActive"
            [active]="environments.isActive">
+          <!-- <mat-icon class="mr-5" fontSet="material-icons-outlined">import_contacts</mat-icon>-->
           Environments
+          <div *ngIf="environmentCount >= 0" class="chip__m ml-5 v-centering__inline">{{environmentCount}}</div>
         </a>
         <a mat-tab-link
            [routerLink]="[selectedWorkspaceId+'/members']"
            routerLinkActive #members="routerLinkActive"
            [active]="members.isActive">
+          <!-- <mat-icon fontSet="material-icons-outlined">person</mat-icon>-->
           Members
+          <div *ngIf="memberCount >= 0" class="chip__m v-centering__inline ml-5">{{memberCount}}</div>
         </a>
       </nav>
     </ng-container>

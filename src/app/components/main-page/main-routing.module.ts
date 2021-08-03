@@ -14,8 +14,8 @@ import { MainActiveEnvironmentsComponent } from './main-active-environments/main
 import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail/main-workspace-item-detail.component';
 import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
 import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
-import {MainWorkspaceMembersComponent} from './main-workspace-members/main-workspace-members.component';
-import {MainWorkspaceEnvironmentsComponent} from './main-workspace-environments/main-workspace-environments.component';
+import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
+import { MainWorkspaceEnvironmentsComponent } from './main-workspace-environments/main-workspace-environments.component';
 
 export const routes: Routes = [
   {
@@ -35,7 +35,6 @@ export const routes: Routes = [
         data: { breadcrumbs: ['home', 'workspace-owner'] },
         children: [
           { path: ':workspaceId',
-            // component: MainWorkspaceItemDetailComponent
             children: [
               { path: '', redirectTo: 'environments', pathMatch: 'full' },
               { path: 'info', component: MainWorkspaceItemDetailComponent },

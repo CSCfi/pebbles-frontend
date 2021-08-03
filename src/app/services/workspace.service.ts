@@ -89,6 +89,17 @@ export class WorkspaceService {
     );
   }
 
+   fetchMemberCountByWorkspaceId(workspaceId: string): Observable<number> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users?members_count=true`;
+    // const options = { params: new HttpParams().set('members_count', String(true))};
+    return this.http.get<number>(url).pipe(
+      map((resp) => {
+        console.log('fetchMembersByWorkspaceId() got', resp);
+        return Number(resp);
+      })
+    );
+  }
+
   fetchFoldersByWorkspaceId(workspaceId: string): Observable<Folder[]> {
     const folders = TESTDATA.db.folders.filter(folder => {
       return folder.workspace_id === workspaceId;

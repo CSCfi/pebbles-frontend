@@ -234,11 +234,20 @@ section.card {
     background-color: map-get($colors, light2);
     margin-right: 3px;
     line-height: 100%;
-
-    min-height: 26px;
-    padding: 6px 12px 0px !important;
+    min-height: 24px;
     border-radius: 15px;
-    font-size: 1.1rem;
+  }
+
+  &__hidden {
+    font-weight: 600;
+    color: map-get($colors, dark);
+    background-color: map-get($colors, light2);
+    margin-right: 3px;
+    line-height: 100%;
+    min-height: 24px;
+    border-radius: 15px;
+    background-color: map-get( $colors, light2);
+    padding: 1px 12px 2px !important;
   }
 }
 

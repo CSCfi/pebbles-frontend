@@ -113,6 +113,8 @@ export class MockInterceptor implements HttpInterceptor {
           return exitWorkspace();
         case url.includes('/workspaces') && endpoint === 'workspaces' && method === 'PUT':
           return updateOwnerWorkspaces();
+        case url.includes('/workspaces') && args === 'members_count=true' && method === 'GET':
+          return getWorkspacesMemberCount();
         case url.includes('/workspaces') && url.endsWith('/list_users') && method === 'GET':
           return getWorkspacesMembers();
         case url.includes('/workspaces') && method === 'GET':
@@ -403,31 +405,51 @@ export class MockInterceptor implements HttpInterceptor {
       }
     }
 
-    function getWorkspacesMembers(): Observable<HttpResponse<User[]>> {
-      const targetWorkspace = database.workspaces.find(ws => {
-        return ws.id === objectId;
+    function getTargetWorkspace(workspaceId): Workspace {
+      return database.workspaces.find(ws => {
+        return ws.id === workspaceId;
       });
-      if (targetWorkspace) {
-        const workspaceUserList = {
-          owner: {},
-          manager_users: [],
-          normal_users: [],
-          banned_users: []
-        };
+    }
 
-        workspaceUserList.owner = getUserByEppn(targetWorkspace.owner_ext_id);
-        const workspaceUserKeys = ['manager_users', 'normal_users', 'banned_users'];
-        workspaceUserKeys.forEach((key) => {
-          if (targetWorkspace[key]) {
-            for (const user of targetWorkspace[key]) {
-              const foundUser = getUserByEppn(user);
-              if (foundUser) {
-                workspaceUserList[key].push(foundUser);
-              }
+    function getWorkspaceMember(workspace): any {
+      const workspaceUserList = {
+        owner: {},
+        manager_users: [],
+        normal_users: [],
+        banned_users: []
+      };
+      workspaceUserList.owner = getUserByEppn(workspace.owner_ext_id);
+      const workspaceUserKeys = ['manager_users', 'normal_users', 'banned_users'];
+      workspaceUserKeys.forEach((key) => {
+        if (workspace[key]) {
+          for (const user of workspace[key]) {
+            const foundUser = getUserByEppn(user);
+            if (foundUser) {
+              workspaceUserList[key].push(foundUser);
             }
           }
-        });
-        return ok(workspaceUserList);
+        }
+      });
+      return workspaceUserList;
+    }
+
+    function getWorkspacesMembers(): Observable<HttpResponse<User[]>> {
+      const targetWorkspace = getTargetWorkspace(objectId);
+      if (targetWorkspace) {
+        return ok(getWorkspaceMember(targetWorkspace));
+      } else {
+        return error('workspace not found');
+      }
+    }
+
+    function getWorkspacesMemberCount(): Observable<HttpResponse<number>> {
+      const targetWorkspace = getTargetWorkspace(objectId);
+      if (targetWorkspace) {
+        const workspaceUserList = getWorkspaceMember(targetWorkspace);
+        const memberCount = workspaceUserList.manager_users.length
+          + workspaceUserList.normal_users.length
+          + workspaceUserList.banned_users.length;
+        return ok(memberCount);
       } else {
         return error('workspace not found');
       }

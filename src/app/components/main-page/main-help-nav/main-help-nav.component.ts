@@ -16,7 +16,7 @@ export class MainHelpNavComponent implements OnInit {
   ) {
     router.events.subscribe(_ => {
       if (this.route.snapshot.firstChild) {
-      this.activeTopic = this.route.snapshot.firstChild.routeConfig.path;
+        this.activeTopic = this.route.snapshot.firstChild.routeConfig.path;
       }
     });
   }

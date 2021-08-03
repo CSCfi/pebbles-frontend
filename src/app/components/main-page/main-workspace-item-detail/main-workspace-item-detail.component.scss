@@ -4,7 +4,7 @@
 
   .workspace-info {
     .open-join-code-button {
-      width: 120px;
+      min-width: 120px;
       cursor: pointer;
 
       .mat-chip-list .mat-chip {
@@ -66,6 +66,12 @@
         }
       }
 
+      .open-join-code-button {
+        .mat-icon {
+          color: map-get( $colors, light2);
+        }
+      }
+
       .join-code {
         font-weight: 600;
       }
@@ -88,6 +94,15 @@
   .workspace-update-button {
     color: white;
   }
+}
+
+.error-message {
+  margin: 20px;
+  padding: 20px;
+  color: map-get($colors, white);
+  background-color: map-get($colors, light-dark);
+  text-align: center;
+  border-radius: 5px;
 }
 
 .error-message {
