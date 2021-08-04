@@ -17,6 +17,8 @@ export class WorkspaceService {
   private workspaces: Workspace[] = [];
   public workspaceDeletedSubject: Subject<string> = new Subject();
   public workspaceDeletedState = this.workspaceDeletedSubject.asObservable();
+  public workspaceMemberSubject: Subject<string> = new Subject();
+  public workspaceMemberState = this.workspaceMemberSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.fetchWorkspaces().subscribe();
@@ -139,10 +141,14 @@ export class WorkspaceService {
     );
   }
 
-  deleteWorkspace(id: string): Observable<Workspace> {
-    const url = `${buildConfiguration.apiUrl}/workspaces/${id}`;
+  deleteWorkspace(workspaceId: string): Observable<Workspace> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}`;
     return this.http.delete<Workspace>(url).pipe(tap(_ => {
-      this.workspaceDeletedSubject.next(id);
+      this.workspaceDeletedSubject.next(workspaceId);
     }));
+  }
+
+  reloadWorkspaceMembers(workspaceId: string): void {
+    this.workspaceMemberSubject.next(workspaceId);
   }
 }

@@ -1,6 +1,23 @@
 @import "src/styles.scss";
 
 .workspace-members-container {
+  position: relative;
+
+  .member-reload-button {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    padding: 3px;
+    text-align: right;
+    background: #eee;
+    background: map-get($colors, light-active);
+    border-radius: 3px;
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(85%);
+    }
+  }
 
   table {
     ::ng-deep tr.mat-header-row {

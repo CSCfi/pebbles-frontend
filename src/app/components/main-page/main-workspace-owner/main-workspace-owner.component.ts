@@ -61,12 +61,15 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchWorkspaces();
-    this.workspaceService.workspaceDeletedSubject.subscribe( id => {
+    this.workspaceService.workspaceDeletedState.subscribe( id => {
       this.deletedWorkspaceId = id;
       this.fetchWorkspaces();
     });
     this.environmentService.environmentListUpdatedState.subscribe( _ => {
       this.getEnvironmentCount();
+    });
+    this.workspaceService.workspaceMemberState.subscribe( _ => {
+      this.getMemberCount();
     });
   }
 

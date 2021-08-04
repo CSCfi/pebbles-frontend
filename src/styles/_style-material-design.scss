@@ -246,7 +246,8 @@ $progress-linear-bar-height: 6px;
     // width: auto; // ---- width shouldn't be set as 'auto'
   }
 
-  .mat-fab{
+  .mat-fab,
+  .mat-mini-fab {
     border-radius: 50%;
     vertical-align: middle;
     box-shadow: none;

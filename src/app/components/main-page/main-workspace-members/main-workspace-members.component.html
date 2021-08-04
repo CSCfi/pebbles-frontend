@@ -1,4 +1,8 @@
-<div class="workspace-members-container p-20">
+<div class="workspace-members-container pl-20 pr-40">
+
+  <div class="button member-reload-button" (click)="reloadMembers()">
+    <mat-icon>refresh</mat-icon>
+  </div>
   <ng-container *ngIf="memberList.length > 0; else noMember">
     <!-- members table -->
     <!--
@@ -7,7 +11,7 @@
       - ext_id (email) column
       - menu button column
      -->
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" class="mt-20">
       <!-- Checkbox Column -->
       <!--
       <ng-container matColumnDef="select" sticky>

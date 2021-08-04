@@ -36,7 +36,6 @@ export class MainWorkspaceMembersComponent implements OnChanges {
   // ---- Paginator
   public isPaginatorVisible = true;
   public minUnitNumber = 10;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   get pageSizeOptions(): number[]{
@@ -57,8 +56,15 @@ export class MainWorkspaceMembersComponent implements OnChanges {
     this.getMembersByWorkspaceId(changes.workspaceId.currentValue);
   }
 
-  getMembersByWorkspaceId(workspaceId): void {
-    this.workspaceService.fetchMembersByWorkspaceId(workspaceId).subscribe(resp => {
+  reloadMembers(){
+    this.getMembersByWorkspaceId(this.workspaceId);
+    this.workspaceService.reloadWorkspaceMembers(this.workspaceId);
+  }
+
+  // ---- MEMO:
+  // ---- The argument workspaceId need to be given to trigger ngOnChanges on purpose
+  getMembersByWorkspaceId(workspaceId: string): void {
+    this.workspaceService.fetchMembersByWorkspaceId(this.workspaceId).subscribe(resp => {
       this.memberList = this.composeDataSource(resp);
       this.dataSource = new MatTableDataSource(this.memberList);
       this.dataSource.paginator = this.paginator;
