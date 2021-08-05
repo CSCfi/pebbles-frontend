@@ -28,12 +28,12 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   public workspaces: Workspace[] = [];
   public selectedWorkspaceId: string;
   public selectedWorkspace: Workspace;
+  public deletedWorkspaceId = '';
   public newWorkspace: Workspace;
   public user: User;
   public environmentCount = 0;
   public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
-  public notFoundMessage = 'No workspace';
 
   get isDemoButtonShown(): boolean {
     // check that we know about our workspaces and that there is more than 2 seconds since the last click
@@ -56,6 +56,10 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchWorkspaces();
+    this.workspaceService.deletedSubject.subscribe( id => {
+      this.deletedWorkspaceId = id;
+      this.fetchWorkspaces();
+    });
   }
 
   fetchWorkspaces(): void {
@@ -72,11 +76,11 @@ export class MainWorkspaceOwnerComponent implements OnInit {
             // ---- return owned workspaces
             this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
           }
+          this.selectWorkspace();
         } else {
           // ---- no user fetched yet, empty result initially
           this.workspaces = [];
         }
-        this.selectWorkspace();
       });
     });
   }
@@ -96,8 +100,11 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     if (this.route.snapshot.firstChild) {
       this.selectedWorkspaceId = this.route.snapshot.firstChild.params.workspaceId;
       this.selectedWorkspace = this.workspaces.find(x => x.id === this.selectedWorkspaceId);
-      this.getMemberCount();
-      this.getEnvironmentCount();
+
+      if (this.selectedWorkspace) {
+        this.getMemberCount();
+        this.getEnvironmentCount();
+      }
     } else {
       // ---- MEMO:
       // ---- If no workspaceId wasn't retrieved from URL,
@@ -114,10 +121,9 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   navigateToWorkspaceItem(workspaceId): void {
     this.selectedWorkspaceId = workspaceId;
-    // this.getMemberCount();
-    // this.getEnvironmentCount();
     this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then( r => {
       console.log(r);
+      // this.fetchWorkspaces();
       this.selectWorkspace();
     });
   }
@@ -137,6 +143,10 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   isWorkspaceSelected(workspace: Workspace): boolean {
     return workspace.id === this.selectedWorkspaceId;
+  }
+
+  isWorkspaceDeleted(workspace: Workspace): boolean {
+    return workspace.id === this.deletedWorkspaceId;
   }
 
   // ---- workspace creation

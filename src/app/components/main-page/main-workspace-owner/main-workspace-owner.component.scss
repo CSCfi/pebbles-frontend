@@ -60,7 +60,7 @@
       .mat-badge-content{
         font-weight: 500;
         width: 25px;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         color: white;
       }
 
@@ -139,15 +139,6 @@
         margin-right: 4px;
       }
     }
-  }
-
-  .error-message {
-    margin: 20px;
-    padding: 20px;
-    color: map-get($colors, white);
-    background-color: map-get($colors, light-dark);
-    text-align: center;
-    border-radius: 5px;
   }
 
   .workspace-detail-tab-content {

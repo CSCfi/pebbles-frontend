@@ -23,6 +23,7 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
 
   public workspaceId = null;
   public workspace: Workspace;
+  public isWorkspaceDeleted = false;
 
   public workspaceEditForm: FormGroup;
   public isWorkspaceFormChanged = false;
@@ -44,10 +45,7 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
   }
 
   get isEditable(): boolean {
-    if (this.workspace.name.startsWith('System.')) {
-      return false;
-    }
-    return true;
+    return !this.workspace.name.startsWith('System.');
   }
 
   get isDeletable(): boolean {
@@ -78,8 +76,10 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
   getWorkspaceById(workspaceId: string): void {
     this.workspaceService.fetchWorkspaces().subscribe(_ => {
       this.workspace = this.workspaceService.getWorkspaceById(workspaceId);
-      this.initReactiveForm(this.workspace);
-      this.content.title = `Workspace: ${this.workspace.name}`;
+      if (this.workspace) {
+        this.initReactiveForm(this.workspace);
+        this.content.title = `Workspace: ${this.workspace.name}`;
+      }
     });
   }
 
@@ -132,8 +132,8 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(params => {
       if (params){
-        this.workspaceService.deleteWorkspace(this.workspace.id).subscribe(resp => {
-          this.workspace = null;
+        this.workspaceService.deleteWorkspace(this.workspace.id).subscribe(_ => {
+          this.isWorkspaceDeleted = true;
         });
       }
     });

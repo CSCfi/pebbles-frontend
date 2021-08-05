@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
@@ -15,6 +15,8 @@ import { buildConfiguration } from '../../environments/environment';
 export class WorkspaceService {
 
   private workspaces: Workspace[] = [];
+  public deletedSubject: Subject<string> = new Subject();
+  public deletedState = this.deletedSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.fetchWorkspaces().subscribe();
@@ -89,7 +91,7 @@ export class WorkspaceService {
     );
   }
 
-   fetchMemberCountByWorkspaceId(workspaceId: string): Observable<number> {
+  fetchMemberCountByWorkspaceId(workspaceId: string): Observable<number> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users?members_count=true`;
     // const options = { params: new HttpParams().set('members_count', String(true))};
     return this.http.get<number>(url).pipe(
@@ -140,7 +142,9 @@ export class WorkspaceService {
   deleteWorkspace(id: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${id}`;
     return this.http.delete<Workspace>(url).pipe(tap(_ => {
-      this.fetchWorkspaces().subscribe();
+      // this.fetchWorkspaces().subscribe();
+      // this.workspaceDeletedEvent(id);
+      this.deletedSubject.next(id);
     }));
   }
 }
