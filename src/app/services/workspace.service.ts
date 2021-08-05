@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable, of, Subject} from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
@@ -15,8 +15,8 @@ import { buildConfiguration } from '../../environments/environment';
 export class WorkspaceService {
 
   private workspaces: Workspace[] = [];
-  public deletedSubject: Subject<string> = new Subject();
-  public deletedState = this.deletedSubject.asObservable();
+  public workspaceDeletedSubject: Subject<string> = new Subject();
+  public workspaceDeletedState = this.workspaceDeletedSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.fetchWorkspaces().subscribe();
@@ -35,11 +35,11 @@ export class WorkspaceService {
     return this.workspaces.filter(x => x.owner_ext_id === user.ext_id);
   }
 
-  getManagedWorkspaces(user: User): Workspace[] {
-    // return workspaces where given user has owner role
-    // TODO fetch workspace associations and filter based on manager role
-    return [];
-  }
+  // getManagedWorkspaces(user: User): Workspace[] {
+  //   // return workspaces where given user has owner role
+  //   // TODO fetch workspace associations and filter based on manager role
+  //   return [];
+  // }
 
   joinWorkspace(joinCode: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
@@ -142,9 +142,7 @@ export class WorkspaceService {
   deleteWorkspace(id: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${id}`;
     return this.http.delete<Workspace>(url).pipe(tap(_ => {
-      // this.fetchWorkspaces().subscribe();
-      // this.workspaceDeletedEvent(id);
-      this.deletedSubject.next(id);
+      this.workspaceDeletedSubject.next(id);
     }));
   }
 }

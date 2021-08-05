@@ -34,6 +34,11 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   public environmentCount = 0;
   public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
+  public navLinks = [
+    { location: '/info', label: '', icon: '' },
+    { location: '/environments', label: 'Environments', icon: 'account_circle' },
+    { location: '/members', label: 'Members', icon: 'work' }
+  ];
 
   get isDemoButtonShown(): boolean {
     // check that we know about our workspaces and that there is more than 2 seconds since the last click
@@ -56,9 +61,12 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchWorkspaces();
-    this.workspaceService.deletedSubject.subscribe( id => {
+    this.workspaceService.workspaceDeletedSubject.subscribe( id => {
       this.deletedWorkspaceId = id;
       this.fetchWorkspaces();
+    });
+    this.environmentService.environmentListUpdatedState.subscribe( _ => {
+      this.getEnvironmentCount();
     });
   }
 
@@ -76,11 +84,11 @@ export class MainWorkspaceOwnerComponent implements OnInit {
             // ---- return owned workspaces
             this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
           }
-          this.selectWorkspace();
         } else {
           // ---- no user fetched yet, empty result initially
           this.workspaces = [];
         }
+        this.selectWorkspace();
       });
     });
   }
@@ -121,9 +129,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   navigateToWorkspaceItem(workspaceId): void {
     this.selectedWorkspaceId = workspaceId;
-    this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then( r => {
-      console.log(r);
-      // this.fetchWorkspaces();
+    this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then( _ => {
       this.selectWorkspace();
     });
   }

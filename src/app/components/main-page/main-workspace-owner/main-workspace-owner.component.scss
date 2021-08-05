@@ -34,13 +34,12 @@
 
         .card-header {
           min-height: 30px;
-          padding: 15px 0px;
+          padding: 15px 0;
         }
 
         .card-info {
           min-height: 30px;
           border-top: map-get($borders, thin-dark);
-          padding: 10px 0;
           margin-left: -16px;
           margin-right: -16px;
           padding: 15px 20px;
@@ -74,6 +73,11 @@
 
         .card-media {
           margin: -16px 0px -16px -16px !important;
+        }
+
+        &.deleted {
+          border-left: 8px solid map-get($colors, gray);
+          background-color: map-get($colors, gray);
         }
 
         &.selected {

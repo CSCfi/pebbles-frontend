@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, Subject, throwError} from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { InstanceService } from './instance.service';
 import { WorkspaceService } from './workspace.service';
@@ -16,6 +16,8 @@ export class EnvironmentService implements OnDestroy {
 
   private environments: Environment[] = [];
   private interval = 0;
+  public environmentListUpdatedSubject: Subject<string> = new Subject();
+  public environmentListUpdatedState = this.environmentListUpdatedSubject.asObservable();
 
   constructor(
     private http: HttpClient,

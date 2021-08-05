@@ -34,7 +34,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
   public displayedColumns: string[] = ['thumbnail', 'name', 'state', 'launch', 'edit', 'menu'];
   public dataSource: MatTableDataSource<EnvironmentTable>;
   public selection = new SelectionModel<EnvironmentTable>(true, []);
-  public  workspaceId: string;
+  public workspaceId: string;
   public environmentList = [];
   public environments: Environment[] = [];
   // ---- Paginator
@@ -73,12 +73,13 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
       this.environmentList = this.composeDataSource();
       this.dataSource = new MatTableDataSource(this.environmentList);
       this.dataSource.paginator = this.paginator;
-      this.isPaginatorVisible = this.environmentList.length > 5 ? true : false;
+      this.isPaginatorVisible = this.environmentList.length > 5;
+      this.environmentService.environmentListUpdatedSubject.next();
     });
   }
 
   composeDataSource(): any[] {
-    const returns = this.environments.map((env, i) => {
+    return this.environments.map((env, i) => {
       return {
         select: false,
         is_enabled: env.is_enabled,
@@ -92,7 +93,6 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
         instance_id: env.instance_id
       };
     });
-    return returns;
   }
 
   // applyFilter(event: Event): void {
@@ -137,7 +137,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
     environment.is_enabled = isActive;
     this.environmentService.updateEnvironment(environment).subscribe(_ => {
       console.log('Updated environment');
-      this.fetchEnvironmentEvent.emit();
+      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 
@@ -147,12 +147,12 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
       return;
     }
     this.environmentService.copyEnvironment(environment).subscribe(_ => {
-      console.log('Environment copying process finished');
-      this.fetchEnvironmentEvent.emit();
+      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 
-  toggleGpuActivation(active): void {
+  toggleGpuActivation(active: boolean): void {
+    console.log(active);
     // ---- TODO: place holder. write later !
   }
 
@@ -163,7 +163,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
     }
     this.environmentService.deleteEnvironment(environment).subscribe(_ => {
       console.log('environment deleting process finished');
-      this.fetchEnvironmentEvent.emit();
+      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 
@@ -176,12 +176,12 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
         environment: environmentId ? this.getTargetEnvironment(environmentId) : null
       }
     }).afterClosed().subscribe(_ => {
-      this.fetchEnvironmentEvent.emit();
+      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 
   openEnvironmentWizardDialog(): void {
-    const dialogRef = this.dialog.open(MainEnvironmentWizardFormComponent, {
+    this.dialog.open(MainEnvironmentWizardFormComponent, {
       width: '1000px',
       height: 'auto',
       maxHeight: '90vh',
@@ -189,7 +189,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
         workspaceId: this.workspaceId
       }
     }).afterClosed().subscribe(_ => {
-      this.fetchEnvironmentEvent.emit();
+      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 }

@@ -52,7 +52,7 @@
               <span>{{ workspace.name }}</span>
             </div>
             <div class="workspace-selected-arrow v-centering__horizontal" fxFlex="0 0 40px"
-                 *ngIf="workspace.id === selectedWorkspaceId">
+                 *ngIf="isWorkspaceSelected(workspace)">
               <mat-icon>navigate_next</mat-icon>
             </div>
           </div>
@@ -90,24 +90,24 @@
            [routerLink]="[selectedWorkspaceId+'/info']"
            routerLinkActive #info="routerLinkActive"
            [active]="info.isActive">
-          <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
+          <mat-icon class="mr-5" fontSet="material-icons-outlined">settings</mat-icon>
           {{ selectedWorkspace.name }}
         </a>
         <a mat-tab-link
            [routerLink]="[selectedWorkspaceId+'/environments']"
            routerLinkActive #environments="routerLinkActive"
            [active]="environments.isActive">
-          <!-- <mat-icon class="mr-5" fontSet="material-icons-outlined">import_contacts</mat-icon>-->
           Environments
-          <div *ngIf="environmentCount >= 0" class="chip__m ml-5 v-centering__inline">{{environmentCount}}</div>
+          <mat-chip *ngIf="environmentCount >= 0" class="ml-5 chip__m v-centering__inline">
+            {{environmentCount}}
+          </mat-chip>
         </a>
         <a mat-tab-link
            [routerLink]="[selectedWorkspaceId+'/members']"
            routerLinkActive #members="routerLinkActive"
            [active]="members.isActive">
-          <!-- <mat-icon fontSet="material-icons-outlined">person</mat-icon>-->
           Members
-          <div *ngIf="memberCount >= 0" class="chip__m v-centering__inline ml-5">{{memberCount}}</div>
+          <mat-chip *ngIf="memberCount >= 0" class="ml-5 chip__m v-centering__inline">{{memberCount}}</mat-chip>
         </a>
       </nav>
     </ng-container>
