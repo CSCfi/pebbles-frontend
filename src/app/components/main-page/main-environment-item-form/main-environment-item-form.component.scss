@@ -10,6 +10,14 @@ h2 {
   width: 100%;
 }
 
+// ---- MEMO:
+// ---- To avoid displaying "All" as the last one in the options
+.mat-option {
+  &:last-child:before{
+    content: none;
+  }
+}
+
 .button-row {
   margin: 30px 0;
 

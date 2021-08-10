@@ -151,7 +151,7 @@ $progress-linear-bar-height: 6px;
   // ----------------------------------------
 
   mat-card {
-    box-shadow: 0 1px 3px 0px rgba(0,0,0,.1) !important;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) !important;
     border-radius: 3px !important;
     overflow: hidden;
 
@@ -165,7 +165,7 @@ $progress-linear-bar-height: 6px;
   // ---- Progress-liner
   // ----------------------------------------
 
-  md-progress-linear {
+  .md-progress-linear {
     height: $progress-linear-bar-height;
 
     .md-container {
@@ -251,5 +251,15 @@ $progress-linear-bar-height: 6px;
     border-radius: 50%;
     vertical-align: middle;
     box-shadow: none;
+  }
+}
+
+// ---- MEMO:
+// ---- To show "All" as the last one in options, we need dominated style here.
+::ng-deep .mat-option {
+  &:last-child:before{
+    content: 'All-';
+    float: left;
+    position: relative;
   }
 }

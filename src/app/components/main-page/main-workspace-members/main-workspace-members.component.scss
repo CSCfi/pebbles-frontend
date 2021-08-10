@@ -22,6 +22,7 @@
   table {
     ::ng-deep tr.mat-header-row {
       height: 30px;
+
       th {
         font-size: 1.1rem !important;
       }
@@ -42,25 +43,14 @@
       .owner {
         color: map-get($colors, active);
       }
+
       .manager {
         color: map-get($colors, danger);
       }
+
       .banned {
         color: map-get($colors, dark);
       }
     }
   }
-}
-
-::ng-deep mat-option:last-child:before{
-    content: 'All';
-    float: left;
-    text-transform: none;
-    top: 4px;
-    position: relative;
-}
-
-::ng-deep mat-option:last-child .mat-option-text{
-  display: none;
-  position: relative;
 }

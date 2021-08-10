@@ -1,7 +1,7 @@
-import { OnChanges, Component, Input, ViewChild, SimpleChanges } from '@angular/core';
+import { OnChanges, Component, ViewChild, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
@@ -69,7 +69,7 @@ export class MainWorkspaceMembersComponent implements OnChanges {
       this.dataSource = new MatTableDataSource(this.memberList);
       this.dataSource.paginator = this.paginator;
       // ---- Pagenator becomes invisible after data has been inserted
-      this.isPaginatorVisible = this.memberList.length > this.minUnitNumber ? true : false;
+      this.isPaginatorVisible = this.memberList.length > this.minUnitNumber;
     });
   }
 
