@@ -4,6 +4,7 @@
       <mat-card-title class="workspace-name mb-0" fxFlex="grow">
         <mat-icon class="mr-10">people_outline</mat-icon>
         <span [innerHTML]="workspace.name"></span>
+        <mat-chip class="chip__sm ml-5" color="accent" selected *ngIf="isNew">New</mat-chip>
       </mat-card-title>
       <button mat-button class="workspace-item-menu" [matMenuTriggerFor]="menu" aria-label="open environment menu">
         <mat-icon>menu</mat-icon>

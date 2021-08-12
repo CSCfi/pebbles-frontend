@@ -18,18 +18,21 @@
           </button>
         </div>
       </form>
+      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
     </section>
-    <section class="workspace-list" *ngIf="content && content.identifier === 'catalog'">
+    <section class="workspace-list" *ngIf="data.content && data.content.identifier === 'catalog'">
       <ng-container *ngIf=" workspaces.length > 0; else noWorkspaceBlock">
         <mat-list>
           <div mat-subheader>My Workspaces</div>
           <mat-list-item *ngFor="let workspace of workspaces">
             <mat-icon mat-list-icon>people_outline</mat-icon>
-            <div mat-line>
+            <div mat-line [routerLink]="['/main/my-workspaces']" [fragment]="workspace.id"
+                 (click)="closeForm()">
+              <span>{{ workspace.name }}</span>
               <ng-container *ngIf="newWorkspace">
-                <mat-chip color="accent" selected *ngIf="workspace.id===newWorkspace.id">New</mat-chip>
+                <mat-chip class="ml-5 chip__sm" color="accent" selected *ngIf="workspace.id===newWorkspace.id">New</mat-chip>
               </ng-container>
-              {{ workspace.name }}
+
             </div>
           </mat-list-item>
         </mat-list>
@@ -45,6 +48,6 @@
     </section>
   </mat-dialog-content>
   <mat-dialog-actions class="mb-10" fxLayout="row" fxLayoutAlign="end">
-    <button mat-stroked-button mat-dialog-close>Close</button>
+    <button mat-stroked-button mat-dialog-close (click)="closeForm()">Close</button>
   </mat-dialog-actions>
 </div>

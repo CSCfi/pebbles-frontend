@@ -11,22 +11,30 @@
 
 <div class="content-container" *ngIf="workspaces">
 
-  <div class="action-buttons mt-5">
-    <button mat-button (click)="openAll()">
-      <mat-icon>account_tree</mat-icon>
-      Expand
-    </button>
-    <button mat-button (click)="closeAll()">
-      <mat-icon>unfold_less</mat-icon>
-      Close
-    </button>
+  <div class="action-buttons mt-5" *ngIf="workspaceCount>0">
+    <ng-container *ngIf="isListOpen; else openButtonBlock">
+      <button mat-button (click)="closeAll()">
+        <mat-icon>unfold_less</mat-icon>
+        Close environment lists
+      </button>
+    </ng-container>
+    <ng-template #openButtonBlock>
+      <button mat-button (click)="openAll()">
+        <mat-icon>unfold_more</mat-icon>
+        Shaw environment lists
+      </button>
+    </ng-template>
   </div>
 
-  <section class="workspace-list mt-5" *ngIf="workspaceCount > 0 ; else noMembershipBlock" fxLayout="column"
-    fxLayoutAlign="start stretch" fxLayoutGap="10px">
+  <section class="workspace-list mt-5" *ngIf="workspaceCount>0 ; else noMembershipBlock" fxLayout="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="5px">
     <ng-container *ngIf="workspaces.length > 0; else noWorkspaceBlock">
       <ng-container *ngFor="let workspace of workspaces">
-        <app-main-workspace-item [workspace]="workspace" (fetchWorkspacesEvent)="fetchWorkspaces()">
+        <app-main-workspace-item
+          [id]="workspace.id"
+          [workspace]="workspace"
+          [isNew]="workspace.id === newWorkspaceId"
+          (fetchWorkspacesEvent)="fetchWorkspaces()">
         </app-main-workspace-item>
       </ng-container>
     </ng-container>

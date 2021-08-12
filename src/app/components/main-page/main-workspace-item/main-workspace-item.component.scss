@@ -24,6 +24,11 @@
     .mat-icon {
       margin-top: -4px;
     }
+
+    .mat-chip {
+      color: map-get($colors, white);
+      top: -3px;
+    }
   }
 
   .workspace-description {

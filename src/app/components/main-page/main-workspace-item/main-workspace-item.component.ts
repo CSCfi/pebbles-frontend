@@ -13,6 +13,7 @@ import { MatAccordion } from '@angular/material/expansion';
 export class MainWorkspaceItemComponent implements OnInit {
 
   @Input() workspace: Workspace;
+  @Input() isNew: boolean;
   @Output() fetchWorkspacesEvent = new EventEmitter();
   @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState: boolean;

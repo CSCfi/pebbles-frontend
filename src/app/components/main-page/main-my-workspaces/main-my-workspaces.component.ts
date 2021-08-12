@@ -19,12 +19,12 @@ export class MainMyWorkspacesComponent implements OnInit {
     identifier: 'my-workspace'
   };
 
-  // @ViewChild(MainWorkspaceItemComponent) workspaceItem: MainWorkspaceItemComponent;
   @ViewChildren(MainWorkspaceItemComponent) workspaceItems: QueryList<MainWorkspaceItemComponent>;
 
-  public newWorkspace: Workspace;
-  queryText = '';
-  workspaceCount = 0;
+  public newWorkspaceId: string;
+  public isListOpen = true;
+  public queryText = '';
+  public workspaceCount = 0;
 
   get workspaces(): Workspace[] {
     const wss = this.workspaceService.getWorkspaces().map(ws => {
@@ -44,7 +44,8 @@ export class MainMyWorkspacesComponent implements OnInit {
     this.fetchWorkspaces();
   }
 
-  openAll(): void{
+  openAll(): void {
+    this.isListOpen = true;
     this.workspaceItems.map( item => {
       if (item.accordion) {
         item.accordion.openAll();
@@ -52,7 +53,8 @@ export class MainMyWorkspacesComponent implements OnInit {
     });
   }
 
-  closeAll(): void{
+  closeAll(): void {
+    this.isListOpen = false;
     this.workspaceItems.map( item => {
       if (item.accordion) {
         item.accordion.closeAll();
@@ -97,8 +99,16 @@ export class MainMyWorkspacesComponent implements OnInit {
 
   openJoinWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
-      height: 'auto', width: '600px'
+      height: 'auto',
+      width: '600px',
+      data: {
+        content: this.content
+      }
+    }).afterClosed().subscribe( ws => {
+      if (ws) {
+        this.newWorkspaceId = ws.id;
+      }
+      this.fetchWorkspaces();
     });
-    dialogRef.componentInstance.content = this.content;
   }
 }

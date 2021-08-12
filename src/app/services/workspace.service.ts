@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
+import {Observable, of, Subject, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
 import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
 import { Folder } from 'src/app/models/folder';
 import * as TESTDATA from 'src/app/interceptors/test-data';
 import { buildConfiguration } from '../../environments/environment';
+import {MessageService} from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,9 @@ export class WorkspaceService {
   public workspaceMemberSubject: Subject<string> = new Subject();
   public workspaceMemberState = this.workspaceMemberSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+  ) {
     this.fetchWorkspaces().subscribe();
   }
 
@@ -43,12 +46,15 @@ export class WorkspaceService {
   //   return [];
   // }
 
-  joinWorkspace(joinCode: string): Observable<Workspace> {
+  joinWorkspace(joinCode: string): Observable<Workspace | string> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
       tap( resp => {
         console.log(`joined workspace "${resp.name}" with code ${joinCode}`);
         return resp;
+      }),
+      catchError( resp => {
+        return of(resp.error.error);
       })
     );
   }

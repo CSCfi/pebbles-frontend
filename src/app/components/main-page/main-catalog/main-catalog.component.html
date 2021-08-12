@@ -34,11 +34,10 @@
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
             <div *ngIf="environments.length > 0; else noEnvironmentBlock" class="environment-item-container"
-              fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+              fxLayout="column" fxLayoutAlign="start stretch">
               <ng-container *ngFor="let environment of environments">
-                <app-main-environment-item class="environment-item"
-                  [environment]="environment"
-                  [content]="content">
+                <app-main-environment-item
+                  [environment]="environment">
                 </app-main-environment-item>
               </ng-container>
             </div>

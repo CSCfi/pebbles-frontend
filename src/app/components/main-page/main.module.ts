@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-// import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -75,6 +75,7 @@ import { MainContentStateComponent } from './main-content-state/main-content-sta
     MainJoinWorkspaceDialogComponent
   ],
   imports: [
+    BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

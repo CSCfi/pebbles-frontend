@@ -42,7 +42,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
   public minUnitNumber = 5;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @Output() fetchEnvironmentEvent = new EventEmitter();
+  // @Output() fetchEnvironmentEvent = new EventEmitter();
 
   get pageSizeOptions(): number[]{
     return Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);

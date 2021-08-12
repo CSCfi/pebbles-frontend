@@ -55,9 +55,14 @@ export class MainCatalogComponent implements OnInit {
 
   openJoinWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
-      height: 'auto', width: '600px'
+      height: 'auto',
+      width: '600px',
+      data: {
+        content: this.content
+      }
+    }).afterClosed().subscribe(_ => {
+      this.fetchWorkspaces();
     });
-    dialogRef.componentInstance.content = this.content;
   }
 
   // ---- Environment
