@@ -6,7 +6,7 @@ import { DesktopNotificationService } from 'src/app/services/desktop-notificatio
 
 import { Instance, InstanceStates } from 'src/app/models/instance';
 import { buildConfiguration } from '../../environments/environment';
-import {AuthService} from './auth.service';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -19,12 +19,12 @@ export class InstanceService implements OnDestroy {
   private interval = 0;
   private intervalValue = -1;
   private lastUpdateTs = 0;
+
   constructor(
     private http: HttpClient,
     private desktopNotificationService: DesktopNotificationService,
     private authService: AuthService,
   ) {
-    this.fetchInstances();
     this.setPollingInterval(60 * 1000);
   }
 
@@ -86,7 +86,7 @@ export class InstanceService implements OnDestroy {
         this.lastUpdateTs = Date.now();
         return this.instances;
       }),
-      catchError( err => {
+      catchError(err => {
         console.log('InstanceService.fetchInstances got error ', err);
         if (err.status === 401) {
           console.log('InstanceService stopping instance polling');

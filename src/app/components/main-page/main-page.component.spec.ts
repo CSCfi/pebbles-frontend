@@ -5,6 +5,7 @@ import { MaterialModule } from 'src/app/material.module';
 
 import { MainPageComponent } from './main-page.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MainPageComponent', () => {
   let component: MainPageComponent;
@@ -13,10 +14,14 @@ describe('MainPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         RouterTestingModule,
         MaterialModule
       ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS,
+
+      ],
       declarations: [ MainPageComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

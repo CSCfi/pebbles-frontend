@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
-import {Observable, of, Subject, throwError} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
 import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
 import { Folder } from 'src/app/models/folder';
 import * as TESTDATA from 'src/app/interceptors/test-data';
 import { buildConfiguration } from '../../environments/environment';
-import {MessageService} from './message.service';
+import { EventService } from './event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class WorkspaceService {
 
   constructor(
     private http: HttpClient,
+    private eventService: EventService
   ) {
-    this.fetchWorkspaces().subscribe();
   }
 
   getWorkspaceById(id: string): Workspace {
@@ -49,11 +49,12 @@ export class WorkspaceService {
   joinWorkspace(joinCode: string): Observable<Workspace | string> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
-      tap( resp => {
+      tap(resp => {
         console.log(`joined workspace "${resp.name}" with code ${joinCode}`);
+        this.fetchWorkspaces().subscribe();
         return resp;
       }),
-      catchError( resp => {
+      catchError(resp => {
         return of(resp.error.error);
       })
     );
@@ -62,14 +63,15 @@ export class WorkspaceService {
   exitWorkspace(workspaceId: string): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/exit`;
     return this.http.put(url, {}).pipe(
-      tap( _ => {
+      tap(_ => {
         console.log(`exited from workspace id "${workspaceId}"`);
+        this.fetchWorkspaces().subscribe();
         return workspaceId;
       })
     );
   }
 
-  fetchWorkspaces(): Observable<Workspace[]>{
+  fetchWorkspaces(): Observable<Workspace[]> {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
@@ -83,7 +85,12 @@ export class WorkspaceService {
             ws.manager_ext_ids = [];
           }
         }
+        // if the number of workspaces has changed, we also refresh the environments
+        if (this.workspaces.length !== resp.length) {
+          this.eventService.workspaceUpdate$.next('all');
+        }
         this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
+
         return this.workspaces;
       })
     );
@@ -127,21 +134,21 @@ export class WorkspaceService {
     );
   }
 
-  updateWorkspace(workspace: Workspace){
+  updateWorkspace(workspace: Workspace) {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspace.id}`;
     return this.http.put<Workspace>(url, {
-        name: workspace.name,
-        description: workspace.description,
-        // join_code: workspace.join_code,
-        // owner_ext_id: workspace.owner_ext_id,
-        // role: null
-        // user_config:{
-        //     // banned_users: workspace.banned_users,
-        //     managers: workspace.manager_ext_ids,
-        //     owner:[{id: workspace.owner_ext_id}]
-        //   }
-      }).pipe(
-      map( _ => {
+      name: workspace.name,
+      description: workspace.description,
+      // join_code: workspace.join_code,
+      // owner_ext_id: workspace.owner_ext_id,
+      // role: null
+      // user_config:{
+      //     // banned_users: workspace.banned_users,
+      //     managers: workspace.manager_ext_ids,
+      //     owner:[{id: workspace.owner_ext_id}]
+      //   }
+    }).pipe(
+      map(_ => {
         console.log('Updated Workspace');
       })
     );

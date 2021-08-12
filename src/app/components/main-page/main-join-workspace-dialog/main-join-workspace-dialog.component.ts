@@ -15,10 +15,18 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
 
   public content: any;
   public newWorkspace: Workspace;
-  public workspaces: Workspace[] = [];
-  public environments: Environment[];
   public joinWorkspaceForm: FormGroup;
   public errorMessage = '';
+
+  get workspaces(): Workspace[] {
+    const workspaces = this.workspaceService.getWorkspaces().map(ws => {
+      ws.name = Utilities.resetText(ws.name);
+      ws.description = Utilities.resetText(ws.description);
+      return ws;
+    });
+    console.log(workspaces);
+    return workspaces;
+  }
 
   get isJoinCodeValid(): boolean {
     return this.joinWorkspaceForm.get('joinCode').valid;
@@ -36,7 +44,6 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
       content: any
     },
   ) {
-    this.fetchWorkspaces();
   }
 
   ngOnInit(): void {
@@ -61,24 +68,11 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
       }
       if (this.data.content.identifier === 'my-workspace') {
         this.closeForm();
-      } else {
-        this.fetchWorkspaces();
       }
     });
   }
 
   closeForm(): void {
     this.dialogRef.close(this.newWorkspace);
-  }
-
-  fetchWorkspaces(): void {
-     this.workspaceService.fetchWorkspaces().subscribe(resp => {
-       this.workspaces = resp.map(  ws => {
-          ws.name = Utilities.resetText(ws.name);
-          ws.description = Utilities.resetText(ws.description);
-          return ws;
-       });
-       console.log(this.workspaces);
-     });
   }
 }

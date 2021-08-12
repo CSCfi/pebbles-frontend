@@ -11,7 +11,7 @@ import {MainWorkspaceItemComponent} from '../main-workspace-item/main-workspace-
   templateUrl: './main-my-workspaces.component.html',
   styleUrls: ['./main-my-workspaces.component.scss']
 })
-export class MainMyWorkspacesComponent implements OnInit {
+export class MainMyWorkspacesComponent {
 
   public content = {
     path: 'my-workspaces',
@@ -24,7 +24,10 @@ export class MainMyWorkspacesComponent implements OnInit {
   public newWorkspaceId: string;
   public isListOpen = true;
   public queryText = '';
-  public workspaceCount = 0;
+
+  get workspaceCount(): number {
+    return this.workspaceService.getWorkspaces().length;
+  }
 
   get workspaces(): Workspace[] {
     const wss = this.workspaceService.getWorkspaces().map(ws => {
@@ -39,10 +42,6 @@ export class MainMyWorkspacesComponent implements OnInit {
     public dialog: MatDialog,
     private workspaceService: WorkspaceService,
   ) { }
-
-  ngOnInit(): void {
-    this.fetchWorkspaces();
-  }
 
   openAll(): void {
     this.isListOpen = true;
@@ -59,12 +58,6 @@ export class MainMyWorkspacesComponent implements OnInit {
       if (item.accordion) {
         item.accordion.closeAll();
       }
-    });
-  }
-
-  fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(resp => {
-      this.workspaceCount = resp.length;
     });
   }
 
@@ -108,7 +101,6 @@ export class MainMyWorkspacesComponent implements OnInit {
       if (ws) {
         this.newWorkspaceId = ws.id;
       }
-      this.fetchWorkspaces();
     });
   }
 }

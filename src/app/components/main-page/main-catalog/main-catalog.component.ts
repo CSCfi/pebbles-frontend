@@ -46,9 +46,6 @@ export class MainCatalogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchEnvironments();
-    this.fetchCatalogs();
-    this.fetchWorkspaces();
     // ---- MEMO: getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }
@@ -61,18 +58,12 @@ export class MainCatalogComponent implements OnInit {
         content: this.content
       }
     }).afterClosed().subscribe(_ => {
-      this.fetchWorkspaces();
+      console.log('Join workspace dialog done');
     });
   }
 
   // ---- Environment
   // ------------------------------------------------------------ //
-
-  fetchEnvironments(): void {
-    this.environmentService.fetchEnvironments().subscribe(() => {
-      console.log('environments fetched');
-    });
-  }
 
   // TODO: this takes few seconds in UI to display.
   // Merging sort to fetchEnvironments reduces delay but still takes a sec.
@@ -164,30 +155,11 @@ export class MainCatalogComponent implements OnInit {
     return this.catalogService.getCategories();
   }
 
-  fetchCatalogs(): void {
-    this.catalogService.fetchCategories().subscribe(() => {
-      console.log('catalogs fetched');
-    });
-  }
-
   changeCatalog($event): void {
     const catalogId = this.catalogService.getCategories()[$event.index].id;
     // console.log(catalogId);
     this.selectedCatalog = this.catalogService.getCategoryById(catalogId);
     // console.log('---- now you chose Catalog below ----');
     console.log(this.selectedCatalog);
-  }
-
-  // ---- Workspace
-  // ------------------------------------------------------------ //
-  fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(() => {
-      console.log('workspaces fetched');
-    });
-  }
-
-  getWorkspaceById(workspaceId: string): Workspace {
-    const workspaces = this.workspaceService.getWorkspaces();
-    return workspaces.find(ws => ws.id === workspaceId);
   }
 }

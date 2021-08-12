@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { Workspace } from 'src/app/models/workspace';
@@ -14,10 +14,16 @@ export class MainWorkspaceItemComponent implements OnInit {
 
   @Input() workspace: Workspace;
   @Input() isNew: boolean;
-  @Output() fetchWorkspacesEvent = new EventEmitter();
   @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState: boolean;
-  environments: Environment[];
+
+  get environments(): Environment[] {
+    if (this.workspace) {
+      return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
+    } else {
+      return [];
+    }
+  }
 
   constructor(
     private workspaceService: WorkspaceService,
@@ -27,11 +33,6 @@ export class MainWorkspaceItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.panelOpenState = true;
-    if (this.workspace) {
-      this.environmentService.fetchEnvironments().subscribe(_ => {
-        this.environments = this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
-      });
-    }
   }
 
   toggleEnvironmentList(): void {
@@ -49,8 +50,6 @@ export class MainWorkspaceItemComponent implements OnInit {
     if (!confirm(`Are you sure you want to leave workspace "${this.workspace.name}"?`)) {
       return;
     }
-    this.workspaceService.exitWorkspace(this.workspace.id).subscribe(() => {
-      this.fetchWorkspacesEvent.emit();
-    });
+    this.workspaceService.exitWorkspace(this.workspace.id).subscribe();
   }
 }
