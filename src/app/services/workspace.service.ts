@@ -16,10 +16,8 @@ import { EventService } from './event.service';
 export class WorkspaceService {
 
   private workspaces: Workspace[] = [];
-  public workspaceDeletedSubject: Subject<string> = new Subject();
-  public workspaceDeletedState = this.workspaceDeletedSubject.asObservable();
-  public workspaceMemberSubject: Subject<string> = new Subject();
-  public workspaceMemberState = this.workspaceMemberSubject.asObservable();
+  private workspaceMemberMap: Map<string, WorkspaceUserList> = new Map();
+  private workspaceMemberCountMap: Map<string, number> = new Map();
 
   constructor(
     private http: HttpClient,
@@ -38,6 +36,14 @@ export class WorkspaceService {
   getOwnedWorkspaces(user: User): Workspace[] {
     // return workspaces where given user has owner role
     return this.workspaces.filter(x => x.owner_ext_id === user.ext_id);
+  }
+
+  getWorkspaceMembers(workspaceId: string): WorkspaceUserList {
+    return this.workspaceMemberMap.get(workspaceId);
+  }
+
+  getWorkspaceMemberCount(workspaceId: string): number {
+    return this.workspaceMemberCountMap.get(workspaceId);
   }
 
   // getManagedWorkspaces(user: User): Workspace[] {
@@ -75,46 +81,43 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
-        // console.log('fetchWorkspaces() got', resp);
-        for (const ws of resp) {
-          // make life easier by making some empty defaults if necessary
-          if (!ws.member_ext_ids) {
-            ws.member_ext_ids = [];
-          }
-          if (!ws.manager_ext_ids) {
-            ws.manager_ext_ids = [];
-          }
-        }
-        // if the number of workspaces has changed, we also refresh the environments
-        if (this.workspaces.length !== resp.length) {
+        // if the number of workspaces has changed, we also fire an event (e.g. to notify EnvironmentService)
+        const eventNeeded = this.workspaces.length !== resp.length;
+        this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
+        if (eventNeeded) {
           this.eventService.workspaceUpdate$.next('all');
         }
-        this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
-
         return this.workspaces;
       })
     );
   }
 
-  fetchMembersByWorkspaceId(workspaceId: string): Observable<WorkspaceUserList> {
+  refreshWorkspaceMembers(workspaceId: string): void {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users`;
-    return this.http.get<WorkspaceUserList>(url).pipe(
+    this.http.get<WorkspaceUserList>(url).pipe(
       map((resp) => {
-        console.log('fetchMembersByWorkspaceId() got', resp);
+        console.log('refreshWorkspaceMembers() got', resp);
+        this.workspaceMemberMap.set(workspaceId, resp);
+        this.eventService.workspaceUpdate$.next('all');
         return resp;
       })
-    );
+    ).subscribe();
+
+    // also refresh member count, some components are relying on that
+    this.refreshWorkspaceMemberCount(workspaceId);
   }
 
-  fetchMemberCountByWorkspaceId(workspaceId: string): Observable<number> {
+  refreshWorkspaceMemberCount(workspaceId: string): void {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users?members_count=true`;
     // const options = { params: new HttpParams().set('members_count', String(true))};
-    return this.http.get<number>(url).pipe(
+    this.http.get<number>(url).pipe(
       map((resp) => {
-        console.log('fetchMembersByWorkspaceId() got', resp);
+        console.log('refreshWorkspaceMemberCount() got', resp);
+        this.workspaceMemberCountMap.set(workspaceId, resp);
+        this.eventService.workspaceUpdate$.next('all');
         return Number(resp);
       })
-    );
+    ).subscribe();
   }
 
   fetchFoldersByWorkspaceId(workspaceId: string): Observable<Folder[]> {
@@ -129,6 +132,7 @@ export class WorkspaceService {
     return this.http.post<Workspace>(url, {name, description}).pipe(
       map((resp) => {
         console.log('createWorkspace() got', resp);
+        this.fetchWorkspaces().subscribe();
         return resp;
       })
     );
@@ -150,6 +154,7 @@ export class WorkspaceService {
     }).pipe(
       map(_ => {
         console.log('Updated Workspace');
+        this.fetchWorkspaces().subscribe();
       })
     );
   }
@@ -157,11 +162,7 @@ export class WorkspaceService {
   deleteWorkspace(workspaceId: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}`;
     return this.http.delete<Workspace>(url).pipe(tap(_ => {
-      this.workspaceDeletedSubject.next(workspaceId);
+      this.fetchWorkspaces().subscribe();
     }));
-  }
-
-  reloadWorkspaceMembers(workspaceId: string): void {
-    this.workspaceMemberSubject.next(workspaceId);
   }
 }

@@ -1,10 +1,12 @@
-import { OnChanges, Component, ViewChild, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
+import { Subscription } from 'rxjs';
+import { EventService } from '../../../services/event.service';
 
 export enum UserCategory {
   owner = 'Workspace owner',
@@ -13,7 +15,7 @@ export enum UserCategory {
   banned_users = 'Banned user'
 }
 
-export interface MemberTable {
+export interface MemberRow {
   index: number;
   select: boolean;
   role: string;
@@ -25,59 +27,77 @@ export interface MemberTable {
   templateUrl: './main-workspace-members.component.html',
   styleUrls: ['./main-workspace-members.component.scss']
 })
-export class MainWorkspaceMembersComponent implements OnChanges {
+export class MainWorkspaceMembersComponent implements OnInit, OnDestroy {
+  // store subscriptions here for unsubscribing destroy time
+  private subscriptions: Subscription[] = [];
 
   public displayedColumns: string[] = ['index', 'icon', 'role', 'email', 'action'];
-  public dataSource: MatTableDataSource<MemberTable>;
-  public selection = new SelectionModel<MemberTable>(true, []);
+  public dataSource: MatTableDataSource<MemberRow>;
+  public selection = new SelectionModel<MemberRow>(true, []);
   public workspaceId: string;
-  public memberList: MemberTable[] = [];
+  public memberList: MemberRow[] = [];
 
   // ---- Paginator
   public isPaginatorVisible = true;
-  public minUnitNumber = 10;
+  public minUnitNumber = 25;
+  public pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  get pageSizeOptions(): number[]{
-    return Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
-  }
 
   constructor(
     private route: ActivatedRoute,
     private workspaceService: WorkspaceService,
+    private eventService: EventService
   ) {
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(this.eventService.workspaceUpdate$.subscribe(_ => {
+      this.rebuildDataSource();
+    }));
+
     this.route.paramMap.subscribe(params => {
       this.workspaceId = params.get('workspaceId');
-      this.getMembersByWorkspaceId(this.workspaceId);
+      if (this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
+        this.rebuildDataSource();
+      } else {
+        this.refreshMembers();
+      }
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.getMembersByWorkspaceId(changes.workspaceId.currentValue);
+  ngOnDestroy(): void {
+    this.subscriptions.map(x => x.unsubscribe());
   }
 
-  reloadMembers(){
-    this.getMembersByWorkspaceId(this.workspaceId);
-    this.workspaceService.reloadWorkspaceMembers(this.workspaceId);
-  }
-
-  // ---- MEMO:
-  // ---- The argument workspaceId need to be given to trigger ngOnChanges on purpose
-  getMembersByWorkspaceId(workspaceId: string): void {
-    this.workspaceService.fetchMembersByWorkspaceId(this.workspaceId).subscribe(resp => {
-      this.memberList = this.composeDataSource(resp);
-      this.dataSource = new MatTableDataSource(this.memberList);
-      this.dataSource.paginator = this.paginator;
-      // ---- Pagenator becomes invisible after data has been inserted
-      this.isPaginatorVisible = this.memberList.length > this.minUnitNumber;
-    });
+  refreshMembers(): void {
+    if (this.workspaceId) {
+      this.workspaceService.refreshWorkspaceMembers(this.workspaceId);
+    }
   }
 
   getUserCategory(role: string): string {
     return UserCategory[role];
   }
 
-  composeDataSource(data): MemberTable[] {
+  rebuildDataSource(): void {
+    if (!this.paginator) {
+      // wait for paginator to be initialized before actually setting data
+      setTimeout(_ => this.rebuildDataSource(), 0);
+      return;
+    }
+    console.log('rebuildDataSource()');
+    this.memberList = this.composeDataSource(this.workspaceService.getWorkspaceMembers(this.workspaceId));
+    this.dataSource = new MatTableDataSource(this.memberList);
+    this.dataSource.paginator = this.paginator;
+    // ---- Paginator becomes invisible after data has been inserted
+    this.isPaginatorVisible = this.memberList.length > this.minUnitNumber;
+    this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
+  }
+
+  composeDataSource(data): MemberRow[] {
+    if (!data) {
+      return [];
+    }
     const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
     const ownerKey = workspaceUserKeys.shift();
     const returns = [];

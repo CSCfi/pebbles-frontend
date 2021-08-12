@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
@@ -11,13 +11,17 @@ import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspac
 import { AccountService } from '../../../services/account.service';
 import { User } from '../../../models/user';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { Subscription } from 'rxjs';
+import { EventService } from '../../../services/event.service';
 
 @Component({
   selector: 'app-main-workspace-owner',
   templateUrl: './main-workspace-owner.component.html',
   styleUrls: ['./main-workspace-owner.component.scss']
 })
-export class MainWorkspaceOwnerComponent implements OnInit {
+export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
+  // store subscriptions here for unsubscribing destroy time
+  private subscriptions: Subscription[] = [];
 
   public content = {
     path: 'main/workspace-owner',
@@ -28,16 +32,15 @@ export class MainWorkspaceOwnerComponent implements OnInit {
   public workspaces: Workspace[] = [];
   public selectedWorkspaceId: string;
   public selectedWorkspace: Workspace;
-  public deletedWorkspaceId = '';
   public newWorkspace: Workspace;
   public user: User;
   public environmentCount = 0;
   public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
   public navLinks = [
-    { location: '/info', label: '', icon: '' },
-    { location: '/environments', label: 'Environments', icon: 'account_circle' },
-    { location: '/members', label: 'Members', icon: 'work' }
+    {location: '/info', label: '', icon: ''},
+    {location: '/environments', label: 'Environments', icon: 'account_circle'},
+    {location: '/members', label: 'Members', icon: 'work'}
   ];
 
   get isDemoButtonShown(): boolean {
@@ -55,56 +58,53 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     private accountService: AccountService,
     private environmentService: EnvironmentService,
     private environmentTemplateService: EnvironmentTemplateService,
+    private eventService: EventService,
   ) {
     this.createDemoWorkspaceClickTs = 0;
   }
 
   ngOnInit(): void {
-    this.fetchWorkspaces();
-    this.workspaceService.workspaceDeletedState.subscribe( id => {
-      this.deletedWorkspaceId = id;
-      this.fetchWorkspaces();
-    });
-    this.environmentService.environmentListUpdatedState.subscribe( _ => {
-      this.getEnvironmentCount();
-    });
-    this.workspaceService.workspaceMemberState.subscribe( _ => {
-      this.getMemberCount();
+    // ---- Subscriptions to event Subjects
+    this.subscriptions.push(this.eventService.environmentUpdate$.subscribe(_ => {
+      this.refreshView();
+    }));
+    this.subscriptions.push(this.eventService.workspaceUpdate$.subscribe(wsid => {
+      this.refreshView();
+    }));
+
+    //
+    this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
+      this.user = user;
+      this.refreshView();
     });
   }
 
-  fetchWorkspaces(): void {
-    this.workspaceService.fetchWorkspaces().subscribe(_ => {
-      console.log('workspaces fetched');
-      this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
-        this.user = user;
-        if (this.user) {
-          // ---- admins see all workspaces
-          if (this.user.is_admin) {
-            this.workspaces = this.workspaceService.getWorkspaces();
-          } else {
-            // ---- TODO: change this to managed workspaces
-            // ---- return owned workspaces
-            this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
-          }
-        } else {
-          // ---- no user fetched yet, empty result initially
-          this.workspaces = [];
-        }
-        this.selectWorkspace();
-      });
-    });
+  ngOnDestroy(): void {
+    // unsubscribe from Subjects
+    this.subscriptions.map(x => x.unsubscribe());
   }
 
-  getMemberCount(): void {
-    this.workspaceService.fetchMemberCountByWorkspaceId(this.selectedWorkspaceId).subscribe( count => {
-      this.memberCount = count;
-    });
-  }
+  refreshView(): void {
+    console.log('MainWorkspaceOwnerComponent.refreshView()');
+    if (this.user) {
+      // ---- admins see all workspaces
+      if (this.user.is_admin) {
+        this.workspaces = this.workspaceService.getWorkspaces();
+      } else {
+        // ---- TODO: change this to managed workspaces
+        // ---- return owned workspaces
+        this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
+      }
+    } else {
+      // ---- no user fetched yet, empty result initially
+      this.workspaces = [];
+    }
 
-  getEnvironmentCount(): void {
-    // ---- MEMO: For counting environments, no need to communicate with backend.
-    this.environmentCount = this.environmentService.getEnvironmentsByWorkspaceId(this.selectedWorkspaceId).length;
+    this.selectWorkspace();
+    if (this.selectedWorkspaceId) {
+      this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
+      this.environmentCount = this.environmentService.getEnvironmentsByWorkspaceId(this.selectedWorkspaceId).length;
+    }
   }
 
   selectWorkspace(): void {
@@ -113,8 +113,13 @@ export class MainWorkspaceOwnerComponent implements OnInit {
       this.selectedWorkspace = this.workspaces.find(x => x.id === this.selectedWorkspaceId);
 
       if (this.selectedWorkspace) {
-        this.getMemberCount();
-        this.getEnvironmentCount();
+        this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
+        this.environmentCount = this.environmentService.getEnvironmentsByWorkspaceId(this.selectedWorkspaceId)?.length;
+
+        // load data in relevant services if needed
+        if (!this.memberCount) {
+          this.workspaceService.refreshWorkspaceMemberCount(this.selectedWorkspaceId);
+        }
       }
     } else {
       // ---- MEMO:
@@ -132,7 +137,7 @@ export class MainWorkspaceOwnerComponent implements OnInit {
 
   navigateToWorkspaceItem(workspaceId): void {
     this.selectedWorkspaceId = workspaceId;
-    this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then( _ => {
+    this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then(_ => {
       this.selectWorkspace();
     });
   }
@@ -154,10 +159,6 @@ export class MainWorkspaceOwnerComponent implements OnInit {
     return workspace.id === this.selectedWorkspaceId;
   }
 
-  isWorkspaceDeleted(workspace: Workspace): boolean {
-    return workspace.id === this.deletedWorkspaceId;
-  }
-
   // ---- workspace creation
   // ----------------------------------------
   createWorkspace(): void {
@@ -166,7 +167,6 @@ export class MainWorkspaceOwnerComponent implements OnInit {
       'Workspace for ' + this.authService.getUserName()
     ).subscribe(_ => {
       console.log('created new Workspace');
-      this.fetchWorkspaces();
     });
   }
 
@@ -192,7 +192,6 @@ export class MainWorkspaceOwnerComponent implements OnInit {
         this.newWorkspace = resp;
         this.selectedWorkspaceId = resp.id;
         this.navigateToWorkspaceItem(resp.id);
-        this.fetchWorkspaces();
       }
     });
   }
@@ -233,13 +232,12 @@ export class MainWorkspaceOwnerComponent implements OnInit {
         true,
       ).subscribe((env) => {
         console.log('created example Environment ' + env.id);
-        this.fetchWorkspaces();
       });
     });
   }
 
   openJoinCodeDialog(workspace: Workspace): void {
-    const dialogRef = this.dialog.open( DialogComponent, {
+    const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
       data: {
         dialogTitle: 'Workspace join code',
@@ -248,13 +246,13 @@ export class MainWorkspaceOwnerComponent implements OnInit {
         dialogActions: ['close']
       }
     });
-    dialogRef.afterClosed().subscribe( _ => {
+    dialogRef.afterClosed().subscribe(_ => {
       console.log('The dialog was closed');
     });
   }
 
   getExpiry_date(workspace: Workspace): string {
     const date = new Date(workspace.expiry_ts * 1000);
-    return `${ date.getDate() } / ${ date.getMonth() + 1 } / ${ date.getFullYear() }`;
+    return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
   }
 }

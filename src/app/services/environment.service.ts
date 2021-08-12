@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, throwError} from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { InstanceService } from './instance.service';
 import { WorkspaceService } from './workspace.service';
@@ -17,8 +17,6 @@ export class EnvironmentService implements OnDestroy {
 
   private environments: Environment[] = [];
   private interval = 0;
-  public environmentListUpdatedSubject: Subject<string> = new Subject();
-  public environmentListUpdatedState = this.environmentListUpdatedSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -69,7 +67,7 @@ export class EnvironmentService implements OnDestroy {
         console.log('fetchEnvironments() got', resp);
         for (const newEnv of resp) {
           // make life easier by making some empty defaults if necessary
-          if (!newEnv.config){
+          if (!newEnv.config) {
             newEnv.config = {};
           }
           if (!newEnv.labels) {
@@ -77,14 +75,12 @@ export class EnvironmentService implements OnDestroy {
           }
           const instance = this.instanceService.getInstanceByEnvironmentId(newEnv.id);
           newEnv.instance_id = instance ? instance.id : null;
-          if (! newEnv.environment_type) {
+          if (!newEnv.environment_type) {
             if (newEnv.labels.indexOf('jupyter') >= 0) {
               newEnv.environment_type = EnvironmentType.Jupyter;
-            }
-            else if (newEnv.labels.indexOf('rstudio') >= 0) {
+            } else if (newEnv.labels.indexOf('rstudio') >= 0) {
               newEnv.environment_type = EnvironmentType.RStudio;
-            }
-            else{
+            } else {
               newEnv.environment_type = EnvironmentType.Generic;
             }
           }
@@ -93,7 +89,7 @@ export class EnvironmentService implements OnDestroy {
         this.eventService.environmentUpdate$.next('all');
         return this.environments;
       }),
-      catchError( err => {
+      catchError(err => {
         console.log('EnvironmentService.fetchEnvironments() got error ', err);
         if (err.status === 401) {
           console.log('EnvironmentService stopping environment polling');
@@ -163,10 +159,10 @@ export class EnvironmentService implements OnDestroy {
 
   updateEnvironment(environment: Environment): Observable<Environment> {
     const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
-    console.log('PUTting environment', environment);
+    console.log('updateEnvironment()', environment);
     return this.http.put<Environment>(url, environment).pipe(
-      map(_ => {
-        console.log('Updated environment');
+      map(res => {
+        console.log('environment', environment.id, 'updated');
         this.fetchEnvironments().subscribe();
         return environment;
       })
@@ -178,7 +174,7 @@ export class EnvironmentService implements OnDestroy {
     const url = `${buildConfiguration.apiUrl}/environments/${environment.id}`;
     console.log('Deleting environment', environment);
     return this.http.delete<Environment>(url).pipe(tap(resp => {
-      console.log(resp);
+      console.log('environment deleted:', environment.id);
       this.fetchEnvironments().subscribe();
     }));
   }

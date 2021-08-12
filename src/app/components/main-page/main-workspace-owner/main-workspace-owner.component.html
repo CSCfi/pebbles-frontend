@@ -38,7 +38,6 @@
     <div class="workspace-list" *ngIf="workspaces">
       <ng-container *ngFor="let workspace of workspaces">
         <mat-card class="workspace-widget mb-5"
-                  *ngIf="!isWorkspaceDeleted(workspace)"
                   [ngClass]="{'selected': isWorkspaceSelected(workspace)}"
                   (click)="navigateToWorkspaceItem(workspace.id)">
           <!-- widget header -->
@@ -84,8 +83,7 @@
   <!-- Right Column : Workspace Detail -->
   <div class="workspace-detail-container" fxFlex="grow">
     <ng-container *ngIf="selectedWorkspace">
-      <nav mat-tab-nav-bar mat-align-tabs="center"
-           *ngIf="selectedWorkspaceId!==deletedWorkspaceId">
+      <nav mat-tab-nav-bar mat-align-tabs="center">
         <a mat-tab-link
            [routerLink]="[selectedWorkspaceId+'/info']"
            routerLinkActive #info="routerLinkActive"

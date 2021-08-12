@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,8 +10,10 @@ import { EnvironmentService } from 'src/app/services/environment.service';
 import { MainEnvironmentWizardFormComponent } from '../main-environment-wizard-form/main-environment-wizard-form.component';
 import { MainEnvironmentItemFormComponent } from '../main-environment-item-form/main-environment-item-form.component';
 import { Utilities } from '../../../utilities';
+import { EventService } from '../../../services/event.service';
+import { Subscription } from 'rxjs';
 
-export interface EnvironmentTable {
+export interface EnvironmentRow {
   select: boolean;
   index: number;
   id: string;
@@ -29,70 +31,78 @@ export interface EnvironmentTable {
   templateUrl: './main-workspace-environments.component.html',
   styleUrls: ['./main-workspace-environments.component.scss']
 })
-export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
+export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy {
+  // store subscriptions here for unsubscribing destroy time
+  private subscriptions: Subscription[] = [];
 
   public displayedColumns: string[] = ['thumbnail', 'name', 'state', 'launch', 'edit', 'menu'];
-  public dataSource: MatTableDataSource<EnvironmentTable>;
-  public selection = new SelectionModel<EnvironmentTable>(true, []);
+  public dataSource: MatTableDataSource<EnvironmentRow>;
+  public selection = new SelectionModel<EnvironmentRow>(true, []);
   public workspaceId: string;
-  public environmentList = [];
-  public environments: Environment[] = [];
   // ---- Paginator
-  public isPaginatorVisible = true;
-  public minUnitNumber = 5;
+  public isPaginatorVisible = false;
+  public minUnitNumber = 25;
+  public pageSizeOptions = [this.minUnitNumber];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @Output() fetchEnvironmentEvent = new EventEmitter();
-
-  get pageSizeOptions(): number[]{
-    return Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
-  }
 
   constructor(
     private route: ActivatedRoute,
-    public environmentService: EnvironmentService,
-    public dialog: MatDialog,
+    private environmentService: EnvironmentService,
+    private dialog: MatDialog,
+    private eventService: EventService,
   ) {
-     this.route.paramMap.subscribe(params => {
-      this.workspaceId = params.get('workspaceId');
-      this.getEnvironmentsByWorkspaceId(this.workspaceId);
-    });
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.getEnvironmentsByWorkspaceId(changes.workspaceId.currentValue);
-  }
-
-  getEnvironmentsByWorkspaceId(workspaceId): void {
-    this.environmentService.fetchEnvironments().subscribe(_ => {
-      const environments = this.environmentService.getEnvironmentsByWorkspaceId(workspaceId);
-      this.environments = environments.sort((a, b) => Number(b.is_enabled) - Number(a.is_enabled));
-      this.environmentList = this.composeDataSource();
-      this.dataSource = new MatTableDataSource(this.environmentList);
-      this.dataSource.paginator = this.paginator;
-      this.isPaginatorVisible = this.environmentList.length > 5;
-      this.environmentService.environmentListUpdatedSubject.next();
+    this.subscriptions.push(this.eventService.environmentUpdate$.subscribe(_ => {
+      this.rebuildDataSource();
+    }));
+    this.route.paramMap.subscribe(params => {
+      console.log(this, 'route callback');
+      this.workspaceId = params.get('workspaceId');
+      this.rebuildDataSource();
     });
   }
 
-  composeDataSource(): any[] {
-    return this.environments.map((env, i) => {
-      return {
-        select: false,
-        is_enabled: env.is_enabled,
-        index: i,
-        id: env.id,
-        name: env.name,
-        description: env.description,
-        type: env.environment_type,
-        lifetime: env.maximum_lifetime,
-        labels: env.labels,
-        instance_id: env.instance_id
-      };
-    });
+  ngOnDestroy(): void {
+    // unsubscribe from Subjects
+    this.subscriptions.map(x => x.unsubscribe());
+  }
+
+  rebuildDataSource(): void {
+    if (!this.paginator) {
+      // wait for paginator to be initialized before actually setting data
+      setTimeout(_ => this.rebuildDataSource(), 0);
+      return;
+    }
+    console.log('MainWorkspaceEnvironmentsComponent.rebuildDataSource()');
+    const envs = this.environmentService.getEnvironmentsByWorkspaceId(this.workspaceId).sort(
+      (a, b) => Number(b.is_enabled) - Number(a.is_enabled));
+    this.dataSource = this.composeDataSource(envs);
+    this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
+    this.isPaginatorVisible = this.dataSource.data.length > this.minUnitNumber;
+    this.paginator.length = this.dataSource.data.length;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  composeDataSource(envs: Environment[]): MatTableDataSource<any> {
+    return new MatTableDataSource(
+      envs.map((env, i) => {
+        return {
+          select: false,
+          is_enabled: env.is_enabled,
+          index: i,
+          id: env.id,
+          name: env.name,
+          description: env.description,
+          type: env.environment_type,
+          lifetime: env.maximum_lifetime,
+          labels: env.labels,
+          instance_id: env.instance_id
+        };
+      })
+    );
   }
 
   // applyFilter(event: Event): void {
@@ -123,7 +133,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
   // }
 
   getTargetEnvironment(id: string): Environment {
-    return this.environments.find(env => env.id === id);
+    return this.environmentService.getEnvironmentById(id);
   }
 
   getLifetime(sec: number): string {
@@ -137,7 +147,6 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
     environment.is_enabled = isActive;
     this.environmentService.updateEnvironment(environment).subscribe(_ => {
       console.log('Updated environment');
-      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 
@@ -146,9 +155,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
     if (!confirm(`Are you sure you want to copy this environment "${environment.name}"?`)) {
       return;
     }
-    this.environmentService.copyEnvironment(environment).subscribe(_ => {
-      this.getEnvironmentsByWorkspaceId(this.workspaceId);
-    });
+    this.environmentService.copyEnvironment(environment).subscribe();
   }
 
   toggleGpuActivation(active: boolean): void {
@@ -163,7 +170,6 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
     }
     this.environmentService.deleteEnvironment(environment).subscribe(_ => {
       console.log('environment deleting process finished');
-      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 
@@ -176,7 +182,6 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
         environment: environmentId ? this.getTargetEnvironment(environmentId) : null
       }
     }).afterClosed().subscribe(_ => {
-      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 
@@ -189,7 +194,6 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnChanges {
         workspaceId: this.workspaceId
       }
     }).afterClosed().subscribe(_ => {
-      this.getEnvironmentsByWorkspaceId(this.workspaceId);
     });
   }
 }

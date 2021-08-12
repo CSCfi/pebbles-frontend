@@ -15,7 +15,7 @@
   </div>
 
   <div class="table-container mt-10">
-    <ng-container *ngIf="environmentList.length > 0; else noEnvironments">
+    <ng-container *ngIf="dataSource?.data.length > 0; else noEnvironments">
       <!-- Search Box -->
       <!--
         <mat-form-field>
@@ -188,10 +188,10 @@
         </div>
       </section>
     </ng-template>
-
-    <mat-paginator
-      [pageSizeOptions]="pageSizeOptions"
-      [ngClass]="{'invisible':!isPaginatorVisible}">
-    </mat-paginator>
+    <div [hidden]="!isPaginatorVisible">
+      <mat-paginator
+        [pageSizeOptions]="pageSizeOptions">
+      </mat-paginator>
+    </div>
   </div>
 </div>

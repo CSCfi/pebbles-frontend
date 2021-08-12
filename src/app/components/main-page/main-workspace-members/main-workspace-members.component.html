@@ -1,6 +1,6 @@
 <div class="workspace-members-container pl-20 pr-50">
 
-  <div class="button member-reload-button" (click)="reloadMembers()">
+  <div class="button member-reload-button" (click)="refreshMembers()">
     <mat-icon>refresh</mat-icon>
   </div>
   <ng-container *ngIf="memberList.length > 0; else noMember">
@@ -98,8 +98,9 @@
   <ng-template #noMember>
     <p>No members in this workspace yet.</p>
   </ng-template>
-  <mat-paginator class="pagenator"
-    [pageSizeOptions]="pageSizeOptions"
-    [ngClass]="{'invisible':!isPaginatorVisible}">
-  </mat-paginator>
+  <div [hidden]="!isPaginatorVisible">
+    <mat-paginator
+      [pageSizeOptions]="pageSizeOptions">
+    </mat-paginator>
+  </div>
 </div>
