@@ -433,8 +433,27 @@ export class MockInterceptor implements HttpInterceptor {
       return workspaceUserList;
     }
 
+    function testMemberRefresh(): void {
+      const memberId = Math.random().toString(36).substring(2, 5);
+      const user = new User(
+        memberId,
+        `member-${memberId}@example.org`,
+        `member-${memberId}@example.org`,
+      );
+      database.workspaces.map( ws => {
+        if (ws.id === 'ws-0') {
+          ws.normal_users.push(`member-${memberId}@example.org`);
+        }
+        return ws;
+      });
+      database.users.push(user);
+    }
+
     function getWorkspacesMembers(): Observable<HttpResponse<User[]>> {
       const targetWorkspace = getTargetWorkspace(objectId);
+      // ---- MEMO
+      // ---- Comment out when you want to test the member's reload button
+      // testMemberRefresh();
       if (targetWorkspace) {
         return ok(getWorkspaceMember(targetWorkspace));
       } else {
