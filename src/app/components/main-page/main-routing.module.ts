@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { MainPageComponent } from './main-page.component';
 import { MainAccountComponent } from './main-account/main-account.component';
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
@@ -83,8 +82,7 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forChild(routes),
-    CommonModule
+    RouterModule.forChild(routes)
   ],
   exports: [RouterModule]
 })

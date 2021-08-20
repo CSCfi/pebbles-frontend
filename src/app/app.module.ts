@@ -14,6 +14,12 @@ import { AuthService } from 'src/app/services/auth.service';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { MessageService } from 'src/app/services/message.service';
+import { AccountService } from './services/account.service';
+import { DesktopNotificationService } from './services/desktop-notification.service';
+import { EnvironmentCategoryService } from './services/environment-category.service';
+import { EnvironmentTemplateService } from './services/environment-template.service';
+import { FaqService } from './services/faq.service';
+import { WorkspaceService } from './services/workspace.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 // ---- Components
 import { AppComponent } from './app.component';
@@ -36,31 +42,37 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     WelcomePublicityComponent,
     InstancePageComponent,
   ],
-  exports: [
-  ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FlexLayoutModule,
     AppRoutingModule,
+    FlexLayoutModule,
     MaterialModule,
     SharedModule,
     MainModule,
   ],
   providers: [
+    AccountService,
     AuthService,
+    DesktopNotificationService,
     EnvironmentService,
+    EnvironmentCategoryService,
+    EnvironmentTemplateService,
+    FaqService,
     InstanceService,
     MessageService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    WorkspaceService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     ENVIRONMENT_SPECIFIC_PROVIDERS,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  bootstrap: [
-    AppComponent
-  ]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule {
 }

@@ -67,7 +67,8 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
     // ---- Set default value
     this.wizardOptionFormGroup.controls.jupyterInterface.setValue('lab');
     this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
-    this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false, {disabled: true});
+    this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
+    this.wizardOptionFormGroup.controls.isAutoExecution.disable();
     this.wizardPublishFormGroup.controls.isActive.setValue(false);
   }
 

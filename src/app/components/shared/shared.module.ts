@@ -28,6 +28,7 @@ import { DialogComponent } from 'src/app/components/shared/dialog/dialog.compone
   exports: [
     HeaderComponent,
     FooterComponent,
+    // DialogComponent
   ],
 })
 export class SharedModule { }

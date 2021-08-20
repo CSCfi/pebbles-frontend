@@ -70,8 +70,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatSortModule,
   ],
   exports: [
-    CommonModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     MatCheckboxModule,
     MatButtonModule,
     MatInputModule,
@@ -101,10 +100,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    // MatSortModule
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [
-  ]
 } )
 export class MaterialModule{ }
