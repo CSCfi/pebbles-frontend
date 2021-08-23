@@ -19,7 +19,7 @@ export class MainWorkspaceItemComponent implements OnInit {
 
   get environments(): Environment[] {
     if (this.workspace) {
-      return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id);
+      return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
     } else {
       return [];
     }
