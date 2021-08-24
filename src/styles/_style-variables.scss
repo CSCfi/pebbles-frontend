@@ -82,14 +82,15 @@ $layout-set:(
     header: (
       w: 100%,
       h: auto,
-      min-h: 70px,
+      min-h: 60px
     )
   ),
   welcome: (
     header: (
       w: 100%,
-      h: 70px,
-      min-h: 70px,
+      h: auto,
+      max-w: 1200px,
+      min-h: 60px,
     ),
     jumbotron : (
       w: 100%,
@@ -128,7 +129,7 @@ $layout-set:(
     ),
   ),
 );
-// @debug map-deep-get($layout-set, main, header, h);
+// @debug map-deep-get($layout-set, main, header-old, h);
 
 
 // ---- border

@@ -1,5 +1,5 @@
 <div class="page-container__screen" fxLayout="column" fxLayoutAlign="space-between stretch">
-  <app-header></app-header>
+  <app-header [isNaviVisible]="false"></app-header>
   <div class="instance-container" fxLayout="column" fxLayoutAlign="space-between stretch" *ngIf="targetInstance">
     <div class="status-wrapper" fxLayout="column" fxLayoutAlign="center center">
       <p class="mb-10">Your environment "{{ targetEnvironment.name }}" is ... </p>

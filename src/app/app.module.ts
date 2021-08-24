@@ -24,7 +24,6 @@ import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 // ---- Components
 import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
-import { WelcomeHeaderComponent } from './components/welcome-page/welcome-header/welcome-header.component';
 import { WelcomeLoginComponent } from './components/welcome-page/welcome-login/welcome-login.component';
 import { WelcomePublicityComponent } from './components/welcome-page/welcome-publicity/welcome-publicity.component';
 import { InstancePageComponent } from './components/instance-page/instance-page.component';
@@ -37,7 +36,6 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     AppComponent,
     NotFoundPageComponent,
     WelcomePageComponent,
-    WelcomeHeaderComponent,
     WelcomeLoginComponent,
     WelcomePublicityComponent,
     InstancePageComponent,

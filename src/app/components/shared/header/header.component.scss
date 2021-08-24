@@ -1,9 +1,7 @@
 @import "src/styles.scss";
 
-header{
-  height: map-deep-get($layout-set, main, header, h);
-
-  .logo {
-    width: 300px;
-  }
+.header {
+  height: map-deep-get($layout-set, shared, header, h);
+  padding-top: 12px;
+  padding-bottom: 12px;
 }

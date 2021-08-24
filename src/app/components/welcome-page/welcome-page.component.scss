@@ -25,6 +25,9 @@
   }
 
   .header-wrapper {
+    display: block;
+    width: map-deep-get($layout-set, welcome, header, w);
+    max-width: map-deep-get($layout-set, welcome, header, max-w);
     min-height: map-deep-get($layout-set, welcome, header, min-h);
   }
 
