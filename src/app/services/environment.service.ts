@@ -15,13 +15,16 @@ import { EventService } from './event.service';
 })
 export class EnvironmentService implements OnDestroy {
 
-  private environments: Environment[] = [];
+  private environments: Environment[] = null;
   private interval = 0;
+
+  get isInitialized(): boolean{
+    return this.environments !== null;
+  }
 
   constructor(
     private http: HttpClient,
     private instanceService: InstanceService,
-    private workspaceService: WorkspaceService,
     private eventService: EventService
   ) {
     this.interval = window.setInterval(() => {
@@ -39,24 +42,19 @@ export class EnvironmentService implements OnDestroy {
   }
 
   get(environmentId: string): Environment {
-    for (const environment of this.environments) {
-      if (environment.id === environmentId) {
-        return environment;
-      }
-    }
-    return null;
+    return this.environments?.find(env => env.id === environmentId);
   }
 
   getEnvironments(): Environment[] {
-    return this.environments;
-  }
-
-  getEnvironmentById(environmentId: string): Environment {
-    return this.environments.find(env => env.id === environmentId);
+    return this.isInitialized ? this.environments : [];
   }
 
   getEnvironmentsByWorkspaceId(workspaceId: string): Environment[] {
-    return this.environments.filter(env => env.workspace_id === workspaceId);
+    return this.isInitialized ? this.environments.filter(env => env.workspace_id === workspaceId) : [];
+  }
+
+  getEnvironmentById(environmentId: string): Environment {
+    return this.get(environmentId);
   }
 
   fetchEnvironments(): Observable<Environment[]> {

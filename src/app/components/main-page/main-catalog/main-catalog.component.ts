@@ -27,6 +27,9 @@ export class MainCatalogComponent implements OnInit {
   queryText = '';
 
   get environments(): Environment[] {
+    if (!this.environmentService.isInitialized) {
+      return null;
+    }
     let envs = this.environmentService.getEnvironments().filter(env => {
       env.name = Utilities.resetText(env.name);
       env.description = Utilities.resetText(env.description);

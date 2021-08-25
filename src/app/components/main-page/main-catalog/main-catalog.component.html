@@ -33,7 +33,7 @@
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
-            <div *ngIf="environments.length > 0; else noEnvironmentBlock" class="environment-item-container"
+            <div *ngIf="environments?.length > 0; else noEnvironmentBlock" class="environment-item-container"
               fxLayout="column" fxLayoutAlign="start stretch">
               <ng-container *ngFor="let environment of environments">
                 <app-main-environment-item
@@ -42,12 +42,16 @@
               </ng-container>
             </div>
             <ng-template #noEnvironmentBlock>
-              <div class="message-container">
-                <div class="empty">
+              <section class="message-container">
+                <div class="empty" *ngIf="environments !== null">
                   <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-                  <span class="message">No environments found</span>
+                  <span class="message">No environments found.</span>
                 </div>
-              </div>
+                <div class="empty" *ngIf="environments === null">
+                  <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+                  <span class="message">...Loading...</span>
+                </div>
+              </section>
             </ng-template>
           </div>
         </div>
@@ -55,4 +59,15 @@
       </mat-tab>
     </ng-container>
   </mat-tab-group>
+
+  <!-- Catalogs have not been fetched yet -->
+  <ng-container *ngIf="getCatalogs().length === 0">
+    <section class="message-container">
+      <div class="empty">
+        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+        <span class="message">...Loading...</span>
+      </div>
+    </section>
+  </ng-container>
+
 </section>

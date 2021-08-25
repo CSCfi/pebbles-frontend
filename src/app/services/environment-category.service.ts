@@ -12,8 +12,9 @@ export class EnvironmentCategoryService {
 
   private categories: EnvironmentCategory[] = [];
 
-  constructor(private http: HttpClient) {
-    this.fetchCategories().subscribe();
+  constructor(
+    private http: HttpClient
+  ) {
   }
 
   getCategories(): EnvironmentCategory[] {
@@ -24,21 +25,21 @@ export class EnvironmentCategoryService {
     const url = `${buildConfiguration.apiUrl}/environment_categories`;
     return this.http.get<EnvironmentCategory[]>(url).pipe(
       map((resp) => {
-        // ---- Ask to have id field in DB
-        this.categories = resp.map( cat => {
+        // add static category 'All' with id '1'
+        this.categories = [new EnvironmentCategory('1', 0, 'All', [], 'all', true)];
+        // generate IDs if missing
+        this.categories = this.categories.concat(resp.map(cat => {
           if (!cat.id) {
             cat.id = Math.random().toString(36).substring(2, 8);
           }
           return cat;
-        });
-        this.categories = [new EnvironmentCategory('1', 0, 'All', [], 'all', true)];
-        this.categories = this.categories.concat(resp);
+        }));
         return this.categories;
       })
     );
   }
 
   getCategoryById(catalogId: string) {
-    return this.categories.find( cat => cat.id === catalogId );
+    return this.categories?.find( cat => cat.id === catalogId );
   }
 }
