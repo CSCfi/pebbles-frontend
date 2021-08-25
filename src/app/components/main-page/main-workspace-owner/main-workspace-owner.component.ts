@@ -136,6 +136,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   navigateToWorkspaceItem(workspaceId): void {
+    // to avoid loop, check if we are already on the right route
+    if (this.selectedWorkspaceId === workspaceId) {
+      return;
+    }
     this.selectedWorkspaceId = workspaceId;
     this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then(_ => {
       this.selectWorkspace();
