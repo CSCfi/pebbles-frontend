@@ -1,74 +1,69 @@
-<div class="workspace-setting-container p-20" *ngIf="workspace; else notFoundBlock">
-  <ng-container *ngIf="!isWorkspaceDeleted; else deletedMessageBlock">
-    <form [formGroup]="workspaceEditForm" novalidate
-          class="m-20">
-      <dl class="workspace-info">
-        <dt>
-          Workspace name
-        </dt>
-        <dd>
-          <div class="preview" *ngIf="!isWorkspaceNameEditOn">
-            <p>{{ workspace.name }}</p>
-            <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
-              <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
-            </button>
-          </div>
-          <mat-form-field appearance="outline" *ngIf="isWorkspaceNameEditOn">
-            <input matInput formControlName="name">
-          </mat-form-field>
-        </dd>
-        <dt>
-          Workspace description
-        </dt>
-        <dd>
-          <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
-            <p [innerHTML]="workspace.description || 'No description'"></p>
-            <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceDescription()">
-              <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
-            </button>
-          </div>
-          <mat-form-field appearance="outline" *ngIf="isWorkspaceDescriptionEditOn">
-            <textarea matInput formControlName="description"></textarea>
-          </mat-form-field>
-        </dd>
-        <dt class="join-code-title v-centering mb-50">Join code</dt>
-        <dd fxLayout="row" fxLayoutAlign="space-between center">
-          <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
-            <mat-icon class="mr-5">vpn_key</mat-icon>
-            <div class="chip__hidden v-centering__inline">● ● ● ● ● ●</div>
-          </div>
-        </dd>
-        <dt class="">Created on</dt>
-        <dd>{{ created_date }}</dd>
-        <dt class="mb-30">Expiring on</dt>
-        <dd>{{ expiry_date }}</dd>
-      </dl>
-      <button mat-flat-button class="workspace-update-button mt-20" color="accent"
-              *ngIf="workspace.name!=='System.default'"
-              [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
-        save changes
-      </button>
-      <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
-              (click)="cancelWorkspaceEditing()">
-        cancel changes
-      </button>
-      <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
-              (click)="deleteWorkspace()">
-        <mat-icon class="mr-5">delete_outline</mat-icon>
-        delete workspace
-      </button>
-    </form>
-  </ng-container>
-  <ng-template #deletedMessageBlock>
-    <div class="error-message">
-      <h3>The workspace has been successfully deleted.</h3>
-      <p>Please select another workspace from the left column.</p>
-    </div>
-  </ng-template>
+<div class="workspace-setting-container p-20" *ngIf="workspace && !isWorkspaceDeleted; else loadingBlock">
+  <form [formGroup]="workspaceEditForm" novalidate
+        class="m-20">
+    <dl class="workspace-info">
+      <dt>
+        Workspace name
+      </dt>
+      <dd>
+        <div class="preview" *ngIf="!isWorkspaceNameEditOn">
+          <p>{{ workspace.name }}</p>
+          <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
+            <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+          </button>
+        </div>
+        <mat-form-field appearance="outline" *ngIf="isWorkspaceNameEditOn">
+          <input matInput formControlName="name">
+        </mat-form-field>
+      </dd>
+      <dt>
+        Workspace description
+      </dt>
+      <dd>
+        <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
+          <p [innerHTML]="workspace.description || 'No description'"></p>
+          <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceDescription()">
+            <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
+          </button>
+        </div>
+        <mat-form-field appearance="outline" *ngIf="isWorkspaceDescriptionEditOn">
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </dd>
+      <dt class="join-code-title v-centering mb-50">Join code</dt>
+      <dd fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
+          <mat-icon class="mr-5">vpn_key</mat-icon>
+          <div class="chip__hidden v-centering__inline">● ● ● ● ● ●</div>
+        </div>
+      </dd>
+      <dt class="">Created on</dt>
+      <dd>{{ created_date }}</dd>
+      <dt class="mb-30">Expiring on</dt>
+      <dd>{{ expiry_date }}</dd>
+    </dl>
+    <button mat-flat-button class="workspace-update-button mt-20" color="accent"
+            *ngIf="workspace.name!=='System.default'"
+            [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
+      save changes
+    </button>
+    <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
+            (click)="cancelWorkspaceEditing()">
+      cancel changes
+    </button>
+    <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
+            (click)="deleteWorkspace()">
+      <mat-icon class="mr-5">delete_outline</mat-icon>
+      delete workspace
+    </button>
+  </form>
 </div>
-<ng-template #notFoundBlock>
-  <div class="error-message">
-    <h3>No workspace found</h3>
-    <p>Please select another workspace from the left column.</p>
-  </div>
+
+<ng-template #loadingBlock>
+  <section class="message-container">
+    <div class="empty">
+      <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+      <span class="message">...Loading...</span>
+    </div>
+  </section>
 </ng-template>

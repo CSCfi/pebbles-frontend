@@ -20,7 +20,6 @@ describe('MainPageComponent', () => {
       ],
       providers: [
         ENVIRONMENT_SPECIFIC_PROVIDERS,
-
       ],
       declarations: [ MainPageComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

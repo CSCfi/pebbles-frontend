@@ -1,18 +1,20 @@
 <div class="workspace-environments-container p-20">
   <!-- Buttons -->
-  <div class="environment-actions">
-    <button mat-button class="open-environment-creation-wizard-button mr-10"
-            aria-label="create a new environment" (click)="openEnvironmentWizardDialog()">
-      <!-- <mat-icon class="mr-5">add</mat-icon> -->
-      <mat-icon class="mr-10">auto_fix_high</mat-icon>
-      <span>Environment creation wizard</span>
-    </button>
-    <button mat-button class="open-environment-creation-form-button"
-            aria-label="create a new environment" (click)="openEnvironmentItemFormDialog(null)">
-      <mat-icon class="mr-5">add_circle_outline</mat-icon>
-      <span>Use simple editor</span>
-    </button>
-  </div>
+  <ng-container *ngIf="dataSource?.data !== null">
+    <div class="environment-actions">
+      <button mat-button class="open-environment-creation-wizard-button mr-10"
+              aria-label="create a new environment" (click)="openEnvironmentWizardDialog()">
+        <!-- <mat-icon class="mr-5">add</mat-icon> -->
+        <mat-icon class="mr-10">auto_fix_high</mat-icon>
+        <span>Environment creation wizard</span>
+      </button>
+      <button mat-button class="open-environment-creation-form-button"
+              aria-label="create a new environment" (click)="openEnvironmentItemFormDialog(null)">
+        <mat-icon class="mr-5">add_circle_outline</mat-icon>
+        <span>Use simple editor</span>
+      </button>
+    </div>
+  </ng-container>
 
   <div class="table-container mt-10">
     <ng-container *ngIf="dataSource?.data.length > 0; else noEnvironments">
@@ -182,12 +184,18 @@
     <!-- No Environment -->
     <ng-template #noEnvironments>
       <section class="message-container">
-        <div class="empty">
+        <div class="empty" *ngIf="dataSource !== null">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
           <span class="message">No environments in this workspace yet.</span>
         </div>
+        <div class="empty" *ngIf="dataSource === null">
+          <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+          <span class="message">...Loading...</span>
+        </div>
       </section>
     </ng-template>
+
+    <!-- Paginator -->
     <div [hidden]="!isPaginatorVisible">
       <mat-paginator
         [pageSizeOptions]="pageSizeOptions">

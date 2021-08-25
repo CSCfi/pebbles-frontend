@@ -1,13 +1,12 @@
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { InstanceService } from './instance.service';
-import { WorkspaceService } from './workspace.service';
 import { Environment } from 'src/app/models/environment';
 import { buildConfiguration } from '../../environments/environment';
 import { EnvironmentType } from '../models/environment-template';
 import { EventService } from './event.service';
+import { InstanceService } from './instance.service';
 
 
 @Injectable({
@@ -18,7 +17,7 @@ export class EnvironmentService implements OnDestroy {
   private environments: Environment[] = null;
   private interval = 0;
 
-  get isInitialized(): boolean{
+  get isInitialized(): boolean {
     return this.environments !== null;
   }
 
@@ -32,7 +31,7 @@ export class EnvironmentService implements OnDestroy {
     }, 60 * 1000);
 
     // we are interested in workspace updates, register and refresh our data if there are changes
-    this.eventService.workspaceUpdate$.subscribe(_ => {
+    this.eventService.workspaceDataUpdate$.subscribe(_ => {
       this.fetchEnvironments().subscribe();
     });
   }
@@ -84,7 +83,7 @@ export class EnvironmentService implements OnDestroy {
           }
         }
         this.environments = resp;
-        this.eventService.environmentUpdate$.next('all');
+        this.eventService.environmentDataUpdate$.next('all');
         return this.environments;
       }),
       catchError(err => {

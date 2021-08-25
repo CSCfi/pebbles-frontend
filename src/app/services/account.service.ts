@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,17 +11,21 @@ import { buildConfiguration } from '../../environments/environment';
 })
 export class AccountService {
 
-  private user: User;
+  private users: Map<string, User> = new Map();
 
   constructor(private http: HttpClient) {
+  }
+
+  get(userId: string): User {
+    return this.users.get(userId);
   }
 
   fetchAccount(userId: string): Observable<User> {
     const url = `${buildConfiguration.apiUrl}/users/${userId}`;
     return this.http.get<User>(url).pipe(
       map(resp => {
-        this.user = resp;
-        return this.user;
+        this.users.set(userId, resp);
+        return resp;
       })
     );
   }

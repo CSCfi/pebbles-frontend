@@ -1,10 +1,5 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { WorkspaceService } from '../../services/workspace.service';
-import { EnvironmentService } from '../../services/environment.service';
-import { InstanceService } from '../../services/instance.service';
-import { map } from 'rxjs/operators';
-import { EnvironmentCategoryService } from '../../services/environment-category.service';
 
 @Component({
   selector: 'app-main-page',
@@ -17,28 +12,11 @@ export class MainPageComponent implements OnInit {
   public isSideNavOpen = true;
   private contentWidth: any;
 
-  constructor(
-    private workspaceService: WorkspaceService,
-    private instanceService: InstanceService,
-    private environmentService: EnvironmentService,
-    private environmentCategoryService: EnvironmentCategoryService
-  ) {
+  constructor() {
   }
 
   ngOnInit(): void {
     this.setSideNav();
-
-    // Make sure we have current data loaded at startup
-    // populate the service states in order to be able to assign the instances to environments
-    this.instanceService.fetchInstances().pipe(
-      map(_ => {
-        return this.workspaceService.fetchWorkspaces().subscribe();
-      }),
-      map(_ => {
-        return this.environmentService.fetchEnvironments().subscribe();
-      })
-    ).subscribe();
-    this.environmentCategoryService.fetchCategories().subscribe();
   }
 
   @HostListener('window:resize', ['$event'])

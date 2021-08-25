@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
+import { EventService, LoginStatusChange } from './event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +12,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private eventService: EventService
   ) {
   }
 
@@ -24,13 +28,18 @@ export class AuthService {
     return localStorage.getItem('is_workspace_manager') === 'true';
   }
 
-  login(ext_id: string, password: string): Promise<any> {
+  login(ext_id: string, password: string): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/sessions`;
-    return this.http.post(url, {ext_id, password}).toPromise();
+    return this.http.post(url, {ext_id, password}).pipe(
+      finalize(() => {
+        this.eventService.loginStatus$.next(LoginStatusChange.login);
+      })
+    );
   }
 
   logout(): void {
     localStorage.clear();
+    this.eventService.loginStatus$.next(LoginStatusChange.logout);
     console.log('redirecting to oauth2 sign out url');
     window.open('/oauth2/sign_out?rd=%2F', '_self');
   }
@@ -46,5 +55,4 @@ export class AuthService {
   getUserId(): string {
     return localStorage.getItem('user_id');
   }
-
 }

@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-
-import { DialogComponent } from '../../shared/dialog/dialog.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Workspace } from 'src/app/models/workspace';
+import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
+import { EventService } from '../../../services/event.service';
+import { DialogComponent } from '../../shared/dialog/dialog.component';
+
 
 @Component({
   selector: 'app-main-workspace-item-detail',
   templateUrl: './main-workspace-item-detail.component.html',
   styleUrls: ['./main-workspace-item-detail.component.scss']
 })
-export class MainWorkspaceItemDetailComponent implements OnInit {
-
+export class MainWorkspaceItemDetailComponent implements OnChanges {
   public content = {
     path: 'workspace-owner/:id/setting',
     title: 'Workspace item setting',
     identifier: 'workspace-owner-item-setting'
   };
 
-  public workspaceId = null;
   public workspace: Workspace;
   public isWorkspaceDeleted = false;
 
@@ -30,18 +30,21 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
   public isWorkspaceNameEditOn = false;
   public isWorkspaceDescriptionEditOn = false;
 
+  @Input() workspaceId: string = null;
+  @Output() workspaceDeletedEvent = new EventEmitter<string>();
+
   get userName(): string {
     return this.authService.getUserName();
   }
 
   get created_date(): string {
     const date = new Date(this.workspace.create_ts * 1000);
-    return `${ date.getDate() } / ${ date.getMonth() + 1 } / ${ date.getFullYear() }`;
+    return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
   }
 
   get expiry_date(): string {
     const date = new Date(this.workspace.expiry_ts * 1000);
-    return `${ date.getDate() } / ${ date.getMonth() + 1 } / ${ date.getFullYear() }`;
+    return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
   }
 
   get isEditable(): boolean {
@@ -63,34 +66,26 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private workspaceService: WorkspaceService,
     private authService: AuthService,
+    private eventService: EventService
   ) {
-    this.route.paramMap.subscribe(params => {
-      this.workspaceId = params.get('workspaceId');
-      this.getWorkspaceById(this.workspaceId);
-    });
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.workspace = this.workspaceService.getWorkspaceById(this.workspaceId);
+    this.initReactiveForm();
   }
 
-  getWorkspaceById(workspaceId: string): void {
-    this.workspaceService.fetchWorkspaces().subscribe(_ => {
-      this.workspace = this.workspaceService.getWorkspaceById(workspaceId);
-      if (this.workspace) {
-        this.initReactiveForm(this.workspace);
-        this.content.title = `Workspace: ${this.workspace.name}`;
-      }
-    });
-  }
-
-  initReactiveForm(workspace: Workspace): void {
-    this.isWorkspaceFormChanged = false;
-    if (workspace) {
-      this.workspaceEditForm = this.formBuilder.group({
-        name: [workspace.name, [Validators.required]],
-        description: [workspace.description, [Validators.required]],
-      });
+  initReactiveForm(): void {
+    // we need workspace to initialize
+    if (!this.workspace) {
+      return;
     }
+    this.isWorkspaceFormChanged = false;
+    this.content.title = `Workspace: ${this.workspace.name}`;
+    this.workspaceEditForm = this.formBuilder.group({
+      name: [this.workspace.name, [Validators.required]],
+      description: [this.workspace.description, [Validators.required]],
+    });
   }
 
   editWorkspaceName(): void {
@@ -104,7 +99,7 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
   }
 
   cancelWorkspaceEditing(): void {
-    this.initReactiveForm(this.workspace);
+    this.initReactiveForm();
     this.isWorkspaceNameEditOn = false;
     this.isWorkspaceDescriptionEditOn = false;
   }
@@ -114,33 +109,18 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
     this.workspace.description = this.workspaceEditForm.controls.description.value;
 
     this.workspaceService.updateWorkspace(this.workspace).subscribe(_ => {
-      this.initReactiveForm(this.workspace);
+      this.initReactiveForm();
       this.isWorkspaceNameEditOn = false;
       this.isWorkspaceDescriptionEditOn = false;
     });
   }
 
-  // ---- [MEMO] Discuss later
   deleteWorkspace(): void {
-    const dialogRef = this.dialog.open( DialogComponent, {
-      width: '500px',
-      data: {
-        dialogTitle: 'Delete Workspace',
-        dialogContent: `<p>Are you sure to delete the workspace "${this.workspace.name}"?</p>`,
-        dialogActions: ['confirm', 'cancel']
-      }
-    });
-    dialogRef.afterClosed().subscribe(params => {
-      if (params){
-        this.workspaceService.deleteWorkspace(this.workspace.id).subscribe(_ => {
-          this.isWorkspaceDeleted = true;
-        });
-      }
-    });
+    this.workspaceDeletedEvent.emit(this.workspaceId);
   }
 
   openJoinCodeDialog(): void {
-    const dialogRef = this.dialog.open( DialogComponent, {
+    const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
       data: {
         dialogTitle: 'Workspace join code',
@@ -149,7 +129,7 @@ export class MainWorkspaceItemDetailComponent implements OnInit {
         dialogActions: ['close']
       }
     });
-    dialogRef.afterClosed().subscribe( _ => {
+    dialogRef.afterClosed().subscribe(_ => {
       console.log('The dialog was closed');
     });
   }

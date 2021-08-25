@@ -3,7 +3,7 @@
   <div class="button member-reload-button" (click)="refreshMembers()">
     <mat-icon>refresh</mat-icon>
   </div>
-  <ng-container *ngIf="memberList.length > 0; else noMember">
+  <ng-container *ngIf="memberList?.length > 0; else noMember">
     <!-- members table -->
     <!--
       - icon column
@@ -94,10 +94,23 @@
     </table>
   </ng-container>
 
-  <!-- No Member -->
+  <!-- Loading / No Members -->
   <ng-template #noMember>
-    <p>No members in this workspace yet.</p>
+    <div class="message-container">
+      <div class="empty" *ngIf="memberList !== null">
+        <mat-icon fontSet="material-icons-outlined">group</mat-icon>
+        <span class="message">
+          No members in this workspace.
+        </span>
+      </div>
+      <div class="empty" *ngIf="memberList === null">
+        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+        <span class="message">...Loading...</span>
+      </div>
+    </div>
   </ng-template>
+
+  <!-- Paginator-->
   <div [hidden]="!isPaginatorVisible">
     <mat-paginator
       [pageSizeOptions]="pageSizeOptions">

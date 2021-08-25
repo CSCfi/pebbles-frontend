@@ -1,30 +1,29 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthService} from 'src/app/services/auth.service';
-import {User} from 'src/app/models/user';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {trigger, state, style, animate, transition} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 export const heroShotsAnimation = trigger('openClose', [
   state('open', style({
-      opacity: 1
-    })),
+    opacity: 1
+  })),
   state('closed', style({
-      opacity: 0
-    })),
+    opacity: 0
+  })),
   transition('open => closed', [
-      animate('0.5s')
-    ]),
+    animate('0.5s')
+  ]),
   transition('closed => open', [
-      animate('1s')
-    ]),
+    animate('1s')
+  ]),
 ]);
 
 @Component({
   selector: 'app-welcome-login',
   templateUrl: './welcome-login.component.html',
   styleUrls: ['./welcome-login.component.scss'],
-  animations: [ heroShotsAnimation ]
+  animations: [heroShotsAnimation]
 })
 export class WelcomeLoginComponent implements OnInit {
 
@@ -39,37 +38,35 @@ export class WelcomeLoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.loginFormGroup = this.formBuilder.group({
       ext_id: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-    setTimeout(() => { this.isImageVisible0 = true; }, 300);
+    setTimeout(() => {
+      this.isImageVisible0 = true;
+    }, 300);
   }
 
   onLogin(): void {
     console.log('---- onLogin');
     const ext_id = this.loginFormGroup.controls.ext_id.value;
     const password = this.loginFormGroup.controls.password.value;
-    this.authService
-      .login(ext_id, password)
-      .then((session) => {
-        console.log(session);
-        localStorage.setItem('token', btoa(session.token + ':'));
-        localStorage.setItem('user_id', session.user_id);
-        localStorage.setItem('user_name', ext_id);
-        localStorage.setItem('is_admin', session.is_admin);
-        localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
-        localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
-        localStorage.setItem('is_sidenav_open', 'true');
+    this.authService.login(ext_id, password).subscribe(session => {
+      console.log(session);
+      localStorage.setItem('token', btoa(session.token + ':'));
+      localStorage.setItem('user_id', session.user_id);
+      localStorage.setItem('user_name', ext_id);
+      localStorage.setItem('is_admin', session.is_admin);
+      localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
+      localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
+      localStorage.setItem('is_sidenav_open', 'true');
 
-        this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
+    });
   }
 
   onImageShow(index): void {

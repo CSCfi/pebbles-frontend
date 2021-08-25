@@ -1,18 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from 'src/app/services/auth.service';
-import { WorkspaceService } from 'src/app/services/workspace.service';
-import { Workspace } from 'src/app/models/workspace';
-import { EnvironmentService } from 'src/app/services/environment.service';
-import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
-import { EnvironmentTemplate } from 'src/app/models/environment-template';
-import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
-import { AccountService } from '../../../services/account.service';
-import { User } from '../../../models/user';
-import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { EnvironmentTemplate } from 'src/app/models/environment-template';
+import { Workspace } from 'src/app/models/workspace';
+import { AuthService } from 'src/app/services/auth.service';
+import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
+import { EnvironmentService } from 'src/app/services/environment.service';
+import { WorkspaceService } from 'src/app/services/workspace.service';
+import { User } from '../../../models/user';
+import { AccountService } from '../../../services/account.service';
 import { EventService } from '../../../services/event.service';
+import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
+
 
 @Component({
   selector: 'app-main-workspace-owner',
@@ -22,6 +24,7 @@ import { EventService } from '../../../services/event.service';
 export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
+  private autoselectFirstWorkspace = true;
 
   public content = {
     path: 'main/workspace-owner',
@@ -29,31 +32,30 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     identifier: 'workspace-owner'
   };
 
-  public workspaces: Workspace[] = [];
+  public workspaces: Workspace[] = null;
   public selectedWorkspaceId: string;
   public selectedWorkspace: Workspace;
+  public selectedTab = 1;
   public newWorkspace: Workspace;
   public user: User;
   public environmentCount = 0;
   public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
-  public navLinks = [
-    {location: '/info', label: '', icon: ''},
-    {location: '/environments', label: 'Environments', icon: 'account_circle'},
-    {location: '/members', label: 'Members', icon: 'work'}
-  ];
+  public isWorkspaceDeleted = false;
+
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   get isDemoButtonShown(): boolean {
     // check that we know about our workspaces and that there is more than 2 seconds since the last click
-    return this.workspaces.length === 0
+    return this.workspaces?.length === 0
       && Date.now() - this.createDemoWorkspaceClickTs > 2 * 1000;
   }
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     public dialog: MatDialog,
-    public workspaceService: WorkspaceService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private workspaceService: WorkspaceService,
     private authService: AuthService,
     private accountService: AccountService,
     private environmentService: EnvironmentService,
@@ -65,17 +67,35 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // ---- Subscriptions to event Subjects
-    this.subscriptions.push(this.eventService.environmentUpdate$.subscribe(_ => {
+    this.subscriptions.push(this.eventService.environmentDataUpdate$.subscribe(_ => {
       this.refreshView();
     }));
-    this.subscriptions.push(this.eventService.workspaceUpdate$.subscribe(wsid => {
+    this.subscriptions.push(this.eventService.workspaceDataUpdate$.subscribe(_ => {
+      this.refreshView();
+    }));
+    this.subscriptions.push(this.eventService.workspaceMemberDataUpdate$.subscribe(_ => {
       this.refreshView();
     }));
 
-    //
-    this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
-      this.user = user;
+    this.user = this.accountService.get(this.authService.getUserId());
+    // check if we need to populate account service
+    if (!this.user) {
+      this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
+        this.user = user;
+        this.refreshView();
+      });
+    } else {
       this.refreshView();
+    }
+
+    // restore workspace/tab selection from queryParams if available
+    this.activatedRoute.queryParamMap.subscribe(paramMap => {
+      if (paramMap.get('id')) {
+        this.selectWorkspace(paramMap.get('id'));
+      }
+      if (paramMap.get('tab')) {
+        this.selectedTab = +paramMap.get('tab');
+      }
     });
   }
 
@@ -85,65 +105,52 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   refreshView(): void {
-    console.log('MainWorkspaceOwnerComponent.refreshView()');
-    if (this.user) {
-      // ---- admins see all workspaces
-      if (this.user.is_admin) {
-        this.workspaces = this.workspaceService.getWorkspaces();
-      } else {
-        // ---- TODO: change this to managed workspaces
-        // ---- return owned workspaces
-        this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
-      }
+    // check if the data is there already
+    if (!(this.user && this.workspaceService.isInitialized)) {
+      return;
+    }
+    // ---- admins see all workspaces
+    if (this.user.is_admin) {
+      this.workspaces = this.workspaceService.getWorkspaces();
     } else {
-      // ---- no user fetched yet, empty result initially
-      this.workspaces = [];
+      // ---- TODO: change this to managed workspaces
+      // ---- return owned workspaces
+      this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
     }
 
-    this.selectWorkspace();
+    // if no workspace selected and we have workspaces to select from, pick the first
+    if (this.autoselectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
+      this.selectWorkspace(this.workspaces[0].id);
+      this.autoselectFirstWorkspace = false;
+    }
+    // if there is a selected workspace, refresh the member counts
     if (this.selectedWorkspaceId) {
+      this.selectedWorkspace = this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
       this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
-      this.environmentCount = this.environmentService.getEnvironmentsByWorkspaceId(this.selectedWorkspaceId).length;
-    }
-  }
-
-  selectWorkspace(): void {
-    if (this.route.snapshot.firstChild) {
-      this.selectedWorkspaceId = this.route.snapshot.firstChild.params.workspaceId;
-      this.selectedWorkspace = this.workspaces.find(x => x.id === this.selectedWorkspaceId);
-
-      if (this.selectedWorkspace) {
-        this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
-        this.environmentCount = this.environmentService.getEnvironmentsByWorkspaceId(this.selectedWorkspaceId)?.length;
-
-        // load data in relevant services if needed
-        if (!this.memberCount) {
-          this.workspaceService.refreshWorkspaceMemberCount(this.selectedWorkspaceId);
-        }
-      }
-    } else {
-      // ---- MEMO:
-      // ---- If no workspaceId wasn't retrieved from URL,
-      // ---- or we don't have the selected workspace anymore by deleting,
-      // ---- display the newest workspace.
-      if (this.workspaces.length > 0) {
-        this.navigateToWorkspaceItem(this.workspaces[0].id);
-      } else {
-        this.selectedWorkspaceId = null;
-        this.selectedWorkspace = null;
+      this.environmentCount = this.environmentService.getEnvironmentsByWorkspaceId(this.selectedWorkspaceId)?.length;
+      if (!this.memberCount) {
+        // service has not been populated, trigger fetching of members
+        this.workspaceService.refreshWorkspaceMemberCount(this.selectedWorkspaceId);
       }
     }
   }
 
-  navigateToWorkspaceItem(workspaceId): void {
-    // to avoid loop, check if we are already on the right route
+  selectWorkspace(workspaceId: string): void {
     if (this.selectedWorkspaceId === workspaceId) {
       return;
     }
+    console.log('select workspace', workspaceId);
     this.selectedWorkspaceId = workspaceId;
-    this.router.navigate(['main', 'workspace-owner', workspaceId, 'environments']).then(_ => {
-      this.selectWorkspace();
+    this.isWorkspaceDeleted = false;
+
+    // save the workspace selection in url parameters to restore navigation state after a reload
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {id: workspaceId},
+      queryParamsHandling: 'merge'
     });
+
+    this.refreshView();
   }
 
   isOwner(workspace: Workspace): boolean {
@@ -192,10 +199,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        console.log(`Dialog result: ${resp}`);
+        console.log('openWorkspaceCreationDialog() result', resp);
         this.newWorkspace = resp;
-        this.selectedWorkspaceId = resp.id;
-        this.navigateToWorkspaceItem(resp.id);
+        this.selectWorkspace(resp.id);
       }
     });
   }
@@ -255,8 +261,47 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     });
   }
 
+  openDeleteWorkspaceDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '500px',
+      data: {
+        dialogTitle: 'Delete Workspace',
+        dialogContent: `<p>Are you sure to delete the workspace "${this.selectedWorkspace.name}"?</p>`,
+        dialogActions: ['confirm', 'cancel']
+      }
+    });
+    dialogRef.afterClosed().subscribe(params => {
+      if (params) {
+        this.workspaceService.deleteWorkspace(this.selectedWorkspace.id).subscribe(_ => {
+          this.isWorkspaceDeleted = true;
+          this.selectedWorkspace = null;
+          this.selectedWorkspaceId = null;
+        });
+      }
+    });
+  }
+
   getExpiry_date(workspace: Workspace): string {
     const date = new Date(workspace.expiry_ts * 1000);
     return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
+  }
+
+  handleTabChange($event: MatTabChangeEvent) {
+    this.selectedTab = $event.index;
+
+    // save the workspace selection in url parameters to restore navigation state after a reload
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {tab: this.selectedTab},
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  focusTab(idx: number): void {
+    if (!this.tabGroup) {
+      setTimeout(_ => this.focusTab(idx), 0);
+      return;
+    }
+    this.tabGroup.selectedIndex = idx;
   }
 }

@@ -13,33 +13,35 @@
   <div class="workspace-list-container mt-10 mr-15 ml-15" fxFlex="0 0 300px"
        fxLayout="column" fxLayoutGap="10px">
     <!-- Workspace Buttons -->
-    <div class="workspaces-actions-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
-      <ng-container *ngIf="isDemoButtonShown; else workspaceCreationBlock">
-        <button mat-flat-button class="create-demo-workspace-button inversion primary"
-                aria-label="create demo workspace" (click)="createDemoWorkspace()">
-          <mat-icon>add</mat-icon>
-          <span>Create demo workspace</span>
-        </button>
-      </ng-container>
-      <ng-template #workspaceCreationBlock>
-        <button mat-flat-button
-                class="create-workspace-button"
-                [ngClass]="{'inversion primary': isQuotaLeft()}"
-                aria-label="create a new workspace"
-                [disabled]="!isQuotaLeft()"
-                (click)="openWorkspaceCreationDialog()">
-          <mat-icon class="mr-5">add</mat-icon>
-          <span>Create workspace</span>
-        </button>
-      </ng-template>
-    </div>
+    <ng-container *ngIf="workspaces">
+      <div class="workspaces-actions-container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+        <ng-container *ngIf="isDemoButtonShown; else workspaceCreationBlock">
+          <button mat-flat-button class="create-demo-workspace-button inversion primary"
+                  aria-label="create demo workspace" (click)="createDemoWorkspace()">
+            <mat-icon>add</mat-icon>
+            <span>Create demo workspace</span>
+          </button>
+        </ng-container>
+        <ng-template #workspaceCreationBlock>
+          <button mat-flat-button
+                  class="create-workspace-button"
+                  [ngClass]="{'inversion primary': isQuotaLeft()}"
+                  aria-label="create a new workspace"
+                  [disabled]="!isQuotaLeft()"
+                  (click)="openWorkspaceCreationDialog()">
+            <mat-icon class="mr-5">add</mat-icon>
+            <span>Create workspace</span>
+          </button>
+        </ng-template>
+      </div>
+    </ng-container>
 
     <!-- Workspace List -->
     <div class="workspace-list" *ngIf="workspaces">
       <ng-container *ngFor="let workspace of workspaces">
         <mat-card class="workspace-widget mb-5"
                   [ngClass]="{'selected': isWorkspaceSelected(workspace)}"
-                  (click)="navigateToWorkspaceItem(workspace.id)">
+                  (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
           <div class="card-header" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="card-media v-centering__horizontal" fxFlex="0 0 45px"
@@ -77,41 +79,101 @@
         </mat-card>
       </ng-container>
     </div>
+
+    <div class="message-container" *ngIf="!workspaces">
+      <div class="empty" *ngIf="workspaces !== null">
+        <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
+        <span class="message">
+          No workspaces
+        </span>
+      </div>
+      <div class="empty" *ngIf="workspaces === null">
+        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+        <span class="message">...Loading...</span>
+      </div>
+    </div>
+
   </div>
   <!--  //// END div.workspaces-actions-container -->
 
   <!-- Right Column : Workspace Detail -->
   <div class="workspace-detail-container" fxFlex="grow">
     <ng-container *ngIf="selectedWorkspace">
-      <nav mat-tab-nav-bar mat-align-tabs="center">
-        <a mat-tab-link
-           [routerLink]="[selectedWorkspaceId+'/info']"
-           routerLinkActive #info="routerLinkActive"
-           [active]="info.isActive">
-          <mat-icon class="mr-5" fontSet="material-icons-outlined">settings</mat-icon>
-          {{ selectedWorkspace.name }}
-        </a>
-        <a mat-tab-link
-           [routerLink]="[selectedWorkspaceId+'/environments']"
-           routerLinkActive #environments="routerLinkActive"
-           [active]="environments.isActive">
-          Environments
-          <mat-chip *ngIf="environmentCount >= 0" class="ml-5 chip__m v-centering__inline">
-            {{environmentCount}}
-          </mat-chip>
-        </a>
-        <a mat-tab-link
-           [routerLink]="[selectedWorkspaceId+'/members']"
-           routerLinkActive #members="routerLinkActive"
-           [active]="members.isActive">
-          Members
-          <mat-chip *ngIf="memberCount >= 0" class="ml-5 chip__m v-centering__inline">{{memberCount}}</mat-chip>
-        </a>
-      </nav>
+      <mat-tab-group mat-align-tabs="center" class="workspace-owner-tab"
+                     (selectedTabChange)="handleTabChange($event)"
+                     animationDuration="100ms"
+                     [selectedIndex]="selectedTab">
+
+        <mat-tab label="settings">
+
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-5" fontSet="material-icons-outlined">settings</mat-icon>
+            <span class="tab-title">{{selectedWorkspace.name}}</span>
+          </ng-template>
+
+          <app-main-workspace-item-detail [workspaceId]="selectedWorkspaceId"
+                                          (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
+          </app-main-workspace-item-detail>
+
+        </mat-tab>
+
+        <mat-tab label="environments">
+          <ng-template mat-tab-label>
+            <span class="tab-title">Environments</span>
+            <mat-chip *ngIf="environmentCount >= 0" class="ml-5 chip__m v-centering__inline">
+              {{environmentCount}}
+            </mat-chip>
+          </ng-template>
+
+          <app-main-workspace-environments [workspaceId]="selectedWorkspaceId">
+          </app-main-workspace-environments>
+
+        </mat-tab>
+
+        <mat-tab label="members">
+          <ng-template mat-tab-label>
+            <span class="tab-title">Members</span>
+            <mat-chip *ngIf="memberCount >= 0" class="ml-5 chip__m v-centering__inline">
+              {{memberCount}}
+            </mat-chip>
+          </ng-template>
+
+          <app-main-workspace-members [workspaceId]="selectedWorkspaceId">
+          </app-main-workspace-members>
+
+        </mat-tab>
+
+      </mat-tab-group>
     </ng-container>
-    <div class="workspace-detail-tab-content">
-      <router-outlet></router-outlet>
-    </div>
+
+    <ng-container *ngIf="isWorkspaceDeleted">
+      <section class="message-container">
+        <div class="error-message">
+          <h3>The workspace has been successfully deleted.</h3>
+          <p>Please select another workspace from the left column.</p>
+        </div>
+      </section>
+    </ng-container>
+
   </div>
   <!--  //// END div.workspace-detail-container -->
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

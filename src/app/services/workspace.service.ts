@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Workspace } from 'src/app/models/workspace';
-import { User } from 'src/app/models/user';
-import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
-import { Folder } from 'src/app/models/folder';
 import * as TESTDATA from 'src/app/interceptors/test-data';
+import { Folder } from 'src/app/models/folder';
+import { User } from 'src/app/models/user';
+import { Workspace } from 'src/app/models/workspace';
+import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
 import { buildConfiguration } from '../../environments/environment';
 import { EventService } from './event.service';
 
@@ -89,7 +89,7 @@ export class WorkspaceService {
         const eventNeeded = this.workspaces?.length !== resp.length;
         this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
         if (eventNeeded) {
-          this.eventService.workspaceUpdate$.next('all');
+          this.eventService.workspaceDataUpdate$.next('all');
         }
         return this.workspaces;
       })
@@ -102,7 +102,7 @@ export class WorkspaceService {
       map((resp) => {
         console.log('refreshWorkspaceMembers() got', resp);
         this.workspaceMemberMap.set(workspaceId, resp);
-        this.eventService.workspaceUpdate$.next('all');
+        this.eventService.workspaceMemberDataUpdate$.next(workspaceId);
         return resp;
       })
     ).subscribe();
@@ -118,7 +118,7 @@ export class WorkspaceService {
       map((resp) => {
         console.log('refreshWorkspaceMemberCount() got', resp);
         this.workspaceMemberCountMap.set(workspaceId, resp);
-        this.eventService.workspaceUpdate$.next('all');
+        this.eventService.workspaceMemberDataUpdate$.next(workspaceId);
         return Number(resp);
       })
     ).subscribe();
@@ -166,7 +166,8 @@ export class WorkspaceService {
   deleteWorkspace(workspaceId: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}`;
     return this.http.delete<Workspace>(url).pipe(tap(_ => {
-      this.fetchWorkspaces().subscribe();
+      this.workspaces = this.workspaces.filter(x => x.id !== workspaceId);
+      this.eventService.workspaceDataUpdate$.next(workspaceId);
     }));
   }
 }

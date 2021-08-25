@@ -1,25 +1,60 @@
-import { Component, HostBinding } from '@angular/core';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { AuthService } from './services/auth.service';
+import { EnvironmentCategoryService } from './services/environment-category.service';
+import { EnvironmentService } from './services/environment.service';
+import { EventService, LoginStatusChange } from './services/event.service';
+import { InstanceService } from './services/instance.service';
+import { WorkspaceService } from './services/workspace.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'pebbles-frontend';
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-
   private theme = 'user';
 
   @HostBinding('class')
   get themeMode() {
-    return 'custom-theme-' + this.theme ;
+    return 'custom-theme-' + this.theme;
   }
 
   constructor(
-    private snackBar: MatSnackBar,
+    private workspaceService: WorkspaceService,
+    private instanceService: InstanceService,
+    private environmentService: EnvironmentService,
+    private environmentCategoryService: EnvironmentCategoryService,
+    private eventService: EventService,
+    private authService: AuthService,
   ) {
+  }
+
+  ngOnInit(): void {
+    console.log('AppComponent.ngOnInit()');
+    // Make sure we have current data loaded after login
+    // populate the service states in order to be able to assign the instances to environments
+    this.eventService.loginStatus$.subscribe(change => {
+      if (change === LoginStatusChange.login) {
+        this.initializeServices();
+      }
+    });
+    if (this.authService.getToken()) {
+      this.initializeServices();
+    }
+  }
+
+  initializeServices(): void {
+    this.instanceService.fetchInstances().pipe(
+      map(_ => {
+        return this.workspaceService.fetchWorkspaces().subscribe();
+      }),
+      map(_ => {
+        return this.environmentService.fetchEnvironments().subscribe();
+      })
+    ).subscribe();
+    this.environmentCategoryService.fetchCategories().subscribe();
+
   }
 }

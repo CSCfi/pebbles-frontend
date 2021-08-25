@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { WorkspaceService } from '../../../services/workspace.service';
-import { Utilities } from '../../../utilities';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventService } from '../../../services/event.service';
+import { WorkspaceService } from '../../../services/workspace.service';
+import { Utilities } from '../../../utilities';
 
 export enum UserCategory {
   owner = 'Workspace owner',
@@ -27,21 +27,22 @@ export interface MemberRow {
   templateUrl: './main-workspace-members.component.html',
   styleUrls: ['./main-workspace-members.component.scss']
 })
-export class MainWorkspaceMembersComponent implements OnInit, OnDestroy {
-  // store subscriptions here for unsubscribing destroy time
+export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestroy {
+  // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
   public displayedColumns: string[] = ['index', 'icon', 'role', 'email', 'action'];
   public dataSource: MatTableDataSource<MemberRow>;
   public selection = new SelectionModel<MemberRow>(true, []);
-  public workspaceId: string;
-  public memberList: MemberRow[] = [];
+  public memberList: MemberRow[] = null;
 
   // ---- Paginator
   public isPaginatorVisible = true;
   public minUnitNumber = 25;
   public pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @Input() workspaceId: string = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,18 +52,20 @@ export class MainWorkspaceMembersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.eventService.workspaceUpdate$.subscribe(_ => {
+    this.subscriptions.push(this.eventService.workspaceMemberDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
     }));
+  }
 
-    this.route.paramMap.subscribe(params => {
-      this.workspaceId = params.get('workspaceId');
-      if (this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
-        this.rebuildDataSource();
-      } else {
-        this.refreshMembers();
-      }
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    // Whenever our @Input changes, we rebuild our table data source
+    if (this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
+      this.rebuildDataSource();
+    } else {
+    // workspace members are not eagerly loaded (the list might be very long),
+    // so if workspaceService does not already have the list we trigger the fetch
+      this.refreshMembers();
+    }
   }
 
   ngOnDestroy(): void {
@@ -73,6 +76,9 @@ export class MainWorkspaceMembersComponent implements OnInit, OnDestroy {
     if (this.workspaceId) {
       this.workspaceService.refreshWorkspaceMembers(this.workspaceId);
     }
+    // set the data to null to clear possible old data from the previous selection and to render 'loading' message
+    this.dataSource = null;
+    this.memberList = null;
   }
 
   getUserCategory(role: string): string {
@@ -80,8 +86,12 @@ export class MainWorkspaceMembersComponent implements OnInit, OnDestroy {
   }
 
   rebuildDataSource(): void {
+    // we need the service to be populated before actually setting data
+    if (!this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
+      return;
+    }
+    // wait for paginator to be initialized by Angular, otherwise defer to next tick
     if (!this.paginator) {
-      // wait for paginator to be initialized before actually setting data
       setTimeout(_ => this.rebuildDataSource(), 0);
       return;
     }

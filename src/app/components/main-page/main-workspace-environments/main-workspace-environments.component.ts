@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentType } from '../../../models/environment-template';
-import { EnvironmentService } from 'src/app/services/environment.service';
-import { MainEnvironmentWizardFormComponent } from '../main-environment-wizard-form/main-environment-wizard-form.component';
-import { MainEnvironmentItemFormComponent } from '../main-environment-item-form/main-environment-item-form.component';
-import { Utilities } from '../../../utilities';
-import { EventService } from '../../../services/event.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Environment } from 'src/app/models/environment';
+import { EnvironmentService } from 'src/app/services/environment.service';
+import { EnvironmentType } from '../../../models/environment-template';
+import { EventService } from '../../../services/event.service';
+import { Utilities } from '../../../utilities';
+import { MainEnvironmentItemFormComponent } from '../main-environment-item-form/main-environment-item-form.component';
+import { MainEnvironmentWizardFormComponent } from '../main-environment-wizard-form/main-environment-wizard-form.component';
 
 export interface EnvironmentRow {
   select: boolean;
@@ -31,20 +31,20 @@ export interface EnvironmentRow {
   templateUrl: './main-workspace-environments.component.html',
   styleUrls: ['./main-workspace-environments.component.scss']
 })
-export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy {
-  // store subscriptions here for unsubscribing destroy time
+export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, OnChanges {
+  // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
   public displayedColumns: string[] = ['thumbnail', 'name', 'state', 'launch', 'edit', 'menu'];
-  public dataSource: MatTableDataSource<EnvironmentRow>;
+  public dataSource: MatTableDataSource<EnvironmentRow> = null;
   public selection = new SelectionModel<EnvironmentRow>(true, []);
-  public workspaceId: string;
   // ---- Paginator
   public isPaginatorVisible = false;
   public minUnitNumber = 25;
   public pageSizeOptions = [this.minUnitNumber];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @Input() workspaceId: string = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,14 +55,15 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.eventService.environmentUpdate$.subscribe(_ => {
+    this.subscriptions.push(this.eventService.environmentDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
     }));
-    this.route.paramMap.subscribe(params => {
-      console.log(this, 'route callback');
-      this.workspaceId = params.get('workspaceId');
-      this.rebuildDataSource();
-    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // selected workspace changed, clear old data and rebuild data source
+    this.dataSource = null;
+    this.rebuildDataSource();
   }
 
   ngOnDestroy(): void {
@@ -71,9 +72,13 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy {
   }
 
   rebuildDataSource(): void {
-    if (!this.paginator) {
-      // wait for paginator to be initialized before actually setting data
-      setTimeout(_ => this.rebuildDataSource(), 0);
+    // we need the environmentService to be ready
+    if (!this.environmentService.isInitialized) {
+      return;
+    }
+    // wait for paginator to be initialized by Angular, otherwise defer to next tick
+    if (!(this.paginator)) {
+      setTimeout(() => this.rebuildDataSource(), 0);
       return;
     }
     console.log('MainWorkspaceEnvironmentsComponent.rebuildDataSource()');

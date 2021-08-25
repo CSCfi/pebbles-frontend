@@ -1,10 +1,9 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from './auth.service';
-import { User } from 'src/app/models/user';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
+import { TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -26,16 +25,15 @@ describe('AuthService', () => {
 
   it('should allow login',
     (done: DoneFn) => {
-      return service.login('admin@example.org', 'admin').then((resp) => {
+      return service.login('admin@example.org', 'admin').subscribe(resp => {
         expect(resp).toEqual({
           token: 'fake-token',
           user_id: '1',
           is_admin: true,
           is_workspace_owner: true,
           is_workspace_manager: true
-          });
+        });
         done();
       });
     });
-
 });
