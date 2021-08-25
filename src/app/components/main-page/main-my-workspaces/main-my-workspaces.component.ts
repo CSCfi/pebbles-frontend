@@ -29,7 +29,10 @@ export class MainMyWorkspacesComponent {
     return this.workspaceService.getWorkspaces().length;
   }
 
-  get workspaces(): Workspace[] {
+  get visibleWorkspaces(): Workspace[] {
+    if (!this.workspaceService.isInitialized) {
+      return null;
+    }
     const wss = this.workspaceService.getWorkspaces().map(ws => {
       ws.name = Utilities.resetText(ws.name);
       ws.description = Utilities.resetText(ws.description);

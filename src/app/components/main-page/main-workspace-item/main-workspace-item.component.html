@@ -23,24 +23,26 @@
     <mat-card-content>
       <div class="workspace-description mt-10 mb-5" [innerHTML]="workspace.description">
       </div>
-      <div class="environment-list" *ngIf="environments" [ngClass]="{'active': environments.length > 0}">
-        <ng-container *ngIf="environments">
-          <div class="environment-info-header v-centering__inline" (click)="toggleEnvironmentList()">
-            <mat-icon class="material-icons-outlined">list</mat-icon>
-            <ng-container *ngIf="environments.length > 0">
-              <mat-icon *ngIf="!panelOpenState ; else openedPanelBlock">arrow_right</mat-icon>
-              <ng-template #openedPanelBlock>
-                <mat-icon *ngIf="panelOpenState">arrow_drop_down</mat-icon>
-              </ng-template>
-            </ng-container>
-            <span class="ml-10">{{ environments.length }} Environments</span>
-          </div>
-        </ng-container>
+      <div class="environment-list" *ngIf="environments !== null" [ngClass]="{'active': environments?.length > 0}">
+        <div class="environment-info-header v-centering__inline" (click)="toggleEnvironmentList()">
+          <mat-icon class="material-icons-outlined">list</mat-icon>
+          <ng-container *ngIf="environments.length > 0">
+            <mat-icon *ngIf="!panelOpenState ; else openedPanelBlock">arrow_right</mat-icon>
+            <ng-template #openedPanelBlock>
+              <mat-icon *ngIf="panelOpenState">arrow_drop_down</mat-icon>
+            </ng-template>
+          </ng-container>
+          <span class="ml-10">{{ environments.length }} Environments</span>
+        </div>
+      </div>
+      <!-- workspaces visible, but environments have not been loaded yet -->
+      <div *ngIf="environments === null">
+        <span class="ml-10">...Loading...</span>
       </div>
     </mat-card-content>
   </mat-card>
 
-  <mat-accordion *ngIf="environments && environments.length > 0" multi>
+  <mat-accordion *ngIf="environments?.length > 0" multi>
     <mat-expansion-panel [expanded]="panelOpenState">
       <div class="environment-item" *ngFor="let environment of environments">
         <div class="tree"></div>

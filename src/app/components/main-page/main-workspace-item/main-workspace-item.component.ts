@@ -18,11 +18,10 @@ export class MainWorkspaceItemComponent implements OnInit {
   panelOpenState: boolean;
 
   get environments(): Environment[] {
-    if (this.workspace) {
+    if (this.workspace && this.environmentService.isInitialized) {
       return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
-    } else {
-      return [];
     }
+    return null;
   }
 
   constructor(

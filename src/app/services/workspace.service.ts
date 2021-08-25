@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
@@ -15,9 +15,13 @@ import { EventService } from './event.service';
 })
 export class WorkspaceService {
 
-  private workspaces: Workspace[] = [];
+  private workspaces: Workspace[] = null;
   private workspaceMemberMap: Map<string, WorkspaceUserList> = new Map();
   private workspaceMemberCountMap: Map<string, number> = new Map();
+
+  get isInitialized(): boolean {
+    return this.workspaces !== null;
+  }
 
   constructor(
     private http: HttpClient,
@@ -26,16 +30,16 @@ export class WorkspaceService {
   }
 
   getWorkspaceById(id: string): Workspace {
-    return this.workspaces.find(x => x.id === id);
+    return this.isInitialized ? this.workspaces.find(x => x.id === id) : null;
   }
 
   getWorkspaces(): Workspace[] {
-    return this.workspaces;
+    return this.isInitialized ? this.workspaces : [];
   }
 
   getOwnedWorkspaces(user: User): Workspace[] {
     // return workspaces where given user has owner role
-    return this.workspaces.filter(x => x.owner_ext_id === user.ext_id);
+    return this.isInitialized ? this.workspaces.filter(x => x.owner_ext_id === user.ext_id) : [];
   }
 
   getWorkspaceMembers(workspaceId: string): WorkspaceUserList {
@@ -82,7 +86,7 @@ export class WorkspaceService {
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
         // if the number of workspaces has changed, we also fire an event (e.g. to notify EnvironmentService)
-        const eventNeeded = this.workspaces.length !== resp.length;
+        const eventNeeded = this.workspaces?.length !== resp.length;
         this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
         if (eventNeeded) {
           this.eventService.workspaceUpdate$.next('all');

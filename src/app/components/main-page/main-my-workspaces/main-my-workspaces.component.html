@@ -9,27 +9,29 @@
   </button>
 </div>
 
-<div class="content-container" *ngIf="workspaces">
+<div class="content-container" *ngIf="visibleWorkspaces !== null">
 
-  <div class="action-buttons mt-5" *ngIf="workspaceCount>0">
-    <ng-container *ngIf="isListOpen; else openButtonBlock">
-      <button mat-button (click)="closeAll()">
-        <mat-icon>unfold_less</mat-icon>
-        Close environment lists
-      </button>
+  <div class="action-buttons mt-5">
+    <ng-container *ngIf="visibleWorkspaces.length > 0">
+      <ng-container *ngIf="isListOpen; else openButtonBlock">
+        <button mat-button (click)="closeAll()">
+          <mat-icon>unfold_less</mat-icon>
+          Close environment lists
+        </button>
+      </ng-container>
+      <ng-template #openButtonBlock>
+        <button mat-button (click)="openAll()">
+          <mat-icon>unfold_more</mat-icon>
+          Show environment lists
+        </button>
+      </ng-template>
     </ng-container>
-    <ng-template #openButtonBlock>
-      <button mat-button (click)="openAll()">
-        <mat-icon>unfold_more</mat-icon>
-        Show environment lists
-      </button>
-    </ng-template>
   </div>
 
-  <section class="workspace-list mt-5" *ngIf="workspaceCount>0 ; else noMembershipBlock" fxLayout="column"
+  <section class="workspace-list mt-5" *ngIf="workspaceCount > 0 ; else noMembershipBlock" fxLayout="column"
     fxLayoutAlign="start stretch" fxLayoutGap="5px">
-    <ng-container *ngIf="workspaces.length > 0; else noWorkspaceBlock">
-      <ng-container *ngFor="let workspace of workspaces">
+    <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">
+      <ng-container *ngFor="let workspace of visibleWorkspaces">
         <app-main-workspace-item
           [id]="workspace.id"
           [workspace]="workspace"
@@ -41,17 +43,27 @@
       <div class="message-container">
         <div class="empty">
           <mat-icon fontSet="material-icons-outlined">search</mat-icon>
-          <span class="message">No results was found by search</span>
+          <span class="message">No results were found by search</span>
         </div>
       </div>
     </ng-template>
   </section>
+
   <ng-template #noMembershipBlock>
     <div class="message-container">
       <div class="empty">
         <mat-icon fontSet="material-icons-outlined">group</mat-icon>
-        <span class="message">You are currently not a member of any workspaces</span>
+        <span class="message">
+          You are currently not a member of any workspace
+        </span>
       </div>
     </div>
   </ng-template>
+</div>
+
+<div class="message-container">
+  <div class="empty" *ngIf="visibleWorkspaces === null">
+    <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+    <span class="message">...Loading...</span>
+  </div>
 </div>
