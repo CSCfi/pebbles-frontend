@@ -9,7 +9,7 @@
   <button mat-button fxFlex="0 0 180px" class="shadow__moderate join-workspace-button" aria-label="Join Workspace"
     matTooltip="Join workspace"
     (click)="openJoinWorkspaceDialog()">
-    <mat-icon class="mr-5">group_add</mat-icon>
+    <mat-icon fontSet="material-icons-outlined" class="mr-5">group_add</mat-icon>
     Join workspace
   </button>
 </div>
@@ -23,7 +23,7 @@
         <ng-template mat-tab-label>
           <div [ngSwitch]="catalog.type">
             <ng-container *ngSwitchCase="'all'">
-              <mat-icon class="tab-icon">
+              <mat-icon fontSet="material-icons-outlined" class="tab-icon">
                 apps
               </mat-icon>
             </ng-container>

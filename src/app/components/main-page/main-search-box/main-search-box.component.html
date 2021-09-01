@@ -4,7 +4,7 @@
     <mat-chip *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
       (removed)="removeLabel(label)" selected>
       {{label}}
-      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      <mat-icon fontSet="material-icons-outlined" matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
     <input #labelInput
       [formControl]="labelCtrl" [matAutocomplete]="auto"

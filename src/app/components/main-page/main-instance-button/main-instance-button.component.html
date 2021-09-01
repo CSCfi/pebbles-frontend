@@ -44,7 +44,7 @@
         <ng-container *ngSwitchCase="'failed'">
           <button mat-button class="replay-button v-centering__inline" (click)="stopEnvironment()">
             <div class="button-icon">
-              <mat-icon>stop</mat-icon>
+              <mat-icon fontSet="material-icons-outlined">stop</mat-icon>
             </div>
             <div class="state v-centering__inline">{{ state }}</div>
           </button>
@@ -55,7 +55,7 @@
             fxLayout="column" fxLayoutAlign="center center" class="open-button v-centering__inline inversion"
             (click)="openEnvironmentInBrowser()">
             <div class="button-icon">
-              <mat-icon>launch</mat-icon>
+              <mat-icon fontSet="material-icons-outlined">launch</mat-icon>
             </div>
             <ng-container *ngIf="lifetimeLeft; else stateBlock">
               <div class="time-left"> {{ lifetimeLeft }}</div>
@@ -67,7 +67,7 @@
           <button mat-button fxFlex="0 0 30px" matTooltip="Stop environment" matTooltipPosition="below"
             class="shutdown-button v-centering__inline inversion" (click)="stopEnvironment()">
             <div class="button-icon">
-              <mat-icon>close</mat-icon>
+              <mat-icon fontSet="material-icons-outlined">close</mat-icon>
             </div>
             <!-- <span>stop</span> -->
           </button>
@@ -81,7 +81,7 @@
       <button mat-button matTooltip="Start environment" fxLayout="row" fxLayoutAlign="center center"
         class="launch-button circle-button" (click)="startEnvironment()">
         <div class="button-icon">
-          <mat-icon>power_settings_new</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">power_settings_new</mat-icon>
         </div>
       </button>
     </ng-template>

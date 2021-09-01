@@ -14,7 +14,7 @@
         <div class="button-container">
           <button mat-flat-button class="join-workspace-btn inversion primary" (click)="joinWorkspace()"
             autofocus>
-            <mat-icon>add</mat-icon>
+            <mat-icon fontSet="material-icons-outlined">add</mat-icon>
           </button>
         </div>
       </form>
@@ -25,7 +25,7 @@
         <mat-list>
           <div mat-subheader>My Workspaces</div>
           <mat-list-item *ngFor="let workspace of workspaces">
-            <mat-icon mat-list-icon>people_outline</mat-icon>
+            <mat-icon fontSet="material-icons-outlined" mat-list-icon>people_outline</mat-icon>
             <div mat-line [routerLink]="['/main/my-workspaces']" [fragment]="workspace.id"
                  (click)="closeForm()">
               <span>{{ workspace.name }}</span>

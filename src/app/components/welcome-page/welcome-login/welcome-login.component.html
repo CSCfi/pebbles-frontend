@@ -17,10 +17,10 @@
       <a id="special-login-button" class="special-login-button" (click)="isLoginFormOpen=!isLoginFormOpen">
         Special Login
         <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
-          <mat-icon> chevron_right </mat-icon>
+          <mat-icon fontSet="material-icons-outlined"> chevron_right </mat-icon>
         </ng-container>
         <ng-template #elseBlock>
-          <mat-icon> expand_more </mat-icon>
+          <mat-icon fontSet="material-icons-outlined"> expand_more </mat-icon>
         </ng-template>
       </a>
     </div>

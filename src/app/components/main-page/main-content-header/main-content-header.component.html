@@ -8,7 +8,7 @@
     <form class="search-form" *ngIf="isSearchOn" fxFlex="grow">
       <mat-form-field class="chip-list" appearance="fill">
 
-        <span matPrefix><mat-icon>search</mat-icon></span>
+        <span matPrefix><mat-icon fontSet="material-icons-outlined">search</mat-icon></span>
         <mat-chip-list #chipList aria-label="keyword and text search">
           <!-- chips -->
           <mat-chip class="selected-label mat-chip-sm"
@@ -17,7 +17,7 @@
             [removable]="isLabelRemovable"
             (removed)="removeLabel(label)">
             {{label}}
-            <mat-icon matChipRemove *ngIf="isLabelRemovable">cancel</mat-icon>
+            <mat-icon fontSet="material-icons-outlined" matChipRemove *ngIf="isLabelRemovable">cancel</mat-icon>
           </mat-chip>
           <!-- input -->
           <input

@@ -1,6 +1,9 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faRProject } from '@fortawesome/free-brands-svg-icons';
+import { faPython } from '@fortawesome/free-brands-svg-icons';
 import { EnvironmentType } from '../../../models/environment-template';
 import { Environment } from 'src/app/models/environment';
 import { Instance, InstanceStates } from 'src/app/models/instance';
@@ -13,6 +16,10 @@ import { Utilities } from '../../../utilities';
   styleUrls: ['./main-environment-item.component.scss']
 })
 export class MainEnvironmentItemComponent implements OnInit {
+
+  faBook = faBook;
+  faRProject = faRProject;
+  faPython = faPython;
 
   @Input() environment: Environment;
 

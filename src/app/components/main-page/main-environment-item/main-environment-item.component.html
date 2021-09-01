@@ -7,13 +7,15 @@
       [ngClass]="{'jupyter':environmentType==='jupyter', 'rstudio':environmentType==='rstudio'}" fxFlex="0 0 110px">
       <div class="thumbnail" [ngSwitch]="environmentType">
         <div *ngSwitchCase="'jupyter'">
-          <i class="lab la-python"></i><br /><span>Jupyter</span>
+          <fa-icon [icon]="faPython"></fa-icon><br/>
+          <span>Jupyter</span>
         </div>
         <div *ngSwitchCase="'rstudio'">
-          <i class="lab la-r-project"></i><br /><span>RStudio</span>
+          <fa-icon [icon]="faRProject"></fa-icon><br/>
+          <span>RStudio</span>
         </div>
         <div *ngSwitchDefault>
-          <i class="las la-book"></i>
+          <fa-icon [icon]="faBook"></fa-icon><br/>
         </div>
       </div>
     </div>
@@ -26,16 +28,16 @@
         <mat-card-subtitle fxLayout="row-reverse" fxLayoutAlign="space-between center">
           <div class="meta-info" fxFlex="0 0 100px">
             <span class="lifetime v-centering__inline">
-              <mat-icon class="mr-5 v-centering__inline">watch_later</mat-icon>
+              <mat-icon fontSet="material-icons-outlined" class="mr-5 v-centering__inline">watch_later</mat-icon>
               <span class="heading">Lifetime: {{lifetime}}</span>
             </span>
           </div>
           <div class="workspace-name">
             <ng-container *ngIf="environment.workspace_name.startsWith('System.') === false; else publicBlock">
-              <mat-icon class="mr-5">group</mat-icon>{{ environment.workspace_name }}
+              <mat-icon fontSet="material-icons-outlined" class="mr-5">group</mat-icon>{{ environment.workspace_name }}
             </ng-container>
             <ng-template #publicBlock>
-              <mat-icon class="mr-5 public">public</mat-icon>Public
+              <mat-icon fontSet="material-icons-outlined" class="mr-5 public">public</mat-icon>Public
             </ng-template>
           </div>
         </mat-card-subtitle>

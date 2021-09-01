@@ -5,6 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faRProject } from '@fortawesome/free-brands-svg-icons';
+import { faPython } from '@fortawesome/free-brands-svg-icons';
 import { Environment } from 'src/app/models/environment';
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { EnvironmentType } from '../../../models/environment-template';
@@ -32,6 +35,10 @@ export interface EnvironmentRow {
   styleUrls: ['./main-workspace-environments.component.scss']
 })
 export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, OnChanges {
+
+  faBook = faBook;
+  faRProject = faRProject;
+  faPython = faPython;
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 

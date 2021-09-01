@@ -3,7 +3,7 @@
   <div class="logo inversion primary" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <a class="sidenav-link v-centering" [routerLink]="['/main/catalog']">
       <div class="logomark">
-        <mat-icon role="logomark">import_contacts</mat-icon>
+        <mat-icon fontSet="material-icons-outlined" role="logomark">import_contacts</mat-icon>
       </div>
       <div class="logotype ml-10" *ngIf="isTextVisible">
         <h1> Notebooks </h1>
@@ -16,10 +16,10 @@
   #tooltip="matTooltip" matTooltip="Expand side navigation"
   class="sidenav-button" (click)="emitSideNavToggle()">
     <ng-container *ngIf="isTextVisible ; else elseBlock">
-      <mat-icon>more_vert</mat-icon>
+      <mat-icon fontSet="material-icons-outlined">more_vert</mat-icon>
     </ng-container>
     <ng-template #elseBlock>
-      <mat-icon>menu</mat-icon>
+      <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
     </ng-template>
   </button>
 
@@ -38,7 +38,7 @@
     #tooltip="matTooltip" matTooltip="My workspaces" [matTooltipDisabled]="true">
       <a class="sidenav-link v-centering" [routerLink]="['/main/my-workspaces']">
         <div class="icon-holder">
-          <mat-icon>people_outline</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
         </div>
         <div class="title" *ngIf="isTextVisible">My workspaces</div>
       </a>
@@ -133,7 +133,7 @@
     <div class="user-name" *ngIf="isTextVisible">{{ userName }}</div>
     <button class="logout-button sidenav-button"
     (click)="authService.logout()">
-      <mat-icon>exit_to_app</mat-icon>
+      <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
       <span class="button-text" *ngIf="isTextVisible">Logout</span>
     </button>
   </div>

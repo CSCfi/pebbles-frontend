@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // ---- Custom module
 import { MaterialModule } from 'src/app/material.module';
 import { MainRoutingModule } from './main-routing.module';
@@ -82,6 +83,7 @@ import { MainContentStateComponent } from './main-content-state/main-content-sta
     MainRoutingModule,
     MaterialModule,
     SharedModule,
+    FontAwesomeModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
