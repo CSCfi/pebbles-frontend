@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainEnvironmentItemFormComponent } from './main-environment-item-form.component';
 import { MainSearchBoxComponent } from '../main-search-box/main-search-box.component';
-import {RouterTestingModule} from '@angular/router/testing';
 
 describe('MainEnvironmentItemFormComponent', () => {
   let component: MainEnvironmentItemFormComponent;
@@ -36,7 +36,7 @@ describe('MainEnvironmentItemFormComponent', () => {
           provide: MatDialogRef,
           useValue: {}
         }
-     ],
+      ],
     })
     .compileComponents();
   }));

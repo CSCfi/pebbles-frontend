@@ -51,6 +51,10 @@
   .sidenav-menu {
     position: relative;
 
+    //&.workspace-owner {
+    //  background: map-get($colors, light-primary);
+    //}
+
     li {
       border-left: 6px solid map-get($colors, transparent);
       padding-right: 8px;

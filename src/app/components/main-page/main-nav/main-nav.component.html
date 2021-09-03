@@ -70,13 +70,13 @@
 
   <ng-container *ngIf="authService.isAdmin">
     <ul class="sidenav-menu workspace-owner">
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/admin'"
-      #tooltip="matTooltip" matTooltip="Admin tool" [matTooltipDisabled]="true">
-        <a class="sidenav-link v-centering" [routerLink]="['/main/admin']">
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/users'"
+      #tooltip="matTooltip" matTooltip="Users" [matTooltipDisabled]="true">
+        <a class="sidenav-link v-centering" [routerLink]="['/main/users']">
           <div class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
           </div>
-          <div class="title" *ngIf="isTextVisible">Admin tool</div>
+          <div class="title" *ngIf="isTextVisible">Manage Users</div>
         </a>
       </li>
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/statistics'"

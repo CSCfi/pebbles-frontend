@@ -31,7 +31,8 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
   };
 
   displayedColumns: string[] = [
-    'isSelected', 'workspaceName', 'environmentName', 'username', 'state', 'lifetimeLeft'];
+    'isSelected', 'workspaceName', 'environmentName', 'username', 'state', 'lifetimeLeft'
+  ];
   selection = new SelectionModel<InstanceTableRow>(true, []);
   tableRowData: InstanceTableRow[] = [];
   instances: Instance[];

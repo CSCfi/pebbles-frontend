@@ -1,0 +1,32 @@
+<form [formGroup]="workspaceQuotaForm" novalidate>
+  <h2 class="form-title mb-20">Change workspace Quota</h2>
+  <div class="mb-30 form-description">
+    <!--    <mat-icon fontSet="material-icons-outlined" class="">face</mat-icon>-->
+    Current workspace quota for <mat-chip class="mat-chip-sm mr-5">{{ data.email }}</mat-chip>
+    <span class="mr-10">: <em>{{data.workspaceQuota}}</em></span>
+  </div>
+  <div class="form-container" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-mini-fab aria-label="remove" class="shadow-s mr-5" color="primary" (click)="changeQuotas(-1)" [disabled]="!isMinusActive">
+      <mat-icon fontSet="material-icons-outlined">remove</mat-icon>
+    </button>
+    <mat-form-field appearance="outline" fxFlex="0 0 100px">
+      <input matInput formControlName="newValue" type="number">
+      <mat-error *ngIf="errorHandling('newValue', 'min')">
+        The value should be greater than 0
+      </mat-error>
+    </mat-form-field>
+    <button mat-mini-fab aria-label="add" class="shadow-s ml-5" color="primary" (click)="changeQuotas(1)">
+      <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+    </button>
+  </div>
+  <button mat-stroked-button aria-label="update" class="update-button ml-5"
+          [disabled]="!workspaceQuotaForm.valid"
+          (click)="updateQuotas()">
+    update
+  </button>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-flat-button aria-label="cancel" class="cancel-button mt-10" (click)="dialogRef.close()">
+      close
+    </button>
+  </div>
+</form>

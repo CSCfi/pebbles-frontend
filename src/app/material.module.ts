@@ -100,7 +100,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
-    // MatSortModule
+    MatSortModule
   ],
 } )
 export class MaterialModule{ }

@@ -27,4 +27,8 @@ export class Utilities {
     }
     return [minUnitNumber];
   }
+
+  static getDate(timestamp: number) {
+    return timestamp ? new Date(timestamp).toISOString() : '-';
+  }
 }

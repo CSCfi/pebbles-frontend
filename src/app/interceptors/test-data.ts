@@ -384,7 +384,12 @@ export let db = {
       is_admin: true,
       is_workspace_owner: true,
       is_workspace_manager: true,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1536505200,
+      expiry_ts: null,
+      last_login_ts: 'today'
     },
     {
       ext_id: 'admin-1@example.org',
@@ -393,7 +398,12 @@ export let db = {
       is_admin: true,
       is_workspace_owner: true,
       is_workspace_manager: true,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1568041200,
+      expiry_ts: null,
+      last_login_ts: 'yesterday'
     },
     {
       ext_id: 'owner@example.org',
@@ -402,7 +412,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
-      workspace_quota: 2
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 2,
+      joining_ts: 1568041200,
+      expiry_ts: 1662305779,
+      last_login_ts: 'today'
     },
     {
       ext_id: 'owner-1@example.org',
@@ -411,7 +426,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
-      workspace_quota: 2
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 2,
+      joining_ts: 1599663600,
+      expiry_ts: 1662305779,
+      last_login_ts: 'yesterday'
     },
     {
       ext_id: 'owner-2@example.org',
@@ -420,7 +440,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: true,
       is_workspace_manager: false,
-      workspace_quota: 2
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 2,
+      joining_ts: 1599663600,
+      expiry_ts: 1662799993,
+      last_login_ts: 'yesterday'
     },
     {
       ext_id: 'co-owner@example.org',
@@ -429,7 +454,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: true,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1605282017,
+      expiry_ts: 1662799993,
+      last_login_ts: 'yesterday'
     },
     {
       ext_id: 'manager-1@example.org',
@@ -438,7 +468,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: true,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1609602059,
+      expiry_ts: 1662799993,
+      last_login_ts: 1596704271
     },
     {
       ext_id: 'user@example.org',
@@ -447,7 +482,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1613922080,
+      expiry_ts: 1662799993,
+      last_login_ts: 1596704271
     },
     {
       ext_id: 'user-1@example.org',
@@ -456,7 +496,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: false,
+      workspace_quota: 0,
+      joining_ts: 1618242102,
+      expiry_ts: 1662799993,
+      last_login_ts: 1596704271
     },
     {
       ext_id: 'user-2@example.org',
@@ -465,7 +510,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: true,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1609602059,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-3@example.org',
@@ -474,7 +524,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: true,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1622562121,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-4@example.org',
@@ -483,7 +538,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: true,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1626882151,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-5@example.org',
@@ -492,7 +552,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1628610192,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-6@example.org',
@@ -501,7 +566,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1629474210,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-7@example.org',
@@ -510,7 +580,13 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      is_deleted: true,
+      workspace_quota: 0,
+      joining_ts: 1630338228,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-8@example.org',
@@ -519,7 +595,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1609602059,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-9@example.org',
@@ -528,7 +609,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1630683850,
+      expiry_ts: 'today',
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-10@example.org',
@@ -537,7 +623,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1609602059,
+      expiry_ts: 'yesterday',
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-11@example.org',
@@ -546,7 +637,13 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      is_deleted: true,
+      workspace_quota: 0,
+      joining_ts: 1630770284,
+      expiry_ts: 'today',
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-12@example.org',
@@ -555,7 +652,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1609602059,
+      expiry_ts: 1662799993,
+      last_login_ts: 1629536449,
     },
     {
       ext_id: 'user-13@example.org',
@@ -564,7 +666,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1630856716,
+      expiry_ts: 1662799993,
+      last_login_ts: 'today',
     },
     {
       ext_id: 'user-14@example.org',
@@ -573,7 +680,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 'yesterday',
+      expiry_ts: 1662799993,
+      last_login_ts: 'today',
     },
     {
       ext_id: 'user-15@example.org',
@@ -582,7 +694,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 'yesterday',
+      expiry_ts: 1662799993,
+      last_login_ts: 'today',
     },
     {
       ext_id: 'user-16@example.org',
@@ -591,7 +708,13 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      is_deleted: true,
+      workspace_quota: 0,
+      joining_ts: 'today',
+      expiry_ts: 1662799993,
+      last_login_ts: 'today',
     },
     {
       ext_id: 'user-17@example.org',
@@ -600,7 +723,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 'today',
+      expiry_ts: 1662799993,
+      last_login_ts: 'today',
     },
     {
       ext_id: 'user-18@example.org',
@@ -609,7 +737,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: false,
+      workspace_quota: 0,
+      joining_ts: 'today',
+      expiry_ts: 1662799993,
+      last_login_ts: 'today',
     },
     {
       ext_id: 'user-19@example.org',
@@ -618,7 +751,12 @@ export let db = {
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: false,
-      workspace_quota: 0
+      is_blocked: false,
+      is_active: false,
+      workspace_quota: 0,
+      joining_ts: 'today',
+      expiry_ts: 1662799993,
+      last_login_ts: 'today',
     }
   ],
   workspaces: [

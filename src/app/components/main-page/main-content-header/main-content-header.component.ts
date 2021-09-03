@@ -43,16 +43,22 @@ export class MainContentHeaderComponent implements OnInit {
   }
 
   get candidateLabels(): string[] {
-    return this.allLabels.filter(label => !this.labels.includes(label));
+    return this.allLabels(this.content.identifier).filter(label => !this.labels.includes(label));
   }
 
-  get allLabels(): string[] {
-    const categories = this.environmentCategoryService.getCategories();
+  allLabels(category): string[] {
     let allLabels = [];
-    categories.forEach(env => {
-      const newLabels = env.labels.filter(label => !allLabels.includes(label));
-      allLabels = allLabels.concat(newLabels);
-    });
+    if (category === 'catalog') {
+      const categories = this.environmentCategoryService.getCategories();
+      categories.forEach(env => {
+        const newLabels = env.labels.filter(label => !allLabels.includes(label));
+        allLabels = allLabels.concat(newLabels);
+      });
+    }
+    // ---- MEMO: Temporal labels, considered later.
+    if (category === 'users') {
+      allLabels = ['admins', 'workspace owners', 'blocked'];
+    }
     return allLabels;
   }
 

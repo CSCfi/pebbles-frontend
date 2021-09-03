@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
-import {Announcement} from 'src/app/models/announcement';
-import {buildConfiguration} from '../../environments/environment';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Announcement } from 'src/app/models/announcement';
+import { buildConfiguration } from '../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +38,13 @@ export class MessageService {
   displayError(s: string) {
     console.log('MessageService.displayError()', s);
     this.snackbar.open(s, null, {duration: 5000});
+  }
+
+  displayResult(s: string) {
+    this.snackbar.open(s, 'x', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
   }
 
   markAnnouncementsAsRead() {

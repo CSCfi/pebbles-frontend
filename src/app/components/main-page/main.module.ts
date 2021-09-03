@@ -13,7 +13,9 @@ import { MainPageComponent } from './main-page.component';
 import { MainContentHeaderComponent } from './main-content-header/main-content-header.component';
 import { MainFooterComponent } from './main-footer/main-footer.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
-// ---- content component
+// ---- Pipe
+import { DateDisplayPipe } from '../../pipes/date-display.pipe';
+// ---- Content component
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
@@ -25,22 +27,24 @@ import { MainStatisticsComponent } from './main-statistics/main-statistics.compo
 import { MainHelpNavComponent } from './main-help-nav/main-help-nav.component';
 import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
 import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
-// ---- environment parts component
+// ---- Environment parts component
 import { MainEnvironmentItemComponent } from './main-environment-item/main-environment-item.component';
 import { MainEnvironmentWizardFormComponent } from './main-environment-wizard-form/main-environment-wizard-form.component';
 import { MainEnvironmentItemFormComponent } from './main-environment-item-form/main-environment-item-form.component';
-// ---- workspace parts component
+// ---- Workspace parts component
 import { MainWorkspaceItemComponent } from './main-workspace-item/main-workspace-item.component';
 import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail/main-workspace-item-detail.component';
 import { MainWorkspaceFormComponent } from './main-workspace-form/main-workspace-form.component';
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
 import { MainWorkspaceFoldersComponent } from './main-workspace-folders/main-workspace-folders.component';
 import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog/main-join-workspace-dialog.component';
-// ---- shared component
+// ---- Shared component
 import { MainSearchBoxComponent } from './main-search-box/main-search-box.component';
 import { MainWorkspaceEnvironmentsComponent } from './main-workspace-environments/main-workspace-environments.component';
 import { MainInstanceButtonComponent } from './main-instance-button/main-instance-button.component';
 import { MainContentStateComponent } from './main-content-state/main-content-state.component';
+import { MainUsersComponent } from './main-users/main-users.component';
+import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/main-workspace-quota-form.component';
 // import { MessageComponent } from 'src/app/components/shared/message/message.component';
 
 @NgModule({
@@ -72,7 +76,10 @@ import { MainContentStateComponent } from './main-content-state/main-content-sta
     MainWorkspaceEnvironmentsComponent,
     MainInstanceButtonComponent,
     MainContentStateComponent,
-    MainJoinWorkspaceDialogComponent
+    MainJoinWorkspaceDialogComponent,
+    MainUsersComponent,
+    DateDisplayPipe,
+    MainWorkspaceQuotaFormComponent,
   ],
   imports: [
     CommonModule,

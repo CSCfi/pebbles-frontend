@@ -10,6 +10,8 @@ export class User {
     public is_admin?: boolean,
     public is_deleted?: boolean,
     public is_blocked?: boolean,
-    public expiry_date?: string,
+    public joining_ts?: number,
+    public expiry_ts?: number,
+    public last_login_ts?: number
   ) {}
 }

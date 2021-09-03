@@ -1,0 +1,51 @@
+@import "src/styles.scss";
+
+.form-title {
+  text-align: center;
+  padding: 5px;
+  border-bottom: 2px solid map-get($colors, light3);
+}
+
+.form-description {
+  text-align: center;
+
+  em {
+    font-size: 2.4rem;
+    font-style: normal;
+  }
+}
+
+.form-container {
+  button {
+    margin-bottom: 20px;
+    width: 40px;
+    height: 40px;
+  }
+
+  input {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.update-button {
+  width: 100%;
+}
+
+.cancel-button {
+  font-weight: normal;
+  font-size: 1.3rem;
+  text-decoration: underline;
+
+  mat-icon {
+    font-weight: normal;
+    font-size: 1.3rem;
+  }
+}

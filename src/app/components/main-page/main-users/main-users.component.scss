@@ -1,0 +1,103 @@
+@import "src/styles.scss";
+
+.user-reload-button {
+  //padding: 3px;
+  margin-top: 5px;
+  height: 45px;
+  background: map-get($colors, light-active);
+  border-radius: 3px;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(85%);
+  }
+}
+
+.users-container {
+  .user-invite-button-row {
+    button {
+      background: map-get($colors, light-active);
+      height: 50px;
+      margin-bottom: 1.34375em;
+    }
+
+    ::ng-deep .mat-form-field-flex {
+      min-height: 62px
+    }
+  }
+
+  .action-button-row {
+    button {
+      border-radius: 5px;
+      color: #1a237e;
+      border: 2px solid #1a237e;
+
+      //&:nth-of-type(1) {
+      //  border-radius: 5px 0 0 5px;
+      //  border-left: none;
+      //}
+      //
+      //&:last-child {
+      //  border-radius: 0 5px 5px 0;
+      //}
+    }
+
+  }
+
+  table {
+    td {
+      //text-align: center;
+      font-size: 1.2rem !important;
+    }
+
+    ::ng-deep tr.mat-header-row {
+      height: 30px;
+
+      th {
+        font-size: 1.1rem !important;
+        //text-align: center !important;
+      }
+    }
+
+    td {
+      &.index {
+        font-size: 1.0rem !important;
+        color: map-get($colors, gray);
+        text-align: center;
+      }
+
+      &.mat-cell.mat-column-isSelected {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+      }
+    }
+
+    tr.deleted {
+      background-color: map-get($colors, light2);
+
+      td {
+        color: white;
+      }
+    }
+
+    .mat-column-index {
+      font-size: 1.0rem;
+    }
+
+    .role-icon {
+      color: map-get($colors, accent);
+      width: 50px;
+
+      .owner {
+        color: map-get($colors, active);
+      }
+
+      .manager {
+        color: map-get($colors, danger);
+      }
+
+      .banned {
+        color: map-get($colors, dark);
+      }
+    }
+  }
+}

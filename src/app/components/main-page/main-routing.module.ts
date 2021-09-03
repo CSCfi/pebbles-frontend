@@ -6,15 +6,12 @@ import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
 import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
+import { MainUsersComponent } from './main-users/main-users.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
-import { MainAdminComponent } from './main-admin/main-admin.component';
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
 import { MainActiveEnvironmentsComponent } from './main-active-environments/main-active-environments.component';
-import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail/main-workspace-item-detail.component';
 import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
 import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
-import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
-import { MainWorkspaceEnvironmentsComponent } from './main-workspace-environments/main-workspace-environments.component';
 
 export const routes: Routes = [
   {
@@ -32,16 +29,6 @@ export const routes: Routes = [
       {
         path: 'workspace-owner', component: MainWorkspaceOwnerComponent,
         data: { breadcrumbs: ['home', 'workspace-owner'] },
-        children: [
-          { path: ':workspaceId',
-            children: [
-              { path: '', redirectTo: 'environments', pathMatch: 'full' },
-              { path: 'info', component: MainWorkspaceItemDetailComponent },
-              { path: 'environments', component: MainWorkspaceEnvironmentsComponent },
-              { path: 'members', component: MainWorkspaceMembersComponent }
-            ]
-          }
-        ]
       },
       {
         path: 'account', component: MainAccountComponent,
@@ -65,8 +52,8 @@ export const routes: Routes = [
         data: { breadcrumbs: ['home', 'active-environments'] }
       },
       {
-        path: 'admin', component: MainAdminComponent,
-        data: { breadcrumbs: ['home', 'admin'] }
+        path: 'users', component: MainUsersComponent,
+        data: { breadcrumbs: ['home', 'users'] }
       },
       {
         path: 'statistics', component: MainStatisticsComponent,

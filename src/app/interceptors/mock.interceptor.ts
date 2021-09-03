@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -7,15 +6,16 @@ import {
   HttpRequest,
   HttpResponse
 } from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
-import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
+import {Observable, of, throwError} from 'rxjs';
+import {delay, dematerialize, materialize, mergeMap} from 'rxjs/operators';
+import {Instance, InstanceStates} from 'src/app/models/instance';
+import {User} from 'src/app/models/user';
+import {buildConfiguration} from '../../environments/environment';
+import {Environment} from '../models/environment';
+import {Workspace} from '../models/workspace';
 import * as TESTDATA from './test-data';
-import { Instance, InstanceStates } from 'src/app/models/instance';
-import { User } from 'src/app/models/user';
-import { Workspace } from '../models/workspace';
-import { Environment } from '../models/environment';
-import { WorkspaceUserList } from '../models/workspace-user-list';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
 
@@ -65,6 +65,9 @@ export class MockInterceptor implements HttpInterceptor {
         objectId = apiComponents[1];
         break;
       case (endpoint === 'messages' && apiComponents[1] !== undefined):
+        objectId = apiComponents[1];
+        break;
+      case (endpoint === 'quota' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
       default:
@@ -125,8 +128,22 @@ export class MockInterceptor implements HttpInterceptor {
           return getMessages();
         case url.includes('/messages') && method === 'PATCH':
           return patchMessage();
-        case url.includes('/users') && method === 'GET':
+        case url.includes('/users') && objectId && method === 'GET':
           return getUserById();
+        case url.includes('/users') && method === 'GET':
+          return getAllUsers();
+        case url.includes('/users') && objectId && method === 'PATCH':
+          // if (typeof body.is_blocked !== 'undefined') {
+          if ('is_blocked' in body === true ) {
+            return toggleBlockUser();
+          }
+          // if (typeof body.workspace_quota !== 'undefined') {
+          if ('workspace_quota' in body === true ) {
+            return updateWorkspaceQuotas();
+          }
+          break;
+        case url.includes('/users') && objectId && method === 'DELETE':
+          return removeUser();
         case method === 'GET':
           return genericGet();
         default:
@@ -168,6 +185,82 @@ export class MockInterceptor implements HttpInterceptor {
       });
       if (account) {
         return ok(account);
+      } else {
+        return error('account not found');
+      }
+    }
+
+    function removeUser() {
+      database.users.map(user => {
+        if ( user.id === objectId ){
+          user.is_deleted = true;
+        }
+        return user;
+      });
+      return ok();
+    }
+
+    function toggleBlockUser() {
+      // let updatedUser: User;
+      // database.users.map(user => {
+      //   if ( user.id === objectId ){
+      //     user.is_blocked = !user.is_blocked;
+      //     updatedUser = user;
+      //   }
+      //   return user;
+      // });
+      const user = database.users.find(i => i.id === objectId);
+      user.is_blocked = !user.is_blocked;
+      return ok(user);
+    }
+
+    function updateWorkspaceQuotas() {
+      // console.log(body);
+      // const value = getQueryValue(args, 'value');
+      const user = database.users.find(i => i.id === objectId);
+      user.workspace_quota = Number(body.workspace_quota);
+      return ok(user);
+    }
+
+    function genPastTs(days: number): number {
+      const today = new Date();
+      console.log(today.getTime());
+      const diff = Math.floor(Math.random() * ( today.getUTCHours() * 60 * 60 ));
+      console.log(diff);
+      return Math.floor((today.getTime() / 1000 + days * ( 24 * 60 * 60 ) - diff));
+    }
+
+    function getAllUsers() {
+      if (database.users.length > 0) {
+        const users = database.users.map( user => {
+          switch (user.joining_ts) {
+            case 'today':
+              user.joining_ts = genPastTs(0);
+              break;
+            case 'yesterday':
+              user.joining_ts = genPastTs(-1);
+              break;
+          }
+          switch (user.expiry_ts) {
+            case 'today':
+              user.expiry_ts = genPastTs(0);
+              break;
+            case 'yesterday':
+              user.expiry_ts = genPastTs(-1);
+              break;
+          }
+          switch (user.last_login_ts) {
+            case 'today':
+              user.last_login_ts = genPastTs(0);
+              break;
+            case 'yesterday':
+              user.last_login_ts = genPastTs(-1);
+              break;
+          }
+          return user;
+        });
+
+        return ok(users);
       } else {
         return error('account not found');
       }
@@ -433,6 +526,7 @@ export class MockInterceptor implements HttpInterceptor {
       return workspaceUserList;
     }
 
+    // ---- Keep it for test
     function testMemberRefresh(): void {
       const memberId = Math.random().toString(36).substring(2, 5);
       const user = new User(
@@ -502,10 +596,9 @@ export class MockInterceptor implements HttpInterceptor {
         return (ws.id === objectId);
       });
 
-      const workspaces = database.workspaces.filter((ws) => {
+      database.workspaces = database.workspaces.filter((ws) => {
         return (ws.id !== objectId);
       });
-      database.workspaces = workspaces;
 
       if (workspace) {
         return ok(workspace);
@@ -592,10 +685,7 @@ export class MockInterceptor implements HttpInterceptor {
         if (ws.normal_users && ws.normal_users.includes(ext_id)) {
           return true;
         }
-        if (ws.owner_ext_id === ext_id) {
-          return true;
-        }
-        return false;
+        return ws.owner_ext_id === ext_id;
       });
     }
 
@@ -635,6 +725,16 @@ export class MockInterceptor implements HttpInterceptor {
         }
       }
       return result;
+    }
+
+    function getQueryValue(queryString: string, value: string) {
+      const returns = {};
+      const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+      pairs.forEach(pair => {
+        const data = pair.split('=');
+        returns[decodeURIComponent(data[0])] = decodeURIComponent(data[1] || '');
+      });
+      return returns[value];
     }
   }
 }
