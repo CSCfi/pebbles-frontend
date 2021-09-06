@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -17,6 +18,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
   environmentItemEditFormGroup: FormGroup;
 
   isAutoExecution: boolean;
+  isEnableUserWorkFolder: boolean;
   environmentType: EnvironmentType;
 
   // ---- Values for Radio Input
@@ -69,6 +71,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
       downloadMethod: [''],
       source: [''],
       isAutoExecution: [''],
+      isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
     });
 
@@ -77,6 +80,8 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     this.environmentItemEditFormGroup.controls.jupyterInterface.setValue('lab');
     this.environmentItemEditFormGroup.controls.downloadMethod.setValue('none');
     this.environmentItemEditFormGroup.controls.isAutoExecution.setValue(false);
+    this.environmentItemEditFormGroup.controls.isAutoExecution.disable();
+    this.environmentItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.environmentItemEditFormGroup.controls.publish.setValue(false);
     this.environmentType = EnvironmentType.Generic;
   }
@@ -93,6 +98,8 @@ export class MainEnvironmentItemFormComponent implements OnInit {
       x => x.id === this.data.environment.template_id
     ).environment_type;
 
+    this.isEnableUserWorkFolder = coerceBooleanProperty(this.data.environment.config.enable_user_work_folder);
+
     this.environmentItemEditFormGroup = this.formBuilder.group({
       templateId: [{
         value: this.data.environment.template_id,
@@ -105,8 +112,11 @@ export class MainEnvironmentItemFormComponent implements OnInit {
       downloadMethod: [this.selectedDownloadMethod],
       source: [this.data.environment.config.download_url],
       isAutoExecution: [this.isAutoExecution],
+      isEnableUserWorkFolder: [this.isEnableUserWorkFolder],
       publish: [this.data.environment.is_enabled, [Validators.required]]
     });
+
+    this.environmentItemEditFormGroup.controls.isAutoExecution.disable();
 
     this.selectedLabels = this.data.environment.labels;
   }
@@ -131,6 +141,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
         download_method: this.environmentItemEditFormGroup.controls.downloadMethod.value,
         download_url: this.environmentItemEditFormGroup.controls.source.value,
         auto_execution: this.environmentItemEditFormGroup.controls.isAutoExecution.value,
+        enable_user_work_folder: this.environmentItemEditFormGroup.controls.isEnableUserWorkFolder.value,
       },
       this.environmentItemEditFormGroup.controls.publish.value || false,
     ).subscribe((env) => {
@@ -147,6 +158,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     this.data.environment.config.download_method = this.environmentItemEditFormGroup.controls.downloadMethod.value;
     this.data.environment.config.download_url = this.environmentItemEditFormGroup.controls.source.value;
     this.data.environment.config.auto_execution = this.environmentItemEditFormGroup.controls.isAutoExecution.value;
+    this.data.environment.config.enable_user_work_folder = this.environmentItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.environment.is_enabled = this.environmentItemEditFormGroup.controls.publish.value;
     this.environmentService.updateEnvironment(
       this.data.environment

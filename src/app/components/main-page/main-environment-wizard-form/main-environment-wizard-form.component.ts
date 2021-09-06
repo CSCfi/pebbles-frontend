@@ -60,6 +60,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
       downloadMethod: [''],
       source: [''],
       isAutoExecution: [''],
+      isEnableUserWorkFolder: [''],
     });
     this.wizardPublishFormGroup = this.formBuilder.group({
       isActive: ['', [Validators.required]]
@@ -69,6 +70,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
     this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
     this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
     this.wizardOptionFormGroup.controls.isAutoExecution.disable();
+    this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.wizardPublishFormGroup.controls.isActive.setValue(false);
   }
 
@@ -89,6 +91,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
         download_method: this.wizardOptionFormGroup.controls.downloadMethod.value,
         download_url: this.wizardOptionFormGroup.controls.source.value,
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
+        enable_user_work_folder: this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.value,
       },
       this.wizardPublishFormGroup.controls.isActive.value
     ).subscribe((env) => {

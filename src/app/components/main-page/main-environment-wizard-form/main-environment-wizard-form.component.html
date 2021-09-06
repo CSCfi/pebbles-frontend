@@ -159,6 +159,14 @@
             <span class="mat-subheading-2 mr-10">On</span> : Execute or unpack downloaded file when the environment is launched.
           </mat-checkbox>
         </div>
+        <!-- 3.4 Enable user work folder -->
+        <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
+        <div class="form-item">
+          <mat-label class="mat-subheading-2">Work folder per user</mat-label> <br>
+          <mat-checkbox formControlName="isEnableUserWorkFolder">
+          Enable personal persistent 'work' folder for users. The folder is workspace specific.
+          </mat-checkbox>
+        </div>
       </div>
 
       <!-- Stepper -->
