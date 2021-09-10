@@ -1,4 +1,4 @@
-// Replicate API response defined in pebbles.commons.views.user_fields in the backend
+// Replicate API response defined in pebbles.views.commons.user_fields in the backend
 export class User {
   constructor(
     public id: string,

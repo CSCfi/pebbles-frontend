@@ -1,0 +1,52 @@
+<div class="content-header-container"
+     fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  <app-main-content-header
+    fxFlex="grow"
+    [content]="content"
+    [isSearchOn]="false"
+    [isAutocompleteDisabled]="true"
+    [labels]="[]">
+  </app-main-content-header>
+  <div>
+    Instances:
+    Q:{{getInstanceSummary()['nQueueing']}}
+    S:{{getInstanceSummary()['nStarting']}}
+    R:{{getInstanceSummary()['nRunning']}}
+    D:{{getInstanceSummary()['nDeleting']}}
+  </div>
+  <p [ngClass]="getSystemStatus()==='ok' ? 'status-ok': 'status-warning'">
+    Overall: {{ getSystemStatus().toUpperCase() }}
+  </p>
+  <div class="button reload-button" (click)="refresh()">
+    <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
+  </div>
+</div>
+
+<div class="alerts-container">
+  <h2>Alerts</h2>
+  <ng-container *ngIf="getAlerts(); else loading">
+    <ng-container *ngFor="let alert of getAlerts()">
+      <ng-container *ngIf="alert.data?.length || alert.status !== 'ok'; else statusOk">
+        <div class="status-warning">
+          <h3>{{ alert.target }}/{{ alert.source }}</h3>
+          <p>Status: {{ alert.status }}</p>
+          <div *ngFor="let data of alert.data">
+            <p>
+              Summary: {{ data.annotations?.summary }}
+              <br>
+              Description: {{ data.annotations?.description }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #statusOk>
+        <div class="status-ok">
+          <h3>{{ alert.target }}/{{ alert.source }} - OK</h3>
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <ng-template #loading>
+    loading
+  </ng-template>
+</div>

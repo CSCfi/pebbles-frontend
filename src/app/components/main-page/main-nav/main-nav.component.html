@@ -79,6 +79,15 @@
           <div class="title" *ngIf="isTextVisible">Manage Users</div>
         </a>
       </li>
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/system-status'"
+      #tooltip="matTooltip" matTooltip="System status" [matTooltipDisabled]="true">
+        <a class="sidenav-link v-centering" [routerLink]="['/main/system-status']">
+          <div class="icon-holder">
+            <mat-icon fontSet="material-icons-outlined">favorite</mat-icon>
+          </div>
+          <div class="title" *ngIf="isTextVisible">System status</div>
+        </a>
+      </li>
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/statistics'"
       #tooltip="matTooltip" matTooltip="Statistics" [matTooltipDisabled]="true">
         <a class="sidenav-link v-centering" [routerLink]="['/main/statistics']">

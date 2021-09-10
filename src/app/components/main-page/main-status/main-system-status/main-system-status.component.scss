@@ -1,0 +1,20 @@
+@import "src/styles.scss";
+
+.reload-button {
+  padding: 3px;
+  background: map-get($colors, light-active);
+  border-radius: 3px;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(85%);
+  }
+}
+
+.status-ok {
+  background: #ddffc8;
+}
+
+.status-warning {
+  background: #f8cdc3;
+}

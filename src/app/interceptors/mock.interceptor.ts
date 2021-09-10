@@ -6,15 +6,14 @@ import {
   HttpRequest,
   HttpResponse
 } from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Observable, of, throwError} from 'rxjs';
-import {delay, dematerialize, materialize, mergeMap} from 'rxjs/operators';
-import {Instance, InstanceStates} from 'src/app/models/instance';
-import {User} from 'src/app/models/user';
-import {buildConfiguration} from '../../environments/environment';
-import {Environment} from '../models/environment';
-import {Workspace} from '../models/workspace';
+import { Observable, of, throwError } from 'rxjs';
+import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
+import { Instance, InstanceStates } from 'src/app/models/instance';
+import { User } from 'src/app/models/user';
+import { Environment } from '../models/environment';
+import { Workspace } from '../models/workspace';
 import * as TESTDATA from './test-data';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
@@ -28,7 +27,7 @@ export class MockInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // unpack request to helper variables
-    const { method, headers, body } = req;
+    const {method, headers, body} = req;
     let url = null;
     let args = null;
     console.log(req);
@@ -156,7 +155,7 @@ export class MockInterceptor implements HttpInterceptor {
     // route functions
 
     function authenticate() {
-      const { ext_id, password } = body;
+      const {ext_id, password} = body;
       const users = database.users;
       const user = users.find(x => x.ext_id === ext_id && x.password === password);
       if (!user) {
@@ -306,7 +305,7 @@ export class MockInterceptor implements HttpInterceptor {
         }
         // assign an endpoint to instance that is starting
         if (instance.state === 'starting') {
-          instance.instance_data = { endpoints: [{ access: 'assets/images/jupyter_example_content.png' }] };
+          instance.instance_data = {endpoints: [{access: 'assets/images/jupyter_example_content.png'}]};
         }
 
         // assign a helper attribute for delaying state transitions
@@ -321,8 +320,7 @@ export class MockInterceptor implements HttpInterceptor {
             console.log('instance ' + instance.name + 'now in state ' + instance.state);
             instance._mockLastStateUpdateTs = Date.now();
             instance.is_failed = true;
-          }
-          else if (Date.now() - instance._mockLastStateUpdateTs > 5000) {
+          } else if (Date.now() - instance._mockLastStateUpdateTs > 5000) {
             instance.state = states[states.indexOf(instance.state) + 1];
             console.log('instance ' + instance.name + 'now in state ' + instance.state);
             instance._mockLastStateUpdateTs = Date.now();
@@ -408,7 +406,7 @@ export class MockInterceptor implements HttpInterceptor {
 
     function createInstance() {
 
-      const { environment: envId } = body;
+      const {environment: envId} = body;
       const environment = database.environments.find(env => env.id === envId);
 
       // check if the environment exists
@@ -534,7 +532,7 @@ export class MockInterceptor implements HttpInterceptor {
         `member-${memberId}@example.org`,
         `member-${memberId}@example.org`,
       );
-      database.workspaces.map( ws => {
+      database.workspaces.map(ws => {
         if (ws.id === 'ws-0') {
           ws.normal_users.push(`member-${memberId}@example.org`);
         }
@@ -639,16 +637,16 @@ export class MockInterceptor implements HttpInterceptor {
 
     function ok(reqBody?) {
       saveDatabase();
-      return of(new HttpResponse({ status: 200, body: reqBody }));
+      return of(new HttpResponse({status: 200, body: reqBody}));
     }
 
     function error(message) {
       saveDatabase();
-      return throwError({ error: { message } });
+      return throwError({error: {message}});
     }
 
     function unauthorized() {
-      return throwError(new HttpErrorResponse({ status: 401, error: { message: 'Unauthorised' } }));
+      return throwError(new HttpErrorResponse({status: 401, error: {message: 'Unauthorised'}}));
     }
 
     function isLoggedIn() {

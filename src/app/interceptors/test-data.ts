@@ -1,4 +1,5 @@
 // Initial state of the mock database
+
 export let db = {
   instances: [
     {
@@ -1146,4 +1147,31 @@ export let db = {
       created_by: 'admin@example.org'
     }
   ],
+  alerts: [
+    {
+      target: 'cluster-1',
+      source: 'prometheus',
+      status: 'ok',
+      data: [],
+      update_ts: Date.now() - 20 * 1000
+    },
+    {
+      target: 'cluster-2',
+      source: 'prometheus',
+      status: 'warning',
+      data: [
+        {annotations: {summary: 'node problem', description: 'node 5 is down'}},
+        {annotations: {summary: 'load problem', description: 'system 5 minute load is too high'}}
+      ],
+      update_ts: Date.now() - 20 * 1000
+    },
+    {
+      target: 'cluster-1',
+      source: 'ingress-check',
+      status: 'data expired',
+      data: [],
+      update_ts: Date.now() - 60 * 60 * 1000
+    },
+  ],
+  status: 'warning'
 };

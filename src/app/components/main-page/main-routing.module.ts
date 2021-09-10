@@ -1,67 +1,72 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { MainPageComponent } from './main-page.component';
-import { MainAccountComponent } from './main-account/main-account.component';
-import { MainCatalogComponent } from './main-catalog/main-catalog.component';
-import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
-import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
+import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
+import { MainAccountComponent } from './main-account/main-account.component';
+import { MainActiveEnvironmentsComponent } from './main-active-environments/main-active-environments.component';
+import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
+import { MainCatalogComponent } from './main-catalog/main-catalog.component';
+import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
+import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
+import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
+import { MainPageComponent } from './main-page.component';
+import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
+import { MainSystemStatusComponent } from './main-status/main-system-status/main-system-status.component';
 import { MainUsersComponent } from './main-users/main-users.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
-import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
-import { MainActiveEnvironmentsComponent } from './main-active-environments/main-active-environments.component';
-import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
-import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
 
 export const routes: Routes = [
   {
     path: 'main', component: MainPageComponent,
     children: [
-      { path: '', redirectTo: 'catalog', pathMatch: 'full' },
+      {path: '', redirectTo: 'catalog', pathMatch: 'full'},
       {
         path: 'catalog', component: MainCatalogComponent,
-        data: { breadcrumbs: [''] }
+        data: {breadcrumbs: ['']}
       },
       {
         path: 'my-workspaces', component: MainMyWorkspacesComponent,
-        data: { breadcrumbs: ['home', 'my-workspaces'] }
+        data: {breadcrumbs: ['home', 'my-workspaces']}
       },
       {
         path: 'workspace-owner', component: MainWorkspaceOwnerComponent,
-        data: { breadcrumbs: ['home', 'workspace-owner'] },
+        data: {breadcrumbs: ['home', 'workspace-owner']},
       },
       {
         path: 'account', component: MainAccountComponent,
-        data: { breadcrumbs: ['home', 'account'] }
+        data: {breadcrumbs: ['home', 'account']}
       },
       {
         path: 'announcements', component: MainAnnouncementComponent,
-        data: { breadcrumbs: ['home', 'announcements'] }
+        data: {breadcrumbs: ['home', 'announcements']}
       },
       {
         path: 'help',
         children: [
-          { path: '', redirectTo: 'faq', pathMatch: 'full' },
-          { path: 'faq', component: MainHelpFaqComponent },
-          { path: 'contact', component: MainHelpContactComponent }
+          {path: '', redirectTo: 'faq', pathMatch: 'full'},
+          {path: 'faq', component: MainHelpFaqComponent},
+          {path: 'contact', component: MainHelpContactComponent}
         ]
       },
 
       {
         path: 'active-environments', component: MainActiveEnvironmentsComponent,
-        data: { breadcrumbs: ['home', 'active-environments'] }
+        data: {breadcrumbs: ['home', 'active-environments']}
       },
       {
         path: 'users', component: MainUsersComponent,
-        data: { breadcrumbs: ['home', 'users'] }
+        data: {breadcrumbs: ['home', 'users']}
+      },
+      {
+        path: 'system-status', component: MainSystemStatusComponent,
+        data: {breadcrumbs: ['home', 'system-status']}
       },
       {
         path: 'statistics', component: MainStatisticsComponent,
-        data: { breadcrumbs: ['home', 'statistics'] }
+        data: {breadcrumbs: ['home', 'statistics']}
       },
       {
         path: '**', component: NotFoundPageComponent,
-        data: { breadcrumbs: [''] }
+        data: {breadcrumbs: ['']}
       },
     ]
   }
@@ -73,4 +78,5 @@ export const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class MainRoutingModule { }
+export class MainRoutingModule {
+}
