@@ -1,4 +1,4 @@
-<div class="instance-button-container" *ngIf="environment">
+<div class="session-button-container" *ngIf="environment">
 
   <!-- Background circle  -->
   <div class="background-circle-container">
@@ -25,22 +25,22 @@
       2. Launch Button for environment card -> #LaunchUI
     -->
     <!-- 1: active environment -->
-    <ng-container *ngIf="isInstanceActive; else LaunchUI">
+    <ng-container *ngIf="isSessionActive; else LaunchUI">
       <!--
-        Switch UI based on the state of instance
+        Switch UI based on the state of session
         A. Shutdown -> 'deleting'||'deleted'
         B. Failed -> 'failed'
         C. Running -> *ngSwitchDefault
       -->
       <div fxLayout="column" fxLayoutAlign="center center" class="control-button circle-button v-centering__inline"
         [ngSwitch]="state">
-        <!-- A: Instance [Shutdown] -->
+        <!-- A: Session [Shutdown] -->
         <ng-container *ngSwitchCase="'deleting'||'deleted'">
           <div class="state v-centering__inline">
             {{ state }}
           </div>
         </ng-container>
-        <!-- B: Instance [Failed] -->
+        <!-- B: Session [Failed] -->
         <ng-container *ngSwitchCase="'failed'">
           <button mat-button class="replay-button v-centering__inline" (click)="stopEnvironment()">
             <div class="button-icon">
@@ -49,7 +49,7 @@
             <div class="state v-centering__inline">{{ state }}</div>
           </button>
         </ng-container>
-        <!-- Instance [Running] -->
+        <!-- Session [Running] -->
         <ng-container *ngSwitchDefault>
           <button mat-button matTooltip="Enter environment" matTooltipPosition="above" fxFlex="0 0 70px"
             fxLayout="column" fxLayoutAlign="center center" class="open-button v-centering__inline inversion"

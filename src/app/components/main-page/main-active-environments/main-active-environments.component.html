@@ -10,9 +10,9 @@
   </app-main-content-header>
 </div>
 <div class="active-environments-container content-container">
-  <ng-container *ngIf="tableRowData.length > 0; else noInstances">
+  <ng-container *ngIf="tableRowData.length > 0; else noSessions">
     <div class="mt-10 mb-10">
-      <button mat-flat-button (click)="deleteSelectedInstances()" [disabled]="selection.isEmpty()">
+      <button mat-flat-button (click)="deleteSelectedSessions()" [disabled]="selection.isEmpty()">
         Stop selected environments
       </button>
     </div>
@@ -70,8 +70,8 @@
     </table>
   </ng-container>
 
-  <!-- No instances -->
-  <ng-template #noInstances>
+  <!-- No sessions -->
+  <ng-template #noSessions>
     <div class="message-container">
       <div class="empty" *ngIf="lastUpdateTs === 0">
         <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>

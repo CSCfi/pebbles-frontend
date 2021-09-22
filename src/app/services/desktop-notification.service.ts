@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Instance, InstanceLifetimeLevel, InstanceStates } from 'src/app/models/instance';
+import { EnvironmentSession, SessionLifetimeLevel, SessionStates } from 'src/app/models/environment-session';
 
 @Injectable({
   providedIn: 'root'
@@ -48,67 +48,67 @@ export class DesktopNotificationService {
     }
   }
 
-  public notifyInstanceLifetime(instances: Instance[]): void {
+  public notifySessionLifetime(sessions: EnvironmentSession[]): void {
 
     // only try to show notifications if we have the permission to do so
     if (DesktopNotificationService.getPermissionState() !== 'granted') {
       return;
     }
 
-    // get the notifications already sent for all instances
+    // get the notifications already sent for all sessions
     let notification_states: {} = JSON.parse(localStorage.getItem('notification_states'));
     if (!notification_states) {
       notification_states = {};
     }
 
-    for (const inst of instances) {
-      // sent notifications for this instance
-      let sent_notifications: string[] = notification_states[inst.name];
+    for (const session of sessions) {
+      // sent notifications for this session
+      let sent_notifications: string[] = notification_states[session.name];
       if (!sent_notifications) {
         sent_notifications = [];
       }
-      switch (inst.state) {
-        case InstanceStates.Running:
-          // ---- Notify when the instance is ready.
-          if (!sent_notifications.includes(InstanceLifetimeLevel.Full)) {
+      switch (session.state) {
+        case SessionStates.Running:
+          // ---- Notify when the session is ready.
+          if (!sent_notifications.includes(SessionLifetimeLevel.Full)) {
             DesktopNotificationService.showNotification(
               'Your Environment is now running',
-              'Total time left is ' + DesktopNotificationService.secondsToMinutesText(inst.lifetime_left)
+              'Total time left is ' + DesktopNotificationService.secondsToMinutesText(session.lifetime_left)
             );
-            sent_notifications.push(InstanceLifetimeLevel.Full);
+            sent_notifications.push(SessionLifetimeLevel.Full);
           }
           // ---- Warn when the end is nigh.
-          else if (inst.lifetime_left < 900 && !sent_notifications.includes(InstanceLifetimeLevel.Short)) {
+          else if (session.lifetime_left < 900 && !sent_notifications.includes(SessionLifetimeLevel.Short)) {
             DesktopNotificationService.showNotification(
-              'Environment expiring in ' + DesktopNotificationService.secondsToMinutesText(inst.lifetime_left),
+              'Environment expiring in ' + DesktopNotificationService.secondsToMinutesText(session.lifetime_left),
               'Any unsaved data will be lost.'
             );
-            sent_notifications.push(InstanceLifetimeLevel.Short);
-          } else if (inst.lifetime_left < 300 && !sent_notifications.includes(InstanceLifetimeLevel.Dying)) {
+            sent_notifications.push(SessionLifetimeLevel.Short);
+          } else if (session.lifetime_left < 300 && !sent_notifications.includes(SessionLifetimeLevel.Dying)) {
             DesktopNotificationService.showNotification(
-              'Environment expiring in ' + DesktopNotificationService.secondsToMinutesText(inst.lifetime_left),
+              'Environment expiring in ' + DesktopNotificationService.secondsToMinutesText(session.lifetime_left),
               'Any unsaved data will be lost.'
             );
-            sent_notifications.push(InstanceLifetimeLevel.Dying);
+            sent_notifications.push(SessionLifetimeLevel.Dying);
           }
           break;
-        case InstanceStates.Deleted:
-          localStorage.removeItem(inst.name);
+        case SessionStates.Deleted:
+          localStorage.removeItem(session.name);
           break;
-        case InstanceStates.Failed:
-          if (!sent_notifications.includes(InstanceLifetimeLevel.Failed)) {
-            // ---- Notify when the environment fail to be instance
+        case SessionStates.Failed:
+          if (!sent_notifications.includes(SessionLifetimeLevel.Failed)) {
+            // ---- Notify when the starting a session failed
             DesktopNotificationService.showNotification(
               `Error! Your Environment failed to be provisioned.`,
               'Please try again in a moment. If the error persists, contact support.'
             );
-            sent_notifications.push(InstanceLifetimeLevel.Failed);
+            sent_notifications.push(SessionLifetimeLevel.Failed);
           }
           break;
         default:
-          console.log(inst.state, DesktopNotificationService.secondsToMinutesText(inst.lifetime_left));
+          console.log(session.state, DesktopNotificationService.secondsToMinutesText(session.lifetime_left));
       }
-      notification_states[inst.name] = sent_notifications;
+      notification_states[session.name] = sent_notifications;
       localStorage.setItem('notification_states', JSON.stringify(notification_states));
     }
   }

@@ -1,13 +1,13 @@
 // Initial state of the mock database
 
 export let db = {
-  instances: [
+  environment_sessions: [
     {
       id: '1',
       name: 'pb-alexandria-the-great',
       environment_id: '1',
       state: 'running',
-      instance_data: {endpoints: [{access: 'https://foo/1'}]},
+      session_data: {endpoints: [{access: 'https://foo/1'}]},
       lifetime_left: '3000',
       maximum_lifetime: '3600',
       user_id: '1',
@@ -18,7 +18,7 @@ export let db = {
       name: 'pb-kassandra-the-white',
       environment_id: '2',
       state: 'deleted',
-      instance_data: {endpoints: [{access: 'https://foo/2'}]},
+      session_data: {endpoints: [{access: 'https://foo/2'}]},
       lifetime_left: '600',
       maximum_lifetime: '2000',
       user_id: '1',
@@ -29,7 +29,7 @@ export let db = {
       name: 'pb-kassandra-the-patient',
       environment_id: '12',
       state: 'running',
-      instance_data: {endpoints: [{access: 'https://foo/3'}]},
+      session_data: {endpoints: [{access: 'https://foo/3'}]},
       lifetime_left: '600',
       maximum_lifetime: '2000',
       user_id: '101',
@@ -40,7 +40,7 @@ export let db = {
       name: 'pb-rick-the-shiny',
       environment_id: '1',
       state: 'provisioning',
-      instance_data: {endpoints: [{access: 'https://foo/4'}]},
+      session_data: {endpoints: [{access: 'https://foo/4'}]},
       lifetime_left: '6000',
       maximum_lifetime: '6000',
       user_id: '201',
@@ -51,7 +51,7 @@ export let db = {
       name: 'pb-bart-the-yellow',
       environment_id: '1',
       state: 'failed',
-      instance_data: {endpoints: [{access: 'https://foo/5'}]},
+      session_data: {endpoints: [{access: 'https://foo/5'}]},
       lifetime_left: '2000',
       maximum_lifetime: '2000',
       user_id: '301',
@@ -62,7 +62,7 @@ export let db = {
       name: 'pb-maggie-the-wise',
       environment_id: '12',
       state: 'running',
-      instance_data: {endpoints: [{access: 'https://foo/6'}]},
+      session_data: {endpoints: [{access: 'https://foo/6'}]},
       lifetime_left: '2000',
       maximum_lifetime: '2000',
       user_id: '301',
@@ -1015,7 +1015,7 @@ export let db = {
     {
       id: 'm00011',
       subject: 'Announcement: Computing Resources limited',
-      message: 'Your instance runs slower than usual.',
+      message: 'Your session runs slower than usual.',
       broadcasted: '2020-12-10T15:55:14',
       is_read: false
     },

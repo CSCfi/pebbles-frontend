@@ -8,11 +8,11 @@
     [labels]="[]">
   </app-main-content-header>
   <div>
-    Instances:
-    Q:{{getInstanceSummary()['nQueueing']}}
-    S:{{getInstanceSummary()['nStarting']}}
-    R:{{getInstanceSummary()['nRunning']}}
-    D:{{getInstanceSummary()['nDeleting']}}
+    Sessions:
+    Q:{{getSessionSummary()['nQueueing']}}
+    S:{{getSessionSummary()['nStarting']}}
+    R:{{getSessionSummary()['nRunning']}}
+    D:{{getSessionSummary()['nDeleting']}}
   </div>
   <p [ngClass]="getSystemStatus()==='ok' ? 'status-ok': 'status-warning'">
     Overall: {{ getSystemStatus().toUpperCase() }}

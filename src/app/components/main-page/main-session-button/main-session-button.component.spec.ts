@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'src/app/material.module';
 
-import { MainInstanceButtonComponent } from './main-instance-button.component';
+import { MainSessionButtonComponent } from './main-session-button.component';
 
-describe('MainInstanceButtonComponent', () => {
-  let component: MainInstanceButtonComponent;
-  let fixture: ComponentFixture<MainInstanceButtonComponent>;
+describe('MainSessionButtonComponent', () => {
+  let component: MainSessionButtonComponent;
+  let fixture: ComponentFixture<MainSessionButtonComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -16,13 +16,13 @@ describe('MainInstanceButtonComponent', () => {
         RouterTestingModule,
         MaterialModule
       ],
-      declarations: [ MainInstanceButtonComponent ]
+      declarations: [ MainSessionButtonComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainInstanceButtonComponent);
+    fixture = TestBed.createComponent(MainSessionButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

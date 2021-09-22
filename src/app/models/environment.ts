@@ -14,7 +14,7 @@ export class Environment {
     public template_id?: string,
     public template_name?: string,
     public environment_type?: EnvironmentType,
-    public instance_id?: string,
+    public session_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,
     public config?: any,

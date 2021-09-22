@@ -6,8 +6,8 @@ import { faRProject } from '@fortawesome/free-brands-svg-icons';
 import { faPython } from '@fortawesome/free-brands-svg-icons';
 import { EnvironmentType } from '../../../models/environment-template';
 import { Environment } from 'src/app/models/environment';
-import { Instance, InstanceStates } from 'src/app/models/instance';
-import { InstanceService } from 'src/app/services/instance.service';
+import { EnvironmentSession, SessionStates } from 'src/app/models/environment-session';
+import { EnvironmentSessionService } from 'src/app/services/environment-session.service';
 import { Utilities } from '../../../utilities';
 
 @Component({
@@ -28,12 +28,12 @@ export class MainEnvironmentItemComponent implements OnInit {
   isWaitingInterval = false;
 
   get isSpinnerOn(): boolean {
-    const instance = this.instanceService.getInstance(this.environment.instance_id);
-    if (instance) {
+    const session = this.sessionService.getSession(this.environment.session_id);
+    if (session) {
       switch (this.state) {
-        case InstanceStates.Running:
-        case InstanceStates.Deleted:
-        case InstanceStates.Failed:
+        case SessionStates.Running:
+        case SessionStates.Deleted:
+        case SessionStates.Failed:
           return false;
         default:
           return true;
@@ -42,13 +42,13 @@ export class MainEnvironmentItemComponent implements OnInit {
     return false;
   }
 
-  get instance(): Instance {
-    return this.instanceService.getInstance(this.environment.instance_id);
+  get session(): EnvironmentSession {
+    return this.sessionService.getSession(this.environment.session_id);
   }
 
-  get state(): InstanceStates | null {
-    if (this.instance) {
-      return this.instance.state;
+  get state(): SessionStates | null {
+    if (this.session) {
+      return this.session.state;
     }
     return null;
   }
@@ -58,7 +58,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   get isTimeWarningOn(): boolean {
-    return (this.instance?.state === InstanceStates.Failed || this.lifetimePercentage < 25) && !this.isSpinnerOn;
+    return (this.session?.state === SessionStates.Failed || this.lifetimePercentage < 25) && !this.isSpinnerOn;
   }
 
   get lifetime(): string {
@@ -68,27 +68,27 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   get lifetimePercentage(): number {
-    if (!this.instance) {
+    if (!this.session) {
       return 0;
     }
-    switch (this.instance.state) {
-      case InstanceStates.Deleted:
-      case InstanceStates.Deleting:
+    switch (this.session.state) {
+      case SessionStates.Deleted:
+      case SessionStates.Deleting:
         return 0;
-      case InstanceStates.Queueing:
-      case InstanceStates.Provisioning:
-      case InstanceStates.Starting:
-      case InstanceStates.Failed:
+      case SessionStates.Queueing:
+      case SessionStates.Provisioning:
+      case SessionStates.Starting:
+      case SessionStates.Failed:
         return 100;
       default:
-        const res = Number(this.instance.lifetime_left) / Number(this.environment.maximum_lifetime) * 100;
+        const res = Number(this.session.lifetime_left) / Number(this.environment.maximum_lifetime) * 100;
         return Math.floor(res);
     }
   }
 
   get lifetimeLeft(): string {
-    if (this.instance.state === InstanceStates.Running && this.instance.lifetime_left) {
-      return Utilities.lifetimeToString(this.instance.lifetime_left);
+    if (this.session.state === SessionStates.Running && this.session.lifetime_left) {
+      return Utilities.lifetimeToString(this.session.lifetime_left);
     }
     return '';
   }
@@ -110,7 +110,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   constructor(
-    private instanceService: InstanceService,
+    private sessionService: EnvironmentSessionService,
   ) { }
 
   ngOnInit(): void {

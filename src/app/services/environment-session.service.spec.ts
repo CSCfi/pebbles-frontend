@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { InstanceService } from './instance.service';
+import { EnvironmentSessionService } from './environment-session.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
 import * as TESTDATA from '../interceptors/test-data';
 import {RouterTestingModule} from '@angular/router/testing';
 
 
-describe('InstanceService', () => {
-  let service: InstanceService;
+describe('EnvironmentSessionService', () => {
+  let service: EnvironmentSessionService;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -17,7 +17,7 @@ describe('InstanceService', () => {
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS]
     });
-    service = TestBed.inject(InstanceService);
+    service = TestBed.inject(EnvironmentSessionService);
     localStorage.removeItem('mock.database');
     localStorage.setItem('user_id', '1');
     localStorage.setItem('user_name', 'admin@example.org');
@@ -27,21 +27,21 @@ describe('InstanceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should populate instances with fetchInstances',
+  it('should populate sessions with fetchSessions',
     (done: DoneFn) => {
-      service.fetchInstances().subscribe(() => {
-        const instances = service.getAllInstances();
-        // two (deleted, failed) invalid instances in the database
-        // TODO: when UI can handle failed instances, check the expected number below
-        expect(instances.length).toBe(TESTDATA.db.instances.length - 1);
+      service.fetchSessions().subscribe(() => {
+        const sessions = service.getAllSessions();
+        // two (deleted, failed) invalid sessions in the database
+        // TODO: when UI can handle failed sessions, check the expected number below
+        expect(sessions.length).toBe(TESTDATA.db.environment_sessions.length - 1);
         done();
       });
     }
   );
 
-  it('should create an instance',
+  it('should create a session',
     (done: DoneFn) => {
-      service.createInstance('1').subscribe(resp => {
+      service.createSession('1').subscribe(resp => {
         expect(resp.environment_id).toBe('1');
         done();
       });

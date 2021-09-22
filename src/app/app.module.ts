@@ -12,7 +12,7 @@ import { MainModule } from './components/main-page/main.module';
 // ---- Services
 import { AuthService } from 'src/app/services/auth.service';
 import { EnvironmentService } from 'src/app/services/environment.service';
-import { InstanceService } from 'src/app/services/instance.service';
+import { EnvironmentSessionService } from 'src/app/services/environment-session.service';
 import { MessageService } from 'src/app/services/message.service';
 import { AccountService } from './services/account.service';
 import { DesktopNotificationService } from './services/desktop-notification.service';
@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { WelcomeLoginComponent } from './components/welcome-page/welcome-login/welcome-login.component';
 import { WelcomePublicityComponent } from './components/welcome-page/welcome-publicity/welcome-publicity.component';
-import { InstancePageComponent } from './components/instance-page/instance-page.component';
+import { SessionPageComponent } from './components/session-page/session-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 // ---- Interceptors
 import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
@@ -38,7 +38,7 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     WelcomePageComponent,
     WelcomeLoginComponent,
     WelcomePublicityComponent,
-    InstancePageComponent,
+    SessionPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +59,7 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     EnvironmentCategoryService,
     EnvironmentTemplateService,
     FaqService,
-    InstanceService,
+    EnvironmentSessionService,
     MessageService,
     WorkspaceService,
     {

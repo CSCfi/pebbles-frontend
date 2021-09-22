@@ -26,7 +26,7 @@ export interface EnvironmentRow {
   state: string;
   lifetime: string;
   labels: string[];
-  instance_id: string;
+  session_id: string;
 }
 
 @Component({
@@ -111,7 +111,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
           type: env.environment_type,
           lifetime: env.maximum_lifetime,
           labels: env.labels,
-          instance_id: env.instance_id
+          session_id: env.session_id
         };
       })
     );

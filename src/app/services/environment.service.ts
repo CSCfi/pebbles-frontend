@@ -6,7 +6,7 @@ import { Environment } from 'src/app/models/environment';
 import { buildConfiguration } from '../../environments/environment';
 import { EnvironmentType } from '../models/environment-template';
 import { EventService } from './event.service';
-import { InstanceService } from './instance.service';
+import { EnvironmentSessionService } from './environment-session.service';
 
 
 @Injectable({
@@ -23,7 +23,7 @@ export class EnvironmentService implements OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private instanceService: InstanceService,
+    private environmentSessionService: EnvironmentSessionService,
     private eventService: EventService
   ) {
     this.interval = window.setInterval(() => {
@@ -70,8 +70,8 @@ export class EnvironmentService implements OnDestroy {
           if (!newEnv.labels) {
             newEnv.labels = [];
           }
-          const instance = this.instanceService.getInstanceByEnvironmentId(newEnv.id);
-          newEnv.instance_id = instance ? instance.id : null;
+          const session = this.environmentSessionService.getSessionByEnvironmentId(newEnv.id);
+          newEnv.session_id = session ? session.id : null;
           if (!newEnv.environment_type) {
             if (newEnv.labels.indexOf('jupyter') >= 0) {
               newEnv.environment_type = EnvironmentType.Jupyter;
@@ -99,11 +99,11 @@ export class EnvironmentService implements OnDestroy {
 
   startEnvironment(environmentId: string): Observable<Environment> {
     const environment = this.get(environmentId);
-    return this.instanceService.createInstance(environment.id).pipe(
+    return this.environmentSessionService.createSession(environment.id).pipe(
       map(resp => {
-        console.log('environment starting, assigning instance ' + resp);
-        environment.instance_id = resp.id;
-        this.instanceService.fetchInstances().subscribe();
+        console.log('environment starting, assigning session ' + resp);
+        environment.session_id = resp.id;
+        this.environmentSessionService.fetchSessions().subscribe();
         return environment;
       })
     );
@@ -111,10 +111,10 @@ export class EnvironmentService implements OnDestroy {
 
   stopEnvironment(environmentId: string): Observable<Environment> {
     const environment = this.get(environmentId);
-    return this.instanceService.deleteInstance(environment.instance_id).pipe(
+    return this.environmentSessionService.deleteSession(environment.session_id).pipe(
       map(() => {
         console.log('environment stopping');
-        this.instanceService.fetchInstances().subscribe();
+        this.environmentSessionService.fetchSessions().subscribe();
         return environment;
       })
     );

@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { Instance, InstanceStates } from 'src/app/models/instance';
+import { EnvironmentSession, SessionStates } from 'src/app/models/environment-session';
 import { User } from 'src/app/models/user';
 import { Environment } from '../models/environment';
 import { Workspace } from '../models/workspace';
@@ -45,7 +45,7 @@ export class MockInterceptor implements HttpInterceptor {
 
     switch (true) {
 
-      case (endpoint === 'instances' && apiComponents[1] !== undefined):
+      case (endpoint === 'environment_sessions' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
       case (endpoint === 'environments' && apiComponents[1] === 'environment_copy'):
@@ -91,8 +91,8 @@ export class MockInterceptor implements HttpInterceptor {
         // TODO : endsWith is not supported in IE 11 last version
         case url.endsWith('/sessions') && method === 'POST':
           return authenticate();
-        case url.endsWith('/instances') && method === 'POST':
-          return createInstance();
+        case url.endsWith('/environment_sessions') && method === 'POST':
+          return createEnvironmentSession();
         case url.endsWith('/environments') && method === 'POST':
           return createEnvironment();
         case url.includes('/environments/environment_copy') && method === 'PUT':
@@ -103,10 +103,10 @@ export class MockInterceptor implements HttpInterceptor {
           return deleteEnvironment();
         case url.endsWith('/environments') && method === 'GET':
           return getEnvironments();
-        case url.endsWith('/instances') && method === 'GET':
-          return getInstances();
-        case url.includes('/instances') && method === 'DELETE':
-          return deleteInstance();
+        case url.endsWith('/environment_sessions') && method === 'GET':
+          return getEnvironmentSessions();
+        case url.includes('/environment_sessions') && method === 'DELETE':
+          return deleteEnvironmentSession();
         case url.endsWith('/workspaces') && method === 'POST':
           return createWorkspace();
         case url.includes('/join_workspace') && method === 'PUT':
@@ -273,10 +273,10 @@ export class MockInterceptor implements HttpInterceptor {
       });
     }
 
-    // mimic instance lifetime behavior
-    function getInstances() {
+    // mimic environment_session lifetime behavior
+    function getEnvironmentSessions() {
 
-      // instance states from API
+      // environment_session states from API
       const states = [
         'queueing',
         'provisioning',
@@ -290,43 +290,43 @@ export class MockInterceptor implements HttpInterceptor {
 
       const result = [];
       const accessibleEnvIds = getAccessibleEnvironments(userName).map(e => e.id);
-      const accessibleInstances = getAccessibleInstances(userName);
+      const accessibleSessions = getAccessibleSessions(userName);
 
-      for (const instance of accessibleInstances) {
-        // filter out instances from environments user does not have access to
-        if (accessibleEnvIds.indexOf(instance.environment_id) < 0) {
+      for (const session of accessibleSessions) {
+        // filter out environment_sessions from environments user does not have access to
+        if (accessibleEnvIds.indexOf(session.environment_id) < 0) {
           continue;
         }
-        // filter out instances for other users, unless the user is an admin or can manage the workspace
+        // filter out sessions for other users, unless the user is an admin or can manage the workspace
 
-        // filter out deleted instances
-        if (instance.state === 'deleted') {
+        // filter out deleted sessions
+        if (session.state === 'deleted') {
           continue;
         }
-        // assign an endpoint to instance that is starting
-        if (instance.state === 'starting') {
-          instance.instance_data = {endpoints: [{access: 'assets/images/jupyter_example_content.png'}]};
+        // assign an endpoint to session that is starting
+        if (session.state === 'starting') {
+          session.session_data = {endpoints: [{access: 'assets/images/jupyter_example_content.png'}]};
         }
 
         // assign a helper attribute for delaying state transitions
-        if (!instance._mockLastStateUpdateTs) {
-          instance._mockLastStateUpdateTs = Date.now();
+        if (!session._mockLastStateUpdateTs) {
+          session._mockLastStateUpdateTs = Date.now();
         }
         // advance the transitive states
-        if (transitiveStates.indexOf(instance.state) >= 0) {
+        if (transitiveStates.indexOf(session.state) >= 0) {
           // to mimic random failures, tune the probability below
           if (Math.random() < 0.0) {
-            instance.state = InstanceStates.Failed;
-            console.log('instance ' + instance.name + 'now in state ' + instance.state);
-            instance._mockLastStateUpdateTs = Date.now();
-            instance.is_failed = true;
-          } else if (Date.now() - instance._mockLastStateUpdateTs > 5000) {
-            instance.state = states[states.indexOf(instance.state) + 1];
-            console.log('instance ' + instance.name + 'now in state ' + instance.state);
-            instance._mockLastStateUpdateTs = Date.now();
+            session.state = SessionStates.Failed;
+            console.log('session ' + session.name + 'now in state ' + session.state);
+            session._mockLastStateUpdateTs = Date.now();
+            session.is_failed = true;
+          } else if (Date.now() - session._mockLastStateUpdateTs > 5000) {
+            session.state = states[states.indexOf(session.state) + 1];
+            console.log('session ' + session.name + 'now in state ' + session.state);
+            session._mockLastStateUpdateTs = Date.now();
           }
         }
-        result.push(instance);
+        result.push(session);
       }
       return ok(result);
     }
@@ -404,7 +404,7 @@ export class MockInterceptor implements HttpInterceptor {
       return ok(env);
     }
 
-    function createInstance() {
+    function createEnvironmentSession() {
 
       const {environment: envId} = body;
       const environment = database.environments.find(env => env.id === envId);
@@ -413,41 +413,41 @@ export class MockInterceptor implements HttpInterceptor {
       if (!envId || !environment) {
         error('environment not found ' + envId);
       }
-      // make sure there aren't existing instances for the environment
-      if (database.instances.find(inst => inst.environment_id === envId && inst.state !== InstanceStates.Deleted)) {
-        error('instance already running for environment ' + envId);
+      // make sure there aren't existing sessions for the environment
+      if (database.environment_sessions.find(es => es.environment_id === envId && es.state !== SessionStates.Deleted)) {
+        error('session already running for environment ' + envId);
       }
 
-      const instanceId = Math.random().toString(36).substring(2, 8);
+      const sessionId = Math.random().toString(36).substring(2, 8);
 
-      const instance = new Instance(
-        instanceId,
+      const session = new EnvironmentSession(
+        sessionId,
         userId,
-        'pb-random-' + instanceId,
+        'pb-random-' + sessionId,
         envId,
-        InstanceStates.Queueing,
+        SessionStates.Queueing,
         '',
         environment.maximum_lifetime,
         userName,
       );
 
-      (instance as any)._mockLastStateUpdateTs = Date.now();
-      database.instances.push(instance);
+      (session as any)._mockLastStateUpdateTs = Date.now();
+      database.environment_sessions.push(session);
 
-      return ok(instance);
+      return ok(session);
     }
 
-    function deleteInstance() {
-      const instance = database.instances.find((i) => {
+    function deleteEnvironmentSession() {
+      const session = database.environment_sessions.find((i) => {
         return (i.id === objectId);
       });
 
-      if (instance) {
-        instance.state = 'deleting';
-        instance._mockLastStateUpdateTs = Date.now();
-        return ok(instance);
+      if (session) {
+        session.state = 'deleting';
+        session._mockLastStateUpdateTs = Date.now();
+        return ok(session);
       } else {
-        return error('instance not found');
+        return error('session not found');
       }
     }
 
@@ -699,7 +699,7 @@ export class MockInterceptor implements HttpInterceptor {
       });
     }
 
-    function getAccessibleInstances(ext_id: string) {
+    function getAccessibleSessions(ext_id: string) {
       const user = database.users.find(u => u.ext_id === ext_id);
       if (!user) {
         return [];
@@ -707,19 +707,19 @@ export class MockInterceptor implements HttpInterceptor {
       const ownedWorkspaceIds = getAccessibleWorkspaces(ext_id).filter(w => w.owner_ext_id === ext_id).map(w => w.id);
       const result = [];
 
-      for (const instance of database.instances) {
-        const instanceEnvironment = database.environments.find(e => e.id === instance.environment_id);
-        // admin gets all instances
+      for (const session of database.environment_sessions) {
+        const sessionEnvironment = database.environments.find(e => e.id === session.environment_id);
+        // admin gets all sessions
         if (user.is_admin) {
-          result.push(instance);
+          result.push(session);
         }
-        // pick instances owned by the user
-        else if (instance.user_id === user.id) {
-          result.push(instance);
+        // pick sessions owned by the user
+        else if (session.user_id === user.id) {
+          result.push(session);
         }
-        // pick instances for other users, if the user owns the workspace
-        else if (ownedWorkspaceIds.indexOf(instanceEnvironment.workspace_id) >= 0) {
-          result.push(instance);
+        // pick sessions for other users, if the user owns the workspace
+        else if (ownedWorkspaceIds.indexOf(sessionEnvironment.workspace_id) >= 0) {
+          result.push(session);
         }
       }
       return result;

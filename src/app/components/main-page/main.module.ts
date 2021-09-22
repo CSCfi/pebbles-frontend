@@ -25,7 +25,7 @@ import { MainFooterComponent } from './main-footer/main-footer.component';
 import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
 import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
 import { MainHelpNavComponent } from './main-help-nav/main-help-nav.component';
-import { MainInstanceButtonComponent } from './main-instance-button/main-instance-button.component';
+import { MainSessionButtonComponent } from './main-session-button/main-session-button.component';
 import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog/main-join-workspace-dialog.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
@@ -76,7 +76,7 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainEnvironmentItemFormComponent,
     MainWorkspaceItemDetailComponent,
     MainWorkspaceEnvironmentsComponent,
-    MainInstanceButtonComponent,
+    MainSessionButtonComponent,
     MainContentStateComponent,
     MainJoinWorkspaceDialogComponent,
     MainUsersComponent,

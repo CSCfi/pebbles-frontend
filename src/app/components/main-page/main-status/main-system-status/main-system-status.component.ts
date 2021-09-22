@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Alert } from '../../../../models/alert';
 import { AlertService } from '../../../../services/alert.service';
-import { InstanceService } from '../../../../services/instance.service';
+import { EnvironmentSessionService } from '../../../../services/environment-session.service';
 
 @Component({
   selector: 'app-main-system-status',
@@ -19,7 +19,7 @@ export class MainSystemStatusComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
-    private instanceService: InstanceService
+    private environmentSessionService: EnvironmentSessionService
   ) {
   }
 
@@ -36,12 +36,12 @@ export class MainSystemStatusComponent implements OnInit, OnDestroy {
     return this.alertService.getSystemStatus() ? this.alertService.getSystemStatus() : 'unknown';
   }
 
-  getInstanceSummary(): any {
-    const instances = this.instanceService.getAllInstances();
-    const nRunning = instances.filter(i => i.state === 'running').length;
-    const nQueueing = instances.filter(i => i.state === 'queueing').length;
-    const nStarting = instances.filter(i => i.state === 'starting').length;
-    const nDeleting = instances.filter(i => i.state === 'deleting').length;
+  getSessionSummary(): any {
+    const sessions = this.environmentSessionService.getAllSessions();
+    const nRunning = sessions.filter(i => i.state === 'running').length;
+    const nQueueing = sessions.filter(i => i.state === 'queueing').length;
+    const nStarting = sessions.filter(i => i.state === 'starting').length;
+    const nDeleting = sessions.filter(i => i.state === 'deleting').length;
     return {nRunning, nQueueing, nStarting, nDeleting};
   }
 

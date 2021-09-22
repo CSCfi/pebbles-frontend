@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {AuthService} from 'src/app/services/auth.service';
 import {Announcement} from '../../../models/announcement';
 import {MessageService} from '../../../services/message.service';
-import {InstanceService} from '../../../services/instance.service';
+import {EnvironmentSessionService} from '../../../services/environment-session.service';
 
 // export enum MainPages {
 //   Catalog = 'catalog',
@@ -42,7 +42,7 @@ export class MainNavComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     public messageService: MessageService,
-    public instanceService: InstanceService,
+    public environmentSessionService: EnvironmentSessionService,
   ) {
     // fetch announcements to update the nav bar unread announcements number
     this.messageService.fetchAnnouncements().subscribe();
@@ -83,6 +83,6 @@ export class MainNavComponent implements OnInit {
       return;
     }
     this.authService.logout();
-    this.instanceService.clearPollingInterval();
+    this.environmentSessionService.clearPollingInterval();
   }
 }

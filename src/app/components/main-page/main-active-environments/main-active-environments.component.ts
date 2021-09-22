@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {InstanceService} from '../../../services/instance.service';
-import {Instance} from '../../../models/instance';
+import {EnvironmentSessionService} from '../../../services/environment-session.service';
+import {EnvironmentSession} from '../../../models/environment-session';
 import {EnvironmentService} from '../../../services/environment.service';
 import {Utilities} from '../../../utilities';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 
-export interface InstanceTableRow {
+export interface SessionTableRow {
   isSelected: boolean;
   index: number;
   workspaceName: string;
@@ -14,7 +14,7 @@ export interface InstanceTableRow {
   username: string;
   state: string;
   lifetimeLeft: string;
-  instanceId: string;
+  sessionId: string;
 }
 
 @Component({
@@ -33,25 +33,25 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'isSelected', 'workspaceName', 'environmentName', 'username', 'state', 'lifetimeLeft'
   ];
-  selection = new SelectionModel<InstanceTableRow>(true, []);
-  tableRowData: InstanceTableRow[] = [];
-  instances: Instance[];
+  selection = new SelectionModel<SessionTableRow>(true, []);
+  tableRowData: SessionTableRow[] = [];
+  sessions: EnvironmentSession[];
 
   lastUpdateTs = 0;
-  dataSource: MatTableDataSource<InstanceTableRow>;
+  dataSource: MatTableDataSource<SessionTableRow>;
   interval = 0;
   queryText = '';
 
   constructor(
-    public instanceService: InstanceService,
+    public environmentSessionService: EnvironmentSessionService,
     public environmentService: EnvironmentService,
   ) {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<InstanceTableRow>(this.tableRowData);
+    this.dataSource = new MatTableDataSource<SessionTableRow>(this.tableRowData);
     this.environmentService.fetchEnvironments().subscribe(() =>
-      this.instanceService.fetchInstances().subscribe(() =>
+      this.environmentSessionService.fetchSessions().subscribe(() =>
         this.updateRowData()
       )
     );
@@ -65,32 +65,32 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
 
   updateRowData(force = false): void {
     // first check if we already have the latest data
-    const instanceServiceUpdateTs = this.instanceService.getLastUpdateTs();
-    if (!force && this.lastUpdateTs === instanceServiceUpdateTs) {
+    const sessionServiceUpdateTs = this.environmentSessionService.getLastUpdateTs();
+    if (!force && this.lastUpdateTs === sessionServiceUpdateTs) {
       return;
     }
-    this.lastUpdateTs = instanceServiceUpdateTs;
+    this.lastUpdateTs = sessionServiceUpdateTs;
 
     // update existing row data entries and insert new ones
-    this.instanceService.getAllInstances().map(instance => {
-      const existingEntry = this.tableRowData.find(r => r.instanceId === instance.id);
+    this.environmentSessionService.getAllSessions().map(session => {
+      const existingEntry = this.tableRowData.find(r => r.sessionId === session.id);
       if (existingEntry) {
-        existingEntry.lifetimeLeft = Utilities.lifetimeToString(instance.lifetime_left);
-        existingEntry.state = instance.state;
+        existingEntry.lifetimeLeft = Utilities.lifetimeToString(session.lifetime_left);
+        existingEntry.state = session.state;
         existingEntry.index = -1;
-        existingEntry.workspaceName = this.environmentService.get(instance.environment_id)?.workspace_name;
-        existingEntry.environmentName = this.environmentService.get(instance.environment_id)?.name;
-        existingEntry.username = instance.username;
+        existingEntry.workspaceName = this.environmentService.get(session.environment_id)?.workspace_name;
+        existingEntry.environmentName = this.environmentService.get(session.environment_id)?.name;
+        existingEntry.username = session.username;
       } else {
         this.tableRowData.push({
           isSelected: false,
           index: -1,
-          workspaceName: this.environmentService.get(instance.environment_id)?.workspace_name,
-          environmentName: this.environmentService.get(instance.environment_id)?.name,
-          username: instance.username,
-          state: instance.state,
-          lifetimeLeft: this.lifetimeToString(instance.lifetime_left),
-          instanceId: instance.id,
+          workspaceName: this.environmentService.get(session.environment_id)?.workspace_name,
+          environmentName: this.environmentService.get(session.environment_id)?.name,
+          username: session.username,
+          state: session.state,
+          lifetimeLeft: this.lifetimeToString(session.lifetime_left),
+          sessionId: session.id,
         });
       }
     });
@@ -101,7 +101,7 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
       this.tableRowData[i].index = i;
     }
     // create a new datasource to trigger table rendering
-    this.dataSource = new MatTableDataSource<InstanceTableRow>(this.tableRowData);
+    this.dataSource = new MatTableDataSource<SessionTableRow>(this.tableRowData);
     this.dataSource.filter = Utilities.cleanText(this.queryText);
   }
 
@@ -120,7 +120,7 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: InstanceTableRow): string {
+  checkboxLabel(row?: SessionTableRow): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -131,12 +131,12 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
     return Utilities.lifetimeToString(lifetime);
   }
 
-  deleteSelectedInstances() {
+  deleteSelectedSessions() {
     for (const row of this.selection.selected) {
-      const instanceId = row.instanceId;
-      console.log('deleting instance ' + instanceId);
-      this.instanceService.deleteInstance(instanceId).subscribe(_ => {
-        console.log('deleted ' + instanceId);
+      const sessionId = row.sessionId;
+      console.log('deleting session ' + sessionId);
+      this.environmentSessionService.deleteSession(sessionId).subscribe(_ => {
+        console.log('deleted ' + sessionId);
       });
       row.state = 'deleting';
     }

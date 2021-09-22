@@ -4,7 +4,7 @@ import { AuthService } from './services/auth.service';
 import { EnvironmentCategoryService } from './services/environment-category.service';
 import { EnvironmentService } from './services/environment.service';
 import { EventService, LoginStatusChange } from './services/event.service';
-import { InstanceService } from './services/instance.service';
+import { EnvironmentSessionService } from './services/environment-session.service';
 import { WorkspaceService } from './services/workspace.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private workspaceService: WorkspaceService,
-    private instanceService: InstanceService,
+    private sessionService: EnvironmentSessionService,
     private environmentService: EnvironmentService,
     private environmentCategoryService: EnvironmentCategoryService,
     private eventService: EventService,
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     console.log('AppComponent.ngOnInit()');
     // Make sure we have current data loaded after login
-    // populate the service states in order to be able to assign the instances to environments
+    // populate the service states in order to be able to assign the sessions to environments
     this.eventService.loginStatus$.subscribe(change => {
       if (change === LoginStatusChange.login) {
         this.initializeServices();
@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
   }
 
   initializeServices(): void {
-    this.instanceService.fetchInstances().pipe(
+    this.sessionService.fetchSessions().pipe(
       map(_ => {
         return this.workspaceService.fetchWorkspaces().subscribe();
       }),
