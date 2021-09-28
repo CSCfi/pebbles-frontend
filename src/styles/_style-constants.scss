@@ -24,9 +24,9 @@ $colors: (
   light: #fbfbff,
   light2: #cfcfd6,
   light3: #e0e0f1,
-  dark:  #2e2f39,
-  neutral-dark:  #9cb2c7,
-  light-dark:  #acc7e0,
+  dark: #2e2f39,
+  neutral-dark: #9cb2c7,
+  light-dark: #acc7e0,
   extra-light-dark: #ddedfa,
   gray: #6d7088,
   gray2: #a7a7a7,
@@ -34,8 +34,68 @@ $colors: (
   extra-light-gray: #eeeeee,
   white: #fff,
   black: #222,
-  transparent:  rgb(255, 255, 255, 0),
+  transparent: rgb(255, 255, 255, 0),
   focus-light: rgb(255, 255, 255, .1),
+);
+
+
+$dark-primary-text: rgba(black, 0.87);
+$dark-primary-text: white;
+
+// ---- use grey-color set from $mat-grey
+$app-primary: (
+  default: #18227c,
+  lighter: #514aac,
+  darker: #00004f,
+  contrast: (
+    default: $dark-primary-text,
+    lighter: $dark-primary-text,
+    darker: $dark-primary-text
+  )
+);
+
+$app-secondary: (
+  default: #0082bb,
+  lighter: #58b1ee,
+  darker: #00568b,
+  contrast: (
+    default: $dark-primary-text,
+    lighter: $dark-primary-text,
+    darker: $dark-primary-text
+  )
+);
+
+$app-accent: (
+  default: #6bc7bb,
+  lighter: #9efaed,
+  darker: #37968b,
+  contrast: (
+    default: $dark-primary-text,
+    lighter: $dark-primary-text,
+    darker: $dark-primary-text
+  )
+);
+
+$app-warn: (
+  default: #ed6666,
+  lighter: #ff9794,
+  darker: #b6343c,
+  contrast: (
+    default: $dark-primary-text,
+    lighter: $dark-primary-text,
+    darker: $dark-primary-text
+  )
+);
+
+$app-dark: (
+  default: #acc7e0,
+  lighter: #e0e0f1,
+  darker: #2e2f39,
+  contrast: (
+    default: $dark-primary-text,
+    lighter: $dark-primary-text,
+    darker: $dark-primary-text
+  )
 );
 
 // ---- color application
@@ -45,7 +105,7 @@ $colors: (
   color: map-get($colors, white);
 
   &a,
-  a{
+  a {
     color: map-get($colors, white);
 
     &:hover {
@@ -55,7 +115,7 @@ $colors: (
   }
 
   &.mat-button-base,
-  .mat-button-base{
+  .mat-button-base {
     color: map-get($colors, white);
 
     &:hover {
@@ -76,12 +136,12 @@ $colors: (
 
 // ---- layout
 
-$layout-set:(
+$layout-set: (
   shared: (
     header: (
       w: 100%,
       h: auto,
-      min-h: 60px
+      min-h: 48px
     )
   ),
   welcome: (
@@ -140,13 +200,5 @@ $borders: (
 );
 $border-thin: 1px solid rgba(0, 0, 0, .0625);
 $border-thin-light: 1px solid rgba(255, 255, 255, .0625);
-
-
-// ---- banner
-
-@mixin banner {
-  background-color: map-get($colors, primary);
-  color: map-get($colors, white);
-}
 
 $progress-linear-bar-height: 6px;

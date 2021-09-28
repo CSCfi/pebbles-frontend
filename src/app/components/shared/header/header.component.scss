@@ -1,7 +1,6 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
-.header {
+#header {
   height: map-deep-get($layout-set, shared, header, h);
-  padding-top: 12px;
-  padding-bottom: 12px;
+  color: #fff;
 }

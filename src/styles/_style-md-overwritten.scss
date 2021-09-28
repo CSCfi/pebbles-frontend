@@ -1,9 +1,31 @@
 
-::ng-deep {
+.mat-icon {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-  // .mat-display-1 {
-  //   margin-bottom: 0 !important;
-  // }
+  &.md-18 { font-size: 18px; }
+  &.md-24 { font-size: 24px; }
+  &.md-36 { font-size: 36px; }
+  &.md-48 { font-size: 48px; }
+}
+
+button {
+  &:hover { color: map-get($app-warn, lighter); }
+}
+
+.mat-button-base {
+  padding: 4px !important;
+
+  &.lg { padding: 10px !important; }
+
+  &.mat-accent{
+    color: map-get($app-primary, default);
+
+    &:hover { background-color:  map-get($app-accent, lighter); }
+  }
+}
+
+::ng-deep {
 
   // ---- Button
   // ----------------------------------------
@@ -11,7 +33,6 @@
   a.mat-button-base,
   .mat-button-base {
 
-    // text-transform: uppercase;
     font-weight: bold !important;
 
     &.grow {
@@ -174,14 +195,6 @@
         padding: 0;
       }
     }
-  }
-
-  .mat-icon {
-    font-weight: 500;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    vertical-align: middle;
-    // width: auto; // ---- width shouldn't be set as 'auto'
   }
 
   .mat-fab,

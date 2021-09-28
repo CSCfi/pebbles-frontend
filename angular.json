@@ -29,9 +29,9 @@
             ],
             "styles": [
               "./node_modules/destyle.css/destyle.css",
+              "./node_modules/@fontsource/quicksand/latin-400.css",
               "./node_modules/@fontsource/quicksand/latin-500.css",
               "./node_modules/@fontsource/quicksand/latin-600.css",
-              "./node_modules/@fontsource/quicksand/latin-700.css",
               "./node_modules/@fontsource/open-sans/latin-400.css",
               "./node_modules/@fontsource/open-sans/latin-600.css",
               "./node_modules/material-icons/iconfont/outlined.scss",

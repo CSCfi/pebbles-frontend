@@ -1,55 +1,17 @@
-<section class="container" fxLayout="row" fxLayoutAlign="space-between stretch">
-  <div class="login-wrapper">
-    <h2 class="mat-display-3 mb-30">
+<section class="container mb-100"
+         fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="50px"
+         fxLayout.xs="column-reverse" fxLayoutGap.xs="20px">
+  <!-- Left -->
+  <div class="login-wrapper" fxLayout="column" fxLayoutGap="30px">
+    <h2 class="mat-display-2">
       Easy-to-use environments for working with data and programming.
     </h2>
-    <div class="mat-display-4 mb-30">
+    <div class="mat-display-3">
       Log in to browse the catalogue of available environments and launch them to get access.
       Dedicated
       and disposable environments run in the cloud and can be accessed with any of your connected
       devices.
     </div>
-
-    <div class="login-buttons mb-10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
-      <a mat-raised-button href="/oauth2?rd=%2Foauth2" class="oauth-login-button inversion accent medium">
-        <span class="sso-login">Login</span>
-      </a>
-      <a id="special-login-button" class="special-login-button" (click)="isLoginFormOpen=!isLoginFormOpen">
-        Special Login
-        <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
-          <mat-icon fontSet="material-icons-outlined"> chevron_right </mat-icon>
-        </ng-container>
-        <ng-template #elseBlock>
-          <mat-icon fontSet="material-icons-outlined"> expand_more </mat-icon>
-        </ng-template>
-      </a>
-    </div>
-    <!-- Special Login form -->
-    <mat-accordion class="login-form-outer" multi>
-      <mat-expansion-panel [(expanded)]="isLoginFormOpen">
-
-        <form (ngSubmit)="onLogin()" [formGroup]="loginFormGroup">
-          <div>
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field appearance="outline">
-              <mat-label>Password</mat-label>
-              <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
-            </mat-form-field>
-          </div>
-          <button mat-raised-button
-            id="special-login-submit-button"
-            class="shadow__moderate grow inversion primary">
-            Submit
-          </button>
-        </form>
-
-      </mat-expansion-panel>
-    </mat-accordion>
     <div class="mat-body-1">
       If you want to host your own course using Notebooks.csc.fi,
       please fill out the
@@ -57,39 +19,65 @@
         Course request form
       </a>
     </div>
-  </div>
-  <!-- hero-shots animation doesn't work with the approach below -->
-  <!--
-    <div class="hero-shots" fxFlex="0 0 650px" fxLayout="column">
-      <div class="hero-images">
-        <ng-container *ngFor="let image of images; let i = index">
-          <div class="image-container v-centering__horizontal"
-          [@openClose]="image ? 'open' : 'closed'">
-            <img src="assets/images/screenshot-{{i}}.png" alt="Example screenshots of Notebooks" />
-          </div>
+    <div class="login-buttons" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+      <a mat-raised-button id="oauth-login-button" class="lg" color="accent" href="/oauth2?rd=%2Foauth2">
+        Login
+      </a>
+      <button id="special-login-button" class="center__vh" (click)="isLoginFormOpen=!isLoginFormOpen">
+        <span>Special Login</span>
+        <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
+          <mat-icon fontSet="material-icons-outlined">chevron_right</mat-icon>
         </ng-container>
-      </div>
+        <ng-template #elseBlock>
+          <mat-icon fontSet="material-icons-outlined">expand_more</mat-icon>
+        </ng-template>
+      </button>
+      <mat-accordion class="login-form-outer" multi>
+        <mat-expansion-panel [(expanded)]="isLoginFormOpen">
+          <form (ngSubmit)="onLogin()" [formGroup]="loginFormGroup" fxLayout="column" fxLayoutAlign="start stretch">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
+            </mat-form-field>
+            <button id="special-login-submit-button" mat-flat-button color="primary">
+              Submit
+            </button>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
-  -->
-  <div class="hero-shots" fxFlex="0 0 656px" fxLayout="column">
+    <!-- // Special Login form -->
+  </div>
+  <!-- // Left -->
+
+  <!-- Right -->
+  <div id="hero-shots" class="mb-20" fxFlex="0 0 550px" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="20px">
     <div class="hero-images">
       <div class="image-container v-centering__horizontal" [@openClose]="isImageVisible0 ? 'open' : 'closed'">
-        <img src="assets/images/screenshot-0.png" alt="Example screenshots of Notebooks" />
+        <img src="assets/images/screenshot-0.png" alt="Example screenshots of Notebooks"/>
       </div>
       <div class="image-container v-centering__horizontal" [@openClose]="isImageVisible1 ? 'open' : 'closed'">
-        <img src="assets/images/screenshot-1.png" alt="Example screenshots of Notebooks" />
+        <img src="assets/images/screenshot-1.png" alt="Example screenshots of Notebooks"/>
       </div>
       <div class="image-container v-centering__horizontal" [@openClose]="isImageVisible2 ? 'open' : 'closed'">
-        <img src="assets/images/screenshot-2.png" alt="Example screenshots of Notebooks" />
+        <img src="assets/images/screenshot-2.png" alt="Example screenshots of Notebooks"/>
       </div>
     </div>
-    <div class="control-button mt-20" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-      <button mat-mini-fab aria-label="Screenshot of the environments page" (click)="onImageShow(0)">
+    <div class="control-buttons" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+      <button mat-mini-fab aria-label="Screenshot of the environments page"
+              (click)="onImageShow(0)" [ngClass]="{'focus':isImageVisible0}">
       </button>
-      <button mat-mini-fab aria-label="Screenshot of the launching environment" (click)="onImageShow(1)">
+      <button mat-mini-fab aria-label="Screenshot of the launching environment"
+              (click)="onImageShow(1)" [ngClass]="{'focus':isImageVisible1}">
       </button>
-      <button mat-mini-fab aria-label="Screenshot of the JupyterLab" (click)="onImageShow(2)">
+      <button mat-mini-fab aria-label="Screenshot of the JupyterLab"
+              (click)="onImageShow(2)" [ngClass]="{'focus':isImageVisible2}">
       </button>
     </div>
   </div>
+  <!-- // Right -->
 </section>

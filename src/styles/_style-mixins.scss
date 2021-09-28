@@ -1,4 +1,5 @@
 
+// -------------------- Multiple layer map
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
     @if not map-has-key($map, $key) {
@@ -9,7 +10,8 @@
   @return $map;
 }
 
-$space-amounts: (0, 2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100);
+// -------------------- Margin & padding
+$space-amounts: (0, 2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100);
 $sides: (
   "": "all",
   "t": "top",
@@ -17,7 +19,6 @@ $sides: (
   "l": "left",
   "r": "right",
 );
-
 @each $space in $space-amounts {
   @each $prefix, $value in $sides {
     $property: if($prefix == '', '', -#{$value});
@@ -27,5 +28,53 @@ $sides: (
     .p#{$prefix}-#{$space} {
       padding#{$property}: #{$space}px !important;
     }
+  }
+}
+
+// -------------------- Element centering
+@mixin center($pos:both, $type:none) {
+  @if ($type==inline) {
+    display: inline-flex;
+  } @else {
+    display: flex;
+  }
+
+  flex-direction: row;
+
+  @if ($pos==vertical) {
+    align-items: center;
+  } @else if ($pos==horizontal) {
+    justify-content: center;
+  } @else if ($pos==both) {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.center {
+  &__v { @include center(vertical); }
+  &__vi { @include center(vertical, inline); }
+  &__h { @include center(horizontal); }
+  &__hi { @include center(horizontal, inline); }
+  &__vh { @include center(both); }
+  &__vhi { @include center(both, inline); }
+}
+
+// --------------------
+@mixin bg-dark {
+  background: map-get($app-primary, darker);
+  color: $dark-primary-text;
+}
+
+.bg {
+  &__primary {
+    background: map-get($app-primary, default);
+    color: map-deep-get($app-primary, contrast, default);
+  }
+  &__accent {
+    background: map-get($app-accent, default);
+  }
+  &__dark {
+    @include bg-dark;
   }
 }

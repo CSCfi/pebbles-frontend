@@ -1,62 +1,36 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
-section.container{
-  margin-top: 60px;
-
-  .login-wrapper {
-
-    ::ng-deep .mat-expansion-panel {
-      margin-bottom: 20px;
-
-      .mat-expansion-panel-body {
-        border-color: map-get($colors, white) !important;
-        background-color: rgba(255, 255, 255, 0.5);
-        box-shadow: none !important;
-        padding: 20px;
-
-        .mat-form-field {
-          width: 100%;
-        }
-      }
-    }
-
-    .special-login-button {
-      text-align: center;
-      text-transform: uppercase;
-    }
+::ng-deep .mat-expansion-panel {
+  .mat-expansion-panel-body {
+    padding: 20px;
   }
+}
 
-  .hero-shots {
-    width: 656px;
-    padding-left: 50px;
+.hero-images {
+  position: relative;
+  max-width: 600px;
+  height: auto;
+  overflow: hidden;
 
-    .hero-images {
-      position: relative;
-      max-width: 606px;
-      height: 500px;
-      overflow: hidden;
-      border-radius: 6px;
-      border: 3px solid map-get($colors, white);
+  border-radius: 6px;
+  border: 3px solid map-get($colors, white);
 
+  .image-container {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    top: 0;
 
-      .image-container {
-        position: absolute;
-        width: 600px;
-        background-color: map-get($colors, dark);
-        opacity: 0;
-
-        img {
-          width: 600px;
-        }
-      }
-    }
-
-    .control-button {
-      button {
-        width: 10px;
-        height: 10px;
-        background: map-get($colors, light-dark);
-      }
-    }
+    &:first-child { position: relative; }
+    img { width: 100%; }
   }
+}
+
+.control-buttons>button {
+  width: 10px;
+  height: 10px;
+  background: white;
+
+  &:hover { background: map-get($app-accent, lighter); }
+  &.focus { background: map-get($app-warn, lighter); }
 }

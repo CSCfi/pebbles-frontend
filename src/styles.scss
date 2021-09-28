@@ -2,7 +2,6 @@
 
 // ---- Associated Sass
 @import "./styles/main.scss";
-
 // ---- Material Design
 @import '~@angular/material/theming';
 @import "./styles/style-md-custom";
@@ -10,6 +9,7 @@
 @include angular-material-theme($app-theme);
 @import "./styles/style-md-overwritten";
 
+// ---- Global base style setting ---- //
 html {
   // ---- set '62.5%'
   // ---- for writing rem based font-size intuitively
@@ -19,110 +19,124 @@ html {
 
 body {
   height: 100%;
-  background: map-get($colors, light);
-  color: map-get($colors, dark);
+  //background: map-get($app-primary, lighter);
+  color: $dark-primary-text;
+}
+
+// ---- shared styles ---- //
+.logo {
+  &__type {
+    position: relative;
+    line-height: 100%;
+
+    span.owner {
+      position: absolute !important;
+      line-height: 100% !important;
+      margin-left: 5px !important;
+      bottom: 3px !important;
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+.container {
+  display: block;
+  width: auto;
+  max-width: 1200px;
+  padding: 0 16px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__fluid {
+    max-width: 100%;
+    height: 100%;
+  }
+
+  &__screen {
+    max-width: 100%;
+    min-height: 100vh;
+    height: auto;
+  }
 }
 
 a {
-  color: map-get($colors, primary);
-
-  &.no-line {
-    text-decoration: none;
-  }
-
   &:hover{
-    color: map-get($colors, warn);
+    color: map-get($app-warn, lighter);
     cursor: pointer;
   }
 }
 
-ul {
-  list-style: none;
-
-  &.list-style {
-     list-style: disc;
-  }
+a.u-line,
+.u-line a {
+  text-decoration: underline;
 }
 
-dl {
-  //margin-bottom: 12px;
-  //line-height: 130%;
-
-  dt {
-    margin-bottom: 12px;
-  }
-
-  dd {
-    margin-bottom: 8px;
-  }
-}
-
-input {
-  // border: $border-thin;
-  // padding: 10px 25px !important;
-  letter-spacing: 1px;
-  // border-radius: 5px;
-  min-height: 36px;
-
-  &.btn {
-    min-width: 200px;
-    border-radius: 18px;
-  }
-}
+//input {
+//  // border: $border-thin;
+//  // padding: 10px 25px !important;
+//  letter-spacing: 1px;
+//  // border-radius: 5px;
+//  min-height: 36px;
+//
+//  &.btn {
+//    min-width: 200px;
+//    border-radius: 18px;
+//  }
+//}
 
 // .navbar {
 //   padding: 0;
 // }
 
-.fw {
-  &__500{
-    font-weight: 500;
-  }
-}
+//.fw {
+//  &__500{
+//    font-weight: 500;
+//  }
+//}
 
-.bd {
-  border: $border-thin;
-}
+//.bd {
+//  border: $border-thin;
+//}
 
-.circle-clip {
-  border-radius: 50%;
-}
+//.circle-clip {
+//  border-radius: 50%;
+//}
 
-.shadow-s {
-  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
-}
+//.shadow-s {
+//  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+//}
 
-.shadow-m {
-  box-shadow: 0 1px 2px 2px rgba(30, 30, 30, 0.3);
-}
+//.shadow-m {
+//  box-shadow: 0 1px 2px 2px rgba(30, 30, 30, 0.3);
+//}
 
 .no-shadow {
   box-shadow: none !important;
 }
 
-.flat-shadow {
-  box-shadow: 1px 1px 1px 1px rgba(0,0,0,.2) !important;
-}
+//.flat-shadow {
+//  box-shadow: 1px 1px 1px 1px rgba(0,0,0,.2) !important;
+//}
 
-.shadow{
-  &__moderate {
-    box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
-  }
-}
+//.shadow{
+//  &__moderate {
+//    box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
+//  }
+//}
 
 .block {
   display: block;
 }
 
-.section-title {
+//.section-title {
   // display: flex;
   // align-items: center;
   // height: 40px;
 
-  h3 {
-    margin-left: 0 !important;
-  }
-}
+  //h3 {
+  //  margin-left: 0 !important;
+  //}
+//}
 
 section.card {
   background: map-get($colors, white);
@@ -232,29 +246,14 @@ section.card {
   border-radius: 13px;
 }
 
-// ---- shared styles ---- //
+//.centering {
+//  &__text {
+//    width: 100%;
+//    text-align: center;
+//  }
+//}
 
-.container {
-  display: block;
-  width: auto;
-  max-width: 1200px;
-  padding: 0 16px;
-  margin-left: auto;
-  margin-right: auto;
-
-  &__fluid{
-    max-width: 100%;
-    height: 100%;
-  }
-}
-
-.centering {
-  &__text {
-    width: 100%;
-    text-align: center;
-  }
-}
-
+// ---- erase later
 .v-centering {
   display: flex;
   flex-direction: row;
@@ -268,17 +267,15 @@ section.card {
     text-align: center;
   }
 
-  &__inline{
+  &__inline {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
   }
 }
 
-a.u-line,
-.u-line a {
-  text-decoration: underline;
-}
+
 
 .inversion{
   &.primary {
@@ -321,14 +318,14 @@ a.u-line,
 .dark {
   background: map-get($colors, dark);
 
-  a,
-  button {
-    color: map-get($colors, white);
-
-    &:hover{
-      color: map-get($colors, accent);
-    }
-  }
+  //a,
+  //button {
+  //  color: map-get($colors, white);
+  //
+  //  &:hover{
+  //    color: map-get($colors, accent);
+  //  }
+  //}
 }
 
 .r {
@@ -378,6 +375,9 @@ a.u-line,
 
 // ---- shared styles for parts ---- //
 
+// -------------------------------- LOGO
+
+
 .page-container{
   height: 100%;
 
@@ -413,41 +413,20 @@ a.u-line,
   background-color: map-get($colors, white);
 }
 
-.logo {
-
-  a {
-    color: map-get($colors, white) !important;
-  }
-
-  &__mark {
-    mat-icon {
-      width: 32px;
-      height: 32px;
-      font-size: 3.2rem;
-      color: map-get($colors, white);
-    }
-  }
-
-  &__type {
-    line-height: 100%;
-    font-weight: 600;
-  }
-}
-
-button.button-s {
-  height: map-deep-get($layout-set, main, button-s, h);
-  font-size: 1.2rem;
-  line-height: 1.2rem;
-  padding: 0 20px !important;
-
-  &:hover {
-    background-color: map-get($colors, focus-light);
-  }
-
-  &.mat-button-disabled:hover {
-    background-color: map-get($colors, light-gray) !important;
-  }
-}
+//button.button-s {
+//  height: map-deep-get($layout-set, main, button-s, h);
+//  font-size: 1.2rem;
+//  line-height: 1.2rem;
+//  padding: 0 20px !important;
+//
+//  &:hover {
+//    background-color: map-get($colors, focus-light);
+//  }
+//
+//  &.mat-button-disabled:hover {
+//    background-color: map-get($colors, light-gray) !important;
+//  }
+//}
 
 .message-container {
   padding: 20px;

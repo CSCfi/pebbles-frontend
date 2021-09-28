@@ -1,18 +1,23 @@
-<mat-toolbar class="header inversion primary" fxLayout="row" fxLayoutGap="20px"
-  fxLayoutAlign="space-between end" role="heading">
-  <!-- LOGO -->
-  <div class="logo mat-display-1 mb-0" fxFlex="0 0 250px">
-    <a [routerLink]="['/welcome']" fxLayout="row" fxLayoutGap="6px" fxLayoutAlign="start end">
-      <div class="logo__mark" fxFlex="0 0 35px">
-        <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+<mat-toolbar-row id="header" color="primary" class="container" role="heading">
+  <!-- Logo -->
+  <div class="logo mat-display-1 mb-15" fxFlex="0 0 300px">
+    <a [routerLink]="['/welcome']" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
+      <div class="logo__mark" fxFlex="0 0 48px">
+        <mat-icon fontSet="material-icons-outlined" class="md-48">import_contacts</mat-icon>
       </div>
-      <div class="logo__type" fxFlex="0 0 150px">Notebooks</div>
-      <div class="mat-body-2 fw__500" fxFlex="0 0 35px">CSC.fi</div>
+      <div class="logo__type" fxFlex="0 0 240px">
+        Notebooks
+        <span class="owner mat-display-4">CSC.fi</span>
+      </div>
     </a>
   </div>
   <!-- Navigation -->
-  <ul class="navbar mat-display-2 mb-10 u-line"
-      *ngIf="isNaviVisible" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+  <span fxFlex></span>
+  <ul class="navbar mat-display-3 mb-10 mt-10"
+      fxShow="true" fxHide.xs="true"
+      fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px"
+      fxLayout.xs="column" fxLayoutAlign.xs="end start" fxLayoutGap.xs="5px"
+      *ngIf="isNaviVisible">
     <li>
       <a href="https://www.webropolsurveys.com/S/84118B6BD6E97501.par" target="_blank" rel="noopener">
         Host courses & request
@@ -34,4 +39,4 @@
       </a>
     </li>
   </ul>
-</mat-toolbar>
+</mat-toolbar-row>

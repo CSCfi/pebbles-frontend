@@ -1,41 +1,17 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
-.screen-container {
-  @include banner;
+.bg-pattern-1,
+.bg-pattern-2{
+  position: absolute;
+}
 
-  min-height: 100vh;
-  height: auto;
-  background: map-get($colors, primary);
+.bg-pattern-1 {
+  bottom: 0px;
+  left: 0;
+}
 
-  .bg-pattern-1,
-  .bg-pattern-2{
-    position: absolute;
-  }
-
-  .bg-pattern-1 {
-    // background-image: url('src/assets/images/csc_pattern_left_bottom.svg');
-    bottom: 0px;
-    left: 0;
-  }
-
-  .bg-pattern-2 {
-    // background-image: url('src/assets/images/csc_pattern_right_top.svg');
-    top: 0px;
-    right: 0;
-  }
-
-  .header-wrapper {
-    display: block;
-    width: map-deep-get($layout-set, welcome, header, w);
-    max-width: map-deep-get($layout-set, welcome, header, max-w);
-    min-height: map-deep-get($layout-set, welcome, header, min-h);
-  }
-
-  .jumbotron {
-    height: map-deep-get($layout-set, welcome, jumbotron, h);
-  }
-
-  .footer-wrapper {
-    min-height: map-deep-get($layout-set, welcome, footer, min-h);
-  }
+.bg-pattern-2 {
+  top: 0px;
+  right: 0;
+  transform: scale(-1, -1);
 }
