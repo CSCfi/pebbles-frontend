@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 
-import { EnvironmentSession, SessionStates } from 'src/app/models/environment-session';
+import { EnvironmentSession, EnvironmentSessionLog, SessionStates } from 'src/app/models/environment-session';
 import { buildConfiguration } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
@@ -117,6 +117,11 @@ export class EnvironmentSessionService implements OnDestroy {
 
   getLastUpdateTs(): number {
     return this.lastUpdateTs;
+  }
+
+  fetchEnvironmentSessionLogs(sessionId: string): Observable<EnvironmentSessionLog[]> {
+    const url = `${buildConfiguration.apiUrl}/environment_sessions/${sessionId}/logs`;
+    return this.http.get<EnvironmentSessionLog[]>(url);
   }
 
   private setPollingInterval(intervalMs: number) {

@@ -2,14 +2,14 @@
   <app-header [isNaviVisible]="false"></app-header>
   <div class="session-container" fxLayout="column" fxLayoutAlign="space-between stretch" *ngIf="targetSession">
     <div class="status-wrapper" fxLayout="column" fxLayoutAlign="center center">
-      <p class="mb-10">Your session in environment "{{ targetEnvironment.name }}" is ... </p>
-      <h4 class="state">{{ targetSession.state }}</h4>
+      <p class="mb-10">Your session "{{ targetSession.name }}" in environment "{{ targetEnvironment.name }}" is ... </p>
+      <h4 class="state">{{ latestProvisioningLogMessage }}</h4>
       <p class="state-percentage">{{ progress }}%</p>
       <mat-progress-bar
         [color]="color"
         [mode]="mode"
         [value]="progress"
-        [bufferValue]="progress + 25">
+        [bufferValue]="progress + 10">
       </mat-progress-bar>
     </div>
     <div class="environment-info">
@@ -17,7 +17,6 @@
       <p class="environment-description" [innerHTML]="description"
       [ngClass]="{'centering__text': description.length < 100 }">
       </p>
-      <p>Session name: {{ targetSession.name }}</p>
     </div>
   </div>
   <app-footer></app-footer>

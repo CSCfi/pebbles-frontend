@@ -29,3 +29,13 @@ export class EnvironmentSession {
     public lifetime_left?: number,
     public username?: string) {}
 }
+
+// Replicate API response defined in pebbles.views.environment_sessions.environment_session_log_fields in the backend
+export interface EnvironmentSessionLog {
+    id: string;
+    environment_session_id: string;
+    log_type: string;
+    log_level: string;
+    timestamp: number;
+    message: string;
+}
