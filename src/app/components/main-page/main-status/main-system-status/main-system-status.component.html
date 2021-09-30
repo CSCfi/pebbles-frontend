@@ -1,5 +1,5 @@
 <div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px">
   <app-main-content-header
     fxFlex="grow"
     [content]="content"
@@ -7,22 +7,27 @@
     [isAutocompleteDisabled]="true"
     [labels]="[]">
   </app-main-content-header>
-  <div>
-    Sessions:
-    Q:{{getSessionSummary()['nQueueing']}}
-    S:{{getSessionSummary()['nStarting']}}
-    R:{{getSessionSummary()['nRunning']}}
-    D:{{getSessionSummary()['nDeleting']}}
-  </div>
-  <p [ngClass]="getSystemStatus()==='ok' ? 'status-ok': 'status-warning'">
-    Overall: {{ getSystemStatus().toUpperCase() }}
-  </p>
-  <div class="button reload-button" (click)="refresh()">
+  <div class="flex-spacer"></div>
+  <button mat-stroked-button color="primary" class="reload-button" fxFlex="1 0 60px" (click)="refresh()">
     <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
-  </div>
+  </button>
 </div>
 
-<div class="alerts-container">
+<div class="alerts-container p-30">
+
+  <dl class="center__v">
+    <dt>Sessions:</dt>
+    <dd>Q:{{getSessionSummary()['nQueueing']}}</dd>
+    <dd>S:{{getSessionSummary()['nStarting']}}</dd>
+    <dd>R:{{getSessionSummary()['nRunning']}}</dd>
+    <dd>D:{{getSessionSummary()['nDeleting']}}</dd>
+  </dl>
+
+  <dl class="center__v">
+    <dt>Overall:</dt>
+    <dd [ngClass]="getSystemStatus()==='ok' ? 'status-ok': 'status-warning'">{{ getSystemStatus().toUpperCase() }}</dd>
+  </dl>
+
   <h2>Alerts</h2>
   <ng-container *ngIf="getAlerts(); else loading">
     <ng-container *ngFor="let alert of getAlerts()">

@@ -1,12 +1,4 @@
-@import "src/styles.scss";
-
-.check-button {
-  height: 45px;
-  background: map-get($colors, light-active);
-  color: map-get($colors, primary);
-  font-weight: 600;
-}
-
+@import "src/styles/main.scss";
 
 .announcement-container {
 
@@ -63,8 +55,6 @@
       padding: 10px 5px 0;
       margin: 0;
     }
-
-
 
   }
 }

@@ -25,14 +25,14 @@ $custom-typography: mat-typography-config(
   $font-family:   map-get($font-families, base),
   $display-4:     mat-typography-level(1.2rem, 150%, 400, map-get($font-families, styled), 0.04rem),
   $display-3:     mat-typography-level(1.6rem, 150%, 400, map-get($font-families, styled), 0.04rem),
-  $display-2:     mat-typography-level(3.0rem, 120%, 500, map-get($font-families, styled), 0.04rem),
+  $display-2:     mat-typography-level(2.8rem, 120%, 500, map-get($font-families, styled), 0.04rem),
   $display-1:     mat-typography-level(3.6rem, 105%, 600, map-get($font-families, styled), 0.08rem),
 
-  $headline:      mat-typography-level(1.9rem, 130%, 600, map-get($font-families, styled), 0.04rem),
+  $headline:      mat-typography-level(1.8rem, 130%, 600, map-get($font-families, styled), 0rem),
   $title:         mat-typography-level(1.6rem, 130%, 600, map-get($font-families, styled), 0.02rem),
   $subheading-2:  mat-typography-level(1.4rem, 170%, 500, map-get($font-families, styled), 0.04rem),
   $subheading-1:  mat-typography-level(1.6rem, 170%, 500, map-get($font-families, styled), 0.04rem),
-  $button:        mat-typography-level(1.6rem, 110%, 600, map-get($font-families, styled), 0.1rem),
+  $button:        mat-typography-level(1.5rem, 110%, 600, map-get($font-families, styled), 0.04rem),
   $body-2:        mat-typography-level(1.1rem, 150%, 400, map-get($font-families, base), 0.04rem),
   $body-1:        mat-typography-level(1.3rem, 150%, 400, map-get($font-families, base), 0.02rem),
 );

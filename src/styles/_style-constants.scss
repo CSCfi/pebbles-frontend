@@ -38,9 +38,16 @@ $colors: (
   focus-light: rgb(255, 255, 255, .1),
 );
 
+$app-colors: (
+  white: #fff,
+  black: #222,
+  transparent: rgb(255, 255, 255, 0),
+  transparent-light: rgb(255, 255, 255, .1),
+  transparent-dark: rgb(0, 0, 0, .1),
+);
 
-$dark-primary-text: rgba(black, 0.87);
-$dark-primary-text: white;
+$light-text: white;
+$dark-text: rgba(black, 0.87);
 
 // ---- use grey-color set from $mat-grey
 $app-primary: (
@@ -48,9 +55,9 @@ $app-primary: (
   lighter: #514aac,
   darker: #00004f,
   contrast: (
-    default: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $dark-primary-text
+    default: $light-text,
+    lighter: $light-text,
+    darker: $light-text
   )
 );
 
@@ -59,9 +66,9 @@ $app-secondary: (
   lighter: #58b1ee,
   darker: #00568b,
   contrast: (
-    default: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $dark-primary-text
+    default: $light-text,
+    lighter: $light-text,
+    darker: $light-text
   )
 );
 
@@ -70,20 +77,20 @@ $app-accent: (
   lighter: #9efaed,
   darker: #37968b,
   contrast: (
-    default: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $dark-primary-text
+    default: $dark-text,
+    lighter: $dark-text,
+    darker: $light-text
   )
 );
 
 $app-warn: (
-  default: #ed6666,
-  lighter: #ff9794,
-  darker: #b6343c,
+  default: #ff9794,
+  lighter: #f8cdc3,
+  darker: #ed6666,
   contrast: (
-    default: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $dark-primary-text
+    default: $light-text,
+    lighter: $dark-text,
+    darker: $light-text
   )
 );
 
@@ -92,9 +99,9 @@ $app-dark: (
   lighter: #e0e0f1,
   darker: #2e2f39,
   contrast: (
-    default: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $dark-primary-text
+    default: $dark-text,
+    lighter: $dark-text,
+    darker: $light-text
   )
 );
 

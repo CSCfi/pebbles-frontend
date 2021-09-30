@@ -1,12 +1,13 @@
 <div class="content-header-container"
-  fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
   <app-main-content-header
     [content]="content"
     [isSearchOn]="false"
+    [isAutocompleteDisabled]="true"
     [labels]="null">
   </app-main-content-header>
-  <button mat-button
-    class="check-button mat-flat-button mt-5" type="button"
+  <div class="flex-spacer"></div>
+  <button mat-flat-button color="warn"
     (click)="markAnnouncementsAsRead()"
     [disabled]="isAllRead">
     <mat-icon fontSet="material-icons-outlined">check</mat-icon>

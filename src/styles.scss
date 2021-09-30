@@ -20,23 +20,38 @@ html {
 body {
   height: 100%;
   //background: map-get($app-primary, lighter);
-  color: $dark-primary-text;
+  color: $dark-text;
 }
 
-// ---- shared styles ---- //
-.logo {
-  &__type {
-    position: relative;
-    line-height: 100%;
-
-    span.owner {
-      position: absolute !important;
-      line-height: 100% !important;
-      margin-left: 5px !important;
-      bottom: 3px !important;
-      margin-bottom: 0 !important;
-    }
+a {
+  &:hover{
+    color: map-get($app-accent, lighter);
+    cursor: pointer;
   }
+}
+
+button {
+  border-radius: 3px;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(110%);
+  }
+}
+
+// ---- shared functional styles
+.block { display: block; }
+.hide { display: none !important; }
+.invisible { opacity: 0; }
+.flex-spacer { flex: 1 1 auto; }
+.full {
+  &__h { height: 100%; }
+  &__w { width: 100%; }
+}
+
+a.u-line,
+.u-line a {
+  text-decoration: underline;
 }
 
 .container {
@@ -59,16 +74,28 @@ body {
   }
 }
 
-a {
-  &:hover{
-    color: map-get($app-warn, lighter);
-    cursor: pointer;
+// ---- shared part styles ---- //
+.logo {
+  &__type {
+    position: relative;
+    line-height: 100%;
+
+    span.owner {
+      position: absolute !important;
+      line-height: 100% !important;
+      margin-left: 5px !important;
+      bottom: 3px !important;
+      margin-bottom: 0 !important;
+    }
   }
 }
 
-a.u-line,
-.u-line a {
-  text-decoration: underline;
+.content-header-container {
+  @include shadow(.22);
+  min-height: map-deep-get($layout-set, main, header, min-h);
+  width: 100%;
+  padding: 15px 30px 6px;
+  border-bottom: 1px solid map-get($colors , white);
 }
 
 //input {
@@ -102,17 +129,15 @@ a.u-line,
 //  border-radius: 50%;
 //}
 
-//.shadow-s {
-//  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
-//}
+
 
 //.shadow-m {
 //  box-shadow: 0 1px 2px 2px rgba(30, 30, 30, 0.3);
 //}
 
-.no-shadow {
-  box-shadow: none !important;
-}
+//.no-shadow {
+//  box-shadow: none !important;
+//}
 
 //.flat-shadow {
 //  box-shadow: 1px 1px 1px 1px rgba(0,0,0,.2) !important;
@@ -124,9 +149,7 @@ a.u-line,
 //  }
 //}
 
-.block {
-  display: block;
-}
+
 
 //.section-title {
   // display: flex;
@@ -275,8 +298,6 @@ section.card {
   }
 }
 
-
-
 .inversion{
   &.primary {
     @include inversion(primary);
@@ -349,28 +370,10 @@ section.card {
   }
 }
 
-.flex-spacer {
-  flex: 1 1 auto;
-}
-
-.full {
-  &__h {
-    height: 100%;
-  }
-
-  &__w {
-    width: 100%;
-  }
-}
-
 .txt {
   &__light-gray {
     color: map-get($colors, light-gray);
   }
-}
-
-.invisible {
-  opacity: 0;
 }
 
 // ---- shared styles for parts ---- //
@@ -396,17 +399,7 @@ section.card {
   margin: auto;
 }
 
-.content-header-container {
-  min-height: map-deep-get($layout-set, main, header, min-h);
-  width: 100%;
-  padding: 10px 40px 0;
-  border-bottom: 1px solid map-get($colors , white);
-  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
 
-  .content-headline {
-    padding-top: 15px;
-  }
-}
 
 .content-body {
   padding: 20px;

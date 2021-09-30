@@ -1,8 +1,9 @@
 <ng-container *ngIf="content">
   <div class="content-header"
-    fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="30px">
+    fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px"
+    fxLayout.xs="column" fxLayoutAlign.xs="start stretch">
     <!-- title -->
-    <h2 class="mat-headline content-headline" [innerHTML]="content.title" fxFlex="0 0 auto"></h2>
+    <div fxFlex="0 0 auto"><h2 class="mat-headline" [innerHTML]="content.title" ></h2></div>
 
     <!-- search form -->
     <form class="search-form" *ngIf="isSearchOn" fxFlex="grow">

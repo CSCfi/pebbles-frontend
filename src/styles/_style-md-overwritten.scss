@@ -1,85 +1,114 @@
 
+.mat-display-1, .mat-display-2, .mat-display-3, .mat-display-4,
+.mat-headline, .mat-title, .mat-subheading-1, .mat-subheading-2,
+.mat-button, .mat-body-2, .mat-body-1 {
+  margin-bottom: 0 !important;
+}
+
 .mat-icon {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 100%;
 
-  &.md-18 { font-size: 18px; }
-  &.md-24 { font-size: 24px; }
-  &.md-36 { font-size: 36px; }
-  &.md-48 { font-size: 48px; }
+  &.md-18 {
+    font-size: 18px;
+  }
+
+  &.md-24 {
+    font-size: 24px;
+  }
+
+  &.md-36 {
+    font-size: 36px;
+  }
+
+  &.md-48 {
+    font-size: 48px;
+  }
 }
 
-button {
-  &:hover { color: map-get($app-warn, lighter); }
+.icon-holder {
+  width: 24px;
+  height: 24px;
 }
 
+// ---- Button
+// ----------------------------------------
+
+a.mat-button-base,
 .mat-button-base {
-  padding: 4px !important;
+  //padding: 4px !important;
 
-  &.lg { padding: 10px !important; }
+  &.grow {
+    width: 100%;
+  }
 
-  &.mat-accent{
-    color: map-get($app-primary, default);
+  &.prime {
+    @include inversion(primary);
+  }
 
-    &:hover { background-color:  map-get($app-accent, lighter); }
+  &.accent {
+    @include inversion(accent);
+  }
+
+  &.dark {
+    @include inversion(dark);
+  }
+
+  &.medium {
+    padding: 10px 20px;
+  }
+
+  &.lg {
+    padding: 10px !important;
+  }
+
+  &.mat-flat-button {
+    &.mat-warn {
+      background: map-get($app-warn, lighter) !important;
+      color: map-get($app-primary, default) !important;
+    }
+  }
+
+  &.mat-stroked-button {
+    &.mat-warn {
+      border: 2px solid map-get($app-warn, default) !important;
+    }
+    &.mat-primary {
+      border: 2px solid map-get($app-primary, default) !important;
+    }
+  }
+}
+
+// ---- FormGroup
+// ----------------------------------------
+::ng-deep {
+  form {
+    height: 100%;
+
+    ::ng-deep {
+      .mat-form-field-appearance-outline,
+      .mat-form-field-outline-start {
+        border-right: 1px solid map-get($colors, white) !important;
+      }
+
+      .mat-form-field-outline-end {
+        border-left: 1px solid map-get($colors, white) !important;
+      }
+
+      .mat-form-field-outline-gap {
+        border-top: 1px solid map-get($colors, white) !important;
+        border-bottom: 1px solid map-get($colors, white) !important;
+      }
+
+      .mat-form-field-appearance-outline .mat-form-field-infix {
+        padding: 0.7em 0;
+      }
+    }
   }
 }
 
 ::ng-deep {
-
-  // ---- Button
-  // ----------------------------------------
-
-  a.mat-button-base,
-  .mat-button-base {
-
-    font-weight: bold !important;
-
-    &.grow {
-      width: 100%;
-    }
-
-    &.prime {
-      @include inversion(primary);
-    }
-
-    &.accent {
-      @include inversion(accent);
-    }
-
-    &.dark {
-      @include inversion(dark);
-    }
-
-    &.medium {
-      padding: 10px 20px;
-    }
-
-    // vertical-align: middle;
-    // border-radius: 3px !important;
-  }
-
-  // ---- FormGroup
-  // ----------------------------------------
-
-  // .mat-form-field-appearance-outline,
-  // .mat-form-field-outline-start {
-  //   border-right: 1px solid map-get($colors, white) !important;
-  // }
-
-  // .mat-form-field-outline-end {
-  //   border-left: 1px solid map-get($colors, white) !important;
-  // }
-
-  // .mat-form-field-outline-gap {
-  //   border-top: 1px solid map-get($colors, white) !important;
-  //   border-bottom: 1px solid map-get($colors, white) !important;
-  // }
-
-  .mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 0.7em 0;
-  }
-
   // ---- Tab
   // ----------------------------------------
   .mat-tab-body-content {
@@ -112,7 +141,7 @@ button {
   // ----------------------------------------
 
   mat-card {
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1) !important;
     border-radius: 3px !important;
     overflow: hidden;
 
@@ -131,9 +160,11 @@ button {
 
     .md-container {
       height: $progress-linear-bar-height;
+
       .md-bar {
         height: $progress-linear-bar-height;
       }
+
       .md-dashed:before {
         height: $progress-linear-bar-height;
       }
@@ -154,11 +185,11 @@ button {
       }
     }
 
-    th,td{
+    th, td {
       vertical-align: middle;
     }
 
-    th{
+    th {
       text-transform: capitalize;
     }
 
@@ -166,12 +197,13 @@ button {
     .mat-cell {
       padding: 5px !important;
 
-      &.border{
+      &.border {
         &__left {
-          border-left: map-get($borders , thin);
+          border-left: map-get($borders, thin);
         }
+
         &__right {
-          border-right: map-get($borders , thin);
+          border-right: map-get($borders, thin);
         }
       }
 
@@ -208,7 +240,7 @@ button {
 // ---- MEMO:
 // ---- To show "All" as the last one in options, we need dominated style here.
 ::ng-deep .mat-option {
-  &:last-child:before{
+  &:last-child:before {
     content: 'All-';
     float: left;
     position: relative;

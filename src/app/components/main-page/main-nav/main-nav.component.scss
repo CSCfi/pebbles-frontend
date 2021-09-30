@@ -1,101 +1,64 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
-::ng-deep .sidenav-inner {
+.sidenav-inner {
   position: relative;
-  height: 100%;
-  font-size: 1.5rem;
+  min-height: 100%;
+}
+
+.logo {
+  padding: 22px 5px 15px 20px;
+  height: 70px;
   font-weight: 600;
+  font-size: 2.8rem;
+  background: map-get($app-primary, default);
 
-  .logo {
-    margin-left: 6px;
-    padding: 25px 5px 30px 16px;
-    height: 80px;
-
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 600;
-      padding-top: 4px;
-      letter-spacing: 1px;
-      line-height: 2.8rem;
-      margin: 0 !important;
-    }
-
-    .logomark {
-      width: auto !important;
-      height: auto !important;
-
-      mat-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 3.2rem;
-        color: map-get($colors, white);
-      }
-    }
+  .logo__type {
+    margin-bottom: 3px;
   }
+}
 
-  .sidenav-button {
-    min-width: 61px;
-    margin-left: 6px;
-    color: map-get($colors, light);
+.nav-items {
 
-    &:hover {
-      background-color: map-get($colors, transparent) !important;
-      color: map-get($colors, accent) !important;
-    }
-  }
-
-  .nav-section {
+  &.nav-partition {
     border-top: 1px solid map-get($colors, dark-primary);
   }
 
-  .sidenav-menu {
-    position: relative;
-
-    //&.workspace-owner {
-    //  background: map-get($colors, light-primary);
-    //}
-
-    li {
-      border-left: 6px solid map-get($colors, transparent);
-      padding-right: 8px;
-
-      &.active {
-        background-color: map-get($colors, focus-light);
-        border-left: 6px solid map-get($colors, accent);
-      }
-
-      a {
-        padding: 12px 18px !important;
-
-        .title {
-          margin-left: 15px;
-        }
-      }
-    }
-  }
-
-  .sidenav-logout {
-    position: absolute;
-    bottom: 0;
+  li {
+    border-left: 6px solid map-get($colors, transparent);
+    padding-right: 8px;
     width: 100%;
-    padding:  5px 0 20px;
-    font-size: 1.2rem;
 
-    .user-name {
-      padding: 5px 28px;
+    &.active {
+      border-left: 6px solid map-get($app-accent, default);
+      background-color: map-get($colors, focus-light);
     }
 
-    button {
-      padding: 0 16px;
+    a,
+    button,
+    .action {
+      @include center(vertical);
+      padding: 10px 18px !important;
+      width: 100%;
 
-      .mat-icon {
-        height: auto;
-        font-size: 1.8rem;
-        text-align: center;
+      .title {
+        margin-left: 12px;
+        margin-bottom: 3px;
       }
 
-      .button-text {
-        margin: 0 10px;
+      .email {
+        margin-left: 8px;
+        padding-bottom: 1px !important;
+        //font-size: 1.2rem;
+      }
+
+      &#nav-toggle-button {
+        @include center(vertical);
+        height: 62px;
+      }
+
+      &#account,
+      &#logout-button {
+        padding: 5px 18px !important;
       }
     }
   }

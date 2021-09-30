@@ -1,4 +1,4 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
 ::ng-deep mat-sidenav-container {
   height: 100%;
@@ -35,7 +35,6 @@
       display: block;
       width: 100%;
       min-height: map-deep-get($layout-set, main, content, min-h);
-      // background-color: map-get($colors, light);
       background-color: map-get($colors, light);
       overflow: hidden;
     }

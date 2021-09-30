@@ -1,11 +1,4 @@
-@import "src/styles.scss";
-
-.join-workspace-button {
-  margin-top: 4px;
-  height: 45px;
-  background: map-get($colors, light-active);
-  color: map-get($colors, primary);
-}
+@import "src/styles/main.scss";
 
 .environments-catalog {
   ::ng-deep .mat-tab-header {

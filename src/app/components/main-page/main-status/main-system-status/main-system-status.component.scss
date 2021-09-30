@@ -1,15 +1,4 @@
-@import "src/styles.scss";
-
-.reload-button {
-  padding: 3px;
-  background: map-get($colors, light-active);
-  border-radius: 3px;
-
-  &:hover {
-    cursor: pointer;
-    filter: brightness(85%);
-  }
-}
+@import "src/styles/main.scss";
 
 .status-ok {
   background: #ddffc8;
@@ -18,3 +7,15 @@
 .status-warning {
   background: #f8cdc3;
 }
+
+
+ dl {
+    dt{
+      display:inline-block;
+      margin-right: 10px;
+    }
+   dd {
+     padding: 5px;
+     display:inline-block;
+   }
+ }

@@ -1,17 +1,4 @@
-@import "src/styles.scss";
-
-.user-reload-button {
-  //padding: 3px;
-  margin-top: 5px;
-  height: 45px;
-  background: map-get($colors, light-active);
-  border-radius: 3px;
-
-  &:hover {
-    cursor: pointer;
-    filter: brightness(85%);
-  }
-}
+@import "src/styles/main.scss";
 
 .users-container {
   .user-invite-button-row {

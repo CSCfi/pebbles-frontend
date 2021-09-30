@@ -1,4 +1,5 @@
-<div class="content-header-container" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+<div class="content-header-container"
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="30px">
   <app-main-content-header fxFlex="grow"
     (emitApplyFilter)="applyFilter($event)"
     [content]="content"
@@ -6,9 +7,9 @@
     [isAutocompleteDisabled]="true"
     [labels]="selectedCatalog ? selectedCatalog.labels : []">
   </app-main-content-header>
-  <button mat-button fxFlex="0 0 180px" class="shadow__moderate join-workspace-button" aria-label="Join Workspace"
-    matTooltip="Join workspace"
-    (click)="openJoinWorkspaceDialog()">
+  <button mat-flat-button color="warn" id="join-workspace-button" aria-label="Join Workspace"
+          fxFlex="0 0 180px" fxHide.xs="true"
+          (click)="openJoinWorkspaceDialog()">
     <mat-icon fontSet="material-icons-outlined" class="mr-5">group_add</mat-icon>
     Join workspace
   </button>

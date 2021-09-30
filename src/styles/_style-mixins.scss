@@ -63,18 +63,41 @@ $sides: (
 // --------------------
 @mixin bg-dark {
   background: map-get($app-primary, darker);
-  color: $dark-primary-text;
+  color: $light-text;
 }
 
 .bg {
   &__primary {
     background: map-get($app-primary, default);
     color: map-deep-get($app-primary, contrast, default);
+
+    &-dark {
+      background: map-get($app-primary, darker);
+    }
   }
   &__accent {
     background: map-get($app-accent, default);
   }
   &__dark {
     @include bg-dark;
+  }
+}
+
+
+@mixin shadow ($value: .44) {
+  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, $value) !important;
+}
+
+.shadow {
+  &__light {
+    @include shadow(.22);
+  }
+
+  &__midium {
+    @include shadow(.44);
+  }
+
+  &__dark {
+    @include shadow(.66);
   }
 }

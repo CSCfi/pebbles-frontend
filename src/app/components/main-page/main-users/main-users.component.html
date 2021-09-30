@@ -1,5 +1,5 @@
 <div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
   <app-main-content-header fxFlex="grow"
     (emitApplyFilter)="applyFilter($event)"
     [content]="content"
@@ -7,7 +7,8 @@
     [isAutocompleteDisabled]="true"
     [labels]="[]">
   </app-main-content-header>
-  <button mat-flat-button class="button user-reload-button" fxFlex="1 0 60px" (click)="refreshUsers()">
+  <button mat-stroked-button
+          color="primary" class="reload-button" fxFlex="1 0 60px" (click)="refreshUsers()">
     <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
   </button>
 </div>
