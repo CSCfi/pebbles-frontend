@@ -13,7 +13,7 @@ import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
 import { EnvironmentSession, SessionStates } from 'src/app/models/environment-session';
 import { User } from 'src/app/models/user';
 import { Environment } from '../models/environment';
-import { Workspace } from '../models/workspace';
+import { Workspace, WorkspaceMember } from '../models/workspace';
 import * as TESTDATA from './test-data';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
@@ -115,9 +115,9 @@ export class MockInterceptor implements HttpInterceptor {
           return exitWorkspace();
         case url.includes('/workspaces') && endpoint === 'workspaces' && method === 'PUT':
           return updateOwnerWorkspaces();
-        case url.includes('/workspaces') && args === 'members_count=true' && method === 'GET':
+        case url.includes('/workspaces') && args === 'member_count=true' && method === 'GET':
           return getWorkspacesMemberCount();
-        case url.includes('/workspaces') && url.endsWith('/list_users') && method === 'GET':
+        case url.includes('/workspaces') && url.endsWith('/members') && method === 'GET':
           return getWorkspacesMembers();
         case url.includes('/workspaces') && method === 'GET':
           return getWorkspaces();
@@ -502,28 +502,6 @@ export class MockInterceptor implements HttpInterceptor {
       });
     }
 
-    function getWorkspaceMember(workspace): any {
-      const workspaceUserList = {
-        owner: {},
-        manager_users: [],
-        normal_users: [],
-        banned_users: []
-      };
-      workspaceUserList.owner = getUserByEppn(workspace.owner_ext_id);
-      const workspaceUserKeys = ['manager_users', 'normal_users', 'banned_users'];
-      workspaceUserKeys.forEach((key) => {
-        if (workspace[key]) {
-          for (const user of workspace[key]) {
-            const foundUser = getUserByEppn(user);
-            if (foundUser) {
-              workspaceUserList[key].push(foundUser);
-            }
-          }
-        }
-      });
-      return workspaceUserList;
-    }
-
     // ---- Keep it for test
     function testMemberRefresh(): void {
       const memberId = Math.random().toString(36).substring(2, 5);
@@ -547,7 +525,7 @@ export class MockInterceptor implements HttpInterceptor {
       // ---- Comment out when you want to test the member's reload button
       // testMemberRefresh();
       if (targetWorkspace) {
-        return ok(getWorkspaceMember(targetWorkspace));
+        return ok(constructWorkspaceMemberList(targetWorkspace));
       } else {
         return error('workspace not found');
       }
@@ -556,11 +534,7 @@ export class MockInterceptor implements HttpInterceptor {
     function getWorkspacesMemberCount(): Observable<HttpResponse<number>> {
       const targetWorkspace = getTargetWorkspace(objectId);
       if (targetWorkspace) {
-        const workspaceUserList = getWorkspaceMember(targetWorkspace);
-        const memberCount = workspaceUserList.manager_users.length
-          + workspaceUserList.normal_users.length
-          + workspaceUserList.banned_users.length;
-        return ok(memberCount);
+        return ok(constructWorkspaceMemberList(targetWorkspace).length);
       } else {
         return error('workspace not found');
       }
@@ -733,6 +707,21 @@ export class MockInterceptor implements HttpInterceptor {
         returns[decodeURIComponent(data[0])] = decodeURIComponent(data[1] || '');
       });
       return returns[value];
+    }
+
+    function constructWorkspaceMemberList(workspace): WorkspaceMember[] {
+      const res: WorkspaceMember[] = [];
+      for (const wm of workspace._members) {
+        const user = getUserByEppn(wm.ext_id);
+        if (user) {
+        res.push({user_id: user.id, ext_id: user.ext_id, email_id: user.email_id,
+          is_owner: wm.is_owner, is_manager: wm.is_manager, is_banned: wm.is_banned});
+        }
+        else {
+          console.log('no user ' + wm.ext_id + ' found');
+        }
+      }
+      return res;
     }
   }
 }

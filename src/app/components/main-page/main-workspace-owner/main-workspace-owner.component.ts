@@ -76,6 +76,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.eventService.workspaceMemberDataUpdate$.subscribe(_ => {
       this.refreshView();
     }));
+    this.subscriptions.push(this.eventService.userDataUpdate$.subscribe(_ => {
+      this.refreshView();
+    }));
 
     this.user = this.accountService.get(this.authService.getUserId());
     // check if we need to populate account service
@@ -84,6 +87,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         this.user = user;
         this.refreshView();
       });
+      this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).subscribe();
     } else {
       this.refreshView();
     }
@@ -113,9 +117,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     if (this.user.is_admin) {
       this.workspaces = this.workspaceService.getWorkspaces();
     } else {
-      // ---- TODO: change this to managed workspaces
-      // ---- return owned workspaces
-      this.workspaces = this.workspaceService.getOwnedWorkspaces(this.user);
+      this.workspaces = this.workspaceService.getManagedWorkspaces(this.user.id);
     }
 
     // if no workspace selected and we have workspaces to select from, pick the first

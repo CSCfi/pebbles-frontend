@@ -15,3 +15,12 @@ export class User {
     public last_login_ts?: number
   ) {}
 }
+
+// Replicate API response defined in pebbles.views.commons.workspace_user_association_fields in the backend
+export interface WorkspaceUserAssociation {
+    workspace_id: string;
+    user_id: string;
+    is_owner: boolean;
+    is_manager: boolean;
+    is_banned: boolean;
+}

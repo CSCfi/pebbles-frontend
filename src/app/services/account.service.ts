@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { User } from 'src/app/models/user';
+import { User, WorkspaceUserAssociation } from 'src/app/models/user';
 import { buildConfiguration } from '../../environments/environment';
 import { EventService } from './event.service';
 import { MessageService } from './message.service';
@@ -14,6 +14,7 @@ export class AccountService {
 
   private users: User[] = null;
   private userMap: Map<string, User> = new Map();
+  private workspaceUserAssociationMap: Map<string, WorkspaceUserAssociation[]> = new Map();
 
   constructor(
     private http: HttpClient,
@@ -40,6 +41,7 @@ export class AccountService {
     );
   }
 
+  // TODO: refactor to refreshUsers, since we don't return an Observable
   fetchUsers() {
     const url = `${buildConfiguration.apiUrl}/users`;
     this.http.get<User[]>(url).pipe(
@@ -96,5 +98,22 @@ export class AccountService {
         return user;
       });
     }));
+  }
+
+  getWorkspaceAssociations(userId: string): WorkspaceUserAssociation[] {
+    const wuas = this.workspaceUserAssociationMap.get(userId);
+    return wuas;
+  }
+
+  fetchWorkspaceAssociations(userId: string): Observable<WorkspaceUserAssociation[]> {
+    const url = `${buildConfiguration.apiUrl}/users/${userId}/workspace_associations`;
+    return this.http.get<WorkspaceUserAssociation[]>(url).pipe(
+      map((resp) => {
+        console.log('fetchWorkspaceAssociations() got', resp);
+        this.workspaceUserAssociationMap.set(userId, resp);
+        return resp;
+      }),
+      tap(_ => this.eventService.userDataUpdate$.next())
+    );
   }
 }

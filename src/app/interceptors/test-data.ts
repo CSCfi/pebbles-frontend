@@ -1,5 +1,7 @@
 // Initial state of the mock database
 
+import { Workspace } from '../models/workspace';
+
 export let db = {
   environment_sessions: [
     {
@@ -407,6 +409,20 @@ export let db = {
       last_login_ts: 'yesterday'
     },
     {
+      ext_id: 'admin-2@example.org',
+      password: 'admin-2',
+      id: '002',
+      is_admin: true,
+      is_workspace_owner: true,
+      is_workspace_manager: true,
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1568041200,
+      expiry_ts: null,
+      last_login_ts: 'yesterday'
+    },
+    {
       ext_id: 'owner@example.org',
       password: 'owner',
       id: '100',
@@ -466,6 +482,20 @@ export let db = {
       ext_id: 'manager-1@example.org',
       password: 'manager-1',
       id: '201',
+      is_admin: false,
+      is_workspace_owner: false,
+      is_workspace_manager: true,
+      is_blocked: false,
+      is_active: true,
+      workspace_quota: 0,
+      joining_ts: 1609602059,
+      expiry_ts: 1662799993,
+      last_login_ts: 1596704271
+    },
+    {
+      ext_id: 'co-owner-1@example.org',
+      password: 'co-owner-1',
+      id: '202',
       is_admin: false,
       is_workspace_owner: false,
       is_workspace_manager: true,
@@ -769,38 +799,35 @@ export let db = {
       create_ts: 1616572104,
       expiry_ts: 1632124104,
       owner_ext_id: 'admin@example.org',
-      manager_users: [
-        'admin@example.org'
-      ],
-      normal_users: [
-        'admin@example.org',
-        'admin-1@example.org',
-        'admin-2@example.org',
-        'owner@example.org',
-        'owner-1@example.org',
-        'owner-2@example.org',
-        'co-owner@example.org',
-        'co-owner-1@example.org',
-        'user@example.org',
-        'user-1@example.org',
-        'user-2@example.org',
-        'user-3@example.org',
-        'user-4@example.org',
-        'user-5@example.org',
-        'user-6@example.org',
-        'user-7@example.org',
-        'user-8@example.org',
-        'user-9@example.org',
-        'user-10@example.org',
-        'user-11@example.org',
-        'user-12@example.org',
-        'user-13@example.org',
-        'user-14@example.org',
-        'user-15@example.org',
-        'user-16@example.org',
-        'user-17@example.org',
-        'user-18@example.org',
-        'user-19@example.org'
+      _members: [
+        {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'admin-1@example.org', is_owner: false, is_manager: true},
+        {ext_id: 'admin-2@example.org', is_owner: false, is_manager: true},
+        {ext_id: 'owner@example.org'},
+        {ext_id: 'owner-1@example.org'},
+        {ext_id: 'owner-2@example.org'},
+        {ext_id: 'co-owner@example.org'},
+        {ext_id: 'co-owner-1@example.org'},
+        {ext_id: 'user@example.org'},
+        {ext_id: 'user-1@example.org'},
+        {ext_id: 'user-2@example.org'},
+        {ext_id: 'user-3@example.org'},
+        {ext_id: 'user-4@example.org'},
+        {ext_id: 'user-5@example.org'},
+        {ext_id: 'user-6@example.org'},
+        {ext_id: 'user-7@example.org'},
+        {ext_id: 'user-8@example.org'},
+        {ext_id: 'user-9@example.org'},
+        {ext_id: 'user-10@example.org'},
+        {ext_id: 'user-11@example.org'},
+        {ext_id: 'user-12@example.org'},
+        {ext_id: 'user-13@example.org'},
+        {ext_id: 'user-14@example.org'},
+        {ext_id: 'user-15@example.org'},
+        {ext_id: 'user-16@example.org'},
+        {ext_id: 'user-17@example.org'},
+        {ext_id: 'user-18@example.org'},
+        {ext_id: 'user-19@example.org'},
       ],
     },
     {
@@ -811,14 +838,11 @@ export let db = {
       create_ts: 1616572105,
       expiry_ts: 1732124105,
       owner_ext_id: 'admin@example.org',
-      manager_users: [
-        'admin@example.org'
-      ],
-      normal_users: [
-        'manager-1@example.org',
-        'user@example.org',
-        'user-2@example.org',
-        'user-1@example.org'
+      _members: [
+        {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'user@example.org'},
+        {ext_id: 'user-1@example.org'},
+        {ext_id: 'user-2@example.org'},
       ],
     },
     {
@@ -829,11 +853,15 @@ export let db = {
       create_ts: 1616572106,
       expiry_ts: 1832124106,
       owner_ext_id: 'admin@example.org',
-      manager_users: [
-        'admin@example.org'
-      ],
-      normal_users: ['co-owner@example.org', 'user@example.org', 'user-1@example.org', 'user-2@example.org'],
-      banned_users: ['user-5@example.org']
+      _members: [
+        {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'owner@example.org'},
+        {ext_id: 'owner-1@example.org'},
+        {ext_id: 'owner-2@example.org'},
+        {ext_id: 'co-owner@example.org'},
+        {ext_id: 'co-owner-1@example.org'},
+        {ext_id: 'user-5@example.org', is_banned: true},
+      ]
     },
     {
       id: '2',
@@ -843,11 +871,15 @@ export let db = {
       create_ts: 1616572107,
       expiry_ts: 1932124107,
       owner_ext_id: 'admin-1@example.org',
-      manager_users: [
-        'admin@example.org',
-        'admin-1@example.org'
-      ],
-      normal_users: ['manager-1@example.org', 'admin@example.org', 'user@example.org', 'user-2@example.org', 'user-3@example.org']
+      _members: [
+        {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'admin@example.org', is_manager: true},
+        {ext_id: 'owner@example.org'},
+        {ext_id: 'manager-1@example.org'},
+        {ext_id: 'user@example.org'},
+        {ext_id: 'user-2@example.org'},
+        {ext_id: 'user-3@example.org'},
+      ]
     },
     {
       id: '3',
@@ -857,11 +889,14 @@ export let db = {
       create_ts: 1616572108,
       expiry_ts: 2032124108,
       owner_ext_id: 'admin-1@example.org',
-      manager_users: [
-        'admin@example.org',
-        'admin-1@example.org'
-      ],
-      normal_users: ['user@example.org', 'user-2@example.org', 'user-1@example.org']
+      _members: [
+        {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'admin@example.org', is_manager: true},
+        {ext_id: 'owner@example.org'},
+        {ext_id: 'user@example.org'},
+        {ext_id: 'user-2@example.org'},
+        {ext_id: 'user-3@example.org'},
+      ]
     },
     {
       id: '4',
@@ -871,11 +906,13 @@ export let db = {
       create_ts: 1616572109,
       expiry_ts: 2132124109,
       owner_ext_id: 'admin@example.org',
-      manager_users: [
-        'admin@example.org'
-      ],
-      normal_users: ['owner@example.org', 'user@example.org', 'user-2@example.org', 'user-1@example.org'],
-      banned_users: ['user-5@example.org']
+      _members: [
+        {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'user@example.org'},
+        {ext_id: 'user-2@example.org'},
+        {ext_id: 'user-3@example.org'},
+        {ext_id: 'user-5@example.org', is_banned: true},
+      ]
     },
     {
       id: '5',
@@ -885,12 +922,15 @@ export let db = {
       create_ts: 1616572114,
       expiry_ts: 2232124114,
       owner_ext_id: 'owner@example.org',
-      manager_users: [
-        'admin@example.org',
-        'owner@example.org',
-      ],
-      normal_users: ['user@example.org', 'user-2@example.org', 'user-1@example.org'],
-      banned_users: ['user-5@example.org']
+      _members: [
+        {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'owner@example.org'},
+        {ext_id: 'owner-1@example.org'},
+        {ext_id: 'owner-2@example.org'},
+        {ext_id: 'co-owner@example.org'},
+        {ext_id: 'co-owner-1@example.org'},
+        {ext_id: 'user-5@example.org', is_banned: true},
+      ]
     },
     {
       id: '6',
@@ -900,12 +940,13 @@ export let db = {
       create_ts: 1616572115,
       expiry_ts: 2332124115,
       owner_ext_id: 'owner-1@example.org',
-      manager_users: [
-        'admin@example.org',
-        'owner-1@example.org'
-      ],
-      normal_users: ['user@example.org', 'user-2@example.org', 'user-1@example.org'],
-      banned_users: ['user-5@example.org']
+      _members: [
+        {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'user@example.org'},
+        {ext_id: 'user-2@example.org'},
+        {ext_id: 'user-3@example.org'},
+        {ext_id: 'user-5@example.org', is_banned: true},
+      ]
     }
   ],
   environment_templates: [

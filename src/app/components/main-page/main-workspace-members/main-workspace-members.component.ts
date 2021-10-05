@@ -4,15 +4,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { WorkspaceMember } from '../../../models/workspace';
 import { EventService } from '../../../services/event.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
 
 export enum UserCategory {
   owner = 'Workspace owner',
-  manager_users = 'Workspace co-owner',
-  normal_users = 'Workspace user',
-  banned_users = 'Banned user'
+  manager = 'Workspace co-owner',
+  member = 'Workspace member',
+  banned = 'Banned member'
 }
 
 export interface MemberRow {
@@ -62,8 +63,8 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     if (this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
       this.rebuildDataSource();
     } else {
-    // workspace members are not eagerly loaded (the list might be very long),
-    // so if workspaceService does not already have the list we trigger the fetch
+      // workspace members are not eagerly loaded (the list might be very long),
+      // so if workspaceService does not already have the list we trigger the fetch
       this.refreshMembers();
     }
   }
@@ -104,46 +105,45 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
   }
 
-  composeDataSource(data): MemberRow[] {
-    if (!data) {
+  composeDataSource(members: WorkspaceMember[]): MemberRow[] {
+    if (!members) {
       return [];
     }
-    const workspaceUserKeys = ['owner', 'manager_users', 'normal_users', 'banned_users'];
-    const ownerKey = workspaceUserKeys.shift();
-    const returns = [];
-    let index = 1;
-    returns.push({
-      index,
-      select: false,
-      role: ownerKey,
-      email: data[ownerKey].ext_id,
-    });
-    const managerKey = workspaceUserKeys.shift();
-    data[managerKey].forEach((member) => {
-      if (member.ext_id !== data[ownerKey].ext_id) {
-        index = index + 1;
-        returns.push({
-          index,
-          select: false,
-          role: managerKey,
-          email: member.ext_id,
-        });
+
+    const rows = [];
+    let index = 0;
+    members.forEach((member) => {
+      index = index + 1;
+      let role = 'member';
+      if (member.is_banned) {
+        role = 'banned';
+      } else if (member.is_owner) {
+        role = 'owner';
+      } else if (member.is_manager) {
+        role = 'manager';
       }
-    });
-    for (const key of workspaceUserKeys) {
-      data[key].forEach((member) => {
-        index = index + 1;
-        returns.push({
-          index,
-          select: false,
-          role: key,
-          email: member.ext_id
-        });
+      rows.push({
+        index,
+        select: false,
+        role,
+        email: member.ext_id,
+        userId: member.user_id
       });
-    }
-    return returns;
+    });
+    return rows;
   }
 
+  promoteMember(userId: string): void {
+    this.workspaceService.promoteMember(this.workspaceId, userId).subscribe();
+  }
+
+  demoteManager(userId: string): void {
+    this.workspaceService.demoteMember(this.workspaceId, userId).subscribe();
+  }
+
+  setIsBanned(userId: string, isBanned: boolean): void {
+    this.workspaceService.setIsBanned(this.workspaceId, userId, isBanned).subscribe();
+  }
   // applyFilter(event: Event): void {
   //   const filterValue = (event.target as HTMLInputElement).value;
   //   this.dataSource.filter = filterValue.trim().toLowerCase();

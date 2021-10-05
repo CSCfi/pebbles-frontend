@@ -38,9 +38,9 @@
         <td mat-cell *matCellDef="let element" class="role-icon">
           <ng-container [ngSwitch]="element.role">
             <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'owner'" class="owner" matTooltip="workspace owner">manage_accounts</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'manager_users'" class="manager" matTooltip="workspace co-owner">manage_accounts</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'banned_users'" class="banned" matTooltip="workspace banned user">person_off</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchDefault class="user" matTooltip="workspace end user">person</mat-icon>
+            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'manager'" class="manager" matTooltip="workspace co-owner">manage_accounts</mat-icon>
+            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'banned'" class="banned" matTooltip="workspace banned user">person_off</mat-icon>
+            <mat-icon fontSet="material-icons-outlined" *ngSwitchDefault class="member" matTooltip="workspace member">person</mat-icon>
           </ng-container>
         </td>
       </ng-container>
@@ -67,17 +67,25 @@
               <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
               <span>transfer ownership</span>
             </button>
-            <button mat-menu-item *ngIf="element.role !== 'manager_users'" >
+            <button mat-menu-item *ngIf="element.role !== 'manager'"
+                    (click)="promoteMember(element.userId)">
               <mat-icon fontSet="material-icons-outlined">manage_accounts</mat-icon>
               <span>promote to co-owner</span>
             </button>
-            <button mat-menu-item *ngIf="element.role === 'manager_users'" >
+            <button mat-menu-item *ngIf="element.role === 'manager'"
+                    (click)="demoteManager(element.userId)">
               <mat-icon fontSet="material-icons-outlined">person</mat-icon>
-              <span>demote to end-user</span>
+              <span>demote</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item *ngIf="element.role !== 'banned'"
+                    (click)="setIsBanned(element.userId, true)">
               <mat-icon fontSet="material-icons-outlined">person_off</mat-icon>
-              <span>ban the user</span>
+              <span>ban member</span>
+            </button>
+            <button mat-menu-item *ngIf="element.role === 'banned'"
+                    (click)="setIsBanned(element.userId, false)">
+              <mat-icon fontSet="material-icons-outlined">person_off</mat-icon>
+              <span>unban member</span>
             </button>
           </mat-menu>
         </td>

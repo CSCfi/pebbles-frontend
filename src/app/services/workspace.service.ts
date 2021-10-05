@@ -5,9 +5,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 import * as TESTDATA from 'src/app/interceptors/test-data';
 import { Folder } from 'src/app/models/folder';
 import { User } from 'src/app/models/user';
-import { Workspace } from 'src/app/models/workspace';
-import { WorkspaceUserList } from 'src/app/models/workspace-user-list';
+import { Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
+import { AccountService } from './account.service';
 import { EventService } from './event.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ import { EventService } from './event.service';
 export class WorkspaceService {
 
   private workspaces: Workspace[] = null;
-  private workspaceMemberMap: Map<string, WorkspaceUserList> = new Map();
+  private workspaceMemberMap: Map<string, WorkspaceMember[]> = new Map();
   private workspaceMemberCountMap: Map<string, number> = new Map();
 
   get isInitialized(): boolean {
@@ -25,7 +25,8 @@ export class WorkspaceService {
 
   constructor(
     private http: HttpClient,
-    private eventService: EventService
+    private eventService: EventService,
+    private accountService: AccountService
   ) {
   }
 
@@ -42,19 +43,27 @@ export class WorkspaceService {
     return this.isInitialized ? this.workspaces.filter(x => x.owner_ext_id === user.ext_id) : [];
   }
 
-  getWorkspaceMembers(workspaceId: string): WorkspaceUserList {
+  getManagedWorkspaces(userid: string): Workspace[] {
+    if (!this.isInitialized) {
+      return [];
+    }
+    const wuas = this.accountService.getWorkspaceAssociations(userid);
+    if (!wuas) {
+      return [];
+    }
+    // filter associations by the manager role and return the workspaces
+    return wuas.filter(wua => wua.is_manager).map(wua => {
+      return this.getWorkspaceById(wua.workspace_id);
+    });
+  }
+
+  getWorkspaceMembers(workspaceId: string): WorkspaceMember[] {
     return this.workspaceMemberMap.get(workspaceId);
   }
 
   getWorkspaceMemberCount(workspaceId: string): number {
     return this.workspaceMemberCountMap.get(workspaceId);
   }
-
-  // getManagedWorkspaces(user: User): Workspace[] {
-  //   // return workspaces where given user has owner role
-  //   // TODO fetch workspace associations and filter based on manager role
-  //   return [];
-  // }
 
   joinWorkspace(joinCode: string): Observable<Workspace | string> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
@@ -97,8 +106,8 @@ export class WorkspaceService {
   }
 
   refreshWorkspaceMembers(workspaceId: string): void {
-    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users`;
-    this.http.get<WorkspaceUserList>(url).pipe(
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
+    this.http.get<WorkspaceMember[]>(url).pipe(
       map((resp) => {
         console.log('refreshWorkspaceMembers() got', resp);
         this.workspaceMemberMap.set(workspaceId, resp);
@@ -112,7 +121,7 @@ export class WorkspaceService {
   }
 
   refreshWorkspaceMemberCount(workspaceId: string): void {
-    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/list_users?members_count=true`;
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members?member_count=true`;
     // const options = { params: new HttpParams().set('members_count', String(true))};
     this.http.get<number>(url).pipe(
       map((resp) => {
@@ -169,5 +178,39 @@ export class WorkspaceService {
       this.workspaces = this.workspaces.filter(x => x.id !== workspaceId);
       this.eventService.workspaceDataUpdate$.next(workspaceId);
     }));
+  }
+
+  promoteMember(workspaceId: string, userId: string): Observable<any> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
+    return this.http.patch(url, {user_id: userId, operation: 'promote'}).pipe(
+      map(_ => {
+        console.log('promoted member to manager: ' + userId);
+        this.refreshWorkspaceMembers(workspaceId);
+      })
+    );
+  }
+
+  demoteMember(workspaceId: string, userId: string): Observable<any> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
+    return this.http.patch(url, {user_id: userId, operation: 'demote'}).pipe(
+      map(_ => {
+        console.log('demoted manager to member: ' + userId);
+        this.refreshWorkspaceMembers(workspaceId);
+      })
+    );
+  }
+
+  setIsBanned(workspaceId: string, userId: string, isBanned: boolean): Observable<any> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
+    return this.http.patch(url,
+      {
+        user_id: userId,
+        operation: isBanned ? 'ban' : 'unban'
+      }).pipe(
+      map(_ => {
+        console.log('demoted manager to member: ' + userId);
+        this.refreshWorkspaceMembers(workspaceId);
+      })
+    );
   }
 }
