@@ -3,12 +3,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
-import { MainActiveEnvironmentsComponent } from './main-active-environments.component';
+import { MainActiveSessionsComponent } from './main-active-sessions.component';
 import { MaterialModule } from 'src/app/material.module';
 
-describe('MainActiveEnvironmentsComponent', () => {
-  let component: MainActiveEnvironmentsComponent;
-  let fixture: ComponentFixture<MainActiveEnvironmentsComponent>;
+describe('MainActiveSessionsComponent', () => {
+  let component: MainActiveSessionsComponent;
+  let fixture: ComponentFixture<MainActiveSessionsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -18,7 +18,7 @@ describe('MainActiveEnvironmentsComponent', () => {
         MaterialModule
       ],
       declarations: [
-        MainActiveEnvironmentsComponent,
+        MainActiveSessionsComponent,
         MainContentHeaderComponent
       ]
     })
@@ -26,7 +26,7 @@ describe('MainActiveEnvironmentsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainActiveEnvironmentsComponent);
+    fixture = TestBed.createComponent(MainActiveSessionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

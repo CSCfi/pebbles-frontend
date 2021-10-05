@@ -1,16 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {EnvironmentSessionService} from '../../../services/environment-session.service';
-import {EnvironmentSession} from '../../../models/environment-session';
-import {EnvironmentService} from '../../../services/environment.service';
-import {Utilities} from '../../../utilities';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { EnvironmentSessionService } from '../../../services/environment-session.service';
+import { EnvironmentSession } from '../../../models/environment-session';
+import { EnvironmentService } from '../../../services/environment.service';
+import { Utilities } from '../../../utilities';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 export interface SessionTableRow {
   isSelected: boolean;
   index: number;
   workspaceName: string;
   environmentName: string;
+  sessionName: string;
+  sessionUrl: string;
   username: string;
   state: string;
   lifetimeLeft: string;
@@ -18,20 +22,20 @@ export interface SessionTableRow {
 }
 
 @Component({
-  selector: 'app-main-active-environments',
-  templateUrl: './main-active-environments.component.html',
-  styleUrls: ['./main-active-environments.component.scss']
+  selector: 'app-main-active-sessions',
+  templateUrl: './main-active-sessions.component.html',
+  styleUrls: ['./main-active-sessions.component.scss']
 })
-export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
+export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 
   public content = {
-    path: 'active-environments',
-    title: 'Active environments',
-    identifier: 'active-environments'
+    path: 'active-sessions',
+    title: 'Active sessions',
+    identifier: 'active-sessions'
   };
 
   displayedColumns: string[] = [
-    'isSelected', 'workspaceName', 'environmentName', 'username', 'state', 'lifetimeLeft'
+    'isSelected', 'workspaceName', 'environmentName', 'sessionName', 'username', 'state', 'lifetimeLeft'
   ];
   selection = new SelectionModel<SessionTableRow>(true, []);
   tableRowData: SessionTableRow[] = [];
@@ -43,8 +47,9 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
   queryText = '';
 
   constructor(
-    public environmentSessionService: EnvironmentSessionService,
-    public environmentService: EnvironmentService,
+    private environmentSessionService: EnvironmentSessionService,
+    private environmentService: EnvironmentService,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -80,6 +85,7 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
         existingEntry.index = -1;
         existingEntry.workspaceName = this.environmentService.get(session.environment_id)?.workspace_name;
         existingEntry.environmentName = this.environmentService.get(session.environment_id)?.name;
+        existingEntry.sessionUrl = session.url;
         existingEntry.username = session.username;
       } else {
         this.tableRowData.push({
@@ -87,6 +93,8 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
           index: -1,
           workspaceName: this.environmentService.get(session.environment_id)?.workspace_name,
           environmentName: this.environmentService.get(session.environment_id)?.name,
+          sessionName: session.name,
+          sessionUrl: session.url,
           username: session.username,
           state: session.state,
           lifetimeLeft: this.lifetimeToString(session.lifetime_left),
@@ -108,7 +116,7 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.tableRowData.length;
+    const numRows = this.dataSource.filteredData.length;
     return numSelected === numRows;
   }
 
@@ -116,7 +124,7 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.tableRowData.forEach(row => this.selection.select(row));
+      this.dataSource.filteredData.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
@@ -131,20 +139,56 @@ export class MainActiveEnvironmentsComponent implements OnInit, OnDestroy {
     return Utilities.lifetimeToString(lifetime);
   }
 
-  deleteSelectedSessions() {
-    for (const row of this.selection.selected) {
-      const sessionId = row.sessionId;
-      console.log('deleting session ' + sessionId);
-      this.environmentSessionService.deleteSession(sessionId).subscribe(_ => {
-        console.log('deleted ' + sessionId);
-      });
-      row.state = 'deleting';
-    }
+  applyFilter(value: string): void {
+    this.queryText = value;
     this.selection.clear();
+    this.updateRowData(true);
   }
 
-  applyFilter(value: string ): void {
-    this.queryText = value;
-    this.updateRowData(true);
+  openStopSessionDialog(selectedSessions: SessionTableRow[]): void {
+    let namesList = '';
+    selectedSessions.forEach(sess => {
+      namesList += `<li>${sess.sessionName}</li>`;
+    });
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '500px',
+      data: {
+        dialogTitle: 'Confirm session deletion',
+        dialogContent: `<p>The following sessions will be deleted</p><ul>${namesList}</ul>`,
+        dialogActions: ['confirm', 'cancel']
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        for (const row of selectedSessions) {
+          const sessionId = row.sessionId;
+          console.log('deleting session ' + sessionId);
+          this.environmentSessionService.deleteSession(sessionId).subscribe(_ => {
+            console.log('deleted ' + sessionId);
+          });
+          row.state = 'deleting';
+        }
+        this.selection.clear();
+      }
+    });
+  }
+
+  openEnterSessionDialog(sessionRow: SessionTableRow): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '500px',
+      data: {
+        dialogTitle: 'Confirm enter session',
+        dialogContent:
+          '<p>Entering a session can cause disconnect or undefined behaviour to the original user of the session.' +
+          '<p>Are you sure you want to do this?',
+        dialogActions: ['confirm', 'cancel']
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        window.open(sessionRow.sessionUrl, '_blank');
+      }
+    });
   }
 }

@@ -10,7 +10,7 @@ import { MaterialModule } from 'src/app/material.module';
 // ---- Pipe
 import { DateDisplayPipe } from '../../pipes/date-display.pipe';
 import { MainAccountComponent } from './main-account/main-account.component';
-import { MainActiveEnvironmentsComponent } from './main-active-environments/main-active-environments.component';
+import { MainActiveSessionsComponent } from './main-active-sessions/main-active-sessions.component';
 import { MainAdminComponent } from './main-admin/main-admin.component';
 import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
 // ---- Content component
@@ -60,7 +60,7 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainMyWorkspacesComponent,
     MainWorkspaceOwnerComponent,
     MainAdminComponent,
-    MainActiveEnvironmentsComponent,
+    MainActiveSessionsComponent,
     MainStatisticsComponent,
     MainHelpNavComponent,
     MainHelpFaqComponent,

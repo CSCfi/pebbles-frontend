@@ -1,10 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 
 import { EnvironmentSession, EnvironmentSessionLog, SessionStates } from 'src/app/models/environment-session';
+import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 import { buildConfiguration } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
@@ -54,21 +54,23 @@ export class EnvironmentSessionService implements OnDestroy {
     const url = `${buildConfiguration.apiUrl}/environment_sessions`;
 
     return this.http.get<EnvironmentSession[]>(url).pipe(
-      map(mySessions => {
-        console.log('fetchSessions got', mySessions);
-        let nonRunning = false;
-        for (const inst of mySessions) {
-          if (inst.state !== SessionStates.Running) {
-            nonRunning = true;
-            break;
+      map(sessions => {
+        console.log('fetchSessions got', sessions);
+        let nonStatic = false;
+        for (const session of sessions) {
+          if (session.state !== SessionStates.Running && session.state !== SessionStates.Failed) {
+            nonStatic = true;
+          }
+          if (session.session_data?.endpoints?.length) {
+            session.url = session.session_data.endpoints[0].access;
           }
         }
-        if (nonRunning) {
+        if (nonStatic) {
           this.setPollingInterval(4 * 1000);
-        } else if (!nonRunning) {
+        } else if (!nonStatic) {
           this.setPollingInterval(60 * 1000);
         }
-        this.environmentSessions = mySessions;
+        this.environmentSessions = sessions;
         // show notifications for environmentSessions owned by the user, filtered in getSessions()
         this.desktopNotificationService.notifySessionLifetime(this.getSessions());
         // update the timestamp

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
 import { MainAccountComponent } from './main-account/main-account.component';
-import { MainActiveEnvironmentsComponent } from './main-active-environments/main-active-environments.component';
+import { MainActiveSessionsComponent } from './main-active-sessions/main-active-sessions.component';
 import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
@@ -49,8 +49,8 @@ export const routes: Routes = [
       },
 
       {
-        path: 'active-environments', component: MainActiveEnvironmentsComponent,
-        data: {breadcrumbs: ['home', 'active-environments']}
+        path: 'active-sessions', component: MainActiveSessionsComponent,
+        data: {breadcrumbs: ['home', 'active-sessions']}
       },
       {
         path: 'users', component: MainUsersComponent,

@@ -21,10 +21,10 @@
   <div class="actionable-circle-container v-centering__horizontal">
     <!--
       Actionable Circle conditional UI
-      1. UI for active environment
+      1. UI for active session
       2. Launch Button for environment card -> #LaunchUI
     -->
-    <!-- 1: active environment -->
+    <!-- 1: active session -->
     <ng-container *ngIf="isSessionActive; else LaunchUI">
       <!--
         Switch UI based on the state of session
@@ -75,7 +75,7 @@
       </div>
       <!-- //// END of Switch -->
     </ng-container>
-    <!-- //// END of 1: active active environment -->
+    <!-- //// END of 1: active session -->
     <!-- Action view 2 : Launch Button for environment card -->
     <ng-template #LaunchUI>
       <button mat-button matTooltip="Start environment" fxLayout="row" fxLayoutAlign="center center"

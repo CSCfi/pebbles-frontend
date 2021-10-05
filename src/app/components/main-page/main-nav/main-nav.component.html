@@ -67,13 +67,13 @@
           <div class="title mat-title" *ngIf="isTextVisible">Manage workspaces</div>
         </a>
       </li>
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/active-environments'"
-          #tooltip="matTooltip" matTooltip="Active environments" [matTooltipDisabled]="true">
-        <a [routerLink]="['/main/active-environments']">
+      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/active-sessions'"
+          #tooltip="matTooltip" matTooltip="Active sessions" [matTooltipDisabled]="true">
+        <a [routerLink]="['/main/active-sessions']">
           <span class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
           </span>
-          <div class="title mat-title" *ngIf="isTextVisible">Active environments</div>
+          <div class="title mat-title" *ngIf="isTextVisible">Active sessions</div>
         </a>
       </li>
     </ul>
@@ -189,9 +189,9 @@
       </mat-icon>
       Manage workspaces
     </button>
-    <button mat-menu-item [routerLink]="['/main/active-environments']">
+    <button mat-menu-item [routerLink]="['/main/active-sessions']">
       <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
-      Active environments
+      Active sessions
     </button>
     <mat-divider class="dark"></mat-divider>
   </ng-container>
