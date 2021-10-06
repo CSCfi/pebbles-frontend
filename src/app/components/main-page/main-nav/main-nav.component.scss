@@ -17,10 +17,15 @@
   }
 }
 
+.mat-divider {
+  border-top: solid 1px rgba(255, 255, 255, 0.2);
+}
+
 .nav-items {
 
   &.nav-partition {
-    border-top: 1px solid map-get($colors, dark-primary);
+    //border-top: 1px solid map-get($colors, dark-primary);
+    border-top: solid 1px rgba(255, 255, 255, 0.3);
   }
 
   li {

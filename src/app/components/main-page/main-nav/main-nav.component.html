@@ -1,4 +1,4 @@
-<div class="sidenav-inner bg__primary" fxLayout="column" fxHide.xs="true">
+<div class="sidenav-inner bg__primary" fxLayout="column" fxHide.lt-sm="true">
   <!-- Logo -->
   <div class="logo mat-display-2" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="10px"
@@ -54,26 +54,19 @@
     </li>
   </ul>
   <ng-container *ngIf="authService.isWorkspaceOwner">
+    <mat-divider></mat-divider>
     <ul class="nav-items workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url.startsWith('/main/workspace-owner')"
           #tooltip="matTooltip" matTooltip="Manage workspaces" [matTooltipDisabled]="true">
         <a [routerLink]="['/main/workspace-owner']">
           <span class="icon-holder">
-            <mat-icon fontSet="material-icons-outlined"
-                      matBadgeColor="accent"
-                      matBadgeSize="small"
-                      matBadge="&#9733;">
+            <mat-icon fontSet="material-icons-outlined">
               folder_shared
             </mat-icon>
           </span>
           <div class="title mat-title" *ngIf="isTextVisible">Manage workspaces</div>
         </a>
       </li>
-    </ul>
-  </ng-container>
-
-  <ng-container *ngIf="authService.isAdmin">
-    <ul class="nav-items workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/active-environments'"
           #tooltip="matTooltip" matTooltip="Active environments" [matTooltipDisabled]="true">
         <a [routerLink]="['/main/active-environments']">
@@ -83,6 +76,11 @@
           <div class="title mat-title" *ngIf="isTextVisible">Active environments</div>
         </a>
       </li>
+    </ul>
+    <mat-divider></mat-divider>
+  </ng-container>
+  <ng-container *ngIf="authService.isAdmin">
+    <ul class="nav-items workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/users'"
           #tooltip="matTooltip" matTooltip="Users" [matTooltipDisabled]="true">
         <a [routerLink]="['/main/users']">
@@ -111,6 +109,7 @@
         </a>
       </li>
     </ul>
+    <mat-divider></mat-divider>
   </ng-container>
 
   <ul class="nav-items">
@@ -171,8 +170,9 @@
     </li>
   </ul>
 </div>
+
 <!-- Mobile mode : Dropdown menu -->
-<div fxShow.xs="true" fxLayout="column">
+<div fxLayout="column" fxHide="true" fxShow.lt-sm="true" >
   <button mat-menu-item [routerLink]="['/main/catalog']">
     <mat-icon fontSet="material-icons-outlined">book</mat-icon>
     Environments
@@ -182,21 +182,20 @@
     My workspaces
   </button>
   <ng-container *ngIf="authService.isWorkspaceOwner">
+    <mat-divider class="dark"></mat-divider>
     <button mat-menu-item [routerLink]="['/main/workspace-owner']">
-      <mat-icon fontSet="material-icons-outlined"
-                matBadgeColor="accent"
-                matBadgeSize="small"
-                matBadge="&#9733;">
+      <mat-icon fontSet="material-icons-outlined">
         folder_shared
       </mat-icon>
       Manage workspaces
     </button>
-  </ng-container>
-  <ng-container *ngIf="authService.isAdmin">
     <button mat-menu-item [routerLink]="['/main/active-environments']">
       <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
       Active environments
     </button>
+    <mat-divider class="dark"></mat-divider>
+  </ng-container>
+  <ng-container *ngIf="authService.isAdmin">
     <button mat-menu-item [routerLink]="['/main/users']">
       <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
       Manage Users
@@ -209,6 +208,7 @@
       <mat-icon fontSet="material-icons-outlined">bar_chart</mat-icon>
       Statistics
     </button>
+    <mat-divider class="dark"></mat-divider>
   </ng-container>
   <button mat-menu-item [routerLink]="['/main/announcements']">
     <mat-icon fontSet="material-icons-outlined"

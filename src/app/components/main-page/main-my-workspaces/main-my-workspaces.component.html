@@ -1,6 +1,6 @@
 <div class="content-header-container"
      fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="30px"
-     fxLayout.xs="column" fxLayoutAlign.xs="start stretch" fxLayoutGap.xs="10px">
+     fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
   <app-main-content-header fxFlex="grow"
                            (emitApplyFilter)="applyFilter($event)"
                            [content]="content"
@@ -8,7 +8,7 @@
                            [isAutocompleteDisabled]="true"
                            [labels]="[]">
   </app-main-content-header>
-  <button mat-flat-button fxFlex="0 0 180px" fxFlex.xs="grow"  color="warn" id="join-workspace-button"
+  <button mat-flat-button fxFlex="0 0 180px" fxFlex.lt-sm="grow"  color="warn" id="join-workspace-button"
           aria-label="Join Workspace"
           (click)="openJoinWorkspaceDialog()">
     <mat-icon fontSet="material-icons-outlined" class="mr-5">group_add</mat-icon>
