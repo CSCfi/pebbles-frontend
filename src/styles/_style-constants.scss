@@ -38,72 +38,80 @@ $colors: (
   focus-light: rgb(255, 255, 255, .1),
 );
 
-$app-colors: (
-  white: #fff,
-  black: #222,
-  transparent: rgb(255, 255, 255, 0),
-  transparent-light: rgb(255, 255, 255, .1),
-  transparent-dark: rgb(0, 0, 0, .1),
+$app-transparent: (
+  default: rgb(255, 255, 255, 0),
+  light: rgb(255, 255, 255, .1),
+  dark: rgb(0, 0, 0, .1),
 );
 
 $light-text: white;
-$dark-text: rgba(black, 0.87);
+$dark-text: rgba(#2f3538, 0.87);
 
-// ---- use grey-color set from $mat-grey
+$app-gray: (
+  default: #9e9e9e,
+  100: #e0e0e0,
+  200: #d1d1d1,
+  300: #a7abb6,
+  700: #88949a,
+  800: #6b777c,
+  900: #2f3538,
+  contrast: (
+    default: $dark-text,
+    100: $dark-text,
+    300: $dark-text,
+    700: $light-text,
+    800: $light-text,
+    900: $light-text
+  )
+);
+
 $app-primary: (
   default: #18227c,
-  lighter: #514aac,
-  darker: #00004f,
+  100: #ededf8,
+  200: #e0e0f1,
+  300: #d5d5f1,
+  light: #acc7e0,
+  dark: #00004f,
   contrast: (
     default: $light-text,
-    lighter: $light-text,
-    darker: $light-text
+    light: $light-text,
+    dark: $light-text
   )
 );
 
 $app-secondary: (
   default: #0082bb,
-  lighter: #58b1ee,
-  darker: #00568b,
+  light: #58b1ee,
+  dark: #00568b,
   contrast: (
     default: $light-text,
-    lighter: $light-text,
-    darker: $light-text
+    light: $light-text,
+    dark: $light-text
   )
 );
 
 $app-accent: (
-  default: #6bc7bb,
-  lighter: #9efaed,
-  darker: #37968b,
+  default: #42b7a8,
+  light: #9efaed,
+  dark: #006778,
   contrast: (
-    default: $dark-text,
-    lighter: $dark-text,
-    darker: $light-text
+    default: $light-text,
+    light: $dark-text,
+    dark: $light-text
   )
 );
 
 $app-warn: (
   default: #ff9794,
-  lighter: #f8cdc3,
-  darker: #ed6666,
+  light: #f8cdc3,
+  dark: #ff5959,
   contrast: (
     default: $light-text,
-    lighter: $dark-text,
-    darker: $light-text
+    light: $dark-text,
+    dark: $light-text
   )
 );
 
-$app-dark: (
-  default: #acc7e0,
-  lighter: #e0e0f1,
-  darker: #2e2f39,
-  contrast: (
-    default: $dark-text,
-    lighter: $dark-text,
-    darker: $light-text
-  )
-);
 
 // ---- color application
 

@@ -3,7 +3,7 @@
 .form-title {
   text-align: center;
   padding: 5px;
-  border-bottom: 2px solid map-get($colors, light3);
+  border-bottom: 2px solid map-get($app-primary, 200);;
 }
 
 .form-description {

@@ -31,6 +31,6 @@
   height: 10px;
   background: white;
 
-  &:hover { background: map-get($app-accent, lighter); }
-  &.focus { background: map-get($app-warn, lighter); }
+  &:hover { background: map-get($app-accent, light); }
+  &.focus { background: map-get($app-warn, light); }
 }

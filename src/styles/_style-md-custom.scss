@@ -23,18 +23,20 @@ mat-typography-level(
 
 $custom-typography: mat-typography-config(
   $font-family:   map-get($font-families, base),
-  $display-4:     mat-typography-level(1.2rem, 150%, 400, map-get($font-families, styled), 0.04rem),
-  $display-3:     mat-typography-level(1.6rem, 150%, 400, map-get($font-families, styled), 0.04rem),
-  $display-2:     mat-typography-level(2.8rem, 120%, 500, map-get($font-families, styled), 0.04rem),
-  $display-1:     mat-typography-level(3.6rem, 105%, 600, map-get($font-families, styled), 0.08rem),
+  $display-4:     mat-typography-level(3.6rem, 105%, 600, map-get($font-families, styled), 0.08rem),
+  $display-3:     mat-typography-level(2.8rem, 120%, 500, map-get($font-families, styled), 0.04rem),
+  $display-2:     mat-typography-level(1.6rem, 150%, 400, map-get($font-families, styled), 0.04rem),
+  $display-1:     mat-typography-level(1.2rem, 150%, 400, map-get($font-families, styled), 0.04rem),
 
   $headline:      mat-typography-level(1.8rem, 130%, 600, map-get($font-families, styled), 0rem),
   $title:         mat-typography-level(1.6rem, 130%, 600, map-get($font-families, styled), 0.02rem),
-  $subheading-2:  mat-typography-level(1.4rem, 170%, 500, map-get($font-families, styled), 0.04rem),
-  $subheading-1:  mat-typography-level(1.6rem, 170%, 500, map-get($font-families, styled), 0.04rem),
+  $subheading-2:  mat-typography-level(1.4rem, 170%, 600, map-get($font-families, styled), 0.04rem),
+  $subheading-1:  mat-typography-level(1.3rem, 170%, 600, map-get($font-families, styled), 0.04rem),
+  $body-2:        mat-typography-level(1.3rem, 150%, 600, map-get($font-families, base)),
+  $body-1:        mat-typography-level(1.3rem, 150%, 400, map-get($font-families, base)),
+  $caption:       mat-typography-level(1.1rem, 110%, 400, map-get($font-families, base)),
   $button:        mat-typography-level(1.5rem, 110%, 600, map-get($font-families, styled), 0.04rem),
-  $body-2:        mat-typography-level(1.1rem, 150%, 400, map-get($font-families, base), 0.04rem),
-  $body-1:        mat-typography-level(1.3rem, 150%, 400, map-get($font-families, base), 0.02rem),
+  $input:         mat-typography-level(1.4rem, 1.125, 400),
 );
 
 // Include the common styles for Angular Material.
@@ -42,10 +44,10 @@ $custom-typography: mat-typography-config(
 //@include mat-core($custom-typography);
 
 // Define the palettes using the Material Design palettes available in palette.scss
-// For each palette, you can optionally specify hues (default, lighter, darker)
-$app-theme-primary: mat-palette($app-primary, default, lighter, darker, default);
-$app-theme-accent: mat-palette($app-accent, default, lighter, darker, default);
-$app-theme-warn: mat-palette($app-warn, default, lighter, darker, default);
+// For each palette, you can optionally specify hues (default, light, dark)
+$app-theme-primary: mat-palette($app-primary, default, light, dark, default);
+$app-theme-accent: mat-palette($app-accent, default, light, dark, default);
+$app-theme-warn: mat-palette($app-warn, default, light, dark, default);
 
 $app-theme: mat-light-theme($app-theme-primary, $app-theme-accent, $app-theme-warn);
 //$mat-theming-theme-user: mat-light-theme($mat-theming-primary, $mat-theming-accent, $mat-theming-warn);

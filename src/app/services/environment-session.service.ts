@@ -14,7 +14,6 @@ import { AuthService } from './auth.service';
 })
 export class EnvironmentSessionService implements OnDestroy {
 
-
   private environmentSessions: EnvironmentSession[] = [];
   private interval = 0;
   private intervalValue = -1;

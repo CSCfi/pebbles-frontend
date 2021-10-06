@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { Environment } from 'src/app/models/environment';
@@ -7,6 +8,7 @@ import { EnvironmentSession, SessionStates } from 'src/app/models/environment-se
 import { EnvironmentService } from 'src/app/services/environment.service';
 import { EnvironmentSessionService } from 'src/app/services/environment-session.service';
 import { Utilities } from '../../../utilities';
+import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-main-session-button',
@@ -20,8 +22,8 @@ export class MainSessionButtonComponent implements OnInit {
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
   isWaitingInterval = false;
-  diameter = 110;
-  strokeWidth = 6;
+  diameter = 120;
+  strokeWidth = 10;
 
   get isSpinnerOn(): boolean {
     if (this.session) {
@@ -97,6 +99,7 @@ export class MainSessionButtonComponent implements OnInit {
     private router: Router,
     private environmentService: EnvironmentService,
     private environmentSessionService: EnvironmentSessionService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -131,17 +134,24 @@ export class MainSessionButtonComponent implements OnInit {
 
   stopEnvironment(): void {
     // confirm deletion for non-failed sessions
-    if (this.session.state !== SessionStates.Failed
-      && !confirm('Have you saved your edited files? Once environment shutdown, it will be deleted.')) {
-      return;
-    }
-    const environmentSession = this.environmentSessionService.getSession(this.environment.session_id);
-    environmentSession.state = SessionStates.Deleting;
-    // ---- Delete data for environmentSession-notification queue.
-    localStorage.removeItem(environmentSession.name);
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '500px',
+      data: {
+        dialogTitle: 'Delete environment session',
+        dialogContent: `Have you saved your edited files? Once environment shutdown, it will be deleted.`,
+        dialogActions: ['confirm', 'cancel']
+      }
+    }).afterClosed().subscribe(resp => {
+      if (resp) {
+        const environmentSession = this.environmentSessionService.getSession(this.environment.session_id);
+        environmentSession.state = SessionStates.Deleting;
+        // ---- Delete data for environmentSession-notification queue.
+        localStorage.removeItem(environmentSession.name);
 
-    this.environmentSessionService.deleteSession(environmentSession.id).subscribe(_ => {
-      // console.log('environmentSession deleting process finished');
+        this.environmentSessionService.deleteSession(environmentSession.id).subscribe(_ => {
+          console.log('environmentSession deleting process finished');
+        });
+      }
     });
   }
 }

@@ -9,7 +9,7 @@
 @include angular-material-theme($app-theme);
 @import "./styles/style-md-overwritten";
 
-// ---- Global base style setting ---- //
+// ---- Global base style on element ---- //
 html {
   // ---- set '62.5%'
   // ---- for writing rem based font-size intuitively
@@ -19,13 +19,13 @@ html {
 
 body {
   height: 100%;
-  //background: map-get($app-primary, lighter);
+  //background: map-get($app-primary, light);
   color: $dark-text;
 }
 
 a {
   &:hover{
-    color: map-get($app-accent, lighter);
+    color: map-get($app-accent, light);
     cursor: pointer;
   }
 }
@@ -39,7 +39,7 @@ button {
   }
 }
 
-// ---- shared functional styles
+// ---- Functional style classes ---- //
 .block { display: block; }
 .hide { display: none !important; }
 .invisible { opacity: 0; }
@@ -74,7 +74,9 @@ a.u-line,
   }
 }
 
-// ---- shared part styles ---- //
+
+
+// ---- Shared parts styles ---- //
 .logo {
   &__type {
     position: relative;
@@ -90,145 +92,141 @@ a.u-line,
   }
 }
 
+.message-container {
+  padding: 20px;
+  height: 300px;
+
+  .empty,
+  .under-construction {
+    display: inline-flex;
+    height: 100%;
+    width: 100%;
+
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+
+    .mat-icon {
+      font-size: 8rem;
+      margin-bottom: 20px;
+      width: auto;
+      height: auto;
+    }
+
+    .message {
+      font-weight: 600;
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
+}
+
 .content-header-container {
-  @include shadow(.22);
+  @include shadow(.05);
   min-height: map-deep-get($layout-set, main, header, min-h);
   width: 100%;
   padding: 15px 30px 6px;
-  border-bottom: 1px solid map-get($colors , white);
+  //border-bottom: 1px solid map-get($colors , white);
 }
 
-//input {
-//  // border: $border-thin;
-//  // padding: 10px 25px !important;
-//  letter-spacing: 1px;
-//  // border-radius: 5px;
-//  min-height: 36px;
-//
-//  &.btn {
-//    min-width: 200px;
-//    border-radius: 18px;
-//  }
-//}
-
-// .navbar {
-//   padding: 0;
-// }
-
-//.fw {
-//  &__500{
-//    font-weight: 500;
-//  }
-//}
-
-//.bd {
-//  border: $border-thin;
-//}
-
-//.circle-clip {
-//  border-radius: 50%;
-//}
-
-
-
-//.shadow-m {
-//  box-shadow: 0 1px 2px 2px rgba(30, 30, 30, 0.3);
-//}
-
-//.no-shadow {
-//  box-shadow: none !important;
-//}
-
-//.flat-shadow {
-//  box-shadow: 1px 1px 1px 1px rgba(0,0,0,.2) !important;
-//}
-
-//.shadow{
-//  &__moderate {
-//    box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
-//  }
-//}
-
-
-
-//.section-title {
-  // display: flex;
-  // align-items: center;
-  // height: 40px;
-
-  //h3 {
-  //  margin-left: 0 !important;
-  //}
-//}
-
-section.card {
-  background: map-get($colors, white);
-  border-radius: 5px;
-  // box-shadow: 0 1px 2px 1px rgba(146, 146, 230, .22) !important;
-
+.content-container {
   position: relative;
-  margin-bottom: 20px;
+  padding: 5px 40px;
+  min-height: calc(100vh - 70px);
+}
 
-  .section-header {
-    position: relative;
-    border-bottom: 1px solid #e6e6f2;
-    padding: 20px 30px 5px;
+.page-container{
+  height: 100%;
 
-    .mat-icon {
-      float: left;
-    }
-
-    h3 {
-      padding-top: 5px;
-      margin-bottom: 10px;
-      margin-left: 30px;
-    }
-  }
-
-  .section-body {
-    padding: 20px 30px 5px;
+  &__screen {
+    height: 100vh;
   }
 }
 
-.label-list-sm{
-  .mat-chip{
-    padding: 5px 12px 7px !important;
-    margin-right: 0;
-    font-size: 1.1rem;
-    min-height: 22px;
-    color: map-get($colors, dark);
-    font-weight: 600;
+// ---- MaterialDesign/FontAwesome overwritten styles  ---- //
+
+.fab {
+  font-size: 1.1rem;
+  padding: 2px 10px;
+  display: inline-block;
+  min-width: 30px;
+  height: 20px;
+  text-align: center;
+  border-radius: 13px;
+}
+
+.mat-display-1, .mat-display-2, .mat-display-3, .mat-display-4,
+.mat-headline, .mat-title, .mat-subheading-1, .mat-subheading-2,
+.mat-button, .mat-body-2, .mat-body-1 {
+  margin-bottom: 0 !important;
+}
+
+.mat-card-header-text {
+  margin-bottom: 0 !important;
+}
+
+.mat-card-actions, .mat-card-subtitle, .mat-card-content {
+    margin-bottom: 5px;
+}
+
+
+.mat-icon,
+.ng-fa-icon {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 100%;
+
+  &.md-16 {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+  }
+
+  &.md-18 {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+  }
+
+  &.md-24 {
+    font-size: 24px;
+  }
+
+  &.md-36 {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+  }
+
+  &.md-48 {
+    font-size: 48px;
+    height: 48px;
+    min-width: 48px;
+    max-width: 70px;
+    text-align: center;
   }
 }
 
-.mat-chip-sm {
-  border-radius: 12px;
-  padding: 5px 12px 5px 12px !important;
-  margin-right: 0;
-  font-size: 1.2rem;
-  min-height: 24px;
-  color: map-get($colors, dark);
-  font-weight: 600;
+.icon-holder {
+  width: 24px;
+  height: 24px;
+}
 
-  .mat-icon {
-    font-size: 1.4rem;
-    margin-left: 4px;
-    margin-right: -6px;
-  }
+.chips {
+  line-height: 200%;
 }
 
 .chip {
   &__sm {
-    font-weight: 600;
-    color: map-get($colors, dark);
-    background-color: map-get($colors, light2);
+    color: map-get($app-gray, 900);
+    background-color: map-get($app-gray, 100);
     margin-right: 3px;
-    line-height: 100%;
-
+    line-height: 120%;
     min-height: 20px;
-    padding: 0 8px 2px !important;
+    padding: 0 9px 2px !important;
     border-radius: 10px;
-    font-size: 1.0rem;
+    //word-break: keep-all;
   }
 
   &__m {
@@ -253,30 +251,47 @@ section.card {
   }
 }
 
-.inline-centering{
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
+// ---- z-index styles ---- //
+
+.hero-shots {
+  z-index: 200;
 }
 
-.fab {
-  font-size: 1.1rem;
-  padding: 2px 10px;
-  display: inline-block;
-  min-width: 30px;
-  height: 20px;
-  text-align: center;
-  border-radius: 13px;
+.login-wrapper {
+  z-index: 300;
 }
 
-//.centering {
-//  &__text {
-//    width: 100%;
-//    text-align: center;
-//  }
-//}
+.mat-sidenav-container {
+  z-index: 100;
+}
 
-// ---- erase later
+.mat-sidenav {
+  z-index: 2000;
+}
+
+.app-main-content-header{
+  display: block;
+  z-index: 2;
+}
+
+.workspace-owner-content-wrapper {
+  .workspace-list-container {
+    z-index: 2;
+  }
+}
+
+.circle-button {
+  z-index: 1000;
+}
+
+.open-button,
+.shutdown-button {
+  z-index: 2000;
+}
+
+
+// ---- erase later when finished css refactoring ----//
+
 .v-centering {
   display: flex;
   flex-direction: row;
@@ -297,6 +312,7 @@ section.card {
     justify-content: center;
   }
 }
+
 
 .inversion{
   &.primary {
@@ -338,15 +354,6 @@ section.card {
 
 .dark {
   background: map-get($colors, dark);
-
-  //a,
-  //button {
-  //  color: map-get($colors, white);
-  //
-  //  &:hover{
-  //    color: map-get($colors, accent);
-  //  }
-  //}
 }
 
 .r {
@@ -374,113 +381,4 @@ section.card {
   &__light-gray {
     color: map-get($colors, light-gray);
   }
-}
-
-// ---- shared styles for parts ---- //
-
-// -------------------------------- LOGO
-
-
-.page-container{
-  height: 100%;
-
-  &__screen {
-    height: 100vh;
-  }
-}
-
-.content-container {
-  padding: 5px 40px;
-}
-
-.content-wrapper {
-  width: 100%;
-  max-width: 1000px !important;
-  margin: auto;
-}
-
-
-
-.content-body {
-  padding: 20px;
-  background-color: map-get($colors, white);
-}
-
-//button.button-s {
-//  height: map-deep-get($layout-set, main, button-s, h);
-//  font-size: 1.2rem;
-//  line-height: 1.2rem;
-//  padding: 0 20px !important;
-//
-//  &:hover {
-//    background-color: map-get($colors, focus-light);
-//  }
-//
-//  &.mat-button-disabled:hover {
-//    background-color: map-get($colors, light-gray) !important;
-//  }
-//}
-
-.message-container {
-  padding: 20px;
-  height: 300px;
-
-  .empty,
-  .under-construction {
-    display: inline-flex;
-    height: 100%;
-    width: 100%;
-
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    color: #999;
-
-    .mat-icon {
-      font-size: 8rem;
-      margin-bottom: 20px;
-      width: auto;
-      height: auto;
-    }
-
-    .message {
-      font-weight: 600;
-      font-size: 2rem;
-      text-align: center;
-    }
-  }
-}
-
-// ---- z-index
-
-.hero-shots {
-  z-index: 200;
-}
-
-.login-wrapper {
-  z-index: 300;
-}
-
-.mat-sidenav-container {
-  z-index: 100;
-}
-
-.app-main-content-header{
-  display: block;
-  z-index: 2;
-}
-
-.workspace-owner-content-wrapper {
-  .workspace-list-container {
-    z-index: 2;
-  }
-}
-
-.circle-button {
-  z-index: 1000;
-}
-
-.open-button,
-.shutdown-button {
-  z-index: 2000;
 }

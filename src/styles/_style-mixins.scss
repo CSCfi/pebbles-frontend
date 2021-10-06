@@ -46,8 +46,8 @@ $sides: (
   } @else if ($pos==horizontal) {
     justify-content: center;
   } @else if ($pos==both) {
-    align-items: center;
     justify-content: center;
+    align-items: center;
   }
 }
 
@@ -62,42 +62,102 @@ $sides: (
 
 // --------------------
 @mixin bg-dark {
-  background: map-get($app-primary, darker);
+  background: map-get($app-primary, dark);
   color: $light-text;
 }
 
 .bg {
   &__primary {
     background: map-get($app-primary, default);
-    color: map-deep-get($app-primary, contrast, default);
+    color: #fff;
+
+    &-light {
+      color: #fff;
+      background: map-get($app-primary, light);
+    }
 
     &-dark {
-      background: map-get($app-primary, darker);
+      color: #fff;
+      background: map-get($app-primary, dark);
     }
   }
+
   &__accent {
     background: map-get($app-accent, default);
+
+    &-light {
+      color: #fff;
+      background: map-get($app-accent, light);
+    }
+
+    &-dark {
+      color: #fff;
+      background: map-get($app-accent, dark);
+    }
   }
-  &__dark {
-    @include bg-dark;
+
+  &__gray {
+    background: map-get($app-gray, 800);
+
+    &-light {
+      color: #fff;
+      background: map-get($app-gray, 700);
+    }
+
+    &-dark {
+      color: #fff;
+      background: map-get($app-gray, 900);
+    }
+  }
+}
+
+.txt {
+  &__primary {
+    color: map-get($app-primary, default);
+
+    &-light {
+      color: map-get($app-primary, light);
+    }
+
+    &-dark {
+      color: map-get($app-primary, dark);
+    }
+  }
+
+  &__accent {
+    color: map-get($app-accent, default);
+  }
+
+  &__warn {
+    color: map-get($app-warn, default);
   }
 }
 
 
 @mixin shadow ($value: .44) {
-  box-shadow: 0 1px 2px 1px rgba(154, 154, 204, $value) !important;
+  @if($value > 0){
+    box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 50, $value) !important;
+    position: relative;
+    z-index: 1000;
+  } @else {
+    box-shadow: none !important;
+  }
 }
 
 .shadow {
+  &__none {
+    @include shadow(0);
+  }
+
   &__light {
+    @include shadow(.05);
+  }
+
+  &__medium {
     @include shadow(.22);
   }
 
-  &__midium {
-    @include shadow(.44);
-  }
-
   &__dark {
-    @include shadow(.66);
+    @include shadow(.55);
   }
 }

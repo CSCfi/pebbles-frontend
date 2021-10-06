@@ -21,6 +21,10 @@
   border-top: solid 1px rgba(255, 255, 255, 0.2);
 }
 
+::ng-deep .mat-badge-warn .mat-badge-content {
+  background: map-get($app-warn, dark) !important;
+}
+
 .nav-items {
 
   &.nav-partition {

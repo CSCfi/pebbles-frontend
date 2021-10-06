@@ -1,44 +1,41 @@
 @import "src/styles/main.scss";
 
 .environments-catalog {
+  background: map-get($app-primary, 100);
+
   ::ng-deep .mat-tab-header {
-    background-color: map-get($colors , light3);
+    background-color: map-get($app-primary, 300);
+    border-bottom: 1px solid map-get($app-transparent, dark) !important;
     padding-top: 15px;
     margin: -5px -40px 0;
-    border-bottom: none;
 
     .mat-ripple {
-      background: map-get($colors, white);
+      background: #fff;
     }
 
     .mat-tab-label {
-      border-right: 1px solid map-get($colors, light3);
-      border-bottom: 1px solid map-get($colors, light3);
+      border-right: 1px solid map-get($app-primary, 200);
 
-      &:last-child{
-        border-right: none;
-      }
+      &:last-child { border-right: none; }
 
       .tab-icon {
         margin-right: 5px;
-        color: map-get($colors, primary);
+        color: map-get($app-primary, default);
       }
 
       .tab-title {
-        color: map-get($colors, primary);
-        font-size: 1.3rem !important;
-        font-weight: 600;
+        color:  map-get($app-primary, default);
       }
     }
 
     .mat-ink-bar {
-      background-color: map-get($colors , accent) !important;
-      height: 5px;
+      background-color: map-get($app-accent , default) !important;
+      height: 6px;
     }
   }
 
   ::ng-deep .mat-tab-body-wrapper {
-    padding: 15px 0px !important;
+    padding: 15px 0 !important;
 
     .catalog-section {
       margin: auto;

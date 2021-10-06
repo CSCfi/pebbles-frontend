@@ -1,7 +1,7 @@
 <mat-sidenav-container>
   <!-- SideNav Area -->
   <mat-sidenav #sidenav opened mode="side" fxHide.lt-sm="true"
-    [ngClass]="{'minimize':!isSideNavOpen}">
+               [ngClass]="{'minimize':!isSideNavOpen}">
     <app-main-nav class="sidebar" (toggleSideNavEvent)="toggleSideNav()"
                   [isSideNavOpen]="isSideNavOpen">
     </app-main-nav>
@@ -10,7 +10,7 @@
   <mat-sidenav-content id="sidenav-content" [ngClass]="{'expanded':!isSideNavOpen}" [ngClass.lt-sm]="'lt-sm'" >
     <!-- Mobile mode : Header  -->
     <mat-toolbar color="primary" fxHide.gt-xs="true" fxShow.lt-sm="true">
-      <div class="logo mat-display-2" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <div class="logo mat-display-3" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
         <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="10px"
            fxLayoutAlign="space-between center">
           <div class="logo__mark" fxFlex="0 0 36px">

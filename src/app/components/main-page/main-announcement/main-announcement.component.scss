@@ -10,7 +10,7 @@
     background: #fff;
     overflow: hidden;
 
-    border: 3px solid map-get($colors, light3);
+    border: 3px solid map-get($app-primary, 200);;
     border-radius: 8px;
 
     .subject {
@@ -41,7 +41,7 @@
       top: 0;
       padding: 1px 10px;
       font-size: 1.2rem;
-      background: map-get($colors, light3);
+      background: map-get($app-primary, 200);;
     }
 
     &.unread {

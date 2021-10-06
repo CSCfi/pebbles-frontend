@@ -1,36 +1,4 @@
 
-.mat-display-1, .mat-display-2, .mat-display-3, .mat-display-4,
-.mat-headline, .mat-title, .mat-subheading-1, .mat-subheading-2,
-.mat-button, .mat-body-2, .mat-body-1 {
-  margin-bottom: 0 !important;
-}
-
-.mat-icon {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 100%;
-
-  &.md-18 {
-    font-size: 18px;
-  }
-
-  &.md-24 {
-    font-size: 24px;
-  }
-
-  &.md-36 {
-    font-size: 36px;
-  }
-
-  &.md-48 {
-    font-size: 48px;
-  }
-}
-
-.icon-holder {
-  width: 24px;
-  height: 24px;
-}
 
 // ---- Button
 // ----------------------------------------
@@ -65,7 +33,7 @@ a.mat-button-base,
 
   &.mat-flat-button {
     &.mat-warn {
-      background: map-get($app-warn, lighter) !important;
+      background: map-get($app-warn, light) !important;
       color: map-get($app-primary, default) !important;
     }
   }
@@ -82,31 +50,31 @@ a.mat-button-base,
 
 // ---- FormGroup
 // ----------------------------------------
-::ng-deep {
-  form {
-    height: 100%;
-
-    ::ng-deep {
-      .mat-form-field-appearance-outline,
-      .mat-form-field-outline-start {
-        border-right: 1px solid map-get($colors, white) !important;
-      }
-
-      .mat-form-field-outline-end {
-        border-left: 1px solid map-get($colors, white) !important;
-      }
-
-      .mat-form-field-outline-gap {
-        border-top: 1px solid map-get($colors, white) !important;
-        border-bottom: 1px solid map-get($colors, white) !important;
-      }
-
-      .mat-form-field-appearance-outline .mat-form-field-infix {
-        padding: 0.7em 0;
-      }
-    }
-  }
-}
+//::ng-deep {
+//  form {
+//    height: 100%;
+//
+//    ::ng-deep {
+//      .mat-form-field-appearance-outline,
+//      .mat-form-field-outline-start {
+//        border-right: 1px solid map-get($colors, white) !important;
+//      }
+//
+//      .mat-form-field-outline-end {
+//        border-left: 1px solid map-get($colors, white) !important;
+//      }
+//
+//      .mat-form-field-outline-gap {
+//        border-top: 1px solid map-get($colors, white) !important;
+//        border-bottom: 1px solid map-get($colors, white) !important;
+//      }
+//
+//      .mat-form-field-appearance-outline .mat-form-field-infix {
+//        padding: 0.7em 0;
+//      }
+//    }
+//  }
+//}
 
 ::ng-deep {
   // ---- Tab
@@ -141,14 +109,15 @@ a.mat-button-base,
   // ----------------------------------------
 
   mat-card {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1) !important;
-    border-radius: 3px !important;
-    overflow: hidden;
+    padding: 8px !important;
+    //box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1) !important;
+    //border-radius: 3px !important;
+    //overflow: hidden;
 
     .mat-card-header-text {
-      color: rgba(0, 0, 0, 0.77);
+      //color: rgba(0, 0, 0, 0.77);
       margin: 0 !important;
-      width: 100%;
+      //width: 100%;
     }
   }
 

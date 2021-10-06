@@ -1,24 +1,23 @@
-<div class="session-button-container" *ngIf="environment">
-
+<div class="session-button-container" *ngIf="environment" [ngClass]="{'warning':state==='failed'}">
   <!-- Background circle  -->
   <div class="background-circle-container">
     <svg focusable="false">
-      <circle class="background-circle" cx="50%" cy="50%" r="51" stroke-width="8"></circle>
+      <circle class="background-circle" cx="50%" cy="50%" r="55" stroke-width="10"></circle>
     </svg>
   </div>
 
   <!-- Progress circle -->
   <div class="progress-spinner-container">
     <mat-progress-spinner class="environment-spinner"
-      [ngClass]="{'warning': isTimeWarningOn}"
-      [diameter]="diameter" [strokeWidth]="strokeWidth"
-      [mode]="isSpinnerOn ? 'indeterminate':'determinate'" [value]="lifetimePercentage"
-      >
+                          [ngClass]="{'warning': isTimeWarningOn}"
+                          [diameter]="diameter" [strokeWidth]="strokeWidth"
+                          [mode]="isSpinnerOn ? 'indeterminate':'determinate'"
+                          [value]="lifetimePercentage">
     </mat-progress-spinner>
   </div>
 
   <!-- Actionable circle -->
-  <div class="actionable-circle-container v-centering__horizontal">
+  <div class="actionable-circle-container center__vh">
     <!--
       Actionable Circle conditional UI
       1. UI for active session
@@ -32,43 +31,48 @@
         B. Failed -> 'failed'
         C. Running -> *ngSwitchDefault
       -->
-      <div fxLayout="column" fxLayoutAlign="center center" class="control-button circle-button v-centering__inline"
-        [ngSwitch]="state">
+      <div class="control-button circle-button"
+           fxLayout="column" fxLayoutAlign="center center" [ngSwitch]="state">
         <!-- A: Session [Shutdown] -->
         <ng-container *ngSwitchCase="'deleting'||'deleted'">
-          <div class="state v-centering__inline">
+          <div class="state center__vi">
             {{ state }}
           </div>
         </ng-container>
         <!-- B: Session [Failed] -->
         <ng-container *ngSwitchCase="'failed'">
-          <button mat-button class="replay-button v-centering__inline" (click)="stopEnvironment()">
-            <div class="button-icon">
-              <mat-icon fontSet="material-icons-outlined">stop</mat-icon>
-            </div>
-            <div class="state v-centering__inline">{{ state }}</div>
+          <div class="state-area" fxFlex="0 0 70px">
+            <mat-icon fontSet="material-icons-outlined">running_with_errors</mat-icon>
+            <div class="state mat-caption">Process failed</div>
+          </div>
+          <button mat-button fxFlex="0 0 30px" matTooltip="Delete environment" matTooltipPosition="below"
+                  class="shutdown-button center__vi" (click)="stopEnvironment()">
+            <span class="button-icon">
+              <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
+            </span>
+            <!-- <span>stop</span> -->
           </button>
         </ng-container>
         <!-- Session [Running] -->
         <ng-container *ngSwitchDefault>
-          <button mat-button matTooltip="Enter environment" matTooltipPosition="above" fxFlex="0 0 70px"
-            fxLayout="column" fxLayoutAlign="center center" class="open-button v-centering__inline inversion"
-            (click)="openEnvironmentInBrowser()">
-            <div class="button-icon">
-              <mat-icon fontSet="material-icons-outlined">launch</mat-icon>
-            </div>
+          <button mat-button matTooltip="Enter environment" matTooltipPosition="above" class="open-button center__vi"
+                  fxFlex="0 0 70px" fxLayout="column" fxLayoutAlign="center center"
+                  (click)="openEnvironmentInBrowser()">
+            <span class="button-icon block">
+              <mat-icon fontSet="material-icons-outlined" class="md-24">launch</mat-icon>
+            </span>
             <ng-container *ngIf="lifetimeLeft; else stateBlock">
-              <div class="time-left"> {{ lifetimeLeft }}</div>
+              <span class="time-left block mat-body-1"> {{ lifetimeLeft }}</span>
             </ng-container>
             <ng-template #stateBlock>
-              <div class="state v-centering__inline">{{ state }}</div>
+              <span class="state block mat-body-1">{{ state }}</span>
             </ng-template>
           </button>
-          <button mat-button fxFlex="0 0 30px" matTooltip="Stop environment" matTooltipPosition="below"
-            class="shutdown-button v-centering__inline inversion" (click)="stopEnvironment()">
-            <div class="button-icon">
-              <mat-icon fontSet="material-icons-outlined">close</mat-icon>
-            </div>
+          <button mat-button fxFlex="0 0 30px" matTooltip="Delete environment" matTooltipPosition="below"
+                  class="shutdown-button center__vi" (click)="stopEnvironment()">
+            <span class="button-icon">
+              <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
+            </span>
             <!-- <span>stop</span> -->
           </button>
         </ng-container>
@@ -78,11 +82,11 @@
     <!-- //// END of 1: active session -->
     <!-- Action view 2 : Launch Button for environment card -->
     <ng-template #LaunchUI>
-      <button mat-button matTooltip="Start environment" fxLayout="row" fxLayoutAlign="center center"
-        class="launch-button circle-button" (click)="startEnvironment()">
-        <div class="button-icon">
-          <mat-icon fontSet="material-icons-outlined">power_settings_new</mat-icon>
-        </div>
+      <button mat-button matTooltip="Start environment" class="launch-button circle-button"
+              fxLayout="column" fxLayoutAlign="center center" (click)="startEnvironment()">
+        <span class="button-icon center__v">
+          <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
+        </span>
       </button>
     </ng-template>
     <!-- //// END of 2. Launch Button for environment card -->

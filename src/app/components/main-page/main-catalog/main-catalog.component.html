@@ -17,7 +17,7 @@
 
 <!-- Environment Catalogs -->
 <section class="environments-catalog content-container">
-  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="my-environment-tab mb-30"
+  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
     (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()">
       <mat-tab label="{{ catalog.name }}">
@@ -29,13 +29,13 @@
               </mat-icon>
             </ng-container>
           </div>
-          <span class="tab-title">{{ catalog.name }}</span>
+          <span class="tab-title mat-subheading-2">{{ catalog.name }}</span>
         </ng-template>
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
             <div *ngIf="environments?.length > 0; else noEnvironmentBlock" class="environment-item-container"
-              fxLayout="column" fxLayoutAlign="start stretch">
+              fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
               <ng-container *ngFor="let environment of environments">
                 <app-main-environment-item
                   [environment]="environment">

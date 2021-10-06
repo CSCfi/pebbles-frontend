@@ -25,7 +25,18 @@ export class MainEnvironmentItemComponent implements OnInit {
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
-  isWaitingInterval = false;
+  // isWaitingInterval = false;
+
+  get isPublic(): boolean {
+    return this.environment.workspace_name.startsWith('System.');
+  }
+
+  get isWorkVolumeActive(): boolean {
+    if (this.environment.config && this.environment.config.enable_user_work_folder) {
+      return true;
+    }
+    return false;
+  }
 
   get isSpinnerOn(): boolean {
     const session = this.sessionService.getSession(this.environment.session_id);

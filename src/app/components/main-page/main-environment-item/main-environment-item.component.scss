@@ -1,178 +1,67 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
-// ---- Common Style
-// -------------------------------------------
+.card {
+  @include shadow(0);
+  border: 1px solid map-get($colors, light2);
+  padding: 8px;
 
-.mat-card.catalog{
-  min-height: 126px;
-  border-top: 1px solid map-get($colors , light3);
-  border-left: 1px solid map-get($colors , light2);
-  border-right: 1px solid map-get($colors , light2);
-  border-bottom: 1px solid map-get($colors , light2);
-}
+  .card-media-container {
+    border-radius: 3px;
+    min-height: 110px;
 
-.mat-card.catalog .card-media-container {
-  margin: -8px 0 -8px -8px !important;
-  border-radius: 3px;
-
-  &.rstudio {
-    .thumbnail {
-      span {
-        font-size: 1.6rem;
-        font-weight: 600;
-      }
+    .thumbnail .ng-fa-icon {
+      display: block;
+      margin: auto;
     }
   }
-  &.jupyter {
-
-    .thumbnail {
-      span {
-        font-size: 1.6rem;
-        font-weight: 600;
-      }
-    }
-  }
-
-  .thumbnail {
-    fa-icon {
-      font-size: 4.5rem;
-    }
-  }
-}
-
-
-::ng-deep .mat-card.catalog .card-info-container {
-  margin: -8px;
 
   .mat-card-header {
 
     .mat-card-title {
+      padding-top: 5px;
       border-bottom: 1px solid #c7c7c7 !important;
-      padding-bottom: 0px;
-      margin-top: 2px;
+      padding-bottom: 2px;
     }
 
     .mat-card-subtitle {
-      padding: 5px 0 2px 0;
-      margin-bottom: 0;
-      font-weight: 500;
-      color: map-get($colors, dark) !important;
+      margin: 0 !important;
+      color: map-get($app-gray, 800);
 
-      .meta-info {
-        // padding: 6px 0;
+      .environment-meta {
+        .volume {
+          color: map-get($app-gray, 100);
 
-        .lifetime{
-          font-size: 1.2rem;
-          color: map-get($colors, gray);
-          text-align: right;
+          &.active {
+            color: map-get($app-gray, 800);
 
-          .mat-icon {
-            height: 18px;
-            width: 18px;
-            font-size: 1.8rem;
-            color: #ccc;
+            .mat-icon {
+              color: map-get($app-accent, default);
+            }
           }
         }
       }
+    }
 
-      .workspace-name {
-        // font-weight: 600;
-        // color: map-get($colors , primary);
-
-        .mat-icon {
-          color: map-get($colors , light-active);
-          font-size: 1.8rem;
-          height: auto;
-          width: auto;
-          margin-top: -2px;
-          margin-right: 3px;
-
-          &.public {
-            color: #ccc;
-          }
-        }
-      }
+    .workspace-name {
+      //color: map-get($app-primary, default);
     }
   }
 
   .mat-card-content {
-    margin: 0;
-    font-size: 1.3rem;
+    margin-bottom: 10px;
 
     a {
       text-decoration: underline !important;
     }
 
     .description {
-      min-height: 24px;
-      margin-bottom: 8px;
-      line-height: 130%;
-    }
-
-    .labels {
-      margin-left: -2px;
-      margin-bottom: 4px;
-
-      .mat-icon {
-        height: 12px;
-        font-size: 1.8rem;
-        color: #ccc;
-      }
-
-      .chip__sm{
-        background-color: map-get($colors, white);
-        color: #555;
-        font-weight: 500;
-        border: 1px #ddd solid;
-        font-size: 1.1rem;
-      }
-    }
-  }
-}
-
-// ---- Unique Style for .card-info-container
-// -------------------------------------------
-
-.catalog .card-info-container {
-  padding: 0 10px 0 30px !important;
-}
-
-.workspace-owner-detail .card-info-container {
-  padding: 0 30px 0 30px;
-
-  .detail {
-    background: #efefef;
-    border-radius: 5px;
-    padding: 14px 20px 4px;
-
-    .category-label {
-      background: #ddd;
+      margin-bottom: 5px !important;
     }
   }
 
-  dl {
-    margin-bottom: 0px !important;
-
-    dt {
-      position: absolute;
-      width: 60px;
-      text-transform: capitalize;
-      color: #999;
-    }
-
-    dd{
-      margin-left: 65px;
-      font-size: 1.1rem;
-      min-height: 20px;
-    }
+  .card-action-container {
+    padding: 0;
+    margin: -2px;
+    position: relative;
   }
-}
-
-// ---- Unique Style for .card-action-container
-// -------------------------------------------
-
-.catalog .card-action-container {
-  margin: -16px -16px -16px 0 !important;
-  padding: 0;
-  position: relative;
 }

@@ -1,10 +1,10 @@
 <div class="sidenav-inner bg__primary" fxLayout="column" fxHide.lt-sm="true">
   <!-- Logo -->
-  <div class="logo mat-display-2" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <div class="logo mat-display-3" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="10px"
        fxLayoutAlign="space-between center">
       <div class="logo__mark" fxFlex="0 0 36px">
-        <mat-icon fontSet="material-icons-outlined" class="md-36" role="logomark">import_contacts</mat-icon>
+        <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
       </div>
       <div class="logo__type" *ngIf="isTextVisible">
         Notebooks
@@ -44,7 +44,7 @@
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/main/my-workspaces'"
-        #tooltip="matTooltip" matTooltip="My workspaces" [matTooltipDisabled]="true">
+         #tooltip="matTooltip" matTooltip="My workspaces" [matTooltipDisabled]="true">
       <a [routerLink]="['/main/my-workspaces']">
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
@@ -57,7 +57,7 @@
     <mat-divider></mat-divider>
     <ul class="nav-items workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url.startsWith('/main/workspace-owner')"
-          #tooltip="matTooltip" matTooltip="Manage workspaces" [matTooltipDisabled]="true">
+           #tooltip="matTooltip" matTooltip="Manage workspaces" [matTooltipDisabled]="true">
         <a [routerLink]="['/main/workspace-owner']">
           <span class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">
@@ -118,7 +118,7 @@
       <a [routerLink]="['/main/announcements']">
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined"
-                    [matBadgeHidden]="getUnreadAnnouncements().length > 0 ? false : true"
+                    [matBadgeHidden]="getUnreadAnnouncements().length<=0"
                     [matBadge]="getUnreadAnnouncements().length"
                     matBadgeColor="{{getUnreadAnnouncements().length > 0 ? 'warn': 'normal'}}">
             announcements
@@ -159,7 +159,7 @@
         <span class="email" *ngIf="isTextVisible">{{ userName }}</span>
       </a>
     </li>
-    <li lass="nav-item">
+    <li class="nav-item">
       <button id="logout-button" class="action"
               (click)="authService.logout()">
         <span class="icon-holder">
@@ -212,7 +212,7 @@
   </ng-container>
   <button mat-menu-item [routerLink]="['/main/announcements']">
     <mat-icon fontSet="material-icons-outlined"
-              [matBadgeHidden]="getUnreadAnnouncements().length > 0 ? false : true"
+              [matBadgeHidden]="getUnreadAnnouncements().length<=0"
               [matBadge]="getUnreadAnnouncements().length"
               matBadgeColor="{{getUnreadAnnouncements().length > 0 ? 'warn': 'normal'}}">
       announcements
