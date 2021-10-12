@@ -53,7 +53,7 @@
       </a>
     </li>
   </ul>
-  <ng-container *ngIf="authService.isWorkspaceManager">
+  <ng-container *ngIf="authService.isAdmin || authService.isWorkspaceManager">
     <mat-divider></mat-divider>
     <ul class="nav-items workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url.startsWith('/main/workspace-owner')"
