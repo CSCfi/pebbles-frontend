@@ -45,8 +45,8 @@
             <mat-icon fontSet="material-icons-outlined">running_with_errors</mat-icon>
             <div class="state mat-caption">Process failed</div>
           </div>
-          <button mat-button fxFlex="0 0 30px" matTooltip="Delete environment" matTooltipPosition="below"
-                  class="shutdown-button center__vi" (click)="stopEnvironment()">
+          <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
+                  class="shutdown-button center__vi" (click)="deleteSession()">
             <span class="button-icon">
               <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
             </span>
@@ -55,9 +55,9 @@
         </ng-container>
         <!-- Session [Running] -->
         <ng-container *ngSwitchDefault>
-          <button mat-button matTooltip="Enter environment" matTooltipPosition="above" class="open-button center__vi"
+          <button mat-button matTooltip="Enter session" matTooltipPosition="above" class="open-button center__vi"
                   fxFlex="0 0 70px" fxLayout="column" fxLayoutAlign="center center"
-                  (click)="openEnvironmentInBrowser()">
+                  (click)="openSessionInBrowser()">
             <span class="button-icon block">
               <mat-icon fontSet="material-icons-outlined" class="md-24">launch</mat-icon>
             </span>
@@ -68,8 +68,8 @@
               <span class="state block mat-body-1">{{ state }}</span>
             </ng-template>
           </button>
-          <button mat-button fxFlex="0 0 30px" matTooltip="Delete environment" matTooltipPosition="below"
-                  class="shutdown-button center__vi" (click)="stopEnvironment()">
+          <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
+                  class="shutdown-button center__vi" (click)="deleteSession()">
             <span class="button-icon">
               <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
             </span>
@@ -82,8 +82,8 @@
     <!-- //// END of 1: active session -->
     <!-- Action view 2 : Launch Button for environment card -->
     <ng-template #LaunchUI>
-      <button mat-button matTooltip="Start environment" class="launch-button circle-button"
-              fxLayout="column" fxLayoutAlign="center center" (click)="startEnvironment()">
+      <button mat-button matTooltip="Start session" class="launch-button circle-button"
+              fxLayout="column" fxLayoutAlign="center center" (click)="startSession()">
         <span class="button-icon center__v">
           <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
         </span>

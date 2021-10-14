@@ -100,28 +100,29 @@ export class MainSessionButtonComponent implements OnInit {
     private environmentService: EnvironmentService,
     private environmentSessionService: EnvironmentSessionService,
     private dialog: MatDialog
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     // console.log(this.environmentId);
   }
 
-  startEnvironment(): void {
+  startSession(): void {
     this.isWaitingInterval = true;
     const environmentSession = this.environmentSessionService.getSession(this.environment.session_id);
     this.environmentService.startEnvironment(this.environment.id).subscribe(_ => {
       if (environmentSession) {
-        this.openEnvironmentInBrowser();
+        this.openSessionInBrowser();
       } else {
         setTimeout(() => {
           this.isWaitingInterval = false;
-          this.openEnvironmentInBrowser();
+          this.openSessionInBrowser();
         }, 1600);
       }
     });
   }
 
-  openEnvironmentInBrowser(): void {
+  openSessionInBrowser(): void {
     const origin = this.document.location.origin;
     const url = origin + this.router.serializeUrl(
       this.router.createUrlTree(['/session/', this.environment.session_id])
@@ -132,13 +133,17 @@ export class MainSessionButtonComponent implements OnInit {
     // this.router.navigateByUrl('/session/' + this.environment.session_id);
   }
 
-  stopEnvironment(): void {
+  deleteSession(): void {
     // confirm deletion for non-failed sessions
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
       data: {
         dialogTitle: 'Delete environment session',
-        dialogContent: `Have you saved your edited files? Once environment shutdown, it will be deleted.`,
+        dialogContent: this.environment.config?.enable_user_work_folder ?
+          'Download all content you wish to save, or copy them to work folder before deleting the session. ' +
+          'Do you want to continue?' :
+          'Download all content you wish to save before deleting the session. ' +
+          'Do you want to continue?',
         dialogActions: ['confirm', 'cancel']
       }
     }).afterClosed().subscribe(resp => {

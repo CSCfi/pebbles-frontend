@@ -32,7 +32,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   get isWorkVolumeActive(): boolean {
-    if (this.environment.config && this.environment.config.enable_user_work_folder) {
+    if (this.environment.config?.enable_user_work_folder) {
       return true;
     }
     return false;

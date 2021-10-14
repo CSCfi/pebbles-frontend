@@ -47,11 +47,13 @@
           <div class="environment-meta mat-caption" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px"
                fxLayoutAlign.lt-sm="start">
             <div class="volumes center__v">
-              <div class="volume center__v" [ngClass]="{'active':!isPublic}">
-                <mat-icon class="md-16 mr-5" >folder</mat-icon>
+              <div class="volume center__v" [ngClass]="{'active':!isPublic}"
+                   [matTooltip]="!isPublic ? 'Shared folder available' : 'No shared folder'">
+                <mat-icon class="md-16 mr-5">folder</mat-icon>
                 <span class="heading mr-10">Shared data</span>
               </div>
-              <div class="volume center__v" [ngClass]="{'active':!isPublic && isWorkVolumeActive}">
+              <div class="volume center__v" [ngClass]="{'active':!isPublic && isWorkVolumeActive}"
+                   [matTooltip]="isWorkVolumeActive ? 'Work folder available' : 'No work folder'">
                 <mat-icon class="md-16 mr-5">folder</mat-icon>
                 <span class="heading">Work</span>
               </div>
