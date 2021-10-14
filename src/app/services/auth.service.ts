@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
 import { EventService, LoginStatusChange } from './event.service';
 
@@ -31,8 +31,9 @@ export class AuthService {
   login(ext_id: string, password: string): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/sessions`;
     return this.http.post(url, {ext_id, password}).pipe(
-      finalize(() => {
-        this.eventService.loginStatus$.next(LoginStatusChange.login);
+      tap(_ => {
+        // defer the event to the next tick so that localstorage is populated properly before the call
+        window.setTimeout(() => this.eventService.loginStatus$.next(LoginStatusChange.login), 1);
       })
     );
   }

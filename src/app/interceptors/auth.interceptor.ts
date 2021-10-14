@@ -19,10 +19,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log('AuthInterceptor intercept ' + req.url);
-    // Get the auth token from the service.
+    // Get the auth token from authService
     const authToken = this.authService.getToken();
 
-    // Clone and augment the request
+    // Clone and augment the request if we got a token
     let authReq: HttpRequest<any>;
     if (authToken !== null) {
       console.log('AuthInterceptor adding auth header');
@@ -34,17 +34,27 @@ export class AuthInterceptor implements HttpInterceptor {
       authReq = req;
     }
 
-    // Send cloned request to the next handler and handle Unauthorized 401 errors by
-    // redirecting to the Front page (welcome page)
+    // Send cloned request to the next handler.
+    // Report potential errors to user.
+    // Handle Unauthorized 401 errors by redirecting to the Front page (welcome page)
     return next.handle(authReq).pipe(
       catchError((err: Observable<HttpEvent<any>>) => {
         console.log('AuthInterceptor caught an error');
-        if (err instanceof HttpErrorResponse && err.status === 401) {
-          this.messageService.displayError('Authentication failed');
-          this.router.navigate(['welcome']).then(() => console.log('router: navigated to welcome'));
-        }
         if (err instanceof HttpErrorResponse) {
-          this.messageService.displayError(`Error response from server: ${err.message}`);
+          // figure out what to tell the user based on the fields of the response
+          if (typeof err.error === 'string') {
+            this.messageService.displayError(`Error: ${err.error}`);
+          } else if (err.status === 0) {
+            this.messageService.displayError('Error: cannot connect to the API');
+          } else if (err.error?.message) {
+            this.messageService.displayError(`Error: ${err.error.message}`);
+          } else {
+            this.messageService.displayError(`Error: ${err.statusText}`);
+          }
+
+          if (err.status === 401) {
+            this.router.navigate(['welcome']).then(() => console.log('router: navigated back to welcome'));
+          }
         }
         throw err;
       })
