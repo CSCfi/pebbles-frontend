@@ -13,11 +13,10 @@ export class DateDisplayPipe implements PipeTransform {
     const dateOfTimestamp = new Date(timestamp * 1000);
     const today = new Date();
     function pad(n) {return n < 10 ? '0' + n : n; }
-    let displayDate = pad(dateOfTimestamp.getFullYear())
-                  + '-' + pad(dateOfTimestamp.getMonth() + 1)
-                  + '-' + dateOfTimestamp.getDate();
 
-    if ( today.getTime() - dateOfTimestamp.getTime() < 172800000) {
+    let displayDate: string;
+    // check if the time is closer than 48 hours and use human friendly notation
+    if ( today.getTime() - dateOfTimestamp.getTime() < 3600 * 24 * 2 * 1000) {
       if ( dateOfTimestamp.getUTCDate() === today.getDate()) {
         displayDate = 'Today: '
           + pad(dateOfTimestamp.getUTCHours())
@@ -30,8 +29,12 @@ export class DateDisplayPipe implements PipeTransform {
           + ':' + pad(dateOfTimestamp.getUTCSeconds());
       }
     }
+    else {
+      displayDate = pad(dateOfTimestamp.getFullYear())
+        + '-' + pad(dateOfTimestamp.getMonth() + 1)
+        + '-' + pad(dateOfTimestamp.getDate());
+    }
 
     return displayDate;
   }
-
 }
