@@ -127,13 +127,32 @@ a.u-line,
   min-height: map-deep-get($layout-set, main, header, min-h);
   width: 100%;
   padding: 15px 30px 6px;
-  //border-bottom: 1px solid map-get($colors , white);
+  //border-bottom: 1px solid map-get($colors , white);height: 100%;
+  height: 100%;
+  background: #fff;
 }
 
 .content-container {
   position: relative;
-  padding: 5px 40px;
+  padding: 15px 40px;
   min-height: calc(100vh - 70px);
+  height: 100%;
+  background: map-get($app-primary, 100);
+
+  .content-cutout {
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+.mobile {
+  .content-header-container {
+    padding: 15px 15px 6px;
+  }
+  .content-container {
+    padding: 10px 20px;
+  }
 }
 
 .page-container{
@@ -142,6 +161,12 @@ a.u-line,
   &__screen {
     height: 100vh;
   }
+}
+
+.card {
+  @include shadow(0);
+  border: 1px solid map-get($colors, light2);
+  padding: 8px;
 }
 
 // ---- MaterialDesign/FontAwesome overwritten styles  ---- //
@@ -162,8 +187,13 @@ a.u-line,
   margin-bottom: 0 !important;
 }
 
+.mat-card-header {
+  width: 100%;
+}
+
 .mat-card-header-text {
   margin-bottom: 0 !important;
+  width: 100%;
 }
 
 .mat-card-actions, .mat-card-subtitle, .mat-card-content {

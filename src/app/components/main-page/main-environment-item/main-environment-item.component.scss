@@ -1,10 +1,6 @@
 @import "src/styles/main.scss";
 
 .card {
-  @include shadow(0);
-  border: 1px solid map-get($colors, light2);
-  padding: 8px;
-
   .card-media-container {
     border-radius: 3px;
     min-height: 110px;
@@ -16,7 +12,6 @@
   }
 
   .mat-card-header {
-
     .mat-card-title {
       padding-top: 5px;
       border-bottom: 1px solid #c7c7c7 !important;
@@ -28,8 +23,10 @@
       color: map-get($app-gray, 800);
 
       .environment-meta {
+        font-weight: 600;
+
         .volume {
-          color: map-get($app-gray, 100);
+          color: map-get($app-gray, 200);
 
           &.active {
             color: map-get($app-gray, 800);
@@ -40,10 +37,6 @@
           }
         }
       }
-    }
-
-    .workspace-name {
-      //color: map-get($app-primary, default);
     }
   }
 
@@ -56,6 +49,16 @@
 
     .description {
       margin-bottom: 5px !important;
+    }
+  }
+
+  &.mobile {
+     .card-info-container {
+       padding: 0 10px;
+       margin: 0 !important;
+     }
+    .mat-card-content {
+      margin-bottom: 0 !important;
     }
   }
 

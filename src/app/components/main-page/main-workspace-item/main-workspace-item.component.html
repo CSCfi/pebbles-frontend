@@ -1,8 +1,8 @@
-<div class="my-workspaces" *ngIf="workspace">
-  <mat-card class="my-workspaces-card">
+<div class="workspaces-item" *ngIf="workspace">
+  <mat-card class="card pl-20 pr-20">
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between center">
-      <mat-card-title class="workspace-name mb-0" fxFlex="grow">
-        <mat-icon fontSet="material-icons-outlined" class="mr-10">people_outline</mat-icon>
+      <mat-card-title class="mat-title mb-0 center__v" fxFlex="grow">
+        <mat-icon class="txt__warn mr-10">group</mat-icon>
         <span [innerHTML]="workspace.name"></span>
         <mat-chip class="chip__sm ml-5" color="accent" selected *ngIf="isNew">New</mat-chip>
       </mat-card-title>
@@ -24,7 +24,7 @@
       <div class="workspace-description mt-10 mb-5" [innerHTML]="workspace.description">
       </div>
       <div class="environment-list" *ngIf="environments !== null" [ngClass]="{'active': environments?.length > 0}">
-        <div class="environment-info-header v-centering__inline" (click)="toggleEnvironmentList()">
+        <div class="toggle-button v-centering__inline" (click)="toggleEnvironmentList()">
           <mat-icon class="material-icons-outlined">list</mat-icon>
           <ng-container *ngIf="environments.length > 0">
             <mat-icon fontSet="material-icons-outlined" *ngIf="!panelOpenState ; else openedPanelBlock">arrow_right</mat-icon>
@@ -32,7 +32,7 @@
               <mat-icon fontSet="material-icons-outlined" *ngIf="panelOpenState">arrow_drop_down</mat-icon>
             </ng-template>
           </ng-container>
-          <span class="ml-10">{{ environments.length }} Environments</span>
+          <span class="ml-5">{{ environments.length }} Environments</span>
         </div>
       </div>
       <!-- workspaces visible, but environments have not been loaded yet -->
@@ -44,7 +44,7 @@
 
   <mat-accordion *ngIf="environments?.length > 0" multi>
     <mat-expansion-panel [expanded]="panelOpenState">
-      <div class="environment-item" *ngFor="let environment of environments">
+      <div class="environment-item pl-15 pt-5" *ngFor="let environment of environments">
         <div class="tree"></div>
         <app-main-environment-item [environment]="environment">
         </app-main-environment-item>

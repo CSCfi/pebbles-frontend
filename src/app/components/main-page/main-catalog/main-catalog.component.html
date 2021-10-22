@@ -16,7 +16,7 @@
 </div>
 
 <!-- Environment Catalogs -->
-<section class="environments-catalog content-container">
+<section class="environments-catalog content-container" ngClass.lt-sm="mobile">
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
     (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()">

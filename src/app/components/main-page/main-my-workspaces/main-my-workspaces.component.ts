@@ -46,20 +46,15 @@ export class MainMyWorkspacesComponent {
     private workspaceService: WorkspaceService,
   ) { }
 
-  openAll(): void {
-    this.isListOpen = true;
+  toggleWorkspaceList(): void {
+    this.isListOpen = !this.isListOpen;
     this.workspaceItems.map( item => {
       if (item.accordion) {
-        item.accordion.openAll();
-      }
-    });
-  }
-
-  closeAll(): void {
-    this.isListOpen = false;
-    this.workspaceItems.map( item => {
-      if (item.accordion) {
-        item.accordion.closeAll();
+        if (this.isListOpen) {
+          item.accordion.openAll();
+        } else {
+          item.accordion.closeAll();
+        }
       }
     });
   }

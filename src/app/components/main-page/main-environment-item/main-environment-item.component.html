@@ -1,5 +1,5 @@
 <ng-container *ngIf="environment">
-  <mat-card class="card" [attr.id]="'env-'+environment.id"
+  <mat-card class="card" [attr.id]="'env-'+environment.id" ngClass.lt-sm="mobile"
             fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
             fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
 
@@ -27,13 +27,13 @@
     <!-- Card CENTER section -->
     <div class="card-info-container" fxFlex="grow"
          fxLayout="column" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
-      <mat-card-header class="" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-card-header class="" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap.lt-sm="10px">
         <mat-card-title class="environment-name mat-title">
           <span [innerHTML]="environment.name"></span>
         </mat-card-title>
 
         <mat-card-subtitle class="mat-subheading-2" fxLayout="row wrap" fxLayoutAlign="space-between stretch"
-                           fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch">
+                           fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
           <div class="workspace-name mat-subheading-2 center__v">
             <ng-container *ngIf="environment.workspace_name.startsWith('System.') === false; else publicBlock">
               <mat-icon class="project txt__warn md-16 mr-5">group</mat-icon>
@@ -49,12 +49,14 @@
             <div class="volumes center__v">
               <div class="volume center__v" [ngClass]="{'active':!isPublic}"
                    [matTooltip]="!isPublic ? 'Shared folder available' : 'No shared folder'">
-                <mat-icon class="md-16 mr-5">folder</mat-icon>
+                <mat-icon class="md-16 mr-5" *ngIf="!isPublic">folder</mat-icon>
+                <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5" *ngIf="isPublic">folder</mat-icon>
                 <span class="heading mr-10">Shared data</span>
               </div>
               <div class="volume center__v" [ngClass]="{'active':!isPublic && isWorkVolumeActive}"
                    [matTooltip]="isWorkVolumeActive ? 'Work folder available' : 'No work folder'">
-                <mat-icon class="md-16 mr-5">folder</mat-icon>
+                <mat-icon class="md-16 mr-5" *ngIf="!isPublic && isWorkVolumeActive">folder</mat-icon>
+                <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5" *ngIf="!isWorkVolumeActive">folder</mat-icon>
                 <span class="heading">Work</span>
               </div>
             </div>
@@ -68,7 +70,7 @@
       </mat-card-header>
       <mat-card-content fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
         <div class="description mat-body-1" [innerHTML]="description"></div>
-        <div class="chips mat-caption">
+        <div class="chips mat-caption" fxHide.lt-sm="true">
           <ng-container *ngFor="let label of labels.split(',')">
             <span class="chip__sm">{{ label.trim() }}</span>
           </ng-container>

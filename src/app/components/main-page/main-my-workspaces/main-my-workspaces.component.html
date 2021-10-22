@@ -1,5 +1,5 @@
 <div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="30px"
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
      fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
   <app-main-content-header fxFlex="grow"
                            (emitApplyFilter)="applyFilter($event)"
@@ -8,34 +8,29 @@
                            [isAutocompleteDisabled]="true"
                            [labels]="[]">
   </app-main-content-header>
-  <button mat-flat-button fxFlex="0 0 180px" fxFlex.lt-sm="grow"  color="warn" id="join-workspace-button"
-          aria-label="Join Workspace"
-          (click)="openJoinWorkspaceDialog()">
-    <mat-icon fontSet="material-icons-outlined" class="mr-5">group_add</mat-icon>
-    Join workspace
-  </button>
-</div>
-
-<div class="content-container" *ngIf="visibleWorkspaces !== null">
-
-  <div class="action-buttons mt-5">
-    <ng-container *ngIf="visibleWorkspaces.length > 0">
-      <ng-container *ngIf="isListOpen; else openButtonBlock">
-        <button mat-button (click)="closeAll()">
-          <mat-icon fontSet="material-icons-outlined">unfold_less</mat-icon>
-          Close environment lists
-        </button>
-      </ng-container>
-      <ng-template #openButtonBlock>
-        <button mat-button (click)="openAll()">
-          <mat-icon fontSet="material-icons-outlined">unfold_more</mat-icon>
-          Show environment lists
-        </button>
-      </ng-template>
+  <div class="action-buttons" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
+    <button mat-flat-button id="join-workspace-button" color="warn" fxFlex.lt-sm="grow"
+            aria-label="Join Workspace"
+            (click)="openJoinWorkspaceDialog()">
+      <mat-icon fontSet="material-icons-outlined" class="mr-5">group_add</mat-icon>
+      Join workspace
+    </button>
+    <ng-container *ngIf="visibleWorkspaces?.length > 0">
+      <button mat-stroked-button (click)="toggleWorkspaceList()">
+        <mat-icon class="material-icons-outlined mr-5">list</mat-icon>
+        <ng-container *ngIf="isListOpen; else openButtonBlock">
+          <span fxHide.lt-sm="true">Close list</span>
+        </ng-container>
+        <ng-template #openButtonBlock>
+          <span fxHide.lt-sm="true">Open list</span>
+        </ng-template>
+      </button>
     </ng-container>
   </div>
+</div>
 
-  <section class="workspace-list mt-5" *ngIf="workspaceCount > 0 ; else noMembershipBlock" fxLayout="column"
+<div class="content-container" ngClass.lt-sm="mobile" *ngIf="visibleWorkspaces !== null">
+  <section class="workspace-list content-cutout mt-5 mb-30" *ngIf="workspaceCount > 0 ; else noMembershipBlock" fxLayout="column"
     fxLayoutAlign="start stretch" fxLayoutGap="5px">
     <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">
       <ng-container *ngFor="let workspace of visibleWorkspaces">
@@ -68,8 +63,8 @@
   </ng-template>
 </div>
 
-<div class="message-container">
-  <div class="empty" *ngIf="visibleWorkspaces === null">
+<div class="message-container" *ngIf="visibleWorkspaces === null">
+  <div class="empty">
     <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
     <span class="message">...Loading...</span>
   </div>
