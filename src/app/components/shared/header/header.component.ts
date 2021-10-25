@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PublicConfigService } from '../../../services/public-config.service';
 
 @Component({
   selector: 'app-header',
@@ -12,9 +13,11 @@ export class HeaderComponent implements OnInit {
   @Input() logoMarkSize: number;
   @Input() displayMode: string;
 
-  constructor() { }
+  constructor(
+    public publicConfigService: PublicConfigService
+  ) {
+  }
 
   ngOnInit(): void {
   }
-
 }

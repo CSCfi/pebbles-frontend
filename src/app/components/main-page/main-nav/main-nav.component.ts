@@ -5,6 +5,7 @@ import {AuthService} from 'src/app/services/auth.service';
 import {Announcement} from '../../../models/announcement';
 import {MessageService} from '../../../services/message.service';
 import {EnvironmentSessionService} from '../../../services/environment-session.service';
+import { PublicConfigService } from '../../../services/public-config.service';
 
 // export enum MainPages {
 //   Catalog = 'catalog',
@@ -43,6 +44,7 @@ export class MainNavComponent implements OnInit {
     public authService: AuthService,
     public messageService: MessageService,
     public environmentSessionService: EnvironmentSessionService,
+    public publicConfigService: PublicConfigService,
   ) {
     // fetch announcements to update the nav bar unread announcements number
     this.messageService.fetchAnnouncements().subscribe();

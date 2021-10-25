@@ -61,17 +61,19 @@
             <h3 class="mat-subheading-2 mb-5 mr-20">Notebooks Documentation</h3>
             <p class="mat-body-1 center__v">
               <mat-icon class="mr-10">launch</mat-icon>
-              <a href="https://docs.csc.fi/" target="_blank" class="tab-title mat-subheading-2 u-line txt__primary" rel="noopener">
+              <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
+                 class="tab-title mat-subheading-2 u-line txt__primary" rel="noopener">
                 Open Documentation (External link)
               </a>
             </p>
           </div>
           <div>
-            <h3 class="mat-subheading-2 mb-5">Pebbles Documentation</h3>
+            <h3 class="mat-subheading-2 mb-5">Pebbles source code</h3>
             <p class="mat-body-1 center__v">
               <mat-icon class="mr-10">launch</mat-icon>
-              <a href="https://docs.csc.fi/" target="_blank" class="tab-title mat-subheading-2 u-line txt__primary" rel="noopener">
-                Open Documentation (External link)
+              <a href="https://github.com/CSCfi/pebbles" target="_blank"
+                 class="tab-title mat-subheading-2 u-line txt__primary" rel="noopener">
+                See source code in GitHub
               </a>
             </p>
           </div>
@@ -89,10 +91,10 @@
           <div class="balloon mt-60 mb-40 p-30">
             <ul class="mat-headline mb-30">
               <li>Do you want to host a course?</li>
-              <li>Do you want to request a new environment template?</li>
-              <li>Is any functions out of order?</li>
+              <li>Would you need a new kind of environment template?</li>
+              <li>Is there something out of order?</li>
             </ul>
-            <div class="mat-display-3">Contact us :)</div>
+            <div class="mat-display-3">Contact us!</div>
           </div>
           <div class="contact-info">
             <mat-icon fontSet="material-icons-outlined" class="md-96 business-icon">business</mat-icon>
@@ -103,14 +105,9 @@
                 <span class="mr-10">E-mail</span>
               </dt>
               <dd>
-                <a href="mailto:servicedesk@example.org" class="u-line txt__primary">notebooks@csc.fi</a>
-              </dd>
-              <dt class="center__v">
-                <mat-icon fontSet="material-icons-outlined" class="mr-5">chat_bubble_outline</mat-icon>
-                <span class="mr-10">Rocket Chat</span>
-              </dt>
-              <dd>
-                <a class="u-line txt__primary">#notebooks-ops</a>
+                <a href="mailto:{{ publicConfigService.getContactEmail() }}" class="u-line txt__primary">
+                  {{ publicConfigService.getContactEmail() }}
+                </a>
               </dd>
             </dl>
           </div>

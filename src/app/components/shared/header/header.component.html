@@ -10,8 +10,8 @@
         </mat-icon>
       </div>
       <div class="logo__type" fxFlex="0 0 240px">
-        Notebooks
-        <span class="owner mat-display-1">CSC.fi</span>
+        {{ publicConfigService.getInstallationName() }}
+        <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
       </div>
     </a>
   </div>
@@ -23,22 +23,22 @@
       fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="end start" fxLayoutGap.lt-sm="5px"
       *ngIf="isNaviVisible">
     <li>
-      <a href="https://www.webropolsurveys.com/S/84118B6BD6E97501.par" target="_blank" rel="noopener">
+      <a [href]="publicConfigService.getCourseRequestFormUrl()" target="_blank" rel="noopener">
         Host courses & request
       </a>
     </li>
     <li>
-      <a href="https://research.csc.fi/en/notebooks-terms-of-use" target="_blank" rel="noopener">
+      <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">
         Terms & Pricing
       </a>
     </li>
     <li>
-      <a href="https://notebooks.csc.fi/accessibility_statement.html" target="_blank" rel="noopener">
+      <a [href]="publicConfigService.getAccessibilityStatementUrl()" target="_blank" rel="noopener">
         Accessibility
       </a>
     </li>
     <li>
-      <a href="mailto:notebooks@csc.fi" target="_blank" rel="noopener">
+      <a href="mailto:{{ publicConfigService.getContactEmail() }}" target="_blank" rel="noopener">
         Contact us
       </a>
     </li>

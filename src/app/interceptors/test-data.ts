@@ -1214,5 +1214,48 @@ export let db = {
       update_ts: Date.now() - 60 * 60 * 1000
     },
   ],
+  config: [
+    {
+      key: 'INSTALLATION_NAME',
+      value: 'Pebbles.mock.localhost'
+    },
+    {
+      key: 'SHORT_DESCRIPTION',
+      value: 'Easy-to-use environments for working with data and programming.'
+    },
+    {
+      key: 'INSTALLATION_DESCRIPTION',
+      value: 'Log in to see the catalogue of available environments. ' +
+        'Environments run in the cloud and are accessed with your browser.'
+    },
+    {
+      key: 'BRAND_IMAGE_URL',
+      value: 'img/Notebooks_neg300px.png'
+    },
+    {
+      key: 'COURSE_REQUEST_FORM_URL',
+      value: 'http://link-to-form'
+    },
+    {
+      key: 'TERMS_OF_USE_URL',
+      value: 'http://link-to-tou'
+    },
+    {
+      key: 'ACCESSIBILITY_STATEMENT_URL',
+      value: 'http://link-to-accessibility-statement'
+    },
+    {
+      key: 'CONTACT_EMAIL',
+      value: 'support@example.org'
+    },
+    {
+      key: 'OAUTH2_LOGIN_ENABLED',
+      value: false
+    },
+    {
+      key: 'SERVICE_DOCUMENTATION_URL',
+      value: 'http://link-to-service-documentation'
+    },
+  ],
   status: 'warning'
 };

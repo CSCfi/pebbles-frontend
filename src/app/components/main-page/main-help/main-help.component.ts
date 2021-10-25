@@ -3,6 +3,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaqService } from '../../../services/faq.service';
 import { Content, Faq } from 'src/app/models/faq';
+import { PublicConfigService } from '../../../services/public-config.service';
 import { Utilities } from '../../../utilities';
 import { MatAccordion } from '@angular/material/expansion';
 
@@ -28,10 +29,12 @@ export class MainHelpComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   constructor(
-    public  faqService: FaqService,
+    public faqService: FaqService,
+    public publicConfigService: PublicConfigService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.faqService.fetchFaqs().subscribe(_ => {

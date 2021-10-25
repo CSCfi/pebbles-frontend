@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { PublicConfigService } from '../../../services/public-config.service';
 
 export const heroShotsAnimation = trigger('openClose', [
   state('open', style({
@@ -38,6 +39,7 @@ export class WelcomeLoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
+    public publicConfigService: PublicConfigService,
   ) {
   }
 

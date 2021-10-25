@@ -7,7 +7,7 @@
         <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
       </div>
       <div class="logo__type" *ngIf="isTextVisible">
-        Notebooks
+        {{ publicConfigService.getInstallationName() }}
         <!-- <span class="owner mat-display-4 mb-0">CSC.fi</span>-->
       </div>
     </a>

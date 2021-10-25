@@ -4,31 +4,30 @@
     <dl class="info-notebook footer-column" fxFlex="30">
       <dt>About Notebooks</dt>
       <dd>
-        <a href="https://research.csc.fi/en/notebooks-terms-of-use" target="_blank" rel="noopener">Terms of use</a>
+        <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Terms of use</a>
       </dd>
       <dd>
-        <a href="https://notebooks.csc.fi/accessibility_statement.html" target="_blank" rel="noopener">Accessibility</a>
+        <a [href]="publicConfigService.getAccessibilityStatementUrl()" target="_blank" rel="noopener">Accessibility</a>
       </dd>
       <dd>
-        <a href="https://research.csc.fi/en/notebooks-terms-of-use#4" target="_blank" rel="noopener">Cookies</a>
+        <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Cookies</a>
       </dd>
       <dd>
-        <a href="https://research.csc.fi/en/notebooks-terms-of-use#6" target="_blank" rel="noopener">Privacy</a>
+        <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Privacy</a>
       </dd>
     </dl>
     <dl class="info-support footer-column" fxFlex="30">
-      <dt>Notebooks Support Desk</dt>
+      <dt>Notebooks Support</dt>
       <dd>Open Monday to Friday (9:00 - 16:00)</dd>
-      <dd><a href="mailto:servicedesk@csc.fi" rel="noopener">servicedesk@csc.fi</a></dd>
+      <dd>
+        <a href="mailto:{{ publicConfigService.getContactEmail() }}" rel="noopener">
+        {{ publicConfigService.getContactEmail() }}
+        </a>
+      </dd>
       <dd>
         Life Science Center Keilaniemi: <br>
         Keilaranta 14, Espoo, Finland
       </dd>
-      <!-- <dd>
-        <a href="https://www.csc.fi/careers" target="_blank" rel="noopener">
-        Open positions
-        </a>
-      </dd> -->
     </dl>
     <dl class="info-company footer-column" fxFlex="30">
       <dt>

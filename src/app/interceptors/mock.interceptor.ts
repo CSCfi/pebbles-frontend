@@ -18,7 +18,8 @@ import * as TESTDATA from './test-data';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
 
-const NO_AUTH_ENDPOINTS = ['sessions'];
+// endpoint that can be accessed without authentication
+const NO_AUTH_ENDPOINTS = ['sessions', 'config'];
 
 @Injectable()
 export class MockInterceptor implements HttpInterceptor {
