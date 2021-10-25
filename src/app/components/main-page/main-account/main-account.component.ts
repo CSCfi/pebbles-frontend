@@ -7,7 +7,6 @@ import { DesktopNotificationService } from 'src/app/services/desktop-notificatio
 @Component({
   selector: 'app-main-account',
   templateUrl: './main-account.component.html',
-  styleUrls: ['./main-account.component.scss']
 })
 export class MainAccountComponent implements OnInit {
 

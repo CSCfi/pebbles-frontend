@@ -133,6 +133,44 @@ $sides: (
   }
 }
 
+.bg {
+  &__primary {
+    backgroundr: map-get($app-primary, default);
+
+    &-light {
+      background: map-get($app-primary, light);
+    }
+
+    &-dark {
+      background: map-get($app-primary, dark);
+    }
+  }
+
+  &__accent {
+    background: map-get($app-accent, default);
+  }
+
+  &__warn {
+    background: map-get($app-warn, default);
+  }
+}
+
+.icon {
+  &__notification-on:before {
+    font-family: "Material Icons";
+    content: "\e7f7";
+    margin-right: 5px;
+    font-size: 24px;
+    color: map-get($app-accent, default);
+  }
+  &__notification-off:before {
+    font-family: "Material Icons";
+    content: "\e7f6";
+    margin-right: 5px;
+    font-size: 24px;
+    color: map-get($app-warn, dark);
+  }
+}
 
 @mixin shadow ($value: .44) {
   @if($value > 0){

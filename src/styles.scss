@@ -74,8 +74,6 @@ a.u-line,
   }
 }
 
-
-
 // ---- Shared parts styles ---- //
 .logo {
   &__type {
@@ -146,15 +144,6 @@ a.u-line,
   }
 }
 
-.mobile {
-  .content-header-container {
-    padding: 15px 15px 6px;
-  }
-  .content-container {
-    padding: 10px 20px;
-  }
-}
-
 .page-container{
   height: 100%;
 
@@ -169,8 +158,50 @@ a.u-line,
   padding: 8px;
 }
 
-// ---- MaterialDesign/FontAwesome overwritten styles  ---- //
+.info-body {
+    position: relative;
+    padding: 15px 20px 25px;
+    background: #fff;
+    border: 3px solid #e0e0f1;
+    border-radius: 5px;
+}
 
+dl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  grid-gap: 20px;
+
+  dt {
+    grid-column-start: 1;
+  }
+
+  dd {
+    grid-column-start: 2;
+  }
+}
+
+.mobile {
+  .content-header-container {
+    padding: 15px 15px 6px;
+  }
+  .content-container {
+    padding: 10px 20px;
+  }
+
+  dl {
+    display: block;
+
+    dt {
+      margin-bottom:10px ;
+    }
+    dd {
+      margin-bottom:20px ;
+    }
+  }
+}
+
+
+// ---- MaterialDesign/FontAwesome overwritten styles  ---- //
 .fab {
   font-size: 1.1rem;
   padding: 2px 10px;
@@ -199,7 +230,6 @@ a.u-line,
 .mat-card-actions, .mat-card-subtitle, .mat-card-content {
     margin-bottom: 5px;
 }
-
 
 .mat-icon,
 .ng-fa-icon {
