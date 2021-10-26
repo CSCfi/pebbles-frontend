@@ -33,7 +33,7 @@ $custom-typography: mat-typography-config(
   $subheading-2:  mat-typography-level(1.4rem, 170%, 600, map-get($font-families, styled), 0.04rem),
   $subheading-1:  mat-typography-level(1.3rem, 170%, 600, map-get($font-families, styled), 0.04rem),
   $body-2:        mat-typography-level(1.3rem, 150%, 600, map-get($font-families, base)),
-  $body-1:        mat-typography-level(1.3rem, 150%, 400, map-get($font-families, base)),
+  $body-1:        mat-typography-level(1.3rem, 160%, 400, map-get($font-families, base)),
   $caption:       mat-typography-level(1.1rem, 110%, 400, map-get($font-families, base)),
   $button:        mat-typography-level(1.5rem, 110%, 600, map-get($font-families, styled), 0.04rem),
   $input:         mat-typography-level(1.4rem, 1.125, 400),

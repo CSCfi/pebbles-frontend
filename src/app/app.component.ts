@@ -55,6 +55,5 @@ export class AppComponent implements OnInit {
       })
     ).subscribe();
     this.environmentCategoryService.fetchCategories().subscribe();
-
   }
 }

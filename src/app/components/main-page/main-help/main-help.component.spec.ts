@@ -1,17 +1,19 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MaterialModule } from 'src/app/material.module';
-import { MainHelpNavComponent } from './main-help-nav.component';
+import { MaterialModule } from '../../../material.module';
+import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
+import { MainHelpComponent } from './main-help.component';
 
-describe('MainHelpNavComponent', () => {
-  let component: MainHelpNavComponent;
-  let fixture: ComponentFixture<MainHelpNavComponent>;
+describe('MainHelpComponent', () => {
+  let component: MainHelpComponent;
+  let fixture: ComponentFixture<MainHelpComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MainHelpNavComponent
+        MainHelpComponent,
+        MainContentHeaderComponent,
       ],
       imports: [
         HttpClientTestingModule,
@@ -23,7 +25,7 @@ describe('MainHelpNavComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainHelpNavComponent);
+    fixture = TestBed.createComponent(MainHelpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

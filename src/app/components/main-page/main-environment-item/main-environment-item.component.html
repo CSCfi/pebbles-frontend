@@ -68,8 +68,8 @@
 
         </mat-card-subtitle>
       </mat-card-header>
-      <mat-card-content fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
-        <div class="description mat-body-1" [innerHTML]="description"></div>
+      <mat-card-content class="mb-10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+        <div class="description mat-body-1 mt-2 mb-5" [innerHTML]="description"></div>
         <div class="chips mat-caption" fxHide.lt-sm="true">
           <ng-container *ngFor="let label of labels.split(',')">
             <span class="chip__sm">{{ label.trim() }}</span>

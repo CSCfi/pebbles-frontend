@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
 import { Faq } from 'src/app/models/faq';
 
@@ -26,7 +26,7 @@ export class FaqService {
     return this.http.get<Faq[]>(url).pipe(
       map(resp => {
         console.log('fetch faqs got', resp);
-        this.faqs = resp;
+        this.faqs = JSON.parse(JSON.stringify(resp));
         return resp;
       })
     );

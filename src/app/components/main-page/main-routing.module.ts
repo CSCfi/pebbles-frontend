@@ -5,8 +5,7 @@ import { MainAccountComponent } from './main-account/main-account.component';
 import { MainActiveSessionsComponent } from './main-active-sessions/main-active-sessions.component';
 import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
-import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
-import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
+import { MainHelpComponent } from './main-help/main-help.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
 import { MainPageComponent } from './main-page.component';
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
@@ -40,12 +39,8 @@ export const routes: Routes = [
         data: {breadcrumbs: ['home', 'announcements']}
       },
       {
-        path: 'help',
-        children: [
-          {path: '', redirectTo: 'faq', pathMatch: 'full'},
-          {path: 'faq', component: MainHelpFaqComponent},
-          {path: 'contact', component: MainHelpContactComponent}
-        ]
+        path: 'help', component: MainHelpComponent,
+        data: {breadcrumbs: ['home', 'help']}
       },
 
       {

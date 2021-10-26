@@ -77,49 +77,11 @@ a.mat-button-base,
 //}
 
 ::ng-deep {
-  // ---- Tab
-  // ----------------------------------------
-  .mat-tab-body-content {
-    overflow: auto;
-  }
 
-  .mat-tab-label {
-    opacity: 1 !important;
-  }
 
   // ---- Accordion
   // ----------------------------------------
 
-  // .mat-expansion-panel{
-  //   background: none !important;
-
-  //   .mat-expansion-panel-body {
-  //     background: none !important;
-  //     box-shadow: none !important;
-  //     padding: 0;
-  //     padding-bottom: 10px !important;
-
-  //     .mat-form-field {
-  //       width: 100%;
-  //     }
-  //   }
-  // }
-
-  // ---- Card
-  // ----------------------------------------
-
-  mat-card {
-    padding: 8px !important;
-    //box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1) !important;
-    //border-radius: 3px !important;
-    //overflow: hidden;
-
-    .mat-card-header-text {
-      //color: rgba(0, 0, 0, 0.77);
-      margin: 0 !important;
-      //width: 100%;
-    }
-  }
 
   // ---- Progress-liner
   // ----------------------------------------
@@ -203,15 +165,5 @@ a.mat-button-base,
     border-radius: 50%;
     vertical-align: middle;
     box-shadow: none;
-  }
-}
-
-// ---- MEMO:
-// ---- To show "All" as the last one in options, we need dominated style here.
-::ng-deep .mat-option {
-  &:last-child:before {
-    content: 'All-';
-    float: left;
-    position: relative;
   }
 }

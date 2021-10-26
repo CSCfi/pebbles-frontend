@@ -19,7 +19,6 @@ export class AccountService {
   constructor(
     private http: HttpClient,
     private eventService: EventService,
-    private messageService: MessageService
   ) {
   }
 

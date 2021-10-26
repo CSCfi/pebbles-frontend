@@ -24,6 +24,7 @@ body {
 }
 
 a {
+
   &:hover{
     color: map-get($app-accent, light);
     cursor: pointer;
@@ -136,12 +137,12 @@ a.u-line,
   min-height: calc(100vh - 70px);
   height: 100%;
   background: map-get($app-primary, 100);
+}
 
-  .content-cutout {
-    max-width: 1200px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
+.content-cutout {
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .page-container{
@@ -159,16 +160,17 @@ a.u-line,
 }
 
 .info-body {
-    position: relative;
-    padding: 15px 20px 25px;
-    background: #fff;
-    border: 3px solid #e0e0f1;
-    border-radius: 5px;
+  @include shadow(0);
+  position: relative;
+  padding: 20px 20px;
+  background: #fff;
+  border: 2px solid map-get($app-primary, 300);
+  border-radius: 6px !important;
 }
 
 dl {
   display: grid;
-  grid-template-columns: 160px 1fr;
+  //grid-template-columns: 160px 1fr;
   grid-gap: 20px;
 
   dt {
@@ -192,30 +194,45 @@ dl {
     display: block;
 
     dt {
-      margin-bottom:10px ;
+      margin-bottom:10px;
+      justify-content: center;
     }
     dd {
-      margin-bottom:20px ;
+      margin-bottom:20px;
+      justify-content: center;
     }
   }
 }
 
-
+// -------------------------------------------------------- //
 // ---- MaterialDesign/FontAwesome overwritten styles  ---- //
-.fab {
-  font-size: 1.1rem;
-  padding: 2px 10px;
-  display: inline-block;
-  min-width: 30px;
-  height: 20px;
-  text-align: center;
-  border-radius: 13px;
-}
+// -------------------------------------------------------- //
 
+// ---- Mat-Typography
+// ----------------------------------------
 .mat-display-1, .mat-display-2, .mat-display-3, .mat-display-4,
 .mat-headline, .mat-title, .mat-subheading-1, .mat-subheading-2,
 .mat-button, .mat-body-2, .mat-body-1 {
   margin-bottom: 0 !important;
+}
+
+// ---- Mat-Tab
+// ----------------------------------------
+.mat-tab-label {
+  opacity: 1 !important;
+}
+
+// ---- Mat-Card
+// ----------------------------------------
+mat-card {
+  padding: 8px !important;
+  //border-radius: 3px !important;
+
+  .mat-card-header-text {
+    //color: rgba(0, 0, 0, 0.77);
+    margin: 0 !important;
+    width: 100%;
+  }
 }
 
 .mat-card-header {
@@ -229,6 +246,32 @@ dl {
 
 .mat-card-actions, .mat-card-subtitle, .mat-card-content {
     margin-bottom: 5px;
+}
+
+// ---- Mat-Form
+// ----------------------------------------
+.mat-form-field-underline {
+  display: none;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field {
+    margin-bottom: 0 !important;
+}
+
+// ---- Mat-Icon & Fontawesome
+// ----------------------------------------
+.fab {
+  font-size: 1.1rem;
+  padding: 2px 10px;
+  display: inline-block;
+  min-width: 30px;
+  height: 20px;
+  text-align: center;
+  border-radius: 13px;
 }
 
 .mat-icon,
@@ -266,6 +309,14 @@ dl {
     max-width: 70px;
     text-align: center;
   }
+
+  &.md-96 {
+    font-size: 96px;
+    height: 96px;
+    min-width: 96px;
+    max-width: 96px;
+    text-align: center;
+  }
 }
 
 .icon-holder {
@@ -273,20 +324,28 @@ dl {
   height: 24px;
 }
 
-.chips {
-  line-height: 200%;
+// ---- MEMO:
+// ---- To show "All" as the last one in options, we need dominated style here.
+::ng-deep .mat-option {
+  &:last-child:before {
+    content: 'All-';
+    float: left;
+    position: relative;
+  }
 }
 
+// ---- Mat-Chip
+// ----------------------------------------
 .chip {
   &__sm {
     color: map-get($app-gray, 900);
     background-color: map-get($app-gray, 100);
     margin-right: 3px;
-    line-height: 120%;
+    line-height: 150%;
     min-height: 20px;
     padding: 0 9px 2px !important;
     border-radius: 10px;
-    //word-break: keep-all;
+    //word-break: break-all;
   }
 
   &__m {

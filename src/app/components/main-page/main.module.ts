@@ -22,9 +22,7 @@ import { MainEnvironmentItemFormComponent } from './main-environment-item-form/m
 import { MainEnvironmentItemComponent } from './main-environment-item/main-environment-item.component';
 import { MainEnvironmentWizardFormComponent } from './main-environment-wizard-form/main-environment-wizard-form.component';
 import { MainFooterComponent } from './main-footer/main-footer.component';
-import { MainHelpContactComponent } from './main-help-contact/main-help-contact.component';
-import { MainHelpFaqComponent } from './main-help-faq/main-help-faq.component';
-import { MainHelpNavComponent } from './main-help-nav/main-help-nav.component';
+import { MainHelpComponent } from './main-help/main-help.component';
 import { MainSessionButtonComponent } from './main-session-button/main-session-button.component';
 import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog/main-join-workspace-dialog.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
@@ -46,7 +44,6 @@ import { MainWorkspaceItemComponent } from './main-workspace-item/main-workspace
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
 import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/main-workspace-quota-form.component';
-
 // import { MessageComponent } from 'src/app/components/shared/message/message.component';
 
 @NgModule({
@@ -62,9 +59,7 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainAdminComponent,
     MainActiveSessionsComponent,
     MainStatisticsComponent,
-    MainHelpNavComponent,
-    MainHelpFaqComponent,
-    MainHelpContactComponent,
+    MainHelpComponent,
     MainAccountComponent,
     MainAnnouncementComponent,
     MainWorkspaceItemComponent,
