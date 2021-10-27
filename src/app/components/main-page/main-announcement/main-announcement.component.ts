@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {MessageService} from 'src/app/services/message.service';
-import {Announcement} from 'src/app/models/announcement';
+import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'src/app/services/message.service';
+import { Announcement } from 'src/app/models/announcement';
 
 @Component({
   selector: 'app-main-announcement',

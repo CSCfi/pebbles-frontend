@@ -1,5 +1,6 @@
 <div class="content-header-container"
-  fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
+  fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px"
+  fxLayout.lt-sm="column">
   <app-main-content-header
     [content]="content"
     [isSearchOn]="false"
@@ -14,18 +15,18 @@
     Mark as read
   </button>
 </div>
-<div class="content-container">
-  <div *ngIf="getAnnouncements().length > 0; else elseBlock">
-    <section class="announcement-container">
+<div id="announcement-page" class="content-container">
+  <ng-container *ngIf="getAnnouncements().length > 0; else elseBlock">
+    <section class="content-cutout" fxLayout="column" fxLayoutGap="10px">
       <ng-container *ngFor="let announcement of getAnnouncements()">
-        <div class="{{ announcement.is_read ? 'announcement' : 'announcement unread' }}">
-          <div class="subject mat-title">{{ announcement.subject }}</div>
-          <span class="date">{{ formatDate(announcement.broadcasted) }}</span>
+        <div class="announcement info-body" [ngClass]="{'unread':!announcement.is_read}">
+          <div class="title mat-title">{{ announcement.subject }}</div>
+          <span class="date mat-caption">{{ formatDate(announcement.broadcasted) }}</span>
           <p class="message">{{ announcement.message }}</p>
         </div>
       </ng-container>
     </section>
-  </div>
+  </ng-container>
 
   <ng-template #elseBlock>
     <section class="message-container">

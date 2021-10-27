@@ -30,22 +30,6 @@ a.mat-button-base,
   &.lg {
     padding: 10px !important;
   }
-
-  &.mat-flat-button {
-    &.mat-warn {
-      background: map-get($app-warn, light) !important;
-      color: map-get($app-primary, default) !important;
-    }
-  }
-
-  &.mat-stroked-button {
-    &.mat-warn {
-      border: 2px solid map-get($app-warn, default) !important;
-    }
-    &.mat-primary {
-      border: 2px solid map-get($app-primary, default) !important;
-    }
-  }
 }
 
 // ---- FormGroup

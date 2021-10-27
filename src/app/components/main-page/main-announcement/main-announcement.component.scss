@@ -1,54 +1,22 @@
 @import "src/styles/main.scss";
 
-.announcement-container {
-
+#announcement-page {
   .announcement {
     position: relative;
-    margin-top: 10px;
-    margin-bottom: 20px;
     padding: 15px 20px 25px;
     background: #fff;
-    overflow: hidden;
 
-    border: 3px solid map-get($app-primary, 200);
-    border-radius: 8px;
-
-    .subject {
+    .title {
       border-bottom: 1px solid #ccc;
-      padding: 3px 110px 2px 5px;
-      font-weight: bold;
-      margin: 0;
-    }
-
-    &.unread {
-      .subject:before {
-        content: "Unread";
-        position: relative;
-        top: -2px;
-        font-size: 1.1rem;
-        font-weight: 500;
-        background: map-get($colors, light-active);
-        padding: 2px 8px;
-        margin-left: -5px;
-        margin-right: 5px;
-        border-radius: 8px;
-      }
+      padding: 7px 5px 2px 5px;
     }
 
     .date {
       position: absolute;
       right: 0px;
       top: 0;
-      padding: 1px 10px;
-      font-size: 1.2rem;
-      background: map-get($app-primary, 200);
-    }
-
-    &.unread {
-      .date {
-        float: right;
-        background: map-get($colors, light-active);
-      }
+      padding: 5px 10px;
+      background: map-get($app-primary, 300);
     }
 
     .message {
@@ -56,5 +24,22 @@
       margin: 0;
     }
 
+    &.unread {
+      .title:before {
+        content: "Unread";
+        position: relative;
+        top: -2px;
+        font-size: 1.1rem;
+        background: map-get($app-warn, light);
+        padding: 2px 8px;
+        margin-left: -5px;
+        margin-right: 5px;
+        border-radius: 8px;
+      }
+
+      .date {
+        background: map-get($app-warn, light);
+      }
+    }
   }
 }
