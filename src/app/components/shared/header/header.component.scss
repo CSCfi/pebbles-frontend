@@ -2,5 +2,12 @@
 
 #header {
   height: map-deep-get($layout-set, shared, header, h);
-  color: #fff;
+
+  &.container__fluid{
+    padding: 6px 20px;
+
+    .logo__mark {
+      margin-top: 5px;
+    }
+  }
 }

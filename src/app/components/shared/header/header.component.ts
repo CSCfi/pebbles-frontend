@@ -8,6 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   @Input() isNaviVisible: boolean;
+  @Input() logoTypeSize: number;
+  @Input() logoMarkSize: number;
+  @Input() displayMode: string;
 
   constructor() { }
 

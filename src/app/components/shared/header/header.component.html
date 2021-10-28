@@ -1,9 +1,13 @@
-<mat-toolbar-row id="header" color="primary" class="container" role="heading">
+<mat-toolbar-row id="header" role="heading"
+                 [ngClass]="'container__'+displayMode">
   <!-- Logo -->
-  <div class="logo mat-display-4 mb-15" fxFlex="0 0 300px">
-    <a [routerLink]="['/welcome']" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center">
-      <div class="logo__mark" fxFlex="0 0 48px">
-        <mat-icon fontSet="material-icons-outlined" class="md-48">import_contacts</mat-icon>
+  <div class="logo" fxFlex="0 0 300px"
+       [ngClass]="('mat-display-'+logoTypeSize)">
+    <a [routerLink]="['/welcome']" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+      <div class="logo__mark" [fxFlex]="('0 '+'0 '+ logoMarkSize+'px')">
+        <mat-icon fontSet="material-icons-outlined"
+                  [ngClass]="'md-'+logoMarkSize">import_contacts
+        </mat-icon>
       </div>
       <div class="logo__type" fxFlex="0 0 240px">
         Notebooks

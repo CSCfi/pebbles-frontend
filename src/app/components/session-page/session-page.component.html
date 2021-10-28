@@ -1,22 +1,50 @@
 <div class="page-container__screen" fxLayout="column" fxLayoutAlign="space-between stretch">
-  <app-header [isNaviVisible]="false"></app-header>
-  <div class="session-container" fxLayout="column" fxLayoutAlign="space-between stretch" *ngIf="targetSession">
-    <div class="status-wrapper" fxLayout="column" fxLayoutAlign="center center">
-      <p class="mb-10">Your session "{{ targetSession.name }}" in environment "{{ targetEnvironment.name }}" is ... </p>
-      <h4 class="state">{{ latestProvisioningLogMessage }}</h4>
-      <p class="state-percentage">{{ progress }}%</p>
-      <mat-progress-bar
-        [color]="color"
-        [mode]="mode"
-        [value]="progress"
-        [bufferValue]="progress + 10">
-      </mat-progress-bar>
-    </div>
-    <div class="environment-info">
-      <h3 class="environment-title">{{ targetEnvironment.name }}</h3>
-      <p class="environment-description" [innerHTML]="description"
-      [ngClass]="{'centering__text': description.length < 100 }">
-      </p>
+  <app-header [isNaviVisible]="false"
+              [logoMarkSize]="36" [logoTypeSize]="3" [displayMode]="'fluid'"
+              class="bg__primary">
+  </app-header>
+  <div id="session-container" fxLayout="column" fxLayoutGap="30px" *ngIf="targetSession">
+    <div class="status-wrapper mt-20 p-10"
+         fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
+      <div>
+        <p class="mb-5">Launching environment session "{{ targetSession.name }}"</p>
+        <div class="state mat-display-3">{{ latestProvisioningLogMessage }}</div>
+      </div>
+      <div class="spinner-container center__vh">
+        <mat-progress-spinner
+          [color]="'accent'"
+          [mode]="'indeterminate'"
+          [diameter]="150"
+          [value]="50">
+        </mat-progress-spinner>
+        <p class="state-percentage mat-display-3">{{ progress }}%</p>
+      </div>
+      <!--      <mat-progress-bar-->
+      <!--        [color]="color"-->
+      <!--        [mode]="mode"-->
+      <!--        [value]="progress"-->
+      <!--        [bufferValue]="progress + 10">-->
+      <!--      </mat-progress-bar>-->
+      <div class="environment-info info-body mb-20">
+        <h3 class="mb-30">Environment Information</h3>
+        <dl class="grid">
+          <dt>Name</dt>
+          <dd class="environment-title">{{ targetEnvironment.name }}</dd>
+          <dt>Description</dt>
+          <dd class="environment-description"
+              [innerHTML]="description"
+              [ngClass]="{'centering__text': description.length < 100 }">
+          </dd>
+          <dt>Session id</dt>
+          <dd>
+            {{ targetSession.name }}
+          </dd>
+          <dt>State</dt>
+          <dd>
+            {{progress}}% : {{ latestProvisioningLogMessage }}
+          </dd>
+        </dl>
+      </div>
     </div>
   </div>
   <app-footer></app-footer>
