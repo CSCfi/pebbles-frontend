@@ -1,10 +1,12 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 import { EnvironmentCategoryService } from './services/environment-category.service';
+import { EnvironmentSessionService } from './services/environment-session.service';
 import { EnvironmentService } from './services/environment.service';
 import { EventService, LoginStatusChange } from './services/event.service';
-import { EnvironmentSessionService } from './services/environment-session.service';
+import { PublicConfigService } from './services/public-config.service';
 import { WorkspaceService } from './services/workspace.service';
 
 @Component({
@@ -28,6 +30,8 @@ export class AppComponent implements OnInit {
     private environmentCategoryService: EnvironmentCategoryService,
     private eventService: EventService,
     private authService: AuthService,
+    private publicConfigService: PublicConfigService,
+    private titleService: Title,
   ) {
   }
 
@@ -43,6 +47,10 @@ export class AppComponent implements OnInit {
     if (this.authService.getToken()) {
       this.initializeServices();
     }
+    // public config endpoint does not need authentication, so we can set the title right away
+    this.publicConfigService.fetchPublicConfig().subscribe(_ => {
+      this.titleService.setTitle(this.publicConfigService.getInstallationName());
+    });
   }
 
   initializeServices(): void {

@@ -12,9 +12,9 @@ describe('Pebbles SPA', () => {
     mainPage = new MainPage();
   });
 
-  it('should display Notebooks as title', () => {
+  it('should display Pebbles as title', () => {
     welcomePage.navigateTo();
-    expect(welcomePage.getTitleText()).toEqual('Notebooks');
+    expect(welcomePage.getTitleText()).toEqual('Pebbles');
   });
 
   // TODO: change this when local login functionality is implemented

@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   @Input() displayMode: string;
 
   constructor(
-    public publicConfigService: PublicConfigService
+    public publicConfigService: PublicConfigService,
   ) {
   }
 
