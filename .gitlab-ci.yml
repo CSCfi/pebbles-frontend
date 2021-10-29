@@ -19,6 +19,7 @@ stages:
   - build
   - test
   - docker build
+  - ci-pipeline
 
 static-analysis:
   stage: static analysis
@@ -139,3 +140,20 @@ build-image:
         docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLISH_IMAGE}:${IMAGE_TAG}
         docker push ${PUBLISH_IMAGE}:${IMAGE_TAG}
       fi
+
+# call pipeline project for master changes to update QA
+ci-pipeline:
+  stage: ci-pipeline
+  needs: ['build-image']
+  variables:
+    ENV_NAME: "${CI_ENV_NAME}"
+    DEPROVISION_ENVIRONMENT: 1
+    ENV_NAME_QA: "${CI_ENV_NAME_QA}"
+  trigger:
+    project: pebbles/cicd-pipeline
+    branch: master
+    strategy: depend
+  only:
+    refs:
+      - master
+
