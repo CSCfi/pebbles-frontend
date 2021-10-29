@@ -5,9 +5,9 @@
 // ---- Material Design
 @import '~@angular/material/theming';
 @import "./styles/style-md-custom";
+
 @include mat-core($custom-typography);
 @include angular-material-theme($app-theme);
-@import "./styles/style-md-overwritten";
 
 // ---- Global base style on element ---- //
 html {
@@ -25,7 +25,7 @@ body {
 
 a {
 
-  &:hover{
+  &:hover {
     color: map-get($app-accent, light);
     cursor: pointer;
   }
@@ -41,13 +41,36 @@ button {
 }
 
 // ---- Functional style classes ---- //
-.block { display: block; }
-.hide { display: none !important; }
-.invisible { opacity: 0; }
-.flex-spacer { flex: 1 1 auto; }
+.block {
+  display: block;
+}
+
+.hide {
+  display: none !important;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
 .full {
-  &__h { height: 100%; }
-  &__w { width: 100%; }
+  &__h {
+    height: 100%;
+  }
+
+  &__w {
+    width: 100%;
+  }
+}
+
+.r {
+  &__md {
+    border-radius: 5px;
+  }
 }
 
 a.u-line,
@@ -75,6 +98,8 @@ a.u-line,
   }
 
   &__screen {
+    padding-left: 15px;
+    padding-right: 15px;
     max-width: 100%;
     min-height: 100vh;
     height: auto;
@@ -131,7 +156,7 @@ a.u-line,
   @include shadow(.05);
   min-height: map-deep-get($layout-set, main, header, min-h);
   width: 100%;
-  padding: 15px 30px 6px;
+  padding: 15px 30px 8px;
   //border-bottom: 1px solid map-get($colors , white);height: 100%;
   height: 100%;
   background: #fff;
@@ -151,7 +176,7 @@ a.u-line,
   margin-right: auto !important;
 }
 
-.page-container{
+.page-container {
   height: 100%;
 
   &__screen {
@@ -174,11 +199,29 @@ a.u-line,
   border-radius: 6px !important;
 }
 
+.instruction-body {
+  padding: 15px 5px 15px 10px;
+  margin-bottom: 20px;
+  color: map-get($app-gray, default);
+  border: 6px solid map-get($app-gray, 200);
+  border-radius: 20px;
+
+  .form-help-icon .mat-icon {
+    color: map-get($app-gray, 200);
+  }
+
+  .warning {
+    color: map-get($app-warn, dark);
+  }
+}
+
 dl {
   line-height: 150%;
+
   dt {
     margin-bottom: 1.2rem !important;
   }
+
   dd {
     margin-bottom: 0.8rem !important;
   }
@@ -186,6 +229,7 @@ dl {
 
 dl.grid {
   display: grid;
+  grid-template-columns: auto 1fr;
   //grid-template-columns: 160px 1fr;
   grid-gap: 20px;
 
@@ -198,10 +242,85 @@ dl.grid {
   }
 }
 
+::ng-deep .mat-checkbox-layout,
+::ng-deep .mat-radio-label-content {
+  white-space: break-spaces !important;
+}
+
+.dialog-container {
+  position: relative;
+
+  .corner-button-container {
+    width: 100%;
+    height: 40px;
+    margin-top: -15px;
+
+    button {
+      float: right;
+      margin-right: -15px;
+    }
+  }
+
+  .form-container {
+    margin-top: 10px;
+  }
+
+  .mat-form-field {
+    width: 100%;
+
+    textarea {
+      height: 60px;
+    }
+
+    .mat-form-field-subscript-wrapper {
+      position: relative;
+      margin: 0;
+
+      .mat-error {
+        margin-bottom: 15px;
+      }
+    }
+  }
+
+  .mat-dialog-title,
+  .mat-dialog-content,
+  .dialog-actions {
+    margin: 10px 24px 20px !important;
+  }
+
+  .mat-horizontal-stepper-header-container,
+  .stepper-action-buttons {
+    margin: 0 24px 10px !important;
+  }
+
+  .mat-dialog-title {
+    text-align: center;
+    padding-bottom: 2px;
+    border-bottom: 1px solid map-get($app-gray, 200);
+    margin-top: 10px !important;
+    margin-bottom: 30px !important;
+  }
+
+  .mat-dialog-content {
+    padding: 0;
+  }
+
+  ul {
+    li {
+      margin-bottom: 5px;
+    }
+  }
+
+  .error-message {
+    color: map-get($colors, warn);
+  }
+}
+
 .mobile {
   .content-header-container {
     padding: 15px 15px 6px;
   }
+
   .content-container {
     padding: 10px 20px;
   }
@@ -210,27 +329,29 @@ dl.grid {
     display: block;
 
     dt {
-      margin-bottom:10px;
+      margin-bottom: 10px;
       justify-content: center;
     }
+
     dd {
-      margin-bottom:20px;
+      margin-bottom: 20px;
       justify-content: center;
     }
   }
+
+  .mat-dialog-title,
+  .mat-dialog-content,
+  .dialog-actions,
+  .mat-horizontal-stepper-header-container,
+  .stepper-action-buttons {
+    margin: 0 0 10px !important;
+  }
+
 }
 
 // -------------------------------------------------------- //
 // ---- MaterialDesign/FontAwesome overwritten styles  ---- //
 // -------------------------------------------------------- //
-
-// ---- Mat-Typography
-// ----------------------------------------
-.mat-display-1, .mat-display-2, .mat-display-3, .mat-display-4,
-.mat-headline, .mat-title, .mat-subheading-1, .mat-subheading-2,
-.mat-button, .mat-body-2, .mat-body-1, .mat-typography p {
-  margin-bottom: 0 !important;
-}
 
 // ---- Mat-Tab
 // ----------------------------------------
@@ -261,13 +382,17 @@ mat-card {
 }
 
 .mat-card-actions, .mat-card-subtitle, .mat-card-content {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 // ---- Mat-Form
 // ----------------------------------------
 .mat-form-field-underline {
-  display: none;
+  bottom: 0px;
+
+  &::before {
+    background: map-get($app-primary, 300) !important;
+  }
 }
 
 .mat-form-field-wrapper {
@@ -275,7 +400,34 @@ mat-card {
 }
 
 .mat-form-field {
-    margin-bottom: 0 !important;
+  //margin-bottom: 0 !important;
+}
+
+// ---- Button
+// ----------------------------------------
+a.mat-raised-button,
+.mat-raised-button,
+a.mat-flat-button,
+.mat-flat-button,
+a.mat-stroked-button,
+.mat-stroked-button {
+  padding: 4px 15px !important;
+  height: 45px;
+
+  &.button-lg {
+    padding: 8px 30px !important;
+  }
+}
+
+.mat-button {
+  &.button-sm {
+    font-weight: normal;
+    font-size: 1.3rem;
+  }
+
+  &.button-link {
+    text-decoration: underline;
+  }
 }
 
 // ---- Mat-Icon & Fontawesome
@@ -386,6 +538,68 @@ mat-card {
   }
 }
 
+// ---- Mat-Table
+// ----------------------------------------
+
+::ng-deep .mat-table {
+  width: 100%;
+  margin: auto;
+
+  .mat-header-row {
+    background: map-get($colors, light2);
+    height: 40px;
+
+    .mat-header-cell {
+      color: map-get($colors, white);
+      border-bottom: none;
+    }
+  }
+
+  th, td {
+    vertical-align: middle;
+  }
+
+  th {
+    text-transform: capitalize;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    padding: 5px !important;
+
+    &.border {
+      &__left {
+        border-left: map-get($borders, thin);
+      }
+
+      &__right {
+        border-right: map-get($borders, thin);
+      }
+    }
+
+    &.left-align {
+      text-align: left !important;
+    }
+
+    &.centering {
+      text-align: center !important;
+    }
+  }
+
+  .font-s {
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+  }
+
+  .mat-table-sticky {
+    .mat-button {
+      min-width: 50px !important;
+      padding: 0;
+    }
+  }
+}
+
+
 // ---- z-index styles ---- //
 
 .hero-shots {
@@ -404,7 +618,7 @@ mat-card {
   z-index: 2000;
 }
 
-.app-main-content-header{
+.app-main-content-header {
   display: block;
   z-index: 2;
 }
@@ -449,7 +663,7 @@ mat-card {
 }
 
 
-.inversion{
+.inversion {
   &.primary {
     @include inversion(primary);
   }
@@ -492,22 +706,27 @@ mat-card {
 }
 
 .r {
-  &__no{
+  &__no {
     border-radius: 0;
   }
-  &__all{
+
+  &__all {
     border-radius: 5px;
   }
-  &__top{
+
+  &__top {
     border-radius: 5px 5px 0 0;
   }
-  &__bottom{
+
+  &__bottom {
     border-radius: 0 0 5px 5px;
   }
-  &__left{
+
+  &__left {
     border-radius: 5px 0 0 5px;
   }
-  &__right{
+
+  &__right {
     border-radius: 0 5px 5px 0;
   }
 }

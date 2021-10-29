@@ -69,9 +69,10 @@ $app-primary: (
   default: #18227c,
   100: #ededf8,
   200: #e0e0f1,
-  300: #d0d0e5,
-  light: #acc7e0,
-  dark: #00004f,
+  300: #d0d1e5,
+  400: #acb0e0,
+  light: #919cd2,
+  dark: #14144b,
   contrast: (
     default: $light-text,
     light: $light-text,
@@ -136,7 +137,7 @@ $app-warn: (
     &:hover {
       cursor: pointer;
       color: map-get($colors, white) !important;
-      background-color: map-get($colors, accent);
+      background-color: map-get($app-accent, default);
     }
   }
 }

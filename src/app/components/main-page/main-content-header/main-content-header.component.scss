@@ -2,6 +2,16 @@
 
 #content-header {
   height: 100%;
+
+  h1 {
+    min-height: 45px;
+  }
+
+  &.mobile {
+    h1 {
+      min-height: auto;
+    }
+  }
 }
 
 .selected-label {
@@ -23,11 +33,16 @@ form.search-form {
     height: 100%;
     width: 100%;
     margin-bottom: -1.25em;
-    border-radius: 20px;
+    //border-radius: 20px;
 
     ::ng-deep .mat-form-field-infix {
       border-top: none;
     }
+  }
+
+  ::ng-deep .mat-form-field-flex  {
+    background-color: #ededf8 !important;
+    //border-radius: 4px;
   }
 }
 

@@ -1,212 +1,247 @@
-<mat-horizontal-stepper linear="true" #stepper class="mat-typography">
-
-  <!-- 1 Env Templates-->
-  <mat-step [stepControl]="wizardTemplateFormGroup">
-    <form [formGroup]="wizardTemplateFormGroup">
-
-      <ng-template matStepLabel>Environment Template</ng-template>
-      <div class="instruction mt-10 mb-20" fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-icon fontSet="material-icons-outlined" class="help-icon" fxFlex="0 0 120px">help_outline</mat-icon>
-        <div class="instruction-text" fxFlex="grow">
-          <h3 class="question subheading-1">What is Environment?</h3>
-          <p class="answer">
-            Environment defines the content that users access by starting a browser based isolated session.
-            As workspace owner/manager, you can create your own customized environments from templates below.
-          </p>
+<div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
+  <div class="corner-button-container">
+    <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-horizontal-stepper linear="true" class="mat-typography">
+    <!-- 1 Env Templates-->
+    <mat-step [stepControl]="wizardTemplateFormGroup">
+      <form [formGroup]="wizardTemplateFormGroup">
+        <mat-dialog-content>
+          <ng-template matStepLabel>Environment Template</ng-template>
+          <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
+            <div class="form-help-icon center__v" fxFlex="0 0 100px">
+              <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+            </div>
+            <div class="instruction-text" fxFlex="grow">
+              <h1 class="question">What is Environment?</h1>
+              <div class="answer mat-body-1">
+                Environment defines the content that users access by starting a browser based isolated session.
+                As workspace owner/manager, you can create your own customized environments from templates below.
+              </div>
+            </div>
+          </section>
+          <section class="form-container">
+            <h2 class="mat-title mb-20">Select a template for your new environment.</h2>
+            <mat-label class="form-label mat-subheading-2">Environment templates</mat-label>
+            <div class="form-ui-container mt-10 mb-10">
+              <mat-radio-group formControlName="templateId" (change)="onChangeTemplate($event.value)">
+                <ul>
+                  <ng-container *ngFor="let tmpl of environmentTemplates">
+                    <li>
+                      <mat-radio-button [value]="tmpl.id">
+                        <span class="template-name mat-subheading-2">{{ tmpl.name }}</span>
+                        <span class="template-description ml-10">: {{ tmpl.description }}</span>
+                      </mat-radio-button>
+                    </li>
+                  </ng-container>
+                </ul>
+              </mat-radio-group>
+            </div>
+          </section>
+        </mat-dialog-content>
+        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
+          <button mat-flat-button class="next" color="primary" matStepperNext fxFlex="grow">
+            Next
+            <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
+          </button>
         </div>
-      </div>
+      </form>
+    </mat-step>
 
-      <div class="form-items">
-        <mat-label class="form-label mat-subheading-1 mb-0">Select a template for your new environment.</mat-label>
-        <div class="form-ui-container mb-10">
-          <mat-radio-group formControlName="templateId" (change)="onChangeTemplate($event.value)">
-            <ul>
-              <ng-container *ngFor="let tmpl of environmentTemplates">
+    <!-- 2 Environment profile setting-->
+    <mat-step [stepControl]="wizardProfileFormGroup">
+      <form [formGroup]="wizardProfileFormGroup">
+        <mat-dialog-content>
+          <ng-template matStepLabel>Environment Profile</ng-template>
+          <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
+            <div class="form-help-icon center__v" fxFlex="0 0 100px">
+              <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+            </div>
+            <div class="instruction-text" fxFlex="grow">
+              <h1 class="question">How new environment is seen by members?</h1>
+              <div class="answer mat-body-1">
+                Members of your workspace can find your environment in the environments page.
+                Carefully consider names, descriptions and labels to let them identify and find the content.
+              </div>
+            </div>
+          </section>
+
+          <!-- 2-1 Name -->
+          <h2 class="mat-title mb-20">Fill your environment information</h2>
+          <section class="form-container">
+            <mat-form-field appearance="fill">
+              <mat-label class="mat-subheading-2">Environment name</mat-label>
+              <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
+            </mat-form-field>
+          </section>
+          <!-- 2-2 Description -->
+          <section class="form-container">
+            <mat-form-field appearance="fill">
+              <mat-label class="mat-subheading-2">Description (can contain HTML formatting)</mat-label>
+              <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
+            </mat-form-field>
+          </section>
+          <!-- 2-3 Label search component -->
+          <section class="form-container">
+            <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
+          </section>
+        </mat-dialog-content>
+        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
+          <button mat-stroked-button class="back" fxFlex="0 0 auto" matStepperPrevious>
+            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
+            <span fxHide.lt-sm="true">Back</span>
+          </button>
+          <button mat-flat-button class="next" color="primary" fxFlex="grow" matStepperNext>
+            Next
+            <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- 3 Environment option setting-->
+    <mat-step [stepControl]="wizardOptionFormGroup">
+      <form [formGroup]="wizardOptionFormGroup">
+        <mat-dialog-content>
+          <ng-template matStepLabel>Optional functions</ng-template>
+          <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
+            <div class="form-help-icon center__v" fxFlex="0 0 100px">
+              <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+            </div>
+            <div class="instruction-text" fxFlex="grow">
+              <h1 class="question">How you can customize environment?</h1>
+              <div class="answer mat-body-1">
+                <p>Customize settings according to what you want to do.</p>
+                <ul>
+                  <li>
+                    You can fetch files, datasets or other material from a public Git repository, object storage or any
+                    public web site
+                  </li>
+                  <li>
+                    You can install custom libraries etc by using a script that is executed during startup. (TODO)
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <h2 class="mat-title mb-10">Configure environment options</h2>
+          <!-- 3.4 Jupyter Interface -->
+          <section class="form-container">
+            <div class="form-option" *ngIf="selectedTemplate && selectedTemplate.environment_type==='jupyter'">
+              <div class="form-item">
+                <mat-label class="mat-subheading-2">Interface</mat-label>
+                <mat-radio-group formControlName="jupyterInterface"
+                                 (change)="onChangeJupyterInterface($event.value)">
+                  <ul class="mt-5 mb-20">
+                    <li>
+                      <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
+                    </li>
+                    <li>
+                      <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
+                    </li>
+                  </ul>
+                </mat-radio-group>
+              </div>
+            </div>
+          </section>
+          <!-- 3.1 Include External files -->
+          <section class="form-container mb-20">
+            <mat-label class="mat-subheading-2">Download Method</mat-label>
+            <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
+              <ul class="mt-5 mb-10">
                 <li>
-                  <mat-radio-button [value]="tmpl.id">
-                    <span class="template-name mat-subheading-2">{{ tmpl.name }}</span>
-                    <span class="template-description ml-10">: {{ tmpl.description }}</span>
+                  <mat-radio-button [value]="'none'">None</mat-radio-button>
+                </li>
+                <li>
+                  <mat-radio-button [value]="'git-clone'">Git clone a repository</mat-radio-button>
+                </li>
+                <li>
+                  <mat-radio-button [value]="'http-get'">Download by URL</mat-radio-button>
+                </li>
+              </ul>
+            </mat-radio-group>
+          </section>
+          <!-- 3.2 Source -->
+          <ng-container [ngSwitch]="selectedDownloadMethod">
+            <section class="form-container" *ngSwitchCase="'local'">
+              <button mat-flat-button color="primary">Upload file</button>
+            </section>
+            <section class="form-container mb-20"
+                     *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
+              <mat-form-field appearance="fill">
+                <mat-label class="mat-subheading-2">Source(URL)</mat-label>
+                <input matInput formControlName="source" placeholder="">
+              </mat-form-field>
+            </section>
+          </ng-container>
+          <!-- 3.3 Auto Execution -->
+          <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
+          <section class="form-container mb-20">
+            <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label>
+            <br>
+            <mat-checkbox formControlName="isAutoExecution" class="mt-5">
+              <span class="mat-subheading-2 mr-10">On</span> : Execute or unpack downloaded file when the environment
+              is launched.
+            </mat-checkbox>
+          </section>
+          <!-- 3.4 Enable user work folder -->
+          <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
+          <section class="form-container mb-20">
+            <mat-label class="mat-subheading-2">Work folder per user</mat-label>
+            <br>
+            <mat-checkbox formControlName="isEnableUserWorkFolder" class="mt-5">
+              Enable personal persistent 'work' folder for users. The folder is workspace specific.
+            </mat-checkbox>
+          </section>
+        </mat-dialog-content>
+        <!-- Stepper -->
+        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
+          <button mat-stroked-button class="back" fxFlex="0 0 auto" matStepperPrevious>
+            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
+            <span fxHide.lt-sm="true">Back</span>
+          </button>
+          <button mat-flat-button class="next" color="primary" fxFlex="grow" matStepperNext>
+            Next
+            <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- 4 Submit-->
+    <mat-step [stepControl]="wizardPublishFormGroup">
+      <form [formGroup]="wizardPublishFormGroup">
+        <mat-dialog-content>
+          <ng-template matStepLabel>Save</ng-template>
+          <div class="form-items mt-20 mb-50">
+            <h2 class="mat-headline mb-20">Congratulations! Your new environment is almost ready :)</h2>
+            <mat-label class="mat-subheading-2">Visibility</mat-label>
+            <mat-radio-group formControlName="isActive">
+              <ul class="mt-10">
+                <li>
+                  <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
+                </li>
+                <li>
+                  <mat-radio-button [value]="false">Save as a draft (visible only to owners and managers)
                   </mat-radio-button>
-                </li>
-              </ng-container>
-            </ul>
-          </mat-radio-group>
-        </div>
-      </div>
-
-      <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-        <button class="next inversion primary" mat-flat-button color="primary" matStepperNext>
-          Next
-          <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
-        </button>
-      </div>
-    </form>
-  </mat-step>
-
-  <!-- 2 Environment profile setting-->
-  <mat-step [stepControl]="wizardProfileFormGroup">
-    <form [formGroup]="wizardProfileFormGroup">
-      <ng-template matStepLabel>Environment Profile</ng-template>
-      <div class="instruction mt-10 mb-20" fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-icon fontSet="material-icons-outlined" class="help-icon" fxFlex="0 0 120px">help_outline</mat-icon>
-        <div class="instruction-text" fxFlex="grow">
-          <h3 class="question">How new environment is seen by members?</h3>
-          <p class="answer">
-            Members of your workspace can find your environment in the environments page.
-            Carefully consider names, descriptions and labels to let them identify and find the content.
-          </p>
-        </div>
-      </div>
-      <!-- 2-1 Name -->
-      <mat-form-field>
-        <mat-label class="mat-subheading-2">Environment name</mat-label>
-        <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
-      </mat-form-field>
-      <!-- 2-2 Description -->
-      <mat-form-field>
-        <mat-label class="mat-subheading-2">Description (can contain HTML formatting)</mat-label>
-        <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
-      </mat-form-field>
-      <!-- 2-3 Label search component -->
-      <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
-
-      <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-        <button class="back" mat-flat-button matStepperPrevious>
-          <mat-icon fontSet="material-icons-outlined" class="mr-10">arrow_backward</mat-icon>Back
-        </button>
-        <button class="next inversion primary" mat-flat-button color="primary" matStepperNext>
-          Next
-          <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
-        </button>
-      </div>
-    </form>
-  </mat-step>
-
-  <!-- 3 Environment option setting-->
-  <mat-step [stepControl]="wizardOptionFormGroup">
-    <form [formGroup]="wizardOptionFormGroup">
-      <ng-template matStepLabel>Content</ng-template>
-      <div class="instruction mt-10 mb-20" fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-icon fontSet="material-icons-outlined" class="help-icon" fxFlex="0 0 120px">help_outline</mat-icon>
-        <div class="instruction-text" fxFlex="grow">
-          <h3 class="question">Adding content to your environment</h3>
-          <div class="answer">
-            <p>Customize settings according to what you want to do.</p>
-            <ul>
-              <li>
-                You can fetch files, datasets or other material from a public Git repository, object storage or any
-                public web site
-              </li>
-              <li>
-                You can install custom libraries etc by using a script that is executed during startup. (TODO)
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="form-items mb-40">
-        <!-- 3.4 Jupyter Interface -->
-        <div class="form-option" *ngIf="selectedTemplate && selectedTemplate.environment_type==='jupyter'">
-          <div class="form-item">
-            <mat-label class="mat-subheading-2">Interface</mat-label>
-            <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
-              <ul>
-                <li>
-                  <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
-                </li>
-                <li>
-                  <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
                 </li>
               </ul>
             </mat-radio-group>
           </div>
+        </mat-dialog-content>
+        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
+          <button mat-stroked-button class="back" fxFlex="0 0 auto" matStepperPrevious>
+            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
+            <span fxHide.lt-sm="true">Back</span>
+          </button>
+          <button mat-flat-button color="primary" fxFlex="grow" matStepperNext
+                  (click)="createEnvironmentByWizardMode()">
+            Create
+          </button>
         </div>
-        <!-- 3.1 Include External files -->
-        <div class="form-item">
-          <mat-label class="mat-subheading-2">Download Method</mat-label>
-          <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
-            <ul>
-              <li>
-                <mat-radio-button [value]="'none'">None</mat-radio-button>
-              </li>
-              <li>
-                <mat-radio-button [value]="'git-clone'">Git clone a repository</mat-radio-button>
-              </li>
-              <li>
-                <mat-radio-button [value]="'http-get'">Download by URL</mat-radio-button>
-              </li>
-            </ul>
-          </mat-radio-group>
-        </div>
-        <!-- 3.2 Source -->
-        <ng-container [ngSwitch]="selectedDownloadMethod">
-          <div class="form-item" *ngSwitchCase="'local'">
-            <button mat-flat-button color="primary">Upload file</button>
-          </div>
-          <div class="form-item"
-            *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
-            <mat-form-field>
-              <mat-label class="mat-subheading-2">Source(URL)</mat-label>
-              <input matInput formControlName="source" placeholder="">
-            </mat-form-field>
-          </div>
-        </ng-container>
-        <!-- 3.3 Auto Execution -->
-        <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
-        <div class="form-item">
-          <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label> <br>
-          <mat-checkbox formControlName="isAutoExecution">
-            <span class="mat-subheading-2 mr-10">On</span> : Execute or unpack downloaded file when the environment is launched.
-          </mat-checkbox>
-        </div>
-        <!-- 3.4 Enable user work folder -->
-        <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
-        <div class="form-item">
-          <mat-label class="mat-subheading-2">Work folder per user</mat-label> <br>
-          <mat-checkbox formControlName="isEnableUserWorkFolder">
-          Enable personal persistent 'work' folder for users. The folder is workspace specific.
-          </mat-checkbox>
-        </div>
-      </div>
-
-      <!-- Stepper -->
-      <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-        <button class="back" mat-flat-button matStepperPrevious>
-          <mat-icon fontSet="material-icons-outlined" class="mr-10">arrow_backward</mat-icon>Back
-        </button>
-        <button class="next inversion primary" mat-flat-button color="primary" matStepperNext>
-          Next
-          <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
-        </button>
-      </div>
-    </form>
-  </mat-step>
-  <!-- 4 Submit-->
-  <mat-step [stepControl]="wizardPublishFormGroup">
-    <form [formGroup]="wizardPublishFormGroup">
-      <ng-template matStepLabel>Finalize</ng-template>
-      <div class="form-items mb-50">
-        <div class="mat-subheading-1 mb-20">Congratulations! Your new environment is almost ready.</div>
-        <mat-label class="mat-subheading-2">Visibility</mat-label>
-        <mat-radio-group formControlName="isActive">
-          <ul>
-            <li>
-              <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
-            </li>
-            <li>
-              <mat-radio-button [value]="false">Save as a draft (visible only to owners and managers)</mat-radio-button>
-            </li>
-          </ul>
-        </mat-radio-group>
-      </div>
-      <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-        <button class="back" mat-flat-button matStepperPrevious>
-          <mat-icon fontSet="material-icons-outlined" class="mr-10">arrow_backward</mat-icon>Back
-        </button>
-        <button mat-flat-button class="inversion primary" (click)="createEnvironmentByWizardMode()">
-          Create
-        </button>
-      </div>
-    </form>
-  </mat-step>
-</mat-horizontal-stepper>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

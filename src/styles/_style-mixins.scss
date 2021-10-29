@@ -126,10 +126,22 @@ $sides: (
 
   &__accent {
     color: map-get($app-accent, default);
+
+    &-light {
+      color: map-get($app-accent, light);
+    }
   }
 
   &__warn {
     color: map-get($app-warn, default);
+  }
+
+  &__center {
+    text-align: center;
+  }
+
+  &__left {
+    text-align: left;
   }
 }
 
@@ -152,6 +164,11 @@ $sides: (
 
   &__warn {
     background: map-get($app-warn, default);
+
+    &-light {
+      background: map-get($app-warn, light);
+      color: map-get($app-primary, default);
+    }
   }
 }
 

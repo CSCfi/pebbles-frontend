@@ -137,6 +137,7 @@ export class MainSessionButtonComponent implements OnInit {
     // confirm deletion for non-failed sessions
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
+      autoFocus: false,
       data: {
         dialogTitle: 'Delete environment session',
         dialogContent: this.environment.config?.enable_user_work_folder ?

@@ -1,8 +1,14 @@
-@import "src/styles/main.scss";
+//@import "src/styles/main.scss";
 
-.csc-logo {
-  margin: 10px 0;
-  img {
-    width: 80px;
+#footer {
+  padding-left: 15px;
+  padding-right: 15px;
+
+  .csc-logo {
+    margin: 10px 0;
+
+    img {
+      width: 80px;
+    }
   }
 }

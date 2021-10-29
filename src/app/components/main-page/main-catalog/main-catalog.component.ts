@@ -57,6 +57,7 @@ export class MainCatalogComponent implements OnInit {
     const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
       height: 'auto',
       width: '600px',
+      autoFocus: false,
       data: {
         content: this.content
       }

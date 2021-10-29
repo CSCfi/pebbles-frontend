@@ -1,5 +1,5 @@
-<mat-form-field class="chip-list" appearance="fill">
-  <mat-label>choose labels from the list below</mat-label>
+<mat-form-field class="chip-list full__w" appearance="fill">
+  <mat-label>Choose labels from the list below</mat-label>
   <mat-chip-list #chipList aria-label="keyword selection">
     <mat-chip *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
       (removed)="removeLabel(label)" selected>
@@ -16,17 +16,15 @@
       {{label}}
     </mat-option>
   </mat-autocomplete>
-
 </mat-form-field>
-<div class="candidate-label-outer">
+<div class="candidate-label-outer p-10 mb-20 r__md">
   <mat-chip-list class="candidate-labels">
     <mat-chip class="label" (click)="clicked($event)" *ngFor="let label of getCandidateLabels()">
       {{label}}
     </mat-chip>
   </mat-chip-list>
 </div>
-
-<!-- <button mat-flat-button color="primary" type="button" (click)="saveLabels()" cdkFocusInitial class="save-label-btn">
+<!-- <button mat-flat-button color="primary" type="button" (click)="saveLabels()" class="save-label-btn">
   <mat-icon>add</mat-icon>
   Save as a new tab
 </button> -->

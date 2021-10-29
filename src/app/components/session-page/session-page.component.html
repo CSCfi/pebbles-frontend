@@ -1,9 +1,11 @@
-<div class="page-container__screen" fxLayout="column" fxLayoutAlign="space-between stretch">
+<div class="page-container__screen"
+     fxLayout="column" fxLayoutAlign="space-between stretch">
   <app-header [isNaviVisible]="false"
               [logoMarkSize]="36" [logoTypeSize]="3" [displayMode]="'fluid'"
               class="bg__primary">
   </app-header>
-  <div id="session-container" fxLayout="column" fxLayoutGap="30px" *ngIf="targetSession">
+  <div id="session-container" ngClass.lt-sm="mobile"
+       fxLayout="column" fxLayoutGap="30px" *ngIf="targetSession">
     <div class="status-wrapper mt-20 p-10"
          fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
       <div>

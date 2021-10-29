@@ -7,6 +7,7 @@
   .status-wrapper,
   .environment-info {
     text-align: center;
+    min-width: 700px;
     max-width: 700px;
     margin: auto;
 
@@ -30,6 +31,13 @@
     }
     dl{
       text-align: left;
+    }
+  }
+
+  &.mobile {
+    .status-wrapper,
+    .environment-info {
+      min-width: 100%;
     }
   }
 }

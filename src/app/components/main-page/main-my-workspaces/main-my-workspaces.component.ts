@@ -1,15 +1,14 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, QueryList, ViewChildren} from '@angular/core';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Workspace } from 'src/app/models/workspace';
 import { Utilities } from 'src/app/utilities';
 import { MatDialog } from '@angular/material/dialog';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
-import {MainWorkspaceItemComponent} from '../main-workspace-item/main-workspace-item.component';
+import { MainWorkspaceItemComponent } from '../main-workspace-item/main-workspace-item.component';
 
 @Component({
   selector: 'app-main-my-workspaces',
   templateUrl: './main-my-workspaces.component.html',
-  styleUrls: ['./main-my-workspaces.component.scss']
 })
 export class MainMyWorkspacesComponent {
 
@@ -92,6 +91,7 @@ export class MainMyWorkspacesComponent {
     const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
       height: 'auto',
       width: '600px',
+      autoFocus: false,
       data: {
         content: this.content
       }

@@ -175,6 +175,7 @@ export class MainUsersComponent implements OnInit, OnDestroy {
       width: 'auto',
       height: 'auto',
       maxHeight: '90vh',
+      autoFocus: false,
       data: {
         userId,
         email,
@@ -194,6 +195,7 @@ export class MainUsersComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
+      autoFocus: false,
       data: {
         dialogTitle: 'Confirm user removal',
         dialogContent: `<p>Are you sure to remove the users below?</p><ul>${emailList}</ul>`,
@@ -211,6 +213,7 @@ export class MainUsersComponent implements OnInit, OnDestroy {
   openBlockUserDialog(userId: string, email: string, isBlocked: boolean) {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
+      autoFocus: false,
       data: {
         dialogTitle: 'Confirm user state change!',
         dialogContent: `<p>Are you sure to ${ !isBlocked ? 'BLOCK' : 'UNBLOCK' } the user "${email}"?</p>`,

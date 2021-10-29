@@ -153,6 +153,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
+      autoFocus: false,
       data: {
         dialogTitle: 'Confirm session deletion',
         dialogContent: `<p>The following sessions will be deleted</p><ul>${namesList}</ul>`,
@@ -177,6 +178,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   openEnterSessionDialog(sessionRow: SessionTableRow): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
+      autoFocus: false,
       data: {
         dialogTitle: 'Confirm enter session',
         dialogContent:

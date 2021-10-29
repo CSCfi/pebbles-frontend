@@ -128,6 +128,6 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   redirectToSession(session: EnvironmentSession): void {
     this.redirectUrl = session.session_data.endpoints[0].access;
     console.log('redirecting to session content at ' + this.redirectUrl);
-    window.open(this.redirectUrl, '_self');
+    // window.open(this.redirectUrl, '_self');
   }
 }

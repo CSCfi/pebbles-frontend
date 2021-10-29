@@ -189,6 +189,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
     this.dialog.open(MainEnvironmentItemFormComponent, {
       width: '800px',
       height: '90vh',
+      autoFocus: false,
       data: {
         workspaceId: this.workspaceId,
         environment: environmentId ? this.getTargetEnvironment(environmentId) : null
@@ -202,6 +203,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
       width: '1000px',
       height: 'auto',
       maxHeight: '90vh',
+      autoFocus: false,
       data: {
         workspaceId: this.workspaceId
       }

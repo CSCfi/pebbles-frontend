@@ -1,22 +1,7 @@
-@import "src/styles.scss";
-
-.chip-list {
-    width: 100%;
-}
-
-.mat-button-base{
-  padding: 10px 20px 10px 10px;
-  float: right;
-  height: 50px;
-  border-radius: 25px;
-}
+@import "src/styles/main.scss";
 
 .candidate-label-outer {
-  border: 1px #DDD solid;
   background: map-get($app-primary, 200);
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 10px;
 
   .candidate-labels .label{
     font-size: 1.1rem;

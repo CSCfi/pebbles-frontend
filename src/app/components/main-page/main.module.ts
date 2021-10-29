@@ -21,7 +21,6 @@ import { MainEnvironmentItemFormComponent } from './main-environment-item-form/m
 // ---- Environment parts component
 import { MainEnvironmentItemComponent } from './main-environment-item/main-environment-item.component';
 import { MainEnvironmentWizardFormComponent } from './main-environment-wizard-form/main-environment-wizard-form.component';
-import { MainFooterComponent } from './main-footer/main-footer.component';
 import { MainHelpComponent } from './main-help/main-help.component';
 import { MainSessionButtonComponent } from './main-session-button/main-session-button.component';
 import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog/main-join-workspace-dialog.component';
@@ -52,7 +51,6 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainNavComponent,
     MainContentHeaderComponent,
     MainSearchBoxComponent,
-    MainFooterComponent,
     MainCatalogComponent,
     MainMyWorkspacesComponent,
     MainWorkspaceOwnerComponent,

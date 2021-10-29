@@ -1,7 +1,21 @@
-<div class="page-container__screen" fxLayout="column" fxLayoutAlign="space-between stretch">
-  <div class="not-found-container" fxFlex="grow" fxLayout="column" fxLayoutAlign="center stretch">
-    <h2 class="face">( ´·︵·` )</h2>
-    <p class="message">Not found</p>
-    <p><a [routerLink]="['/main']">Back to home</a></p>
+<div class="page-container__screen txt__center"
+     fxLayout="column" fxLayoutAlign="space-between stretch">
+  <div id="not-found-container"
+       fxFlex="grow" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+    <div class="face">
+      <mat-icon fontSet="material-icons-outlined" class="md-96">sentiment_dissatisfied</mat-icon>
+    </div>
+    <div>
+      <h1 class="mat-display-4">Oh, no!</h1>
+      <h2 class="mat-display-2">Page not found</h2>
+    </div>
+    <div class="links">
+      <p>
+        <button mat-stroked-button (click)="goBack()">Back to previous page</button>
+      </p>
+      <p class="mt-10">
+        <a [routerLink]="['/main']" class="u-line txt__primary">Go to home</a>
+      </p>
+    </div>
   </div>
 </div>

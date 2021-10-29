@@ -1,51 +1,19 @@
-@import "src/styles.scss";
-
-h2 {
-  width: 100%;
-  text-align: center;
-  font-weight: 600;
-}
-
-.mat-form-field {
-  width: 100%;
-}
+//@import "src/styles/main.scss";
 
 // ---- MEMO:
 // ---- To avoid displaying "All" as the last one in the options
 .mat-option {
-  &:last-child:before{
+  &:last-child:before {
     content: none;
   }
 }
 
-.button-row {
-  margin: 30px 0;
-
-  .submit-button {
-    width: 80%;
-  }
-
-  .cancel-button {
-    width: 20%;
-  }
+.mat-title {
+  margin-bottom: 4px !important;
 }
 
-form {
-  // margin-top: 20px;
-  padding: 20px 0;
-  .form-container {
-    h3 {
-      font-size: 1.4rem;
-    }
-
-    ul {
-      height: auto;
-      overflow: hidden;
-    }
-  }
-}
-
-.mat-dialog-container {
-  overflow: scroll;
-  border: 3px solid #333;
+.mat-radio-group,
+.checkbox-group {
+  margin-bottom: 30px;
+  display: block;
 }

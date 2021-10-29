@@ -127,15 +127,6 @@
         <div class="title mat-title" *ngIf="isTextVisible">Announcements</div>
       </a>
     </li>
-    <!--    <li class="nav-item" [class.active]="router.url==='/main/account'"-->
-    <!--        #tooltip="matTooltip" matTooltip="Account" [matTooltipDisabled]="true">-->
-    <!--      <a [routerLink]="['/main/account']">-->
-    <!--        <span class="icon-holder">-->
-    <!--          <mat-icon fontSet="material-icons-outlined">face</mat-icon>-->
-    <!--        </span>-->
-    <!--        <div class="title" *ngIf="isTextVisible">Account</div>-->
-    <!--      </a>-->
-    <!--    </li>-->
   </ul>
   <ul class="nav-items">
     <li class="nav-item" [class.active]="router.url==='/main/help'"
@@ -149,9 +140,21 @@
     </li>
   </ul>
   <div class="flex-spacer"></div>
+  <!-- CSC Logo -->
+  <!--  <ul *ngIf="isTextVisible">
+      <li>
+        <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">
+          <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
+            <p>ICT Solutions for Brilliant Minds</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+  -->
   <!-- Logout -->
-  <ul class="nav-items nav__bottom nav-partition pt-10 pb-20">
-    <li class="nav-item" *ngIf="isTextVisible">
+  <ul class="nav-items nav__bottom nav-partition pt-10 pb-10">
+    <li class="nav-item">
       <a id="account" [routerLink]="['/main/account']">
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">face</mat-icon>
@@ -167,6 +170,17 @@
         </span>
         <span class="title" *ngIf="isTextVisible">Logout</span>
       </button>
+    </li>
+  </ul>
+  <!-- CSC Logo -->
+  <ul class="bg__primary-dark" *ngIf="isTextVisible">
+    <li>
+      <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">
+        <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
+          <p>ICT Solutions for Brilliant Minds</p>
+        </div>
+      </a>
     </li>
   </ul>
 </div>
@@ -223,6 +237,7 @@
     <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
     Help
   </button>
+
   <button mat-menu-item [routerLink]="['/main/account']">
     <mat-icon fontSet="material-icons-outlined">face</mat-icon>
     {{ userName }}

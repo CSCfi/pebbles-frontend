@@ -1,15 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Environment } from 'src/app/models/environment';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
 
 @Component({
   selector: 'app-main-join-workspace-dialog',
-  templateUrl: './main-join-workspace-dialog.component.html',
-  styleUrls: ['./main-join-workspace-dialog.component.scss']
+  templateUrl: './main-join-workspace-dialog.component.html'
 })
 export class MainJoinWorkspaceDialogComponent implements OnInit {
 

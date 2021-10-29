@@ -7,7 +7,6 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 @Component({
   selector: 'app-main-workspace-form',
   templateUrl: './main-workspace-form.component.html',
-  styleUrls: ['./main-workspace-form.component.scss']
 })
 export class MainWorkspaceFormComponent implements OnInit {
 

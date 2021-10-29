@@ -1,8 +1,13 @@
-@import "src/styles/main.scss";
+//@import "src/styles/main.scss";
+
+.app-header {
+  z-index: 1000;
+}
 
 .bg-pattern-1,
 .bg-pattern-2{
   position: absolute;
+  z-index: 1;
 }
 
 .bg-pattern-1 {

@@ -194,6 +194,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(MainWorkspaceFormComponent, {
       width: '800px',
       height: 'auto',
+      autoFocus: false,
       data: {
         isCreationMode: true,
       }
@@ -251,6 +252,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   openJoinCodeDialog(workspace: Workspace): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
+      autoFocus: false,
       data: {
         dialogTitle: 'Workspace join code',
         dialogContent: `<p>Share the join code below to the users you want to share your workspace.</p>`,
@@ -266,6 +268,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   openDeleteWorkspaceDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
+      autoFocus: false,
       data: {
         dialogTitle: 'Delete Workspace',
         dialogContent: `<p>Are you sure to delete the workspace "${this.selectedWorkspace.name}"?</p>`,

@@ -1,142 +1,153 @@
-<form [formGroup]="environmentItemEditFormGroup">
-  <h2>{{ isCreationMode ? 'Create' : 'Edit' }} environment</h2>
-  <div class="plain-form-container">
-    <!-- 1 Env Templates-->
-    <div class="form-container">
-      <h3>environment template</h3>
-      <ng-container *ngIf="isCreationMode; else templateNameBlock">
-        <mat-form-field appearance="fill">
-          <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
-            <mat-option *ngFor="let tmpl of environmentTemplates" value="{{ tmpl.id }}">
-              {{ tmpl.name }} : {{ tmpl.description }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </ng-container>
-      <ng-template #templateNameBlock>
-        <p>{{ this.data.environment.template_name }}</p>
-      </ng-template>
-    </div>
-
-    <!-- 2 Name-->
-    <div class="form-container">
-      <h3>environment name</h3>
-      <mat-form-field appearance="fill">
-        <input matInput formControlName="name">
-      </mat-form-field>
-    </div>
-
-    <!-- 3 Description-->
-    <div class="form-container">
-      <h3>description</h3>
-      <mat-form-field appearance="fill">
-        <textarea matInput formControlName="description"></textarea>
-      </mat-form-field>
-    </div>
-
-    <!-- 4 Category-->
-    <div class="form-container">
-      <h3>category labels (optional)</h3>
-      <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
-    </div>
-
-    <!-- 5 Jupyter Interface-->
-    <div class="form-container mt-20" *ngIf="environmentType==='jupyter'">
-      <h3>Jupyter interface</h3>
-      <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
-        <ul>
-          <li>
-            <mat-radio-button [value]="'lab'">Lab</mat-radio-button>
-          </li>
-          <li>
-            <mat-radio-button [value]="'notebook'">Notebook</mat-radio-button>
-          </li>
-        </ul>
-      </mat-radio-group>
-    </div>
-
-    <!-- 6-1 Include External files -->
-    <div class="form-container mt-20">
-      <h3>Download Method</h3>
-      <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)" >
-        <ul>
-          <li>
-            <mat-radio-button [value]="'none'">None</mat-radio-button>
-          </li>
-          <li>
-            <mat-radio-button [value]="'git-clone'">Git clone from Repository</mat-radio-button>
-          </li>
-          <li>
-            <mat-radio-button [value]="'http-get'">Download the file from URL</mat-radio-button>
-          </li>
-          <li>
-            <mat-radio-button [value]="'local'" disabled>Upload the file from your computer</mat-radio-button>
-          </li>
-        </ul>
-      </mat-radio-group>
-    </div>
-
-    <!-- 6-2 Source -->
-    <div class="form-container mt-20">
-      <ng-container [ngSwitch]="selectedDownloadMethod">
-        <div *ngSwitchCase="'local'">
-          <button mat-flat-button color="primary">Upload file</button>
-        </div>
-        <div *ngSwitchCase=" ['git-clone','http-get'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
-          <h3>Source(URL)</h3>
+<div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
+  <div class="corner-button-container" fxHide.lt-sm="true">
+    <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <form id="dialog" [formGroup]="environmentItemEditFormGroup">
+    <h1 class="mat-dialog-title mat-headline">{{ isCreationMode ? 'Create' : 'Edit' }} environment</h1>
+    <mat-dialog-content class="plain-form-container">
+      <!-- 1 Env Templates-->
+      <section class="form-container">
+        <h3 class="mat-title">Environment template</h3>
+        <ng-container *ngIf="isCreationMode; else templateNameBlock">
           <mat-form-field appearance="fill">
-            <input matInput formControlName="source">
+            <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
+              <mat-option *ngFor="let tmpl of environmentTemplates" value="{{ tmpl.id }}">
+                {{ tmpl.name }} : {{ tmpl.description }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
+        </ng-container>
+        <ng-template #templateNameBlock>
+          <p>{{ this.data.environment.template_name }}</p>
+        </ng-template>
+      </section>
+
+      <!-- 2 Name-->
+      <section class="form-container">
+        <h3 class="mat-title">Environment name</h3>
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="name">
+        </mat-form-field>
+      </section>
+
+      <!-- 3 Description-->
+      <section class="form-container">
+        <h3 class="mat-title">Description</h3>
+        <mat-form-field appearance="fill">
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </section>
+
+      <!-- 4 Category-->
+      <section class="form-container">
+        <h3 class="mat-title">Category labels (optional)</h3>
+        <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
+      </section>
+
+      <!-- 5 Jupyter Interface-->
+      <section class="form-container" *ngIf="environmentType==='jupyter'">
+        <h3 class="mat-title">Jupyter interface</h3>
+        <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
+          <ul>
+            <li>
+              <mat-radio-button [value]="'lab'">Lab</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'notebook'">Notebook</mat-radio-button>
+            </li>
+          </ul>
+        </mat-radio-group>
+      </section>
+
+      <!-- 6-1 Include External files -->
+      <section class="form-container">
+        <h3 class="mat-title">Download method</h3>
+        <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
+          <ul>
+            <li>
+              <mat-radio-button [value]="'none'">None</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'git-clone'">Git clone from Repository</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'http-get'">Download the file from URL</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="'local'" disabled>Upload the file from your computer</mat-radio-button>
+            </li>
+          </ul>
+        </mat-radio-group>
+      </section>
+
+      <!-- 6-2 Source -->
+      <section class="form-container">
+        <ng-container [ngSwitch]="selectedDownloadMethod">
+          <div *ngSwitchCase="'local'">
+            <button mat-flat-button color="primary">Upload file</button>
+          </div>
+          <div
+            *ngSwitchCase=" ['git-clone','http-get'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
+            <h3>Source(URL)</h3>
+            <mat-form-field appearance="fill">
+              <input matInput formControlName="source">
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </section>
+
+      <!-- 6-3 Auto Execution -->
+      <section class="form-container" *ngIf="selectedDownloadMethod !== 'none'">
+        <h3 class="mat-title">Auto execution</h3>
+        <div class="checkbox-group">
+          <mat-checkbox formControlName="isAutoExecution"> Execute initial file (Bash file, unZip)</mat-checkbox>
         </div>
-      </ng-container>
-    </div>
+      </section>
 
-    <!-- 6-3 Auto Execution -->
-    <div class="form-container mt-20" *ngIf="selectedDownloadMethod !== 'none'">
-      <h3>Auto execution</h3>
-      <div>
-        <mat-checkbox formControlName="isAutoExecution"> Execute initial file  (Bash file, unZip)</mat-checkbox>
-      </div>
-    </div>
+      <!-- 6-4 User work folder -->
+      <section class="form-container">
+        <h3 class="mat-title">Work folder per user</h3>
+        <div class="checkbox-group">
+          <mat-checkbox formControlName="isEnableUserWorkFolder">
+            Enable personal persistent 'work' folder for users. The folder is workspace specific.
+          </mat-checkbox>
+        </div>
+      </section>
 
-    <!-- 6-4 User work folder -->
-    <div class="form-container mt-20">
-      <h3>Work folder per user</h3>
-      <div>
-        <mat-checkbox formControlName="isEnableUserWorkFolder">
-          Enable personal persistent 'work' folder for users. The folder is workspace specific.
-        </mat-checkbox>
-      </div>
-    </div>
-
-    <!-- 7 Publish -->
-    <div class="form-container mt-20">
-      <h3>Publication</h3>
-      <mat-radio-group formControlName="publish" >
-        <ul>
-          <li>
-            <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
-          </li>
-          <li>
-            <mat-radio-button [value]="false">Save as a draft</mat-radio-button>
-          </li>
-        </ul>
-      </mat-radio-group>
-    </div>
+      <!-- 7 Publish -->
+      <section class="form-container">
+        <h3 class="mat-title">Publication</h3>
+        <mat-radio-group formControlName="publish">
+          <ul>
+            <li>
+              <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
+            </li>
+            <li>
+              <mat-radio-button [value]="false">Save as a draft</mat-radio-button>
+            </li>
+          </ul>
+        </mat-radio-group>
+      </section>
+    </mat-dialog-content>
 
     <!-- Submit -->
-    <div class="button-row">
-      <button class="submit-button" mat-flat-button color="primary"
-        *ngIf="isCreationMode"
-        (click)="createEnvironmentByPlainMode()">
+    <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
+         fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
+      <button mat-flat-button color="primary" fxFlex="grow"
+              *ngIf="isCreationMode"
+              (click)="createEnvironmentByPlainMode()">
         Create
       </button>
-      <button class="submit-button" mat-flat-button color="primary"
-        *ngIf="!isCreationMode"
-        (click)="editEnvironmentItem()">
+      <button mat-flat-button class="submit-button" color="primary" fxFlex="grow"
+              *ngIf="!isCreationMode"
+              (click)="editEnvironmentItem()">
         Update
       </button>
-      <button class="cancel-button" mat-flat-button (click)="closeForm()">Cancel</button>
+      <button mat-button class="button-link button-sm" fxFlex="0 0 auto" (click)="closeForm()">
+        Cancel
+      </button>
     </div>
-  </div>
-</form>
+  </form>
+</div>
