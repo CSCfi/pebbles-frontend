@@ -1217,7 +1217,7 @@ export let db = {
   config: [
     {
       key: 'INSTALLATION_NAME',
-      value: 'Pebbles.mock.localhost'
+      value: 'Pebbles mock'
     },
     {
       key: 'SHORT_DESCRIPTION',

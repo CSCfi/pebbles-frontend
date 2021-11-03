@@ -25,8 +25,18 @@ export class PublicConfigService {
     if (!configName) {
       return 'Notebooks';
     }
-    const nameParts = configName.split('.', 1);
-    return nameParts[0];
+    // if we have whitespace, split there
+    const spaceIndex = configName.indexOf(' ');
+    if (spaceIndex >= 0) {
+      return configName.substr(0, spaceIndex);
+    }
+    // secondary split: dot
+    const dotIndex = configName.indexOf('.');
+    if (dotIndex >= 0) {
+      return configName.substr(0, dotIndex);
+    }
+    // no splitting
+    return configName;
   }
 
   getInstallationDomain(): string {
@@ -34,11 +44,18 @@ export class PublicConfigService {
     if (!configName) {
       return null;
     }
-    const dotIndex = configName.indexOf('.');
-    if (dotIndex < 0) {
-      return null;
+    // if we have whitespace, split there
+    const spaceIndex = configName.indexOf(' ');
+    if (spaceIndex >= 0) {
+      return configName.substr(spaceIndex);
     }
-    return configName.substr(dotIndex);
+    // secondary split: dot
+    const dotIndex = configName.indexOf('.');
+    if (dotIndex >= 0) {
+      return configName.substr(dotIndex);
+    }
+    // no domain
+    return null;
   }
 
   getShortDescription(): string {

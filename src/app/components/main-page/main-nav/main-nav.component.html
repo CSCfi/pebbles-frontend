@@ -6,9 +6,9 @@
       <div class="logo__mark" fxFlex="0 0 36px">
         <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
       </div>
-      <div class="logo__type" *ngIf="isTextVisible">
+      <div class="logo__type" *ngIf="isTextVisible" >
         {{ publicConfigService.getInstallationName() }}
-        <!-- <span class="owner mat-display-4 mb-0">CSC.fi</span>-->
+        <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
       </div>
     </a>
   </div>
