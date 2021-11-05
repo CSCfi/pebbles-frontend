@@ -1,56 +1,23 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
-.workspace-members-container {
-  position: relative;
+#workspace-members-container {
+  .cell-role {
+    color: map-get($app-primary, default);
 
-  .member-reload-button {
-    position: absolute;
-    top: 0;
-    right: 15px;
-    padding: 3px;
-    text-align: right;
-    background: #eee;
-    background: map-get($colors, light-active);
-    border-radius: 3px;
-
-    &:hover {
-      cursor: pointer;
-      filter: brightness(85%);
-    }
-  }
-
-  table {
-    ::ng-deep tr.mat-header-row {
-      height: 30px;
-
-      th {
-        font-size: 1.1rem !important;
-      }
-
-      td {
-        font-size: 1.2rem !important;
-      }
+    mat-icon {
+      margin-right: 5px;
     }
 
-    .mat-column-index {
-      font-size: 1.0rem;
+    .owner {
+      color: map-get($app-warn, dark);
     }
 
-    .role-icon {
-      color: map-get($colors, accent);
-      width: 50px;
+    .manager {
+      color: map-get($app-accent, default);
+    }
 
-      .owner {
-        color: map-get($colors, active);
-      }
-
-      .manager {
-        color: map-get($colors, danger);
-      }
-
-      .banned {
-        color: map-get($colors, dark);
-      }
+    .banned {
+      color: map-get($app-gray, dark);
     }
   }
 }

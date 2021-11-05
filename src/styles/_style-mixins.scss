@@ -1,4 +1,3 @@
-
 // -------------------- Multiple layer map
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
@@ -11,7 +10,7 @@
 }
 
 // -------------------- Margin & padding
-$space-amounts: (0, 2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100);
+$space-amounts: (0, 2, 4, 5, 8, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100);
 $sides: (
   "": "all",
   "t": "top",
@@ -52,12 +51,29 @@ $sides: (
 }
 
 .center {
-  &__v { @include center(vertical); }
-  &__vi { @include center(vertical, inline); }
-  &__h { @include center(horizontal); }
-  &__hi { @include center(horizontal, inline); }
-  &__vh { @include center(both); }
-  &__vhi { @include center(both, inline); }
+  &__v {
+    @include center(vertical);
+  }
+
+  &__vi {
+    @include center(vertical, inline);
+  }
+
+  &__h {
+    @include center(horizontal);
+  }
+
+  &__hi {
+    @include center(horizontal, inline);
+  }
+
+  &__vh {
+    @include center(both);
+  }
+
+  &__vhi {
+    @include center(both, inline);
+  }
 }
 
 // --------------------
@@ -71,6 +87,11 @@ $sides: (
     background: map-get($app-primary, default);
     color: #fff;
 
+    &a,
+    & a{
+      color: #fff;
+    }
+
     &-light {
       color: #fff;
       background: map-get($app-primary, light);
@@ -79,6 +100,11 @@ $sides: (
     &-dark {
       color: #fff;
       background: map-get($app-primary, dark);
+
+      &a,
+      & a{
+        color: #fff;
+      }
     }
   }
 
@@ -173,24 +199,24 @@ $sides: (
 }
 
 .icon {
-  &__notification-on:before {
+
+  &__notification:before {
     font-family: "Material Icons";
     content: "\e7f7";
     margin-right: 5px;
     font-size: 24px;
-    color: map-get($app-accent, default);
   }
-  &__notification-off:before {
+
+  &__workspace:before {
     font-family: "Material Icons";
-    content: "\e7f6";
+    content: "\e7ef";
     margin-right: 5px;
     font-size: 24px;
-    color: map-get($app-warn, dark);
   }
 }
 
-@mixin shadow ($value: .44) {
-  @if($value > 0){
+@mixin shadow($value: .44) {
+  @if ($value > 0) {
     box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 50, $value) !important;
     position: relative;
     z-index: 1000;

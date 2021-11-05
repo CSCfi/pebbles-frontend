@@ -32,7 +32,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
-  public displayedColumns: string[] = ['index', 'icon', 'role', 'email', 'action'];
+  public displayedColumns: string[] = ['index', 'role', 'email', 'menu'];
   public dataSource: MatTableDataSource<MemberRow>;
   public selection = new SelectionModel<MemberRow>(true, []);
   public memberList: MemberRow[] = null;
@@ -144,14 +144,15 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   setIsBanned(userId: string, isBanned: boolean): void {
     this.workspaceService.setIsBanned(this.workspaceId, userId, isBanned).subscribe();
   }
-  // applyFilter(event: Event): void {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  //
-  //   if (this.dataSource.paginator) {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   // isAllSelected(): boolean {

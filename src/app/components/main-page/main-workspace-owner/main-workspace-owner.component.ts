@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,13 +36,16 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   public workspaces: Workspace[] = null;
   public selectedWorkspaceId: string;
   public selectedWorkspace: Workspace;
-  public selectedTab = 1;
+  public selectedTab = 0;
   public newWorkspace: Workspace;
   public user: User;
   public environmentCount = 0;
   public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
+  public queryText = '';
+  options: FormGroup;
+  workspaceIdControl = new FormControl();
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
@@ -61,8 +65,12 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     private environmentService: EnvironmentService,
     private environmentTemplateService: EnvironmentTemplateService,
     private eventService: EventService,
+    private fb: FormBuilder
   ) {
     this.createDemoWorkspaceClickTs = 0;
+    this.options = fb.group({
+      workspaceId: this.workspaceIdControl
+    });
   }
 
   ngOnInit(): void {
@@ -308,5 +316,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       return;
     }
     this.tabGroup.selectedIndex = idx;
+  }
+
+  workspaceSelectChange(){
+    this.selectWorkspace(this.selectedWorkspaceId);
   }
 }

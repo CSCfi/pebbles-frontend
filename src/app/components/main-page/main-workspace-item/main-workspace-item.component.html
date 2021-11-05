@@ -24,7 +24,7 @@
       <div class="workspace-description mt-10 mb-5" [innerHTML]="workspace.description">
       </div>
       <div class="environment-list" *ngIf="environments !== null" [ngClass]="{'active': environments?.length > 0}">
-        <div class="toggle-button v-centering__inline" (click)="toggleEnvironmentList()">
+        <div class="toggle-button center__v" (click)="toggleEnvironmentList()">
           <mat-icon class="material-icons-outlined">list</mat-icon>
           <ng-container *ngIf="environments.length > 0">
             <mat-icon fontSet="material-icons-outlined" *ngIf="!panelOpenState ; else openedPanelBlock">arrow_right</mat-icon>

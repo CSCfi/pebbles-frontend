@@ -10,7 +10,7 @@
   </app-main-content-header>
 </div>
 
-<ul class="mobile-nav p-15 txt__primary u-line" fxShow.lt-sm="true" fxHide="true">
+<ul class="mobile-nav p-15 txt__primary" fxShow.lt-sm="true" fxHide="true">
   <li><a [routerLink]="['/main/help']" [queryParams]="{content:'faq'}">FAQ</a></li>
   <li><a [routerLink]="['/main/help']" [queryParams]="{content:'documentation'}">Documentation</a></li>
   <li><a [routerLink]="['/main/help']" [queryParams]="{content:'contact'}">Contact us</a></li>
@@ -62,7 +62,7 @@
             <p class="mat-body-1 center__v">
               <mat-icon class="mr-10">launch</mat-icon>
               <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
-                 class="tab-title mat-subheading-2 u-line txt__primary" rel="noopener">
+                 class="tab-title mat-subheading-2 txt__primary" rel="noopener">
                 Open Documentation (External link)
               </a>
             </p>
@@ -72,7 +72,7 @@
             <p class="mat-body-1 center__v">
               <mat-icon class="mr-10">launch</mat-icon>
               <a href="https://github.com/CSCfi/pebbles" target="_blank"
-                 class="tab-title mat-subheading-2 u-line txt__primary" rel="noopener">
+                 class="tab-title mat-subheading-2 txt__primary" rel="noopener">
                 See source code in GitHub
               </a>
             </p>
@@ -99,7 +99,7 @@
           <div class="contact-info">
             <mat-icon fontSet="material-icons-outlined" class="md-96 business-icon">business</mat-icon>
             <div class="mb-10 mat-headline">Service Desk</div>
-            <dl class="mt-30 mb-20 mat-title" ngClass.gt-sm="grid">
+            <dl class="mt-30 mb-20 mat-title" ngClass.gt-xs="grid">
               <dt class="center__v">
                 <mat-icon fontSet="material-icons-outlined" class="mr-5">mail</mat-icon>
                 <span class="mr-10">E-mail</span>

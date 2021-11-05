@@ -1,18 +1,19 @@
-<div class="workspace-setting-container p-20" *ngIf="workspace && !isWorkspaceDeleted; else loadingBlock">
-  <form [formGroup]="workspaceEditForm" novalidate
-        class="m-20">
-    <dl class="workspace-info grid">
+<div id="workspace-setting-container" ngClass.gt-xs="p-40" ngClass.lt-sm="p-20"
+     fxLayout="column" fxLayoutGap="10px">
+
+  <form [formGroup]="workspaceEditForm" novalidate *ngIf="workspaceEditForm">
+    <dl class="workspace-info grid mb-30">
       <dt>
         Workspace name
       </dt>
       <dd>
-        <div class="preview" *ngIf="!isWorkspaceNameEditOn">
-          <p>{{ workspace.name }}</p>
+        <div class="preview" *ngIf="!isWorkspaceNameEditOn" fxLayout="row" fxLayoutAlign="space-between start">
+          <p fxFlex="grow">{{ workspace.name }}</p>
           <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
             <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
           </button>
         </div>
-        <mat-form-field appearance="outline" *ngIf="isWorkspaceNameEditOn">
+        <mat-form-field appearance="fill" *ngIf="isWorkspaceNameEditOn">
           <input matInput formControlName="name">
         </mat-form-field>
       </dd>
@@ -20,42 +21,44 @@
         Workspace description
       </dt>
       <dd>
-        <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
-          <p [innerHTML]="workspace.description || 'No description'"></p>
+        <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn" fxLayout="row" fxLayoutAlign="space-between start">
+          <p fxFlex="grow" [innerHTML]="workspace.description || 'No description'"></p>
           <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceDescription()">
             <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
           </button>
         </div>
-        <mat-form-field appearance="outline" *ngIf="isWorkspaceDescriptionEditOn">
+        <mat-form-field appearance="fill" *ngIf="isWorkspaceDescriptionEditOn">
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
       </dd>
-      <dt class="join-code-title v-centering mb-50">Join code</dt>
+      <dt class="join-code-title">Join code</dt>
       <dd fxLayout="row" fxLayoutAlign="space-between center">
         <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
-          <mat-icon fontSet="material-icons-outlined" class="mr-5">vpn_key</mat-icon>
-          <div class="chip__hidden v-centering__inline">● ● ● ● ● ●</div>
+          <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
+          <div class="chip__hidden center__v">● ● ● ● ● ●</div>
         </div>
       </dd>
       <dt class="">Created on</dt>
       <dd>{{ created_date }}</dd>
-      <dt class="mb-30">Expiring on</dt>
+      <dt class="">Expiring on</dt>
       <dd>{{ expiry_date }}</dd>
     </dl>
-    <button mat-flat-button class="workspace-update-button mt-20" color="accent"
-            *ngIf="workspace.name!=='System.default'"
-            [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
-      save changes
-    </button>
-    <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
-            (click)="cancelWorkspaceEditing()">
-      cancel changes
-    </button>
-    <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
-            (click)="deleteWorkspace()">
-      <mat-icon fontSet="material-icons-outlined" class="mr-5">delete_outline</mat-icon>
-      delete workspace
-    </button>
+    <div fxLayout="column" fxLayoutAlign="start stretch">
+      <button mat-flat-button class="workspace-update-button mt-20" color="accent"
+              *ngIf="workspace.name!=='System.default'"
+              [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
+        save changes
+      </button>
+      <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
+              (click)="cancelWorkspaceEditing()">
+        cancel changes
+      </button>
+      <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
+              (click)="deleteWorkspace()">
+        <mat-icon fontSet="material-icons-outlined" class="mr-5">delete_outline</mat-icon>
+        delete workspace
+      </button>
+    </div>
   </form>
 </div>
 

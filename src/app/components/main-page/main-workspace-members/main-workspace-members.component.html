@@ -1,17 +1,24 @@
-<div class="workspace-members-container pl-20 pr-50">
-
-  <div class="button member-reload-button" (click)="refreshMembers()">
-    <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
+<div id="workspace-members-container" ngClass.gt-xs="pt-20 pl-40 pr-40 pb-50" ngClass.lt-sm="p-10"
+     fxLayout="column" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+    <!-- Search Box -->
+    <mat-form-field appearance="fill" i fxFlex="grow">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+    </mat-form-field>
+    <button mat-stroked-button class="member-reload-button" (click)="refreshMembers()">
+      <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
+    </button>
   </div>
   <ng-container *ngIf="memberList?.length > 0; else noMember">
     <!-- members table -->
     <!--
-      - icon column
-      - role column
+      - Index column
+      - Role column
       - ext_id (email) column
-      - menu button column
+      - Menu button column
      -->
-    <table mat-table [dataSource]="dataSource" class="mt-20">
+    <table mat-table [dataSource]="dataSource">
       <!-- Checkbox Column -->
       <!--
       <ng-container matColumnDef="select" sticky>
@@ -29,25 +36,21 @@
       -->
       <!-- Index Column -->
       <ng-container matColumnDef="index">
-        <th mat-header-cell *matHeaderCellDef>index</th>
-        <td mat-cell *matCellDef="let row"> {{row.index}} </td>
+        <th mat-header-cell class="icon" *matHeaderCellDef>index</th>
+        <td mat-cell class="center icon" *matCellDef="let row"> {{row.index}} </td>
       </ng-container>
       <!-- Role column -->
-      <ng-container matColumnDef="icon">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="role-icon">
-          <ng-container [ngSwitch]="element.role">
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'owner'" class="owner" matTooltip="workspace owner">manage_accounts</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'manager'" class="manager" matTooltip="workspace co-owner">manage_accounts</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'banned'" class="banned" matTooltip="workspace banned user">person_off</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchDefault class="member" matTooltip="workspace member">person</mat-icon>
-          </ng-container>
-        </td>
-      </ng-container>
       <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef>role</th>
-        <td mat-cell *matCellDef="let element" class="role">
-          {{ getUserCategory(element.role) }}
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell class="cell-role" *matCellDef="let element">
+          <ng-container [ngSwitch]="element.role">
+            <p [ngClass]="element.role" class="center__v mat-caption m-0">
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'owner'"> manage_accounts </mat-icon>
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'manager'"> manage_accounts </mat-icon>
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'banned'"> person_off </mat-icon>
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchDefault> person </mat-icon>{{element.role}}
+            </p>
+          </ng-container>
         </td>
       </ng-container>
       <!-- ext_id column -->
@@ -56,11 +59,12 @@
         <td mat-cell *matCellDef="let element">{{element.email}}</td>
       </ng-container>
       <!-- menu column -->
-      <ng-container matColumnDef="action" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef class="centering">action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-button [matMenuTriggerFor]="menu" aria-label="open environment menu" [disabled]="element.role === 'owner'">
-            <mat-icon fontSet="material-icons-outlined">more_vert</mat-icon>
+      <ng-container matColumnDef="menu" stickyEnd>
+        <th mat-header-cell class="icon" *matHeaderCellDef>menu</th>
+        <td mat-cell class="icon center" *matCellDef="let element">
+          <button mat-button [matMenuTriggerFor]="menu" aria-label="open environment menu"
+                  [disabled]="element.role === 'owner'">
+            <mat-icon>menu</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item>

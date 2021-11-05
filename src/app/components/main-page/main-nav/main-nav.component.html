@@ -1,4 +1,4 @@
-<div class="sidenav-inner bg__primary" fxLayout="column" fxHide.lt-sm="true">
+<div class="sidenav-inner bg__primary no-u-line" fxLayout="column" fxHide.lt-sm="true">
   <!-- Logo -->
   <div class="logo mat-display-3" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="10px"
@@ -159,7 +159,7 @@
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined">face</mat-icon>
         </span>
-        <span class="email" *ngIf="isTextVisible">{{ userName }}</span>
+        <span class="email u-line" *ngIf="isTextVisible">{{ userName }}</span>
       </a>
     </li>
     <li class="nav-item">
@@ -178,7 +178,7 @@
       <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">
         <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
           <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
-          <p>ICT Solutions for Brilliant Minds</p>
+          <p class="m-0">ICT Solutions for Brilliant Minds</p>
         </div>
       </a>
     </li>

@@ -1,7 +1,7 @@
 <mat-toolbar-row id="header" role="heading"
                  [ngClass]="'container__'+displayMode">
   <!-- Logo -->
-  <div class="logo" fxFlex="0 0 300px"
+  <div class="logo no-u-line" fxFlex="0 0 300px"
        [ngClass]="('mat-display-'+logoTypeSize)">
     <a [routerLink]="['/welcome']" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
       <div class="logo__mark" [fxFlex]="('0 '+'0 '+ logoMarkSize+'px')">
@@ -17,7 +17,7 @@
   </div>
   <!-- Navigation -->
   <span fxFlex></span>
-  <ul class="navbar mat-display-2 mb-10 mt-10"
+  <ul class="navbar mat-display-2 no-u-line mb-10 mt-10"
       fxShow="true" fxHide.lt-sm="true"
       fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px"
       fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="end start" fxLayoutGap.lt-sm="5px"

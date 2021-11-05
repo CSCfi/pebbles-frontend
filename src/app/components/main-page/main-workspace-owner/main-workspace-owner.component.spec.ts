@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
@@ -18,7 +19,8 @@ describe('MainWorkspaceOwnerComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        MaterialModule
+        MaterialModule,
+        ReactiveFormsModule
       ],
     })
     .compileComponents();

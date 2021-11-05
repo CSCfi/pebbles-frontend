@@ -24,10 +24,32 @@ body {
 }
 
 a {
+  text-decoration: underline;
+  color: map-get($app-primary, default);
 
   &:hover {
     color: map-get($app-accent, light);
     cursor: pointer;
+  }
+}
+
+.no-u-line {
+  &a {
+    text-decoration: none;
+  }
+  & a {
+    text-decoration: none;
+  }
+}
+
+.u-line {
+  text-decoration: underline;
+
+  &a {
+    text-decoration: underline;
+  }
+  & a {
+    text-decoration: underline;
   }
 }
 
@@ -71,11 +93,6 @@ button {
   &__md {
     border-radius: 5px;
   }
-}
-
-a.u-line,
-.u-line a {
-  text-decoration: underline;
 }
 
 .container {
@@ -359,6 +376,13 @@ dl.grid {
   opacity: 1 !important;
 }
 
+.mat-tab-header {
+  .mat-ink-bar {
+    background-color: map-get($app-accent, default) !important;
+    height: 6px !important;
+  }
+}
+
 // ---- Mat-Card
 // ----------------------------------------
 mat-card {
@@ -401,6 +425,10 @@ mat-card {
 
 .mat-form-field {
   //margin-bottom: 0 !important;
+}
+
+.mat-option[aria-selected="true"] {
+  background: map-get($app-warn, light) !important;
 }
 
 // ---- Button
@@ -517,13 +545,17 @@ a.mat-stroked-button,
   }
 
   &__m {
+    @include center(both);
     font-weight: 600;
-    color: map-get($colors, dark);
-    background-color: map-get($colors, light2);
-    margin-right: 3px;
+    background: map-get($app-gray, 200);
+    color: #fff;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-left: 3px;
     line-height: 100%;
-    min-height: 24px;
-    border-radius: 15px;
+    min-height: 20px;
+    border-radius: 12px;
+    padding: 0 10px 0 !important;
   }
 
   &__hidden {
@@ -541,64 +573,54 @@ a.mat-stroked-button,
 // ---- Mat-Table
 // ----------------------------------------
 
-::ng-deep .mat-table {
+.mat-table {
   width: 100%;
   margin: auto;
 
-  .mat-header-row {
-    background: map-get($colors, light2);
-    height: 40px;
-
-    .mat-header-cell {
-      color: map-get($colors, white);
-      border-bottom: none;
-    }
-  }
-
   th, td {
-    vertical-align: middle;
+    &.center {
+      text-align: center;
+    }
+
+    &.icon {
+      width: 50px;
+
+      .mat-button {
+        min-width: 30px !important;
+        padding: 0 10px !important;
+      }
+    }
   }
 
-  th {
+  th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    border-bottom: 1px solid map-get($app-gray, 200) !important;
+  }
+
+  .mat-header-row {
+    height: 20px;
+    background: map-get($app-gray, 100);
     text-transform: capitalize;
+    border: 1px solid map-get($app-gray, 100);
+
+    th {
+      padding: 5px !important;
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid map-get($app-gray, 200);
+    }
   }
 
-  .mat-header-cell,
-  .mat-cell {
+  td {
     padding: 5px !important;
+    border: 1px solid map-get($app-gray, 200);
+    vertical-align: middle;
 
-    &.border {
-      &__left {
-        border-left: map-get($borders, thin);
-      }
-
-      &__right {
-        border-right: map-get($borders, thin);
-      }
-    }
-
-    &.left-align {
-      text-align: left !important;
-    }
-
-    &.centering {
-      text-align: center !important;
-    }
-  }
-
-  .font-s {
-    font-size: 1.1rem;
-    line-height: 1.5rem;
-  }
-
-  .mat-table-sticky {
-    .mat-button {
-      min-width: 50px !important;
-      padding: 0;
-    }
+     li {
+       line-height: 150%;
+       margin-bottom: 5px;
+     }
   }
 }
-
 
 // ---- z-index styles ---- //
 

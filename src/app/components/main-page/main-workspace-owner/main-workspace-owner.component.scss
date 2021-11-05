@@ -1,152 +1,92 @@
 @import "src/styles/main.scss";
 
-.workspace-owner-content-wrapper {
-  height: calc(100vh - 70px);
-  width: 100%;
+// ---- Left UI
+#workspace-owner-container {
+  background: map-get($app-primary, 200);
+  height: 100vh;
   overflow: hidden;
-
-  .workspaces-actions-container {
-    button {
-      height: 55px;
-    }
-  }
 
   .workspace-list-container {
     overflow: hidden;
-    // border-right: 1px solid map-get($colors, white);
-    // box-shadow: 0 1px 2px 1px rgba(154, 154, 204, .22) !important;
 
     .workspace-list {
-      // max-width: 400px !important;
       overflow: auto;
 
-      .mat-card {
-        padding: 5px 16px;
-        border-top: 1px solid map-get($colors , light3);
-        border-left: 8px solid map-get($colors , light2);
-        border-right: 1px solid map-get($colors , light2);
-        border-bottom: 1px solid map-get($colors , light2);
-
-        .card-header {
-          min-height: 30px;
-          padding: 15px 0;
-        }
-
-        .card-info {
-          min-height: 30px;
-          border-top: map-get($borders, thin-dark);
-          margin-left: -16px;
-          margin-right: -16px;
-          padding: 15px 20px;
-
-          .description {
-            font-weight: 500;
-            font-size: 1.3rem;
-            border-bottom: map-get($borders, thin);
-          }
-
-          .join-code-info {
-            border-bottom: map-get($borders, thin);
-          }
-        }
-      }
-
-      .mat-badge-content{
-        font-weight: 500;
-        width: 25px;
-        font-size: 0.8rem;
-        color: white;
-      }
-
-      .workspace-widget {
-        // background-color: map-get($colors, light-gray);
-        // color: map-get($colors, white);
-        color: map-get($colors, gray2);
-        font-weight: 600;
-        // border-left: 8px solid map-get($colors, white);
+      .workspace-item {
+        color: map-get($app-primary, default);
         cursor: pointer;
+        border-left: 8px solid #fff;
 
-        .card-media {
-          margin: -16px 0px -16px -16px !important;
+        .workspace-info {
+          border-top: map-get($borders, thin-dark);
         }
 
         &.deleted {
-          border-left: 8px solid map-get($colors, gray);
-          background-color: map-get($colors, gray);
+          background-color: map-get($app-gray, 100);
+        }
+
+        .workspace-icon mat-icon {
+          color: map-get($app-primary, 300) !important;
         }
 
         &.selected {
-          border-left: 8px solid map-get($colors, accent);
-          background-color: map-get($colors, white);
-          color: map-get($colors, dark);
-          // margin-right: -20px;
+          border-left: 8px solid map-get($app-accent, default);
+          color: map-get($app-gray, 900);
 
-          .workspace-selected-arrow {
-            margin-right: -16px;
-          }
-
-          .open-join-code-button {
-            .mat-icon {
-              color: map-get( $colors, light2);
-            }
+          .workspace-icon mat-icon {
+            color: map-get($app-warn, default) !important;
           }
         }
+
+        &.new .workspace-title span:after {
+          content: "New";
+          font-size: 1.1rem;
+          background: map-get($app-accent, default);
+          color: #fff;
+          padding: 2px 8px;
+          margin-left: 5px;
+          border-radius: 8px;
+        }
       }
+    }
+  }
+
+  .mobile-workspace-list {
+    ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+      background: #fff;
     }
   }
 }
 
-.workspace-detail-container {
-  background: map-get($colors, white);
-  border-left: map-get($borders , thin-dark);
-  height: 100%;
-
-  ::ng-deep .mat-tab-header {
-    padding-top: 10px;
-    background-color: map-get($colors , light3);
-    border-bottom: none;
-
-    .mat-ink-bar {
-      background-color: map-get($colors , primary) !important;
-      height: 5px;
-      transition: 100ms;
-    }
-
-    .mat-tab-label {
-      height: 45px;
-      border-left: none;
-      border-right: 1px solid map-get($colors, light-gray);
-      border-bottom: 1px solid map-get($colors, light-gray);
-      background: map-get($colors, white);
-      color: map-get($colors, primary);
-      font-size: 1.4rem !important;
-      font-weight: 600;
-      opacity: 1;
-
-      &:last-child {
-        border-right: none;
-      }
-
-      .chip__m {
-        background-color: map-get($colors, accent);
-        color: white;
-        padding: 1px 12px 0 !important;
-        font-size: 1.0rem;
-      }
-
-      .mat-icon {
-        color: map-get($colors, primary);
-        margin-right: 4px;
-      }
-    }
-  }
-
-  .workspace-detail-tab-content {
-    height: calc(100% - 55px);
-    overflow: auto;
-  }
-
-  .workspace-owner-tab {
+// ---- Right UI
+#workspace-owner-container {
+  .workspace-detail-container {
+    background: map-get($colors, white);
+    border: 5px solid map-get($app-primary, 400);
     height: 100%;
+    overflow: auto;
+
+    ::ng-deep .mat-tab-header {
+      padding-top: 15px;
+      height: 65px;
+      background-color: map-get($app-primary, 400);
+      border-bottom: none;
+
+      .mat-tab-label {
+        height: 50px;
+        background: #fff;
+        border: 1px solid map-get($app-primary, 400);
+        color: map-get($app-primary, default);
+
+        .tab-title {
+          margin-left: 5px;
+        }
+
+        .chip__m {
+          background-color: map-get($app-accent, default);
+          color: white;
+        }
+      }
+    }
   }
 }

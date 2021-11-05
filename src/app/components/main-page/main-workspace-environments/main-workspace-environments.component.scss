@@ -1,79 +1,36 @@
-@import "src/styles.scss";
+@import "src/styles/main.scss";
 
-.workspace-environments-container {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-
+#workspace-environments-container {
   .environment-actions {
-    height: auto;
-    text-align: right;
-
     button {
-      height: 45px;
-      color: map-get($colors, primary);
+      height: auto;
+      white-space: normal;
+      line-height: 100%;
     }
-
-    .open-environment-creation-wizard-button {
-      background: map-get($colors, light-active);
-    }
-
-    .open-environment-creation-form-button {
-      border: 2px solid map-get($colors, primary);
-    }
-  }
-
-  .mat-form-field{
-    width: 100%;
-  }
-
-  .table-container {
-    overflow: auto;
-    height: auto;
   }
 
   table {
-    width: 100%;
-    margin: auto;
+    .cell-activation,
+    .cell-thumbnail,
+    .cell-edit {
+      text-align: center;
+      padding: 5px !important;
+      vertical-align: middle;
+    }
 
-    .thumbnail {
-      //text-align: center;
+    .cell-info {
+      padding: 5px 10px !important;
+    }
 
-      .thumbnail-placeholder {
-        margin: auto;
+    .cell-thumbnail {
+      color: map-get($app-gray, 100);
 
-        &.published {
-          color: map-get($colors, dark);
-        }
-
-        &.draft {
-          color: map-get($colors, light-gray);
-        }
-
-        fa-icon {
-          font-size: 4rem;
-          margin: auto;
+      &.published {
+        color: map-get($app-primary, light);
+        .chip__m {
+          background: map-get($app-primary, light);
         }
       }
-   }
-
-    .environment-name {
-      //font-weight: 600;
-      //font-size: 1.5rem;
-      //color: map-get($colors, dark);
-      //width: 100%;
-      //margin-bottom: 5px;
-      // border-bottom: 1px solid map-get($colors, light);
     }
   }
-
-  //.labels {
-  //  .chip__sm{
-  //    background-color: map-get($colors, white);
-  //    color: #555;
-  //    font-weight: 500;
-  //    border: 1px #ddd solid;
-  //    font-size: 1.1rem;
-  //  }
-  //}
 }

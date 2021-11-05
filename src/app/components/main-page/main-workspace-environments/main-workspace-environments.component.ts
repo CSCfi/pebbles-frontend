@@ -42,7 +42,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
-  public displayedColumns: string[] = ['thumbnail', 'name', 'state', 'launch', 'edit', 'menu'];
+  public displayedColumns: string[] = ['thumbnail', 'name', 'launch', 'menu'];
   public dataSource: MatTableDataSource<EnvironmentRow> = null;
   public selection = new SelectionModel<EnvironmentRow>(true, []);
   // ---- Paginator
@@ -117,9 +117,15 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
     );
   }
 
-  // applyFilter(event: Event): void {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  // getLifetime(number): string {
+  //   const hours = Number(this.environment.maximum_lifetime) / 3600;
+  //   const mins = Number(this.environment.maximum_lifetime) % 3600;
+  //   return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   // }
 
   /** Whether the number of selected elements matches the total number of rows. */

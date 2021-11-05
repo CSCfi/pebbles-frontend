@@ -27,11 +27,6 @@
         color:  map-get($app-primary, default);
       }
     }
-
-    .mat-ink-bar {
-      background-color: map-get($app-accent , default) !important;
-      height: 6px;
-    }
   }
 
   ::ng-deep .mat-tab-body-wrapper {
