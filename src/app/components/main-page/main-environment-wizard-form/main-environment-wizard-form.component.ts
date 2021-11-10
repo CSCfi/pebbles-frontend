@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EnvironmentTemplate } from 'src/app/models/environment-template';
-import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
-import { EnvironmentService } from 'src/app/services/environment.service';
+import { ApplicationTemplate } from 'src/app/models/application-template';
+import { ApplicationTemplateService } from 'src/app/services/application-template.service';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'app-main-environment-wizard-form',
@@ -22,11 +22,11 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
   selectedJupyterInterface: string;
   selectedDownloadMethod: string;
 
-  get environmentTemplates(): EnvironmentTemplate[] {
+  get environmentTemplates(): ApplicationTemplate[] {
     return this.environmentTemplateService.getEnvironmentTemplates();
   }
 
-  get selectedTemplate(): EnvironmentTemplate {
+  get selectedTemplate(): ApplicationTemplate {
     return this.environmentTemplates.find(
       x => x.id === this.wizardTemplateFormGroup.controls.templateId.value
     );
@@ -38,8 +38,8 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
       workspaceId: string
     },
     private formBuilder: FormBuilder,
-    private environmentTemplateService: EnvironmentTemplateService,
-    private environmentService: EnvironmentService,
+    private environmentTemplateService: ApplicationTemplateService,
+    private environmentService: ApplicationService,
   ) {
     console.log(this.data);
     this.selectedLabels = [];
@@ -79,7 +79,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
   }
 
   createEnvironmentByWizardMode(): void {
-    this.environmentService.createEnvironment(
+    this.environmentService.createApplication(
       this.data.workspaceId,
       this.wizardProfileFormGroup.controls.name.value,
       this.wizardProfileFormGroup.controls.description.value,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EnvironmentSession, SessionLifetimeLevel, SessionStates } from 'src/app/models/environment-session';
+import { ApplicationSession, SessionLifetimeLevel, SessionStates } from 'src/app/models/application-session';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +48,7 @@ export class DesktopNotificationService {
     }
   }
 
-  public notifySessionLifetime(sessions: EnvironmentSession[]): void {
+  public notifySessionLifetime(sessions: ApplicationSession[]): void {
 
     // only try to show notifications if we have the permission to do so
     if (DesktopNotificationService.getPermissionState() !== 'granted') {

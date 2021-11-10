@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Alert } from '../../../../models/alert';
 import { AlertService } from '../../../../services/alert.service';
-import { EnvironmentSessionService } from '../../../../services/environment-session.service';
+import { ApplicationSessionService } from '../../../../services/application-session.service';
 
 @Component({
   selector: 'app-main-system-status',
@@ -19,7 +19,7 @@ export class MainSystemStatusComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
-    private environmentSessionService: EnvironmentSessionService
+    private environmentSessionService: ApplicationSessionService
   ) {
   }
 

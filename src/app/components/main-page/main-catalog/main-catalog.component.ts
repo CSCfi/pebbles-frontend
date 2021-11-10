@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentService } from 'src/app/services/environment.service';
+import { Application } from 'src/app/models/application';
+import { ApplicationService } from 'src/app/services/application.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { EnvironmentCategory } from 'src/app/models/environment-category';
-import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
+import { ApplicationCategory } from 'src/app/models/application-category';
+import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 import { Utilities } from 'src/app/utilities';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
 
@@ -22,15 +22,15 @@ export class MainCatalogComponent implements OnInit {
     identifier: 'catalog'
   };
 
-  selectedCatalog: EnvironmentCategory;
+  selectedCatalog: ApplicationCategory;
   referenceEnvironmentId: string;
   queryText = '';
 
-  get environments(): Environment[] {
+  get environments(): Application[] {
     if (!this.environmentService.isInitialized) {
       return null;
     }
-    let envs = this.environmentService.getEnvironments().filter(env => {
+    let envs = this.environmentService.getApplications().filter(env => {
       env.name = Utilities.resetText(env.name);
       env.description = Utilities.resetText(env.description);
       return env.is_enabled;
@@ -42,8 +42,8 @@ export class MainCatalogComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private environmentService: EnvironmentService,
-    private catalogService: EnvironmentCategoryService,
+    private environmentService: ApplicationService,
+    private catalogService: ApplicationCategoryService,
     public workspaceService: WorkspaceService,
   ) {
   }
@@ -72,7 +72,7 @@ export class MainCatalogComponent implements OnInit {
   // TODO: this takes few seconds in UI to display.
   // Merging sort to fetchEnvironments reduces delay but still takes a sec.
   // Sort is called before fetchEnvironments to reduce, but still see minor glitch.
-  sortEnvironments(environmentsCopy: Environment[]): Environment[] {
+  sortEnvironments(environmentsCopy: Application[]): Application[] {
     // console.log('sortEnvironments is called');
     const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
     environmentsCopy.sort((a, b) => {
@@ -92,7 +92,7 @@ export class MainCatalogComponent implements OnInit {
     return environmentsCopy;
   }
 
-  filterEnvironmentsByLabels(objects: Environment[], catalogLabels: string[], method: string): Environment[] {
+  filterEnvironmentsByLabels(objects: Application[], catalogLabels: string[], method: string): Application[] {
     if (catalogLabels.length === 0) {
       // ---- ALL catalog tab
       return objects;
@@ -124,7 +124,7 @@ export class MainCatalogComponent implements OnInit {
     this.queryText = value;
   }
 
-  filterEnvironmentsByText(objects: Environment[], term: string): Environment[] {
+  filterEnvironmentsByText(objects: Application[], term: string): Application[] {
     term = Utilities.cleanText(term);
     if (term === '') {
       return objects;
@@ -155,7 +155,7 @@ export class MainCatalogComponent implements OnInit {
 
   // ---- Catalogs
   // ------------------------------------------------------------ //
-  getCatalogs(): EnvironmentCategory[] {
+  getCatalogs(): ApplicationCategory[] {
     return this.catalogService.getCategories();
   }
 

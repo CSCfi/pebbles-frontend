@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { EnvironmentSession, EnvironmentSessionLog, SessionStates } from 'src/app/models/environment-session';
+import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/app/models/application-session';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 import { buildConfiguration } from '../../environments/environment';
 import { AuthService } from './auth.service';
@@ -12,9 +12,9 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class EnvironmentSessionService implements OnDestroy {
+export class ApplicationSessionService implements OnDestroy {
 
-  private environmentSessions: EnvironmentSession[] = [];
+  private applicationSessions: ApplicationSession[] = [];
   private interval = 0;
   private intervalValue = -1;
   private lastUpdateTs = 0;
@@ -31,28 +31,28 @@ export class EnvironmentSessionService implements OnDestroy {
     this.clearPollingInterval();
   }
 
-  getSessions(): EnvironmentSession[] {
-    // filter out environmentSessions that are shown by role (admin, owner, manager) but not owned
-    return this.environmentSessions.filter(i => i.user_id === this.authService.getUserId());
+  getSessions(): ApplicationSession[] {
+    // filter out applicationSessions that are shown by role (admin, owner, manager) but not owned
+    return this.applicationSessions.filter(i => i.user_id === this.authService.getUserId());
   }
 
-  getAllSessions(): EnvironmentSession[] {
-    return this.environmentSessions;
+  getAllSessions(): ApplicationSession[] {
+    return this.applicationSessions;
   }
 
   getSession(id: string) {
-    return this.environmentSessions.find(x => x.id === id);
+    return this.applicationSessions.find(x => x.id === id);
   }
 
-  getSessionByEnvironmentId(envId: string) {
-    return this.getSessions().find(i => i.environment_id === envId);
+  getSessionByApplicationId(appId: string) {
+    return this.getSessions().find(i => i.application_id === appId);
   }
 
-  fetchSessions(): Observable<EnvironmentSession[]> {
+  fetchSessions(): Observable<ApplicationSession[]> {
 
-    const url = `${buildConfiguration.apiUrl}/environment_sessions`;
+    const url = `${buildConfiguration.apiUrl}/application_sessions`;
 
-    return this.http.get<EnvironmentSession[]>(url).pipe(
+    return this.http.get<ApplicationSession[]>(url).pipe(
       map(sessions => {
         console.log('fetchSessions got', sessions);
         let nonStatic = false;
@@ -69,12 +69,12 @@ export class EnvironmentSessionService implements OnDestroy {
         } else if (!nonStatic) {
           this.setPollingInterval(60 * 1000);
         }
-        this.environmentSessions = sessions;
-        // show notifications for environmentSessions owned by the user, filtered in getSessions()
+        this.applicationSessions = sessions;
+        // show notifications for applicationSessions owned by the user, filtered in getSessions()
         this.desktopNotificationService.notifySessionLifetime(this.getSessions());
         // update the timestamp
         this.lastUpdateTs = Date.now();
-        return this.environmentSessions;
+        return this.applicationSessions;
       }),
       catchError(err => {
         console.log('SessionService.fetchSessions got error ', err);
@@ -82,26 +82,26 @@ export class EnvironmentSessionService implements OnDestroy {
           console.log('SessionService stopping session polling');
           this.clearPollingInterval();
         }
-        return throwError('Error fetching environmentSessions');
+        return throwError('Error fetching applicationSessions');
       })
     );
   }
 
-  createSession(environmentId: string): Observable<EnvironmentSession> {
-    const url = `${buildConfiguration.apiUrl}/environment_sessions`;
+  createSession(applicationId: string): Observable<ApplicationSession> {
+    const url = `${buildConfiguration.apiUrl}/application_sessions`;
 
-    return this.http.post<EnvironmentSession>(url, {environment: environmentId}).pipe(
+    return this.http.post<ApplicationSession>(url, {application_id: applicationId}).pipe(
       tap(newSession => {
         // push the new session directly to state and trigger a full refresh later
         console.log('created session ' + newSession.name);
-        this.environmentSessions.push(newSession);
+        this.applicationSessions.push(newSession);
         this.fetchSessions().subscribe();
       }));
   }
 
-  deleteSession(sessionId: string): Observable<EnvironmentSession> {
-    const url = `${buildConfiguration.apiUrl}/environment_sessions/${sessionId}`;
-    return this.http.delete<EnvironmentSession>(url).pipe(tap(resp => {
+  deleteSession(sessionId: string): Observable<ApplicationSession> {
+    const url = `${buildConfiguration.apiUrl}/application_sessions/${sessionId}`;
+    return this.http.delete<ApplicationSession>(url).pipe(tap(resp => {
       console.log(resp);
       this.fetchSessions().subscribe();
     }));
@@ -120,9 +120,9 @@ export class EnvironmentSessionService implements OnDestroy {
     return this.lastUpdateTs;
   }
 
-  fetchEnvironmentSessionLogs(sessionId: string): Observable<EnvironmentSessionLog[]> {
-    const url = `${buildConfiguration.apiUrl}/environment_sessions/${sessionId}/logs`;
-    return this.http.get<EnvironmentSessionLog[]>(url);
+  fetchApplicationSessionLogs(sessionId: string): Observable<ApplicationSessionLog[]> {
+    const url = `${buildConfiguration.apiUrl}/application_sessions/${sessionId}/logs`;
+    return this.http.get<ApplicationSessionLog[]>(url);
   }
 
   private setPollingInterval(intervalMs: number) {

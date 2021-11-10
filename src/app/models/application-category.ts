@@ -1,4 +1,4 @@
-export class EnvironmentCategory {
+export class ApplicationCategory {
   constructor(
     public id: string,
     public order: number,

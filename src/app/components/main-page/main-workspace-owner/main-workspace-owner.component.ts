@@ -4,11 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { EnvironmentTemplate } from 'src/app/models/environment-template';
+import { ApplicationTemplate } from 'src/app/models/application-template';
 import { Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
-import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
-import { EnvironmentService } from 'src/app/services/environment.service';
+import { ApplicationTemplateService } from 'src/app/services/application-template.service';
+import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
@@ -62,8 +62,8 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     private workspaceService: WorkspaceService,
     private authService: AuthService,
     private accountService: AccountService,
-    private environmentService: EnvironmentService,
-    private environmentTemplateService: EnvironmentTemplateService,
+    private environmentService: ApplicationService,
+    private environmentTemplateService: ApplicationTemplateService,
     private eventService: EventService,
     private fb: FormBuilder
   ) {
@@ -75,7 +75,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // ---- Subscriptions to event Subjects
-    this.subscriptions.push(this.eventService.environmentDataUpdate$.subscribe(_ => {
+    this.subscriptions.push(this.eventService.applicationDataUpdate$.subscribe(_ => {
       this.refreshView();
     }));
     this.subscriptions.push(this.eventService.workspaceDataUpdate$.subscribe(_ => {
@@ -137,7 +137,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     if (this.selectedWorkspaceId) {
       this.selectedWorkspace = this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
       this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
-      this.environmentCount = this.environmentService.getEnvironmentsByWorkspaceId(this.selectedWorkspaceId)?.length;
+      this.environmentCount = this.environmentService.getApplicationsByWorkspaceId(this.selectedWorkspaceId)?.length;
       if (!this.memberCount) {
         // service has not been populated, trigger fetching of members
         this.workspaceService.refreshWorkspaceMemberCount(this.selectedWorkspaceId);
@@ -227,10 +227,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
     console.log('finding demo EnvironmentTemplate');
     const envTemplate = this.environmentTemplateService.getEnvironmentTemplates().find((x) => {
-      return x.name === EnvironmentTemplate.EXAMPLE_TEMPLATE_NAME ? x : null;
+      return x.name === ApplicationTemplate.EXAMPLE_TEMPLATE_NAME ? x : null;
     });
     if (!envTemplate) {
-      console.log(`no template "${EnvironmentTemplate.EXAMPLE_TEMPLATE_NAME}" for example environment found`);
+      console.log(`no template "${ApplicationTemplate.EXAMPLE_TEMPLATE_NAME}" for example environment found`);
       return;
     }
 
@@ -242,7 +242,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       console.log('created demo Workspace ' + ws.id);
       console.log('creating example Environment');
       // create example environment that is originally enabled
-      this.environmentService.createEnvironment(
+      this.environmentService.createApplication(
         ws.id,
         'Demo Environment',
         'Demo Environment created by "Create Demo Workspace"',

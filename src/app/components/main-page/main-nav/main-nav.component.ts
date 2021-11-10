@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {AuthService} from 'src/app/services/auth.service';
 import {Announcement} from '../../../models/announcement';
 import {MessageService} from '../../../services/message.service';
-import {EnvironmentSessionService} from '../../../services/environment-session.service';
+import {ApplicationSessionService} from '../../../services/application-session.service';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 // export enum MainPages {
@@ -43,7 +43,7 @@ export class MainNavComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     public messageService: MessageService,
-    public environmentSessionService: EnvironmentSessionService,
+    public environmentSessionService: ApplicationSessionService,
     public publicConfigService: PublicConfigService,
   ) {
     // fetch announcements to update the nav bar unread announcements number

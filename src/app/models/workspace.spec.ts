@@ -1,4 +1,4 @@
-import { Environment } from './environment';
+import { Application } from './application';
 import { Workspace } from './workspace';
 
 describe('Workspace', () => {

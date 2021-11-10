@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentService } from 'src/app/services/environment.service';
+import { Application } from 'src/app/models/application';
+import { ApplicationService } from 'src/app/services/application.service';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { MatAccordion } from '@angular/material/expansion';
@@ -17,16 +17,16 @@ export class MainWorkspaceItemComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState: boolean;
 
-  get environments(): Environment[] {
+  get environments(): Application[] {
     if (this.workspace && this.environmentService.isInitialized) {
-      return this.environmentService.getEnvironmentsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
+      return this.environmentService.getApplicationsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
     }
     return null;
   }
 
   constructor(
     private workspaceService: WorkspaceService,
-    private environmentService: EnvironmentService,
+    private environmentService: ApplicationService,
   ) {
   }
 

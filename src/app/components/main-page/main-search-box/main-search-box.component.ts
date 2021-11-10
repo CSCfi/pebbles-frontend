@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
-import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
+import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 
 @Component({
   selector: 'app-main-search-box',
@@ -25,7 +25,7 @@ export class MainSearchBoxComponent {
   private currentLabels: string[];
 
   constructor(
-    private environmentCategoryService: EnvironmentCategoryService,
+    private environmentCategoryService: ApplicationCategoryService,
   ) {
   }
 

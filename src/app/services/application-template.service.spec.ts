@@ -1,12 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-
-import { EnvironmentTemplateService } from './environment-template.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MainCatalogComponent } from '../components/main-page/main-catalog/main-catalog.component';
+import { TestBed } from '@angular/core/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
 
-describe('EnvironmentTemplateService', () => {
-  let service: EnvironmentTemplateService;
+import { ApplicationTemplateService } from './application-template.service';
+
+describe('ApplicationTemplateService', () => {
+  let service: ApplicationTemplateService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,7 +16,7 @@ describe('EnvironmentTemplateService', () => {
         ENVIRONMENT_SPECIFIC_PROVIDERS
       ]
     });
-    service = TestBed.inject(EnvironmentTemplateService);
+    service = TestBed.inject(ApplicationTemplateService);
   });
 
   it('should be created', () => {

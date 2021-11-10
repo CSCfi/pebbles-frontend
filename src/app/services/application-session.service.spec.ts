@@ -1,13 +1,13 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { EnvironmentSessionService } from './environment-session.service';
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
 import * as TESTDATA from '../interceptors/test-data';
-import {RouterTestingModule} from '@angular/router/testing';
+import { ApplicationSessionService } from './application-session.service';
 
 
-describe('EnvironmentSessionService', () => {
-  let service: EnvironmentSessionService;
+describe('ApplicationSessionService', () => {
+  let service: ApplicationSessionService;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -17,7 +17,7 @@ describe('EnvironmentSessionService', () => {
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS]
     });
-    service = TestBed.inject(EnvironmentSessionService);
+    service = TestBed.inject(ApplicationSessionService);
     localStorage.removeItem('mock.database');
     localStorage.setItem('user_id', '1');
     localStorage.setItem('user_name', 'admin@example.org');
@@ -33,7 +33,7 @@ describe('EnvironmentSessionService', () => {
         const sessions = service.getAllSessions();
         // two (deleted, failed) invalid sessions in the database
         // TODO: when UI can handle failed sessions, check the expected number below
-        expect(sessions.length).toBe(TESTDATA.db.environment_sessions.length - 1);
+        expect(sessions.length).toBe(TESTDATA.db.application_sessions.length - 1);
         done();
       });
     }
@@ -42,7 +42,7 @@ describe('EnvironmentSessionService', () => {
   it('should create a session',
     (done: DoneFn) => {
       service.createSession('1').subscribe(resp => {
-        expect(resp.environment_id).toBe('1');
+        expect(resp.application_id).toBe('1');
         done();
       });
     }

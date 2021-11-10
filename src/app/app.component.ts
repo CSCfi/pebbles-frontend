@@ -2,9 +2,9 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
-import { EnvironmentCategoryService } from './services/environment-category.service';
-import { EnvironmentSessionService } from './services/environment-session.service';
-import { EnvironmentService } from './services/environment.service';
+import { ApplicationCategoryService } from './services/application-category.service';
+import { ApplicationSessionService } from './services/application-session.service';
+import { ApplicationService } from './services/application.service';
 import { EventService, LoginStatusChange } from './services/event.service';
 import { PublicConfigService } from './services/public-config.service';
 import { WorkspaceService } from './services/workspace.service';
@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private workspaceService: WorkspaceService,
-    private sessionService: EnvironmentSessionService,
-    private environmentService: EnvironmentService,
-    private environmentCategoryService: EnvironmentCategoryService,
+    private sessionService: ApplicationSessionService,
+    private environmentService: ApplicationService,
+    private environmentCategoryService: ApplicationCategoryService,
     private eventService: EventService,
     private authService: AuthService,
     private publicConfigService: PublicConfigService,
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
         return this.workspaceService.fetchWorkspaces().subscribe();
       }),
       map(_ => {
-        return this.environmentService.fetchEnvironments().subscribe();
+        return this.environmentService.fetchApplications().subscribe();
       })
     ).subscribe();
     this.environmentCategoryService.fetchCategories().subscribe();

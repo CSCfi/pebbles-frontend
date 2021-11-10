@@ -8,9 +8,9 @@ import { Subscription } from 'rxjs';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { faRProject } from '@fortawesome/free-brands-svg-icons';
 import { faPython } from '@fortawesome/free-brands-svg-icons';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentService } from 'src/app/services/environment.service';
-import { EnvironmentType } from '../../../models/environment-template';
+import { Application } from 'src/app/models/application';
+import { ApplicationService } from 'src/app/services/application.service';
+import { ApplicationType } from '../../../models/application-template';
 import { EventService } from '../../../services/event.service';
 import { Utilities } from '../../../utilities';
 import { MainEnvironmentItemFormComponent } from '../main-environment-item-form/main-environment-item-form.component';
@@ -22,7 +22,7 @@ export interface EnvironmentRow {
   id: string;
   name: string;
   description: string;
-  type: EnvironmentType;
+  type: ApplicationType;
   state: string;
   lifetime: string;
   labels: string[];
@@ -55,14 +55,14 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
 
   constructor(
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService,
+    private environmentService: ApplicationService,
     private dialog: MatDialog,
     private eventService: EventService,
   ) {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.eventService.environmentDataUpdate$.subscribe(_ => {
+    this.subscriptions.push(this.eventService.applicationDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
     }));
   }
@@ -89,7 +89,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
       return;
     }
     console.log('MainWorkspaceEnvironmentsComponent.rebuildDataSource()');
-    const envs = this.environmentService.getEnvironmentsByWorkspaceId(this.workspaceId).sort(
+    const envs = this.environmentService.getApplicationsByWorkspaceId(this.workspaceId).sort(
       (a, b) => Number(b.is_enabled) - Number(a.is_enabled));
     this.dataSource = this.composeDataSource(envs);
     this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
@@ -98,7 +98,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
     this.dataSource.paginator = this.paginator;
   }
 
-  composeDataSource(envs: Environment[]): MatTableDataSource<any> {
+  composeDataSource(envs: Application[]): MatTableDataSource<any> {
     return new MatTableDataSource(
       envs.map((env, i) => {
         return {
@@ -108,7 +108,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
           id: env.id,
           name: env.name,
           description: env.description,
-          type: env.environment_type,
+          type: env.applicationType,
           lifetime: env.maximum_lifetime,
           labels: env.labels,
           session_id: env.session_id
@@ -150,8 +150,8 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.index + 1}`;
   // }
 
-  getTargetEnvironment(id: string): Environment {
-    return this.environmentService.getEnvironmentById(id);
+  getTargetEnvironment(id: string): Application {
+    return this.environmentService.getApplicationById(id);
   }
 
   getLifetime(sec: number): string {
@@ -163,7 +163,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   toggleEnvironmentActivation(isActive: boolean, environmentId: string): void {
     const environment = this.getTargetEnvironment(environmentId);
     environment.is_enabled = isActive;
-    this.environmentService.updateEnvironment(environment).subscribe(_ => {
+    this.environmentService.updateApplication(environment).subscribe(_ => {
       console.log('Updated environment');
     });
   }
@@ -173,7 +173,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
     if (!confirm(`Are you sure you want to copy this environment "${environment.name}"?`)) {
       return;
     }
-    this.environmentService.copyEnvironment(environment).subscribe();
+    this.environmentService.copyApplication(environment).subscribe();
   }
 
   toggleGpuActivation(active: boolean): void {
@@ -186,7 +186,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
     if (!confirm(`Are you sure you want to delete this environment "${environment.name}"?`)) {
       return;
     }
-    this.environmentService.deleteEnvironment(environment).subscribe(_ => {
+    this.environmentService.deleteApplication(environment).subscribe(_ => {
       console.log('environment deleting process finished');
     });
   }

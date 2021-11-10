@@ -3,10 +3,10 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentSession, SessionStates } from 'src/app/models/environment-session';
-import { EnvironmentService } from 'src/app/services/environment.service';
-import { EnvironmentSessionService } from 'src/app/services/environment-session.service';
+import { Application } from 'src/app/models/application';
+import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
+import { ApplicationService } from 'src/app/services/application.service';
+import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { Utilities } from '../../../utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
@@ -39,11 +39,11 @@ export class MainSessionButtonComponent implements OnInit {
     return false;
   }
 
-  get environment(): Environment {
-    return this.environmentService.getEnvironmentById(this.environmentId);
+  get environment(): Application {
+    return this.environmentService.getApplicationById(this.environmentId);
   }
 
-  get session(): EnvironmentSession {
+  get session(): ApplicationSession {
     return this.environmentSessionService.getSession(this.environment.session_id);
   }
 
@@ -97,8 +97,8 @@ export class MainSessionButtonComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
-    private environmentService: EnvironmentService,
-    private environmentSessionService: EnvironmentSessionService,
+    private environmentService: ApplicationService,
+    private environmentSessionService: ApplicationSessionService,
     private dialog: MatDialog
   ) {
   }
@@ -110,7 +110,7 @@ export class MainSessionButtonComponent implements OnInit {
   startSession(): void {
     this.isWaitingInterval = true;
     const environmentSession = this.environmentSessionService.getSession(this.environment.session_id);
-    this.environmentService.startEnvironment(this.environment.id).subscribe(_ => {
+    this.environmentService.startApplication(this.environment.id).subscribe(_ => {
       if (environmentSession) {
         this.openSessionInBrowser();
       } else {

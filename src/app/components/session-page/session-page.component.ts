@@ -3,10 +3,10 @@ import { ThemePalette } from '@angular/material/core';
 import { ProgressBarMode } from '@angular/material/progress-bar';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { EnvironmentSession, EnvironmentSessionLog, SessionStates } from 'src/app/models/environment-session';
-import { EnvironmentSessionService } from 'src/app/services/environment-session.service';
-import { Environment } from '../../models/environment';
-import { EnvironmentService } from '../../services/environment.service';
+import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/app/models/application-session';
+import { ApplicationSessionService } from 'src/app/services/application-session.service';
+import { Application } from '../../models/application';
+import { ApplicationService } from '../../services/application.service';
 
 @Component({
   selector: 'app-session-page',
@@ -39,9 +39,9 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     ['created', 'Waiting to be scheduled']
   ]);
 
-  sessions: EnvironmentSession[];
-  targetSession: EnvironmentSession;
-  targetEnvironment: Environment;
+  sessions: ApplicationSession[];
+  targetSession: ApplicationSession;
+  targetEnvironment: Application;
   redirectUrl: string;
   iframeSrc: SafeResourceUrl;
   sessionId: string;
@@ -54,14 +54,14 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   mode: ProgressBarMode = 'buffer';
 
   get description(): string {
-    this.targetEnvironment = this.environmentService.get(this.targetSession.environment_id);
+    this.targetEnvironment = this.environmentService.get(this.targetSession.application_id);
     return this.targetEnvironment.description || 'No description';
   }
 
   constructor(
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService,
-    private environmentSessionService: EnvironmentSessionService,
+    private environmentService: ApplicationService,
+    private environmentSessionService: ApplicationSessionService,
   ) {
     this.sessionId = this.route.snapshot.params.id;
   }
@@ -73,7 +73,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     }, 1000);
     // we are running in a new window, so we need to trigger sessionService
     this.environmentSessionService.fetchSessions().subscribe();
-    this.environmentService.fetchEnvironments().subscribe();
+    this.environmentService.fetchApplications().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -93,7 +93,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       console.log('session ' + this.sessionId + ' not found');
       return;
     }
-    this.targetEnvironment = this.environmentService.get(this.targetSession.environment_id);
+    this.targetEnvironment = this.environmentService.get(this.targetSession.application_id);
     // session service refreshes the sessions asynchronously, we can simply get the fresh ones
     console.log(this.targetSession.state);
 
@@ -112,8 +112,8 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       this.interval = 0;
       this.latestProvisioningLogMessage = 'Session failed';
     } else {
-      this.environmentSessionService.fetchEnvironmentSessionLogs(this.targetSession.id).subscribe(
-        (logs: EnvironmentSessionLog[]) => {
+      this.environmentSessionService.fetchApplicationSessionLogs(this.targetSession.id).subscribe(
+        (logs: ApplicationSessionLog[]) => {
           let lastMessage = logs[logs.length - 1].message;
           // check if we have a custom message mapping
           if (this.provisioningLogMessageMap.get(lastMessage)) {
@@ -125,7 +125,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  redirectToSession(session: EnvironmentSession): void {
+  redirectToSession(session: ApplicationSession): void {
     this.redirectUrl = session.session_data.endpoints[0].access;
     console.log('redirecting to session content at ' + this.redirectUrl);
     window.open(this.redirectUrl, '_self');

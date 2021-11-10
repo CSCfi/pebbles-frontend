@@ -1,13 +1,11 @@
 // Initial state of the mock database
 
-import { Workspace } from '../models/workspace';
-
 export let db = {
-  environment_sessions: [
+  application_sessions: [
     {
       id: '1',
       name: 'pb-alexandria-the-great',
-      environment_id: '1',
+      application_id: '1',
       state: 'running',
       session_data: {endpoints: [{access: 'https://foo/1'}]},
       lifetime_left: '3000',
@@ -18,7 +16,7 @@ export let db = {
     {
       id: '2',
       name: 'pb-kassandra-the-white',
-      environment_id: '2',
+      application_id: '2',
       state: 'deleted',
       session_data: {endpoints: [{access: 'https://foo/2'}]},
       lifetime_left: '600',
@@ -29,7 +27,7 @@ export let db = {
     {
       id: '3',
       name: 'pb-kassandra-the-patient',
-      environment_id: '12',
+      application_id: '12',
       state: 'running',
       session_data: {endpoints: [{access: 'https://foo/3'}]},
       lifetime_left: '600',
@@ -40,7 +38,7 @@ export let db = {
     {
       id: '4',
       name: 'pb-rick-the-shiny',
-      environment_id: '1',
+      application_id: '1',
       state: 'provisioning',
       session_data: {endpoints: [{access: 'https://foo/4'}]},
       lifetime_left: '6000',
@@ -51,7 +49,7 @@ export let db = {
     {
       id: '5',
       name: 'pb-bart-the-yellow',
-      environment_id: '1',
+      application_id: '1',
       state: 'failed',
       session_data: {endpoints: [{access: 'https://foo/5'}]},
       lifetime_left: '2000',
@@ -62,7 +60,7 @@ export let db = {
     {
       id: '6',
       name: 'pb-maggie-the-wise',
-      environment_id: '12',
+      application_id: '12',
       state: 'running',
       session_data: {endpoints: [{access: 'https://foo/6'}]},
       lifetime_left: '2000',
@@ -71,7 +69,7 @@ export let db = {
       username: 'user-1@example.org',
     }
   ],
-  environments: [
+  applications: [
     {
       id: '1',
       name: 'Course Introduction to Python (self-study)',
@@ -949,12 +947,12 @@ export let db = {
       ]
     }
   ],
-  environment_templates: [
+  application_templates: [
     {
       id: 'et-1',
       name: 'Jupyter Template 1',
       description: 'Example template for Jupyter',
-      environment_type: 'jupyter',
+      application_type: 'jupyter',
       is_active: true,
       cluster: 'dummy cluster 1',
       base_config: {
@@ -966,7 +964,7 @@ export let db = {
       id: 'et-2',
       name: 'Jupyter Template 2',
       description: 'Another example template for Jupyter',
-      environment_type: 'jupyter',
+      application_type: 'jupyter',
       is_active: true,
       cluster: 'dummy cluster 1',
       base_config: {
@@ -978,7 +976,7 @@ export let db = {
       id: 'et-3',
       name: 'RStudio Template 1',
       description: 'Example template for RStudio',
-      environment_type: 'rstudio',
+      application_type: 'rstudio',
       is_active: true,
       cluster: 'dummy cluster 2',
       base_config: {
@@ -990,7 +988,7 @@ export let db = {
       id: 'et-4',
       name: 'Example',
       description: 'Demo workspace example template',
-      environment_type: 'jupyter',
+      application_type: 'jupyter',
       is_active: true,
       cluster: 'dummy cluster 1',
       base_config: {
@@ -999,7 +997,7 @@ export let db = {
       },
     },
   ],
-  environment_categories: [
+  application_categories: [
     {
       name: 'Machine Learning',
       labels: ['machine learning', 'tensorflow', 'keras']
@@ -1021,13 +1019,13 @@ export let db = {
     {
       id: 'n12345',
       subject: 'Environment State',
-      message: 'Your test environment is ready to use.',
+      message: 'Your test application is ready to use.',
       broadcasted: '10.5.2020',
     },
     {
       id: 'n98765',
       subject: 'Environment State',
-      message: 'Your test environment is deleted.',
+      message: 'Your test application is deleted.',
       broadcasted: '10.5.2020',
     },
   ],
@@ -1221,12 +1219,12 @@ export let db = {
     },
     {
       key: 'SHORT_DESCRIPTION',
-      value: 'Easy-to-use environments for working with data and programming.'
+      value: 'Easy-to-use applications for working with data and programming.'
     },
     {
       key: 'INSTALLATION_DESCRIPTION',
-      value: 'Log in to see the catalogue of available environments. ' +
-        'Environments run in the cloud and are accessed with your browser.'
+      value: 'Log in to see the catalogue of available applications. ' +
+        'Environments run in CSC cloud and are accessed with your browser.'
     },
     {
       key: 'BRAND_IMAGE_URL',

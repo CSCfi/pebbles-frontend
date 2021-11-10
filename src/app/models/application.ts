@@ -1,7 +1,7 @@
-import { EnvironmentType } from './environment-template';
+import { ApplicationType } from './application-template';
 import { Workspace } from './workspace';
 
-export class Environment {
+export class Application {
   constructor(
     public id: string,
     public name: string,
@@ -13,7 +13,7 @@ export class Environment {
     public is_enabled: boolean,
     public template_id?: string,
     public template_name?: string,
-    public environment_type?: EnvironmentType,
+    public applicationType?: ApplicationType,
     public session_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,

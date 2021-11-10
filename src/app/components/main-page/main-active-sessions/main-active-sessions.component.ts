@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EnvironmentSessionService } from '../../../services/environment-session.service';
-import { EnvironmentSession } from '../../../models/environment-session';
-import { EnvironmentService } from '../../../services/environment.service';
+import { ApplicationSessionService } from '../../../services/application-session.service';
+import { ApplicationSession } from '../../../models/application-session';
+import { ApplicationService } from '../../../services/application.service';
 import { Utilities } from '../../../utilities';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -39,7 +39,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   ];
   selection = new SelectionModel<SessionTableRow>(true, []);
   tableRowData: SessionTableRow[] = [];
-  sessions: EnvironmentSession[];
+  sessions: ApplicationSession[];
 
   lastUpdateTs = 0;
   dataSource: MatTableDataSource<SessionTableRow>;
@@ -47,15 +47,15 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   queryText = '';
 
   constructor(
-    private environmentSessionService: EnvironmentSessionService,
-    private environmentService: EnvironmentService,
+    private environmentSessionService: ApplicationSessionService,
+    private environmentService: ApplicationService,
     private dialog: MatDialog,
   ) {
   }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<SessionTableRow>(this.tableRowData);
-    this.environmentService.fetchEnvironments().subscribe(() =>
+    this.environmentService.fetchApplications().subscribe(() =>
       this.environmentSessionService.fetchSessions().subscribe(() =>
         this.updateRowData()
       )
@@ -83,16 +83,16 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         existingEntry.lifetimeLeft = Utilities.lifetimeToString(session.lifetime_left);
         existingEntry.state = session.state;
         existingEntry.index = -1;
-        existingEntry.workspaceName = this.environmentService.get(session.environment_id)?.workspace_name;
-        existingEntry.environmentName = this.environmentService.get(session.environment_id)?.name;
+        existingEntry.workspaceName = this.environmentService.get(session.application_id)?.workspace_name;
+        existingEntry.environmentName = this.environmentService.get(session.application_id)?.name;
         existingEntry.sessionUrl = session.url;
         existingEntry.username = session.username;
       } else {
         this.tableRowData.push({
           isSelected: false,
           index: -1,
-          workspaceName: this.environmentService.get(session.environment_id)?.workspace_name,
-          environmentName: this.environmentService.get(session.environment_id)?.name,
+          workspaceName: this.environmentService.get(session.application_id)?.workspace_name,
+          environmentName: this.environmentService.get(session.application_id)?.name,
           sessionName: session.name,
           sessionUrl: session.url,
           username: session.username,

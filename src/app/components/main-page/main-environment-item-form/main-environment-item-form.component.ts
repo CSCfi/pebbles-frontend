@@ -2,10 +2,10 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { EnvironmentService } from 'src/app/services/environment.service';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentTemplateService } from 'src/app/services/environment-template.service';
-import { EnvironmentTemplate, EnvironmentType } from 'src/app/models/environment-template';
+import { ApplicationService } from 'src/app/services/application.service';
+import { Application } from 'src/app/models/application';
+import { ApplicationTemplateService } from 'src/app/services/application-template.service';
+import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { MatSelectChange } from '@angular/material/select';
 
 @Component({
@@ -19,11 +19,11 @@ export class MainEnvironmentItemFormComponent implements OnInit {
 
   isAutoExecution: boolean;
   isEnableUserWorkFolder: boolean;
-  environmentType: EnvironmentType;
+  environmentType: ApplicationType;
 
   // ---- Values for Radio Input
   selectedLabels: string[];
-  selectedTemplate: EnvironmentTemplate;
+  selectedTemplate: ApplicationTemplate;
   selectedJupyterInterface: string;
   selectedDownloadMethod: string = null;
 
@@ -31,19 +31,19 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     return this.data.environment ? false : true;
   }
 
-  get environmentTemplates(): EnvironmentTemplate[] {
+  get environmentTemplates(): ApplicationTemplate[] {
     return this.environmentTemplateService.getEnvironmentTemplates();
   }
 
   constructor(
     public dialogRef: MatDialogRef<MainEnvironmentItemFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      environment: Environment,
+      environment: Application,
       workspaceId: string
     },
     private formBuilder: FormBuilder,
-    private environmentService: EnvironmentService,
-    private environmentTemplateService: EnvironmentTemplateService,
+    private environmentService: ApplicationService,
+    private environmentTemplateService: ApplicationTemplateService,
   ) {
     // TODO: Needed incase environment is not available (e.g test case)
     // if (this.data.environment) {
@@ -83,7 +83,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     this.environmentItemEditFormGroup.controls.isAutoExecution.disable();
     this.environmentItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.environmentItemEditFormGroup.controls.publish.setValue(false);
-    this.environmentType = EnvironmentType.Generic;
+    this.environmentType = ApplicationType.Generic;
   }
 
   setEditForm(): void {
@@ -96,7 +96,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     }
     this.environmentType = this.environmentTemplateService.getEnvironmentTemplates().find(
       x => x.id === this.data.environment.template_id
-    ).environment_type;
+    ).applicationType;
 
     this.isEnableUserWorkFolder = coerceBooleanProperty(this.data.environment.config.enable_user_work_folder);
 
@@ -129,7 +129,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     // TODO: this can be removed when selectTemplate() callback starts working
     this.selectedTemplate = this.environmentTemplateService.getEnvironmentTemplates().find(
       x => x.id === this.environmentItemEditFormGroup.controls.templateId.value);
-    this.environmentService.createEnvironment(
+    this.environmentService.createApplication(
       this.data.workspaceId,
       this.environmentItemEditFormGroup.controls.name.value,
       this.environmentItemEditFormGroup.controls.description.value,
@@ -160,7 +160,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     this.data.environment.config.auto_execution = this.environmentItemEditFormGroup.controls.isAutoExecution.value;
     this.data.environment.config.enable_user_work_folder = this.environmentItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.environment.is_enabled = this.environmentItemEditFormGroup.controls.publish.value;
-    this.environmentService.updateEnvironment(
+    this.environmentService.updateApplication(
       this.data.environment
     ).subscribe(_ => {
       console.log('Updated environment', this.data.environment);
@@ -170,7 +170,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
 
   onChangeTemplate(event: MatSelectChange) {
     const et = this.environmentTemplates.find(x => x.id === event.source.value);
-    this.environmentType = et.environment_type;
+    this.environmentType = et.applicationType;
     // take the default label values from the template
     if (et.base_config.labels) {
       this.selectedLabels = et.base_config.labels.slice();

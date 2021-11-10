@@ -10,9 +10,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { EnvironmentSession, SessionStates } from 'src/app/models/environment-session';
+import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { User } from 'src/app/models/user';
-import { Environment } from '../models/environment';
+import { Application } from '../models/application';
 import { Workspace, WorkspaceMember } from '../models/workspace';
 import * as TESTDATA from './test-data';
 
@@ -46,13 +46,13 @@ export class MockInterceptor implements HttpInterceptor {
 
     switch (true) {
 
-      case (endpoint === 'environment_sessions' && apiComponents[1] !== undefined):
+      case (endpoint === 'application_sessions' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
-      case (endpoint === 'environments' && apiComponents[1] === 'environment_copy'):
+      case (endpoint === 'applications' && apiComponents[1] === 'application_copy'):
         objectId = apiComponents[2];
         break;
-      case (endpoint === 'environments' && apiComponents[1] !== undefined):
+      case (endpoint === 'applications' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
         break;
       case (endpoint === 'join_workspace' && apiComponents[1] !== undefined):
@@ -92,22 +92,22 @@ export class MockInterceptor implements HttpInterceptor {
         // TODO : endsWith is not supported in IE 11 last version
         case url.endsWith('/sessions') && method === 'POST':
           return authenticate();
-        case url.endsWith('/environment_sessions') && method === 'POST':
-          return createEnvironmentSession();
-        case url.endsWith('/environments') && method === 'POST':
-          return createEnvironment();
-        case url.includes('/environments/environment_copy') && method === 'PUT':
-          return copyEnvironment();
-        case url.includes('/environments') && method === 'PUT':
-          return updateEnvironment();
-        case url.includes('/environments') && method === 'DELETE':
-          return deleteEnvironment();
-        case url.endsWith('/environments') && method === 'GET':
-          return getEnvironments();
-        case url.endsWith('/environment_sessions') && method === 'GET':
-          return getEnvironmentSessions();
-        case url.includes('/environment_sessions') && method === 'DELETE':
-          return deleteEnvironmentSession();
+        case url.endsWith('/application_sessions') && method === 'POST':
+          return createApplicationSession();
+        case url.endsWith('/applications') && method === 'POST':
+          return createApplication();
+        case url.includes('/applications/application_copy') && method === 'PUT':
+          return copyApplication();
+        case url.includes('/applications') && method === 'PUT':
+          return updateApplication();
+        case url.includes('/applications') && method === 'DELETE':
+          return deleteApplication();
+        case url.endsWith('/applications') && method === 'GET':
+          return getApplications();
+        case url.endsWith('/application_sessions') && method === 'GET':
+          return getApplicationSessions();
+        case url.includes('/application_sessions') && method === 'DELETE':
+          return deleteApplicationSession();
         case url.endsWith('/workspaces') && method === 'POST':
           return createWorkspace();
         case url.includes('/join_workspace') && method === 'PUT':
@@ -274,10 +274,10 @@ export class MockInterceptor implements HttpInterceptor {
       });
     }
 
-    // mimic environment_session lifetime behavior
-    function getEnvironmentSessions() {
+    // mimic application_session lifetime behavior
+    function getApplicationSessions() {
 
-      // environment_session states from API
+      // application_session states from API
       const states = [
         'queueing',
         'provisioning',
@@ -290,12 +290,12 @@ export class MockInterceptor implements HttpInterceptor {
       const transitiveStates = ['queueing', 'provisioning', 'starting', 'deleting'];
 
       const result = [];
-      const accessibleEnvIds = getAccessibleEnvironments(userName).map(e => e.id);
+      const accessibleAppIds = getAccessibleApplications(userName).map(e => e.id);
       const accessibleSessions = getAccessibleSessions(userName);
 
       for (const session of accessibleSessions) {
-        // filter out environment_sessions from environments user does not have access to
-        if (accessibleEnvIds.indexOf(session.environment_id) < 0) {
+        // filter out application_sessions from applications user does not have access to
+        if (accessibleAppIds.indexOf(session.application_id) < 0) {
           continue;
         }
         // filter out sessions for other users, unless the user is an admin or can manage the workspace
@@ -332,31 +332,31 @@ export class MockInterceptor implements HttpInterceptor {
       return ok(result);
     }
 
-    function getEnvironments() {
+    function getApplications() {
       const workspaces = database.workspaces;
 
       const workspaceIds = getAccessibleWorkspaces(localStorage.getItem('user_name')).map(ws => ws.id);
-      // Environments from System.default are accessible always
+      // Applications from System.default are accessible always
       if (workspaceIds.indexOf('ws-0') < 0) {
         workspaceIds.push('ws-0');
       }
-      console.log('mock.getEnvironments() workspaceIds', workspaceIds);
-      let environments = database.environments.filter((env) => {
-        return workspaceIds.includes(env.workspace_id);
+      console.log('mock.getApplications() workspaceIds', workspaceIds);
+      let applications = database.applications.filter((app) => {
+        return workspaceIds.includes(app.workspace_id);
       });
-      // here we mimic the behavior of backend which populates the environment object from config
-      environments = environments.map(e => {
+      // here we mimic the behavior of backend which populates the application object from config
+      applications = applications.map(e => {
         e.workspace_name = workspaces.find(w => e.workspace_id === w.id).name;
         return e;
       });
-      return ok(environments);
+      return ok(applications);
     }
 
-    function createEnvironment() {
-      const envId = Math.random().toString(36).substring(2, 8);
+    function createApplication() {
+      const appId = Math.random().toString(36).substring(2, 8);
 
-      const environment = new Environment(
-        envId,
+      const application = new Application(
+        appId,
         body.name,
         body.description,
         '1h',
@@ -368,78 +368,78 @@ export class MockInterceptor implements HttpInterceptor {
         body.template_name
       );
 
-      database.environments.push(environment);
-      return ok(environment);
+      database.applications.push(application);
+      return ok(application);
     }
 
-    function copyEnvironment() {
-      const env = database.environments.find(i => i.id === objectId);
-      const envId = Math.random().toString(36).substring(2, 8);
-      const environment = new Environment(
-        envId,
-        `${env.name} - Copy`,
-        env.description,
+    function copyApplication() {
+      const app = database.applications.find(i => i.id === objectId);
+      const appId = Math.random().toString(36).substring(2, 8);
+      const application = new Application(
+        appId,
+        `${app.name} - Copy`,
+        app.description,
         '1h',
-        env.workspace_id,
-        env.labels,
-        env.thumbnail,
-        env.is_enabled
+        app.workspace_id,
+        app.labels,
+        app.thumbnail,
+        app.is_enabled
       );
 
-      database.environments.push(environment);
+      database.applications.push(application);
       return ok();
     }
 
-    function updateEnvironment() {
-      const env = database.environments.find(i => i.id === objectId);
-      env.name = body.name;
-      env.description = body.description;
-      env.config = body.config;
-      env.is_enabled = body.is_enabled;
+    function updateApplication() {
+      const app = database.applications.find(i => i.id === objectId);
+      app.name = body.name;
+      app.description = body.description;
+      app.config = body.config;
+      app.is_enabled = body.is_enabled;
       return ok();
     }
 
-    function deleteEnvironment() {
-      const env = database.environments.find(i => i.id === objectId);
-      database.environments = database.environments.filter(i => i.id !== objectId);
-      return ok(env);
+    function deleteApplication() {
+      const app = database.applications.find(i => i.id === objectId);
+      database.applications = database.applications.filter(i => i.id !== objectId);
+      return ok(app);
     }
 
-    function createEnvironmentSession() {
+    function createApplicationSession() {
 
-      const {environment: envId} = body;
-      const environment = database.environments.find(env => env.id === envId);
+      const {application_id: appId} = body;
+      const application = database.applications.find(app => app.id === appId);
 
-      // check if the environment exists
-      if (!envId || !environment) {
-        error('environment not found ' + envId);
+      // check if the application exists
+      if (!appId || !application) {
+        error('application not found ' + appId);
       }
-      // make sure there aren't existing sessions for the environment
-      if (database.environment_sessions.find(es => es.environment_id === envId && es.state !== SessionStates.Deleted)) {
-        error('session already running for environment ' + envId);
+      // make sure there aren't existing sessions for the application
+      if (database.application_sessions.find(es => es.application_id === appId && es.state !== SessionStates.Deleted)) {
+        error('session already running for application ' + appId);
       }
 
       const sessionId = Math.random().toString(36).substring(2, 8);
 
-      const session = new EnvironmentSession(
+      const session = new ApplicationSession(
         sessionId,
         userId,
         'pb-random-' + sessionId,
-        envId,
+        appId,
         SessionStates.Queueing,
         '',
-        environment.maximum_lifetime,
+        application.maximum_lifetime,
         userName,
       );
 
       (session as any)._mockLastStateUpdateTs = Date.now();
-      database.environment_sessions.push(session);
+      database.application_sessions.push(session);
 
       return ok(session);
     }
 
-    function deleteEnvironmentSession() {
-      const session = database.environment_sessions.find((i) => {
+    function deleteApplicationSession() {
+      const session = database.application_sessions.find((i) => {
         return (i.id === objectId);
       });
 
@@ -662,15 +662,15 @@ export class MockInterceptor implements HttpInterceptor {
       });
     }
 
-    function getAccessibleEnvironments(ext_id: string) {
+    function getAccessibleApplications(ext_id: string) {
       const workspaceIds = getAccessibleWorkspaces(ext_id).map(ws => ws.id);
-      // Environments from System.default are accessible always
+      // Applications from System.default are accessible always
       if (workspaceIds.indexOf('ws-0') < 0) {
         workspaceIds.push('ws-0');
       }
-      console.log('mock.getEnvironments() workspaceIds', workspaceIds);
-      return database.environments.filter((env) => {
-        return workspaceIds.includes(env.workspace_id);
+      console.log('mock.getApplications() workspaceIds', workspaceIds);
+      return database.applications.filter((app) => {
+        return workspaceIds.includes(app.workspace_id);
       });
     }
 
@@ -682,8 +682,8 @@ export class MockInterceptor implements HttpInterceptor {
       const ownedWorkspaceIds = getAccessibleWorkspaces(ext_id).filter(w => w.owner_ext_id === ext_id).map(w => w.id);
       const result = [];
 
-      for (const session of database.environment_sessions) {
-        const sessionEnvironment = database.environments.find(e => e.id === session.environment_id);
+      for (const session of database.application_sessions) {
+        const sessionApplication = database.applications.find(e => e.id === session.application_id);
         // admin gets all sessions
         if (user.is_admin) {
           result.push(session);
@@ -693,7 +693,7 @@ export class MockInterceptor implements HttpInterceptor {
           result.push(session);
         }
         // pick sessions for other users, if the user owns the workspace
-        else if (ownedWorkspaceIds.indexOf(sessionEnvironment.workspace_id) >= 0) {
+        else if (ownedWorkspaceIds.indexOf(sessionApplication.workspace_id) >= 0) {
           result.push(session);
         }
       }

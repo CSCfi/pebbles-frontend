@@ -4,10 +4,10 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { faRProject } from '@fortawesome/free-brands-svg-icons';
 import { faPython } from '@fortawesome/free-brands-svg-icons';
-import { EnvironmentType } from '../../../models/environment-template';
-import { Environment } from 'src/app/models/environment';
-import { EnvironmentSession, SessionStates } from 'src/app/models/environment-session';
-import { EnvironmentSessionService } from 'src/app/services/environment-session.service';
+import { ApplicationType } from '../../../models/application-template';
+import { Application } from 'src/app/models/application';
+import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
+import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { Utilities } from '../../../utilities';
 
 @Component({
@@ -21,7 +21,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   faRProject = faRProject;
   faPython = faPython;
 
-  @Input() environment: Environment;
+  @Input() environment: Application;
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
@@ -53,7 +53,7 @@ export class MainEnvironmentItemComponent implements OnInit {
     return false;
   }
 
-  get session(): EnvironmentSession {
+  get session(): ApplicationSession {
     return this.sessionService.getSession(this.environment.session_id);
   }
 
@@ -104,8 +104,8 @@ export class MainEnvironmentItemComponent implements OnInit {
     return '';
   }
 
-  get environmentType(): EnvironmentType {
-    return this.environment?.environment_type;
+  get environmentType(): ApplicationType {
+    return this.environment?.applicationType;
   }
 
   get description(): string {
@@ -121,7 +121,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   constructor(
-    private sessionService: EnvironmentSessionService,
+    private sessionService: ApplicationSessionService,
   ) { }
 
   ngOnInit(): void {

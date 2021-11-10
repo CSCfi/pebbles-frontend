@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
-import { EnvironmentCategoryService } from 'src/app/services/environment-category.service';
+import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 
 @Component({
   selector: 'app-main-content-header',
@@ -63,7 +63,7 @@ export class MainContentHeaderComponent implements OnInit {
   }
 
   constructor(
-    private environmentCategoryService: EnvironmentCategoryService
+    private environmentCategoryService: ApplicationCategoryService
   ) {
   }
 

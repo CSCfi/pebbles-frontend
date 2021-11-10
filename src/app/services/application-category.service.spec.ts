@@ -1,34 +1,31 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
-import { EnvironmentService } from './environment.service';
-import {RouterTestingModule} from '@angular/router/testing';
+import { ApplicationCategoryService } from './application-category.service';
 
-describe('EnvironmentService', () => {
-  let service: EnvironmentService;
+describe('ApplicationCategoryService', () => {
+  let service: ApplicationCategoryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
+        HttpClientTestingModule
       ],
-      declarations: [
-      ],
+      declarations: [],
       providers: [
         ENVIRONMENT_SPECIFIC_PROVIDERS
       ]
     });
-    service = TestBed.inject(EnvironmentService);
+    service = TestBed.inject(ApplicationCategoryService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should populate environments with fetchEnvironments',
+  it('should populate catalog with fetchCategories',
     (done: DoneFn) => {
-      service.fetchEnvironments().subscribe((resp) => {
+      service.fetchCategories().subscribe((resp) => {
         expect(resp.length).toBeGreaterThan(0);
         done();
       });
