@@ -9,7 +9,7 @@
     <div class="status-wrapper mt-20 p-10"
          fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
       <div>
-        <p class="mb-5">Launching environment session "{{ targetSession.name }}"</p>
+        <p class="mb-5">Launching application session "{{ targetSession.name }}"</p>
         <div class="state mat-display-3">{{ latestProvisioningLogMessage }}</div>
       </div>
       <div class="spinner-container center__vh">
@@ -28,7 +28,7 @@
       <!--        [bufferValue]="progress + 10">-->
       <!--      </mat-progress-bar>-->
       <div class="environment-info info-body mb-20">
-        <h3 class="mb-30">Environment Information</h3>
+        <h3 class="mb-30">Application Information</h3>
         <dl class="grid">
           <dt>Name</dt>
           <dd class="environment-title">{{ targetEnvironment.name }}</dd>

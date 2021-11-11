@@ -38,7 +38,7 @@
           <ng-container [ngSwitch]="getDesktopNotificationPermissionState()">
             <div *ngSwitchCase="'default'">
               <p>
-                We can show desktop notifications when environment sessions are started or are about to expire.
+                We can show desktop notifications when application sessions are started or are about to expire.
               </p>
               <button mat-flat-button color="warn" (click)="askForDesktopNotificationPermission()">
                 <mat-icon class="mr-5">notifications</mat-icon>

@@ -10,24 +10,24 @@
        fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="5px"
        fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch" fxLayoutGap.lt-sm="5px">
     <button mat-flat-button color="accent" class="open-environment-creation-wizard-button"
-            aria-label="create a new environment" (click)="openEnvironmentWizardDialog()">
+            aria-label="add new application" (click)="openEnvironmentWizardDialog()">
       <mat-icon class="mr-10">auto_fix_high</mat-icon>
-      <span>Environment creation wizard</span>
+      <span>Application wizard</span>
     </button>
     <button mat-stroked-button class="open-environment-creation-form-button"
             aria-label="create a new environment" (click)="openEnvironmentItemFormDialog(null)">
       <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>
-      <span>Use simple editor</span>
+      <span>Application form</span>
     </button>
   </div>
 
-  <!-- environments table -->
+  <!-- table -->
   <!--
     - Thumbnail column
     - Info column
         - name
         - lifetime
-        - environment template
+        - application template
         - state
         - description
     - test launch button column

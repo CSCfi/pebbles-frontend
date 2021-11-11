@@ -18,7 +18,7 @@ export class MainCatalogComponent implements OnInit {
 
   public content = {
     path: 'catalog',
-    title: 'Environments',
+    title: 'Applications',
     identifier: 'catalog'
   };
 
@@ -66,14 +66,13 @@ export class MainCatalogComponent implements OnInit {
     });
   }
 
-  // ---- Environment
+  // ---- application
   // ------------------------------------------------------------ //
 
   // TODO: this takes few seconds in UI to display.
   // Merging sort to fetchEnvironments reduces delay but still takes a sec.
   // Sort is called before fetchEnvironments to reduce, but still see minor glitch.
   sortEnvironments(environmentsCopy: Application[]): Application[] {
-    // console.log('sortEnvironments is called');
     const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
     environmentsCopy.sort((a, b) => {
       if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) &&

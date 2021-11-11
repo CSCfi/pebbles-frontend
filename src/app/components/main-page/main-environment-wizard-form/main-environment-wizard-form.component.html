@@ -9,22 +9,22 @@
     <mat-step [stepControl]="wizardTemplateFormGroup">
       <form [formGroup]="wizardTemplateFormGroup">
         <mat-dialog-content>
-          <ng-template matStepLabel>Environment Template</ng-template>
+          <ng-template matStepLabel>Application Template</ng-template>
           <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
             <div class="form-help-icon center__v" fxFlex="0 0 100px">
               <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
             </div>
             <div class="instruction-text" fxFlex="grow">
-              <h1 class="question">What is Environment?</h1>
+              <h1 class="question">What is application template?</h1>
               <div class="answer mat-body-1">
-                Environment defines the content that users access by starting a browser based isolated session.
-                As workspace owner/manager, you can create your own customized environments from templates below.
+                Application defines the content that users access by starting a browser based isolated session.
+                As workspace owner/manager, you can create your own customized applications from templates below.
               </div>
             </div>
           </section>
           <section class="form-container">
-            <h2 class="mat-title mb-20">Select a template for your new environment.</h2>
-            <mat-label class="form-label mat-subheading-2">Environment templates</mat-label>
+            <h2 class="mat-title mb-20">Select a template for your new application.</h2>
+            <mat-label class="form-label mat-subheading-2">Application templates</mat-label>
             <div class="form-ui-container mt-10 mb-10">
               <mat-radio-group formControlName="templateId" (change)="onChangeTemplate($event.value)">
                 <ul>
@@ -50,29 +50,29 @@
       </form>
     </mat-step>
 
-    <!-- 2 Environment profile setting-->
+    <!-- 2 Application profile setting-->
     <mat-step [stepControl]="wizardProfileFormGroup">
       <form [formGroup]="wizardProfileFormGroup">
         <mat-dialog-content>
-          <ng-template matStepLabel>Environment Profile</ng-template>
+          <ng-template matStepLabel>Application Profile</ng-template>
           <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
             <div class="form-help-icon center__v" fxFlex="0 0 100px">
               <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
             </div>
             <div class="instruction-text" fxFlex="grow">
-              <h1 class="question">How new environment is seen by members?</h1>
+              <h1 class="question">How new application is seen by members?</h1>
               <div class="answer mat-body-1">
-                Members of your workspace can find your environment in the environments page.
+                Members of your workspace can find your application in the applications page.
                 Carefully consider names, descriptions and labels to let them identify and find the content.
               </div>
             </div>
           </section>
 
           <!-- 2-1 Name -->
-          <h2 class="mat-title mb-20">Fill your environment information</h2>
+          <h2 class="mat-title mb-20">Fill your application information</h2>
           <section class="form-container">
             <mat-form-field appearance="fill">
-              <mat-label class="mat-subheading-2">Environment name</mat-label>
+              <mat-label class="mat-subheading-2">Application name</mat-label>
               <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
             </mat-form-field>
           </section>
@@ -101,7 +101,7 @@
       </form>
     </mat-step>
 
-    <!-- 3 Environment option setting-->
+    <!-- 3 application option setting-->
     <mat-step [stepControl]="wizardOptionFormGroup">
       <form [formGroup]="wizardOptionFormGroup">
         <mat-dialog-content>
@@ -111,7 +111,7 @@
               <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
             </div>
             <div class="instruction-text" fxFlex="grow">
-              <h1 class="question">How you can customize environment?</h1>
+              <h1 class="question">How you can customize application?</h1>
               <div class="answer mat-body-1">
                 <p>Customize settings according to what you want to do.</p>
                 <ul>
@@ -127,7 +127,7 @@
             </div>
           </section>
 
-          <h2 class="mat-title mb-10">Configure environment options</h2>
+          <h2 class="mat-title mb-10">Configure application options</h2>
           <!-- 3.4 Jupyter Interface -->
           <section class="form-container">
             <div class="form-option" *ngIf="selectedTemplate && selectedTemplate.applicationType==='jupyter'">
@@ -183,7 +183,7 @@
             <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label>
             <br>
             <mat-checkbox formControlName="isAutoExecution" class="mt-5">
-              <span class="mat-subheading-2 mr-10">On</span> : Execute or unpack downloaded file when the environment
+              <span class="mat-subheading-2 mr-10">On</span> : Execute or unpack downloaded file when the application
               is launched.
             </mat-checkbox>
           </section>
@@ -216,7 +216,7 @@
         <mat-dialog-content>
           <ng-template matStepLabel>Save</ng-template>
           <div class="form-items mt-20 mb-50">
-            <h2 class="mat-headline mb-20">Congratulations! Your new environment is almost ready :)</h2>
+            <h2 class="mat-headline mb-20">Congratulations! Your new application is almost ready :)</h2>
             <mat-label class="mat-subheading-2">Visibility</mat-label>
             <mat-radio-group formControlName="isActive">
               <ul class="mt-10">

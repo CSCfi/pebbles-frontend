@@ -62,7 +62,7 @@
       <ng-container matColumnDef="menu" stickyEnd>
         <th mat-header-cell class="icon" *matHeaderCellDef>menu</th>
         <td mat-cell class="icon center" *matCellDef="let element">
-          <button mat-button [matMenuTriggerFor]="menu" aria-label="open environment menu"
+          <button mat-button [matMenuTriggerFor]="menu" aria-label="open menu"
                   [disabled]="element.role === 'owner'">
             <mat-icon>menu</mat-icon>
           </button>

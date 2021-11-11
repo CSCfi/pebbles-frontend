@@ -16,7 +16,7 @@
   </button>
 </div>
 
-<!-- Environment Catalogs -->
+<!-- Application Catalogs -->
 <section class="environments-catalog content-container" ngClass.lt-sm="mobile">
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
     (selectedTabChange)="changeCatalog($event)">
@@ -47,7 +47,7 @@
               <section class="message-container">
                 <div class="empty" *ngIf="environments !== null">
                   <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-                  <span class="message">No environments found.</span>
+                  <span class="message">No applications found.</span>
                 </div>
                 <div class="empty" *ngIf="environments === null">
                   <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>

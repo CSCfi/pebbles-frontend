@@ -6,7 +6,7 @@
         <span [innerHTML]="workspace.name"></span>
         <mat-chip class="chip__sm ml-5" color="accent" selected *ngIf="isNew">New</mat-chip>
       </mat-card-title>
-      <button mat-button class="workspace-item-menu" [matMenuTriggerFor]="menu" aria-label="open environment menu">
+      <button mat-button class="workspace-item-menu" [matMenuTriggerFor]="menu" aria-label="open menu">
         <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -32,10 +32,10 @@
               <mat-icon fontSet="material-icons-outlined" *ngIf="panelOpenState">arrow_drop_down</mat-icon>
             </ng-template>
           </ng-container>
-          <span class="ml-5">{{ environments.length }} Environments</span>
+          <span class="ml-5">{{ environments.length }} Applications</span>
         </div>
       </div>
-      <!-- workspaces visible, but environments have not been loaded yet -->
+      <!-- workspaces visible, but applications have not been loaded yet -->
       <div *ngIf="environments === null">
         <span class="ml-10">...Loading...</span>
       </div>

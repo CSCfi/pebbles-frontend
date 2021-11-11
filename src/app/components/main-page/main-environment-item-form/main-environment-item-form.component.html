@@ -5,11 +5,11 @@
     </button>
   </div>
   <form id="dialog" [formGroup]="environmentItemEditFormGroup">
-    <h1 class="mat-dialog-title mat-headline">{{ isCreationMode ? 'Create' : 'Edit' }} environment</h1>
+    <h1 class="mat-dialog-title mat-headline">{{ isCreationMode ? 'Add new' : 'Edit' }} application</h1>
     <mat-dialog-content class="plain-form-container">
       <!-- 1 Env Templates-->
       <section class="form-container">
-        <h3 class="mat-title">Environment template</h3>
+        <h3 class="mat-title">Application template</h3>
         <ng-container *ngIf="isCreationMode; else templateNameBlock">
           <mat-form-field appearance="fill">
             <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
@@ -26,7 +26,7 @@
 
       <!-- 2 Name-->
       <section class="form-container">
-        <h3 class="mat-title">Environment name</h3>
+        <h3 class="mat-title">Application name</h3>
         <mat-form-field appearance="fill">
           <input matInput formControlName="name">
         </mat-form-field>
@@ -138,7 +138,7 @@
       <button mat-flat-button color="primary" fxFlex="grow"
               *ngIf="isCreationMode"
               (click)="createEnvironmentByPlainMode()">
-        Create
+        Add new
       </button>
       <button mat-flat-button class="submit-button" color="primary" fxFlex="grow"
               *ngIf="!isCreationMode"
