@@ -240,19 +240,19 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       'Demo workspace for ' + this.authService.getUserName()
     ).subscribe((ws) => {
       console.log('created demo Workspace ' + ws.id);
-      console.log('creating example Environment');
+      console.log('creating example Application');
       // create example environment that is originally enabled
       this.environmentService.createApplication(
         ws.id,
-        'Demo Environment',
-        'Demo Environment created by "Create Demo Workspace"',
+        'Demo application',
+        'Demo application created by "Create Demo Workspace"',
         envTemplate.id,
         envTemplate.base_config.labels,
         envTemplate.base_config.maximum_lifetime,
         {},
         true,
       ).subscribe((env) => {
-        console.log('created example Environment ' + env.id);
+        console.log('created example Application ' + env.id);
       });
     });
   }
