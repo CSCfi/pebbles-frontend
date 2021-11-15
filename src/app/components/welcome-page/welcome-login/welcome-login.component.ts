@@ -2,7 +2,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { MessageService } from '../../../services/message.service';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 export const heroShotsAnimation = trigger('openClose', [
@@ -39,6 +41,7 @@ export class WelcomeLoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
+    private messageService: MessageService,
     public publicConfigService: PublicConfigService,
   ) {
   }
@@ -57,18 +60,26 @@ export class WelcomeLoginComponent implements OnInit {
     console.log('---- onLogin');
     const ext_id = this.loginFormGroup.controls.ext_id.value;
     const password = this.loginFormGroup.controls.password.value;
-    this.authService.login(ext_id, password).subscribe(session => {
-      console.log(session);
-      localStorage.setItem('token', btoa(session.token + ':'));
-      localStorage.setItem('user_id', session.user_id);
-      localStorage.setItem('user_name', ext_id);
-      localStorage.setItem('is_admin', session.is_admin);
-      localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
-      localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
-      localStorage.setItem('is_sidenav_open', 'true');
+    this.authService.login(ext_id, password).pipe(
+      tap(session => {
+        console.log(session);
+        localStorage.setItem('token', btoa(session.token + ':'));
+        localStorage.setItem('user_id', session.user_id);
+        localStorage.setItem('user_name', ext_id);
+        localStorage.setItem('is_admin', session.is_admin);
+        localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
+        localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
+        localStorage.setItem('is_sidenav_open', 'true');
 
-      this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
-    });
+        this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
+      }),
+      catchError(err => {
+        if (typeof err.error === 'string') {
+          this.messageService.displayError(`Login error: ${err.error}`);
+        }
+        throw err;
+      })
+    ).subscribe();
   }
 
   onImageShow(index): void {
