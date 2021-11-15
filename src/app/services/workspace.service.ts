@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user';
 import { Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
 import { AccountService } from './account.service';
+import { AuthService } from './auth.service';
 import { EventService } from './event.service';
 
 @Injectable({
@@ -26,7 +27,8 @@ export class WorkspaceService {
   constructor(
     private http: HttpClient,
     private eventService: EventService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private authService: AuthService,
   ) {
   }
 
@@ -51,10 +53,10 @@ export class WorkspaceService {
     if (!wuas) {
       return [];
     }
-    // filter associations by the manager role and return the workspaces
+    // filter associations by the manager role, map to workspaces and filter out non-existing (deleted)
     return wuas.filter(wua => wua.is_manager).map(wua => {
       return this.getWorkspaceById(wua.workspace_id);
-    });
+    }).filter(ws => ws != null);
   }
 
   getWorkspaceMembers(workspaceId: string): WorkspaceMember[] {
@@ -143,11 +145,11 @@ export class WorkspaceService {
   createWorkspace(name: string, description: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.post<Workspace>(url, {name, description}).pipe(
-      map((resp) => {
+      tap((resp) => {
         console.log('createWorkspace() got', resp);
         this.fetchWorkspaces().subscribe();
-        return resp;
-      })
+        this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).subscribe();
+      }),
     );
   }
 
@@ -174,10 +176,13 @@ export class WorkspaceService {
 
   deleteWorkspace(workspaceId: string): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}`;
-    return this.http.delete<Workspace>(url).pipe(tap(_ => {
-      this.workspaces = this.workspaces.filter(x => x.id !== workspaceId);
-      this.eventService.workspaceDataUpdate$.next(workspaceId);
-    }));
+    return this.http.delete<Workspace>(url).pipe(
+      tap(_ => {
+        this.workspaces = this.workspaces.filter(x => x.id !== workspaceId);
+        this.eventService.workspaceDataUpdate$.next(workspaceId);
+        this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).subscribe();
+      })
+    );
   }
 
   promoteMember(workspaceId: string, userId: string): Observable<any> {

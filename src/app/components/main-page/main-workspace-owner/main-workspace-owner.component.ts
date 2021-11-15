@@ -6,9 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
 import { Workspace } from 'src/app/models/workspace';
-import { AuthService } from 'src/app/services/auth.service';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
@@ -133,9 +133,16 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       this.selectWorkspace(this.workspaces[0].id);
       this.autoselectFirstWorkspace = false;
     }
-    // if there is a selected workspace, refresh the member counts
+
+    // if there is a selection, update that and make sure it still exists
     if (this.selectedWorkspaceId) {
       this.selectedWorkspace = this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
+      if (!this.selectedWorkspace) {
+        this.selectWorkspace(null);
+      }
+    }
+    // if there is a selected workspace, refresh the member counts
+    if (this.selectedWorkspace) {
       this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
       this.environmentCount = this.environmentService.getApplicationsByWorkspaceId(this.selectedWorkspaceId)?.length;
       if (!this.memberCount) {
@@ -182,14 +189,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
   // ---- workspace creation
   // ----------------------------------------
-  createWorkspace(): void {
-    this.workspaceService.createWorkspace(
-      'New Workspace',
-      'Workspace for ' + this.authService.getUserName()
-    ).subscribe(_ => {
-      console.log('created new Workspace');
-    });
-  }
 
   isNewWorkspace(id: string): boolean {
     if (this.newWorkspace) {
@@ -253,6 +252,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         true,
       ).subscribe((env) => {
         console.log('created example Application ' + env.id);
+        this.selectWorkspace(ws.id);
       });
     });
   }
@@ -318,7 +318,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     this.tabGroup.selectedIndex = idx;
   }
 
-  workspaceSelectChange(){
+  workspaceSelectChange() {
     this.selectWorkspace(this.selectedWorkspaceId);
   }
 }

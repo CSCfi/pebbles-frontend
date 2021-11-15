@@ -18,14 +18,7 @@
     <!-- Workspace creation buttons -->
     <ng-container *ngIf="workspaces">
       <div class="workspaces-actions-container p-10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
-        <ng-container *ngIf="isDemoButtonShown; else workspaceCreationBlock">
-          <button mat-flat-button class="create-demo-workspace-button"
-                  aria-label="create demo workspace" (click)="createDemoWorkspace()">
-            <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-            <span>Create demo workspace</span>
-          </button>
-        </ng-container>
-        <ng-template #workspaceCreationBlock>
+        <ng-container>
           <button mat-flat-button color="primary" class="create-workspace-button"
                   aria-label="create a new workspace"
                   [disabled]="!isQuotaLeft()"
@@ -33,7 +26,14 @@
             <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>
             <span>Create workspace</span>
           </button>
-        </ng-template>
+        </ng-container>
+        <ng-container *ngIf="isDemoButtonShown">
+          <button mat-flat-button class="create-demo-workspace-button"
+                  aria-label="create demo workspace" (click)="createDemoWorkspace()">
+            <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+            <span>Create demo workspace</span>
+          </button>
+        </ng-container>
       </div>
     </ng-container>
     <!-- Workspace list -->
