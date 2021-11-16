@@ -6,9 +6,7 @@
     <h2 class="mat-display-3 mb-30">
       {{ publicConfigService.getShortDescription() }}
     </h2>
-    <div class="mat-display-2 mb-30">
-      {{ publicConfigService.getInstallationDescription() }}
-    </div>
+    <div class="mat-display-2 mb-30" [innerHTML]="publicConfigService.getInstallationDescription()"></div>
     <a mat-raised-button id="oauth-login-button" class="button-lg" color="accent" href="/oauth2?rd=%2Foauth2">
       <div>Login</div>
       <div class="mat-display-1">Haka / Virtu / CSC account</div>

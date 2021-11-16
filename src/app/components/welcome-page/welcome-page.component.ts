@@ -2,8 +2,9 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
-import { MainJoinWorkspaceDialogComponent } from '../main-page/main-join-workspace-dialog/main-join-workspace-dialog.component';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-welcome-page',
@@ -26,8 +27,10 @@ export class WelcomePageComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private messageService: MessageService,
     private dialog: MatDialog
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.loginFormGroup = this.formBuilder.group({
@@ -40,18 +43,26 @@ export class WelcomePageComponent implements OnInit {
     console.log('---- onLogin');
     const ext_id = this.loginFormGroup.controls.ext_id.value;
     const password = this.loginFormGroup.controls.password.value;
-    this.authService.login(ext_id, password).subscribe(session => {
-      console.log(session);
-      localStorage.setItem('token', btoa(session.token + ':'));
-      localStorage.setItem('user_id', session.user_id);
-      localStorage.setItem('user_name', ext_id);
-      localStorage.setItem('is_admin', session.is_admin);
-      localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
-      localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
-      localStorage.setItem('is_sidenav_open', 'true');
-      this.dialogRef.close();
-      this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
-    });
+    this.authService.login(ext_id, password).pipe(
+      tap(session => {
+        localStorage.setItem('token', btoa(session.token + ':'));
+        localStorage.setItem('user_id', session.user_id);
+        localStorage.setItem('user_name', ext_id);
+        localStorage.setItem('is_admin', session.is_admin);
+        localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
+        localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
+        localStorage.setItem('is_sidenav_open', 'true');
+
+        this.dialogRef.close();
+        this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
+      }),
+      catchError(err => {
+        if (typeof err.error === 'string') {
+          this.messageService.displayError(`Login error: ${err.error}`);
+        }
+        throw err;
+      })
+    ).subscribe();
   }
 
   openSpecialLoginDialog(): void {
