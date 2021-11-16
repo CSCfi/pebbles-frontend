@@ -184,6 +184,10 @@ $sides: (
     }
   }
 
+  &__secondary {
+    background: map-get($app-secondary, default);
+  }
+
   &__accent {
     background: map-get($app-accent, default);
   }

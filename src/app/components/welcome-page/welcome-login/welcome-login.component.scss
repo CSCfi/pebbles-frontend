@@ -1,11 +1,5 @@
 @import "src/styles/main.scss";
 
-::ng-deep .mat-expansion-panel {
-  .mat-expansion-panel-body {
-    padding: 20px;
-  }
-}
-
 .hero-images {
   position: relative;
   max-width: 600px;
@@ -26,11 +20,14 @@
   }
 }
 
-.control-buttons>button {
+.control-buttons > button {
   width: 10px;
   height: 10px;
   background: white;
 
-  &:hover { background: map-get($app-accent, light); }
-  &.focus { background: map-get($app-warn, light); }
+  &:hover { background: map-get($app-warn, default); }
+  &.focus {
+    background: map-get($app-secondary, default);
+    &:hover { background: map-get($app-warn, default); }
+  }
 }

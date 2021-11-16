@@ -1,7 +1,7 @@
-<footer id="footer" class="bg__primary-dark pt-40 pb-40" ngClass.lt-sm="p-20">
-  <div class="container mat-body-2" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between start"
+<footer id="footer" class="bg__primary-dark pt-30 pb-25 mat-body-1" ngClass.lt-sm="p-20">
+  <div class="container" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between start"
        fxLayoutGap="30px">
-    <dl class="info-notebook footer-column" fxFlex="30">
+    <dl class="info-notebook footer-column" fxFlex="grow">
       <dt>About Notebooks</dt>
       <dd>
         <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Terms of use</a>
@@ -16,34 +16,43 @@
         <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Privacy</a>
       </dd>
     </dl>
-    <dl class="info-support footer-column" fxFlex="30">
+    <dl class="info-support footer-column" fxFlex="grow">
       <dt>Notebooks Support</dt>
       <dd>Open Monday to Friday (9:00 - 16:00)</dd>
-      <dd>
+      <dd class="center__v">
+        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5 no-u-line">email</mat-icon>
         <a href="mailto:{{ publicConfigService.getContactEmail() }}" rel="noopener">
-        {{ publicConfigService.getContactEmail() }}
+          {{ publicConfigService.getContactEmail() }}
         </a>
       </dd>
       <dd>
         Life Science Center Keilaniemi: <br>
         Keilaranta 14, Espoo, Finland
       </dd>
+      <dd *ngIf="content?.identifier==='welcome'">
+        <button id="special-login-button" class="center__vh" (click)="openSpecialLogin()">
+          <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">key</mat-icon>
+          <span class="u-line">Special Login</span>
+        </button>
+      </dd>
     </dl>
-    <dl class="info-company footer-column" fxFlex="30">
+    <dl class="info-company footer-column" fxFlex="0 0 auto">
       <dt>
         CSC - IT CENTER FOR SCIENCE LTD.
       </dt>
       <dd>
-        <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
-          <p>ICT Solutions for Brilliant Minds</p>
-        </div>
-      </dd>
-      <dd>
-        <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">
-          Detailed Contact Information
+        <a href="https://www.csc.fi/" target="_blank" rel="noopener" class="no-u-line">
+          <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
+            <p>ICT Solutions for Brilliant Minds</p>
+          </div>
         </a>
       </dd>
+      <!--      <dd>-->
+      <!--        <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">-->
+      <!--          Detailed Contact Information-->
+      <!--        </a>-->
+      <!--      </dd>-->
     </dl>
   </div>
 </footer>

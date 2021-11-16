@@ -1,6 +1,6 @@
 <div class="container__screen bg__primary" fxLayout="column">
   <app-header [isNaviVisible]="true"
-              [logoMarkSize]="48" [logoTypeSize]="4" [displayMode]="'cutout'"
+              [logoMarkSize]="80" [logoTypeSize]="4" [displayMode]="'cutout'"
               class="mt-40 app-header">
   </app-header>
   <div id="jumbotron" role="main" ngClass.gt-xs="mt-75" ngClass.lt-sm="mt-15">
@@ -15,4 +15,19 @@
   </div>
 </div>
 <!-- <app-welcome-publicity></app-welcome-publicity> -->
-<app-footer></app-footer>
+<app-footer [content]="content" (emitSpecialLogin)="openSpecialLoginDialog()"></app-footer>
+<ng-template #specialLoginDialog>
+  <form class="special-login-form" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup" fxLayout="column" fxLayoutAlign="start stretch">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
+    </mat-form-field>
+    <button id="special-login-submit-button" mat-flat-button color="primary">
+      Submit
+    </button>
+  </form>
+</ng-template>

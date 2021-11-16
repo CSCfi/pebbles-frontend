@@ -31,13 +31,9 @@ a {
     color: map-get($app-accent, light);
     cursor: pointer;
   }
-}
 
-.no-u-line {
-  &a {
-    text-decoration: none;
-  }
-  & a {
+  &.no-u-line,
+  & .no-u-line{
     text-decoration: none;
   }
 }
@@ -45,13 +41,20 @@ a {
 .u-line {
   text-decoration: underline;
 
-  &a {
-    text-decoration: underline;
-  }
-  & a {
+  &a, & a {
     text-decoration: underline;
   }
 }
+
+.no-u-line {
+  text-decoration: none;
+
+  &a, & a {
+    text-decoration: none;
+  }
+}
+
+
 
 button {
   border-radius: 3px;
@@ -443,7 +446,10 @@ a.mat-stroked-button,
   height: 45px;
 
   &.button-lg {
-    padding: 8px 30px !important;
+    padding: 6px 30px !important;
+    min-height: 45px;
+    height: auto;
+    font-size: 1.8rem;
   }
 }
 

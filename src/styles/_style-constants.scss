@@ -81,9 +81,9 @@ $app-primary: (
 );
 
 $app-secondary: (
-  default: #0082bb,
-  light: #58b1ee,
-  dark: #00568b,
+  default: #ffc400,
+  light: #ffe065,
+  dark: #e7a201,
   contrast: (
     default: $light-text,
     light: $light-text,
@@ -92,8 +92,8 @@ $app-secondary: (
 );
 
 $app-accent: (
-  default: #42b7a8,
-  light: #9efaed,
+  default: #00969a,
+  light: #42b7a8,
   dark: #006778,
   contrast: (
     default: $light-text,
@@ -103,16 +103,15 @@ $app-accent: (
 );
 
 $app-warn: (
-  default: #ff9794,
+  default: #ffa494,
   light: #f8cdc3,
-  dark: #ff5959,
+  dark: #fc614d,
   contrast: (
     default: $light-text,
     light: $dark-text,
     dark: $light-text
   )
 );
-
 
 // ---- color application
 

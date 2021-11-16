@@ -1,4 +1,4 @@
-<section class="container mb-100"
+<section class="container mb-80"
          fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="50px"
          fxLayout.lt-sm="column-reverse" fxLayoutGap.lt-sm="20px">
   <!-- Left -->
@@ -9,45 +9,10 @@
     <div class="mat-display-2 mb-30">
       {{ publicConfigService.getInstallationDescription() }}
     </div>
-    <div class="mat-body-1 mb-30" *ngIf="publicConfigService.getCourseRequestFormUrl()">
-      If you want to host your own course using {{ publicConfigService.getInstallationName() }},
-      please fill out the
-      <a class="" [href]="publicConfigService.getCourseRequestFormUrl()" target="_blank" rel="noopener">
-        Course request form
-      </a>
-    </div>
-    <div class="login-buttons" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
-      <a mat-raised-button id="oauth-login-button" class="button-lg" color="accent" href="/oauth2?rd=%2Foauth2">
-        Login
-      </a>
-      <button id="special-login-button" class="center__vh" (click)="isLoginFormOpen=!isLoginFormOpen">
-        <span>Special Login</span>
-        <ng-container *ngIf="!isLoginFormOpen; else elseBlock">
-          <mat-icon fontSet="material-icons-outlined">chevron_right</mat-icon>
-        </ng-container>
-        <ng-template #elseBlock>
-          <mat-icon fontSet="material-icons-outlined">expand_more</mat-icon>
-        </ng-template>
-      </button>
-      <mat-accordion class="login-form-outer" multi>
-        <mat-expansion-panel [(expanded)]="isLoginFormOpen">
-          <form (ngSubmit)="onLogin()" [formGroup]="loginFormGroup" fxLayout="column" fxLayoutAlign="start stretch">
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Password</mat-label>
-              <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
-            </mat-form-field>
-            <button id="special-login-submit-button" mat-flat-button color="primary">
-              Submit
-            </button>
-          </form>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-    <!-- // Special Login form -->
+    <a mat-raised-button id="oauth-login-button" class="button-lg" color="accent" href="/oauth2?rd=%2Foauth2">
+      <div>Login</div>
+      <div class="mat-display-1">Haka / Virtu / CSC account</div>
+    </a>
   </div>
   <!-- // Left -->
 

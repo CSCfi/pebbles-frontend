@@ -5,9 +5,9 @@
        [ngClass]="('mat-display-'+logoTypeSize)">
     <a [routerLink]="['/welcome']" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
       <div class="logo__mark" [fxFlex]="('0 '+'0 '+ logoMarkSize+'px')">
-        <mat-icon fontSet="material-icons-outlined"
-                  [ngClass]="'md-'+logoMarkSize">import_contacts
-        </mat-icon>
+        <div class="csc-logo">
+          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo" [width]="logoMarkSize">
+        </div>
       </div>
       <div class="logo__type" fxFlex="0 0 240px">
         {{ publicConfigService.getInstallationName() }}
@@ -22,11 +22,6 @@
       fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px"
       fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="end start" fxLayoutGap.lt-sm="5px"
       *ngIf="isNaviVisible">
-    <li>
-      <a [href]="publicConfigService.getCourseRequestFormUrl()" target="_blank" rel="noopener">
-        Host courses & request
-      </a>
-    </li>
     <li>
       <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">
         Terms & Pricing

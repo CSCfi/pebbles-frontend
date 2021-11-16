@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 @Component({
@@ -8,6 +8,9 @@ import { PublicConfigService } from '../../../services/public-config.service';
 })
 export class FooterComponent implements OnInit {
 
+  @Input() content: any;
+  @Output() emitSpecialLogin = new EventEmitter<boolean>();
+
   constructor(
     public publicConfigService: PublicConfigService
   ) {
@@ -16,4 +19,7 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  openSpecialLogin() {
+    this.emitSpecialLogin.emit();
+  }
 }

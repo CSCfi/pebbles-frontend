@@ -3,11 +3,15 @@
 #header {
   height: map-deep-get($layout-set, shared, header, h);
 
-  &.container__fluid{
+  &.container__fluid {
     padding: 6px 20px;
 
     .logo__mark {
       margin-top: 5px;
     }
+  }
+
+  .course-request-button {
+    border: #fff 2px solid;
   }
 }
