@@ -153,7 +153,7 @@ export class WorkspaceService {
     );
   }
 
-  updateWorkspace(workspace: Workspace) {
+  updateWorkspace(workspace: Workspace): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspace.id}`;
     return this.http.put<Workspace>(url, {
       name: workspace.name,
@@ -167,8 +167,9 @@ export class WorkspaceService {
       //     owner:[{id: workspace.owner_ext_id}]
       //   }
     }).pipe(
-      map(_ => {
+      tap(res => {
         console.log('Updated Workspace');
+        this.eventService.workspaceDataUpdate$.next(res.id);
         this.fetchWorkspaces().subscribe();
       })
     );

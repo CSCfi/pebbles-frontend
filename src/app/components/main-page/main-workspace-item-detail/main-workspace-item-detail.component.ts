@@ -65,7 +65,6 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     private formBuilder: FormBuilder,
     private workspaceService: WorkspaceService,
     private authService: AuthService,
-    private eventService: EventService
   ) {
   }
 
@@ -107,7 +106,10 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     this.workspace.name = this.workspaceEditForm.controls.name.value;
     this.workspace.description = this.workspaceEditForm.controls.description.value;
 
-    this.workspaceService.updateWorkspace(this.workspace).subscribe(_ => {
+    this.workspaceService.updateWorkspace(this.workspace).subscribe(res => {
+      // Take the new workspace object from API response.
+      // In case of name change, the join code has been regenerated as well
+      this.workspace = res;
       this.initReactiveForm();
       this.isWorkspaceNameEditOn = false;
       this.isWorkspaceDescriptionEditOn = false;
