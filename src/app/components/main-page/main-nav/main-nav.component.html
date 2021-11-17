@@ -1,10 +1,12 @@
 <div class="sidenav-inner bg__primary no-u-line" fxLayout="column" fxHide.lt-sm="true">
   <!-- Logo -->
-  <div class="logo mat-display-3" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-    <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="10px"
-       fxLayoutAlign="space-between center">
-      <div class="logo__mark" fxFlex="0 0 36px">
-        <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
+  <div class="logo mat-display-3">
+    <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="5px"
+       fxLayoutAlign="start center">
+      <div class="logo__mark" fxFlex="0 0 auto">
+        <div class="csc-logo">
+          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
+        </div>
       </div>
       <div class="logo__type" *ngIf="isTextVisible" >
         {{ publicConfigService.getInstallationName() }}
@@ -140,18 +142,6 @@
     </li>
   </ul>
   <div class="flex-spacer"></div>
-  <!-- CSC Logo -->
-  <!--  <ul *ngIf="isTextVisible">
-      <li>
-        <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">
-          <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-            <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
-            <p>ICT Solutions for Brilliant Minds</p>
-          </div>
-        </a>
-      </li>
-    </ul>
-  -->
   <!-- Logout -->
   <ul class="nav-items nav__bottom nav-partition pt-10 pb-10">
     <li class="nav-item">
@@ -173,16 +163,16 @@
     </li>
   </ul>
   <!-- CSC Logo -->
-  <ul class="bg__primary-dark" *ngIf="isTextVisible">
-    <li>
-      <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">
-        <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
-          <p class="m-0">ICT Solutions for Brilliant Minds</p>
-        </div>
-      </a>
-    </li>
-  </ul>
+  <!--  <ul class="bg__primary-dark" *ngIf="isTextVisible">-->
+  <!--    <li>-->
+  <!--      <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">-->
+  <!--        <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">-->
+  <!--          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">-->
+  <!--          <p class="m-0">ICT Solutions for Brilliant Minds</p>-->
+  <!--        </div>-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--  </ul>-->
 </div>
 
 <!-- Mobile mode : Dropdown menu -->

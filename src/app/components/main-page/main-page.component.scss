@@ -26,7 +26,7 @@
   }
 
   mat-sidenav-content {
-    margin-left: 250px !important;
+    margin-left: map-deep-get($layout-set, main, sidenav, w) !important;
 
     &.expanded {
       margin-left: 80px !important;

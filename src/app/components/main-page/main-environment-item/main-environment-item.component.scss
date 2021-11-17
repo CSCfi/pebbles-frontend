@@ -3,7 +3,7 @@
 .card {
   .card-media-container {
     border-radius: 3px;
-    min-height: 110px;
+    min-height: 125px;
 
     .thumbnail .ng-fa-icon {
       display: block;
@@ -23,16 +23,15 @@
       color: map-get($app-gray, 800);
 
       .environment-meta {
-        font-weight: 600;
 
         .volume {
-          color: map-get($app-gray, 200);
+          color: map-get($app-gray, 300);
 
           &.active {
-            color: map-get($app-gray, 800);
+            color: map-get($app-gray, 900);
 
             .mat-icon {
-              color: map-get($app-accent, default);
+              color: map-get($app-warn, default);
             }
           }
         }
@@ -43,6 +42,10 @@
   .mat-card-content {
     a {
       text-decoration: underline !important;
+    }
+
+    .self-learning {
+      background-color: map-get($app-secondary, light);
     }
   }
 

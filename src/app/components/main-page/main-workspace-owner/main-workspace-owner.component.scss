@@ -83,8 +83,9 @@
         }
 
         .chip__m {
-          background-color: map-get($app-accent, default);
+          background-color: map-get($app-primary, light);
           color: white;
+          min-height: 20px;
         }
       }
     }

@@ -38,7 +38,7 @@
       <table mat-table [dataSource]="dataSource">
         <!-- checkbox column -->
         <!--
-        <ng-container matColumnDef="select" sticky>
+        <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
             <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
               [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
@@ -79,40 +79,79 @@
           </td>
         </ng-container>
         <!-- Information column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>name / description / labels</th>
+        <ng-container matColumnDef="info">
+          <th mat-header-cell class="cell-info"  *matHeaderCellDef>basic information</th>
           <td class="cell-info" mat-cell *matCellDef="let element">
             <ul>
               <li class="environment-name mat-subheading-2 mb-5"> {{element.name}} </li>
-              <li class="environment-meta mat-caption">
+              <li class="description mat-caption" [innerHTML]="element.description"></li>
+              <li class="mat-caption">
                 <span class="center__v">
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">watch_later</mat-icon>
+                  <span class="mr-5">Template:</span> {{element.template}}
+                </span>
+              </li>
+              <li class="environment-labels mat-caption center__v">
+                <span class="mr-5 center__v">
+                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">label</mat-icon>
+                  Labels:
+                </span>
+                <ng-container *ngFor="let label of element.labels">
+                  <span class="label mr-2">{{ label }}</span>
+                </ng-container>
+              </li>
+            </ul>
+          </td>
+        </ng-container>
+        <!-- Information meta column -->
+        <ng-container matColumnDef="meta">
+          <th mat-header-cell class="cell-spec" *matHeaderCellDef> spec </th>
+          <td class="cell-spec" mat-cell *matCellDef="let element">
+            <ul class="mat-caption">
+              <li class="environment-meta">
+                <span class="center__v">
+                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">watch_later</mat-icon>
                   Lifetime: {{getLifetime(element.lifetime)}}
                 </span>
               </li>
-              <li class="mat-caption environment-description" [innerHTML]="element.description"></li>
-              <li>
-                <ng-container *ngFor="let label of element.labels">
-                  <span class="mat-caption environment-labels">{{ label }} / </span>
-                </ng-container>
+              <li class="environment-meta">
+                <span class="center__v">
+                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+                  Memory: {{ element.config?.memory || '-' }}
+                </span>
               </li>
-              <li class="mat-caption" fxShow.lt-sm="true" fxHide.gt-xs="true">
-                <span>System: {{element.type}}</span> /
-                <span>State: {{ element.is_enabled ? 'published' : 'draft' }}</span>
+              <li class="volume center__v">
+                <ng-container *ngIf="element.workspace_name?.startsWith('System.'); else noSharedVolume">
+                  <mat-icon class="md-16 mr-5" >folder</mat-icon>
+                  <span>shared: On</span>
+                </ng-container>
+                <ng-template #noSharedVolume>
+                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
+                  <span>shared: Off</span>
+                </ng-template>
+              </li>
+              <li class="volume center__v">
+                <ng-container *ngIf="!element.workspace_name?.startsWith('System.') && element.enable_user_work_folder; else noWorkVolume">
+                  <mat-icon class="md-16 mr-5" >folder</mat-icon>
+                  <span>my-work: On</span>
+                </ng-container>
+                <ng-template #noWorkVolume>
+                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
+                  <span>my-work: Off</span>
+                </ng-template>
               </li>
             </ul>
           </td>
         </ng-container>
         <!-- Test launch button column (Dummy for now) -->
-        <ng-container matColumnDef="launch" sticky>
-          <th mat-header-cell *matHeaderCellDef class="">test launch</th>
-          <td mat-cell *matCellDef="let element" class="cell-activation">
+        <ng-container matColumnDef="launch">
+          <th mat-header-cell *matHeaderCellDef class="cell-launch">test launch</th>
+          <td mat-cell *matCellDef="let element" class="cell-launch">
             <app-main-session-button [environmentId]="element.id">
             </app-main-session-button>
           </td>
         </ng-container>
         <!-- Menu button column-->
-        <ng-container matColumnDef="menu" stickyEnd>
+        <ng-container matColumnDef="menu">
           <th mat-header-cell *matHeaderCellDef class="icon">menu</th>
           <td mat-cell *matCellDef="let element" class="cell-edit icon">
 

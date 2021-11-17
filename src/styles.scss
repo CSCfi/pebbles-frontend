@@ -235,6 +235,29 @@ button {
   }
 }
 
+.description {
+  height: auto;
+  max-height: 100px;
+  overflow: auto;
+
+  h1, h2, h3, h4 {
+    font-size: 1.3rem !important;
+    margin-bottom: 0 !important;
+    color: map-get($app-warn, dark);
+  }
+
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  }
+}
+
 dl {
   line-height: 150%;
 
@@ -388,7 +411,7 @@ dl.grid {
 
 // ---- Mat-Card
 // ----------------------------------------
-mat-card {
+.mat-card {
   padding: 8px !important;
   //border-radius: 3px !important;
 
@@ -396,6 +419,11 @@ mat-card {
     //color: rgba(0, 0, 0, 0.77);
     margin: 0 !important;
     width: 100%;
+  }
+
+  .mat-card-subtitle {
+    color: map-get($app-gray, 900) !important;
+    font-weight: 400 !important;
   }
 }
 
@@ -598,15 +626,15 @@ a.mat-stroked-button,
     }
   }
 
-  th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
-    border-bottom: 1px solid map-get($app-gray, 200) !important;
-  }
+  //th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  //  border-bottom: 1px solid map-get($app-gray, 200) !important;
+  //}
 
   .mat-header-row {
     height: 20px;
     background: map-get($app-gray, 100);
     text-transform: capitalize;
-    border: 1px solid map-get($app-gray, 100);
+    //border: 1px solid map-get($app-gray, 100);
 
     th {
       padding: 5px !important;
@@ -733,31 +761,31 @@ a.mat-stroked-button,
   background: map-get($colors, dark);
 }
 
-.r {
-  &__no {
-    border-radius: 0;
-  }
-
-  &__all {
-    border-radius: 5px;
-  }
-
-  &__top {
-    border-radius: 5px 5px 0 0;
-  }
-
-  &__bottom {
-    border-radius: 0 0 5px 5px;
-  }
-
-  &__left {
-    border-radius: 5px 0 0 5px;
-  }
-
-  &__right {
-    border-radius: 0 5px 5px 0;
-  }
-}
+//.r {
+//  &__no {
+//    border-radius: 0;
+//  }
+//
+//  &__all {
+//    border-radius: 5px;
+//  }
+//
+//  &__top {
+//    border-radius: 5px 5px 0 0;
+//  }
+//
+//  &__bottom {
+//    border-radius: 0 0 5px 5px;
+//  }
+//
+//  &__left {
+//    border-radius: 5px 0 0 5px;
+//  }
+//
+//  &__right {
+//    border-radius: 0 5px 5px 0;
+//  }
+//}
 
 .txt {
   &__light-gray {

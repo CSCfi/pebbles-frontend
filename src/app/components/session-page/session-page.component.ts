@@ -16,6 +16,12 @@ import { ApplicationService } from '../../services/application.service';
 
 export class SessionPageComponent implements OnInit, OnDestroy {
 
+  public content = {
+    path: 'session',
+    title: 'Session',
+    identifier: 'session'
+  };
+
   progressMap = new Map<SessionStates, number>([
     [SessionStates.Queueing, 0],
     [SessionStates.Provisioning, 10],
@@ -36,7 +42,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   ]);
 
   provisioningLogMessageMap = new Map<string, string>([
-    ['created', 'Waiting to be scheduled']
+    ['created', 'waiting to be scheduled']
   ]);
 
   sessions: ApplicationSession[];
@@ -52,6 +58,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
 
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'buffer';
+
 
   get description(): string {
     this.targetEnvironment = this.environmentService.get(this.targetSession.application_id);

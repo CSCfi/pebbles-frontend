@@ -29,11 +29,12 @@
         <section class="mt-30 content-cutout">
           <!--<h2 class="help-title mat-title">Frequently asked questions</h2>-->
           <ng-container *ngIf="faqTopics?.length > 0">
-            <mat-accordion class="" *ngFor="let faq of faqTopics" multi>
+            <mat-accordion class="" *ngFor="let faq of faqTopics let pre = index" multi>
               <h3 class="mat-title mt-40 mb-10">{{ faq.name }}</h3>
               <ng-container *ngIf="faq.content.length>0 ;else noContent">
-                <mat-expansion-panel class="info-body mb-5 p-10" *ngFor="let content of faq.content"
-                                     [(expanded)]="isAllExpanded">
+                <mat-expansion-panel class="info-body mb-5 p-10" *ngFor="let content of faq.content; let sur = index"
+                                     [expanded]="indexExpanded == pre +'-'+ sur " disabled="true"
+                                     (click)="togglePanels(pre +'-'+ sur)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       <span class="txt__primary" [innerHTML]="content.question"></span>

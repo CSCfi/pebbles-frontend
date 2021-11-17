@@ -23,10 +23,12 @@ export class MainHelpComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   queryText = '';
   isAllExpanded = false;
+  public index = 0;
   public selectedTab = 0;
   public contentLabels = ['faq', 'documentation', 'contact'];
   public faqTopics: Faq[];
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  indexExpanded: string;
 
   constructor(
     public faqService: FaqService,
@@ -123,5 +125,9 @@ export class MainHelpComponent implements OnInit {
       });
     }
     return objects;
+  }
+
+  togglePanels(index: string) {
+    this.indexExpanded = index === this.indexExpanded ? null : index;
   }
 }

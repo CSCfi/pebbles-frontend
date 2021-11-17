@@ -10,16 +10,12 @@
   }
 
   table {
-    .cell-activation,
     .cell-thumbnail,
-    .cell-edit {
+    .cell-edit,
+    .cell-launch {
       text-align: center;
       padding: 5px !important;
       vertical-align: middle;
-    }
-
-    .cell-info {
-      padding: 5px 10px !important;
     }
 
     .cell-thumbnail {
@@ -31,6 +27,33 @@
           background: map-get($app-primary, light);
         }
       }
+    }
+
+    .cell-info {
+      padding: 5px 10px !important;
+      vertical-align: top;
+
+      .environment-labels {
+        white-space: nowrap;
+
+        span.label:after {
+          content: '/';
+          margin-left: 2px;
+        }
+
+        span.label:last-child:after {
+          content: none;
+        }
+      }
+    }
+
+    .cell-spec {
+      min-width: 135px;
+      vertical-align: middle;
+    }
+
+    .cell-launch {
+      width: 120px;
     }
   }
 }

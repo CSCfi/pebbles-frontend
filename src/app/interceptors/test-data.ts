@@ -72,12 +72,12 @@ export let db = {
   applications: [
     {
       id: '1',
-      name: 'Course Introduction to Python (self-study)',
+      name: 'Course Introduction to Python (self-learning)',
       description: 'Course environment with Jupyter and Python. To be used on <a href=\'https://github.com/csc-training/python-introduction\'>CSC Introduction to Python</a> for self study.',
       maximum_lifetime: '18000',
       workspace_id: 'ws-0',
       thumbnail: 'jupyter',
-      labels: ['csc', 'python', 'basic', 'self-study', 'jupyter'],
+      labels: ['csc', 'python', 'basic', 'self-learning', 'jupyter'],
       config: {
         jupyter_interface: 'notebook',
         download_method: 'http-get',
@@ -90,12 +90,12 @@ export let db = {
     },
     {
       id: '2',
-      name: 'Course Introduction to R (self-study)',
+      name: 'Course Introduction to R (self-learning)',
       description: 'Course environment with Jupyter and R. To be used on <a href=\'https://github.com/csc-training/R-for-beginners\'>R for beginners</a> for self study.',
       maximum_lifetime: '36000',
       workspace_id: 'ws-0',
       thumbnail: 'rstudio',
-      labels: ['csc', 'rstudio', 'basic', 'self-study'],
+      labels: ['csc', 'rstudio', 'basic', 'self-learning'],
       config: {
         jupyter_interface: 'lab',
         download_method: 'http-get',

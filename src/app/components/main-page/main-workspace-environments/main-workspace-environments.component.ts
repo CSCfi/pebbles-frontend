@@ -27,6 +27,9 @@ export interface EnvironmentRow {
   lifetime: string;
   labels: string[];
   session_id: string;
+  workspace_name: string;
+  memory: number;
+  enable_user_work_folder: boolean;
 }
 
 @Component({
@@ -42,7 +45,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
-  public displayedColumns: string[] = ['thumbnail', 'name', 'launch', 'menu'];
+  public displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
   public dataSource: MatTableDataSource<EnvironmentRow> = null;
   public selection = new SelectionModel<EnvironmentRow>(true, []);
   // ---- Paginator
@@ -107,11 +110,14 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
           index: i,
           id: env.id,
           name: env.name,
+          template: env.template_name,
           description: env.description,
           type: env.applicationType,
           lifetime: env.maximum_lifetime,
           labels: env.labels,
-          session_id: env.session_id
+          session_id: env.session_id,
+          workspace_name: env.workspace_name,
+          enable_user_work_folder: env.config?.enable_user_work_folder
         };
       })
     );

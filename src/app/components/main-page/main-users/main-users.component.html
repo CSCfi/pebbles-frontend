@@ -94,7 +94,7 @@
      -->
     <table mat-table matSort [dataSource]="dataSource" class="mt-20">
       <!-- Checkbox Column -->
-      <ng-container matColumnDef="isSelected" sticky>
+      <ng-container matColumnDef="isSelected">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle() : null"
                         [checked]="selection.hasValue() && isAllSelected()"
@@ -168,7 +168,7 @@
         <td mat-cell *matCellDef="let element">{{ element.lastLoginDate | dateDisplay }}</td>
       </ng-container>
       <!-- menu column -->
-      <ng-container matColumnDef="action" stickyEnd>
+      <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef class="centering">action</th>
         <td mat-cell *matCellDef="let element">
           <button mat-button [disabled]="element.isAdmin"
