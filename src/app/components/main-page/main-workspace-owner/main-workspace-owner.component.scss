@@ -6,6 +6,13 @@
   height: 100vh;
   overflow: hidden;
 
+  .max-quota-warning {
+    border-radius: 5px;
+    border: 2px solid map-get($app-gray, 300);
+    color: map-get($app-gray, default);
+    font-weight: bold;
+  }
+
   .workspace-list-container {
     overflow: hidden;
 
@@ -34,7 +41,7 @@
           color: map-get($app-gray, 900);
 
           .workspace-icon mat-icon {
-            color: map-get($app-warn, default) !important;
+            color: map-get($app-accent, default) !important;
           }
         }
 

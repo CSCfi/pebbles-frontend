@@ -159,15 +159,23 @@ button {
 
     .mat-icon {
       font-size: 8rem;
+      margin-top: 20px;
       margin-bottom: 20px;
       width: auto;
       height: auto;
     }
 
     .message {
+      @include center(vertical);
       font-weight: 600;
       font-size: 2rem;
       text-align: center;
+      line-height: 175%;
+
+      .mat-icon {
+        font-size: 3.6rem;
+        margin-bottom: 0;
+      }
     }
   }
 }
@@ -443,7 +451,7 @@ dl.grid {
 // ---- Mat-Form
 // ----------------------------------------
 .mat-form-field-underline {
-  bottom: 0px;
+  bottom: 0;
 
   &::before {
     background: map-get($app-primary, 300) !important;

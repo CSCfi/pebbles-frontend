@@ -190,6 +190,11 @@ $sides: (
 
   &__accent {
     background: map-get($app-accent, default);
+    color: #fff;
+
+    &-light {
+      background: map-get($app-accent, light);
+    }
   }
 
   &__warn {
@@ -197,7 +202,6 @@ $sides: (
 
     &-light {
       background: map-get($app-warn, light);
-      color: map-get($app-primary, default);
     }
   }
 }

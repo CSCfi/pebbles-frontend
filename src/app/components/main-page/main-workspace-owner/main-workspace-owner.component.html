@@ -9,31 +9,35 @@
     <div class="content-header-container" fxFlex="0 0 70px"
          fxLayout="row" fxLayoutAlign="center center" fxLayoutAlign.lt-md="start center">
       <app-main-content-header fxFlex="0 0 auto"
-        [content]="content"
-        [isSearchOn]="false"
-        [isAutocompleteDisabled]="false"
-        [labels]="[]">
+                               [content]="content"
+                               [isSearchOn]="false"
+                               [isAutocompleteDisabled]="false"
+                               [labels]="[]">
       </app-main-content-header>
     </div>
     <!-- Workspace creation buttons -->
     <ng-container *ngIf="workspaces">
       <div class="workspaces-actions-container p-10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
-        <ng-container>
-          <button mat-flat-button color="primary" class="create-workspace-button"
-                  aria-label="create a new workspace"
-                  [disabled]="!isQuotaLeft()"
-                  (click)="openWorkspaceCreationDialog()">
-            <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>
-            <span>Create workspace</span>
-          </button>
-        </ng-container>
+        <button mat-flat-button class="create-workspace-button"
+                [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
+                aria-label="create a new workspace"
+                [disabled]="!isQuotaLeft()"
+                (click)="openWorkspaceCreationDialog()">
+          <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>
+          <span>Create workspace</span>
+        </button>
         <ng-container *ngIf="isDemoButtonShown">
-          <button mat-flat-button class="create-demo-workspace-button"
+          <button mat-flat-button color="accent" class="create-demo-workspace-button"
                   aria-label="create demo workspace" (click)="createDemoWorkspace()">
-            <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+            <mat-icon fontSet="material-icons-outlined" class="mr-10">auto_fix_high</mat-icon>
             <span>Create demo workspace</span>
           </button>
         </ng-container>
+        <div *ngIf="!isQuotaLeft()" class="max-quota-warning p-10">
+          No workspace quota left.
+          If you want to create more workspaces and you cannot free up quota by deleting unused workspaces,
+          please contact us.
+        </div>
       </div>
     </ng-container>
     <!-- Workspace list -->
@@ -109,7 +113,7 @@
 
   <!-- Right Column : Workspace Detail -->
   <div class="workspace-detail-container" fxFlex="grow">
-    <ng-container *ngIf="selectedWorkspace">
+    <ng-container *ngIf="selectedWorkspace ;else noWorkspace">
       <mat-tab-group mat-align-tabs="center" class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
@@ -147,6 +151,15 @@
         </mat-tab>
       </mat-tab-group>
     </ng-container>
+    <ng-template #noWorkspace>
+      <div class="message-container ">
+        <div class="empty">
+          <span class="message">No workspaces</span>
+          <mat-icon fontSet="material-icons-outlined">touch_app</mat-icon>
+          <span class="message">Start by creating a new workspace</span>
+        </div>
+      </div>
+    </ng-template>
 
     <ng-container *ngIf="isWorkspaceDeleted">
       <section class="message-container">
