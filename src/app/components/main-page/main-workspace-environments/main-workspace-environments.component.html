@@ -3,7 +3,7 @@
   <!-- Search Box -->
   <mat-form-field appearance="fill">
     <mat-icon matPrefix>search</mat-icon>
-    <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+    <input matInput (keyup)="applyFilter($event)">
   </mat-form-field>
   <!-- Buttons -->
   <div class="environment-actions" *ngIf="dataSource?.data !== null"
@@ -116,11 +116,11 @@
               <li class="environment-meta">
                 <span class="center__v">
                   <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
-                  Memory: {{ element.config?.memory || '-' }}
+                  Memory: {{ element.memory || '-' }}
                 </span>
               </li>
               <li class="volume center__v">
-                <ng-container *ngIf="element.workspace_name?.startsWith('System.'); else noSharedVolume">
+                <ng-container *ngIf="!element.workspace_name?.startsWith('System.'); else noSharedVolume">
                   <mat-icon class="md-16 mr-5" >folder</mat-icon>
                   <span>shared: On</span>
                 </ng-container>
@@ -130,7 +130,7 @@
                 </ng-template>
               </li>
               <li class="volume center__v">
-                <ng-container *ngIf="!element.workspace_name?.startsWith('System.') && element.enable_user_work_folder; else noWorkVolume">
+                <ng-container *ngIf="element.work_folder_enabled; else noWorkVolume">
                   <mat-icon class="md-16 mr-5" >folder</mat-icon>
                   <span>my-work: On</span>
                 </ng-container>

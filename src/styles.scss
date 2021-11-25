@@ -54,7 +54,9 @@ a {
   }
 }
 
-
+.sentence-head:first-letter{
+  text-transform: capitalize;
+}
 
 button {
   border-radius: 3px;

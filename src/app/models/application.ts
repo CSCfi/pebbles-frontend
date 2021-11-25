@@ -18,6 +18,7 @@ export class Application {
     public workspace?: Workspace,
     public workspace_name?: string,
     public config?: any,
+    public info?: any
   ) {
   }
 }

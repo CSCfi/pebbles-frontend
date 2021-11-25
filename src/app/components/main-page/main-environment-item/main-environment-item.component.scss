@@ -31,7 +31,7 @@
             color: map-get($app-gray, 900);
 
             .mat-icon {
-              color: map-get($app-warn, default);
+              color: map-get($app-accent, light);
             }
           }
         }

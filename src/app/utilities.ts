@@ -31,4 +31,10 @@ export class Utilities {
   static getDate(timestamp: number) {
     return timestamp ? new Date(timestamp).toISOString() : '-';
   }
+
+  public static getTimeDisplayed(sec: number): string {
+    const hours = sec / 3600;
+    const mins = sec % 3600;
+    return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
+  }
 }

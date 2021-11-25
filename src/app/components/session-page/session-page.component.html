@@ -8,7 +8,7 @@
        fxLayout="column" fxLayoutGap="30px" *ngIf="targetSession">
     <div class="status-wrapper mt-80 p-10"
          fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
-      <div class="state mat-display-3">{{ latestProvisioningLogMessage }}</div>
+      <div class="state sentence-head mat-display-3">{{ latestProvisioningLogMessage }}</div>
       <div class="spinner-container center__vh">
         <mat-progress-spinner
           [color]="'accent'"
@@ -34,13 +34,44 @@
               [innerHTML]="description"
               [ngClass]="{'centering__text': description.length < 100 }">
           </dd>
+          <dt>Info</dt>
+          <dd>
+            <span class="mr-20 center__vi">
+              <ng-container *ngIf="!targetEnvironment.workspace_name?.startsWith('System.'); else noSharedFolder">
+                <mat-icon class="md-16 mr-2">folder</mat-icon>
+                shared: On
+              </ng-container>
+              <ng-template #noSharedFolder>
+                <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
+                shared: Off
+              </ng-template>
+            </span>
+            <span class="mr-20 center__vi">
+              <ng-container *ngIf="targetEnvironment.info?.work_folder_enabled; else noWorkFolder">
+                <mat-icon class="md-16 mr-2">folder</mat-icon>
+                my-work: On
+              </ng-container>
+              <ng-template #noWorkFolder>
+                <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
+                my-work: Off
+              </ng-template>
+            </span>
+            <span class="mr-20 center__vi">
+              <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">watch_later</mat-icon>
+              Lifetime: {{getLifeTime(targetEnvironment.maximum_lifetime)}}
+            </span>
+            <span class="center__vi">
+              <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+              Memory: {{ targetEnvironment.info?.memory || '-' }}
+            </span>
+          </dd>
           <dt>Session id</dt>
           <dd>
             {{ targetSession.name }}
           </dd>
           <dt>State</dt>
           <dd>
-            {{progress}}% : {{ latestProvisioningLogMessage }}
+            <div class="sentence-head">{{ latestProvisioningLogMessage }} : {{progress}}% </div>
           </dd>
         </dl>
       </div>

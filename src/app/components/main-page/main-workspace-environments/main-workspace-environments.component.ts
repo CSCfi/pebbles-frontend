@@ -24,12 +24,13 @@ export interface EnvironmentRow {
   description: string;
   type: ApplicationType;
   state: string;
+  is_enabled: boolean;
   lifetime: string;
   labels: string[];
   session_id: string;
   workspace_name: string;
   memory: number;
-  enable_user_work_folder: boolean;
+  work_folder_enabled: boolean;
 }
 
 @Component({
@@ -117,7 +118,8 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
           labels: env.labels,
           session_id: env.session_id,
           workspace_name: env.workspace_name,
-          enable_user_work_folder: env.config?.enable_user_work_folder
+          work_folder_enabled: env.info?.work_folder_enabled,
+          memory: env.info?.memory
         };
       })
     );

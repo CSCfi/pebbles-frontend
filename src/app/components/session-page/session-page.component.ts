@@ -7,6 +7,7 @@ import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/ap
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { Application } from '../../models/application';
 import { ApplicationService } from '../../services/application.service';
+import { Utilities } from '../../utilities';
 
 @Component({
   selector: 'app-session-page',
@@ -53,7 +54,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   sessionId: string;
   sessionStates = SessionStates;
   progress = 0;
-  latestProvisioningLogMessage = 'Waiting in the queue';
+  latestProvisioningLogMessage = 'waiting in the queue';
   private interval;
 
   color: ThemePalette = 'primary';
@@ -63,6 +64,10 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   get description(): string {
     this.targetEnvironment = this.environmentService.get(this.targetSession.application_id);
     return this.targetEnvironment.description || 'No description';
+  }
+
+  get isPublic(): boolean {
+    return this.targetEnvironment.workspace_name.startsWith('System.');
   }
 
   constructor(
@@ -89,6 +94,10 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       clearInterval(this.interval);
       this.interval = 0;
     }
+  }
+
+  getLifeTime(sec: string): string {
+    return Utilities.getTimeDisplayed(Number(sec));
   }
 
   checkSessionStatus(): void {
