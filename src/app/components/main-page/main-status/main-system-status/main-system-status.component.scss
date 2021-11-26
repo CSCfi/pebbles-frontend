@@ -1,21 +1,11 @@
-//@import "src/styles/main.scss";
+@import "src/styles/main.scss";
 
-.status-ok {
-  background: #ddffc8;
+.status {
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 3px;
 }
 
-.status-warning {
-  background: #f8cdc3;
+dl {
+  grid-template-columns: 200px auto;
 }
-
-
- dl {
-    dt{
-      display:inline-block;
-      margin-right: 10px;
-    }
-   dd {
-     padding: 5px;
-     display:inline-block;
-   }
- }

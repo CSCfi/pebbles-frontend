@@ -272,7 +272,7 @@ dl {
   line-height: 150%;
 
   dt {
-    margin-bottom: 1.2rem !important;
+    margin-bottom: 0.8rem !important;
   }
 
   dd {
@@ -577,6 +577,16 @@ a.mat-stroked-button,
 // ---- Mat-Chip
 // ----------------------------------------
 .chip {
+  @include center(both);
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.4rem;
+  margin-left: 3px;
+  line-height: 100%;
+  min-height: 20px;
+  border-radius: 12px;
+  padding: 5px 10px !important;
+
   &__sm {
     color: map-get($app-gray, 900);
     background-color: map-get($app-gray, 100);

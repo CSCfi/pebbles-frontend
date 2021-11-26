@@ -15,42 +15,46 @@
 
 <div class="alerts-container p-30">
 
-  <dl class="center__v">
-    <dt>Sessions:</dt>
-    <dd>Q:{{getSessionSummary()['nQueueing']}}</dd>
-    <dd>S:{{getSessionSummary()['nStarting']}}</dd>
-    <dd>R:{{getSessionSummary()['nRunning']}}</dd>
-    <dd>D:{{getSessionSummary()['nDeleting']}}</dd>
-  </dl>
+  <h2 class="mb-5">Summary</h2>
+  <div class="info-body mb-30">
+    <dl class="grid center__v">
+      <dt>Sessions</dt>
+      <dd>Q:{{getSessionSummary()['nQueueing']}}</dd>
+      <dd>S:{{getSessionSummary()['nStarting']}}</dd>
+      <dd>R:{{getSessionSummary()['nRunning']}}</dd>
+      <dd>D:{{getSessionSummary()['nDeleting']}}</dd>
+    </dl>
+    <dl class="grid center__v">
+      <dt>Overall</dt>
+      <dd class="chip" [ngClass]="getSystemStatus()==='ok' ? 'status-ok': 'status-warning'">
+        {{ getSystemStatus().toUpperCase() }}
+      </dd>
+    </dl>
+  </div>
 
-  <dl class="center__v">
-    <dt>Overall:</dt>
-    <dd [ngClass]="getSystemStatus()==='ok' ? 'status-ok': 'status-warning'">{{ getSystemStatus().toUpperCase() }}</dd>
-  </dl>
-
-  <h2>Alerts</h2>
-  <ng-container *ngIf="getAlerts(); else loading">
+  <h2 class="mb-5">Alerts</h2>
+  <div class="info-body mb-30" *ngIf="getAlerts(); else loading">
     <ng-container *ngFor="let alert of getAlerts()">
       <ng-container *ngIf="alert.data?.length || alert.status !== 'ok'; else statusOk">
-        <div class="status-warning">
-          <h3>{{ alert.target }}/{{ alert.source }}</h3>
-          <p>Status: {{ alert.status }}</p>
-          <div *ngFor="let data of alert.data">
-            <p>
-              Summary: {{ data.annotations?.summary }}
-              <br>
+        <dl class="grid status bg__warn-light">
+          <dt>{{ alert.target }}/{{ alert.source }}</dt>
+          <dd>Status: <span class="mat-body-2">{{ alert.status }}</span></dd>
+          <ng-container *ngFor="let data of alert.data">
+            <dd>
+              Summary: {{ data.annotations?.summary }} <br>
               Description: {{ data.annotations?.description }}
-            </p>
-          </div>
-        </div>
+            </dd>
+          </ng-container>
+        </dl>
       </ng-container>
       <ng-template #statusOk>
-        <div class="status-ok">
-          <h3>{{ alert.target }}/{{ alert.source }} - OK</h3>
-        </div>
+        <dl class="grid status bg__accent-light">
+          <dt>{{ alert.target }}/{{ alert.source }}</dt>
+          <dd>Status: <span class="mat-body-2">OK</span></dd>
+        </dl>
       </ng-template>
     </ng-container>
-  </ng-container>
+  </div>
   <ng-template #loading>
     loading
   </ng-template>

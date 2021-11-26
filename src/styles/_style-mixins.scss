@@ -194,6 +194,7 @@ $sides: (
 
     &-light {
       background: map-get($app-accent, light);
+      color: map-get($app-gray, 900);
     }
   }
 
