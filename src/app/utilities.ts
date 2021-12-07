@@ -37,4 +37,8 @@ export class Utilities {
     const mins = sec % 3600;
     return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   }
+
+  public static compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
 }

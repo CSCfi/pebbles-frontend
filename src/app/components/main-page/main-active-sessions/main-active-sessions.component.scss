@@ -1,31 +1,40 @@
 @import "src/styles/main.scss";
 
-.active-sessions-container {
-
-  .mat-form-field{
-    width: 100%;
-  }
+#active-sessions-container {
 
   table {
-    width: 100%;
-    margin: auto;
 
-    .mat-header-row {
-      background: map-get($colors, light-dark);
-      height: 40px;
-
-      .mat-header-cell {
-        color: map-get($colors, white);
-        border-bottom: none;
-      }
+    td {
+      font-size: 1.2rem;
     }
 
-    th,td{
-      vertical-align: middle;
+    .cell-session-name {
+      width: 200px;
+      font-size: 1.1rem;
     }
 
-    th{
-      text-transform: capitalize;
+    .cell-state {
+      width: 100px;
+      font-size: 1.1rem;
+    }
+
+    .cell-lifetime-left {
+      width: 30px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .mat-sort-header {
+      color: map-get($app-primary, default);
+    }
+
+    ::ng-deep .mat-sort-header-arrow {
+      transform: rotate(180deg) !important;
+    }
+
+    ::ng-deep .mat-sort-header-sorted .mat-sort-header-arrow {
+      color: map-get($app-primary, default);
+      opacity: 1 !important;
     }
   }
 }

@@ -36,8 +36,8 @@
       -->
       <!-- Index Column -->
       <ng-container matColumnDef="index">
-        <th mat-header-cell class="icon" *matHeaderCellDef>index</th>
-        <td mat-cell class="center icon" *matCellDef="let row"> {{row.index}} </td>
+        <th mat-header-cell class="icon-cell" *matHeaderCellDef>index</th>
+        <td mat-cell class="center icon-cell" *matCellDef="let row"> {{row.index}} </td>
       </ng-container>
       <!-- Role column -->
       <ng-container matColumnDef="role">
@@ -60,8 +60,8 @@
       </ng-container>
       <!-- menu column -->
       <ng-container matColumnDef="menu">
-        <th mat-header-cell class="icon" *matHeaderCellDef>menu</th>
-        <td mat-cell class="icon center" *matCellDef="let element">
+        <th mat-header-cell *matHeaderCellDef>menu</th>
+        <td mat-cell class="icon-cell" *matCellDef="let element">
           <button mat-button [matMenuTriggerFor]="menu" aria-label="open menu"
                   [disabled]="element.role === 'owner'">
             <mat-icon>menu</mat-icon>

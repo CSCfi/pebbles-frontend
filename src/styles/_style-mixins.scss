@@ -150,6 +150,10 @@ $sides: (
     }
   }
 
+  &__secondary {
+    color: map-get($app-secondary, default);
+  }
+
   &__accent {
     color: map-get($app-accent, default);
 
@@ -160,6 +164,10 @@ $sides: (
 
   &__warn {
     color: map-get($app-warn, default);
+
+    &-dark {
+      color: map-get($app-warn, dark);
+    }
   }
 
   &__center {

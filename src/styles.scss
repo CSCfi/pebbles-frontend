@@ -564,6 +564,8 @@ a.mat-stroked-button,
   height: 24px;
 }
 
+// ---- Mat-Pagenator
+// ----------------------------------------
 // ---- MEMO:
 // ---- To show "All" as the last one in options, we need dominated style here.
 ::ng-deep .mat-option {
@@ -627,6 +629,11 @@ a.mat-stroked-button,
 // ---- Mat-Table
 // ----------------------------------------
 
+.table-wrapper {
+  width: auto;
+  overflow: scroll;
+}
+
 .mat-table {
   width: 100%;
   margin: auto;
@@ -636,36 +643,41 @@ a.mat-stroked-button,
       text-align: center;
     }
 
-    &.icon {
+    &.icon-cell,
+    &.square-cell{
       width: 50px;
+      padding: 0 !important;
+      text-align: center;
+      vertical-align: middle;
 
       .mat-button {
         min-width: 30px !important;
         padding: 0 10px !important;
       }
     }
-  }
 
-  //th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
-  //  border-bottom: 1px solid map-get($app-gray, 200) !important;
-  //}
+    .mat-checkbox {
+      width: 16px;
+      margin: auto;
+      display: block;
+    }
+  }
 
   .mat-header-row {
     height: 20px;
     background: map-get($app-gray, 100);
     text-transform: capitalize;
-    //border: 1px solid map-get($app-gray, 100);
 
     th {
-      padding: 5px !important;
-      text-align: center;
+      padding: 5px 15px !important;
       vertical-align: middle;
       border: 1px solid map-get($app-gray, 200);
+      line-height: 140%;
     }
   }
 
   td {
-    padding: 5px !important;
+    padding: 5px 15px !important;
     border: 1px solid map-get($app-gray, 200);
     vertical-align: middle;
 

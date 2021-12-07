@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSort, Sort } from '@angular/material/sort';
 import { ApplicationSessionService } from '../../../services/application-session.service';
 import { ApplicationSession } from '../../../models/application-session';
 import { ApplicationService } from '../../../services/application.service';
@@ -35,16 +36,22 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   };
 
   displayedColumns: string[] = [
-    'isSelected', 'workspaceName', 'environmentName', 'sessionName', 'username', 'state', 'lifetimeLeft'
+    'isSelected', 'sessionName', 'workspaceName', 'environmentName', 'username', 'state', 'lifetimeLeft', 'sessionLink'
   ];
+
   selection = new SelectionModel<SessionTableRow>(true, []);
   tableRowData: SessionTableRow[] = [];
   sessions: ApplicationSession[];
+  @ViewChild(MatSort) sort: MatSort;
 
   lastUpdateTs = 0;
   dataSource: MatTableDataSource<SessionTableRow>;
   interval = 0;
   queryText = '';
+  sortCondition: Sort = {
+    direction: 'asc',
+    active: 'workspaceName'
+  };
 
   constructor(
     private environmentSessionService: ApplicationSessionService,
@@ -54,7 +61,6 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<SessionTableRow>(this.tableRowData);
     this.environmentService.fetchApplications().subscribe(() =>
       this.environmentSessionService.fetchSessions().subscribe(() =>
         this.updateRowData()
@@ -66,6 +72,12 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     clearInterval(this.interval);
     this.interval = 0;
+  }
+
+  refreshSessionContent(): void {
+    this.environmentSessionService.fetchSessions().subscribe(_ =>
+      this.updateRowData()
+    );
   }
 
   updateRowData(force = false): void {
@@ -109,7 +121,9 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       this.tableRowData[i].index = i;
     }
     // create a new datasource to trigger table rendering
-    this.dataSource = new MatTableDataSource<SessionTableRow>(this.tableRowData);
+    const sortedData = this.tableRowData.slice();
+    this.sortData(sortedData, this.sortCondition);
+    this.dataSource = new MatTableDataSource<SessionTableRow>(sortedData);
     this.dataSource.filter = Utilities.cleanText(this.queryText);
   }
 
@@ -190,6 +204,34 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         window.open(sessionRow.sessionUrl, '_blank');
+      }
+    });
+  }
+
+  changeSortCondition(sort: Sort): void {
+    this.sortCondition = {
+      direction: sort.direction,
+      active: sort.active
+    };
+    this.updateRowData(true);
+  }
+
+  sortData(data: SessionTableRow[], sort: Sort): void {
+    data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'workspaceName':
+          return Utilities.compare(a.workspaceName, b.workspaceName, isAsc);
+        case 'environmentName':
+          return Utilities.compare(a.environmentName, b.environmentName, isAsc);
+        case 'username':
+          return Utilities.compare(a.username, b.username, isAsc);
+        case 'state':
+          return Utilities.compare(a.state, b.state, isAsc);
+        case 'lifetimeLeft':
+          return Utilities.compare(a.lifetimeLeft, b.lifetimeLeft, isAsc);
+        default:
+          return 0;
       }
     });
   }
