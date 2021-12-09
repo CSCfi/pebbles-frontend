@@ -204,6 +204,11 @@ $sides: (
       background: map-get($app-accent, light);
       color: map-get($app-gray, 900);
     }
+
+    &-dark {
+      background: map-get($app-accent, dark);
+      color: #fff;
+    }
   }
 
   &__warn {
@@ -211,6 +216,24 @@ $sides: (
 
     &-light {
       background: map-get($app-warn, light);
+    }
+
+    &-dark {
+      background: map-get($app-warn, dark);
+      color: #fff;
+    }
+  }
+
+  &__gray {
+    background: map-get($app-gray, default);
+
+    &-light {
+      background: map-get($app-gray, 300);
+    }
+
+    &-dark {
+      background: map-get($app-gray, 900);
+      color: #fff;
     }
   }
 }

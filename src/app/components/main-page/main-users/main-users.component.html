@@ -1,18 +1,21 @@
 <div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px"
+     fxLayoutAlign.lt-sm="end end">
   <app-main-content-header fxFlex="grow"
-    (emitApplyFilter)="applyFilter($event)"
-    [content]="content"
-    [isSearchOn]="true"
-    [isAutocompleteDisabled]="true"
-    [labels]="[]">
+                           (emitApplyFilter)="applyFilter($event)"
+                           [content]="content"
+                           [isSearchOn]="true"
+                           [isAutocompleteDisabled]="true"
+                           [labels]="[]">
   </app-main-content-header>
-  <button mat-stroked-button
-          color="primary" class="reload-button" fxFlex="1 0 60px" (click)="refreshUsers()">
+  <div class="flex-spacer"></div>
+  <button mat-stroked-button class="reload-button"
+          fxFlex="1 0 60px"
+          (click)="refreshUsers()">
     <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
   </button>
 </div>
-<div class="users-container mb-50 pl-50 pr-50 ">
+<div id="users-container" class="content-container">
 
   <!--  <table mat-table [dataSource]="testDataSource" matSort class="mat-elevation-z8">-->
 
@@ -46,6 +49,8 @@
 
   <ng-container *ngIf="tableRowData?.length > 0; else noMember">
     <section class="mt-20">
+
+      <!--  User invite button  -->
       <!--
       <div class="user-invite-button-row mb-20" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
         <mat-form-field appearance="outline" fxFlex="grow">
@@ -68,17 +73,13 @@
         <button mat-flat-button fxFlex="0 0 180px">Invite multiple users</button>
         </div>
         -->
-      <div class="action-button-row" fxLayout="row" fxLayoutAlign="start center">
-        <div class="mr-10">Apply selected users</div>
-        <!-- <button mat-flat-button class="inversion primary">Update Quotas</button> -->
-        <!-- <button mat-flat-button class="inversion primary">Update user category</button> -->
-        <!-- <button mat-flat-button color="primary" disabled>Update expiry data</button> -->
-        <button mat-flat-button (click)="openRemoveUserDialog(selection.selected)">
-          <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
-          <span class="mr-5">Remove users</span>
-        </button>
-        <!-- <button mat-flat-button color="warn">Block user</button> -->
-      </div>
+
+      <button mat-flat-button
+              (click)="openRemoveUserDialog(selection.selected)"
+              [disabled]="selection.isEmpty()">
+        <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+        <span class="mr-5">Remove selected users</span>
+      </button>
     </section>
 
     <!-- members table -->
@@ -92,127 +93,138 @@
       - expiryDate column
       - action column
      -->
-    <table mat-table matSort [dataSource]="dataSource" class="mt-20">
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="isSelected">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                        [aria-label]="checkboxLabel()">
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)"
-                        [aria-label]="checkboxLabel(row)">
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      <!-- Index Column -->
-      <ng-container matColumnDef="index">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
-        <td mat-cell class="index" *matCellDef="let row"> {{row.index}} </td>
-      </ng-container>
-      <!-- Role column -->
-      <!--
-      <ng-container matColumnDef="icon">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="role-icon">
-          <ng-container [ngSwitch]="element.role">
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'owner'" class="owner" matTooltip="workspace owner">manage_accounts</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'manager_users'" class="manager" matTooltip="workspace co-owner">manage_accounts</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'banned_users'" class="banned" matTooltip="workspace banned user">person_off</mat-icon>
-            <mat-icon fontSet="material-icons-outlined" *ngSwitchDefault class="user" matTooltip="workspace end user">person</mat-icon>
-          </ng-container>
-        </td>
-      </ng-container>
-      -->
-      <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef>state</th>
-        <td mat-cell *matCellDef="let element" class="state">
-          <mat-chip-list aria-label="Fish selection">
-            <mat-chip class="chip__sm ml-5 inversion primary" *ngIf="element.state.includes('admin')">admin</mat-chip>
-            <mat-chip class="chip__sm ml-5 inversion accent" *ngIf="element.state.includes('owner')">owner</mat-chip>
-            <mat-chip class="chip__sm ml-5 inversion" *ngIf="element.state.includes('blocked')">blocked</mat-chip>
-            <mat-chip class="chip__sm ml-5 inversion warn" *ngIf="element.state.includes('deleted')">deleted</mat-chip>
-            <mat-chip class="chip__sm ml-5 inversion" *ngIf="element.state.includes('inactive')">inactive</mat-chip>
-            <mat-chip class="chip__sm ml-5 inversion accent" *ngIf="element.state.includes('new')">new</mat-chip>
-          </mat-chip-list>
-        </td>
-      </ng-container>
-      <!-- ext_id column -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef>email</th>
-        <td mat-cell *matCellDef="let element">{{element.email}}</td>
-      </ng-container>
-      <!-- quota column -->
-      <ng-container matColumnDef="workspaceQuota">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef>workspace quota</th>
-        <td mat-cell *matCellDef="let element">{{element.workspaceCount}}{{element.workspaceQuota}}</td>
-      </ng-container>
-      <!-- expiry date -->
-      <ng-container matColumnDef="joiningDate">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef>joined</th>
-        <td mat-cell *matCellDef="let element">{{ element.joiningDate | dateDisplay }}</td>
-      </ng-container>
-      <!-- expiry date -->
-      <ng-container matColumnDef="expiryDate">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef>expiry</th>
-        <td mat-cell *matCellDef="let element">{{ element.expiryDate | dateDisplay }}</td>
-      </ng-container>
-      <!-- last login date -->
-      <ng-container matColumnDef="lastLoginDate">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef>last login</th>
-        <td mat-cell *matCellDef="let element">{{ element.lastLoginDate | dateDisplay }}</td>
-      </ng-container>
-      <!-- menu column -->
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="centering">action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-button [disabled]="element.isAdmin"
-                  [matMenuTriggerFor]="menu" aria-label="open environment menu">
-            <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <!--
-            <button mat-menu-item>
-              <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
-              <span>Promote to workspace-owner</span>
+    <div class="table-wrapper">
+      <table mat-table matSort [dataSource]="dataSource" class="mt-20">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="isSelected">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Index Column -->
+        <ng-container matColumnDef="index">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="square-cell"></th>
+          <td mat-cell class="cell-index square-cell" *matCellDef="let row"> {{row.index}} </td>
+        </ng-container>
+        <!-- Role column -->
+        <!--
+        <ng-container matColumnDef="icon">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" class="role-icon">
+            <ng-container [ngSwitch]="element.role">
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'owner'" class="owner" matTooltip="workspace owner">manage_accounts</mat-icon>
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'manager_users'" class="manager" matTooltip="workspace co-owner">manage_accounts</mat-icon>
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchCase="'banned_users'" class="banned" matTooltip="workspace banned user">person_off</mat-icon>
+              <mat-icon fontSet="material-icons-outlined" *ngSwitchDefault class="user" matTooltip="workspace end user">person</mat-icon>
+            </ng-container>
+          </td>
+        </ng-container>
+        -->
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef>state</th>
+          <td mat-cell *matCellDef="let element" class="cell-state">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip class="chip__sm ml-5 bg__primary" *ngIf="element.state.includes('admin')">admin</mat-chip>
+              <mat-chip class="chip__sm bg__accent ml-5" *ngIf="element.state.includes('owner')">owner</mat-chip>
+              <mat-chip class="chip__sm ml-5 bg__warn-dark" *ngIf="element.state.includes('blocked')">blocked</mat-chip>
+              <mat-chip class="chip__sm ml-5 bg__gray-dark" *ngIf="element.state.includes('deleted')">deleted</mat-chip>
+              <mat-chip class="chip__sm ml-5" *ngIf="element.state.includes('inactive')">inactive</mat-chip>
+              <mat-chip class="chip__sm ml-5 bg__secondary" *ngIf="element.state.includes('new')">new</mat-chip>
+            </mat-chip-list>
+          </td>
+        </ng-container>
+        <!-- ext_id column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>email</th>
+          <td mat-cell *matCellDef="let element">{{element.email}}</td>
+        </ng-container>
+        <!-- quota column -->
+        <ng-container matColumnDef="workspaceQuota">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>workspace quota</th>
+          <td mat-cell *matCellDef="let element"
+              class="cell-quota">
+            {{element.workspaceCount}}{{element.workspaceQuota}}
+          </td>
+        </ng-container>
+        <!-- expiry date -->
+        <ng-container matColumnDef="joiningDate">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>joined</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.joiningDate | dateDisplay }}
+          </td>
+        </ng-container>
+        <!-- expiry date -->
+        <ng-container matColumnDef="expiryDate">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>expiry</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.expiryDate | dateDisplay }}
+          </td>
+        </ng-container>
+        <!-- last login date -->
+        <ng-container matColumnDef="lastLoginDate">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>last login</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.lastLoginDate | dateDisplay }}
+          </td>
+        </ng-container>
+        <!-- menu column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="cell-action square-cell">action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [disabled]="element.isAdmin"
+                    [matMenuTriggerFor]="menu" aria-label="open environment menu">
+              <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
             </button>
-            <button mat-menu-item *ngIf="element.role === 'manager_users'" >
-              <mat-icon fontSet="material-icons-outlined">person</mat-icon>
-              <span>demote to end-user</span>
-            </button>
-             -->
-            <button mat-menu-item
-                    (click)="OpenWorkspaceQuotaDialog(element.id, element.email, element.workspaceCount, element.workspaceQuota )">
-              <mat-icon fontSet="material-icons-outlined">token</mat-icon>
-              <span>Workspace quota</span>
-            </button>
-            <button mat-menu-item (click)="openRemoveUserDialog([element])">
-              <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
-              <span>Remove the user</span>
-            </button>
-            <button mat-menu-item  (click)="openBlockUserDialog(element.id, element.email, element.isBlocked)">
-              <mat-icon fontSet="material-icons-outlined">person_off</mat-icon>
-              <span *ngIf="element.isBlocked">Unblock the user</span>
-              <span *ngIf="!element.isBlocked">Block the user</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.deleted]="row.isDeleted"></tr>
+            <mat-menu #menu="matMenu">
+              <!--
+              <button mat-menu-item>
+                <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
+                <span>Promote to workspace-owner</span>
+              </button>
+              <button mat-menu-item *ngIf="element.role === 'manager_users'" >
+                <mat-icon fontSet="material-icons-outlined">person</mat-icon>
+                <span>demote to end-user</span>
+              </button>
+               -->
+              <button mat-menu-item
+                      (click)="OpenWorkspaceQuotaDialog(element.id, element.email, element.workspaceCount, element.workspaceQuota )">
+                <mat-icon fontSet="material-icons-outlined">token</mat-icon>
+                <span>Workspace quota</span>
+              </button>
+              <button mat-menu-item (click)="openRemoveUserDialog([element])">
+                <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+                <span>Remove the user</span>
+              </button>
+              <button mat-menu-item (click)="openBlockUserDialog(element.id, element.email, element.isBlocked)">
+                <mat-icon fontSet="material-icons-outlined">person_off</mat-icon>
+                <span *ngIf="element.isBlocked">Unblock the user</span>
+                <span *ngIf="!element.isBlocked">Block the user</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.deleted]="row.isDeleted"></tr>
 
-      <!--  Row shown when there is no matching data. -->
-      <!--
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4"> No data matching the filter "{{input.value}}" </td>
-      </tr>
-      -->
-    </table>
+        <!--  Row shown when there is no matching data. -->
+        <!--
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4"> No data matching the filter "{{input.value}}" </td>
+        </tr>
+        -->
+      </table>
+    </div>
   </ng-container>
 
   <!-- Loading / No Members -->

@@ -1,5 +1,6 @@
 <div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px"
+     fxLayoutAlign.lt-sm="end end">
   <app-main-content-header
     fxFlex="grow"
     (emitApplyFilter)="applyFilter($event)"
@@ -9,7 +10,8 @@
     [labels]="[]">
   </app-main-content-header>
   <div class="flex-spacer"></div>
-  <button mat-stroked-button class="reload-button" fxFlex="1 0 60px" (click)="refreshSessionContent()">
+  <button mat-stroked-button class="reload-button"
+          fxFlex="1 0 60px" (click)="refreshSessionContent()">
     <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
   </button>
 </div>
