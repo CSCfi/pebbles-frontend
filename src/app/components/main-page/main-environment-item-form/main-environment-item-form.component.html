@@ -61,7 +61,15 @@
         </mat-radio-group>
       </section>
 
-      <!-- 6-1 Include External files -->
+      <!-- 6-1 Container Image -->
+      <section class="form-container">
+        <h3 class="mat-title">Container Image(change if you need custom image)</h3>
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="imageUrl" [value]="selectedTemplateImage">
+        </mat-form-field>
+      </section>
+
+      <!-- 6-2 Include External files -->
       <section class="form-container">
         <h3 class="mat-title">Download method</h3>
         <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
@@ -82,7 +90,7 @@
         </mat-radio-group>
       </section>
 
-      <!-- 6-2 Source -->
+      <!-- 6-3 Source -->
       <section class="form-container">
         <ng-container [ngSwitch]="selectedDownloadMethod">
           <div *ngSwitchCase="'local'">
@@ -98,7 +106,7 @@
         </ng-container>
       </section>
 
-      <!-- 6-3 Auto Execution -->
+      <!-- 6-4 Auto Execution -->
       <section class="form-container" *ngIf="selectedDownloadMethod !== 'none'">
         <h3 class="mat-title">Auto execution</h3>
         <div class="checkbox-group">
@@ -106,7 +114,7 @@
         </div>
       </section>
 
-      <!-- 6-4 User work folder -->
+      <!-- 6-5 User work folder -->
       <section class="form-container">
         <h3 class="mat-title">Work folder per user</h3>
         <div class="checkbox-group">

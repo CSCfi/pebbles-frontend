@@ -26,6 +26,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
   selectedTemplate: ApplicationTemplate;
   selectedJupyterInterface: string;
   selectedDownloadMethod: string = null;
+  selectedTemplateImage: string = null;
 
   get isCreationMode(): boolean {
     return this.data.environment ? false : true;
@@ -73,6 +74,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
       isAutoExecution: [''],
       isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
+      imageUrl: [''],
     });
 
     // ---- Set default value
@@ -111,6 +113,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
       jupyterInterface: [this.data.environment.config.jupyter_interface, [Validators.required]],
       downloadMethod: [this.selectedDownloadMethod],
       source: [this.data.environment.config.download_url],
+      imageUrl: [this.data.environment.config.image_url],
       isAutoExecution: [this.isAutoExecution],
       isEnableUserWorkFolder: [this.isEnableUserWorkFolder],
       publish: [this.data.environment.is_enabled, [Validators.required]]
@@ -142,6 +145,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
         download_url: this.environmentItemEditFormGroup.controls.source.value,
         auto_execution: this.environmentItemEditFormGroup.controls.isAutoExecution.value,
         enable_user_work_folder: this.environmentItemEditFormGroup.controls.isEnableUserWorkFolder.value,
+        image_url: this.environmentItemEditFormGroup.controls.imageUrl.value,
       },
       this.environmentItemEditFormGroup.controls.publish.value || false,
     ).subscribe((env) => {
@@ -159,6 +163,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     this.data.environment.config.download_url = this.environmentItemEditFormGroup.controls.source.value;
     this.data.environment.config.auto_execution = this.environmentItemEditFormGroup.controls.isAutoExecution.value;
     this.data.environment.config.enable_user_work_folder = this.environmentItemEditFormGroup.controls.isEnableUserWorkFolder.value;
+    this.data.environment.config.image_url = this.environmentItemEditFormGroup.controls.imageUrl.value,
     this.data.environment.is_enabled = this.environmentItemEditFormGroup.controls.publish.value;
     this.environmentService.updateApplication(
       this.data.environment
@@ -175,6 +180,7 @@ export class MainEnvironmentItemFormComponent implements OnInit {
     if (et.base_config.labels) {
       this.selectedLabels = et.base_config.labels.slice();
     }
+    this.selectedTemplateImage = et.base_config.image;
   }
 
   onChangeDownloadMethod(val: string) {
