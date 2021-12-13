@@ -1,6 +1,6 @@
 <div class="content-header-container"
-  fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px"
-  fxLayout.lt-sm="column">
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px"
+     fxLayout.lt-sm="column">
   <app-main-content-header
     [content]="content"
     [isSearchOn]="false"
@@ -9,8 +9,8 @@
   </app-main-content-header>
   <div class="flex-spacer"></div>
   <button mat-flat-button class="bg__warn-light"
-    (click)="markAnnouncementsAsRead()"
-    [disabled]="isAllRead">
+          (click)="markAnnouncementsAsRead()"
+          [disabled]="isAllRead">
     <mat-icon fontSet="material-icons-outlined">check</mat-icon>
     Mark as read
   </button>
@@ -22,7 +22,9 @@
         <div class="announcement info-body" [ngClass]="{'unread':!announcement.is_read}">
           <div class="title mat-title">{{ announcement.subject }}</div>
           <span class="date mat-caption">{{ formatDate(announcement.broadcasted) }}</span>
-          <p class="message">{{ announcement.message }}</p>
+          <p class="message">
+            <span [innerHtml]="announcement.message"></span>
+          </p>
         </div>
       </ng-container>
     </section>
