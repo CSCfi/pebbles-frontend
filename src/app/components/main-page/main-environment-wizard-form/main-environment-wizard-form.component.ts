@@ -21,6 +21,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
   selectedLabels: string[];
   selectedJupyterInterface: string;
   selectedDownloadMethod: string;
+  selectedTemplateImage: string = null;
 
   get environmentTemplates(): ApplicationTemplate[] {
     return this.environmentTemplateService.getEnvironmentTemplates();
@@ -48,7 +49,8 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
   ngOnInit(): void {
     this.selectedDownloadMethod = 'none';
     this.wizardTemplateFormGroup = this.formBuilder.group({
-      templateId: ['', [Validators.required]]
+      templateId: ['', [Validators.required]],
+      imageUrl: ['']
     });
     this.wizardProfileFormGroup = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -92,6 +94,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
         download_url: this.wizardOptionFormGroup.controls.source.value,
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
         enable_user_work_folder: this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.value,
+        image_url: this.wizardTemplateFormGroup.controls.imageUrl.value,
       },
       this.wizardPublishFormGroup.controls.isActive.value
     ).subscribe((env) => {
@@ -106,6 +109,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
     if (et.base_config.labels) {
       this.selectedLabels = et.base_config.labels.slice();
     }
+    this.selectedTemplateImage = et.base_config.image;
   }
 
   onChangeDownloadMethod(val: string): void {

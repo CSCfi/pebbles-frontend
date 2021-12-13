@@ -40,6 +40,13 @@
               </mat-radio-group>
             </div>
           </section>
+          <section class="form-container">
+            <h3 class="mat-title">Container image (change if you need custom image)</h3>
+            <mat-form-field appearance="fill">
+              <input matInput formControlName="imageUrl" [value]="selectedTemplateImage">
+            </mat-form-field>
+          </section>
+
         </mat-dialog-content>
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
           <button mat-flat-button class="next" color="primary" matStepperNext fxFlex="grow">

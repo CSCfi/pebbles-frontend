@@ -102,6 +102,12 @@ export class MainEnvironmentItemFormComponent implements OnInit {
 
     this.isEnableUserWorkFolder = coerceBooleanProperty(this.data.environment.config.enable_user_work_folder);
 
+    // if custom image is not present get the template base image
+    if (!this.data.environment.config.image_url) {
+      this.data.environment.config.image_url = this.environmentTemplateService.getEnvironmentTemplates().find(
+       x => x.id === this.data.environment.template_id).base_config.image;
+    }
+
     this.environmentItemEditFormGroup = this.formBuilder.group({
       templateId: [{
         value: this.data.environment.template_id,
