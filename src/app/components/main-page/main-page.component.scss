@@ -40,7 +40,7 @@
       display: block;
       width: 100%;
       min-height: map-deep-get($layout-set, main, content, min-h);
-      background-color: map-get($colors, light);
+      background-color: map-get($app-primary, 100);
       overflow: hidden;
     }
   }

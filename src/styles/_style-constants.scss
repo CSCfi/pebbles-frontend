@@ -8,35 +8,6 @@ $font-families: (
 
 // ---- Color
 // ----------------------------------------
-$colors: (
-  primary: #1a237e,
-  dark-primary: #16145f,
-  light-primary: #2936c4,
-  accent: #20b4da,
-  light-accent:#aed4ff,
-  secondary: #00c7b2,
-  success: #0082bb,
-  danger: #7dc242,
-  info: #006778,
-  warn: #830051,
-  active: #e91e63,
-  light-active: #f8cdc3,
-  light: #fbfbff,
-  light2: #cfcfd6,
-  light3: #e0e0f1,
-  dark: #2e2f39,
-  neutral-dark: #9cb2c7,
-  light-dark: #acc7e0,
-  extra-light-dark: #ddedfa,
-  gray: #6d7088,
-  gray2: #a7a7a7,
-  light-gray: #c7c7c7,
-  extra-light-gray: #eeeeee,
-  white: #fff,
-  black: #222,
-  transparent: rgb(255, 255, 255, 0),
-  focus-light: rgb(255, 255, 255, .1),
-);
 
 $app-transparent: (
   default: rgb(255, 255, 255, 0),
@@ -117,25 +88,25 @@ $app-warn: (
 
 @mixin inversion($bg-color) {
   background-color: map-get($colors, $bg-color);
-  color: map-get($colors, white);
+  color: #FFFFFF;
 
   &a,
   a {
-    color: map-get($colors, white);
+    color: #FFFFFF;
 
     &:hover {
       cursor: pointer;
-      color: map-get($colors, accent);
+      color: map-get($app-accent, default);
     }
   }
 
   &.mat-button-base,
   .mat-button-base {
-    color: map-get($colors, white);
+    color: #FFFFFF;
 
     &:hover {
       cursor: pointer;
-      color: map-get($colors, white) !important;
+      color: #FFFFFF !important;
       background-color: map-get($app-accent, default);
     }
   }

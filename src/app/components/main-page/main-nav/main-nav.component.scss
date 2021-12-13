@@ -29,13 +29,13 @@
 .nav-items {
 
   li {
-    border-left: 6px solid map-get($colors, transparent);
+    border-left: 6px solid map-get($app-transparent, default);
     padding-right: 8px;
     width: 100%;
 
     &.active {
       border-left: 6px solid map-get($app-accent, default);
-      background-color: map-get($colors, focus-light);
+      background-color: map-get($app-transparent, light);
     }
 
     a,

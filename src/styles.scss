@@ -82,6 +82,7 @@ button {
 
 .flex-spacer {
   flex: 1 1 auto;
+  margin: 0 !important;
 }
 
 .full {
@@ -216,7 +217,7 @@ button {
 
 .card {
   @include shadow(0);
-  border: 1px solid map-get($colors, light2);
+  border: 1px solid map-get($app-gray, 200);
   padding: 8px;
 }
 
@@ -227,6 +228,12 @@ button {
   background: #fff;
   border: 2px solid map-get($app-primary, 300);
   border-radius: 6px !important;
+
+  ul {
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+  }
 }
 
 .instruction-body {
@@ -365,7 +372,7 @@ dl.grid {
   }
 
   .error-message {
-    color: map-get($colors, warn);
+    color: map-get($app-warn, default);
   }
 }
 
@@ -592,7 +599,7 @@ a.mat-stroked-button,
   &__sm {
     color: map-get($app-gray, 900);
     font-size: 1.1rem;
-    background-color: map-get($app-gray, 100);
+    background-color: map-get($app-primary, 100);
     margin-right: 3px;
     line-height: 140%;
     min-height: 20px !important;
@@ -617,8 +624,8 @@ a.mat-stroked-button,
 
   &__hidden {
     font-weight: 600;
-    color: map-get($colors, dark);
-    background-color: map-get($colors, light2);
+    color: map-get($app-gray, 900);
+    background-color: map-get($app-gray, 200);
     margin-right: 3px;
     line-height: 100%;
     min-height: 24px;
@@ -725,103 +732,4 @@ a.mat-stroked-button,
 .open-button,
 .shutdown-button {
   z-index: 2000;
-}
-
-
-// ---- erase later when finished css refactoring ----//
-
-.v-centering {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  &__horizontal {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  &__inline {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-
-.inversion {
-  &.primary {
-    @include inversion(primary);
-  }
-
-  &.accent {
-    @include inversion(accent);
-  }
-
-  &.warn {
-    @include inversion(warn);
-  }
-
-  &.dark {
-    @include inversion(dark);
-  }
-
-  &.light-dark {
-    @include inversion(light-dark);
-  }
-
-  &.light-gray {
-    @include inversion(neutral-dark);
-  }
-
-  &.light-accent {
-    @include inversion(light-accent);
-  }
-
-  &.transparent {
-    @include inversion(transparent);
-  }
-
-  .mat-stroked-button {
-    border: 1px solid map-get($colors, white) !important;
-  }
-}
-
-.dark {
-  background: map-get($colors, dark);
-}
-
-//.r {
-//  &__no {
-//    border-radius: 0;
-//  }
-//
-//  &__all {
-//    border-radius: 5px;
-//  }
-//
-//  &__top {
-//    border-radius: 5px 5px 0 0;
-//  }
-//
-//  &__bottom {
-//    border-radius: 0 0 5px 5px;
-//  }
-//
-//  &__left {
-//    border-radius: 5px 0 0 5px;
-//  }
-//
-//  &__right {
-//    border-radius: 0 5px 5px 0;
-//  }
-//}
-
-.txt {
-  &__light-gray {
-    color: map-get($colors, light-gray);
-  }
 }

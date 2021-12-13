@@ -1033,7 +1033,7 @@ export let db = {
     {
       id: 'm12345',
       subject: 'Renewal Open',
-      message: 'The Notebooks end-user interface has been renewed. We appreciate any type of feedback from your.',
+      message: 'The Notebooks end-user interface has been renewed. We appreciate any type of feedback from your. <ul><li>test</li><li>test</li><li>test</li></ul>',
       broadcasted: '2021-06-15T11:59:00',
       is_read: false
     },

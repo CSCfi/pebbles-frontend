@@ -68,7 +68,7 @@
 // ---- Right UI
 #workspace-owner-container {
   .workspace-detail-container {
-    background: map-get($colors, white);
+    background: #FFFFFF;
     border: 5px solid map-get($app-primary, 400);
     height: 100%;
     overflow: auto;

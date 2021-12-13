@@ -35,7 +35,7 @@
           #auto="matAutocomplete"
           (optionSelected)="labelSelected($event)">
           <mat-option *ngFor="let label of candidateLabels" [value]="label">
-            <mat-chip class="mat-chip-sm inversion accent"
+            <mat-chip class="mat-chip-sm"
               (click)="labelClicked($event)">
               {{label}}
             </mat-chip>

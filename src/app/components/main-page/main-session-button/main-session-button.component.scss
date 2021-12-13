@@ -64,7 +64,7 @@
 
   .open-button,
   .shutdown-button {
-    background: map-get($colors, transparent) !important;
+    background: map-get($app-transparent, default) !important;
     width: inherit;
     justify-content: center;
     line-height: 1.5rem;
@@ -107,7 +107,7 @@
     }
 
     &:hover {
-      background: map-get($colors, primary);
+      background: map-get($app-primary, default);
 
       .mat-icon {
         color: white;

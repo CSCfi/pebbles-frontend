@@ -1,5 +1,5 @@
 <div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="30px"
+     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
      fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start" fxLayoutGap.lt-sm="10px">
   <app-main-content-header fxFlex="grow"
     (emitApplyFilter)="applyFilter($event)"
@@ -8,6 +8,7 @@
     [isAutocompleteDisabled]="true"
     [labels]="selectedCatalog ? selectedCatalog.labels : []">
   </app-main-content-header>
+  <div class="flex-spacer"></div>
   <button mat-flat-button color="accent" id="join-workspace-button" aria-label="Join Workspace"
           fxFlex="0 0 180px" fxFlex.lt-sm="grow"
           (click)="openJoinWorkspaceDialog()">

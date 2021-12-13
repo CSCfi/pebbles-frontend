@@ -4,13 +4,13 @@ section{
   margin-bottom: 80px;
 
   h2 {
-    color: map-get($colors, white);
+    color: #FFFFFF;
     text-align: center;
   }
 
   .card {
-    color: map-get($colors, dark);
-    background: map-get($colors, white);
+    color: map-get($app-gray, 900);
+    background: #FFFFFF;
     box-shadow: 0px 1px 3px rgba(0,0,0,.2);
     padding: 20px;
     border-radius: 5px;
@@ -35,13 +35,13 @@ section{
 
   .organization-link {
     padding: 5px;
-    background: map-get($colors, light);
+    background: map-get($app-gray, 100);
     margin-bottom: 20px;
 
     .logo-placeholder {
       width: 200px;
       height: 80px;
-      background: map-get($colors, gray);
+      background: map-get($app-gray, 300);
     }
 
     img {
