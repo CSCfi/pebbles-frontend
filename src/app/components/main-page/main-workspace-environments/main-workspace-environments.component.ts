@@ -178,7 +178,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
 
   copyEnvironment(environmentId: string): void {
     const environment = this.getTargetEnvironment(environmentId);
-    if (!confirm(`Are you sure you want to copy this environment "${environment.name}"?`)) {
+    if (!confirm(`Are you sure you want to copy this application "${environment.name}"?`)) {
       return;
     }
     this.environmentService.copyApplication(environment).subscribe();
@@ -191,7 +191,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
 
   deleteEnvironment(environmentId: string): void {
     const environment = this.getTargetEnvironment(environmentId);
-    if (!confirm(`Are you sure you want to delete this environment "${environment.name}"?`)) {
+    if (!confirm(`Are you sure you want to delete this application "${environment.name}"?`)) {
       return;
     }
     this.environmentService.deleteApplication(environment).subscribe(_ => {

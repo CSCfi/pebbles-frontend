@@ -55,6 +55,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       && Date.now() - this.createDemoWorkspaceClickTs > 2 * 1000;
   }
 
+  get isNoWorkspace(): boolean {
+    return this.workspaces?.length === 0;
+  }
+
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -189,7 +193,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
   // ---- workspace creation
   // ----------------------------------------
-
   isNewWorkspace(id: string): boolean {
     if (this.newWorkspace) {
       return this.newWorkspace.id === id;

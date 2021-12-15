@@ -43,9 +43,9 @@
     </ng-container>
     <ng-template #noWorkspaceBlock>
       <div class="message-container">
-        <div class="empty">
-          <mat-icon fontSet="material-icons-outlined">search</mat-icon>
-          <span class="message">No results were found by search</span>
+        <div class="empty-message">
+          <mat-icon fontSet="material-icons-outlined" class="md-96">search</mat-icon>
+          <span class="message-title">No results were found by search</span>
         </div>
       </div>
     </ng-template>
@@ -53,9 +53,9 @@
 
   <ng-template #noMembershipBlock>
     <div class="message-container">
-      <div class="empty">
-        <mat-icon fontSet="material-icons-outlined">group</mat-icon>
-        <span class="message">
+      <div class="empty-message">
+        <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
+        <span class="message-title">
           You are currently not a member of any workspace
         </span>
       </div>
@@ -64,8 +64,8 @@
 </div>
 
 <div class="message-container" *ngIf="visibleWorkspaces === null">
-  <div class="empty">
-    <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-    <span class="message">...Loading...</span>
+  <div class="empty-message">
+    <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+    <span class="message-title">...Loading...</span>
   </div>
 </div>

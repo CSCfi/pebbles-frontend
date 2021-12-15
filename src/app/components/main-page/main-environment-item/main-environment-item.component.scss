@@ -40,6 +40,8 @@
   }
 
   .mat-card-content {
+    min-height: 60px;
+
     a {
       text-decoration: underline !important;
     }

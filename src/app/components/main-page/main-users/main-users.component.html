@@ -230,15 +230,15 @@
   <!-- Loading / No Members -->
   <ng-template #noMember>
     <div class="message-container">
-      <div class="empty" *ngIf="tableRowData !== null">
-        <mat-icon fontSet="material-icons-outlined">group</mat-icon>
-        <span class="message">
+      <div class="empty-message" *ngIf="tableRowData !== null">
+        <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
+        <span class="message-title">
           No members in this workspace.
         </span>
       </div>
-      <div class="empty" *ngIf="tableRowData === null">
+      <div class="empty-message" *ngIf="tableRowData === null">
         <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-        <span class="message">...Loading...</span>
+        <span class="message-title">...Loading...</span>
       </div>
     </div>
   </ng-template>

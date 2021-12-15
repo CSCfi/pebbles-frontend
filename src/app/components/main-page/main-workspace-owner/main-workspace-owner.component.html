@@ -97,15 +97,15 @@
     </div>
     <!-- message space -->
     <div class="message-container" *ngIf="!workspaces">
-      <div class="empty" *ngIf="workspaces !== null">
-        <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
-        <span class="message">
+      <div class="empty-message" *ngIf="workspaces !== null">
+        <mat-icon fontSet="material-icons-outlined" class="md-96">memory</mat-icon>
+        <span class="message-title">
           No workspaces
         </span>
       </div>
-      <div class="empty" *ngIf="workspaces === null">
-        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-        <span class="message">...Loading...</span>
+      <div class="empty-message" *ngIf="workspaces === null">
+        <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+        <span class="message-title">...Loading...</span>
       </div>
     </div>
   </div>
@@ -113,7 +113,7 @@
 
   <!-- Right Column : Workspace Detail -->
   <div class="workspace-detail-container" fxFlex="grow">
-    <ng-container *ngIf="selectedWorkspace ;else noWorkspace">
+    <ng-container *ngIf="selectedWorkspace">
       <mat-tab-group mat-align-tabs="center" class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
@@ -151,23 +151,27 @@
         </mat-tab>
       </mat-tab-group>
     </ng-container>
-    <ng-template #noWorkspace>
-      <div class="message-container ">
-        <div class="empty">
-          <span class="message">No workspaces</span>
-          <mat-icon fontSet="material-icons-outlined">touch_app</mat-icon>
-          <span class="message">Start by creating a new workspace</span>
-        </div>
-      </div>
-    </ng-template>
 
     <ng-container *ngIf="isWorkspaceDeleted">
       <section class="message-container">
         <div class="error-message">
-          <h3>The workspace has been successfully deleted.</h3>
-          <p>Please select another workspace from the left column.</p>
+          <span class="message-title mt-80">Workspace successfully deleted</span>
+          <mat-icon fontSet="material-icons-outlined" class="md-96">delete</mat-icon>
+          <p class="message-description">
+            Please select another workspace from the left column.
+          </p>
         </div>
       </section>
+    </ng-container>
+
+    <ng-container *ngIf="isNoWorkspace && !isWorkspaceDeleted">
+      <div class="message-container">
+        <div class="empty-message">
+          <span class="message-title mt-80">No workspaces</span>
+          <mat-icon fontSet="material-icons-outlined" class="md-96">touch_app</mat-icon>
+          <span class="message-description">Start by creating a new workspace</span>
+        </div>
+      </div>
     </ng-container>
 
   </div>

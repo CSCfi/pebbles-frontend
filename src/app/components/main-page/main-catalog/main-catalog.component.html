@@ -46,13 +46,13 @@
             </div>
             <ng-template #noEnvironmentBlock>
               <section class="message-container">
-                <div class="empty" *ngIf="environments !== null">
-                  <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-                  <span class="message">No applications found.</span>
+                <div class="empty-message" *ngIf="environments !== null">
+                  <mat-icon fontSet="material-icons-outlined" class="md-96">import_contacts</mat-icon>
+                  <span class="message-title">No applications found.</span>
                 </div>
-                <div class="empty" *ngIf="environments === null">
-                  <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-                  <span class="message">...Loading...</span>
+                <div class="empty-message" *ngIf="environments === null">
+                  <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+                  <span class="message-title">...Loading...</span>
                 </div>
               </section>
             </ng-template>
@@ -66,9 +66,9 @@
   <!-- Catalogs have not been fetched yet -->
   <ng-container *ngIf="getCatalogs().length === 0">
     <section class="message-container">
-      <div class="empty">
-        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-        <span class="message">...Loading...</span>
+      <div class="empty-message">
+        <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+        <span class="message-title">...Loading...</span>
       </div>
     </section>
   </ng-container>
