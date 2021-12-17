@@ -14,6 +14,7 @@
           <mat-form-field appearance="fill">
             <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
               <mat-option *ngFor="let tmpl of applicationTemplates" value="{{ tmpl.id }}">
+                <ng-container *ngIf="!tmpl.is_enabled">[disabled]</ng-container>
                 {{ tmpl.name }} : {{ tmpl.description }}
               </mat-option>
             </mat-select>

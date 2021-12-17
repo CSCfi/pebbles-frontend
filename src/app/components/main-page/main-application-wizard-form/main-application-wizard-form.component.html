@@ -18,7 +18,7 @@
               <h1 class="question">What is application template?</h1>
               <div class="answer mat-body-1">
                 Application defines the content that users access by starting a browser based isolated session.
-                As workspace owner/manager, you can create your own customized applications from templates below.
+                As workspace owner/co-owner, you can create your own customized applications from templates below.
               </div>
             </div>
           </section>
@@ -31,7 +31,10 @@
                   <ng-container *ngFor="let tmpl of applicationTemplates">
                     <li>
                       <mat-radio-button [value]="tmpl.id">
-                        <span class="template-name mat-subheading-2">{{ tmpl.name }}</span>
+                        <span class="template-name mat-subheading-2">
+                          <ng-container *ngIf="!tmpl.is_enabled">[disabled]</ng-container>
+                          {{ tmpl.name }}
+                        </span>
                         <span class="template-description ml-10">: {{ tmpl.description }}</span>
                       </mat-radio-button>
                     </li>

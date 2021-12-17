@@ -13,8 +13,7 @@ export class ApplicationTemplate {
     public name: string,
     public description: string,
     public applicationType: ApplicationType,
-    public is_active: boolean,
-    public cluster: string,
+    public is_enabled: boolean,
     public base_config: any,
   ) {
   }
