@@ -5,8 +5,8 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { Application } from 'src/app/models/application';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
-import { ApplicationService } from 'src/app/services/application.service';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
+import { ApplicationService } from 'src/app/services/application.service';
 import { Utilities } from '../../../utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
@@ -124,13 +124,21 @@ export class MainSessionButtonComponent implements OnInit {
 
   openSessionInBrowser(): void {
     const origin = this.document.location.origin;
-    const url = origin + this.router.serializeUrl(
-      this.router.createUrlTree(['/session/', this.application.session_id])
-    );
     if (!this.isWaitingInterval) {
-      window.open(url, '_blank');
+      // check if the session is running and already has access url
+      const accessUrl = this.session.session_data?.endpoints?.[0]?.access;
+      if (this.session.state === SessionStates.Running && accessUrl) {
+        console.log('redirecting to session content at ' + accessUrl);
+        window.open(accessUrl, '_blank');
+      }
+      else {
+        const url = origin + this.router.serializeUrl(
+          this.router.createUrlTree(['/session/', this.application.session_id])
+        );
+        console.log('redirecting to session launch page at ' + url);
+        window.open(url, '_blank');
+      }
     }
-    // this.router.navigateByUrl('/session/' + this.application.session_id);
   }
 
   deleteSession(): void {
