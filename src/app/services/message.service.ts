@@ -36,6 +36,8 @@ export class MessageService {
   }
 
   displayError(s: string) {
+    // limit the message to 200 chars
+    s = s.substring(0, 200);
     console.log('MessageService.displayError()', s);
     this.snackbar.open(s, null, {duration: 5000});
   }

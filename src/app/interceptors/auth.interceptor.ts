@@ -45,11 +45,11 @@ export class AuthInterceptor implements HttpInterceptor {
           // In case of auth error, we navigate back to login page and let auth service do reporting
           if (err.status === 401) {
             this.router.navigate(['welcome']).then(() => console.log('router: navigated back to welcome'));
-          }
-          else if (typeof err.error === 'string') {
-            this.messageService.displayError(`Error: ${err.error}`);
-          } else if (err.status === 0) {
+          } else if (err.status === 0 || err.status === 503) {
+            // if we can't connect at all, we'll get 0. If ingress/route can't respond, we'll get 503
             this.messageService.displayError('Error: cannot connect to the API');
+          } else if (typeof err.error === 'string') {
+            this.messageService.displayError(`Error: ${err.error}`);
           } else if (err.error?.message) {
             this.messageService.displayError(`Error: ${err.error.message}`);
           } else {
