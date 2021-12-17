@@ -17,7 +17,7 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 })
 export class MainSessionButtonComponent implements OnInit {
 
-  @Input() environmentId: string;
+  @Input() applicationId: string;
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
@@ -39,12 +39,12 @@ export class MainSessionButtonComponent implements OnInit {
     return false;
   }
 
-  get environment(): Application {
-    return this.environmentService.getApplicationById(this.environmentId);
+  get application(): Application {
+    return this.applicationService.getApplicationById(this.applicationId);
   }
 
   get session(): ApplicationSession {
-    return this.environmentSessionService.getSession(this.environment.session_id);
+    return this.applicationSessionService.getSession(this.application.session_id);
   }
 
   get state(): SessionStates | null {
@@ -63,8 +63,8 @@ export class MainSessionButtonComponent implements OnInit {
   }
 
   get lifetime(): string {
-    const hours = Number(this.environment.maximum_lifetime) / 3600;
-    const mins = Number(this.environment.maximum_lifetime) % 3600;
+    const hours = Number(this.application.maximum_lifetime) / 3600;
+    const mins = Number(this.application.maximum_lifetime) % 3600;
     return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   }
 
@@ -82,7 +82,7 @@ export class MainSessionButtonComponent implements OnInit {
       case SessionStates.Failed:
         return 100;
       default:
-        const res = Number(this.session.lifetime_left) / Number(this.environment.maximum_lifetime) * 100;
+        const res = Number(this.session.lifetime_left) / Number(this.application.maximum_lifetime) * 100;
         return Math.floor(res);
     }
   }
@@ -97,21 +97,21 @@ export class MainSessionButtonComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
-    private environmentService: ApplicationService,
-    private environmentSessionService: ApplicationSessionService,
+    private applicationService: ApplicationService,
+    private applicationSessionService: ApplicationSessionService,
     private dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
-    // console.log(this.environmentId);
+    // console.log(this.applicationId);
   }
 
   startSession(): void {
     this.isWaitingInterval = true;
-    const environmentSession = this.environmentSessionService.getSession(this.environment.session_id);
-    this.environmentService.startApplication(this.environment.id).subscribe(_ => {
-      if (environmentSession) {
+    const applicationSession = this.applicationSessionService.getSession(this.application.session_id);
+    this.applicationService.startApplication(this.application.id).subscribe(_ => {
+      if (applicationSession) {
         this.openSessionInBrowser();
       } else {
         setTimeout(() => {
@@ -125,12 +125,12 @@ export class MainSessionButtonComponent implements OnInit {
   openSessionInBrowser(): void {
     const origin = this.document.location.origin;
     const url = origin + this.router.serializeUrl(
-      this.router.createUrlTree(['/session/', this.environment.session_id])
+      this.router.createUrlTree(['/session/', this.application.session_id])
     );
     if (!this.isWaitingInterval) {
       window.open(url, '_blank');
     }
-    // this.router.navigateByUrl('/session/' + this.environment.session_id);
+    // this.router.navigateByUrl('/session/' + this.application.session_id);
   }
 
   deleteSession(): void {
@@ -139,8 +139,8 @@ export class MainSessionButtonComponent implements OnInit {
       width: '500px',
       autoFocus: false,
       data: {
-        dialogTitle: 'Delete environment session',
-        dialogContent: this.environment.config?.enable_user_work_folder ?
+        dialogTitle: 'Delete application session',
+        dialogContent: this.application.config?.enable_user_work_folder ?
           'Download all content you wish to save, or copy them to work folder before deleting the session. ' +
           'Do you want to continue?' :
           'Download all content you wish to save before deleting the session. ' +
@@ -149,13 +149,13 @@ export class MainSessionButtonComponent implements OnInit {
       }
     }).afterClosed().subscribe(resp => {
       if (resp) {
-        const environmentSession = this.environmentSessionService.getSession(this.environment.session_id);
-        environmentSession.state = SessionStates.Deleting;
-        // ---- Delete data for environmentSession-notification queue.
-        localStorage.removeItem(environmentSession.name);
+        const applicationSession = this.applicationSessionService.getSession(this.application.session_id);
+        applicationSession.state = SessionStates.Deleting;
+        // ---- Delete data for applicationSession-notification queue.
+        localStorage.removeItem(applicationSession.name);
 
-        this.environmentSessionService.deleteSession(environmentSession.id).subscribe(_ => {
-          console.log('environmentSession deleting process finished');
+        this.applicationSessionService.deleteSession(applicationSession.id).subscribe(_ => {
+          console.log('applicationSession deleting process finished');
         });
       }
     });

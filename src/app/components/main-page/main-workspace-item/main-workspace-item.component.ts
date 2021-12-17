@@ -17,16 +17,16 @@ export class MainWorkspaceItemComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState: boolean;
 
-  get environments(): Application[] {
-    if (this.workspace && this.environmentService.isInitialized) {
-      return this.environmentService.getApplicationsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
+  get applications(): Application[] {
+    if (this.workspace && this.applicationService.isInitialized) {
+      return this.applicationService.getApplicationsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
     }
     return null;
   }
 
   constructor(
     private workspaceService: WorkspaceService,
-    private environmentService: ApplicationService,
+    private applicationService: ApplicationService,
   ) {
   }
 
@@ -34,15 +34,15 @@ export class MainWorkspaceItemComponent implements OnInit {
     this.panelOpenState = true;
   }
 
-  toggleEnvironmentList(): void {
-    if (this.environments.length > 0) {
+  toggleApplicationList(): void {
+    if (this.applications.length > 0) {
       this.panelOpenState = !this.panelOpenState;
     }
   }
 
-  // directToEnvironment(environmentId: string): void {
-  //   // this.router.navigateByUrl('/main/catalog#' + environmentId);
-  //   this.router.navigate(['/main/catalog'], {queryParams: {id: environmentId}});
+  // directToApplication(applicationId: string): void {
+  //   // this.router.navigateByUrl('/main/catalog#' + applicationId);
+  //   this.router.navigate(['/main/catalog'], {queryParams: {id: applicationId}});
   // }
 
   exitWorkspace(): void {

@@ -41,8 +41,7 @@ export class DesktopNotificationService {
     try {
       // first try the deprecated version that works also on Safari
       Notification.requestPermission(callback);
-    }
-    catch (error) {
+    } catch (error) {
       // if the browser does not accept the deprecated callback as an argument, try the new Promise based version
       Notification.requestPermission().then(callback);
     }
@@ -72,7 +71,7 @@ export class DesktopNotificationService {
           // ---- Notify when the session is ready.
           if (!sent_notifications.includes(SessionLifetimeLevel.Full)) {
             DesktopNotificationService.showNotification(
-              'Your Environment is now running',
+              'Your application session is now running',
               'Total time left is ' + DesktopNotificationService.secondsToMinutesText(session.lifetime_left)
             );
             sent_notifications.push(SessionLifetimeLevel.Full);
@@ -80,13 +79,15 @@ export class DesktopNotificationService {
           // ---- Warn when the end is nigh.
           else if (session.lifetime_left < 900 && !sent_notifications.includes(SessionLifetimeLevel.Short)) {
             DesktopNotificationService.showNotification(
-              'Environment expiring in ' + DesktopNotificationService.secondsToMinutesText(session.lifetime_left),
+              'Application session expiring in ' +
+              DesktopNotificationService.secondsToMinutesText(session.lifetime_left),
               'Any unsaved data will be lost.'
             );
             sent_notifications.push(SessionLifetimeLevel.Short);
           } else if (session.lifetime_left < 300 && !sent_notifications.includes(SessionLifetimeLevel.Dying)) {
             DesktopNotificationService.showNotification(
-              'Environment expiring in ' + DesktopNotificationService.secondsToMinutesText(session.lifetime_left),
+              'Application session expiring in ' +
+              DesktopNotificationService.secondsToMinutesText(session.lifetime_left),
               'Any unsaved data will be lost.'
             );
             sent_notifications.push(SessionLifetimeLevel.Dying);
@@ -99,7 +100,7 @@ export class DesktopNotificationService {
           if (!sent_notifications.includes(SessionLifetimeLevel.Failed)) {
             // ---- Notify when the starting a session failed
             DesktopNotificationService.showNotification(
-              `Error! Your Environment failed to be provisioned.`,
+              `Error! Your application session failed to start.`,
               'Please try again in a moment. If the error persists, contact support.'
             );
             sent_notifications.push(SessionLifetimeLevel.Failed);

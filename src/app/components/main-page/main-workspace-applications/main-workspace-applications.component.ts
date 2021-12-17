@@ -13,10 +13,10 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { ApplicationType } from '../../../models/application-template';
 import { EventService } from '../../../services/event.service';
 import { Utilities } from '../../../utilities';
-import { MainEnvironmentItemFormComponent } from '../main-environment-item-form/main-environment-item-form.component';
-import { MainEnvironmentWizardFormComponent } from '../main-environment-wizard-form/main-environment-wizard-form.component';
+import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
+import { MainApplicationWizardFormComponent } from '../main-application-wizard-form/main-application-wizard-form.component';
 
-export interface EnvironmentRow {
+export interface ApplicationRow {
   select: boolean;
   index: number;
   id: string;
@@ -34,11 +34,11 @@ export interface EnvironmentRow {
 }
 
 @Component({
-  selector: 'app-main-workspace-environments',
-  templateUrl: './main-workspace-environments.component.html',
-  styleUrls: ['./main-workspace-environments.component.scss']
+  selector: 'app-main-workspace-applications',
+  templateUrl: './main-workspace-applications.component.html',
+  styleUrls: ['./main-workspace-applications.component.scss']
 })
-export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, OnChanges {
+export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, OnChanges {
 
   faBook = faBook;
   faRProject = faRProject;
@@ -47,8 +47,8 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   private subscriptions: Subscription[] = [];
 
   public displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
-  public dataSource: MatTableDataSource<EnvironmentRow> = null;
-  public selection = new SelectionModel<EnvironmentRow>(true, []);
+  public dataSource: MatTableDataSource<ApplicationRow> = null;
+  public selection = new SelectionModel<ApplicationRow>(true, []);
   // ---- Paginator
   public isPaginatorVisible = false;
   public minUnitNumber = 25;
@@ -59,7 +59,7 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
 
   constructor(
     private route: ActivatedRoute,
-    private environmentService: ApplicationService,
+    private applicationService: ApplicationService,
     private dialog: MatDialog,
     private eventService: EventService,
   ) {
@@ -83,8 +83,8 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   }
 
   rebuildDataSource(): void {
-    // we need the environmentService to be ready
-    if (!this.environmentService.isInitialized) {
+    // we need the applicationService to be ready
+    if (!this.applicationService.isInitialized) {
       return;
     }
     // wait for paginator to be initialized by Angular, otherwise defer to next tick
@@ -92,8 +92,8 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
       setTimeout(() => this.rebuildDataSource(), 0);
       return;
     }
-    console.log('MainWorkspaceEnvironmentsComponent.rebuildDataSource()');
-    const envs = this.environmentService.getApplicationsByWorkspaceId(this.workspaceId).sort(
+    console.log('MainWorkspaceApplicationsComponent.rebuildDataSource()');
+    const envs = this.applicationService.getApplicationsByWorkspaceId(this.workspaceId).sort(
       (a, b) => Number(b.is_enabled) - Number(a.is_enabled));
     this.dataSource = this.composeDataSource(envs);
     this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
@@ -131,8 +131,8 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   }
 
   // getLifetime(number): string {
-  //   const hours = Number(this.environment.maximum_lifetime) / 3600;
-  //   const mins = Number(this.environment.maximum_lifetime) % 3600;
+  //   const hours = Number(this.application.maximum_lifetime) / 3600;
+  //   const mins = Number(this.application.maximum_lifetime) % 3600;
   //   return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   // }
 
@@ -151,15 +151,15 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
   // }
 
   /** The label for the checkbox on the passed row */
-  // checkboxLabel(row?: EnvironmentTable): string {
+  // checkboxLabel(row?: ApplicationTable): string {
   //   if (!row) {
   //     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
   //   }
   //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.index + 1}`;
   // }
 
-  getTargetEnvironment(id: string): Application {
-    return this.environmentService.getApplicationById(id);
+  getTargetApplication(id: string): Application {
+    return this.applicationService.getApplicationById(id);
   }
 
   getLifetime(sec: number): string {
@@ -168,20 +168,20 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
     return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   }
 
-  toggleEnvironmentActivation(isActive: boolean, environmentId: string): void {
-    const environment = this.getTargetEnvironment(environmentId);
-    environment.is_enabled = isActive;
-    this.environmentService.updateApplication(environment).subscribe(_ => {
-      console.log('Updated environment');
+  toggleApplicationActivation(isActive: boolean, applicationId: string): void {
+    const application = this.getTargetApplication(applicationId);
+    application.is_enabled = isActive;
+    this.applicationService.updateApplication(application).subscribe(_ => {
+      console.log('Updated application');
     });
   }
 
-  copyEnvironment(environmentId: string): void {
-    const environment = this.getTargetEnvironment(environmentId);
-    if (!confirm(`Are you sure you want to copy this application "${environment.name}"?`)) {
+  copyApplication(applicationId: string): void {
+    const application = this.getTargetApplication(applicationId);
+    if (!confirm(`Are you sure you want to copy this application "${application.name}"?`)) {
       return;
     }
-    this.environmentService.copyApplication(environment).subscribe();
+    this.applicationService.copyApplication(application).subscribe();
   }
 
   toggleGpuActivation(active: boolean): void {
@@ -189,31 +189,31 @@ export class MainWorkspaceEnvironmentsComponent implements OnInit, OnDestroy, On
     // ---- TODO: place holder. write later !
   }
 
-  deleteEnvironment(environmentId: string): void {
-    const environment = this.getTargetEnvironment(environmentId);
-    if (!confirm(`Are you sure you want to delete this application "${environment.name}"?`)) {
+  deleteApplication(applicationId: string): void {
+    const application = this.getTargetApplication(applicationId);
+    if (!confirm(`Are you sure you want to delete this application "${application.name}"?`)) {
       return;
     }
-    this.environmentService.deleteApplication(environment).subscribe(_ => {
-      console.log('environment deleting process finished');
+    this.applicationService.deleteApplication(application).subscribe(_ => {
+      console.log('application deleting process finished');
     });
   }
 
-  openEnvironmentItemFormDialog(environmentId: string | null): void {
-    this.dialog.open(MainEnvironmentItemFormComponent, {
+  openApplicationItemFormDialog(applicationId: string | null): void {
+    this.dialog.open(MainApplicationItemFormComponent, {
       width: '800px',
       height: '90vh',
       autoFocus: false,
       data: {
         workspaceId: this.workspaceId,
-        environment: environmentId ? this.getTargetEnvironment(environmentId) : null
+        application: applicationId ? this.getTargetApplication(applicationId) : null
       }
     }).afterClosed().subscribe(_ => {
     });
   }
 
-  openEnvironmentWizardDialog(): void {
-    this.dialog.open(MainEnvironmentWizardFormComponent, {
+  openApplicationWizardDialog(): void {
+    this.dialog.open(MainApplicationWizardFormComponent, {
       width: '1000px',
       height: 'auto',
       maxHeight: '90vh',

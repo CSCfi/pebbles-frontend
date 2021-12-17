@@ -17,10 +17,10 @@ import { MainAnnouncementComponent } from './main-announcement/main-announcement
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainContentHeaderComponent } from './main-content-header/main-content-header.component';
 import { MainContentStateComponent } from './main-content-state/main-content-state.component';
-import { MainEnvironmentItemFormComponent } from './main-environment-item-form/main-environment-item-form.component';
-// ---- Environment parts component
-import { MainEnvironmentItemComponent } from './main-environment-item/main-environment-item.component';
-import { MainEnvironmentWizardFormComponent } from './main-environment-wizard-form/main-environment-wizard-form.component';
+import { MainApplicationItemFormComponent } from './main-application-item-form/main-application-item-form.component';
+// ---- Application parts component
+import { MainApplicationItemComponent } from './main-application-item/main-application-item.component';
+import { MainApplicationWizardFormComponent } from './main-application-wizard-form/main-application-wizard-form.component';
 import { MainHelpComponent } from './main-help/main-help.component';
 import { MainSessionButtonComponent } from './main-session-button/main-session-button.component';
 import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog/main-join-workspace-dialog.component';
@@ -34,7 +34,7 @@ import { MainSearchBoxComponent } from './main-search-box/main-search-box.compon
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
 import { MainSystemStatusComponent } from './main-status/main-system-status/main-system-status.component';
 import { MainUsersComponent } from './main-users/main-users.component';
-import { MainWorkspaceEnvironmentsComponent } from './main-workspace-environments/main-workspace-environments.component';
+import { MainWorkspaceApplicationsComponent } from './main-workspace-applications/main-workspace-applications.component';
 import { MainWorkspaceFoldersComponent } from './main-workspace-folders/main-workspace-folders.component';
 import { MainWorkspaceFormComponent } from './main-workspace-form/main-workspace-form.component';
 import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail/main-workspace-item-detail.component';
@@ -64,11 +64,11 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainWorkspaceFormComponent,
     MainWorkspaceMembersComponent,
     MainWorkspaceFoldersComponent,
-    MainEnvironmentItemComponent,
-    MainEnvironmentWizardFormComponent,
-    MainEnvironmentItemFormComponent,
+    MainApplicationItemComponent,
+    MainApplicationWizardFormComponent,
+    MainApplicationItemFormComponent,
     MainWorkspaceItemDetailComponent,
-    MainWorkspaceEnvironmentsComponent,
+    MainWorkspaceApplicationsComponent,
     MainSessionButtonComponent,
     MainContentStateComponent,
     MainJoinWorkspaceDialogComponent,

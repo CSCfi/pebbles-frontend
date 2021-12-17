@@ -19,7 +19,7 @@ export class MainSystemStatusComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
-    private environmentSessionService: ApplicationSessionService
+    private applicationSessionService: ApplicationSessionService
   ) {
   }
 
@@ -37,7 +37,7 @@ export class MainSystemStatusComponent implements OnInit, OnDestroy {
   }
 
   getSessionSummary(): any {
-    const sessions = this.environmentSessionService.getAllSessions();
+    const sessions = this.applicationSessionService.getAllSessions();
     const nRunning = sessions.filter(i => i.state === 'running').length;
     const nQueueing = sessions.filter(i => i.state === 'queueing').length;
     const nStarting = sessions.filter(i => i.state === 'starting').length;

@@ -25,7 +25,7 @@ describe('ApplicationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should populate environments with fetchEnvironments',
+  it('should populate applications with fetchApplications',
     (done: DoneFn) => {
       service.fetchApplications().subscribe((resp) => {
         expect(resp.length).toBeGreaterThan(0);

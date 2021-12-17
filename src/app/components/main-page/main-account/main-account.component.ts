@@ -56,7 +56,7 @@ export class MainAccountComponent implements OnInit {
         console.log('permission to show notifications granted');
       }
       DesktopNotificationService.showNotification(
-          'Notifications activated!', 'We will notify you of Environment status changes.'
+          'Notifications activated!', 'We will notify you of Application status changes.'
       );
     });
   }

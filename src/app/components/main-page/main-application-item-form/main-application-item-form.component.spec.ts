@@ -4,12 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MainEnvironmentItemFormComponent } from './main-environment-item-form.component';
+import { MainApplicationItemFormComponent } from './main-application-item-form.component';
 import { MainSearchBoxComponent } from '../main-search-box/main-search-box.component';
 
-describe('MainEnvironmentItemFormComponent', () => {
-  let component: MainEnvironmentItemFormComponent;
-  let fixture: ComponentFixture<MainEnvironmentItemFormComponent>;
+describe('MainApplicationItemFormComponent', () => {
+  let component: MainApplicationItemFormComponent;
+  let fixture: ComponentFixture<MainApplicationItemFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -21,15 +21,15 @@ describe('MainEnvironmentItemFormComponent', () => {
         RouterTestingModule,
       ],
       declarations: [
-        MainEnvironmentItemFormComponent,
+        MainApplicationItemFormComponent,
         MainSearchBoxComponent
        ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
-           // requires first adding environment and then testing to edit
-           // environment: Environment
+           // requires first adding application and then testing to edit
+           // application: Application
           }
         },
         {
@@ -42,7 +42,7 @@ describe('MainEnvironmentItemFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainEnvironmentItemFormComponent);
+    fixture = TestBed.createComponent(MainApplicationItemFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

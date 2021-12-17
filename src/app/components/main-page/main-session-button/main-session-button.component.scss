@@ -32,7 +32,7 @@
   width: inherit;
   height: inherit;
 
-  ::ng-deep .environment-spinner {
+  ::ng-deep .application-spinner {
     circle {
       stroke: map-get($app-accent, default);
       transform: scale(1, -1);
@@ -118,7 +118,7 @@
 
 
 .warning {
-  ::ng-deep .environment-spinner {
+  ::ng-deep .application-spinner {
     circle {
       stroke: map-get($app-gray, 200);
     }

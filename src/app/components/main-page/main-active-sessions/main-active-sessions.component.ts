@@ -13,7 +13,7 @@ export interface SessionTableRow {
   isSelected: boolean;
   index: number;
   workspaceName: string;
-  environmentName: string;
+  applicationName: string;
   sessionName: string;
   sessionUrl: string;
   username: string;
@@ -36,7 +36,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   };
 
   displayedColumns: string[] = [
-    'isSelected', 'sessionName', 'workspaceName', 'environmentName', 'username', 'state', 'lifetimeLeft', 'sessionLink'
+    'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft', 'sessionLink'
   ];
 
   selection = new SelectionModel<SessionTableRow>(true, []);
@@ -54,15 +54,15 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private environmentSessionService: ApplicationSessionService,
-    private environmentService: ApplicationService,
+    private applicationSessionService: ApplicationSessionService,
+    private applicationService: ApplicationService,
     private dialog: MatDialog,
   ) {
   }
 
   ngOnInit(): void {
-    this.environmentService.fetchApplications().subscribe(() =>
-      this.environmentSessionService.fetchSessions().subscribe(() =>
+    this.applicationService.fetchApplications().subscribe(() =>
+      this.applicationSessionService.fetchSessions().subscribe(() =>
         this.updateRowData()
       )
     );
@@ -75,36 +75,36 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   }
 
   refreshSessionContent(): void {
-    this.environmentSessionService.fetchSessions().subscribe(_ =>
+    this.applicationSessionService.fetchSessions().subscribe(_ =>
       this.updateRowData()
     );
   }
 
   updateRowData(force = false): void {
     // first check if we already have the latest data
-    const sessionServiceUpdateTs = this.environmentSessionService.getLastUpdateTs();
+    const sessionServiceUpdateTs = this.applicationSessionService.getLastUpdateTs();
     if (!force && this.lastUpdateTs === sessionServiceUpdateTs) {
       return;
     }
     this.lastUpdateTs = sessionServiceUpdateTs;
 
     // update existing row data entries and insert new ones
-    this.environmentSessionService.getAllSessions().map(session => {
+    this.applicationSessionService.getAllSessions().map(session => {
       const existingEntry = this.tableRowData.find(r => r.sessionId === session.id);
       if (existingEntry) {
         existingEntry.lifetimeLeft = Utilities.lifetimeToString(session.lifetime_left);
         existingEntry.state = session.state;
         existingEntry.index = -1;
-        existingEntry.workspaceName = this.environmentService.get(session.application_id)?.workspace_name;
-        existingEntry.environmentName = this.environmentService.get(session.application_id)?.name;
+        existingEntry.workspaceName = this.applicationService.get(session.application_id)?.workspace_name;
+        existingEntry.applicationName = this.applicationService.get(session.application_id)?.name;
         existingEntry.sessionUrl = session.url;
         existingEntry.username = session.username;
       } else {
         this.tableRowData.push({
           isSelected: false,
           index: -1,
-          workspaceName: this.environmentService.get(session.application_id)?.workspace_name,
-          environmentName: this.environmentService.get(session.application_id)?.name,
+          workspaceName: this.applicationService.get(session.application_id)?.workspace_name,
+          applicationName: this.applicationService.get(session.application_id)?.name,
           sessionName: session.name,
           sessionUrl: session.url,
           username: session.username,
@@ -179,7 +179,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         for (const row of selectedSessions) {
           const sessionId = row.sessionId;
           console.log('deleting session ' + sessionId);
-          this.environmentSessionService.deleteSession(sessionId).subscribe(_ => {
+          this.applicationSessionService.deleteSession(sessionId).subscribe(_ => {
             console.log('deleted ' + sessionId);
           });
           row.state = 'deleting';
@@ -222,8 +222,8 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       switch (sort.active) {
         case 'workspaceName':
           return Utilities.compare(a.workspaceName, b.workspaceName, isAsc);
-        case 'environmentName':
-          return Utilities.compare(a.environmentName, b.environmentName, isAsc);
+        case 'applicationName':
+          return Utilities.compare(a.applicationName, b.applicationName, isAsc);
         case 'username':
           return Utilities.compare(a.username, b.username, isAsc);
         case 'state':

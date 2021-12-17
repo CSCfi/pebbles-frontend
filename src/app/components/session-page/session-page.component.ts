@@ -48,7 +48,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
 
   sessions: ApplicationSession[];
   targetSession: ApplicationSession;
-  targetEnvironment: Application;
+  targetApplication: Application;
   redirectUrl: string;
   iframeSrc: SafeResourceUrl;
   sessionId: string;
@@ -62,18 +62,18 @@ export class SessionPageComponent implements OnInit, OnDestroy {
 
 
   get description(): string {
-    this.targetEnvironment = this.environmentService.get(this.targetSession.application_id);
-    return this.targetEnvironment.description || 'No description';
+    this.targetApplication = this.applicationService.get(this.targetSession.application_id);
+    return this.targetApplication.description || 'No description';
   }
 
   get isPublic(): boolean {
-    return this.targetEnvironment.workspace_name.startsWith('System.');
+    return this.targetApplication.workspace_name.startsWith('System.');
   }
 
   constructor(
     private route: ActivatedRoute,
-    private environmentService: ApplicationService,
-    private environmentSessionService: ApplicationSessionService,
+    private applicationService: ApplicationService,
+    private applicationSessionService: ApplicationSessionService,
   ) {
     this.sessionId = this.route.snapshot.params.id;
   }
@@ -84,8 +84,8 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       this.checkSessionStatus();
     }, 1000);
     // we are running in a new window, so we need to trigger sessionService
-    this.environmentSessionService.fetchSessions().subscribe();
-    this.environmentService.fetchApplications().subscribe();
+    this.applicationSessionService.fetchSessions().subscribe();
+    this.applicationService.fetchApplications().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -101,15 +101,15 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   }
 
   checkSessionStatus(): void {
-    // assign environment
-    this.targetSession = this.environmentSessionService.getSessions().find((session) => {
+    // assign application
+    this.targetSession = this.applicationSessionService.getSessions().find((session) => {
       return (session.id === this.sessionId);
     });
     if (!this.targetSession) {
       console.log('session ' + this.sessionId + ' not found');
       return;
     }
-    this.targetEnvironment = this.environmentService.get(this.targetSession.application_id);
+    this.targetApplication = this.applicationService.get(this.targetSession.application_id);
     // session service refreshes the sessions asynchronously, we can simply get the fresh ones
     console.log(this.targetSession.state);
 
@@ -128,7 +128,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       this.interval = 0;
       this.latestProvisioningLogMessage = 'Session failed';
     } else {
-      this.environmentSessionService.fetchApplicationSessionLogs(this.targetSession.id).subscribe(
+      this.applicationSessionService.fetchApplicationSessionLogs(this.targetSession.id).subscribe(
         (logs: ApplicationSessionLog[]) => {
           let lastMessage = logs[logs.length - 1].message;
           // check if we have a custom message mapping

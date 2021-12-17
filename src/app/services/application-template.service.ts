@@ -12,18 +12,18 @@ export class ApplicationTemplateService {
   private applicationTemplates: ApplicationTemplate[] = [];
 
   constructor(private http: HttpClient) {
-    this.fetchEnvironmentTemplates().subscribe();
+    this.fetchApplicationTemplates().subscribe();
   }
 
-  getEnvironmentTemplates(): ApplicationTemplate[] {
+  getApplicationTemplates(): ApplicationTemplate[] {
     return this.applicationTemplates;
   }
 
-  private fetchEnvironmentTemplates(): Observable<ApplicationTemplate[]> {
+  private fetchApplicationTemplates(): Observable<ApplicationTemplate[]> {
     const url = `${buildConfiguration.apiUrl}/application_templates`;
     return this.http.get<ApplicationTemplate[]>(url).pipe(
       map((resp) => {
-        console.log('fetchEnvironmentTemplates got', resp);
+        console.log('fetchApplicationTemplates got', resp);
         this.applicationTemplates = resp;
         return this.applicationTemplates;
       })

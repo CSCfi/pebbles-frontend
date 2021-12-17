@@ -118,16 +118,16 @@
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
                      [selectedIndex]="selectedTab">
-        <mat-tab label="environments">
+        <mat-tab label="applications">
           <ng-template mat-tab-label>
             <mat-icon class="md-18">book</mat-icon>
             <span class="tab-title" fxHide.lt-sm="true">Applications</span>
-            <mat-chip *ngIf="environmentCount > 0" class="chip__m">
-              {{environmentCount}}
+            <mat-chip *ngIf="applicationCount > 0" class="chip__m">
+              {{applicationCount}}
             </mat-chip>
           </ng-template>
-          <app-main-workspace-environments [workspaceId]="selectedWorkspaceId">
-          </app-main-workspace-environments>
+          <app-main-workspace-applications [workspaceId]="selectedWorkspaceId">
+          </app-main-workspace-applications>
         </mat-tab>
         <mat-tab label="members">
           <ng-template mat-tab-label>

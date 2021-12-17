@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
   constructor(
     private workspaceService: WorkspaceService,
     private sessionService: ApplicationSessionService,
-    private environmentService: ApplicationService,
-    private environmentCategoryService: ApplicationCategoryService,
+    private applicationService: ApplicationService,
+    private applicationCategoryService: ApplicationCategoryService,
     private eventService: EventService,
     private authService: AuthService,
     private publicConfigService: PublicConfigService,
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     console.log('AppComponent.ngOnInit()');
     // Make sure we have current data loaded after login
-    // populate the service states in order to be able to assign the sessions to environments
+    // populate the service states in order to be able to assign the sessions to applications
     this.eventService.loginStatus$.subscribe(change => {
       if (change === LoginStatusChange.login) {
         this.initializeServices();
@@ -59,9 +59,9 @@ export class AppComponent implements OnInit {
         return this.workspaceService.fetchWorkspaces().subscribe();
       }),
       map(_ => {
-        return this.environmentService.fetchApplications().subscribe();
+        return this.applicationService.fetchApplications().subscribe();
       })
     ).subscribe();
-    this.environmentCategoryService.fetchCategories().subscribe();
+    this.applicationCategoryService.fetchCategories().subscribe();
   }
 }

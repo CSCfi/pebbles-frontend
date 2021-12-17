@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { MainSearchBoxComponent } from '../main-search-box/main-search-box.component';
-import { MainEnvironmentWizardFormComponent } from './main-environment-wizard-form.component';
+import { MainApplicationWizardFormComponent } from './main-application-wizard-form.component';
 import {RouterTestingModule} from '@angular/router/testing';
 
-describe('MainEnvironmentWizardFormComponent', () => {
-  let component: MainEnvironmentWizardFormComponent;
-  let fixture: ComponentFixture<MainEnvironmentWizardFormComponent>;
+describe('MainApplicationWizardFormComponent', () => {
+  let component: MainApplicationWizardFormComponent;
+  let fixture: ComponentFixture<MainApplicationWizardFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -22,7 +22,7 @@ describe('MainEnvironmentWizardFormComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        MainEnvironmentWizardFormComponent,
+        MainApplicationWizardFormComponent,
         MainSearchBoxComponent
        ],
       providers: [
@@ -40,7 +40,7 @@ describe('MainEnvironmentWizardFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainEnvironmentWizardFormComponent);
+    fixture = TestBed.createComponent(MainApplicationWizardFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

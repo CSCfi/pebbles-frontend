@@ -109,7 +109,7 @@ export let db = {
     {
       id: '3',
       name: 'Course Practical Deep Learning - 2020',
-      description: 'Environment with Jupyter and Python Machine Learning libraries for Practical Deep Learning.\n',
+      description: 'Application with Jupyter and Python Machine Learning libraries for Practical Deep Learning.\n',
       maximum_lifetime: '36000',
       workspace_id: 'ws-0',
       thumbnail: 'deep-learning',
@@ -1018,13 +1018,13 @@ export let db = {
   notifications: [
     {
       id: 'n12345',
-      subject: 'Environment State',
+      subject: 'Application State',
       message: 'Your test application is ready to use.',
       broadcasted: '10.5.2020',
     },
     {
       id: 'n98765',
-      subject: 'Environment State',
+      subject: 'Application State',
       message: 'Your test application is deleted.',
       broadcasted: '10.5.2020',
     },
@@ -1224,7 +1224,7 @@ export let db = {
     {
       key: 'INSTALLATION_DESCRIPTION',
       value: 'Log in to see the catalogue of available applications. ' +
-        'Environments run in CSC cloud and are accessed with your browser.'
+        'Applications run in CSC cloud and are accessed with your browser.'
     },
     {
       key: 'BRAND_IMAGE_URL',

@@ -25,11 +25,11 @@ export class MainSearchBoxComponent {
   private currentLabels: string[];
 
   constructor(
-    private environmentCategoryService: ApplicationCategoryService,
+    private applicationCategoryService: ApplicationCategoryService,
   ) {
   }
 
-  // labels: EnvironmentCategory;
+  // labels: ApplicationCategory;
 
   get labels(): string[] {
     if (this.currentLabels) {
@@ -44,7 +44,7 @@ export class MainSearchBoxComponent {
   }
 
   get allLabels(): string[] {
-    const categories = this.environmentCategoryService.getCategories();
+    const categories = this.applicationCategoryService.getCategories();
     let allLabels = [];
     categories.forEach(env => {
       const newLabels = env.labels.filter(label => !allLabels.includes(label));

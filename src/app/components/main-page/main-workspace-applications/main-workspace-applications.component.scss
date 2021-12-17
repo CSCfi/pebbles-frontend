@@ -1,7 +1,7 @@
 @import "src/styles/main.scss";
 
-#workspace-environments-container {
-  .environment-actions {
+#workspace-applications-container {
+  .application-actions {
     button {
       height: auto;
       white-space: normal;
@@ -34,7 +34,7 @@
       padding: 5px 10px !important;
       vertical-align: top;
 
-      .environment-labels {
+      .application-labels {
         white-space: nowrap;
 
         span.label:after {

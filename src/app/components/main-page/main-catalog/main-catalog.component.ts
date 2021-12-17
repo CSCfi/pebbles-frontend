@@ -23,26 +23,26 @@ export class MainCatalogComponent implements OnInit {
   };
 
   selectedCatalog: ApplicationCategory;
-  referenceEnvironmentId: string;
+  referenceApplicationId: string;
   queryText = '';
 
-  get environments(): Application[] {
-    if (!this.environmentService.isInitialized) {
+  get applications(): Application[] {
+    if (!this.applicationService.isInitialized) {
       return null;
     }
-    let envs = this.environmentService.getApplications().filter(env => {
+    let envs = this.applicationService.getApplications().filter(env => {
       env.name = Utilities.resetText(env.name);
       env.description = Utilities.resetText(env.description);
       return env.is_enabled;
     });
-    envs = this.filterEnvironmentsByLabels(envs, this.selectedCatalog.labels, 'any');
-    envs = this.filterEnvironmentsByText(envs, this.queryText);
-    return this.sortEnvironments(envs);
+    envs = this.filterApplicationsByLabels(envs, this.selectedCatalog.labels, 'any');
+    envs = this.filterApplicationsByText(envs, this.queryText);
+    return this.sortApplications(envs);
   }
 
   constructor(
     public dialog: MatDialog,
-    private environmentService: ApplicationService,
+    private applicationService: ApplicationService,
     private catalogService: ApplicationCategoryService,
     public workspaceService: WorkspaceService,
   ) {
@@ -70,11 +70,11 @@ export class MainCatalogComponent implements OnInit {
   // ------------------------------------------------------------ //
 
   // TODO: this takes few seconds in UI to display.
-  // Merging sort to fetchEnvironments reduces delay but still takes a sec.
-  // Sort is called before fetchEnvironments to reduce, but still see minor glitch.
-  sortEnvironments(environmentsCopy: Application[]): Application[] {
+  // Merging sort to fetchApplications reduces delay but still takes a sec.
+  // Sort is called before fetchApplications to reduce, but still see minor glitch.
+  sortApplications(applicationsCopy: Application[]): Application[] {
     const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
-    environmentsCopy.sort((a, b) => {
+    applicationsCopy.sort((a, b) => {
       if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) &&
         (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
         return (('' + a.name).localeCompare(b.name));
@@ -88,10 +88,10 @@ export class MainCatalogComponent implements OnInit {
         return (('' + a.name).localeCompare(b.name));
       }
     });
-    return environmentsCopy;
+    return applicationsCopy;
   }
 
-  filterEnvironmentsByLabels(objects: Application[], catalogLabels: string[], method: string): Application[] {
+  filterApplicationsByLabels(objects: Application[], catalogLabels: string[], method: string): Application[] {
     if (catalogLabels.length === 0) {
       // ---- ALL catalog tab
       return objects;
@@ -123,7 +123,7 @@ export class MainCatalogComponent implements OnInit {
     this.queryText = value;
   }
 
-  filterEnvironmentsByText(objects: Application[], term: string): Application[] {
+  filterApplicationsByText(objects: Application[], term: string): Application[] {
     term = Utilities.cleanText(term);
     if (term === '') {
       return objects;

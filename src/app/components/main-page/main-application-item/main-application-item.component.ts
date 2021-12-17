@@ -11,35 +11,35 @@ import { ApplicationSessionService } from 'src/app/services/application-session.
 import { Utilities } from '../../../utilities';
 
 @Component({
-  selector: 'app-main-environment-item',
-  templateUrl: './main-environment-item.component.html',
-  styleUrls: ['./main-environment-item.component.scss']
+  selector: 'app-main-application-item',
+  templateUrl: './main-application-item.component.html',
+  styleUrls: ['./main-application-item.component.scss']
 })
-export class MainEnvironmentItemComponent implements OnInit {
+export class MainApplicationItemComponent implements OnInit {
 
   faBook = faBook;
   faRProject = faRProject;
   faPython = faPython;
 
-  @Input() environment: Application;
+  @Input() application: Application;
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
   // isWaitingInterval = false;
 
   get isPublic(): boolean {
-    return this.environment.workspace_name.startsWith('System.');
+    return this.application.workspace_name.startsWith('System.');
   }
 
   get isWorkVolumeActive(): boolean {
-    if (this.environment.info?.work_folder_enabled) {
+    if (this.application.info?.work_folder_enabled) {
       return true;
     }
     return false;
   }
 
   get isSpinnerOn(): boolean {
-    const session = this.sessionService.getSession(this.environment.session_id);
+    const session = this.sessionService.getSession(this.application.session_id);
     if (session) {
       switch (this.state) {
         case SessionStates.Running:
@@ -54,7 +54,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   get session(): ApplicationSession {
-    return this.sessionService.getSession(this.environment.session_id);
+    return this.sessionService.getSession(this.application.session_id);
   }
 
   get state(): SessionStates | null {
@@ -65,7 +65,7 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   get labels(): string {
-    return this.environment.labels.join(', ');
+    return this.application.labels.join(', ');
   }
 
   get isTimeWarningOn(): boolean {
@@ -73,8 +73,8 @@ export class MainEnvironmentItemComponent implements OnInit {
   }
 
   get lifetime(): string {
-    const hours = Number(this.environment.maximum_lifetime) / 3600;
-    const mins = Number(this.environment.maximum_lifetime) % 3600;
+    const hours = Number(this.application.maximum_lifetime) / 3600;
+    const mins = Number(this.application.maximum_lifetime) % 3600;
     return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   }
 
@@ -92,7 +92,7 @@ export class MainEnvironmentItemComponent implements OnInit {
       case SessionStates.Failed:
         return 100;
       default:
-        const res = Number(this.session.lifetime_left) / Number(this.environment.maximum_lifetime) * 100;
+        const res = Number(this.session.lifetime_left) / Number(this.application.maximum_lifetime) * 100;
         return Math.floor(res);
     }
   }
@@ -104,20 +104,20 @@ export class MainEnvironmentItemComponent implements OnInit {
     return '';
   }
 
-  get environmentType(): ApplicationType {
-    return this.environment?.applicationType;
+  get applicationType(): ApplicationType {
+    return this.application?.applicationType;
   }
 
   get description(): string {
-    if (this.environment && this.environment.description) {
-      return this.environment.description;
+    if (this.application && this.application.description) {
+      return this.application.description;
     } else {
-      return 'The environment has no description.';
+      return 'The application has no description.';
     }
   }
 
   get isDraft(): boolean {
-    return this.environment.is_enabled ? false : true;
+    return this.application.is_enabled ? false : true;
   }
 
   constructor(

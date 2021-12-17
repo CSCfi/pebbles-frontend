@@ -6,11 +6,11 @@ import { ApplicationTemplateService } from 'src/app/services/application-templat
 import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
-  selector: 'app-main-environment-wizard-form',
-  templateUrl: './main-environment-wizard-form.component.html',
-  styleUrls: ['./main-environment-wizard-form.component.scss']
+  selector: 'app-main-application-wizard-form',
+  templateUrl: './main-application-wizard-form.component.html',
+  styleUrls: ['./main-application-wizard-form.component.scss']
 })
-export class MainEnvironmentWizardFormComponent implements OnInit {
+export class MainApplicationWizardFormComponent implements OnInit {
 
   wizardTemplateFormGroup: FormGroup;
   wizardProfileFormGroup: FormGroup;
@@ -23,24 +23,24 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
   selectedDownloadMethod: string;
   selectedTemplateImage: string = null;
 
-  get environmentTemplates(): ApplicationTemplate[] {
-    return this.environmentTemplateService.getEnvironmentTemplates();
+  get applicationTemplates(): ApplicationTemplate[] {
+    return this.applicationTemplateService.getApplicationTemplates();
   }
 
   get selectedTemplate(): ApplicationTemplate {
-    return this.environmentTemplates.find(
+    return this.applicationTemplates.find(
       x => x.id === this.wizardTemplateFormGroup.controls.templateId.value
     );
   }
 
   constructor(
-    public dialogRef: MatDialogRef<MainEnvironmentWizardFormComponent>,
+    public dialogRef: MatDialogRef<MainApplicationWizardFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       workspaceId: string
     },
     private formBuilder: FormBuilder,
-    private environmentTemplateService: ApplicationTemplateService,
-    private environmentService: ApplicationService,
+    private applicationTemplateService: ApplicationTemplateService,
+    private applicationService: ApplicationService,
   ) {
     console.log(this.data);
     this.selectedLabels = [];
@@ -80,8 +80,8 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  createEnvironmentByWizardMode(): void {
-    this.environmentService.createApplication(
+  createApplicationByWizardMode(): void {
+    this.applicationService.createApplication(
       this.data.workspaceId,
       this.wizardProfileFormGroup.controls.name.value,
       this.wizardProfileFormGroup.controls.description.value,
@@ -98,7 +98,7 @@ export class MainEnvironmentWizardFormComponent implements OnInit {
       },
       this.wizardPublishFormGroup.controls.isActive.value
     ).subscribe((env) => {
-      // console.log('created example Environment ' + env.id);
+      // console.log('created example Application ' + env.id);
       this.closeForm();
     });
   }

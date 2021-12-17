@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
-import { MainWorkspaceEnvironmentsComponent } from './main-workspace-environments.component';
+import { MainWorkspaceApplicationsComponent } from './main-workspace-applications.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('MainWorkspaceEnvironmentsComponent', () => {
-  let component: MainWorkspaceEnvironmentsComponent;
-  let fixture: ComponentFixture<MainWorkspaceEnvironmentsComponent>;
+describe('MainWorkspaceApplicationsComponent', () => {
+  let component: MainWorkspaceApplicationsComponent;
+  let fixture: ComponentFixture<MainWorkspaceApplicationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MainWorkspaceEnvironmentsComponent ],
+      declarations: [ MainWorkspaceApplicationsComponent ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
@@ -25,7 +25,7 @@ describe('MainWorkspaceEnvironmentsComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainWorkspaceEnvironmentsComponent);
+    fixture = TestBed.createComponent(MainWorkspaceApplicationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

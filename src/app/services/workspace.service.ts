@@ -96,7 +96,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
-        // if the number of workspaces has changed, we also fire an event (e.g. to notify EnvironmentService)
+        // if the number of workspaces has changed, we also fire an event (e.g. to notify ApplicationService)
         const eventNeeded = this.workspaces?.length !== resp.length;
         this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
         if (eventNeeded) {

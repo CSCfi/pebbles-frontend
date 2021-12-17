@@ -1,6 +1,6 @@
 @import "src/styles/main.scss";
 
-.environments-catalog {
+.applications-catalog {
   background: map-get($app-primary, 100);
 
   ::ng-deep .mat-tab-header {

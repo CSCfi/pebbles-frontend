@@ -18,7 +18,7 @@
 </div>
 
 <!-- Application Catalogs -->
-<section class="environments-catalog content-container" ngClass.lt-sm="mobile">
+<section class="applications-catalog content-container" ngClass.lt-sm="mobile">
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
     (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()">
@@ -36,21 +36,21 @@
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
-            <div *ngIf="environments?.length > 0; else noEnvironmentBlock" class="environment-item-container"
+            <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container"
               fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
-              <ng-container *ngFor="let environment of environments">
-                <app-main-environment-item
-                  [environment]="environment">
-                </app-main-environment-item>
+              <ng-container *ngFor="let application of applications">
+                <app-main-application-item
+                  [application]="application">
+                </app-main-application-item>
               </ng-container>
             </div>
-            <ng-template #noEnvironmentBlock>
+            <ng-template #noApplicationBlock>
               <section class="message-container">
-                <div class="empty-message" *ngIf="environments !== null">
+                <div class="empty-message" *ngIf="applications !== null">
                   <mat-icon fontSet="material-icons-outlined" class="md-96">import_contacts</mat-icon>
                   <span class="message-title">No applications found.</span>
                 </div>
-                <div class="empty-message" *ngIf="environments === null">
+                <div class="empty-message" *ngIf="applications === null">
                   <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
                   <span class="message-title">...Loading...</span>
                 </div>

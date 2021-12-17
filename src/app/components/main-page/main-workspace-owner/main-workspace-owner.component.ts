@@ -39,7 +39,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   public selectedTab = 0;
   public newWorkspace: Workspace;
   public user: User;
-  public environmentCount = 0;
+  public applicationCount = 0;
   public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
@@ -66,8 +66,8 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     private workspaceService: WorkspaceService,
     private authService: AuthService,
     private accountService: AccountService,
-    private environmentService: ApplicationService,
-    private environmentTemplateService: ApplicationTemplateService,
+    private applicationService: ApplicationService,
+    private applicationTemplateService: ApplicationTemplateService,
     private eventService: EventService,
     private fb: FormBuilder
   ) {
@@ -148,7 +148,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     // if there is a selected workspace, refresh the member counts
     if (this.selectedWorkspace) {
       this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
-      this.environmentCount = this.environmentService.getApplicationsByWorkspaceId(this.selectedWorkspaceId)?.length;
+      this.applicationCount = this.applicationService.getApplicationsByWorkspaceId(this.selectedWorkspaceId)?.length;
       if (!this.memberCount) {
         // service has not been populated, trigger fetching of members
         this.workspaceService.refreshWorkspaceMemberCount(this.selectedWorkspaceId);
@@ -220,19 +220,19 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   createDemoWorkspace(): void {
-    console.log('creating demo workspace with example environment');
+    console.log('creating demo workspace with example application');
     this.createDemoWorkspaceClickTs = Date.now();
     if (this.workspaceService.getOwnedWorkspaces(this.user).length > 0) {
       console.log('user already has workspaces, refusing to create demo workspace');
       return;
     }
 
-    console.log('finding demo EnvironmentTemplate');
-    const envTemplate = this.environmentTemplateService.getEnvironmentTemplates().find((x) => {
+    console.log('finding demo ApplicationTemplate');
+    const envTemplate = this.applicationTemplateService.getApplicationTemplates().find((x) => {
       return x.name === ApplicationTemplate.EXAMPLE_TEMPLATE_NAME ? x : null;
     });
     if (!envTemplate) {
-      console.log(`no template "${ApplicationTemplate.EXAMPLE_TEMPLATE_NAME}" for example environment found`);
+      console.log(`no template "${ApplicationTemplate.EXAMPLE_TEMPLATE_NAME}" for example application found`);
       return;
     }
 
@@ -243,8 +243,8 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     ).subscribe((ws) => {
       console.log('created demo Workspace ' + ws.id);
       console.log('creating example Application');
-      // create example environment that is originally enabled
-      this.environmentService.createApplication(
+      // create example application that is originally enabled
+      this.applicationService.createApplication(
         ws.id,
         'Demo application',
         'Demo application created by "Create Demo Workspace"',

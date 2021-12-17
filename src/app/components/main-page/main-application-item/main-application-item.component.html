@@ -1,12 +1,12 @@
-<ng-container *ngIf="environment">
-  <mat-card class="card" [attr.id]="'env-'+environment.id" ngClass.lt-sm="mobile"
+<ng-container *ngIf="application">
+  <mat-card class="card" [attr.id]="'env-'+application.id" ngClass.lt-sm="mobile"
             fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
             fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
 
     <!-- Card LEFT section -->
     <div class="card-media-container bg__primary-light center__vh"
-         [ngSwitch]="environmentType"
-         [ngClass]="{'jupyter':environmentType==='jupyter', 'rstudio':environmentType==='rstudio'}"
+         [ngSwitch]="applicationType"
+         [ngClass]="{'jupyter':applicationType==='jupyter', 'rstudio':applicationType==='rstudio'}"
          fxFlex="0 0 125px">
       <div class="thumbnail mat-headline">
         <ng-container *ngSwitchCase="'jupyter'">
@@ -28,23 +28,23 @@
     <div class="card-info-container" fxFlex="grow"
          fxLayout="column" fxLayoutAlign="space-between stretch" fxLayoutGap="8px">
       <mat-card-header fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap.lt-sm="10px">
-        <mat-card-title class="environment-name mat-title mb-0">
-          <span [innerHTML]="environment.name"></span>
+        <mat-card-title class="application-name mat-title mb-0">
+          <span [innerHTML]="application.name"></span>
         </mat-card-title>
 
         <mat-card-subtitle fxLayout="row wrap" fxLayoutAlign="space-between stretch"
                            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
           <div class="workspace-name center__v">
-            <ng-container *ngIf="environment.workspace_name.startsWith('System.') === false; else publicBlock">
+            <ng-container *ngIf="application.workspace_name.startsWith('System.') === false; else publicBlock">
               <mat-icon class="project txt__warn md-16 mr-5">group</mat-icon>
-              {{ environment.workspace_name }}
+              {{ application.workspace_name }}
             </ng-container>
             <ng-template #publicBlock>
               <mat-icon class="public txt__accent md-16 mr-2">public</mat-icon>
               Public
             </ng-template>
           </div>
-          <div class="environment-meta mat-caption" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px"
+          <div class="application-meta mat-caption" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px"
                fxLayoutAlign.lt-sm="start">
             <div class="volumes center__v">
               <div class="volume center__v mr-10" [ngClass]="{'active':!isPublic}"
@@ -85,7 +85,7 @@
 
     <!-- Card RIGHT section -->
     <mat-card-actions fxFlex="0 0 130px" class="card-action-container center__vh">
-      <app-main-session-button [environmentId]="environment.id"></app-main-session-button>
+      <app-main-session-button [applicationId]="application.id"></app-main-session-button>
     </mat-card-actions>
   </mat-card>
 </ng-container>

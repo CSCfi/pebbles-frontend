@@ -1,4 +1,4 @@
-<div id="workspace-environments-container" ngClass.gt-xs="pt-20 pl-40 pr-40 pb-50" ngClass.lt-sm="p-10"
+<div id="workspace-applications-container" ngClass.gt-xs="pt-20 pl-40 pr-40 pb-50" ngClass.lt-sm="p-10"
      fxLayout="column" fxLayoutGap="10px">
   <!-- Search Box -->
   <mat-form-field appearance="fill">
@@ -6,16 +6,16 @@
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
   <!-- Buttons -->
-  <div class="environment-actions" *ngIf="dataSource?.data !== null"
+  <div class="application-actions" *ngIf="dataSource?.data !== null"
        fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="5px"
        fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch" fxLayoutGap.lt-sm="5px">
-    <button mat-flat-button color="accent" class="open-environment-creation-wizard-button"
-            aria-label="add new application" (click)="openEnvironmentWizardDialog()">
+    <button mat-flat-button color="accent" class="open-application-creation-wizard-button"
+            aria-label="add new application" (click)="openApplicationWizardDialog()">
       <mat-icon class="mr-10">auto_fix_high</mat-icon>
       <span>Application wizard</span>
     </button>
-    <button mat-stroked-button class="open-environment-creation-form-button"
-            aria-label="create a new environment" (click)="openEnvironmentItemFormDialog(null)">
+    <button mat-stroked-button class="open-application-creation-form-button"
+            aria-label="create a new application" (click)="openApplicationItemFormDialog(null)">
       <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>
       <span>Application form</span>
     </button>
@@ -34,7 +34,7 @@
     - menu button column
    -->
   <div class="table-container">
-    <ng-container *ngIf="dataSource?.data.length > 0; else noEnvironments">
+    <ng-container *ngIf="dataSource?.data.length > 0; else noApplications">
       <table mat-table [dataSource]="dataSource">
         <!-- checkbox column -->
         <!--
@@ -83,14 +83,14 @@
           <th mat-header-cell class="cell-info"  *matHeaderCellDef>basic information</th>
           <td class="cell-info" mat-cell *matCellDef="let element">
             <ul>
-              <li class="environment-name mat-subheading-2 mb-5"> {{element.name}} </li>
+              <li class="application-name mat-subheading-2 mb-5"> {{element.name}} </li>
               <li class="description mat-caption" [innerHTML]="element.description"></li>
               <li class="mat-caption">
                 <span class="center__v">
                   <span class="mr-5">Template:</span> {{element.template}}
                 </span>
               </li>
-              <li class="environment-labels mat-caption center__v">
+              <li class="application-labels mat-caption center__v">
                 <span class="mr-5 center__v">
                   <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">label</mat-icon>
                   Labels:
@@ -107,13 +107,13 @@
           <th mat-header-cell class="cell-spec" *matHeaderCellDef> spec </th>
           <td class="cell-spec" mat-cell *matCellDef="let element">
             <ul class="mat-caption">
-              <li class="environment-meta">
+              <li class="application-meta">
                 <span class="center__v">
                   <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">watch_later</mat-icon>
                   Lifetime: {{getLifetime(element.lifetime)}}
                 </span>
               </li>
-              <li class="environment-meta">
+              <li class="application-meta">
                 <span class="center__v">
                   <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
                   Memory: {{ element.memory || '-' }}
@@ -146,7 +146,7 @@
         <ng-container matColumnDef="launch">
           <th mat-header-cell *matHeaderCellDef class="cell-launch">test launch</th>
           <td mat-cell *matCellDef="let element" class="cell-launch">
-            <app-main-session-button [environmentId]="element.id">
+            <app-main-session-button [applicationId]="element.id">
             </app-main-session-button>
           </td>
         </ng-container>
@@ -159,15 +159,15 @@
               <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="openEnvironmentItemFormDialog(element.id)">
+              <button mat-menu-item (click)="openApplicationItemFormDialog(element.id)">
                 <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
                 <span>edit application</span>
               </button>
-              <button mat-menu-item *ngIf="!element.is_enabled" (click)="toggleEnvironmentActivation(true, element.id)">
+              <button mat-menu-item *ngIf="!element.is_enabled" (click)="toggleApplicationActivation(true, element.id)">
                 <mat-icon fontSet="material-icons-outlined">cloud</mat-icon>
                 <span>publish</span>
               </button>
-              <button mat-menu-item *ngIf="element.is_enabled" (click)="toggleEnvironmentActivation(false, element.id)">
+              <button mat-menu-item *ngIf="element.is_enabled" (click)="toggleApplicationActivation(false, element.id)">
                 <mat-icon fontSet="material-icons-outlined">cloud_off</mat-icon>
                 <span>make draft</span>
               </button>
@@ -175,11 +175,11 @@
                 <mat-icon fontSet="material-icons-outlined">local_fire_department</mat-icon>
                 <span>activate GPU</span>
               </button>
-              <button mat-menu-item (click)="copyEnvironment(element.id)">
+              <button mat-menu-item (click)="copyApplication(element.id)">
                 <mat-icon fontSet="material-icons-outlined">content_copy</mat-icon>
                 <span>copy application</span>
               </button>
-              <button mat-menu-item (click)="deleteEnvironment(element.id)">
+              <button mat-menu-item (click)="deleteApplication(element.id)">
                 <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
                 <span>delete application</span>
               </button>
@@ -201,8 +201,8 @@
       </table>
     </ng-container>
 
-    <!-- No Environment -->
-    <ng-template #noEnvironments>
+    <!-- No Application -->
+    <ng-template #noApplications>
       <section class="message-container">
         <div class="empty-message" *ngIf="dataSource !== null">
           <mat-icon fontSet="material-icons-outlined" class="md-96">import_contacts</mat-icon>

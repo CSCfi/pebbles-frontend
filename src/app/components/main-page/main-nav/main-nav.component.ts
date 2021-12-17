@@ -43,7 +43,7 @@ export class MainNavComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     public messageService: MessageService,
-    public environmentSessionService: ApplicationSessionService,
+    public applicationSessionService: ApplicationSessionService,
     public publicConfigService: PublicConfigService,
   ) {
     // fetch announcements to update the nav bar unread announcements number
@@ -85,6 +85,6 @@ export class MainNavComponent implements OnInit {
       return;
     }
     this.authService.logout();
-    this.environmentSessionService.clearPollingInterval();
+    this.applicationSessionService.clearPollingInterval();
   }
 }

@@ -8,7 +8,7 @@
     }
   }
 
-  .environment-list {
+  .application-list {
     .toggle-button {
       @include hover();
     }
@@ -42,7 +42,7 @@
     border-left: 3px solid #bbb;
   }
 
-  .environment-item {
+  .application-item {
     position: relative;
   }
 }

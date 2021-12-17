@@ -5,7 +5,7 @@
   height: 100%;
 
   .status-wrapper,
-  .environment-info {
+  .application-info {
     text-align: center;
     min-width: 700px;
     max-width: 700px;
@@ -25,7 +25,7 @@
     }
   }
 
-  .environment-info {
+  .application-info {
     h3 {
       border-bottom: map-get($borders, thin);
     }
@@ -37,7 +37,7 @@
 
   &.mobile {
     .status-wrapper,
-    .environment-info {
+    .application-info {
       min-width: 100%;
     }
   }

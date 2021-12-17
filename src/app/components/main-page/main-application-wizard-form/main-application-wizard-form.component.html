@@ -28,7 +28,7 @@
             <div class="form-ui-container mt-10 mb-10">
               <mat-radio-group formControlName="templateId" (change)="onChangeTemplate($event.value)">
                 <ul>
-                  <ng-container *ngFor="let tmpl of environmentTemplates">
+                  <ng-container *ngFor="let tmpl of applicationTemplates">
                     <li>
                       <mat-radio-button [value]="tmpl.id">
                         <span class="template-name mat-subheading-2">{{ tmpl.name }}</span>
@@ -244,7 +244,7 @@
             <span fxHide.lt-sm="true">Back</span>
           </button>
           <button mat-flat-button color="primary" fxFlex="grow" matStepperNext
-                  (click)="createEnvironmentByWizardMode()">
+                  (click)="createApplicationByWizardMode()">
             Create
           </button>
         </div>

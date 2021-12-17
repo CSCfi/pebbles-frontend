@@ -1,4 +1,4 @@
-<div class="session-button-container" *ngIf="environment" [ngClass]="{'warning':state==='failed'}">
+<div class="session-button-container" *ngIf="application" [ngClass]="{'warning':state==='failed'}">
   <!-- Background circle  -->
   <div class="background-circle-container">
     <svg focusable="false">
@@ -8,7 +8,7 @@
 
   <!-- Progress circle -->
   <div class="progress-spinner-container">
-    <mat-progress-spinner class="environment-spinner"
+    <mat-progress-spinner class="application-spinner"
                           [ngClass]="{'warning': isTimeWarningOn}"
                           [diameter]="diameter" [strokeWidth]="strokeWidth"
                           [mode]="isSpinnerOn ? 'indeterminate':'determinate'"
@@ -21,7 +21,7 @@
     <!--
       Actionable Circle conditional UI
       1. UI for active session
-      2. Launch Button for environment card -> #LaunchUI
+      2. Launch Button for application card -> #LaunchUI
     -->
     <!-- 1: active session -->
     <ng-container *ngIf="isSessionActive; else LaunchUI">
@@ -80,7 +80,7 @@
       <!-- //// END of Switch -->
     </ng-container>
     <!-- //// END of 1: active session -->
-    <!-- Action view 2 : Launch Button for environment card -->
+    <!-- Action view 2 : Launch Button for application card -->
     <ng-template #LaunchUI>
       <button mat-button matTooltip="Start session" class="launch-button circle-button"
               fxLayout="column" fxLayoutAlign="center center" (click)="startSession()">
@@ -89,6 +89,6 @@
         </span>
       </button>
     </ng-template>
-    <!-- //// END of 2. Launch Button for environment card -->
+    <!-- //// END of 2. Launch Button for application card -->
   </div>
 </div>

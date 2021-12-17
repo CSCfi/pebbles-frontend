@@ -4,7 +4,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <form id="dialog" [formGroup]="environmentItemEditFormGroup">
+  <form id="dialog" [formGroup]="applicationItemEditFormGroup">
     <h1 class="mat-dialog-title mat-headline">{{ isCreationMode ? 'Add new' : 'Edit' }} application</h1>
     <mat-dialog-content class="plain-form-container">
       <!-- 1 Env Templates-->
@@ -13,14 +13,14 @@
         <ng-container *ngIf="isCreationMode; else templateNameBlock">
           <mat-form-field appearance="fill">
             <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
-              <mat-option *ngFor="let tmpl of environmentTemplates" value="{{ tmpl.id }}">
+              <mat-option *ngFor="let tmpl of applicationTemplates" value="{{ tmpl.id }}">
                 {{ tmpl.name }} : {{ tmpl.description }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </ng-container>
         <ng-template #templateNameBlock>
-          <p>{{ this.data.environment.template_name }}</p>
+          <p>{{ this.data.application.template_name }}</p>
         </ng-template>
       </section>
 
@@ -47,7 +47,7 @@
       </section>
 
       <!-- 5 Jupyter Interface-->
-      <section class="form-container" *ngIf="environmentType==='jupyter'">
+      <section class="form-container" *ngIf="applicationType==='jupyter'">
         <h3 class="mat-title">Jupyter interface</h3>
         <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
           <ul>
@@ -145,12 +145,12 @@
          fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
       <button mat-flat-button color="primary" fxFlex="grow"
               *ngIf="isCreationMode"
-              (click)="createEnvironmentByPlainMode()">
+              (click)="createApplicationByPlainMode()">
         Add new
       </button>
       <button mat-flat-button class="submit-button" color="primary" fxFlex="grow"
               *ngIf="!isCreationMode"
-              (click)="editEnvironmentItem()">
+              (click)="editApplicationItem()">
         Update
       </button>
       <button mat-button class="button-link button-sm" fxFlex="0 0 auto" (click)="closeForm()">

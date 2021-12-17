@@ -24,11 +24,11 @@
       <!--        [value]="progress"-->
       <!--        [bufferValue]="progress + 10">-->
       <!--      </mat-progress-bar>-->
-      <div class="environment-info info-body mt-20 mb-20">
+      <div class="application-info info-body mt-20 mb-20">
         <h3 class="mb-30">Application Information</h3>
         <dl class="grid">
           <dt>Name</dt>
-          <dd class="environment-title">{{ targetEnvironment.name }}</dd>
+          <dd class="application-title">{{ targetApplication.name }}</dd>
           <dt>Description</dt>
           <dd class="description mat-body-1"
               [innerHTML]="description"
@@ -37,7 +37,7 @@
           <dt>Info</dt>
           <dd>
             <span class="mr-20 center__vi">
-              <ng-container *ngIf="!targetEnvironment.workspace_name?.startsWith('System.'); else noSharedFolder">
+              <ng-container *ngIf="!targetApplication.workspace_name?.startsWith('System.'); else noSharedFolder">
                 <mat-icon class="md-16 mr-2">folder</mat-icon>
                 shared: On
               </ng-container>
@@ -47,7 +47,7 @@
               </ng-template>
             </span>
             <span class="mr-20 center__vi">
-              <ng-container *ngIf="targetEnvironment.info?.work_folder_enabled; else noWorkFolder">
+              <ng-container *ngIf="targetApplication.info?.work_folder_enabled; else noWorkFolder">
                 <mat-icon class="md-16 mr-2">folder</mat-icon>
                 my-work: On
               </ng-container>
@@ -58,11 +58,11 @@
             </span>
             <span class="mr-20 center__vi">
               <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">watch_later</mat-icon>
-              Lifetime: {{getLifeTime(targetEnvironment.maximum_lifetime)}}
+              Lifetime: {{getLifeTime(targetApplication.maximum_lifetime)}}
             </span>
             <span class="center__vi">
               <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
-              Memory: {{ targetEnvironment.info?.memory || '-' }}
+              Memory: {{ targetApplication.info?.memory || '-' }}
             </span>
           </dd>
           <dt>Session id</dt>

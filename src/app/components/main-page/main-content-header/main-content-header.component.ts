@@ -49,7 +49,7 @@ export class MainContentHeaderComponent implements OnInit {
   allLabels(category): string[] {
     let allLabels = [];
     if (category === 'catalog') {
-      const categories = this.environmentCategoryService.getCategories();
+      const categories = this.applicationCategoryService.getCategories();
       categories.forEach(env => {
         const newLabels = env.labels.filter(label => !allLabels.includes(label));
         allLabels = allLabels.concat(newLabels);
@@ -63,7 +63,7 @@ export class MainContentHeaderComponent implements OnInit {
   }
 
   constructor(
-    private environmentCategoryService: ApplicationCategoryService
+    private applicationCategoryService: ApplicationCategoryService
   ) {
   }
 
