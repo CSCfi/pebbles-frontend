@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressBarMode } from '@angular/material/progress-bar';
-import { SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/app/models/application-session';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
@@ -74,6 +74,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private applicationService: ApplicationService,
     private applicationSessionService: ApplicationSessionService,
+    private titleService: Title,
   ) {
     this.sessionId = this.route.snapshot.params.id;
   }
@@ -112,6 +113,11 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     this.targetApplication = this.applicationService.get(this.targetSession.application_id);
     // session service refreshes the sessions asynchronously, we can simply get the fresh ones
     console.log(this.targetSession.state);
+
+    // set the title of the tab if not set previously
+    if (!this.titleService.getTitle().startsWith('Launching')) {
+      this.titleService.setTitle('Launching ' + this.targetApplication.name);
+    }
 
     this.progress = Math.max(this.progressMap.get(this.targetSession.state), this.progress);
     if (this.provisioningLogProgressMap.get(this.latestProvisioningLogMessage)) {
