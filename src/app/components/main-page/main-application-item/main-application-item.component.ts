@@ -105,7 +105,7 @@ export class MainApplicationItemComponent implements OnInit {
   }
 
   get applicationType(): ApplicationType {
-    return this.application?.applicationType;
+    return this.application?.application_type;
   }
 
   get description(): string {

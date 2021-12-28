@@ -140,7 +140,7 @@
           <h2 class="mat-title mb-10">Configure application options</h2>
           <!-- 3.4 Jupyter Interface -->
           <section class="form-container">
-            <div class="form-option" *ngIf="selectedTemplate && selectedTemplate.applicationType==='jupyter'">
+            <div class="form-option" *ngIf="selectedTemplate?.application_type==='jupyter'">
               <div class="form-item">
                 <mat-label class="mat-subheading-2">Interface</mat-label>
                 <mat-radio-group formControlName="jupyterInterface"

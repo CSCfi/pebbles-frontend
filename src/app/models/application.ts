@@ -13,7 +13,7 @@ export class Application {
     public is_enabled: boolean,
     public template_id?: string,
     public template_name?: string,
-    public applicationType?: ApplicationType,
+    public application_type?: ApplicationType,
     public session_id?: string,
     public workspace?: Workspace,
     public workspace_name?: string,

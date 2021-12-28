@@ -113,7 +113,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
           name: env.name,
           template: env.template_name,
           description: env.description,
-          type: env.applicationType,
+          type: env.application_type,
           lifetime: env.maximum_lifetime,
           labels: env.labels,
           session_id: env.session_id,

@@ -12,7 +12,7 @@ export class ApplicationTemplate {
     public id: string,
     public name: string,
     public description: string,
-    public applicationType: ApplicationType,
+    public application_type: ApplicationType,
     public is_enabled: boolean,
     public base_config: any,
   ) {

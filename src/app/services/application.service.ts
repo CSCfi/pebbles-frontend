@@ -72,13 +72,13 @@ export class ApplicationService implements OnDestroy {
           }
           const session = this.applicationSessionService.getSessionByApplicationId(newEnv.id);
           newEnv.session_id = session ? session.id : null;
-          if (!newEnv.applicationType) {
+          if (!newEnv.application_type) {
             if (newEnv.labels.indexOf('jupyter') >= 0) {
-              newEnv.applicationType = ApplicationType.Jupyter;
+              newEnv.application_type = ApplicationType.Jupyter;
             } else if (newEnv.labels.indexOf('rstudio') >= 0) {
-              newEnv.applicationType = ApplicationType.RStudio;
+              newEnv.application_type = ApplicationType.RStudio;
             } else {
-              newEnv.applicationType = ApplicationType.Generic;
+              newEnv.application_type = ApplicationType.Generic;
             }
           }
         }
@@ -109,16 +109,16 @@ export class ApplicationService implements OnDestroy {
     );
   }
 
-  stopApplication(applicationId: string): Observable<Application> {
-    const application = this.get(applicationId);
-    return this.applicationSessionService.deleteSession(application.session_id).pipe(
-      map(() => {
-        console.log('application stopping');
-        this.applicationSessionService.fetchSessions().subscribe();
-        return application;
-      })
-    );
-  }
+  // stopApplication(applicationId: string): Observable<Application> {
+  //   const application = this.get(applicationId);
+  //   return this.applicationSessionService.deleteSession(application.session_id).pipe(
+  //     map(() => {
+  //       console.log('application stopping');
+  //       this.applicationSessionService.fetchSessions().subscribe();
+  //       return application;
+  //     })
+  //   );
+  // }
 
   createApplication(
     workspace_id: string,
@@ -158,7 +158,7 @@ export class ApplicationService implements OnDestroy {
     const url = `${buildConfiguration.apiUrl}/applications/${application.id}`;
     console.log('updateApplication()', application);
     return this.http.put<Application>(url, application).pipe(
-      map(res => {
+      map(_ => {
         console.log('application', application.id, 'updated');
         this.fetchApplications().subscribe();
         return application;
@@ -170,7 +170,7 @@ export class ApplicationService implements OnDestroy {
   deleteApplication(application: Application): Observable<Application> {
     const url = `${buildConfiguration.apiUrl}/applications/${application.id}`;
     console.log('Deleting application', application);
-    return this.http.delete<Application>(url).pipe(tap(resp => {
+    return this.http.delete<Application>(url).pipe(tap(_ => {
       console.log('application deleted:', application.id);
       this.fetchApplications().subscribe();
     }));

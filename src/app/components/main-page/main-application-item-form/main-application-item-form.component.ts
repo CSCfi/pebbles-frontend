@@ -29,7 +29,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   selectedTemplateImage: string = null;
 
   get isCreationMode(): boolean {
-    return this.data.application ? false : true;
+    return !this.data.application;
   }
 
   get applicationTemplates(): ApplicationTemplate[] {
@@ -46,7 +46,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     private applicationService: ApplicationService,
     private applicationTemplateService: ApplicationTemplateService,
   ) {
-    // TODO: Needed incase application is not available (e.g test case)
+    // TODO: Needed in case application is not available (e.g test case)
     // if (this.data.application) {
     //   this.selectedLabels = this.data.application.labels;
     // }
@@ -98,7 +98,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     }
     this.applicationType = this.applicationTemplateService.getApplicationTemplates().find(
       x => x.id === this.data.application.template_id
-    ).applicationType;
+    ).application_type;
 
     this.isEnableUserWorkFolder = coerceBooleanProperty(this.data.application.config.enable_user_work_folder);
 
@@ -169,7 +169,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.config.download_url = this.applicationItemEditFormGroup.controls.source.value;
     this.data.application.config.auto_execution = this.applicationItemEditFormGroup.controls.isAutoExecution.value;
     this.data.application.config.enable_user_work_folder = this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value;
-    this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value,
+    this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value;
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
     this.applicationService.updateApplication(
       this.data.application
@@ -181,7 +181,7 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   onChangeTemplate(event: MatSelectChange) {
     const et = this.applicationTemplates.find(x => x.id === event.source.value);
-    this.applicationType = et.applicationType;
+    this.applicationType = et.application_type;
     // take the default label values from the template
     if (et.base_config.labels) {
       this.selectedLabels = et.base_config.labels.slice();
