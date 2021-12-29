@@ -2,6 +2,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {AuthService} from 'src/app/services/auth.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/application';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
@@ -42,6 +43,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       application: Application,
       workspaceId: string
     },
+    public authService: AuthService,
     private formBuilder: FormBuilder,
     private applicationService: ApplicationService,
     private applicationTemplateService: ApplicationTemplateService,
@@ -75,6 +77,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
       imageUrl: [''],
+      userWorkFolderSize: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
     });
 
     // ---- Set default value
@@ -84,6 +87,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.isAutoExecution.setValue(false);
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
     this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(true);
+    this.applicationItemEditFormGroup.controls.userWorkFolderSize.setValue(1);
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
     this.applicationType = ApplicationType.Generic;
   }
@@ -122,6 +126,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       imageUrl: [this.data.application.config.image_url],
       isAutoExecution: [this.isAutoExecution],
       isEnableUserWorkFolder: [this.isEnableUserWorkFolder],
+      userWorkFolderSize: [this.data.application.config.user_work_folder_size],
       publish: [this.data.application.is_enabled, [Validators.required]]
     });
 
@@ -151,6 +156,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         download_url: this.applicationItemEditFormGroup.controls.source.value,
         auto_execution: this.applicationItemEditFormGroup.controls.isAutoExecution.value,
         enable_user_work_folder: this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value,
+        user_work_folder_size: this.applicationItemEditFormGroup.controls.userWorkFolderSize.value,
         image_url: this.applicationItemEditFormGroup.controls.imageUrl.value,
       },
       this.applicationItemEditFormGroup.controls.publish.value || false,
@@ -170,6 +176,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.config.auto_execution = this.applicationItemEditFormGroup.controls.isAutoExecution.value;
     this.data.application.config.enable_user_work_folder = this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value;
+    this.data.application.config.user_work_folder_size = this.applicationItemEditFormGroup.controls.userWorkFolderSize.value,
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
     this.applicationService.updateApplication(
       this.data.application

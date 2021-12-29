@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {AuthService} from 'src/app/services/auth.service';
 import { ApplicationTemplate } from 'src/app/models/application-template';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -38,6 +39,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       workspaceId: string
     },
+    public authService: AuthService,
     private formBuilder: FormBuilder,
     private applicationTemplateService: ApplicationTemplateService,
     private applicationService: ApplicationService,
@@ -63,6 +65,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
       source: [''],
       isAutoExecution: [''],
       isEnableUserWorkFolder: [''],
+      userWorkFolderSize: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
     });
     this.wizardPublishFormGroup = this.formBuilder.group({
       isActive: ['', [Validators.required]]
@@ -74,6 +77,8 @@ export class MainApplicationWizardFormComponent implements OnInit {
     this.wizardOptionFormGroup.controls.isAutoExecution.disable();
     this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.wizardPublishFormGroup.controls.isActive.setValue(false);
+    // TODO: Populate the actual value
+    this.wizardOptionFormGroup.controls.userWorkFolderSize.setValue(1);
   }
 
   closeForm(): void {
@@ -94,6 +99,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
         download_url: this.wizardOptionFormGroup.controls.source.value,
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
         enable_user_work_folder: this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.value,
+        user_work_folder_size: this.wizardOptionFormGroup.controls.userWorkFolderSize.value,
         image_url: this.wizardTemplateFormGroup.controls.imageUrl.value,
       },
       this.wizardPublishFormGroup.controls.isActive.value

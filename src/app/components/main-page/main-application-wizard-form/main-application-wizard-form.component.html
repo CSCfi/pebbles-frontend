@@ -206,6 +206,13 @@
               Enable personal persistent 'work' folder for users. The folder is workspace specific.
             </mat-checkbox>
           </section>
+          <!-- 3.5 Work User Folder Size -->
+          <section class="form-container" *ngIf="authService.isAdmin">
+            <h3 class="mat-title">Size of the user work folder per user in Gi (Default is 1)</h3>
+            <mat-form-field appearance="fill">
+              <input matInput type="number" formControlName="userWorkFolderSize">
+            </mat-form-field>
+          </section>
         </mat-dialog-content>
         <!-- Stepper -->
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
