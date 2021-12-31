@@ -609,6 +609,7 @@ a.mat-stroked-button,
   &__m {
     @include center(both);
     font-weight: 600;
+    white-space: nowrap;
     background: map-get($app-gray, 200);
     color: #fff;
     text-align: center;
@@ -620,15 +621,26 @@ a.mat-stroked-button,
     padding: 0 10px 0 !important;
   }
 
-  &__hidden {
+  &__password {
+    @include center(both);
     font-weight: 600;
     color: map-get($app-gray, 900);
+    max-width: 100px;
+    overflow: hidden;
     background-color: map-get($app-gray, 200);
     margin-right: 3px;
     line-height: 100%;
     min-height: 24px;
     border-radius: 15px;
     padding: 1px 12px 2px !important;
+
+    &:before {
+      margin-top: 2px;
+      font-size: 1rem;
+      font-family: "Material Icons";
+      content: "\e061 \e061 \e061 \e061 \e061 \e061";
+      white-space: nowrap;
+    }
   }
 }
 
