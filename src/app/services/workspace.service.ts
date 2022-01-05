@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import * as TESTDATA from 'src/app/interceptors/mock-data';
-import { Folder } from 'src/app/models/folder';
 import { User } from 'src/app/models/user';
 import { Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
@@ -133,13 +131,6 @@ export class WorkspaceService {
         return Number(resp);
       })
     ).subscribe();
-  }
-
-  fetchFoldersByWorkspaceId(workspaceId: string): Observable<Folder[]> {
-    const folders = TESTDATA.db.folders.filter(folder => {
-      return folder.workspace_id === workspaceId;
-    });
-    return of(folders);
   }
 
   createWorkspace(name: string, description: string): Observable<Workspace> {
