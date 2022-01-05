@@ -14,7 +14,7 @@ import { ApplicationSession, SessionStates } from 'src/app/models/application-se
 import { User } from 'src/app/models/user';
 import { Application } from '../models/application';
 import { Workspace, WorkspaceMember } from '../models/workspace';
-import * as TESTDATA from './test-data';
+import * as TESTDATA from './mock-data';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
 

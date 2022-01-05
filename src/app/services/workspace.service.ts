@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import * as TESTDATA from 'src/app/interceptors/test-data';
+import * as TESTDATA from 'src/app/interceptors/mock-data';
 import { Folder } from 'src/app/models/folder';
 import { User } from 'src/app/models/user';
 import { Workspace, WorkspaceMember } from 'src/app/models/workspace';

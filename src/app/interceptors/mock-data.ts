@@ -1031,6 +1031,22 @@ export let db = {
   ],
   messages: [
     {
+      id: 'm-0',
+      subject: 'Welcome to CSC Notebooks R5 beta!',
+      message: '<p>New version of CSC Notebooks is ready for beta testing. It has a completely new interface, and plenty of other improvements as well.</p>' +
+        '<p><a href=\\"https://docs.csc.fi/cloud/csc_notebooks/\\" target=\\"_blank\\">Documentation in docs.csc.fi</a></p>' +
+        '<h3>Important changes</h3>' +
+        '<ul><li>New installation of CSC Notebooks is a completely <b>separate system</b>. We will expect users to gradually migrate to the new platform while maintaining the current production as well. There will be an email sent to current group owners on a later date about the migration.</li>' +
+        '<li>Environments/blueprints are now called <b>applications</b>  </li>' +
+        '<li>Applications are arranged in <b>workspaces</b>. Workspaces are closely related to <i>groups</i> in the previous version, but come with additional features. Workspaces also have lifetime.</li>' +
+        '<li>Workspaces have a <b>shared</b> folder for sharing files with members.</li>' +
+        '<li>Workspace members also have a dedicated <b>my-work</b> folder to their course work between sessions. Note that my-work is only available after joining a workspace.</li></ul>' +
+        '<p><h3>Becoming a workspace owner</h3>If you wish to become a workspace owner, please contact us at notebooks@csc.fi</p>' +
+        '<p><h3>Feedback is welcome!</h3>Thank you for testing! If you have any questions, comments, suggestions, please contact us at notebooks@csc.fi</p>',
+      broadcasted: '2021-12-17T08:58:34.637618',
+      is_read: false
+    },
+    {
       id: 'm12345',
       subject: 'Renewal Open',
       message: 'The Notebooks end-user interface has been renewed. We appreciate any type of feedback from your. <ul><li>test</li><li>test</li><li>test</li></ul>',

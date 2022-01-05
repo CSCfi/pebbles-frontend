@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
-import * as TESTDATA from '../interceptors/test-data';
+import * as TESTDATA from '../interceptors/mock-data';
 import { ApplicationSessionService } from './application-session.service';
 
 
