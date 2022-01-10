@@ -134,11 +134,11 @@ export class MockInterceptor implements HttpInterceptor {
           return getAllUsers();
         case url.includes('/users') && objectId && method === 'PATCH':
           // if (typeof body.is_blocked !== 'undefined') {
-          if ('is_blocked' in body === true ) {
+          if ('is_blocked' in body ) {
             return toggleBlockUser();
           }
           // if (typeof body.workspace_quota !== 'undefined') {
-          if ('workspace_quota' in body === true ) {
+          if ('workspace_quota' in body ) {
             return updateWorkspaceQuotas();
           }
           break;
@@ -472,29 +472,38 @@ export class MockInterceptor implements HttpInterceptor {
       return ok(workspace);
     }
 
-    function getWorkspaces() {
+    function getWorkspaces(): Observable<HttpResponse<Workspace[]>> {
       const user_name = localStorage.getItem('user_name');
-      return ok(getAccessibleWorkspaces(user_name));
+      const workspaces = getAccessibleWorkspaces(user_name);
+      return ok(workspaces);
     }
 
     function joinWorkspace() {
-      const target_workspaces = database.workspaces.filter(ws => {
-        return (ws.join_code === objectId);
-      });
-      if (target_workspaces.length > 0) {
-        const user_name = localStorage.getItem('user_name');
-        database.workspaces = database.workspaces.map(ws => {
-          if (ws.join_code === objectId) {
-            if (!ws.normal_users.includes(user_name)) {
-              ws.normal_users.push(user_name);
-            }
-          }
-          return ws;
-        });
-        return ok(target_workspaces[0]);
-      } else {
+      const user_name = localStorage.getItem('user_name');
+      const target_workspace = database.workspaces.find(ws => ws.join_code === objectId);
+      if (!target_workspace) {
         return error('workspace not found');
       }
+      const memberInfo = target_workspace._members.find( member => member.ext_id === user_name );
+      if (!memberInfo) {
+        target_workspace._members.push({
+          ext_id: user_name
+        });
+      } else {
+        return error('already a member of the workspace');
+      }
+      return ok(target_workspace);
+    }
+
+    function exitWorkspace() {
+      const user_name = localStorage.getItem('user_name');
+      database.workspaces.map( ws => {
+        if (ws.id === objectId) {
+          ws._members = ws._members.filter( member => member.ext_id !== user_name );
+        }
+        return ws;
+      });
+      return ok(objectId);
     }
 
     function getTargetWorkspace(workspaceId): Workspace {
@@ -552,18 +561,6 @@ export class MockInterceptor implements HttpInterceptor {
       return ok('update succeeded');
     }
 
-    function exitWorkspace() {
-      const user_name = localStorage.getItem('user_name');
-      database.workspaces = database.workspaces.map((ws) => {
-        if (ws.id === objectId) {
-          const index = ws.normal_users.indexOf(user_name);
-          ws.normal_users.splice(index, 1);
-        }
-        return ws;
-      });
-      return ok(objectId);
-    }
-
     function deleteWorkspace() {
       const workspace = database.workspaces.find((ws) => {
         return (ws.id === objectId);
@@ -592,10 +589,6 @@ export class MockInterceptor implements HttpInterceptor {
         return m;
       });
       return ok(messages);
-    }
-
-    function getFaqs() {
-      return ok(database.faqs);
     }
 
     function patchMessage() {
@@ -655,10 +648,11 @@ export class MockInterceptor implements HttpInterceptor {
         if (ws.name === 'System.default') {
           return false;
         }
-        if (ws.normal_users && ws.normal_users.includes(ext_id)) {
+        const memberInfo = ws._members.find( member => member.ext_id === ext_id
+          && !member?.is_owner && !member?.is_manager && !member?.is_blocked );
+        if (memberInfo) {
           return true;
         }
-        return ws.owner_ext_id === ext_id;
       });
     }
 
@@ -700,6 +694,7 @@ export class MockInterceptor implements HttpInterceptor {
       return result;
     }
 
+    // ---- Keep it for the case of a request in query format
     function getQueryValue(queryString: string, value: string) {
       const returns = {};
       const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');

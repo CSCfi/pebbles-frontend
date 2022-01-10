@@ -10,6 +10,7 @@ export class Workspace {
     public create_ts: number,
     public expiry_ts: number,
     public owner_ext_id: string,
+    public application_quota?: number,
   ) {
   }
 }

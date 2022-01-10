@@ -796,6 +796,7 @@ export let db = {
       description: 'System default workspace',
       create_ts: 1616572104,
       expiry_ts: 1632124104,
+      application_quota: 10,
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -835,6 +836,7 @@ export let db = {
       description: 'Jupyter Lab environments for Python Basic Course 2021',
       create_ts: 1616572105,
       expiry_ts: 1732124105,
+      application_quota: 10,
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -850,6 +852,7 @@ export let db = {
       description: 'RStudio environments for R basic Course 2021',
       create_ts: 1616572106,
       expiry_ts: 1832124106,
+      application_quota: 10,
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -868,6 +871,7 @@ export let db = {
       description: 'Jupyter Lab environments for Deep Learning Course 2020',
       create_ts: 1616572107,
       expiry_ts: 1932124107,
+      application_quota: 10,
       owner_ext_id: 'admin-1@example.org',
       _members: [
         {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
@@ -886,6 +890,7 @@ export let db = {
       description: 'RStudio environments for Machine Learning Course 2019',
       create_ts: 1616572108,
       expiry_ts: 2032124108,
+      application_quota: 10,
       owner_ext_id: 'admin-1@example.org',
       _members: [
         {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
@@ -903,6 +908,7 @@ export let db = {
       description: 'RStudio environments for Data Science course 2021',
       create_ts: 1616572109,
       expiry_ts: 2132124109,
+      application_quota: 10,
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -919,6 +925,7 @@ export let db = {
       description: 'RStudio environments for Data Analytics Seminar, CSC university',
       create_ts: 1616572114,
       expiry_ts: 2232124114,
+      application_quota: 10,
       owner_ext_id: 'owner@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -937,6 +944,7 @@ export let db = {
       description: 'IPython environments for NLP Project of Computer Engineering Department, CSC university',
       create_ts: 1616572115,
       expiry_ts: 2332124115,
+      application_quota: 10,
       owner_ext_id: 'owner-1@example.org',
       _members: [
         {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
