@@ -39,8 +39,7 @@
             <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container"
               fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
               <ng-container *ngFor="let application of applications">
-                <app-main-application-item
-                  [application]="application">
+                <app-main-application-item [application]="application" [content]="content">
                 </app-main-application-item>
               </ng-container>
             </div>
