@@ -24,7 +24,8 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
+              "src/assets/favicon.svg",
+              "src/assets/favicon.png",
               "src/assets"
             ],
             "styles": [
@@ -107,7 +108,9 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "src/assets/favicon.svg",
+              "src/assets/favicon.png",
+              "src/assets/favicon.ico",
               "src/assets"
             ],
             "fileReplacements": [
