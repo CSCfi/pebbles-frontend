@@ -191,7 +191,7 @@ export class MockInterceptor implements HttpInterceptor {
 
     function removeUser() {
       database.users.map(user => {
-        if ( user.id === objectId ){
+        if ( user.id === objectId ) {
           user.is_deleted = true;
         }
         return user;
@@ -202,7 +202,7 @@ export class MockInterceptor implements HttpInterceptor {
     function toggleBlockUser() {
       // let updatedUser: User;
       // database.users.map(user => {
-      //   if ( user.id === objectId ){
+      //   if ( user.id === objectId ) {
       //     user.is_blocked = !user.is_blocked;
       //     updatedUser = user;
       //   }

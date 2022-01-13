@@ -57,7 +57,8 @@
               </div>
               <div class="volume center__v" [ngClass]="{'active':!isPublic && isWorkVolumeActive}"
                    [matTooltip]="isWorkVolumeActive ? 'Work folder available' : 'No work folder'">
-                <mat-icon class="md-16 mr-2" *ngIf="!isPublic && isWorkVolumeActive ; else noWorkVolume ">folder</mat-icon>
+                <mat-icon class="md-16 mr-2" *ngIf="!isPublic && isWorkVolumeActive ; else noWorkVolume ">folder
+                </mat-icon>
                 <ng-template #noWorkVolume>
                   <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">folder_off</mat-icon>
                 </ng-template>
@@ -72,11 +73,13 @@
 
         </mat-card-subtitle>
       </mat-card-header>
-      <mat-card-content class="mb-5" fxLayout="column" fxLayoutAlign="space-between stretch" fxLayoutGap="8px">
+      <mat-card-content class="mb-10" fxLayout="column" fxLayoutAlign="space-between stretch" fxLayoutGap="8px">
         <div class="description mat-body-1" [innerHTML]="description"></div>
         <div class="chips mat-caption" fxHide.lt-sm="true">
           <ng-container *ngFor="let label of labels.split(',')">
-            <span class="chip__sm" [ngClass]="{'self-learning':label.trim()==='self-learning'}">{{ label.trim() }}</span>
+            <span class="chip__sm"
+                  [ngClass]="{'self-learning':label.trim()==='self-learning'}">{{ label.trim() }}
+            </span>
           </ng-container>
         </div>
       </mat-card-content>
@@ -85,7 +88,10 @@
 
     <!-- Card RIGHT section -->
     <mat-card-actions fxFlex="0 0 130px" class="card-action-container center__vh">
-      <app-main-session-button [applicationId]="application.id"></app-main-session-button>
+      <app-main-session-button [applicationId]="application.id"
+                               [content]="content"
+                               [isSessionDeleted]="isSessionDeleted">
+      </app-main-session-button>
     </mat-card-actions>
   </mat-card>
 </ng-container>

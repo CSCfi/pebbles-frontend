@@ -1,4 +1,6 @@
-<div class="session-button-container" *ngIf="application" [ngClass]="{'warning':state==='failed'}">
+<div class="session-button-container"
+     *ngIf="application"
+     [ngClass]="{'warning':state==='failed'}">
   <!-- Background circle  -->
   <div class="background-circle-container">
     <svg focusable="false">
@@ -24,7 +26,7 @@
       2. Launch Button for application card -> #LaunchUI
     -->
     <!-- 1: active session -->
-    <ng-container *ngIf="isSessionActive; else LaunchUI">
+    <ng-container *ngIf="isSessionActive; else powerButtonBlock">
       <!--
         Switch UI based on the state of session
         A. Shutdown -> 'deleting'||'deleted'
@@ -32,7 +34,8 @@
         C. Running -> *ngSwitchDefault
       -->
       <div class="control-button circle-button"
-           fxLayout="column" fxLayoutAlign="center center" [ngSwitch]="state">
+           fxLayout="column" fxLayoutAlign="center center"
+           [ngSwitch]="state">
         <!-- A: Session [Shutdown] -->
         <ng-container *ngSwitchCase="'deleting'||'deleted'">
           <div class="state center__vi">
@@ -41,53 +44,92 @@
         </ng-container>
         <!-- B: Session [Failed] -->
         <ng-container *ngSwitchCase="'failed'">
-          <div class="state-area" fxFlex="0 0 70px">
-            <mat-icon fontSet="material-icons-outlined">running_with_errors</mat-icon>
-            <div class="state mat-caption">Session failed</div>
-          </div>
-          <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
-                  class="shutdown-button center__vi" (click)="deleteSession()">
-            <span class="button-icon">
-              <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
-            </span>
-            <!-- <span>stop</span> -->
-          </button>
+          <ng-container *ngIf="content.identifier!=='session'; else sessionPageDeletionBlock">
+            <div class="state-area" fxFlex="0 0 70px">
+              <mat-icon fontSet="material-icons-outlined">running_with_errors</mat-icon>
+              <div class="state mat-caption">Session failed</div>
+            </div>
+            <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
+                    class="shutdown-button center__vi" (click)="deleteSession(true)">
+              <span class="button-icon">
+                <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
+              </span>
+            </button>
+          </ng-container>
+          <ng-template #sessionPageDeletionBlock>
+            <button mat-button matTooltip="Close page"
+                    fxLayout="column" fxLayoutAlign="center stretch"
+                    class="close-button center__vi bg__warn" (click)="deleteSession(true)">
+              <span class="button-icon">Delete</span>
+            </button>
+          </ng-template>
         </ng-container>
         <!-- Session [Running] -->
         <ng-container *ngSwitchDefault>
-          <button mat-button matTooltip="Enter session" matTooltipPosition="above" class="open-button center__vi"
-                  fxFlex="0 0 70px" fxLayout="column" fxLayoutAlign="center center"
-                  (click)="openSessionInBrowser()">
-            <span class="button-icon block">
-              <mat-icon fontSet="material-icons-outlined" class="md-24">launch</mat-icon>
-            </span>
-            <ng-container *ngIf="lifetimeLeft; else stateBlock">
-              <span class="time-left block mat-body-1"> {{ lifetimeLeft }}</span>
+          <ng-container *ngIf="content.identifier!='session'; else sessionPageRunningBlock">
+            <button mat-button matTooltip="Enter session" matTooltipPosition="above" class="open-button center__vi"
+                    fxFlex="0 0 70px" fxLayout="column" fxLayoutAlign="center center"
+                    (click)="openSessionInBrowser()">
+              <span class="button-icon block">
+                <mat-icon fontSet="material-icons-outlined" class="md-24">launch</mat-icon>
+              </span>
+              <ng-container *ngIf="lifetimeLeft; else stateBlock">
+                <span class="time-left block mat-body-1"> {{ lifetimeLeft }}</span>
+              </ng-container>
+              <ng-template #stateBlock>
+                <span class="state block mat-body-1">{{ state }}</span>
+              </ng-template>
+            </button>
+            <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
+                    class="shutdown-button center__vi" (click)="deleteSession(false)">
+              <span class="button-icon">
+                <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
+              </span>
+            </button>
+          </ng-container>
+          <ng-template #sessionPageRunningBlock>
+            <ng-container *ngIf="session.state === 'running'; else loadingBlock">
+              <div class="center__vi session-page-button" fxLayout="column" fxLayoutAlign="center center">
+                <a [href]="accessUrl">
+                  OPEN
+                </a>
+              </div>
             </ng-container>
-            <ng-template #stateBlock>
-              <span class="state block mat-body-1">{{ state }}</span>
+            <ng-template #loadingBlock>
+              <div class="center__vi session-page-button pt-10" fxFlex="0 0 70px" fxLayout="column"
+                   fxLayoutAlign="center center">
+                LOADING
+              </div>
+              <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
+                      class="shutdown-button center__vi" (click)="deleteSession(false)">
+                <span class="button-icon">
+                  <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
+                </span>
+              </button>
             </ng-template>
-          </button>
-          <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
-                  class="shutdown-button center__vi" (click)="deleteSession()">
-            <span class="button-icon">
-              <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
-            </span>
-            <!-- <span>stop</span> -->
-          </button>
+          </ng-template>
         </ng-container>
       </div>
       <!-- //// END of Switch -->
     </ng-container>
     <!-- //// END of 1: active session -->
     <!-- Action view 2 : Launch Button for application card -->
-    <ng-template #LaunchUI>
-      <button mat-button matTooltip="Start session" class="launch-button circle-button"
-              fxLayout="column" fxLayoutAlign="center center" (click)="startSession()">
-        <span class="button-icon center__v">
-          <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
-        </span>
-      </button>
+    <ng-template #powerButtonBlock>
+      <ng-container *ngIf="!isSessionDeleted && content.identifier!=='session'">
+        <button mat-button matTooltip="Start session" class="launch-button circle-button"
+                fxLayout="column" fxLayoutAlign="center center" (click)="startSession()">
+          <span class="button-icon center__v">
+            <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
+          </span>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="isSessionDeleted">
+        <button mat-button matTooltip="Close page"
+                fxLayout="column" fxLayoutAlign="center stretch"
+                class="close-button center__vi" (click)="closeWindow()">
+          <span class="button-icon">Close</span>
+        </button>
+      </ng-container>
     </ng-template>
     <!-- //// END of 2. Launch Button for application card -->
   </div>

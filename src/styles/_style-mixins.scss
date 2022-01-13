@@ -138,6 +138,10 @@ $sides: (
 }
 
 .txt {
+  &__white {
+    color: #fff;
+  }
+
   &__primary {
     color: map-get($app-primary, default);
 

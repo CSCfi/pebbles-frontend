@@ -45,16 +45,18 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   faPython = faPython;
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
+  isSessionDeleted = false;
 
-  public displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
-  public dataSource: MatTableDataSource<ApplicationRow> = null;
-  public selection = new SelectionModel<ApplicationRow>(true, []);
+  displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
+  dataSource: MatTableDataSource<ApplicationRow> = null;
+  selection = new SelectionModel<ApplicationRow>(true, []);
+
   // ---- Paginator
-  public isPaginatorVisible = false;
-  public minUnitNumber = 25;
-  public pageSizeOptions = [this.minUnitNumber];
+  isPaginatorVisible = false;
+  minUnitNumber = 25;
+  pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  @Input() content: any;
   @Input() workspaceId: string = null;
 
   constructor(
@@ -184,6 +186,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     if (!confirm(`Are you sure you want to delete this application "${application.name}"?`)) {
       return;
     }
+    this.isSessionDeleted = true;
     this.applicationService.deleteApplication(application).subscribe();
   }
 

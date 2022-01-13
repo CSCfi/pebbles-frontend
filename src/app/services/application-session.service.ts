@@ -49,9 +49,7 @@ export class ApplicationSessionService implements OnDestroy {
   }
 
   fetchSessions(): Observable<ApplicationSession[]> {
-
     const url = `${buildConfiguration.apiUrl}/application_sessions`;
-
     return this.http.get<ApplicationSession[]>(url).pipe(
       map(sessions => {
         let nonStatic = false;
@@ -134,5 +132,4 @@ export class ApplicationSessionService implements OnDestroy {
     }, intervalMs);
     this.intervalValue = intervalMs;
   }
-
 }

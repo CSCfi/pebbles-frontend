@@ -18,12 +18,19 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 export class MainSessionButtonComponent implements OnInit {
 
   @Input() applicationId: string;
+  @Input() content: any;
+  @Input() isSessionDeleted = false;
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
   isWaitingInterval = false;
   diameter = 120;
   strokeWidth = 10;
+  sessionState: SessionStates;
+
+  get accessUrl(): string {
+    return this.session.session_data?.endpoints?.[0]?.access;
+  }
 
   get isSpinnerOn(): boolean {
     if (this.session) {
@@ -50,6 +57,9 @@ export class MainSessionButtonComponent implements OnInit {
   get state(): SessionStates | null {
     if (this.session) {
       return this.session.state;
+    }
+    if (this.content.identifier === 'session') {
+      window.close();
     }
     return null;
   }
@@ -125,11 +135,9 @@ export class MainSessionButtonComponent implements OnInit {
     const origin = this.document.location.origin;
     if (!this.isWaitingInterval) {
       // check if the session is running and already has access url
-      const accessUrl = this.session.session_data?.endpoints?.[0]?.access;
-      if (this.session.state === SessionStates.Running && accessUrl) {
-        window.open(accessUrl, '_blank');
-      }
-      else {
+      if (this.session.state === SessionStates.Running && this.accessUrl) {
+        window.open(this.accessUrl, '_blank');
+      } else {
         const url = origin + this.router.serializeUrl(
           this.router.createUrlTree(['/session/', this.application.session_id])
         );
@@ -138,29 +146,42 @@ export class MainSessionButtonComponent implements OnInit {
     }
   }
 
-  deleteSession(): void {
-    // confirm deletion for non-failed sessions
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '500px',
-      autoFocus: false,
-      data: {
-        dialogTitle: 'Delete application session',
-        dialogContent: this.application.config?.enable_user_work_folder ?
-          'Download all content you wish to save, or copy them to work folder before deleting the session. ' +
-          'Do you want to continue?' :
-          'Download all content you wish to save before deleting the session. ' +
-          'Do you want to continue?',
-        dialogActions: ['confirm', 'cancel']
-      }
-    }).afterClosed().subscribe(resp => {
-      if (resp) {
-        const applicationSession = this.applicationSessionService.getSession(this.application.session_id);
-        applicationSession.state = SessionStates.Deleting;
-        // ---- Delete data for applicationSession-notification queue.
-        localStorage.removeItem(applicationSession.name);
+  closeWindow(): void {
+    window.close();
+  }
 
-        this.applicationSessionService.deleteSession(applicationSession.id).subscribe();
-      }
-    });
+  deleteSession(isFailed: boolean): void {
+    // confirm deletion for non-failed sessions
+    if (!isFailed) {
+      this.dialog.open(DialogComponent, {
+        width: '500px',
+        autoFocus: false,
+        data: {
+          dialogTitle: 'Delete application session',
+          dialogContent: this.application.config?.enable_user_work_folder ?
+            'Download all content you wish to save, or copy them to work folder before deleting the session. ' +
+            'Do you want to continue?' :
+            'Download all content you wish to save before deleting the session. ' +
+            'Do you want to continue?',
+          dialogActions: ['confirm', 'cancel']
+        }
+      }).afterClosed().subscribe(resp => {
+        if (resp) {
+          this.proceedSessionDeletion();
+        }
+      });
+    } else {
+      // ---- To delete failed/deleted session
+      this.proceedSessionDeletion();
+    }
+  }
+
+  proceedSessionDeletion(): void {
+
+    const applicationSession = this.applicationSessionService.getSession(this.application.session_id);
+    applicationSession.state = SessionStates.Deleting;
+    // ---- Delete data for applicationSession-notification queue.
+    localStorage.removeItem(applicationSession.name);
+    this.applicationSessionService.deleteSession(applicationSession.id).subscribe();
   }
 }

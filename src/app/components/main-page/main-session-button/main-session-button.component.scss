@@ -71,6 +71,15 @@
     border-radius: unset;
   }
 
+  .close-button {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    color: map-get($app-primary, dark);
+    //background: map-get($app-gray, default);
+  }
+
   .stat-button{
     padding-top: 10px;
     text-align: center;
@@ -112,6 +121,18 @@
       .mat-icon {
         color: white;
       }
+    }
+  }
+
+  .session-page-button {
+    color: #fff;
+    font-weight: bold;
+    z-index: 2000;
+
+    a {
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
     }
   }
 }

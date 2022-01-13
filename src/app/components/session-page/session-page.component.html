@@ -1,81 +1,40 @@
-<div class="page-container__screen"
-     fxLayout="column" fxLayoutAlign="space-between stretch">
+<div class="page-container__screen bg__primary-dark"
+     fxLayout="column" fxLayoutAlign="start stretch">
   <app-header [isNaviVisible]="false"
               [logoMarkSize]="60" [logoTypeSize]="3" [displayMode]="'fluid'"
-              class="bg__primary">
+              class="bg__primary-dark">
   </app-header>
-  <div id="session-container" ngClass.lt-sm="mobile"
-       fxLayout="column" fxLayoutGap="30px" *ngIf="targetSession">
-    <div class="status-wrapper mt-80 p-10"
-         fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
-      <div class="state sentence-head mat-display-3">{{ latestProvisioningLogMessage }}</div>
-      <div class="spinner-container center__vh">
-        <mat-progress-spinner
-          [color]="'accent'"
-          [mode]="'indeterminate'"
-          [diameter]="150"
-          [value]="50">
-        </mat-progress-spinner>
-        <p class="state-percentage mat-display-3">{{ progress }}%</p>
+  <div id="session-container" ngClass.lt-sm="mobile" fxLayout="column">
+    <div class="status-wrapper p-10"
+         fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px"
+         *ngIf="targetSession; else noSessionBlock">
+      <div class="mat-display-3 state-info">{{ sessionStatesInfo }}</div>
+      <div class="progress-ui mb-50" fxLayout="row" fxLayoutGap="4px" fxLayout.lt-md="row wrap">
+        <ng-container *ngFor="let step of sessionProgressSteps">
+          <div class="step sentence-head">
+            <p class="description mat-subheading-2"><span [innerHTML]="step?.message"></span></p>
+            <div class="arrow-wrapper {{ 'delay-'+step.index }}"
+                 [ngClass]="{
+                 'done': step?.isDone,
+                 'current': step?.isCurrent,
+                 'failed': step?.isFailed,
+                 'stopped': step?.isStopped || isSessionDeleted
+                 }">
+            </div>
+          </div>
+        </ng-container>
       </div>
-      <!--      <mat-progress-bar-->
-      <!--        [color]="color"-->
-      <!--        [mode]="mode"-->
-      <!--        [value]="progress"-->
-      <!--        [bufferValue]="progress + 10">-->
-      <!--      </mat-progress-bar>-->
-      <div class="application-info info-body mt-20 mb-20">
-        <h3 class="mb-30">Application Information</h3>
-        <dl class="grid">
-          <dt>Name</dt>
-          <dd class="application-title">{{ targetApplication.name }}</dd>
-          <dt>Description</dt>
-          <dd class="description mat-body-1"
-              [innerHTML]="description"
-              [ngClass]="{'centering__text': description.length < 100 }">
-          </dd>
-          <dt>Info</dt>
-          <dd>
-            <span class="mr-20 center__vi">
-              <ng-container *ngIf="!targetApplication.workspace_name?.startsWith('System.'); else noSharedFolder">
-                <mat-icon class="md-16 mr-2">folder</mat-icon>
-                shared: On
-              </ng-container>
-              <ng-template #noSharedFolder>
-                <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
-                shared: Off
-              </ng-template>
-            </span>
-            <span class="mr-20 center__vi">
-              <ng-container *ngIf="targetApplication.info?.work_folder_enabled; else noWorkFolder">
-                <mat-icon class="md-16 mr-2">folder</mat-icon>
-                my-work: On
-              </ng-container>
-              <ng-template #noWorkFolder>
-                <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
-                my-work: Off
-              </ng-template>
-            </span>
-            <span class="mr-20 center__vi">
-              <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">watch_later</mat-icon>
-              Lifetime: {{ targetApplication.maximum_lifetime | lifeTimeDisplay }}
-            </span>
-            <span class="center__vi">
-              <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
-              Memory: {{ targetApplication.info?.memory || '-' }}
-            </span>
-          </dd>
-          <dt>Session id</dt>
-          <dd>
-            {{ targetSession.name }}
-          </dd>
-          <dt>State</dt>
-          <dd>
-            <div class="sentence-head">{{ latestProvisioningLogMessage }} : {{progress}}% </div>
-          </dd>
-        </dl>
-      </div>
+      <app-main-application-item class="application-item"
+                                 [content]="content"
+                                 [application]="targetApplication"
+                                 [isSessionDeleted]="isSessionDeleted">
+      </app-main-application-item>
     </div>
+    <ng-template #noSessionBlock>
+      <div class="status-wrapper"
+           fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
+        <div class="mat-display-3 state-info">{{ sessionStatesInfo }}</div>
+      </div>
+    </ng-template>
   </div>
-  <app-footer [content]="content"></app-footer>
 </div>

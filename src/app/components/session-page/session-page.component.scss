@@ -1,38 +1,142 @@
 @import "src/styles/main.scss";
 
+#session-page {
+  z-index: -2;
+}
+
 #session-container {
-  background: map-get($app-primary, 100);
+  background: map-get($app-primary, dark);
   height: 100%;
+  z-index: 1;
+  padding-bottom: 150px;
 
-  .status-wrapper,
-  .application-info {
-    text-align: center;
-    min-width: 700px;
-    max-width: 700px;
+  .status-wrapper {
     margin: auto;
+    height: 100%;
 
-    .spinner-container {
-      position: relative;
+    .state-info {
+      color: #fff;
+    }
+  }
+
+  .progress-ui {
+    max-width: 1000px;
+    margin: 20px;
+
+    .step {
       width: 150px;
-      height: 150px;
+      height: 80px;
+      margin-bottom: 2px;
+      text-align: center;
+      color: map-get($app-primary, dark);
+      position: relative;
 
-      .mat-progress-spinner {
+      .arrow-wrapper {
         position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+        top: 0;
+
+        &:before,
+        &:after {
+          content: "";
+          position: absolute;
+          height: 40px;
+          width: 100%;
+          left: 0;
+          z-index: -1;
+        }
+
+        &:before {
+          top: 0;
+          -webkit-transform: skew(30deg);
+          -moz-transform: skew(30deg);
+          transform: skew(30deg);
+        }
+
+        &:after {
+          top: 39px;
+          -webkit-transform: skew(-30deg);
+          -moz-transform: skew(-30deg);
+          transform: skew(-30deg);
+        }
       }
-      .state-percentage {
-        position: relative;
+
+      .description {
+        line-height: 135%;
+        height: 100%;
+        width: 100%;
+        display: table;
+        z-index: 10;
+        padding: 5px 10px 5px 15px;
+
+        span {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+        }
+      }
+    }
+
+    // ---- Effect for the progress bar
+    .step {
+      // ---- Default steps
+      .arrow-wrapper:before,
+      .arrow-wrapper:after {
+        background: map-get($app-primary, light);
+      }
+
+      // ---- Current step
+      .arrow-wrapper.current:before,
+      .arrow-wrapper.current:after {
+        animation: blink 800ms infinite;
+      }
+
+      // ---- Done step
+      .arrow-wrapper.done:before,
+      .arrow-wrapper.done:after {
+        animation: color-transit 100ms forwards;
+      }
+
+      .arrow-wrapper.current,
+      .arrow-wrapper.done {
+        &.delay-1:before, &.delay-1:after {
+          animation-delay: 100ms;
+        }
+        &.delay-2:before, &.delay-2:after {
+          animation-delay: 150ms;
+        }
+        &.delay-3:before, &.delay-3:after {
+          animation-delay: 200ms;
+        }
+        &.delay-4:before, &.delay-4:after {
+          animation-delay: 250ms;
+        }
+        &.delay-5:before, &.delay-5:after {
+          animation-delay: 300ms;
+        }
+      }
+
+      // ---- Step failed
+      .arrow-wrapper.failed:before,
+      .arrow-wrapper.failed:after {
+        background: map-get($app-warn, default) !important;
+        animation-play-state: paused;
+      }
+
+      // ---- Stopped step
+      .arrow-wrapper.stopped:before,
+      .arrow-wrapper.stopped:after {
+        background: map-get($app-gray, 300);
+        animation-play-state: paused;
       }
     }
   }
 
-  .application-info {
-    h3 {
-      border-bottom: map-get($borders, thin);
-    }
-    dl{
-      text-align: left;
-      grid-gap: 10px;
-    }
+  .application-item {
+    width: 100%;
+    max-width: 850px;
   }
 
   &.mobile {
@@ -40,5 +144,26 @@
     .application-info {
       min-width: 100%;
     }
+  }
+}
+
+@keyframes blink {
+  0% {
+    background: map-get($app-primary, light);
+  }
+  50% {
+    background: map-get($app-accent, light);
+  }
+  100% {
+    background: map-get($app-primary, light);
+  }
+}
+
+@keyframes color-transit {
+  0% {
+    background-color: map-get($app-primary, light);
+  }
+  100% {
+    background-color: map-get($app-accent, light);
   }
 }

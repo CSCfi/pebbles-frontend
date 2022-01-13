@@ -1,19 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressBarMode } from '@angular/material/progress-bar';
 import { SafeResourceUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/app/models/application-session';
-import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { Application } from '../../models/application';
+import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { ApplicationService } from '../../services/application.service';
+
+export interface SessionProgressStep {
+  index: number;
+  state: string;
+  message: string;
+  percentage: number;
+  isCurrent: boolean;
+  isDone: boolean;
+  isFailed: boolean;
+  isStopped: boolean;
+}
 
 @Component({
   selector: 'app-session-page',
   templateUrl: './session-page.component.html',
   styleUrls: ['./session-page.component.scss']
 })
-
 export class SessionPageComponent implements OnInit, OnDestroy {
 
   public content = {
@@ -35,14 +45,19 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   provisioningLogProgressMap = new Map<string, number>([
     ['created', 20],
     ['scheduled to a node', 30],
-    ['pulling container image', 40],
-    ['waiting for volumes', 60],
+    ['waiting for volumes', 40],
+    ['pulling container image', 60],
     ['starting', 80],
     ['ready', 90]
   ]);
 
   provisioningLogMessageMap = new Map<string, string>([
-    ['created', 'waiting to be scheduled']
+    ['created', 'Waiting in the queue'],
+    ['scheduled to a node', 'Allocating resources'],
+    ['waiting for volumes', 'Preparing folders'],
+    ['pulling container image', 'Pulling container image'],
+    ['starting', 'Starting session'],
+    ['ready', 'Ready<br>Opening session']
   ]);
 
   sessions: ApplicationSession[];
@@ -52,13 +67,16 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   iframeSrc: SafeResourceUrl;
   sessionId: string;
   sessionStates = SessionStates;
-  progress = 0;
-  latestProvisioningLogMessage = 'waiting in the queue';
+  sessionStatesInfo = '';
+  sessionProgressSteps: SessionProgressStep[];
+  sessionProcessFlag = false;
+  isSessionDeleted = false;
   private interval;
 
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'buffer';
 
+  @ViewChild('spinner') spinner: TemplateRef<any>;
 
   get description(): string {
     this.targetApplication = this.applicationService.get(this.targetSession.application_id);
@@ -72,6 +90,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     private titleService: Title,
   ) {
     this.sessionId = this.route.snapshot.params.id;
+    this.sessionProgressSteps = this.getSessionProgressSteps();
   }
 
   ngOnInit(): void {
@@ -92,14 +111,31 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  getSessionProgressSteps(): any[] {
+    return Array.from(this.provisioningLogProgressMap.entries(), (step, i) => {
+      return {
+        index: i,
+        state: step[0],
+        message: this.provisioningLogMessageMap.get(step[0]),
+        percentage: step[1],
+        isCurrent: i === 0,
+        isDone: false,
+        isFailed: false
+      };
+    });
+  }
+
   checkSessionStatus(): void {
+    // this.step1.nativeElement.value('test');
     // assign application
     this.targetSession = this.applicationSessionService.getSessions().find((session) => {
       return (session.id === this.sessionId);
     });
     if (!this.targetSession) {
+      this.sessionStatesInfo = 'Session is deleted';
       return;
     }
+    this.sessionStatesInfo = 'Preparing your application session';
     this.targetApplication = this.applicationService.get(this.targetSession.application_id);
     // session service refreshes the sessions asynchronously, we can simply get the fresh ones
 
@@ -108,32 +144,78 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       this.titleService.setTitle('Launching ' + this.targetApplication.name);
     }
 
-    this.progress = Math.max(this.progressMap.get(this.targetSession.state), this.progress);
-    if (this.provisioningLogProgressMap.get(this.latestProvisioningLogMessage)) {
-      this.progress = Math.max(this.provisioningLogProgressMap.get(this.latestProvisioningLogMessage), this.progress);
-    }
-
     // if our session state is 'running', proceed to redirection
     if (this.targetSession.state === SessionStates.Running) {
+      const previousCurrent = this.sessionProgressSteps.find(step => step.isCurrent === true);
+      this.progressBarAnimation(5, previousCurrent.index);
       clearInterval(this.interval);
       this.interval = 0;
-      this.redirectToSession(this.targetSession);
+      this.sessionStatesInfo = 'Ready!';
+      setTimeout(() => {
+        this.redirectToSession(this.targetSession);
+      }, 1000);
     } else if (this.targetSession.state === SessionStates.Failed) {
-      clearInterval(this.interval);
-      this.interval = 0;
-      this.latestProvisioningLogMessage = 'Session failed';
+      this.sessionFailed(false);
+    } else if (this.targetSession.state === SessionStates.Deleted) {
+      window.close();
     } else {
+      this.sessionProcessFlag = true;
       this.applicationSessionService.fetchApplicationSessionLogs(this.targetSession.id).subscribe(
         (logs: ApplicationSessionLog[]) => {
-          let lastMessage = logs[logs.length - 1].message;
-          // check if we have a custom message mapping
-          if (this.provisioningLogMessageMap.get(lastMessage)) {
-            lastMessage = this.provisioningLogMessageMap.get(lastMessage);
+          const lastMessage = logs[logs.length - 1]?.message;
+          const current = this.sessionProgressSteps.find(step => step.state === lastMessage);
+          const previousCurrent = this.sessionProgressSteps.find(step => step.isCurrent === true);
+          if (current && previousCurrent) {
+            this.progressBarAnimation(current.index, previousCurrent.index);
           }
-          this.latestProvisioningLogMessage = lastMessage;
+        }, () => {
+          this.sessionFailed(true);
         }
       );
     }
+  }
+
+  progressBarAnimation(currentIndex, previousCurrentIndex): void {
+    if (currentIndex > previousCurrentIndex) {
+      this.sessionProgressSteps.map(step => {
+        if (step.index === previousCurrentIndex) {
+          step.isCurrent = false;
+          step.isDone = true;
+        }
+        if (step.index === previousCurrentIndex + 1) {
+          step.isCurrent = true;
+          if (step.index === 5) {
+            step.isDone = true;
+          }
+        }
+      });
+      const nextStep = this.sessionProgressSteps.find(step => step.index === previousCurrentIndex + 1);
+      this.progressBarAnimation(currentIndex, nextStep.index);
+    }
+  }
+
+  sessionFailed(isDeleted: boolean): void {
+    this.isSessionDeleted = isDeleted;
+    const current = this.sessionProgressSteps.find(step => step.isCurrent === true);
+    if (current && this.sessionProcessFlag) {
+      this.sessionProgressSteps.map(step => {
+        if (step.isCurrent === true) {
+          step.isFailed = true;
+        } else if (current.index < step.index) {
+          step.isStopped = true;
+        }
+        return step;
+      });
+    } else {
+      this.sessionProgressSteps.map(step => {
+        step.isStopped = true;
+        step.isCurrent = false;
+      });
+    }
+
+    clearInterval(this.interval);
+    this.interval = 0;
+    this.sessionStatesInfo = isDeleted ? 'Session is deleted' : 'Session failed';
   }
 
   redirectToSession(session: ApplicationSession): void {

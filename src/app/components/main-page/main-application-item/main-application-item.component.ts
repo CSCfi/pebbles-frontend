@@ -19,6 +19,7 @@ export class MainApplicationItemComponent implements OnInit {
 
   @Input() application: Application;
   @Input() content: any;
+  @Input() isSessionDeleted: boolean;
 
   get isPublic(): boolean {
     return this.application.workspace_name.startsWith('System.');

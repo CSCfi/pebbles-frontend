@@ -29,7 +29,7 @@ describe('WorkspaceService', () => {
   it('should populate workspaces with fetchWorkspaces',
     (done: DoneFn) => {
       // ---- Complement user_name when processing with mock data <--- TODO: get better advice
-      if (!localStorage.getItem('user_name')){
+      if (!localStorage.getItem('user_name')) {
         localStorage.setItem('user_name', 'admin@example.org');
       }
       service.fetchWorkspaces().subscribe(() => {

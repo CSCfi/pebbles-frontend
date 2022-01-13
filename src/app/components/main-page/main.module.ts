@@ -86,7 +86,8 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
-    LifeTimeDisplayPipe
+    LifeTimeDisplayPipe,
+    MainApplicationItemComponent
   ]
 })
 export class MainModule {
