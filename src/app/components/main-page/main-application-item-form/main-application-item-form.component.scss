@@ -17,3 +17,28 @@
   margin-bottom: 30px;
   display: block;
 }
+
+table {
+  ::ng-deep .mat-column-info {
+    padding: 5px 10px !important;
+    vertical-align: top;
+
+    .template-labels {
+      white-space: nowrap;
+
+      span.label:after {
+        content: '/';
+        margin-left: 2px;
+      }
+
+      span.label:last-child:after {
+        content: none;
+      }
+    }
+  }
+
+  ::ng-deep .mat-column-spec {
+    min-width: 135px;
+    vertical-align: middle;
+  }
+}

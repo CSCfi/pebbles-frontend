@@ -657,6 +657,7 @@ a.mat-stroked-button,
   margin: auto;
 
   th, td {
+
     &.center {
       text-align: center;
     }
@@ -678,6 +679,10 @@ a.mat-stroked-button,
       width: 16px;
       margin: auto;
       display: block;
+    }
+
+     .mat-radio-label {
+      width: 20px;
     }
   }
 

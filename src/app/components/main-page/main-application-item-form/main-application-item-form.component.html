@@ -12,13 +12,58 @@
         <h3 class="mat-title">Application template</h3>
         <ng-container *ngIf="isCreationMode; else templateNameBlock">
           <mat-form-field appearance="fill">
-            <mat-select formControlName="templateId" (selectionChange)="onChangeTemplate($event)">
+            <mat-select formControlName="applicationTemplateId" (selectionChange)="onChangeApplicationTemplate($event)">
               <mat-option *ngFor="let tmpl of applicationTemplates" value="{{ tmpl.id }}">
                 <ng-container *ngIf="!tmpl.is_enabled">[disabled]</ng-container>
-                {{ tmpl.name }} : {{ tmpl.description }}
+                {{ tmpl.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <table mat-table [dataSource]="applicationTemplateDataSource" class="mt-10 mb-20" *ngIf="selectedApplicationTemplate">
+            <ng-container matColumnDef="info">
+              <th mat-header-cell *matHeaderCellDef>Templates information</th>
+              <td mat-cell *matCellDef="let element">
+                <ul>
+                  <li class="template-name mat-subheading-2 mb-5"> {{element.name}} </li>
+                  <li class="description mat-caption" [innerHTML]="element.description"></li>
+                  <li class="template-labels mat-caption center__v">
+                    <span class="mr-5 center__v">
+                      <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">label</mat-icon>
+                      Labels:
+                    </span>
+                    <ng-container *ngFor="let label of element.labels">
+                      <span class="label mr-2">{{ label }}</span>
+                    </ng-container>
+                  </li>
+                </ul>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="spec">
+              <th mat-header-cell *matHeaderCellDef>Template Spec</th>
+              <td mat-cell *matCellDef="let element">
+                <ul class="mat-caption">
+                  <li class="center__v">
+                    <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">apps</mat-icon>
+                    Application type: {{ element.application_type }}
+                  </li>
+                  <li class="template-meta">
+                    <span class="center__v">
+                      <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">watch_later</mat-icon>
+                      Lifetime: {{ element.lifetime | lifeTimeDisplay }}
+                    </span>
+                  </li>
+                  <li class="template-meta">
+                    <span class="center__v">
+                      <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+                      Memory: {{ element.memory || '-' }}
+                    </span>
+                  </li>
+                </ul>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="applicationTemplateColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: applicationTemplateColumns;"></tr>
+          </table>
         </ng-container>
         <ng-template #templateNameBlock>
           <p>{{ this.data.application.template_name }}</p>
@@ -66,7 +111,7 @@
       <section class="form-container">
         <h3 class="mat-title">Container Image(change if you need custom image)</h3>
         <mat-form-field appearance="fill">
-          <input matInput formControlName="imageUrl" [value]="selectedTemplateImage">
+          <input matInput formControlName="imageUrl" [value]="selectedApplicationTemplateImage">
         </mat-form-field>
       </section>
 

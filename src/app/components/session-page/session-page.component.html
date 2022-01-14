@@ -58,7 +58,7 @@
             </span>
             <span class="mr-20 center__vi">
               <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">watch_later</mat-icon>
-              Lifetime: {{getLifeTime(targetApplication.maximum_lifetime)}}
+              Lifetime: {{ targetApplication.maximum_lifetime | lifeTimeDisplay }}
             </span>
             <span class="center__vi">
               <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>

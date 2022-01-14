@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/components/shared/shared.module';
 import { MaterialModule } from 'src/app/material.module';
 // ---- Pipe
 import { DateDisplayPipe } from '../../pipes/date-display.pipe';
+import { LifeTimeDisplayPipe } from '../../pipes/life-time-display.pipe';
 // ---- Content component
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
@@ -69,7 +70,8 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainUsersComponent,
     MainWorkspaceQuotaFormComponent,
     MainSystemStatusComponent,
-    DateDisplayPipe
+    DateDisplayPipe,
+    LifeTimeDisplayPipe
   ],
   imports: [
     CommonModule,
@@ -83,6 +85,9 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     FontAwesomeModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [
+    LifeTimeDisplayPipe
+  ]
 })
 export class MainModule {
 }

@@ -7,7 +7,6 @@ import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/ap
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { Application } from '../../models/application';
 import { ApplicationService } from '../../services/application.service';
-import { Utilities } from '../../utilities';
 
 @Component({
   selector: 'app-session-page',
@@ -95,10 +94,6 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       clearInterval(this.interval);
       this.interval = 0;
     }
-  }
-
-  getLifeTime(sec: string): string {
-    return Utilities.getTimeDisplayed(Number(sec));
   }
 
   checkSessionStatus(): void {

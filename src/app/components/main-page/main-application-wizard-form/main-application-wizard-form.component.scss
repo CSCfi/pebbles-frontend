@@ -1,8 +1,85 @@
 //@import "src/styles/main.scss";
 
-.plain-form-action-buttons,
-.stepper-action-buttons {
-  .back {
-    color: #999;
+.wizard-container {
+  .plain-form-action-buttons,
+  .stepper-action-buttons {
+    .back {
+      color: #999;
+    }
+  }
+
+  table {
+    ::ng-deep .mat-column-info {
+      padding: 5px 10px !important;
+      vertical-align: top;
+
+      .template-labels {
+        white-space: nowrap;
+
+        span.label:after {
+          content: '/';
+          margin-left: 2px;
+        }
+
+        span.label:last-child:after {
+          content: none;
+        }
+      }
+    }
+  }
+
+  ::ng-deep {
+    .mat-column-spec {
+      min-width: 135px;
+      vertical-align: middle;
+    }
+
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      padding: 0.3em 0.75em 0 0.75em;
+    }
+
+    .mat-paginator-container {
+      min-height: 30px;
+      height: 30px;
+
+      .mat-paginator-page-size-label {
+        width: 100px;
+        white-space: nowrap;
+      }
+
+      .mat-paginator-range-actions {
+        margin: 5px 5px 0 10px;
+
+        .mat-paginator-range-label {
+          margin: 0 5px 0 5px;
+        }
+      }
+
+      .mat-paginator-page-size-select {
+        width: 100px !important;
+        margin: 0;
+      }
+
+      .mat-form-field-infix {
+        border-top: 0 solid transparent;
+      }
+
+      .mat-paginator-range-actions {
+        height: 30px;
+
+        button {
+          height: 30px;
+          line-height: 0;
+        }
+      }
+
+      .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        padding-bottom: 0;
+
+        .mat-form-field-underline {
+          bottom: 0 !important;
+        }
+      }
+    }
   }
 }

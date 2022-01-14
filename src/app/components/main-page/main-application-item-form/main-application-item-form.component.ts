@@ -2,12 +2,23 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {AuthService} from 'src/app/services/auth.service';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/application';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { MatSelectChange } from '@angular/material/select';
+
+export interface ApplicationTemplateRow {
+  name: string;
+  description: string;
+  is_enabled: boolean;
+  application_type: ApplicationType;
+  labels: string[];
+  lifetime: string;
+  memory: string;
+}
 
 @Component({
   selector: 'app-main-application-item-form',
@@ -24,10 +35,11 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   // ---- Values for Radio Input
   selectedLabels: string[];
-  selectedTemplate: ApplicationTemplate;
   selectedJupyterInterface: string;
   selectedDownloadMethod: string = null;
-  selectedTemplateImage: string = null;
+  selectedApplicationTemplateImage: string = null;
+  applicationTemplateColumns: string[] = ['info', 'spec'];
+  applicationTemplateDataSource: MatTableDataSource<ApplicationTemplateRow> = null;
 
   get isCreationMode(): boolean {
     return !this.data.application;
@@ -35,6 +47,11 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   get applicationTemplates(): ApplicationTemplate[] {
     return this.applicationTemplateService.getApplicationTemplates();
+  }
+
+  get selectedApplicationTemplate(): ApplicationTemplate {
+    return this.applicationTemplateService.getApplicationTemplates().find(
+      x => x.id === this.applicationItemEditFormGroup.controls.applicationTemplateId.value);
   }
 
   constructor(
@@ -66,7 +83,7 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   setCreationForm(): void {
     this.applicationItemEditFormGroup = this.formBuilder.group({
-      templateId: ['', [Validators.required]],
+      applicationTemplateId: ['', [Validators.required]],
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       labels: [''],
@@ -113,7 +130,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     }
 
     this.applicationItemEditFormGroup = this.formBuilder.group({
-      templateId: [{
+      applicationTemplateId: [{
         value: this.data.application.template_id,
         disabled: true
       }],
@@ -141,15 +158,15 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   createApplicationByPlainMode(): void {
     // TODO: this can be removed when selectTemplate() callback starts working
-    this.selectedTemplate = this.applicationTemplateService.getApplicationTemplates().find(
-      x => x.id === this.applicationItemEditFormGroup.controls.templateId.value);
+    // this.selectedTemplate = this.applicationTemplateService.getApplicationTemplates().find(
+    //   x => x.id === this.applicationItemEditFormGroup.controls.Application.value);
     this.applicationService.createApplication(
       this.data.workspaceId,
       this.applicationItemEditFormGroup.controls.name.value,
       this.applicationItemEditFormGroup.controls.description.value,
-      this.selectedTemplate.id,
+      this.selectedApplicationTemplate.id,
       this.selectedLabels,
-      this.selectedTemplate.base_config.maximum_lifetime,
+      this.selectedApplicationTemplate.base_config.maximum_lifetime,
       {
         jupyter_interface: this.applicationItemEditFormGroup.controls.jupyterInterface.value,
         download_method: this.applicationItemEditFormGroup.controls.downloadMethod.value,
@@ -186,14 +203,29 @@ export class MainApplicationItemFormComponent implements OnInit {
     });
   }
 
-  onChangeTemplate(event: MatSelectChange) {
+  onChangeApplicationTemplate(event: MatSelectChange) {
     const et = this.applicationTemplates.find(x => x.id === event.source.value);
     this.applicationType = et.application_type;
     // take the default label values from the template
     if (et.base_config.labels) {
       this.selectedLabels = et.base_config.labels.slice();
     }
-    this.selectedTemplateImage = et.base_config.image;
+    this.selectedApplicationTemplateImage = et.base_config.image;
+    this.applicationTemplateDataSource = this.composeApplicationTemplateDataSource(this.selectedApplicationTemplate);
+  }
+
+  composeApplicationTemplateDataSource(tmpl: ApplicationTemplate): MatTableDataSource<ApplicationTemplateRow> {
+    return new MatTableDataSource(
+        [{
+          name: tmpl.name,
+          description: tmpl.description,
+          labels: tmpl.base_config?.labels,
+          memory: tmpl.base_config?.memory_limit,
+          lifetime: tmpl.base_config?.maximum_lifetime,
+          application_type: tmpl.application_type,
+          is_enabled: tmpl.is_enabled,
+        }]
+    );
   }
 
   onChangeDownloadMethod(val: string) {

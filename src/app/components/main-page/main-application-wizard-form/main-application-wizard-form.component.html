@@ -1,4 +1,4 @@
-<div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
+<div class="mat-typography dialog-container wizard-container" ngClass.lt-sm="mobile">
   <div class="corner-button-container">
     <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
       <mat-icon>close</mat-icon>
@@ -6,8 +6,8 @@
   </div>
   <mat-horizontal-stepper linear="true" class="mat-typography">
     <!-- 1 Env Templates-->
-    <mat-step [stepControl]="wizardTemplateFormGroup">
-      <form [formGroup]="wizardTemplateFormGroup">
+    <mat-step [stepControl]="wizardApplicationTemplateFormGroup">
+      <form [formGroup]="wizardApplicationTemplateFormGroup">
         <mat-dialog-content>
           <ng-template matStepLabel>Application Template</ng-template>
           <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
@@ -22,37 +22,89 @@
               </div>
             </div>
           </section>
+
           <section class="form-container">
-            <h2 class="mat-title mb-20">Select a template for your new application.</h2>
-            <mat-label class="form-label mat-subheading-2">Application templates</mat-label>
-            <div class="form-ui-container mt-10 mb-10">
-              <mat-radio-group formControlName="templateId" (change)="onChangeTemplate($event.value)">
-                <ul>
-                  <ng-container *ngFor="let tmpl of applicationTemplates">
-                    <li>
-                      <mat-radio-button [value]="tmpl.id">
-                        <span class="template-name mat-subheading-2">
-                          <ng-container *ngIf="!tmpl.is_enabled">[disabled]</ng-container>
-                          {{ tmpl.name }}
-                        </span>
-                        <span class="template-description ml-10">: {{ tmpl.description }}</span>
-                      </mat-radio-button>
+            <h2 class="mat-title mb-10">Select a template for your new application.*</h2>
+            <table mat-table [dataSource]="wizardApplicationTemplateDataSource">
+              <!-- Radio button column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell class="icon-cell" *matHeaderCellDef></th>
+                <mat-radio-group formControlName="templateId" (change)="onChangeWizardApplicationTemplate()">
+                  <td mat-cell class="icon-cell" *matCellDef="let element">
+                    <mat-radio-button [value]="element.id"></mat-radio-button>
+                  </td>
+                </mat-radio-group>
+              </ng-container>
+              <!-- Template Info column -->
+              <ng-container matColumnDef="info">
+                <th mat-header-cell class="cell-info" *matHeaderCellDef>Templates information</th>
+                <td mat-cell class="cell-info" *matCellDef="let element">
+                  <ul>
+                    <li class="template-name mat-subheading-2 mb-5"> {{element.name}} </li>
+                    <li class="description mat-caption" [innerHTML]="element.description"></li>
+                    <li class="template-labels mat-caption center__v">
+                      <span class="mr-5 center__v">
+                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">label</mat-icon>Labels:
+                      </span>
+                      <ng-container *ngFor="let label of element.labels">
+                        <span class="label mr-2">{{ label }}</span>
+                      </ng-container>
                     </li>
-                  </ng-container>
-                </ul>
-              </mat-radio-group>
+                  </ul>
+                </td>
+              </ng-container>
+              <!-- Template spec column -->
+              <ng-container matColumnDef="spec">
+                <th mat-header-cell class="cell-spec" *matHeaderCellDef>Templates spec</th>
+                <td class="cell-spec" mat-cell *matCellDef="let element">
+                  <ul class="mat-caption">
+                    <li class="center__v">
+                      <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">apps</mat-icon>
+                      Application type: {{element.application_type}}
+                    </li>
+                    <li class="template-meta">
+                      <span class="center__v">
+                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">watch_later</mat-icon>
+                        Lifetime: {{ element.lifetime | lifeTimeDisplay }}
+                      </span>
+                    </li>
+                    <li class="template-meta">
+                      <span class="center__v">
+                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+                        Memory: {{ element.memory || '-' }}
+                      </span>
+                    </li>
+                  </ul>
+                </td>
+              </ng-container>
+              <!-- Description column -->
+              <ng-container matColumnDef="type">
+                <th mat-header-cell class="cell-type" *matHeaderCellDef>type</th>
+                <td class="cell-type" mat-cell *matCellDef="let element">
+                  {{element.application_type}}
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="wizardApplicationTemplateColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: wizardApplicationTemplateColumns;"></tr>
+            </table>
+            <!-- Paginator-->
+            <div [hidden]="!isPaginatorVisible">
+              <mat-paginator
+                [pageSizeOptions]="pageSizeOptions">
+              </mat-paginator>
             </div>
           </section>
           <section class="form-container">
-            <h3 class="mat-title">Container image (change if you need custom image)</h3>
+            <h2 class="mat-title mb-10">Container image (change if you need custom image)</h2>
             <mat-form-field appearance="fill">
-              <input matInput formControlName="imageUrl" [value]="selectedTemplateImage">
+              <input matInput formControlName="imageUrl" [value]="selectedWizardApplicationTemplateImage">
             </mat-form-field>
           </section>
 
         </mat-dialog-content>
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-          <button mat-flat-button class="next" color="primary" matStepperNext fxFlex="grow">
+          <button mat-flat-button class="next" color="primary" [disabled]="selectedWizardApplicationTemplateImage===null" matStepperNext
+                  fxFlex="grow">
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
           </button>
@@ -100,10 +152,11 @@
         </mat-dialog-content>
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
           <button mat-stroked-button class="back" fxFlex="0 0 auto" matStepperPrevious>
-            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
+            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>src/app/components/session-page/session-page.component.html
             <span fxHide.lt-sm="true">Back</span>
           </button>
-          <button mat-flat-button class="next" color="primary" fxFlex="grow" matStepperNext>
+          <button mat-flat-button class="next" color="primary" [disabled]="wizardProfileFormGroup.invalid" fxFlex="grow"
+                  matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
           </button>
@@ -140,7 +193,7 @@
           <h2 class="mat-title mb-10">Configure application options</h2>
           <!-- 3.4 Jupyter Interface -->
           <section class="form-container">
-            <div class="form-option" *ngIf="selectedTemplate?.application_type==='jupyter'">
+            <div class="form-option" *ngIf="selectedWizardApplicationTemplate?.application_type==='jupyter'">
               <div class="form-item">
                 <mat-label class="mat-subheading-2">Interface</mat-label>
                 <mat-radio-group formControlName="jupyterInterface"
@@ -220,7 +273,7 @@
             <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
             <span fxHide.lt-sm="true">Back</span>
           </button>
-          <button mat-flat-button class="next" color="primary" fxFlex="grow" matStepperNext>
+          <button mat-flat-button class="next" fxFlex="grow" color="primary" matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
           </button>

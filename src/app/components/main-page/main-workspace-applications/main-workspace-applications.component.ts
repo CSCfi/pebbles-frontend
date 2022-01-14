@@ -162,12 +162,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     return this.applicationService.getApplicationById(id);
   }
 
-  getLifetime(sec: number): string {
-    const hours = sec / 3600;
-    const mins = sec % 3600;
-    return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
-  }
-
   toggleApplicationActivation(isActive: boolean, applicationId: string): void {
     const application = this.getTargetApplication(applicationId);
     application.is_enabled = isActive;
@@ -202,7 +196,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   openApplicationItemFormDialog(applicationId: string | null): void {
     this.dialog.open(MainApplicationItemFormComponent, {
       width: '800px',
-      height: '90vh',
+      height: '99vh',
       autoFocus: false,
       data: {
         workspaceId: this.workspaceId,
@@ -216,7 +210,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     this.dialog.open(MainApplicationWizardFormComponent, {
       width: '1000px',
       height: 'auto',
-      maxHeight: '90vh',
+      maxHeight: '95vh',
       autoFocus: false,
       data: {
         workspaceId: this.workspaceId

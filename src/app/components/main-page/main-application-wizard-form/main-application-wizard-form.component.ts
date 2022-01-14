@@ -1,10 +1,23 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {AuthService} from 'src/app/services/auth.service';
-import { ApplicationTemplate } from 'src/app/models/application-template';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Utilities } from '../../../utilities';
+
+export interface WizardApplicationTemplateRow {
+  select: boolean;
+  id: string;
+  name: string;
+  description: string;
+  application_type: ApplicationType;
+  is_enabled: boolean;
+  labels: string[];
+}
 
 @Component({
   selector: 'app-main-application-wizard-form',
@@ -13,7 +26,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 })
 export class MainApplicationWizardFormComponent implements OnInit {
 
-  wizardTemplateFormGroup: FormGroup;
+  wizardApplicationTemplateFormGroup: FormGroup;
   wizardProfileFormGroup: FormGroup;
   wizardOptionFormGroup: FormGroup;
   wizardPublishFormGroup: FormGroup;
@@ -22,15 +35,25 @@ export class MainApplicationWizardFormComponent implements OnInit {
   selectedLabels: string[];
   selectedJupyterInterface: string;
   selectedDownloadMethod: string;
-  selectedTemplateImage: string = null;
+  selectedWizardApplicationTemplateImage: string = null;
+
+  // ---- Paginator
+  isPaginatorVisible = true;
+  private minUnitNumber = 3;
+  pageSizeOptions = [this.minUnitNumber];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  wizardApplicationTemplateColumns: string[] = ['select', 'info', 'spec'];
+  wizardApplicationTemplateDataSource: MatTableDataSource<WizardApplicationTemplateRow> = null;
+  private wizardApplicationTemplateTableRowData: WizardApplicationTemplateRow[] = null;
 
   get applicationTemplates(): ApplicationTemplate[] {
     return this.applicationTemplateService.getApplicationTemplates();
   }
 
-  get selectedTemplate(): ApplicationTemplate {
+  get selectedWizardApplicationTemplate(): ApplicationTemplate {
     return this.applicationTemplates.find(
-      x => x.id === this.wizardTemplateFormGroup.controls.templateId.value
+      x => x.id === this.wizardApplicationTemplateFormGroup.controls.templateId.value
     );
   }
 
@@ -49,8 +72,10 @@ export class MainApplicationWizardFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.rebuildWizardApplicationTemplateDataSource();
+
     this.selectedDownloadMethod = 'none';
-    this.wizardTemplateFormGroup = this.formBuilder.group({
+    this.wizardApplicationTemplateFormGroup = this.formBuilder.group({
       templateId: ['', [Validators.required]],
       imageUrl: ['']
     });
@@ -81,6 +106,37 @@ export class MainApplicationWizardFormComponent implements OnInit {
     this.wizardOptionFormGroup.controls.userWorkFolderSize.setValue(1);
   }
 
+  rebuildWizardApplicationTemplateDataSource(): void {
+    // wait for paginator to be initialized by Angular, otherwise defer to next tick
+    if (!this.paginator) {
+      setTimeout(_ => this.rebuildWizardApplicationTemplateDataSource(), 0);
+      return;
+    }
+    this.wizardApplicationTemplateTableRowData = this.composeAppTmplDataSource(this.applicationTemplates);
+    this.wizardApplicationTemplateDataSource =
+      new MatTableDataSource<WizardApplicationTemplateRow>(this.wizardApplicationTemplateTableRowData);
+    this.wizardApplicationTemplateDataSource.paginator = this.paginator;
+    // ---- Paginator becomes invisible after data has been inserted
+    this.isPaginatorVisible = this.wizardApplicationTemplateTableRowData.length > this.minUnitNumber;
+    this.pageSizeOptions = Utilities.getPageSizeOptions(this.wizardApplicationTemplateDataSource, this.minUnitNumber);
+  }
+
+  composeAppTmplDataSource(templates: ApplicationTemplate[]): WizardApplicationTemplateRow[] {
+    return templates.map((tmpl) => {
+      return {
+        select: false,
+        id: tmpl.id,
+        name: tmpl.name,
+        description: tmpl.description,
+        is_enabled: tmpl.is_enabled,
+        application_type: tmpl.application_type,
+        labels: tmpl.base_config?.labels,
+        memory: tmpl.base_config?.memory_limit,
+        lifetime: tmpl.base_config?.maximum_lifetime,
+      };
+    });
+  }
+
   closeForm(): void {
     this.dialogRef.close();
   }
@@ -90,9 +146,9 @@ export class MainApplicationWizardFormComponent implements OnInit {
       this.data.workspaceId,
       this.wizardProfileFormGroup.controls.name.value,
       this.wizardProfileFormGroup.controls.description.value,
-      this.selectedTemplate.id,
+      this.selectedWizardApplicationTemplate.id,
       this.selectedLabels,
-      this.selectedTemplate.base_config.maximum_lifetime,
+      this.selectedWizardApplicationTemplate.base_config.maximum_lifetime,
       {
         jupyter_interface: this.wizardOptionFormGroup.controls.jupyterInterface.value,
         download_method: this.wizardOptionFormGroup.controls.downloadMethod.value,
@@ -100,22 +156,22 @@ export class MainApplicationWizardFormComponent implements OnInit {
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
         enable_user_work_folder: this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.value,
         user_work_folder_size: this.wizardOptionFormGroup.controls.userWorkFolderSize.value,
-        image_url: this.wizardTemplateFormGroup.controls.imageUrl.value,
+        image_url: this.wizardApplicationTemplateFormGroup.controls.imageUrl.value,
       },
       this.wizardPublishFormGroup.controls.isActive.value
-    ).subscribe((env) => {
+    ).subscribe(_ => {
       // console.log('created example Application ' + env.id);
       this.closeForm();
     });
   }
 
-  onChangeTemplate(val: string): void {
-    const et = this.selectedTemplate;
+  onChangeWizardApplicationTemplate(): void {
+    const et = this.selectedWizardApplicationTemplate;
     // take the default label values from the template
     if (et.base_config.labels) {
       this.selectedLabels = et.base_config.labels.slice();
     }
-    this.selectedTemplateImage = et.base_config.image;
+    this.selectedWizardApplicationTemplateImage = et.base_config.image;
   }
 
   onChangeDownloadMethod(val: string): void {

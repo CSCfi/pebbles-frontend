@@ -994,7 +994,55 @@ export let db = {
     },
     {
       id: 'et-4',
-      name: 'Example',
+      name: 'Example 1',
+      description: 'Demo workspace example template',
+      application_type: 'jupyter',
+      is_active: true,
+      cluster: 'dummy cluster 1',
+      base_config: {
+        maximum_lifetime: '7200',
+        labels: ['jupyter', 'python']
+      },
+    },
+     {
+      id: 'et-5',
+      name: 'Jupyter Template 3',
+      description: 'Example template for Jupyter',
+      application_type: 'jupyter',
+      is_active: true,
+      cluster: 'dummy cluster 1',
+      base_config: {
+        maximum_lifetime: '7200',
+        labels: ['jupyter', 'python']
+      },
+    },
+    {
+      id: 'et-6',
+      name: 'Jupyter Template 4',
+      description: 'Another example template for Jupyter',
+      application_type: 'jupyter',
+      is_active: true,
+      cluster: 'dummy cluster 1',
+      base_config: {
+        maximum_lifetime: '7200',
+        labels: ['jupyter', 'python']
+      },
+    },
+    {
+      id: 'et-7',
+      name: 'RStudio Template 2',
+      description: 'Example template for RStudio',
+      application_type: 'rstudio',
+      is_active: true,
+      cluster: 'dummy cluster 2',
+      base_config: {
+        maximum_lifetime: '7200',
+        labels: ['rstudio']
+      },
+    },
+    {
+      id: 'et-8',
+      name: 'Example 2',
       description: 'Demo workspace example template',
       application_type: 'jupyter',
       is_active: true,
