@@ -181,7 +181,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
     return this.http.patch(url, {user_id: userId, operation: 'promote'}).pipe(
       map(_ => {
-        console.log('promoted member to manager: ' + userId);
+        console.log('promoted member to co-owner: ' + userId);
         this.refreshWorkspaceMembers(workspaceId);
       })
     );
@@ -191,7 +191,7 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
     return this.http.patch(url, {user_id: userId, operation: 'demote'}).pipe(
       map(_ => {
-        console.log('demoted manager to member: ' + userId);
+        console.log('demoted co-owner to member: ' + userId);
         this.refreshWorkspaceMembers(workspaceId);
       })
     );
@@ -205,7 +205,7 @@ export class WorkspaceService {
         operation: isBanned ? 'ban' : 'unban'
       }).pipe(
       map(_ => {
-        console.log('demoted manager to member: ' + userId);
+        console.log('demoted co-owner to member: ' + userId);
         this.refreshWorkspaceMembers(workspaceId);
       })
     );

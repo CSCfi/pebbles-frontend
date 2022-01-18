@@ -160,9 +160,9 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   }
 
   openStopSessionDialog(selectedSessions: SessionTableRow[]): void {
-    let namesList = '';
+    let sessionNamesList = '';
     selectedSessions.forEach(sess => {
-      namesList += `<li>${sess.sessionName}</li>`;
+      sessionNamesList += `<li>${sess.sessionName} <span class="ml-5">(${ sess.username })</span></li>`;
     });
 
     const dialogRef = this.dialog.open(DialogComponent, {
@@ -170,7 +170,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       autoFocus: false,
       data: {
         dialogTitle: 'Confirm session deletion',
-        dialogContent: `<p>The following sessions will be deleted</p><ul>${namesList}</ul>`,
+        dialogContent: `<p>The following sessions will be deleted.</p><ul class="list-style">${ sessionNamesList }</ul>`,
         dialogActions: ['confirm', 'cancel']
       }
     });
@@ -178,9 +178,8 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       if (result) {
         for (const row of selectedSessions) {
           const sessionId = row.sessionId;
-          console.log('deleting session ' + sessionId);
           this.applicationSessionService.deleteSession(sessionId).subscribe(_ => {
-            console.log('deleted ' + sessionId);
+            console.log('deleted ' + row.username + ':' + sessionId);
           });
           row.state = 'deleting';
         }
