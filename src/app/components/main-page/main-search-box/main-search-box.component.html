@@ -1,7 +1,6 @@
-<mat-form-field class="chip-list full__w" appearance="fill">
-  <mat-label>Choose labels from the list below</mat-label>
+<mat-form-field class="chip-list mb-5" appearance="fill">
   <mat-chip-list #chipList aria-label="keyword selection">
-    <mat-chip *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
+    <mat-chip class="label chip__m bg__accent" *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
       (removed)="removeLabel(label)" selected>
       {{label}}
       <mat-icon fontSet="material-icons-outlined" matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -19,7 +18,7 @@
 </mat-form-field>
 <div class="candidate-label-outer p-10 mb-20 r__md">
   <mat-chip-list class="candidate-labels">
-    <mat-chip class="label" (click)="clicked($event)" *ngFor="let label of getCandidateLabels()">
+    <mat-chip class="label chip__sm" (click)="clicked($event)" *ngFor="let label of getCandidateLabels()">
       {{label}}
     </mat-chip>
   </mat-chip-list>

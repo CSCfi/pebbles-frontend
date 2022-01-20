@@ -196,7 +196,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   openApplicationItemFormDialog(applicationId: string | null): void {
     this.dialog.open(MainApplicationItemFormComponent, {
       width: '800px',
-      height: '99vh',
+      height: '95vh',
       autoFocus: false,
       data: {
         workspaceId: this.workspaceId,

@@ -8,7 +8,6 @@ import { Application } from 'src/app/models/application';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
-import { MatSelectChange } from '@angular/material/select';
 
 export interface ApplicationTemplateRow {
   name: string;
@@ -87,14 +86,14 @@ export class MainApplicationItemFormComponent implements OnInit {
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       labels: [''],
-      jupyterInterface: ['', [Validators.required]],
+      jupyterInterface: [''],
       downloadMethod: [''],
       source: [''],
       isAutoExecution: [''],
       isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
       imageUrl: [''],
-      userWorkFolderSize: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
+      userWorkFolderSize: ['', [Validators.min(1), Validators.max(5)]],
     });
 
     // ---- Set default value
@@ -136,8 +135,8 @@ export class MainApplicationItemFormComponent implements OnInit {
       }],
       name: [this.data.application.name, [Validators.required]],
       description: [this.data.application.description, [Validators.required]],
-      labels: ['', [Validators.required]],
-      jupyterInterface: [this.data.application.config.jupyter_interface, [Validators.required]],
+      labels: [''],
+      jupyterInterface: [this.data.application.config.jupyter_interface],
       downloadMethod: [this.selectedDownloadMethod],
       source: [this.data.application.config.download_url],
       imageUrl: [this.data.application.config.image_url],
@@ -193,7 +192,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.config.auto_execution = this.applicationItemEditFormGroup.controls.isAutoExecution.value;
     this.data.application.config.enable_user_work_folder = this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value;
-    this.data.application.config.user_work_folder_size = this.applicationItemEditFormGroup.controls.userWorkFolderSize.value,
+    this.data.application.config.user_work_folder_size = this.applicationItemEditFormGroup.controls.userWorkFolderSize.value;
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
     this.applicationService.updateApplication(
       this.data.application
@@ -203,14 +202,14 @@ export class MainApplicationItemFormComponent implements OnInit {
     });
   }
 
-  onChangeApplicationTemplate(event: MatSelectChange) {
-    const et = this.applicationTemplates.find(x => x.id === event.source.value);
-    this.applicationType = et.application_type;
+  onChangeApplicationTemplate(val: string) {
+    const tmpl = this.applicationTemplates.find(x => x.id === val);
+    this.applicationType = tmpl.application_type;
     // take the default label values from the template
-    if (et.base_config.labels) {
-      this.selectedLabels = et.base_config.labels.slice();
+    if (tmpl.base_config.labels) {
+      this.selectedLabels = tmpl.base_config.labels.slice();
     }
-    this.selectedApplicationTemplateImage = et.base_config.image;
+    this.selectedApplicationTemplateImage = tmpl.base_config.image;
     this.applicationTemplateDataSource = this.composeApplicationTemplateDataSource(this.selectedApplicationTemplate);
   }
 

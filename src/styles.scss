@@ -324,7 +324,7 @@ dl.grid {
   }
 
   .form-container {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   .mat-form-field {
@@ -335,11 +335,12 @@ dl.grid {
     }
 
     .mat-form-field-subscript-wrapper {
-      position: relative;
       margin: 0;
 
       .mat-error {
         margin-bottom: 15px;
+        font-size: 1.2rem;
+        color: map-get($app-warn, dark);
       }
     }
   }
@@ -347,7 +348,7 @@ dl.grid {
   .mat-dialog-title,
   .mat-dialog-content,
   .dialog-actions {
-    margin: 10px 24px 20px !important;
+    margin: 10px 24px 10px !important;
   }
 
   .mat-horizontal-stepper-header-container,
@@ -471,10 +472,6 @@ dl.grid {
 
 .mat-form-field-wrapper {
   padding-bottom: 0;
-}
-
-.mat-form-field {
-  //margin-bottom: 0 !important;
 }
 
 .mat-option[aria-selected="true"] {
@@ -605,9 +602,8 @@ a.mat-stroked-button,
     margin-right: 3px;
     line-height: 140%;
     min-height: 20px !important;
-    padding: 0 9px 2px !important;
+    padding: 1px 9px 2px !important;
     border-radius: 10px;
-    //word-break: break-all;
   }
 
   &__m {
@@ -620,9 +616,27 @@ a.mat-stroked-button,
     font-size: 1.2rem;
     margin-left: 3px;
     line-height: 100%;
-    min-height: 20px;
+    min-height: 28px !important;
+    border-radius: 14px;
+    padding: 0 15px !important;
+
+    .mat-chip-remove {
+      margin-left: 4px !important;
+      width: 15px !important;
+    }
+  }
+
+  &__circle {
+    @include center(both);
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-left: 3px;
+    line-height: 100%;
+    min-height: 24px !important;
     border-radius: 12px;
-    padding: 0 10px 0 !important;
+    padding: 0 10px !important;
   }
 
   &__password {
