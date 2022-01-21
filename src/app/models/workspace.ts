@@ -1,3 +1,13 @@
+export enum UserRole {
+  Public = 'public',
+  Admin = 'admin',
+  Owner = 'owner',
+  Manager = 'manager',
+  CoOwner = 'co-owner',
+  Member = 'member',
+  Banned = 'banned'
+}
+
 export class Workspace {
   public static DEMO_WORKSPACE_NAME = 'Demo Workspace';
   public static SYSTEM_WORKSPACE_NAME = 'System.default';
@@ -10,7 +20,8 @@ export class Workspace {
     public create_ts: number,
     public expiry_ts: number,
     public owner_ext_id: string,
-    public application_quota?: number
+    public application_quota?: number,
+    public user_role?: UserRole
   ) {
   }
 }

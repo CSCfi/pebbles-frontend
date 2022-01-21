@@ -766,3 +766,92 @@ a.mat-stroked-button,
 .shutdown-button {
   z-index: 2000;
 }
+
+.workspace-item,
+.workspace-name,
+.workspace-member-table {
+
+  &.admin,
+  .admin {
+    .user-role-icon {
+      color: map-get($app-primary, default);
+    }
+
+    .user-role-txt {
+      color: map-get($app-primary, default);
+      font-weight: bold;
+    }
+
+    .user-role-chip {
+      color: #fff;
+      background: map-get($app-warn, default);
+    }
+  }
+
+  &.owner,
+  .owner {
+    .user-role-icon {
+      color: map-get($app-warn, dark);
+    }
+
+    .user-role-txt {
+      color: map-get($app-warn, dark);
+      font-weight: bold;
+    }
+
+    .user-role-chip {
+      color: #fff;
+      background: map-get($app-warn, default);
+    }
+  }
+
+  &.co-owner,
+  .co-owner {
+    .user-role-icon {
+      color: map-get($app-warn, default);
+    }
+    .user-role-txt {
+      color: map-get($app-warn, default);
+      font-weight: bold;
+    }
+    .user-role-chip {
+      color: #fff;
+      background: map-get($app-warn, default);
+    }
+  }
+
+  &.member,
+  .member {
+    .user-role-icon {
+      color: map-get($app-secondary, default);
+    }
+    .user-role-txt {
+      color: map-get($app-secondary, default);
+      font-weight: bold;
+    }
+    .user-role-chip {
+      color: #fff;
+      background: map-get($app-secondary, default);
+    }
+  }
+
+  .banned {
+    color: map-get($app-gray, dark);
+  }
+
+  &.public {
+    .user-role-icon {
+      color: map-get($app-accent, default);
+    }
+
+    .user-role-txt {
+      color: map-get($app-accent, dark);
+      font-weight: bold;
+    }
+
+    .user-role-chip {
+      color: #fff;
+      background: map-get($app-accent, default);
+    }
+  }
+}

@@ -13,7 +13,7 @@ import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { User } from 'src/app/models/user';
 import { Application } from '../models/application';
-import { Workspace, WorkspaceMember } from '../models/workspace';
+import { UserRole, Workspace, WorkspaceMember } from '../models/workspace';
 import * as TESTDATA from './mock-data';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
@@ -641,19 +641,47 @@ export class MockInterceptor implements HttpInterceptor {
       }
       const isAdmin = user.is_admin;
 
-      return database.workspaces.filter(ws => {
+      const workspaces = database.workspaces.filter( ws => {
         if (isAdmin) {
+          ws.user_role = UserRole.Admin;
           return true;
         }
-        if (ws.name === 'System.default') {
+        if (ws.name.startsWith('System.') || ws.id === 'ws-0') {
+          ws.user_role = UserRole.Member;
           return false;
         }
-        const memberInfo = ws._members.find( member => member.ext_id === ext_id
-          && !member?.is_owner && !member?.is_manager && !member?.is_blocked );
+        const memberInfo = ws._members.find( member => {
+          if (member.ext_id === ext_id) {
+            if ( ws.owner_ext_id === user.ext_id) {
+              ws.user_role = UserRole.Owner;
+            } else if ( member.is_manager ) {
+              ws.user_role = UserRole.Manager;
+            } else if ( member.is_banned ) {
+              ws.user_role = UserRole.Banned;
+            } else {
+              ws.user_role = UserRole.Member;
+            }
+            return true;
+          }
+        });
         if (memberInfo) {
           return true;
         }
       });
+
+      // workspaces.map( ws => {
+      //   if (isAdmin) {
+      //     ws.user_role = 'admin';
+      //   } else if (ws.owner_ext_id === user.ext_id) {
+      //     ws.user_role = 'owner';
+      //   } else if (ws._members.filter( member => member.ext_id === user.ext_id && member.is_manager)) {
+      //     ws.user_role = 'manager';
+      //   }else {
+      //     ws.user_role = 'member';
+      //   }
+      // });
+
+      return workspaces;
     }
 
     function getAccessibleApplications(ext_id: string) {

@@ -4,17 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { WorkspaceMember } from '../../../models/workspace';
+import { UserRole, WorkspaceMember } from '../../../models/workspace';
 import { EventService } from '../../../services/event.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
-
-export enum UserCategory {
-  owner = 'Workspace owner',
-  manager = 'Workspace co-owner',
-  member = 'Workspace member',
-  banned = 'Banned member'
-}
 
 export interface MemberRow {
   index: number;
@@ -42,7 +35,6 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   public minUnitNumber = 25;
   public pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
   @Input() workspaceId: string = null;
 
   constructor(
@@ -82,10 +74,6 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     this.memberList = null;
   }
 
-  getUserCategory(role: string): string {
-    return UserCategory[role];
-  }
-
   rebuildDataSource(): void {
     // we need the service to be populated before actually setting data
     if (!this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
@@ -114,13 +102,13 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     let index = 0;
     members.forEach((member) => {
       index = index + 1;
-      let role = 'member';
+      let role = UserRole.Member;
       if (member.is_banned) {
-        role = 'banned';
+        role = UserRole.Banned;
       } else if (member.is_owner) {
-        role = 'owner';
+        role = UserRole.Owner;
       } else if (member.is_manager) {
-        role = 'manager';
+        role = UserRole.CoOwner;
       }
       rows.push({
         index,
@@ -152,6 +140,10 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  getUserRole(role): UserRole {
+    return role === UserRole.Manager ? UserRole.CoOwner : role;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

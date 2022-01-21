@@ -23,6 +23,7 @@
         color: map-get($app-primary, default);
         cursor: pointer;
         border-left: 8px solid #fff;
+        padding: 15px 8px 15px 8px !important;
 
         .workspace-info {
           border-top: map-get($borders, thin-dark);
@@ -32,36 +33,39 @@
           background-color: map-get($app-gray, 100);
         }
 
-        .workspace-icon mat-icon {
-          color: map-get($app-primary, 300) !important;
+        &.selected {
+          color: map-get($app-gray, 900);
         }
 
-        &.selected {
-          border-left: 8px solid map-get($app-accent, default);
-          color: map-get($app-gray, 900);
-
-          .workspace-icon mat-icon {
-            color: map-get($app-accent, default) !important;
+        &.owner {
+          &.selected {
+            border-left: 8px solid map-get($app-warn, default);
           }
         }
 
-        &.new .workspace-title span:after {
-          content: "New";
-          font-size: 1.1rem;
-          background: map-get($app-accent, default);
-          color: #fff;
-          padding: 2px 8px;
-          margin-left: 5px;
-          border-radius: 8px;
+        &.manager {
+          &.selected {
+            border-left: 8px solid map-get($app-accent, default);
+          }
         }
+      }
+
+      &.new .workspace-title span:after {
+        content: "New";
+        font-size: 1.1rem;
+        background: map-get($app-accent, default);
+        color: #fff;
+        padding: 2px 8px;
+        margin-left: 5px;
+        border-radius: 8px;
       }
     }
   }
+}
 
-  .mobile-workspace-list {
-    ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
-      background: #fff;
-    }
+.mobile-workspace-list {
+  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+    background: #fff;
   }
 }
 

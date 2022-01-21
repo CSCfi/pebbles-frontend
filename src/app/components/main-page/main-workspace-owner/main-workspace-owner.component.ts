@@ -5,12 +5,12 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
-import { Workspace } from 'src/app/models/workspace';
+import { UserRole, Workspace } from 'src/app/models/workspace';
+import { User } from '../../../models/user';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
 import { EventService } from '../../../services/event.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
@@ -25,7 +25,7 @@ import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspac
 export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
-  private autoselectFirstWorkspace = true;
+  private autoSelectFirstWorkspace = true;
 
   public content = {
     path: 'main/workspace-owner',
@@ -129,13 +129,15 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     if (this.user.is_admin) {
       this.workspaces = this.workspaceService.getWorkspaces();
     } else {
-      this.workspaces = this.workspaceService.getManagedWorkspaces(this.user.id);
+      this.workspaces = this.workspaceService.getWorkspaces().filter( ws => {
+        return ws.user_role === UserRole.Owner || ws.user_role === UserRole.Manager;
+      });
     }
 
     // if no workspace selected and we have workspaces to select from, pick the first
-    if (this.autoselectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
+    if (this.autoSelectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
       this.selectWorkspace(this.workspaces[0].id);
-      this.autoselectFirstWorkspace = false;
+      this.autoSelectFirstWorkspace = false;
     }
 
     // if there is a selection, update that and make sure it still exists
@@ -169,7 +171,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParams: {id: workspaceId},
       queryParamsHandling: 'merge'
-    });
+    }).then();
 
     this.refreshView();
   }
@@ -302,6 +304,11 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
   }
 
+  getUserRole(workspace: Workspace): UserRole {
+    return workspace.name.startsWith('System.') ? UserRole.Public :
+      workspace.user_role === UserRole.Manager ? UserRole.CoOwner : workspace.user_role;
+  }
+
   handleTabChange($event: MatTabChangeEvent) {
     this.selectedTab = $event.index;
 
@@ -310,7 +317,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParams: {tab: this.selectedTab},
       queryParamsHandling: 'merge'
-    });
+    }).then();
   }
 
   focusTab(idx: number): void {

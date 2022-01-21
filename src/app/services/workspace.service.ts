@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
-import { Workspace, WorkspaceMember } from 'src/app/models/workspace';
+import { UserRole, Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
@@ -96,7 +96,16 @@ export class WorkspaceService {
       map((resp) => {
         // if the number of workspaces has changed, we also fire an event (e.g. to notify ApplicationService)
         const eventNeeded = this.workspaces?.length !== resp.length;
-        this.workspaces = resp.sort((a, b) => b.create_ts - a.create_ts);
+        this.workspaces = resp.map(x => {
+          if (x.name.startsWith('System.')){
+            x.user_role = UserRole.Public;
+          }
+          return x;
+        });
+        this.workspaces.sort((a, b) => b.create_ts - a.create_ts);
+        this.workspaces.sort((a, b) => {
+          return Object.values(UserRole).indexOf(a.user_role) - Object.values(UserRole).indexOf(b.user_role);
+        });
         if (eventNeeded) {
           this.eventService.workspaceDataUpdate$.next('all');
         }

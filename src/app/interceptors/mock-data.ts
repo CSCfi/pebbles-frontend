@@ -801,9 +801,8 @@ export let db = {
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
         {ext_id: 'admin-1@example.org', is_owner: false, is_manager: true},
-        {ext_id: 'admin-2@example.org', is_owner: false, is_manager: true},
+        {ext_id: 'owner-1@example.org', is_owner: false, is_manager: true},
         {ext_id: 'owner@example.org'},
-        {ext_id: 'owner-1@example.org'},
         {ext_id: 'owner-2@example.org'},
         {ext_id: 'co-owner@example.org'},
         {ext_id: 'co-owner-1@example.org'},
@@ -840,6 +839,7 @@ export let db = {
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'owner-1@example.org', is_owner: false, is_manager: true},
         {ext_id: 'user@example.org'},
         {ext_id: 'user-1@example.org'},
         {ext_id: 'user-2@example.org'},
@@ -853,11 +853,11 @@ export let db = {
       create_ts: 1616572106,
       expiry_ts: 1832124106,
       application_quota: 10,
-      owner_ext_id: 'admin@example.org',
+      owner_ext_id: 'owner-1@example.org',
       _members: [
-        {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'admin@example.org', is_owner: false, is_manager: true},
         {ext_id: 'owner@example.org'},
-        {ext_id: 'owner-1@example.org'},
         {ext_id: 'owner-2@example.org'},
         {ext_id: 'co-owner@example.org'},
         {ext_id: 'co-owner-1@example.org'},
@@ -896,6 +896,7 @@ export let db = {
         {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
         {ext_id: 'admin@example.org', is_manager: true},
         {ext_id: 'owner@example.org'},
+        {ext_id: 'owner-1@example.org'},
         {ext_id: 'user@example.org'},
         {ext_id: 'user-2@example.org'},
         {ext_id: 'user-3@example.org'},
@@ -913,6 +914,7 @@ export let db = {
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
         {ext_id: 'user@example.org'},
+        {ext_id: 'owner-1@example.org'},
         {ext_id: 'user-2@example.org'},
         {ext_id: 'user-3@example.org'},
         {ext_id: 'user-5@example.org', is_banned: true},
@@ -948,6 +950,7 @@ export let db = {
       owner_ext_id: 'owner-1@example.org',
       _members: [
         {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'owner-1@example.org', is_owner: false, is_manager: true},
         {ext_id: 'user@example.org'},
         {ext_id: 'user-2@example.org'},
         {ext_id: 'user-3@example.org'},

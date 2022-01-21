@@ -7,17 +7,5 @@
     mat-icon {
       margin-right: 5px;
     }
-
-    .owner {
-      color: map-get($app-warn, dark);
-    }
-
-    .manager {
-      color: map-get($app-accent, default);
-    }
-
-    .banned {
-      color: map-get($app-gray, dark);
-    }
   }
 }

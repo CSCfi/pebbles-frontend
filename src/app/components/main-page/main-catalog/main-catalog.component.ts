@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Application } from 'src/app/models/application';
-import { ApplicationService } from 'src/app/services/application.service';
-import { Workspace } from 'src/app/models/workspace';
-import { WorkspaceService } from 'src/app/services/workspace.service';
 import { ApplicationCategory } from 'src/app/models/application-category';
+import { UserRole, Workspace } from 'src/app/models/workspace';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
+import { ApplicationService } from 'src/app/services/application.service';
+import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
 
@@ -30,14 +30,14 @@ export class MainCatalogComponent implements OnInit {
     if (!this.applicationService.isInitialized) {
       return null;
     }
-    let envs = this.applicationService.getApplications().filter(env => {
-      env.name = Utilities.resetText(env.name);
-      env.description = Utilities.resetText(env.description);
-      return env.is_enabled;
+    let apps = this.applicationService.getApplications().filter(app => {
+      app.name = Utilities.resetText(app.name);
+      app.description = Utilities.resetText(app.description);
+      return app.is_enabled;
     });
-    envs = this.filterApplicationsByLabels(envs, this.selectedCatalog.labels, 'any');
-    envs = this.filterApplicationsByText(envs, this.queryText);
-    return this.sortApplications(envs);
+    apps = this.filterApplicationsByLabels(apps, this.selectedCatalog.labels, 'any');
+    apps = this.filterApplicationsByText(apps, this.queryText);
+    return this.sortApplications(apps);
   }
 
   constructor(
@@ -54,7 +54,7 @@ export class MainCatalogComponent implements OnInit {
   }
 
   openJoinWorkspaceDialog(): void {
-    const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
+    this.dialog.open(MainJoinWorkspaceDialogComponent, {
       height: 'auto',
       width: '600px',
       autoFocus: false,
@@ -72,9 +72,9 @@ export class MainCatalogComponent implements OnInit {
   // TODO: this takes few seconds in UI to display.
   // Merging sort to fetchApplications reduces delay but still takes a sec.
   // Sort is called before fetchApplications to reduce, but still see minor glitch.
-  sortApplications(applicationsCopy: Application[]): Application[] {
+  sortApplications(apps: Application[]): Application[] {
     const defaultWorkspace = Workspace.SYSTEM_WORKSPACE_NAME;
-    applicationsCopy.sort((a, b) => {
+    apps.sort((a, b) => {
       if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) &&
         (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
         return (('' + a.name).localeCompare(b.name));
@@ -88,7 +88,16 @@ export class MainCatalogComponent implements OnInit {
         return (('' + a.name).localeCompare(b.name));
       }
     });
-    return applicationsCopy;
+    apps.sort((a, b) => {
+       const wsA = this.workspaceService.getWorkspaceById(a.workspace_id);
+       const wsB = this.workspaceService.getWorkspaceById(b.workspace_id);
+       const userRoleA = wsA ? wsA.user_role : UserRole.Public;
+       const userRoleB = wsB ? wsB.user_role : UserRole.Public;
+       if ( userRoleA && userRoleB ) {
+         return Object.values(UserRole).indexOf(userRoleA) - Object.values(UserRole).indexOf(userRoleB);
+       }
+    });
+    return apps;
   }
 
   filterApplicationsByLabels(objects: Application[], catalogLabels: string[], method: string): Application[] {
@@ -160,9 +169,6 @@ export class MainCatalogComponent implements OnInit {
 
   changeCatalog($event): void {
     const catalogId = this.catalogService.getCategories()[$event.index].id;
-    // console.log(catalogId);
     this.selectedCatalog = this.catalogService.getCategoryById(catalogId);
-    // console.log('---- now you chose Catalog below ----');
-    console.log(this.selectedCatalog);
   }
 }

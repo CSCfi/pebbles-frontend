@@ -45,14 +45,21 @@
          fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px"
          fxShow.gt-sm="true" fxHide.lt-md="true">
       <ng-container *ngFor="let workspace of workspaces">
-        <mat-card class="workspace-item p-15"
+        <mat-card class="workspace-item {{getUserRole(workspace)}}"
                   [ngClass]="{'selected': isWorkspaceSelected(workspace), 'new': isNewWorkspace(workspace.id)}"
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
           <div class="card-header" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="workspace-icon center__v" fxFlex="0 0 32px">
-              <mat-icon>people</mat-icon>
+              <mat-icon class="user-role-icon"
+                        [matTooltip]="getUserRole(workspace)"
+                        *ngIf="getUserRole(workspace)!=='public'; else publicBlock">
+                group
+              </mat-icon>
             </div>
+            <ng-template #publicBlock>
+              <mat-icon class="user-role-icon" [matTooltip]="getUserRole(workspace)">public</mat-icon>
+            </ng-template>
             <div class="workspace-title mat-subheading-2" fxFlex="grow">
               <span>{{ workspace.name }}</span>
             </div>
@@ -67,16 +74,20 @@
             <div class="description pb-10 mat-body-1">
               {{ workspace.description || 'No description for the workspace' }}
             </div>
-            <div class="join-code-info pt-10 pb-10" fxLayout="row" fxLayoutAlign="space-between stretch">
-              <span class="function-title" fxFlex="0 0 75px">Join code</span>
+            <div class="pt-10" fxLayout="row" fxLayoutAlign="start stretch">
+              <span fxFlex="0 0 100px">Your role</span>
+              <span class="user-role-txt">{{ getUserRole(workspace) }}</span>
+            </div>
+            <div class="join-code-info pt-10 pb-10" fxLayout="row" fxLayoutAlign="start stretch">
+              <span class="function-title" fxFlex="0 0 100px">Join code</span>
               <div class="open-join-code-button" fxLayout="row"
                    (click)="openJoinCodeDialog(workspace)">
                 <mat-icon class="mr-5">vpn_key</mat-icon>
                 <div class="chip__password center__v"></div>
               </div>
             </div>
-            <div class="expiration-date-info pt-10" fxLayout="row" fxLayoutAlign="space-between stretch">
-              <span class="function-title" fxFlex="0 0 75px">Expiring by</span>
+            <div class="expiration-date-info" fxLayout="row" fxLayoutAlign="start stretch">
+              <span class="function-title" fxFlex="0 0 100px">Expiring by</span>
               <span class="expiration-date">{{ getExpiry_date(workspace) }}</span>
             </div>
           </mat-card-content>

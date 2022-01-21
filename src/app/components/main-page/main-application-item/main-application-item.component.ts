@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { faPython, faRProject } from '@fortawesome/free-brands-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { faRProject } from '@fortawesome/free-brands-svg-icons';
-import { faPython } from '@fortawesome/free-brands-svg-icons';
-import { ApplicationType } from '../../../models/application-template';
 import { Application } from 'src/app/models/application';
+import { ApplicationType } from '../../../models/application-template';
+import { UserRole } from '../../../models/workspace';
+import { WorkspaceService } from '../../../services/workspace.service';
 
 @Component({
   selector: 'app-main-application-item',
@@ -49,7 +50,14 @@ export class MainApplicationItemComponent implements OnInit {
     }
   }
 
+  get userRole(): string {
+    const workspace = this.workspaceService.getWorkspaceById(this.application.workspace_id);
+    return this.application.workspace_name.startsWith('System.') ? UserRole.Public
+      : workspace.user_role === UserRole.Manager ? UserRole.CoOwner : workspace.user_role;
+  }
+
   constructor(
+    private workspaceService: WorkspaceService
   ) { }
 
   ngOnInit(): void {

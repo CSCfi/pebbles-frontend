@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { EventService } from '../../../services/event.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 

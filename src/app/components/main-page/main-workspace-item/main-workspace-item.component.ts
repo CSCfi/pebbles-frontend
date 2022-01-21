@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Application } from 'src/app/models/application';
-import { ApplicationService } from 'src/app/services/application.service';
-import { Workspace } from 'src/app/models/workspace';
-import { WorkspaceService } from 'src/app/services/workspace.service';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { Application } from 'src/app/models/application';
+import { UserRole, Workspace } from 'src/app/models/workspace';
+import { ApplicationService } from 'src/app/services/application.service';
+import { WorkspaceService } from 'src/app/services/workspace.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-main-workspace-item',
@@ -23,6 +24,11 @@ export class MainWorkspaceItemComponent implements OnInit {
       return this.applicationService.getApplicationsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
     }
     return null;
+  }
+
+  get userRole(): UserRole {
+    return this.workspace.name.startsWith('System.') ? UserRole.Public :
+      this.workspace.user_role === UserRole.Manager ? UserRole.CoOwner : this.workspace.user_role;
   }
 
   constructor(
