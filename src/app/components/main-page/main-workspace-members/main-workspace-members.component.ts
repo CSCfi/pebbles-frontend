@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserRole, WorkspaceMember } from '../../../models/workspace';
+import { UserAssociationType, WorkspaceMember } from '../../../models/workspace';
 import { EventService } from '../../../services/event.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
@@ -14,6 +14,7 @@ export interface MemberRow {
   select: boolean;
   role: string;
   email: string;
+  userId: string;
 }
 
 @Component({
@@ -102,13 +103,13 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     let index = 0;
     members.forEach((member) => {
       index = index + 1;
-      let role = UserRole.Member;
+      let role = 'member';
       if (member.is_banned) {
-        role = UserRole.Banned;
+        role = 'banned';
       } else if (member.is_owner) {
-        role = UserRole.Owner;
+        role = 'owner';
       } else if (member.is_manager) {
-        role = UserRole.CoOwner;
+        role = 'co-owner';
       }
       rows.push({
         index,
@@ -142,8 +143,8 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     }
   }
 
-  getUserRole(role): UserRole {
-    return role === UserRole.Manager ? UserRole.CoOwner : role;
+  getUserAssociationType(role): string {
+    return role === UserAssociationType.Manager ? 'co-owner' : role;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

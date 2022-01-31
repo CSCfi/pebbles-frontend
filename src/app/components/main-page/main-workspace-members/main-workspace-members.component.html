@@ -43,13 +43,13 @@
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef>Role</th>
         <td mat-cell class="cell-role" *matCellDef="let element">
-          <ng-container [ngSwitch]="getUserRole(element.role)">
-            <p [ngClass]="getUserRole(element.role)" class="center__v mat-caption m-0">
+          <ng-container [ngSwitch]="element.role">
+            <p [ngClass]="getUserAssociationType(element.role)" class="center__v mat-caption m-0">
               <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'owner'"> manage_accounts </mat-icon>
-              <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'co-owner'"> manage_accounts </mat-icon>
+              <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'manager'"> manage_accounts </mat-icon>
               <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'banned'"> person_off </mat-icon>
               <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchDefault> person </mat-icon>
-              {{ getUserRole(element.role) }}
+              {{ getUserAssociationType(element.role) }}
             </p>
           </ng-container>
         </td>
@@ -64,7 +64,7 @@
         <th mat-header-cell *matHeaderCellDef>menu</th>
         <td mat-cell class="icon-cell" *matCellDef="let element">
           <button mat-button [matMenuTriggerFor]="menu" aria-label="open menu"
-                  [disabled]="getUserRole(element.role) === 'owner'">
+                  [disabled]="getUserAssociationType(element.role) === 'owner'">
             <mat-icon>menu</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
@@ -72,22 +72,22 @@
               <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
               <span>transfer ownership</span>
             </button>
-            <button mat-menu-item *ngIf="getUserRole(element.role) !== 'manager'"
+            <button mat-menu-item *ngIf="getUserAssociationType(element.role) !== 'manager'"
                     (click)="promoteMember(element.userId)">
               <mat-icon fontSet="material-icons-outlined">manage_accounts</mat-icon>
               <span>promote to co-owner</span>
             </button>
-            <button mat-menu-item *ngIf="getUserRole(element.role) === 'manager'"
+            <button mat-menu-item *ngIf="getUserAssociationType(element.role) === 'manager'"
                     (click)="demoteManager(element.userId)">
               <mat-icon fontSet="material-icons-outlined">person</mat-icon>
               <span>demote</span>
             </button>
-            <button mat-menu-item *ngIf="getUserRole(element.role) !== 'banned'"
+            <button mat-menu-item *ngIf="getUserAssociationType(element.role) !== 'banned'"
                     (click)="setIsBanned(element.userId, true)">
               <mat-icon fontSet="material-icons-outlined">person_off</mat-icon>
               <span>ban member</span>
             </button>
-            <button mat-menu-item *ngIf="getUserRole(element.role) === 'banned'"
+            <button mat-menu-item *ngIf="getUserAssociationType(element.role) === 'banned'"
                     (click)="setIsBanned(element.userId, false)">
               <mat-icon fontSet="material-icons-outlined">person_off</mat-icon>
               <span>unban member</span>

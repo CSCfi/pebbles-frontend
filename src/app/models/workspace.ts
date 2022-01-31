@@ -1,11 +1,9 @@
-export enum UserRole {
+export enum UserAssociationType {
   Public = 'public',
   Admin = 'admin',
   Owner = 'owner',
   Manager = 'manager',
-  CoOwner = 'co-owner',
-  Member = 'member',
-  Banned = 'banned'
+  Member = 'member'
 }
 
 export class Workspace {
@@ -21,7 +19,7 @@ export class Workspace {
     public expiry_ts: number,
     public owner_ext_id: string,
     public application_quota?: number,
-    public user_role?: UserRole
+    public user_association_type?: UserAssociationType
   ) {
   }
 }

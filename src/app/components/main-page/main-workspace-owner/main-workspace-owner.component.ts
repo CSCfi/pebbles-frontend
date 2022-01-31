@@ -5,7 +5,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
-import { UserRole, Workspace } from 'src/app/models/workspace';
+import { UserAssociationType, Workspace } from 'src/app/models/workspace';
 import { User } from '../../../models/user';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -130,7 +130,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       this.workspaces = this.workspaceService.getWorkspaces();
     } else {
       this.workspaces = this.workspaceService.getWorkspaces().filter( ws => {
-        return ws.user_role === UserRole.Owner || ws.user_role === UserRole.Manager;
+        return ws.user_association_type === UserAssociationType.Owner || ws.user_association_type === UserAssociationType.Manager;
       });
     }
 
@@ -304,9 +304,8 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
   }
 
-  getUserRole(workspace: Workspace): UserRole {
-    return workspace.name.startsWith('System.') ? UserRole.Public :
-      workspace.user_role === UserRole.Manager ? UserRole.CoOwner : workspace.user_role;
+  getUserAssociationType(workspace: Workspace): string {
+    return workspace.user_association_type === 'manager' ? 'co-owner' : workspace.user_association_type;
   }
 
   handleTabChange($event: MatTabChangeEvent) {

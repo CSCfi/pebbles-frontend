@@ -45,20 +45,20 @@
          fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px"
          fxShow.gt-sm="true" fxHide.lt-md="true">
       <ng-container *ngFor="let workspace of workspaces">
-        <mat-card class="workspace-item {{getUserRole(workspace)}}"
+        <mat-card class="workspace-item {{getUserAssociationType(workspace)}}"
                   [ngClass]="{'selected': isWorkspaceSelected(workspace), 'new': isNewWorkspace(workspace.id)}"
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
           <div class="card-header" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="workspace-icon center__v" fxFlex="0 0 32px">
               <mat-icon class="user-role-icon"
-                        [matTooltip]="getUserRole(workspace)"
-                        *ngIf="getUserRole(workspace)!=='public'; else publicBlock">
+                        [matTooltip]="getUserAssociationType(workspace)"
+                        *ngIf="getUserAssociationType(workspace)!=='public'; else publicBlock">
                 group
               </mat-icon>
             </div>
             <ng-template #publicBlock>
-              <mat-icon class="user-role-icon" [matTooltip]="getUserRole(workspace)">public</mat-icon>
+              <mat-icon class="user-role-icon" [matTooltip]="getUserAssociationType(workspace)">public</mat-icon>
             </ng-template>
             <div class="workspace-title mat-subheading-2" fxFlex="grow">
               <span>{{ workspace.name }}</span>
@@ -76,7 +76,7 @@
             </div>
             <div class="pt-10" fxLayout="row" fxLayoutAlign="start stretch">
               <span fxFlex="0 0 100px">Your role</span>
-              <span class="user-role-txt">{{ getUserRole(workspace) }}</span>
+              <span class="user-role-txt">{{ getUserAssociationType(workspace) }}</span>
             </div>
             <div class="join-code-info pt-10 pb-10" fxLayout="row" fxLayoutAlign="start stretch">
               <span class="function-title" fxFlex="0 0 100px">Join code</span>

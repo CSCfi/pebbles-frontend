@@ -13,7 +13,7 @@ import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { User } from 'src/app/models/user';
 import { Application } from '../models/application';
-import { UserRole, Workspace, WorkspaceMember } from '../models/workspace';
+import { UserAssociationType, Workspace, WorkspaceMember } from '../models/workspace';
 import * as TESTDATA from './mock-data';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
@@ -513,21 +513,21 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     // ---- Keep it for test
-    function testMemberRefresh(): void {
-      const memberId = Math.random().toString(36).substring(2, 5);
-      const user = new User(
-        memberId,
-        `member-${memberId}@example.org`,
-        `member-${memberId}@example.org`,
-      );
-      database.workspaces.map(ws => {
-        if (ws.id === 'ws-0') {
-          ws.normal_users.push(`member-${memberId}@example.org`);
-        }
-        return ws;
-      });
-      database.users.push(user);
-    }
+    // function testMemberRefresh(): void {
+    //   const memberId = Math.random().toString(36).substring(2, 5);
+    //   const user = new User(
+    //     memberId,
+    //     `member-${memberId}@example.org`,
+    //     `member-${memberId}@example.org`,
+    //   );
+    //   database.workspaces.map(ws => {
+    //     if (ws.id === 'ws-0') {
+    //       ws.normal_users.push(`member-${memberId}@example.org`);
+    //     }
+    //     return ws;
+    //   });
+    //   database.users.push(user);
+    // }
 
     function getWorkspacesMembers(): Observable<HttpResponse<User[]>> {
       const targetWorkspace = getTargetWorkspace(objectId);
@@ -643,23 +643,27 @@ export class MockInterceptor implements HttpInterceptor {
 
       const workspaces = database.workspaces.filter( ws => {
         if (isAdmin) {
-          ws.user_role = UserRole.Admin;
+          if (ws.name.startsWith('System.')) {
+            ws.user_association_type = UserAssociationType.Public;
+          } else {
+            ws.user_association_type = UserAssociationType.Admin;
+          }
           return true;
         }
-        if (ws.name.startsWith('System.') || ws.id === 'ws-0') {
-          ws.user_role = UserRole.Member;
+        if (ws.name.startsWith('System.')) {
+          ws.user_association_type = UserAssociationType.Public;
           return false;
         }
-        const memberInfo = ws._members.find( member => {
+        const memberInfo = ws._members.find(member => {
           if (member.ext_id === ext_id) {
-            if ( ws.owner_ext_id === user.ext_id) {
-              ws.user_role = UserRole.Owner;
-            } else if ( member.is_manager ) {
-              ws.user_role = UserRole.Manager;
-            } else if ( member.is_banned ) {
-              ws.user_role = UserRole.Banned;
+            if (ws.owner_ext_id === user.ext_id) {
+              ws.user_association_type = UserAssociationType.Owner;
+            } else if (member.is_manager) {
+              ws.user_association_type = UserAssociationType.Manager;
+            } else if (member.is_banned) {
+              ws.user_association_type = 'banned';
             } else {
-              ws.user_role = UserRole.Member;
+              ws.user_association_type = UserAssociationType.Member;
             }
             return true;
           }
@@ -723,15 +727,15 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     // ---- Keep it for the case of a request in query format
-    function getQueryValue(queryString: string, value: string) {
-      const returns = {};
-      const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
-      pairs.forEach(pair => {
-        const data = pair.split('=');
-        returns[decodeURIComponent(data[0])] = decodeURIComponent(data[1] || '');
-      });
-      return returns[value];
-    }
+    // function getQueryValue(queryString: string, value: string) {
+    //   const returns = {};
+    //   const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+    //   pairs.forEach(pair => {
+    //     const data = pair.split('=');
+    //     returns[decodeURIComponent(data[0])] = decodeURIComponent(data[1] || '');
+    //   });
+    //   return returns[value];
+    // }
 
     function constructWorkspaceMemberList(workspace): WorkspaceMember[] {
       const res: WorkspaceMember[] = [];

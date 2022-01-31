@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Application } from 'src/app/models/application';
 import { ApplicationCategory } from 'src/app/models/application-category';
-import { UserRole, Workspace } from 'src/app/models/workspace';
+import { UserAssociationType, Workspace } from 'src/app/models/workspace';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
@@ -87,15 +87,6 @@ export class MainCatalogComponent implements OnInit {
       else {
         return (('' + a.name).localeCompare(b.name));
       }
-    });
-    apps.sort((a, b) => {
-       const wsA = this.workspaceService.getWorkspaceById(a.workspace_id);
-       const wsB = this.workspaceService.getWorkspaceById(b.workspace_id);
-       const userRoleA = wsA ? wsA.user_role : UserRole.Public;
-       const userRoleB = wsB ? wsB.user_role : UserRole.Public;
-       if ( userRoleA && userRoleB ) {
-         return Object.values(UserRole).indexOf(userRoleA) - Object.values(UserRole).indexOf(userRoleB);
-       }
     });
     return apps;
   }

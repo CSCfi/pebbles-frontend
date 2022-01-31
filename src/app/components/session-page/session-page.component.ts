@@ -65,10 +65,6 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     return this.targetApplication.description || 'No description';
   }
 
-  get isPublic(): boolean {
-    return this.targetApplication.workspace_name.startsWith('System.');
-  }
-
   constructor(
     private route: ActivatedRoute,
     private applicationService: ApplicationService,

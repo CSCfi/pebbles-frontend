@@ -1,10 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Application } from 'src/app/models/application';
-import { UserRole, Workspace } from 'src/app/models/workspace';
+import { UserAssociationType, Workspace } from 'src/app/models/workspace';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-main-workspace-item',
@@ -26,9 +25,8 @@ export class MainWorkspaceItemComponent implements OnInit {
     return null;
   }
 
-  get userRole(): UserRole {
-    return this.workspace.name.startsWith('System.') ? UserRole.Public :
-      this.workspace.user_role === UserRole.Manager ? UserRole.CoOwner : this.workspace.user_role;
+  get userAssociationType(): string {
+    return this.workspace.user_association_type === UserAssociationType.Manager ? 'co-owner' : this.workspace.user_association_type;
   }
 
   constructor(
