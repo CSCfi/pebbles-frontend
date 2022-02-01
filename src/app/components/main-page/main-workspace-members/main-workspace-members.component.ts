@@ -4,7 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserAssociationType, WorkspaceMember } from '../../../models/workspace';
+import { User } from '../../../models/user';
+import { UserAssociationType, Workspace, WorkspaceMember } from '../../../models/workspace';
+import { AccountService } from '../../../services/account.service';
+import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
@@ -26,20 +29,23 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
-  public displayedColumns: string[] = ['index', 'role', 'email', 'menu'];
-  public dataSource: MatTableDataSource<MemberRow>;
-  public selection = new SelectionModel<MemberRow>(true, []);
-  public memberList: MemberRow[] = null;
+  displayedColumns: string[] = ['index', 'role', 'email', 'menu'];
+  dataSource: MatTableDataSource<MemberRow>;
+  selection = new SelectionModel<MemberRow>(true, []);
+  memberList: MemberRow[] = null;
+  user: User;
 
   // ---- Paginator
-  public isPaginatorVisible = true;
-  public minUnitNumber = 25;
-  public pageSizeOptions = [this.minUnitNumber];
+  isPaginatorVisible = true;
+  minUnitNumber = 25;
+  pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @Input() workspaceId: string = null;
+  @Input() workspace: Workspace;
 
   constructor(
     private route: ActivatedRoute,
+    private authService: AuthService,
+    private accountService: AccountService,
     private workspaceService: WorkspaceService,
     private eventService: EventService
   ) {
@@ -48,12 +54,13 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   ngOnInit(): void {
     this.subscriptions.push(this.eventService.workspaceMemberDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
+      this.user = this.accountService.get(this.authService.getUserId());
     }));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     // Whenever our @Input changes, we rebuild our table data source
-    if (this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
+    if (this.workspaceService.getWorkspaceMembers(this.workspace.id)) {
       this.rebuildDataSource();
     } else {
       // workspace members are not eagerly loaded (the list might be very long),
@@ -67,8 +74,8 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   }
 
   refreshMembers(): void {
-    if (this.workspaceId) {
-      this.workspaceService.refreshWorkspaceMembers(this.workspaceId);
+    if (this.workspace.id) {
+      this.workspaceService.refreshWorkspaceMembers(this.workspace.id);
     }
     // set the data to null to clear possible old data from the previous selection and to render 'loading' message
     this.dataSource = null;
@@ -77,7 +84,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
 
   rebuildDataSource(): void {
     // we need the service to be populated before actually setting data
-    if (!this.workspaceService.getWorkspaceMembers(this.workspaceId)) {
+    if (!this.workspaceService.getWorkspaceMembers(this.workspace.id)) {
       return;
     }
     // wait for paginator to be initialized by Angular, otherwise defer to next tick
@@ -86,7 +93,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
       return;
     }
     console.log('rebuildDataSource()');
-    this.memberList = this.composeDataSource(this.workspaceService.getWorkspaceMembers(this.workspaceId));
+    this.memberList = this.composeDataSource(this.workspaceService.getWorkspaceMembers(this.workspace.id));
     this.dataSource = new MatTableDataSource(this.memberList);
     this.dataSource.paginator = this.paginator;
     // ---- Paginator becomes invisible after data has been inserted
@@ -109,7 +116,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
       } else if (member.is_owner) {
         role = 'owner';
       } else if (member.is_manager) {
-        role = 'co-owner';
+        role = 'manager';
       }
       rows.push({
         index,
@@ -122,16 +129,8 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     return rows;
   }
 
-  promoteMember(userId: string): void {
-    this.workspaceService.promoteMember(this.workspaceId, userId).subscribe();
-  }
-
-  demoteManager(userId: string): void {
-    this.workspaceService.demoteMember(this.workspaceId, userId).subscribe();
-  }
-
   setIsBanned(userId: string, isBanned: boolean): void {
-    this.workspaceService.setIsBanned(this.workspaceId, userId, isBanned).subscribe();
+    this.workspaceService.setIsBanned(this.workspace.id, userId, isBanned).subscribe();
   }
 
   applyFilter(event: Event): void {
@@ -143,8 +142,28 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     }
   }
 
-  getUserAssociationType(role): string {
+  displayUserAssociationType(role): string {
     return role === UserAssociationType.Manager ? 'co-owner' : role;
+  }
+
+  isTransferOwnerActive(role): boolean {
+    return  (this.user.is_admin || this.workspace.user_association_type === 'owner') && role === 'manager';
+  }
+
+  isPromoteCoOwnerActive(role): boolean {
+    return role === 'member' && this.workspace.user_association_type !== 'public';
+  }
+
+  promoteMember(userId: string): void {
+    this.workspaceService.promoteMember(this.workspace.id, userId).subscribe();
+  }
+
+  isDemoteCoOwnerActive(role): boolean {
+    return role === 'manager';
+  }
+
+  demoteManager(userId: string): void {
+    this.workspaceService.demoteMember(this.workspace.id, userId).subscribe();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

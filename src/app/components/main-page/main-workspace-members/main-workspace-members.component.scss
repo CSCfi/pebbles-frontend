@@ -1,11 +1,7 @@
 @import "src/styles/main.scss";
 
 #workspace-members-container {
-  .cell-role {
-    color: map-get($app-primary, default);
-
-    mat-icon {
-      margin-right: 5px;
-    }
+  .my-account {
+    background: map-get($app-primary, 100);
   }
 }

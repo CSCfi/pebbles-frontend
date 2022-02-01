@@ -3,6 +3,7 @@ import { faPython, faRProject } from '@fortawesome/free-brands-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { Application } from 'src/app/models/application';
 import { ApplicationType } from '../../../models/application-template';
+import { UserAssociationType } from '../../../models/workspace';
 import { WorkspaceService } from '../../../services/workspace.service';
 
 @Component({
@@ -51,8 +52,11 @@ export class MainApplicationItemComponent implements OnInit {
 
   get userAssociationType(): string {
     const workspace = this.workspaceService.getWorkspaceById(this.application.workspace_id);
-    return this.application.workspace_name.startsWith('System.') ? 'public' :
-      workspace.user_association_type === 'manager' ? 'co-owner' : workspace.user_association_type;
+    if (workspace) {
+      return workspace.user_association_type === UserAssociationType.Manager ? 'co-owner' : workspace.user_association_type;
+    } else {
+      return '';
+    }
   }
 
   constructor(

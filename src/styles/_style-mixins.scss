@@ -181,7 +181,11 @@ $sides: (
 
 .bg {
   &__primary {
-    backgroundr: map-get($app-primary, default);
+    background: map-get($app-primary, default);
+
+    &-100 {
+      background: map-get($app-primary, 100);
+    }
 
     &-light {
       background: map-get($app-primary, light);

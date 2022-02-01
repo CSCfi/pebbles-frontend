@@ -35,12 +35,12 @@
         <mat-card-subtitle fxLayout="row wrap" fxLayoutAlign="space-between stretch"
                            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
           <div class="workspace-name center__v" *ngIf="content.identifier==='catalog'" [ngClass]="userAssociationType">
-            <ng-container *ngIf="userAssociationType!=='public'; else publicBlock">
+            <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
               <mat-icon class="user-role-icon md-16 mr-5" [matTooltip]="userAssociationType">group</mat-icon>
               {{ application.workspace_name }}
             </ng-container>
             <ng-template #publicBlock>
-              <mat-icon class="user-role-icon md-16 mr-2" [matTooltip]="userAssociationType">public</mat-icon>
+              <mat-icon class="user-role-icon md-16 mr-2" matTooltip="public">public</mat-icon>
               Public
             </ng-template>
           </div>
