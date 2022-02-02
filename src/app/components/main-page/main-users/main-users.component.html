@@ -47,7 +47,7 @@
   <!--  <tr mat-row *matRowDef="let row; columns: testDisplayedColumns;"></tr>-->
   <!--</table>-->
 
-  <ng-container *ngIf="tableRowData?.length > 0; else noMember">
+  <ng-container *ngIf="tableRowData?.length > 0; else noUsers">
     <section class="mt-20">
 
       <!--  User invite button  -->
@@ -82,7 +82,7 @@
       </button>
     </section>
 
-    <!-- members table -->
+    <!-- users table -->
     <!--
       - select column
       - index column
@@ -227,13 +227,13 @@
     </div>
   </ng-container>
 
-  <!-- Loading / No Members -->
-  <ng-template #noMember>
+  <!-- Loading / No users -->
+  <ng-template #noUsers>
     <div class="message-container">
       <div class="empty-message" *ngIf="tableRowData !== null">
         <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
         <span class="message-title">
-          No members in this workspace.
+          No users matching "{{ queryText }}"
         </span>
       </div>
       <div class="empty-message" *ngIf="tableRowData === null">
