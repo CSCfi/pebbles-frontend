@@ -88,11 +88,16 @@
               <tr mat-row *matRowDef="let row; columns: wizardApplicationTemplateColumns;"></tr>
             </table>
           </section>
+
+          <!-- Image hidden by default in wizard. TODO: enabled based on selected template -->
           <section class="form-container">
-            <h2 class="mat-title mb-10">Container image (change if you need custom image)</h2>
-            <mat-form-field appearance="fill">
-              <input matInput formControlName="imageUrl" [value]="selectedWizardApplicationTemplateImage">
-            </mat-form-field>
+            <div [hidden]="true">
+              <h2 class="mat-title mb-10">Container image</h2>
+              Change only if you need a custom image. The image has to be compatible with the template.
+              <mat-form-field appearance="fill">
+                <input matInput formControlName="imageUrl" [value]="selectedWizardApplicationTemplateImage">
+              </mat-form-field>
+            </div>
           </section>
         </mat-dialog-content>
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">

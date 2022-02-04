@@ -117,12 +117,16 @@
           </mat-radio-group>
         </section>
 
-        <!-- 6-1 Container Image -->
+        <!-- 6-1-1 Container Image -->
         <section class="form-container">
-          <h3 class="mat-title">Container Image(change if you need custom image)</h3>
+          <h3 class="mat-title">Container Image *</h3>
+          Change only if you need a custom image. The image has to be compatible with the template.
           <mat-form-field appearance="fill">
             <input matInput formControlName="imageUrl" [value]="selectedApplicationTemplateImage">
           </mat-form-field>
+          <mat-checkbox formControlName="isAlwaysPullImage">
+            Always pull image. Check if you have to reuse a tag for different image versions.
+          </mat-checkbox>
         </section>
 
         <!-- 6-2 Include External files -->
@@ -187,6 +191,7 @@
             <input matInput type="number" formControlName="userWorkFolderSize">
           </mat-form-field>
         </section>
+
 
         <!-- 7 Publish -->
         <section class="form-container">

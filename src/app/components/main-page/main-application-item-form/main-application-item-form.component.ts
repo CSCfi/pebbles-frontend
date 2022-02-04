@@ -29,6 +29,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   applicationItemEditFormGroup: FormGroup;
 
   isAutoExecution: boolean;
+  isAlwaysPullImage: boolean;
   isEnableUserWorkFolder: boolean;
   applicationType: ApplicationType;
 
@@ -92,6 +93,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
       imageUrl: [''],
+      isAlwaysPullImage: [''],
       userWorkFolderSize: ['', [Validators.min(1), Validators.max(5)]],
     });
 
@@ -100,6 +102,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.jupyterInterface.setValue('lab');
     this.applicationItemEditFormGroup.controls.downloadMethod.setValue('none');
     this.applicationItemEditFormGroup.controls.isAutoExecution.setValue(false);
+    this.applicationItemEditFormGroup.controls.isAlwaysPullImage.setValue(false);
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
     this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.applicationItemEditFormGroup.controls.userWorkFolderSize.setValue(1);
@@ -120,6 +123,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     ).application_type;
 
     this.isEnableUserWorkFolder = coerceBooleanProperty(this.data.application.config.enable_user_work_folder);
+    this.isAlwaysPullImage = coerceBooleanProperty(this.data.application.config.always_pull_image);
 
     // if custom image is not present get the template base image
     if (!this.data.application.config.image_url) {
@@ -139,6 +143,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       downloadMethod: [this.selectedDownloadMethod],
       source: [this.data.application.config.download_url],
       imageUrl: [this.data.application.config.image_url],
+      isAlwaysPullImage: [this.isAlwaysPullImage],
       isAutoExecution: [this.isAutoExecution],
       isEnableUserWorkFolder: [this.isEnableUserWorkFolder],
       userWorkFolderSize: [this.data.application.config.user_work_folder_size],
@@ -173,6 +178,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         enable_user_work_folder: this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value,
         user_work_folder_size: this.applicationItemEditFormGroup.controls.userWorkFolderSize.value,
         image_url: this.applicationItemEditFormGroup.controls.imageUrl.value,
+        always_pull_image: this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value,
       },
       this.applicationItemEditFormGroup.controls.publish.value || false,
     ).subscribe(_ => {
@@ -190,6 +196,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.config.auto_execution = this.applicationItemEditFormGroup.controls.isAutoExecution.value;
     this.data.application.config.enable_user_work_folder = this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value;
+    this.data.application.config.always_pull_image = this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value;
     this.data.application.config.user_work_folder_size = this.applicationItemEditFormGroup.controls.userWorkFolderSize.value;
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
     this.applicationService.updateApplication(
