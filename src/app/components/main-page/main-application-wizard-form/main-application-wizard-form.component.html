@@ -87,12 +87,6 @@
               <tr mat-header-row *matHeaderRowDef="wizardApplicationTemplateColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: wizardApplicationTemplateColumns;"></tr>
             </table>
-            <!-- Paginator-->
-            <div [hidden]="!isPaginatorVisible">
-              <mat-paginator
-                [pageSizeOptions]="pageSizeOptions">
-              </mat-paginator>
-            </div>
           </section>
           <section class="form-container">
             <h2 class="mat-title mb-10">Container image (change if you need custom image)</h2>
@@ -100,10 +94,10 @@
               <input matInput formControlName="imageUrl" [value]="selectedWizardApplicationTemplateImage">
             </mat-form-field>
           </section>
-
         </mat-dialog-content>
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-          <button mat-flat-button class="next" color="primary" [disabled]="selectedWizardApplicationTemplateImage===null" matStepperNext
+          <button mat-flat-button class="next" color="primary"
+                  [disabled]="selectedWizardApplicationTemplateImage===null" matStepperNext
                   fxFlex="grow">
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>

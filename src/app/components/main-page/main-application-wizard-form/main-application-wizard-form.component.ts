@@ -1,13 +1,11 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Utilities } from '../../../utilities';
 
 export interface WizardApplicationTemplateRow {
   select: boolean;
@@ -36,12 +34,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
   selectedJupyterInterface: string;
   selectedDownloadMethod: string;
   selectedWizardApplicationTemplateImage: string = null;
-
-  // ---- Paginator
-  isPaginatorVisible = true;
-  private minUnitNumber = 3;
-  pageSizeOptions = [this.minUnitNumber];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   wizardApplicationTemplateColumns: string[] = ['select', 'info', 'spec'];
   wizardApplicationTemplateDataSource: MatTableDataSource<WizardApplicationTemplateRow> = null;
@@ -107,18 +99,9 @@ export class MainApplicationWizardFormComponent implements OnInit {
   }
 
   rebuildWizardApplicationTemplateDataSource(): void {
-    // wait for paginator to be initialized by Angular, otherwise defer to next tick
-    if (!this.paginator) {
-      setTimeout(_ => this.rebuildWizardApplicationTemplateDataSource(), 0);
-      return;
-    }
     this.wizardApplicationTemplateTableRowData = this.composeAppTmplDataSource(this.applicationTemplates);
     this.wizardApplicationTemplateDataSource =
       new MatTableDataSource<WizardApplicationTemplateRow>(this.wizardApplicationTemplateTableRowData);
-    this.wizardApplicationTemplateDataSource.paginator = this.paginator;
-    // ---- Paginator becomes invisible after data has been inserted
-    this.isPaginatorVisible = this.wizardApplicationTemplateTableRowData.length > this.minUnitNumber;
-    this.pageSizeOptions = Utilities.getPageSizeOptions(this.wizardApplicationTemplateDataSource, this.minUnitNumber);
   }
 
   composeAppTmplDataSource(templates: ApplicationTemplate[]): WizardApplicationTemplateRow[] {
