@@ -92,7 +92,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       setTimeout(() => this.rebuildDataSource(), 0);
       return;
     }
-    console.log('MainWorkspaceApplicationsComponent.rebuildDataSource()');
     const envs = this.applicationService.getApplicationsByWorkspaceId(this.workspaceId).sort(
       (a, b) => Number(b.is_enabled) - Number(a.is_enabled));
     this.dataSource = this.composeDataSource(envs);
@@ -165,9 +164,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   toggleApplicationActivation(isActive: boolean, applicationId: string): void {
     const application = this.getTargetApplication(applicationId);
     application.is_enabled = isActive;
-    this.applicationService.updateApplication(application).subscribe(_ => {
-      console.log('Updated application');
-    });
+    this.applicationService.updateApplication(application).subscribe();
   }
 
   copyApplication(applicationId: string): void {
@@ -179,7 +176,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   }
 
   toggleGpuActivation(active: boolean): void {
-    console.log(active);
     // ---- TODO: place holder. write later !
   }
 
@@ -188,9 +184,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     if (!confirm(`Are you sure you want to delete this application "${application.name}"?`)) {
       return;
     }
-    this.applicationService.deleteApplication(application).subscribe(_ => {
-      console.log('application deleting process finished');
-    });
+    this.applicationService.deleteApplication(application).subscribe();
   }
 
   openApplicationItemFormDialog(applicationId: string | null): void {

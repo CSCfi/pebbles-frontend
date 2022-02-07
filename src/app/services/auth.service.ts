@@ -41,7 +41,6 @@ export class AuthService {
   logout(): void {
     localStorage.clear();
     this.eventService.loginStatus$.next(LoginStatusChange.logout);
-    console.log('redirecting to oauth2 sign out url');
     window.open('/oauth2/sign_out?rd=%2F', '_self');
   }
 

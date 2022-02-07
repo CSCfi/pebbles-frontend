@@ -22,7 +22,6 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
       ws.description = Utilities.resetText(ws.description);
       return ws;
     });
-    console.log(workspaces);
     return workspaces;
   }
 

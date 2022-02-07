@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('AppComponent.ngOnInit()');
     // Make sure we have current data loaded after login
     // populate the service states in order to be able to assign the sessions to applications
     this.eventService.loginStatus$.subscribe(change => {

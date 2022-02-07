@@ -45,7 +45,6 @@ export class AccountService {
     const url = `${buildConfiguration.apiUrl}/users`;
     this.http.get<User[]>(url).pipe(
       map((resp) => {
-        console.log('fetchUsers() got', resp);
         resp.forEach( user => {
           this.userMap.set( user.id, user);
         });
@@ -108,7 +107,6 @@ export class AccountService {
     const url = `${buildConfiguration.apiUrl}/users/${userId}/workspace_associations`;
     return this.http.get<WorkspaceUserAssociation[]>(url).pipe(
       map((resp) => {
-        console.log('fetchWorkspaceAssociations() got', resp);
         this.workspaceUserAssociationMap.set(userId, resp);
         return resp;
       }),

@@ -162,7 +162,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     if (this.selectedWorkspaceId === workspaceId) {
       return;
     }
-    console.log('select workspace', workspaceId);
     this.selectedWorkspaceId = workspaceId;
     this.isWorkspaceDeleted = false;
 
@@ -214,7 +213,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        console.log('openWorkspaceCreationDialog() result', resp);
         this.newWorkspace = resp;
         this.selectWorkspace(resp.id);
       }
@@ -222,19 +220,17 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   createDemoWorkspace(): void {
-    console.log('creating demo workspace with example application');
     this.createDemoWorkspaceClickTs = Date.now();
     if (this.workspaceService.getOwnedWorkspaces(this.user).length > 0) {
-      console.log('user already has workspaces, refusing to create demo workspace');
+      // user already has workspaces, refusing to create demo workspace
       return;
     }
 
-    console.log('finding demo ApplicationTemplate');
     const envTemplate = this.applicationTemplateService.getApplicationTemplates().find((x) => {
       return x.name === ApplicationTemplate.EXAMPLE_TEMPLATE_NAME ? x : null;
     });
     if (!envTemplate) {
-      console.log(`no template "${ApplicationTemplate.EXAMPLE_TEMPLATE_NAME}" for example application found`);
+      window.alert(`Error: no template "${ApplicationTemplate.EXAMPLE_TEMPLATE_NAME}" for example application found`);
       return;
     }
 
@@ -243,8 +239,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       Workspace.DEMO_WORKSPACE_NAME,
       'Demo workspace for ' + this.authService.getUserName()
     ).subscribe((ws) => {
-      console.log('created demo Workspace ' + ws.id);
-      console.log('creating example Application');
       // create example application that is originally enabled
       this.applicationService.createApplication(
         ws.id,
@@ -256,7 +250,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         {},
         true,
       ).subscribe((env) => {
-        console.log('created example Application ' + env.id);
         this.selectWorkspace(ws.id);
       });
     });
@@ -273,9 +266,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         dialogActions: ['close']
       }
     });
-    dialogRef.afterClosed().subscribe(_ => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe();
   }
 
   openDeleteWorkspaceDialog(): void {

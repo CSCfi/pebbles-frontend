@@ -72,7 +72,6 @@ export class MainApplicationItemFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
     if (this.isCreationMode) {
       this.setCreationForm();
     } else {
@@ -125,7 +124,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     // if custom image is not present get the template base image
     if (!this.data.application.config.image_url) {
       this.data.application.config.image_url = this.applicationTemplateService.getApplicationTemplates().find(
-       x => x.id === this.data.application.template_id).base_config.image;
+        x => x.id === this.data.application.template_id).base_config.image;
     }
 
     this.applicationItemEditFormGroup = this.formBuilder.group({
@@ -176,8 +175,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         image_url: this.applicationItemEditFormGroup.controls.imageUrl.value,
       },
       this.applicationItemEditFormGroup.controls.publish.value || false,
-    ).subscribe((env) => {
-      console.log('created example Application ' + env.id);
+    ).subscribe(_ => {
       this.closeForm();
     });
   }
@@ -197,7 +195,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationService.updateApplication(
       this.data.application
     ).subscribe(_ => {
-      console.log('Updated application', this.data.application);
       this.closeForm();
     });
   }
@@ -215,15 +212,15 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   composeApplicationTemplateDataSource(tmpl: ApplicationTemplate): MatTableDataSource<ApplicationTemplateRow> {
     return new MatTableDataSource(
-        [{
-          name: tmpl.name,
-          description: tmpl.description,
-          labels: tmpl.base_config?.labels,
-          memory: tmpl.base_config?.memory_limit,
-          lifetime: tmpl.base_config?.maximum_lifetime,
-          application_type: tmpl.application_type,
-          is_enabled: tmpl.is_enabled,
-        }]
+      [{
+        name: tmpl.name,
+        description: tmpl.description,
+        labels: tmpl.base_config?.labels,
+        memory: tmpl.base_config?.memory_limit,
+        lifetime: tmpl.base_config?.maximum_lifetime,
+        application_type: tmpl.application_type,
+        is_enabled: tmpl.is_enabled,
+      }]
     );
   }
 

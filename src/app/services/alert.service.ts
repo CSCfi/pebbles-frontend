@@ -30,7 +30,6 @@ export class AlertService {
     const url = `${buildConfiguration.apiUrl}/status`;
     return this.http.get<string>(url).pipe(
       map(resp => {
-        console.log('fetch status got', resp);
         this.systemStatus = resp;
         return resp;
       })
@@ -41,7 +40,6 @@ export class AlertService {
     const url = `${buildConfiguration.apiUrl}/alerts`;
     return this.http.get<Alert[]>(url).pipe(
       map(resp => {
-        console.log('fetch alerts got', resp);
         this.alerts = resp;
         return resp;
       })

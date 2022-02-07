@@ -98,12 +98,10 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       return (session.id === this.sessionId);
     });
     if (!this.targetSession) {
-      console.log('session ' + this.sessionId + ' not found');
       return;
     }
     this.targetApplication = this.applicationService.get(this.targetSession.application_id);
     // session service refreshes the sessions asynchronously, we can simply get the fresh ones
-    console.log(this.targetSession.state);
 
     // set the title of the tab if not set previously
     if (!this.titleService.getTitle().startsWith('Launching')) {
@@ -140,7 +138,6 @@ export class SessionPageComponent implements OnInit, OnDestroy {
 
   redirectToSession(session: ApplicationSession): void {
     this.redirectUrl = session.session_data.endpoints[0].access;
-    console.log('redirecting to session content at ' + this.redirectUrl);
     window.open(this.redirectUrl, '_self');
   }
 }

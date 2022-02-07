@@ -5,7 +5,8 @@
 export const buildConfiguration = {
   production: false,
   // api at localhost for development
-  apiUrl: 'http://localhost/api/v1'
+  // apiUrl: 'http://localhost/api/v1'
+  apiUrl: 'https://pebbles-devel-2.rahti-int-app.csc.fi/api/v1'
 };
 
 export const ENVIRONMENT_SPECIFIC_PROVIDERS = [];

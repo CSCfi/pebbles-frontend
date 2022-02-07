@@ -92,7 +92,7 @@ export class MainSearchBoxComponent {
   }
 
   saveLabels() {
-    console.log('---- Write later for saving the tab with search labels ----');
+    // Write later for saving the tab with search labels
   }
 
   private _filter(value: string): string[] {

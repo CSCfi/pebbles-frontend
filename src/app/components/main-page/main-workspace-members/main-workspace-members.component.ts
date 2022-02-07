@@ -92,7 +92,6 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
       setTimeout(_ => this.rebuildDataSource(), 0);
       return;
     }
-    console.log('rebuildDataSource()');
     this.memberList = this.composeDataSource(this.workspaceService.getWorkspaceMembers(this.workspace.id));
     this.dataSource = new MatTableDataSource(this.memberList);
     this.dataSource.paginator = this.paginator;

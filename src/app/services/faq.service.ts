@@ -25,7 +25,6 @@ export class FaqService {
     const url = `${buildConfiguration.apiUrl}/help`;
     return this.http.get<Faq[]>(url).pipe(
       map(resp => {
-        console.log('fetch faqs got', resp);
         this.faqs = JSON.parse(JSON.stringify(resp));
         return resp;
       })

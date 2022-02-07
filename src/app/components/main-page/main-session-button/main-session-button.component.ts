@@ -104,7 +104,6 @@ export class MainSessionButtonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.applicationId);
   }
 
   startSession(): void {
@@ -128,14 +127,12 @@ export class MainSessionButtonComponent implements OnInit {
       // check if the session is running and already has access url
       const accessUrl = this.session.session_data?.endpoints?.[0]?.access;
       if (this.session.state === SessionStates.Running && accessUrl) {
-        console.log('redirecting to session content at ' + accessUrl);
         window.open(accessUrl, '_blank');
       }
       else {
         const url = origin + this.router.serializeUrl(
           this.router.createUrlTree(['/session/', this.application.session_id])
         );
-        console.log('redirecting to session launch page at ' + url);
         window.open(url, '_blank');
       }
     }
@@ -162,9 +159,7 @@ export class MainSessionButtonComponent implements OnInit {
         // ---- Delete data for applicationSession-notification queue.
         localStorage.removeItem(applicationSession.name);
 
-        this.applicationSessionService.deleteSession(applicationSession.id).subscribe(_ => {
-          console.log('applicationSession deleting process finished');
-        });
+        this.applicationSessionService.deleteSession(applicationSession.id).subscribe();
       }
     });
   }

@@ -31,7 +31,6 @@ export class MockInterceptor implements HttpInterceptor {
     const {method, headers, body} = req;
     let url = null;
     let args = null;
-    console.log(req);
     if (req.url.indexOf('?') >= 0) {
       url = req.url.split('?')[0];
       args = req.url.split('?')[1];
@@ -215,7 +214,6 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     function updateWorkspaceQuotas() {
-      // console.log(body);
       // const value = getQueryValue(args, 'value');
       const user = database.users.find(i => i.id === objectId);
       user.workspace_quota = Number(body.workspace_quota);
@@ -224,9 +222,7 @@ export class MockInterceptor implements HttpInterceptor {
 
     function genPastTs(days: number): number {
       const today = new Date();
-      console.log(today.getTime());
       const diff = Math.floor(Math.random() * ( today.getUTCHours() * 60 * 60 ));
-      console.log(diff);
       return Math.floor((today.getTime() / 1000 + days * ( 24 * 60 * 60 ) - diff));
     }
 
@@ -318,12 +314,10 @@ export class MockInterceptor implements HttpInterceptor {
           // to mimic random failures, tune the probability below
           if (Math.random() < 0.0) {
             session.state = SessionStates.Failed;
-            console.log('session ' + session.name + 'now in state ' + session.state);
             session._mockLastStateUpdateTs = Date.now();
             session.is_failed = true;
           } else if (Date.now() - session._mockLastStateUpdateTs > 5000) {
             session.state = states[states.indexOf(session.state) + 1];
-            console.log('session ' + session.name + 'now in state ' + session.state);
             session._mockLastStateUpdateTs = Date.now();
           }
         }
@@ -340,7 +334,6 @@ export class MockInterceptor implements HttpInterceptor {
       if (workspaceIds.indexOf('ws-0') < 0) {
         workspaceIds.push('ws-0');
       }
-      console.log('mock.getApplications() workspaceIds', workspaceIds);
       let applications = database.applications.filter((app) => {
         return workspaceIds.includes(app.workspace_id);
       });
@@ -694,7 +687,6 @@ export class MockInterceptor implements HttpInterceptor {
       if (workspaceIds.indexOf('ws-0') < 0) {
         workspaceIds.push('ws-0');
       }
-      console.log('mock.getApplications() workspaceIds', workspaceIds);
       return database.applications.filter((app) => {
         return workspaceIds.includes(app.workspace_id);
       });
@@ -744,9 +736,6 @@ export class MockInterceptor implements HttpInterceptor {
         if (user) {
         res.push({user_id: user.id, ext_id: user.ext_id, email_id: user.email_id,
           is_owner: wm.is_owner, is_manager: wm.is_manager, is_banned: wm.is_banned});
-        }
-        else {
-          console.log('no user ' + wm.ext_id + ' found');
         }
       }
       return res;

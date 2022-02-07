@@ -69,7 +69,6 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
       tap(resp => {
-        console.log(`joined workspace "${resp.name}" with code ${joinCode}`);
         this.fetchWorkspaces().subscribe();
         return resp;
       }),
@@ -83,7 +82,6 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/exit`;
     return this.http.put(url, {}).pipe(
       tap(_ => {
-        console.log(`exited from workspace id "${workspaceId}"`);
         this.fetchWorkspaces().subscribe();
         return workspaceId;
       })
@@ -114,7 +112,6 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
     this.http.get<WorkspaceMember[]>(url).pipe(
       map((resp) => {
-        console.log('refreshWorkspaceMembers() got', resp);
         this.workspaceMemberMap.set(workspaceId, resp);
         this.eventService.workspaceMemberDataUpdate$.next(workspaceId);
         return resp;
@@ -130,7 +127,6 @@ export class WorkspaceService {
     // const options = { params: new HttpParams().set('members_count', String(true))};
     this.http.get<number>(url).pipe(
       map((resp) => {
-        console.log('refreshWorkspaceMemberCount() got', resp);
         this.workspaceMemberCountMap.set(workspaceId, resp);
         this.eventService.workspaceMemberDataUpdate$.next(workspaceId);
         return Number(resp);
@@ -142,7 +138,6 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.post<Workspace>(url, {name, description}).pipe(
       tap((resp) => {
-        console.log('createWorkspace() got', resp);
         this.fetchWorkspaces().subscribe();
         this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).subscribe();
       }),
@@ -164,7 +159,6 @@ export class WorkspaceService {
       //   }
     }).pipe(
       tap(res => {
-        console.log('Updated Workspace');
         this.eventService.workspaceDataUpdate$.next(res.id);
         this.fetchWorkspaces().subscribe();
       })
@@ -186,7 +180,6 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
     return this.http.patch(url, {user_id: userId, operation: 'promote'}).pipe(
       map(_ => {
-        console.log('promoted member to co-owner: ' + userId);
         this.refreshWorkspaceMembers(workspaceId);
       })
     );
@@ -196,7 +189,6 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
     return this.http.patch(url, {user_id: userId, operation: 'demote'}).pipe(
       map(_ => {
-        console.log('demoted co-owner to member: ' + userId);
         this.refreshWorkspaceMembers(workspaceId);
       })
     );
@@ -210,7 +202,6 @@ export class WorkspaceService {
         operation: isBanned ? 'ban' : 'unban'
       }).pipe(
       map(_ => {
-        console.log('demoted co-owner to member: ' + userId);
         this.refreshWorkspaceMembers(workspaceId);
       })
     );

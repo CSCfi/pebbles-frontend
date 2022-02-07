@@ -27,7 +27,6 @@ export class MessageService {
     const url = `${buildConfiguration.apiUrl}/messages`;
     return this.http.get<Announcement[]>(url).pipe(
       map(resp => {
-        console.log('fetch announcements got', resp);
         this.announcements = resp;
         return this.announcements.sort((a, b) =>
           new Date(b.broadcasted).getTime() - new Date(a.broadcasted).getTime());
@@ -38,7 +37,6 @@ export class MessageService {
   displayError(s: string) {
     // limit the message to 200 chars
     s = s.substring(0, 200);
-    console.log('MessageService.displayError()', s);
     this.snackbar.open(s, null, {duration: 5000});
   }
 
@@ -50,7 +48,6 @@ export class MessageService {
   }
 
   markAnnouncementsAsRead() {
-    console.log('markAnnouncementsRead()');
     const url = `${buildConfiguration.apiUrl}/messages/${this.announcements[0].id}`;
     this.http.patch(url, {}).pipe(
       tap(_ => {

@@ -52,9 +52,6 @@ export class MainAccountComponent implements OnInit {
     this.desktopNotificationService.initDesktopNotification(permission => {
       this.notificationPermissionState = permission;
       this.appRef.tick();
-      if (permission === 'granted') {
-        console.log('permission to show notifications granted');
-      }
       DesktopNotificationService.showNotification(
           'Notifications activated!', 'We will notify you of Application status changes.'
       );

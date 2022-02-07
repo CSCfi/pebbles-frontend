@@ -61,9 +61,7 @@ export class MainCatalogComponent implements OnInit {
       data: {
         content: this.content
       }
-    }).afterClosed().subscribe(_ => {
-      console.log('Join workspace dialog done');
-    });
+    }).afterClosed().subscribe();
   }
 
   // ---- application

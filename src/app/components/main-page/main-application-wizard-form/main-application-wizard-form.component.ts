@@ -59,7 +59,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
     private applicationTemplateService: ApplicationTemplateService,
     private applicationService: ApplicationService,
   ) {
-    console.log(this.data);
     this.selectedLabels = [];
   }
 
@@ -143,7 +142,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
       },
       this.wizardPublishFormGroup.controls.isActive.value
     ).subscribe(_ => {
-      // console.log('created example Application ' + env.id);
       this.closeForm();
     });
   }

@@ -94,7 +94,6 @@ export class MainUsersComponent implements OnInit, OnDestroy {
       setTimeout(_ => this.rebuildDataSource(), 0);
       return;
     }
-    console.log('rebuildDataSource()');
     this.tableRowData = this.composeDataSource(this.accountService.getUsers());
     this.dataSource = new MatTableDataSource<UserTableRow>(this.tableRowData);
     this.dataSource.filter = Utilities.cleanText(this.queryText);
@@ -223,7 +222,6 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(params => {
       if (params) {
         this.accountService.toggleBlockUser(userId, isBlocked).subscribe( _ => {
-          console.log('The user has been blocked.');
           this.rebuildDataSource();
         });
       }

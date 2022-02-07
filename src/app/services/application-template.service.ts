@@ -23,7 +23,6 @@ export class ApplicationTemplateService {
     const url = `${buildConfiguration.apiUrl}/application_templates`;
     return this.http.get<ApplicationTemplate[]>(url).pipe(
       map((resp) => {
-        console.log('fetchApplicationTemplates got', resp);
         this.applicationTemplates = resp;
         return this.applicationTemplates;
       })

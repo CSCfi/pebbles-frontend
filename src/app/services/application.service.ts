@@ -61,7 +61,6 @@ export class ApplicationService implements OnDestroy {
 
     return this.http.get<Application[]>(url).pipe(
       map((resp) => {
-        console.log('fetchApplications() got', resp);
         for (const newEnv of resp) {
           // make life easier by making some empty defaults if necessary
           if (!newEnv.config) {
@@ -87,9 +86,7 @@ export class ApplicationService implements OnDestroy {
         return this.applications;
       }),
       catchError(err => {
-        console.log('ApplicationService.fetchApplications() got error ', err);
         if (err.status === 401) {
-          console.log('ApplicationService stopping application polling');
           this.clearPollingInterval();
         }
         return throwError('Error fetching applications');
@@ -101,7 +98,6 @@ export class ApplicationService implements OnDestroy {
     const application = this.get(applicationId);
     return this.applicationSessionService.createSession(application.id).pipe(
       map(resp => {
-        console.log('application starting, assigning session ' + resp);
         application.session_id = resp.id;
         this.applicationSessionService.fetchSessions().subscribe();
         return application;
@@ -113,7 +109,6 @@ export class ApplicationService implements OnDestroy {
   //   const application = this.get(applicationId);
   //   return this.applicationSessionService.deleteSession(application.session_id).pipe(
   //     map(() => {
-  //       console.log('application stopping');
   //       this.applicationSessionService.fetchSessions().subscribe();
   //       return application;
   //     })
@@ -131,11 +126,9 @@ export class ApplicationService implements OnDestroy {
     is_enabled: boolean
   ): Observable<Application> {
     const url = `${buildConfiguration.apiUrl}/applications`;
-    console.log('POSTing a new application');
     return this.http.post<Application>(url,
       {workspace_id, name, description, labels, template_id, maximum_lifetime, config, is_enabled}).pipe(
       map((resp) => {
-        console.log('created Application', resp);
         this.fetchApplications().subscribe();
         return resp;
       })
@@ -147,7 +140,6 @@ export class ApplicationService implements OnDestroy {
 
     return this.http.put<Application>(url, null).pipe(
       map(_ => {
-        console.log('The Application copied');
         this.fetchApplications().subscribe();
         return application;
       })
@@ -156,10 +148,8 @@ export class ApplicationService implements OnDestroy {
 
   updateApplication(application: Application): Observable<Application> {
     const url = `${buildConfiguration.apiUrl}/applications/${application.id}`;
-    console.log('updateApplication()', application);
     return this.http.put<Application>(url, application).pipe(
       map(_ => {
-        console.log('application', application.id, 'updated');
         this.fetchApplications().subscribe();
         return application;
       })
@@ -169,15 +159,12 @@ export class ApplicationService implements OnDestroy {
   // ---- TODO: discuss about the way to introduce
   deleteApplication(application: Application): Observable<Application> {
     const url = `${buildConfiguration.apiUrl}/applications/${application.id}`;
-    console.log('Deleting application', application);
     return this.http.delete<Application>(url).pipe(tap(_ => {
-      console.log('application deleted:', application.id);
       this.fetchApplications().subscribe();
     }));
   }
 
   clearPollingInterval() {
-    // console.log('---- stop polling');
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = 0;

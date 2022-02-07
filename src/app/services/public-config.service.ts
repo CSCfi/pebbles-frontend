@@ -90,7 +90,6 @@ export class PublicConfigService {
     const url = `${buildConfiguration.apiUrl}/config`;
     return this.http.get(url).pipe(
       tap(res => {
-        console.log('fetched public config');
         this.publicConfig = new Map<string, string>();
         for (const entry of res) {
           this.publicConfig.set(entry.key, entry.value);

@@ -130,8 +130,6 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
         dialogActions: ['close']
       }
     });
-    dialogRef.afterClosed().subscribe(_ => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe();
   }
 }

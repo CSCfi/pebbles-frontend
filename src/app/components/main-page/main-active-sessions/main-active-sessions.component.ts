@@ -178,9 +178,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       if (result) {
         for (const row of selectedSessions) {
           const sessionId = row.sessionId;
-          this.applicationSessionService.deleteSession(sessionId).subscribe(_ => {
-            console.log('deleted ' + row.username + ':' + sessionId);
-          });
+          this.applicationSessionService.deleteSession(sessionId).subscribe();
           row.state = 'deleting';
         }
         this.selection.clear();

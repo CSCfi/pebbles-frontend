@@ -37,9 +37,7 @@ export class MainAnnouncementComponent implements OnInit {
   }
 
   fetchAnnouncements(): void {
-    this.messageService.fetchAnnouncements().subscribe(() => {
-      console.log('message fetched');
-    });
+    this.messageService.fetchAnnouncements().subscribe();
   }
 
   formatDate(dateStr: string): string {

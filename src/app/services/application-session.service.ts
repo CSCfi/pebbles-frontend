@@ -54,7 +54,6 @@ export class ApplicationSessionService implements OnDestroy {
 
     return this.http.get<ApplicationSession[]>(url).pipe(
       map(sessions => {
-        console.log('fetchSessions got', sessions);
         let nonStatic = false;
         for (const session of sessions) {
           if (session.state !== SessionStates.Running && session.state !== SessionStates.Failed) {
@@ -77,9 +76,7 @@ export class ApplicationSessionService implements OnDestroy {
         return this.applicationSessions;
       }),
       catchError(err => {
-        console.log('SessionService.fetchSessions got error ', err);
         if (err.status === 401) {
-          console.log('SessionService stopping session polling');
           this.clearPollingInterval();
         }
         return throwError('Error fetching applicationSessions');
@@ -93,7 +90,6 @@ export class ApplicationSessionService implements OnDestroy {
     return this.http.post<ApplicationSession>(url, {application_id: applicationId}).pipe(
       tap(newSession => {
         // push the new session directly to state and trigger a full refresh later
-        console.log('created session ' + newSession.name);
         this.applicationSessions.push(newSession);
         this.fetchSessions().subscribe();
       }));
@@ -102,13 +98,11 @@ export class ApplicationSessionService implements OnDestroy {
   deleteSession(sessionId: string): Observable<ApplicationSession> {
     const url = `${buildConfiguration.apiUrl}/application_sessions/${sessionId}`;
     return this.http.delete<ApplicationSession>(url).pipe(tap(resp => {
-      console.log(resp);
       this.fetchSessions().subscribe();
     }));
   }
 
   clearPollingInterval() {
-    // console.log('---- stop polling');
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = 0;
@@ -130,7 +124,6 @@ export class ApplicationSessionService implements OnDestroy {
     if (this.intervalValue === intervalMs) {
       return;
     }
-    console.log('setting polling rate to ' + intervalMs);
 
     if (this.interval) {
       clearInterval(this.interval);

@@ -31,8 +31,4 @@ export class DialogComponent implements OnInit {
   onConfirm(): void {
     this.dialogRef.close(true);
   }
-
-  copyText(): void {
-    console.log(this.data);
-  }
 }

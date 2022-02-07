@@ -40,7 +40,6 @@ export class WelcomePageComponent implements OnInit {
   }
 
   onLogin(): void {
-    console.log('---- onLogin');
     const ext_id = this.loginFormGroup.controls.ext_id.value;
     const password = this.loginFormGroup.controls.password.value;
     this.authService.login(ext_id, password).pipe(
@@ -54,7 +53,7 @@ export class WelcomePageComponent implements OnInit {
         localStorage.setItem('is_sidenav_open', 'true');
 
         this.dialogRef.close();
-        this.router.navigateByUrl('/main').then(() => console.log('router: navigated to /main'));
+        this.router.navigateByUrl('/main').then();
       }),
       catchError(err => {
         if (typeof err.error === 'string') {

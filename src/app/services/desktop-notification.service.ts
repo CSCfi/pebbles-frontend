@@ -12,7 +12,6 @@ export class DesktopNotificationService {
       autoClose: 10000
     };
     const notification = new Notification(notificationTitle, options);
-    console.log('displayed notification "' + notification.title + '"');
   }
 
   static getPermissionState(): string {
@@ -106,8 +105,6 @@ export class DesktopNotificationService {
             sent_notifications.push(SessionLifetimeLevel.Failed);
           }
           break;
-        default:
-          console.log(session.state, DesktopNotificationService.secondsToMinutesText(session.lifetime_left));
       }
       notification_states[session.name] = sent_notifications;
       localStorage.setItem('notification_states', JSON.stringify(notification_states));
