@@ -37,14 +37,14 @@
       <!-- Index Column -->
       <ng-container matColumnDef="index">
         <th mat-header-cell class="icon-cell" *matHeaderCellDef>index</th>
-        <td mat-cell class="center icon-cell" *matCellDef="let element" [ngClass]="{'my-account':element.email === user.ext_id}">
+        <td mat-cell class="center icon-cell" *matCellDef="let element" [ngClass]="{'my-account':element.email === user?.ext_id}">
           {{element.index}}
         </td>
       </ng-container>
       <!-- Role column -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef>Role</th>
-        <td mat-cell class="cell-role" *matCellDef="let element" [ngClass]="{'my-account':element.email === user.ext_id}">
+        <td mat-cell class="cell-role" *matCellDef="let element" [ngClass]="{'my-account':element.email === user?.ext_id}">
           <ng-container [ngSwitch]="element.role">
             <div [ngClass]="element.role" class="center__v mat-caption user-association-type">
               <mat-icon fontSet="material-icons-outlined" class="user-role-icon mr-5" *ngSwitchCase="'owner'"> manage_accounts </mat-icon>
@@ -59,7 +59,7 @@
       <!-- ext_id column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>email</th>
-        <td mat-cell *matCellDef="let element" [ngClass]="{'my-account':element.email === user.ext_id}">
+        <td mat-cell *matCellDef="let element" [ngClass]="{'my-account':element.email === user?.ext_id}">
           <span class="center__v">
             {{element.email}}
           </span>
@@ -68,7 +68,7 @@
       <!-- menu column -->
       <ng-container matColumnDef="menu">
         <th mat-header-cell *matHeaderCellDef>menu</th>
-        <td mat-cell class="icon-cell" *matCellDef="let element" [ngClass]="{'my-account':element.email === user.ext_id}">
+        <td mat-cell class="icon-cell" *matCellDef="let element" [ngClass]="{'my-account':element.email === user?.ext_id}">
           <button mat-button [matMenuTriggerFor]="menu" aria-label="open menu"
                   [disabled]="element.role === 'owner'">
             <mat-icon>menu</mat-icon>
