@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChil
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { faRProject } from '@fortawesome/free-brands-svg-icons';
@@ -40,23 +40,23 @@ export interface ApplicationRow {
 })
 export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, OnChanges {
 
-  faBook = faBook;
-  faRProject = faRProject;
-  faPython = faPython;
+  public faBook = faBook;
+  public faRProject = faRProject;
+  public faPython = faPython;
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
-  isSessionDeleted = false;
+  public isSessionDeleted = false;
 
-  displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
-  dataSource: MatTableDataSource<ApplicationRow> = null;
-  selection = new SelectionModel<ApplicationRow>(true, []);
+  public displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
+  public dataSource: MatTableDataSource<ApplicationRow> = null;
+  public selection = new SelectionModel<ApplicationRow>(true, []);
 
   // ---- Paginator
-  isPaginatorVisible = false;
-  minUnitNumber = 25;
-  pageSizeOptions = [this.minUnitNumber];
+  public isPaginatorVisible = false;
+  public minUnitNumber = 25;
+  public pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @Input() content: any;
+  @Input() context: Data;
   @Input() workspaceId: string = null;
 
   constructor(

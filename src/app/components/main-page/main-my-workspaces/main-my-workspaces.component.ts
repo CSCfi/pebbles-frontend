@@ -1,4 +1,5 @@
-import {Component, QueryList, ViewChildren} from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Workspace } from 'src/app/models/workspace';
 import { Utilities } from 'src/app/utilities';
@@ -10,14 +11,9 @@ import { MainWorkspaceItemComponent } from '../main-workspace-item/main-workspac
   selector: 'app-main-my-workspaces',
   templateUrl: './main-my-workspaces.component.html',
 })
-export class MainMyWorkspacesComponent {
+export class MainMyWorkspacesComponent implements OnInit {
 
-  public content = {
-    path: 'my-workspaces',
-    title: 'My workspaces',
-    identifier: 'my-workspace'
-  };
-
+  public context: Data;
   @ViewChildren(MainWorkspaceItemComponent) workspaceItems: QueryList<MainWorkspaceItemComponent>;
 
   public newWorkspaceId: string;
@@ -42,8 +38,15 @@ export class MainMyWorkspacesComponent {
 
   constructor(
     public dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
     private workspaceService: WorkspaceService,
   ) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
+  }
 
   toggleWorkspaceList(): void {
     this.isListOpen = !this.isListOpen;
@@ -88,12 +91,12 @@ export class MainMyWorkspacesComponent {
   }
 
   openJoinWorkspaceDialog(): void {
-    const dialogRef = this.dialog.open(MainJoinWorkspaceDialogComponent, {
+    this.dialog.open(MainJoinWorkspaceDialogComponent, {
       height: 'auto',
       width: '600px',
       autoFocus: false,
       data: {
-        content: this.content
+        context: this.context
       }
     }).afterClosed().subscribe( ws => {
       if (ws) {

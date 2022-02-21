@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
 
 @Component({
   selector: 'app-main-statistics',
@@ -7,15 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainStatisticsComponent implements OnInit {
 
-  public content = {
-    path: 'statistics',
-    title: 'Statistics',
-    identifier: 'statistics'
-  };
+  public context: Data;
 
-  constructor() { }
+  constructor(
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
   }
 
 }

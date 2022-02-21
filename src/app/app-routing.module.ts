@@ -10,10 +10,21 @@ const routes: Routes = [
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   // ---- Development deployment fallback for missing oauth2-proxy sign_out
   { path: 'oauth2/sign_out', redirectTo: 'welcome', pathMatch: 'full' },
-  // ---- //
-  { path: 'welcome', component: WelcomePageComponent },
+  {
+    path: 'welcome', component: WelcomePageComponent,
+    data: {
+      title: 'Welcome',
+      identifier: 'welcome',
+      breadcrumbs: ['welcome']
+    }
+  },
   { path: 'main', loadChildren: './components/main-page/main-routing.module'},
-  { path: 'session/:id', component: SessionPageComponent },
+  { path: 'session/:id', component: SessionPageComponent,
+    data: {
+      title: 'Session',
+      identifier: 'session',
+      breadcrumbs: ['session']
+    }},
   { path: '**', component: NotFoundPageComponent },
 ];
 

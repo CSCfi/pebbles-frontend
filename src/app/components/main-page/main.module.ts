@@ -16,7 +16,7 @@ import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspac
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
 import { MainActiveSessionsComponent } from './main-active-sessions/main-active-sessions.component';
 import { MainUsersComponent } from './main-users/main-users.component';
-import { MainSystemStatusComponent } from './main-status/main-system-status/main-system-status.component';
+import { MainSystemStatusComponent } from './main-system-status/main-system-status.component';
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
 import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
 import { MainHelpComponent } from './main-help/main-help.component';

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
 import { UserAssociationType, Workspace } from 'src/app/models/workspace';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -14,7 +15,7 @@ export class MainWorkspaceItemComponent implements OnInit {
 
   @Input() workspace: Workspace;
   @Input() isNew: boolean;
-  @Input() content: any;
+  @Input() context: Data;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   panelOpenState: boolean;
 

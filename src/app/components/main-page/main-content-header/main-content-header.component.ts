@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { FormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable } from 'rxjs';
+import { Data } from '@angular/router';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 
 @Component({
@@ -12,18 +12,16 @@ import { ApplicationCategoryService } from 'src/app/services/application-categor
 })
 export class MainContentHeaderComponent implements OnInit {
 
-  @Input() content: any;
+  @Input() context: Data;
   @Input() isSearchOn: boolean;
   @Input() isAutocompleteDisabled: boolean;
   @Output() emitApplyFilter = new EventEmitter<string>();
 
-  isLabelRemovable = true;
-  isLabelSelectable = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  selectedLabels: string[];
-  inputCtrl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredLabels: Observable<string[]>;
+  public isLabelRemovable = true;
+  public isLabelSelectable = true;
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  private selectedLabels: string[];
+  public inputCtrl = new FormControl();
 
   @ViewChild('labelInput') labelInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -43,7 +41,7 @@ export class MainContentHeaderComponent implements OnInit {
   }
 
   get candidateLabels(): string[] {
-    return this.allLabels(this.content.identifier).filter(label => !this.labels.includes(label));
+    return this.allLabels(this.context.identifier).filter(label => !this.labels.includes(label));
   }
 
   allLabels(category): string[] {

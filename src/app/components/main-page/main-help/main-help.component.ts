@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { FaqService } from '../../../services/faq.service';
 import { Content, Faq } from 'src/app/models/faq';
 import { PublicConfigService } from '../../../services/public-config.service';
@@ -14,31 +14,30 @@ import { MatAccordion } from '@angular/material/expansion';
 })
 export class MainHelpComponent implements OnInit {
 
-  public content = {
-    path: 'help',
-    title: 'Help',
-    identifier: 'help'
-  };
+  public context: Data;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  queryText = '';
-  isAllExpanded = false;
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  public queryText = '';
+  public isAllExpanded = false;
   public index = 0;
   public selectedTab = 0;
   public contentLabels = ['faq', 'documentation', 'contact'];
   public faqTopics: Faq[];
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  indexExpanded: string;
+  public indexExpanded: string;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     public faqService: FaqService,
     public publicConfigService: PublicConfigService,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     this.faqService.fetchFaqs().subscribe(_ => {
       this.resetFaqs();
     });

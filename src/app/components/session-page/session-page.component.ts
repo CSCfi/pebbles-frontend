@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { ProgressBarMode } from '@angular/material/progress-bar';
-import { SafeResourceUrl, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Data } from '@angular/router';
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/app/models/application-session';
 import { Application } from '../../models/application';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
@@ -26,13 +24,9 @@ export interface SessionProgressStep {
 })
 export class SessionPageComponent implements OnInit, OnDestroy {
 
-  public content = {
-    path: 'session',
-    title: 'Session',
-    identifier: 'session'
-  };
+  public context: Data;
 
-  progressMap = new Map<SessionStates, number>([
+  private progressMap = new Map<SessionStates, number>([
     [SessionStates.Queueing, 0],
     [SessionStates.Provisioning, 10],
     [SessionStates.Starting, 10],
@@ -42,7 +36,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     [SessionStates.Failed, 100]
   ]);
 
-  provisioningLogProgressMap = new Map<string, number>([
+  private provisioningLogProgressMap = new Map<string, number>([
     ['created', 20],
     ['scheduled to a node', 30],
     ['waiting for volumes', 40],
@@ -51,7 +45,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     ['ready', 90]
   ]);
 
-  provisioningLogMessageMap = new Map<string, string>([
+  private provisioningLogMessageMap = new Map<string, string>([
     ['created', 'Waiting in the queue'],
     ['scheduled to a node', 'Allocating resources'],
     ['waiting for volumes', 'Preparing folders'],
@@ -60,22 +54,15 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     ['ready', 'Ready<br>Opening session']
   ]);
 
-  sessions: ApplicationSession[];
-  targetSession: ApplicationSession;
-  targetApplication: Application;
-  redirectUrl: string;
-  iframeSrc: SafeResourceUrl;
-  sessionId: string;
-  sessionStates = SessionStates;
-  sessionStatesInfo = '';
-  sessionProgressSteps: SessionProgressStep[];
-  sessionProcessFlag = false;
-  isSessionDeleted = false;
+  public targetSession: ApplicationSession;
+  public targetApplication: Application;
+  private redirectUrl: string;
+  private readonly sessionId: string;
+  public sessionStatesInfo = '';
+  public sessionProgressSteps: SessionProgressStep[];
+  private sessionProcessFlag = false;
+  public isSessionDeleted = false;
   private interval;
-
-  color: ThemePalette = 'primary';
-  mode: ProgressBarMode = 'buffer';
-
   @ViewChild('spinner') spinner: TemplateRef<any>;
 
   get description(): string {
@@ -84,16 +71,19 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private applicationService: ApplicationService,
     private applicationSessionService: ApplicationSessionService,
     private titleService: Title,
   ) {
-    this.sessionId = this.route.snapshot.params.id;
+    this.sessionId = this.activatedRoute.snapshot.params.id;
     this.sessionProgressSteps = this.getSessionProgressSteps();
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     // setup a timer to check the session state/progress
     this.interval = setInterval(() => {
       this.checkSessionStatus();

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Data } from '@angular/router';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { PublicConfigService } from '../../../services/public-config.service';
 })
 export class FooterComponent implements OnInit {
 
-  @Input() content: any;
+  @Input() context: Data;
   @Output() emitSpecialLogin = new EventEmitter<boolean>();
 
   constructor(

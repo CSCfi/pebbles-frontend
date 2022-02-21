@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
@@ -13,26 +13,25 @@ import { MessageService } from '../../services/message.service';
 })
 export class WelcomePageComponent implements OnInit {
 
-  public content = {
-    path: 'welcome',
-    title: 'welcome',
-    identifier: 'welcome'
-  };
-
-  loginFormGroup: FormGroup;
+  public context: Data;
+  public loginFormGroup: FormGroup;
   @ViewChild('specialLoginDialog') specialLoginDialog: TemplateRef<any>;
   private dialogRef: MatDialogRef<any>;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
+    private dialog: MatDialog,
     private authService: AuthService,
     private messageService: MessageService,
-    private dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     this.loginFormGroup = this.formBuilder.group({
       ext_id: ['', [Validators.required]],
       password: ['', [Validators.required]]

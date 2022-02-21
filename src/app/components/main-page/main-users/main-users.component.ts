@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -34,12 +35,7 @@ export interface UserTableRow {
 })
 export class MainUsersComponent implements OnInit, OnDestroy {
 
-  public content = {
-    path: 'users',
-    title: 'Manage users',
-    identifier: 'users'
-  };
-
+  public context: Data;
   private subscriptions: Subscription[] = [];
   public displayedColumns: string[] = [
     'index', 'isSelected', 'email', 'pseudonym', 'state', 'workspaceQuota', 'joiningDate', 'expiryDate', 'lastLoginDate', 'action'
@@ -60,6 +56,7 @@ export class MainUsersComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private eventService: EventService,
     private accountService: AccountService,
@@ -67,6 +64,9 @@ export class MainUsersComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     this.subscriptions.push(this.eventService.userDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
     }));

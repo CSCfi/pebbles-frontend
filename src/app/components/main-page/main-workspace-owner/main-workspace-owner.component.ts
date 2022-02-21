@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
 import { UserAssociationType, Workspace } from 'src/app/models/workspace';
@@ -23,16 +23,8 @@ import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspac
   styleUrls: ['./main-workspace-owner.component.scss']
 })
 export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
-  // store subscriptions here for unsubscribing destroy time
-  private subscriptions: Subscription[] = [];
-  private autoSelectFirstWorkspace = true;
 
-  public content = {
-    path: 'main/workspace-owner',
-    title: 'Manage workspaces',
-    identifier: 'workspace-owner'
-  };
-
+  public context: Data;
   public workspaces: Workspace[] = null;
   public selectedWorkspaceId: string;
   public selectedWorkspace: Workspace;
@@ -44,8 +36,11 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
   public queryText = '';
-  options: FormGroup;
-  workspaceIdControl = new FormControl();
+  // store subscriptions here for unsubscribing destroy time
+  private subscriptions: Subscription[] = [];
+  private autoSelectFirstWorkspace = true;
+  private options: FormGroup;
+  private workspaceIdControl = new FormControl();
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
@@ -78,6 +73,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     // ---- Subscriptions to event Subjects
     this.subscriptions.push(this.eventService.applicationDataUpdate$.subscribe(_ => {
       this.refreshView();

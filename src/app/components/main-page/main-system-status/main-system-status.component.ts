@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Alert } from '../../../../models/alert';
-import { AlertService } from '../../../../services/alert.service';
-import { ApplicationSessionService } from '../../../../services/application-session.service';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Alert } from '../../../models/alert';
+import { AlertService } from '../../../services/alert.service';
+import { ApplicationSessionService } from '../../../services/application-session.service';
 
 @Component({
   selector: 'app-main-system-status',
@@ -9,21 +10,21 @@ import { ApplicationSessionService } from '../../../../services/application-sess
   styleUrls: ['./main-system-status.component.scss']
 })
 export class MainSystemStatusComponent implements OnInit, OnDestroy {
-  public content = {
-    path: 'system-status',
-    title: 'System status',
-    identifier: 'system-status'
-  };
 
-  interval: number;
+  public context: Data;
+  private interval: number;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
     private applicationSessionService: ApplicationSessionService
   ) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     this.refresh();
     this.interval = window.setInterval(_ => this.refresh(), 30 * 1000);
   }

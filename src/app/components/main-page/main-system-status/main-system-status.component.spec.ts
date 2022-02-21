@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { MainSystemStatusComponent } from './main-system-status.component';
 
 describe('MainSystemStatusComponent', () => {
@@ -11,6 +11,7 @@ describe('MainSystemStatusComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        RouterTestingModule,
       ],
       declarations: [MainSystemStatusComponent]
     })

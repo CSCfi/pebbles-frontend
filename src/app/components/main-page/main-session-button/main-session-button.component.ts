@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { Application } from 'src/app/models/application';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
@@ -18,7 +18,7 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 export class MainSessionButtonComponent implements OnInit {
 
   @Input() applicationId: string;
-  @Input() content: any;
+  @Input() context: Data;
   @Input() isSessionDeleted = false;
 
   // ---- Setting of a spinner
@@ -58,7 +58,7 @@ export class MainSessionButtonComponent implements OnInit {
     if (this.session) {
       return this.session.state;
     }
-    if (this.content.identifier === 'session') {
+    if (this.context?.identifier === 'session') {
       window.close();
     }
     return null;

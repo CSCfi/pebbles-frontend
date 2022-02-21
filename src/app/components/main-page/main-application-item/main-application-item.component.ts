@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Data } from '@angular/router';
 import { faPython, faRProject } from '@fortawesome/free-brands-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { Application } from 'src/app/models/application';
@@ -13,12 +14,12 @@ import { WorkspaceService } from '../../../services/workspace.service';
 })
 export class MainApplicationItemComponent implements OnInit {
 
-  faBook = faBook;
-  faRProject = faRProject;
-  faPython = faPython;
+  public faBook = faBook;
+  public faRProject = faRProject;
+  public faPython = faPython;
 
   @Input() application: Application;
-  @Input() content: any;
+  @Input() context: Data;
   @Input() isSessionDeleted: boolean;
 
   get isPublic(): boolean {

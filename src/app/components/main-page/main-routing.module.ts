@@ -9,7 +9,7 @@ import { MainHelpComponent } from './main-help/main-help.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
 import { MainPageComponent } from './main-page.component';
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
-import { MainSystemStatusComponent } from './main-status/main-system-status/main-system-status.component';
+import { MainSystemStatusComponent } from './main-system-status/main-system-status.component';
 import { MainUsersComponent } from './main-users/main-users.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
 
@@ -17,51 +17,97 @@ export const routes: Routes = [
   {
     path: 'main', component: MainPageComponent,
     children: [
-      {path: '', redirectTo: 'catalog', pathMatch: 'full'},
+      {
+        path: '', redirectTo: 'catalog', pathMatch: 'full'
+      },
       {
         path: 'catalog', component: MainCatalogComponent,
-        data: {breadcrumbs: ['']}
+        data: {
+          title: 'Applications',
+          identifier: 'catalog',
+          breadcrumbs: ['home']
+        }
       },
       {
         path: 'my-workspaces', component: MainMyWorkspacesComponent,
-        data: {breadcrumbs: ['home', 'my-workspaces']}
+        data: {
+          title: 'My workspace',
+          identifier: 'my-workspace',
+          breadcrumbs: ['home', 'My workspaces']
+        }
       },
       {
         path: 'workspace-owner', component: MainWorkspaceOwnerComponent,
-        data: {breadcrumbs: ['home', 'workspace-owner']},
+        data: {
+          title: 'Manage Workspace',
+          identifier: 'workspace-owner',
+          breadcrumbs: ['home', 'workspace-owner']
+        }
       },
       {
         path: 'account', component: MainAccountComponent,
-        data: {breadcrumbs: ['home', 'account']}
+        data: {
+          title: 'Account',
+          identifier: 'account',
+          breadcrumbs: ['home', 'account']
+        }
       },
       {
         path: 'announcements', component: MainAnnouncementComponent,
-        data: {breadcrumbs: ['home', 'announcements']}
+        data: {
+          title: 'Announcements',
+          identifier: 'announcements',
+          breadcrumbs: ['home', 'announcements']
+        }
       },
       {
         path: 'help', component: MainHelpComponent,
-        data: {breadcrumbs: ['home', 'help']}
+        data: {
+          title: 'Help',
+          identifier: 'help',
+          breadcrumbs: ['home', 'workspace-owner']
+        }
       },
 
       {
         path: 'active-sessions', component: MainActiveSessionsComponent,
-        data: {breadcrumbs: ['home', 'active-sessions']}
+        data: {
+          title: 'active-session',
+          identifier: 'active-session',
+          breadcrumbs: ['home', 'active-session']
+        }
       },
       {
         path: 'users', component: MainUsersComponent,
-        data: {breadcrumbs: ['home', 'users']}
+        data: {
+          title: 'Users',
+          identifier: 'users',
+          breadcrumbs: ['home', 'users']
+        }
       },
       {
         path: 'system-status', component: MainSystemStatusComponent,
-        data: {breadcrumbs: ['home', 'system-status']}
+        data: {
+          title: 'System status',
+          identifier: 'system-status',
+          breadcrumbs: ['home', 'system-status']
+        }
       },
       {
         path: 'statistics', component: MainStatisticsComponent,
-        data: {breadcrumbs: ['home', 'statistics']}
+        data: {
+          title: 'Statistics',
+          identifier: 'statistics',
+          breadcrumbs: ['home', 'statistics']
+        }
       },
       {
         path: '**', component: NotFoundPageComponent,
-        data: {breadcrumbs: ['']}
+        data: {
+          title: 'Not found',
+          identifier: 'not-found',
+          breadcrumbs: ['home', 'not-found']
+        }
       },
     ]
   }

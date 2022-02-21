@@ -15,7 +15,7 @@
   </div>
 </div>
 <!-- <app-welcome-publicity></app-welcome-publicity> -->
-<app-footer [content]="content" (emitSpecialLogin)="openSpecialLoginDialog()"></app-footer>
+<app-footer [context]="context" (emitSpecialLogin)="openSpecialLoginDialog()"></app-footer>
 <ng-template #specialLoginDialog>
   <form class="special-login-form" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup" fxLayout="column" fxLayoutAlign="start stretch">
     <mat-form-field appearance="outline">

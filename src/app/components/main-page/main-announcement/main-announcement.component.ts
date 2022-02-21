@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
 import { MessageService } from 'src/app/services/message.service';
 import { Announcement } from 'src/app/models/announcement';
 
@@ -9,11 +10,7 @@ import { Announcement } from 'src/app/models/announcement';
 })
 export class MainAnnouncementComponent implements OnInit {
 
-  public content = {
-    path: 'announcements',
-    title: 'Announcements',
-    identifier: 'announcements'
-  };
+  public context: Data;
 
   get isAllRead() {
     return this.announcements.filter( item => !item.is_read ).length === 0;
@@ -24,11 +21,15 @@ export class MainAnnouncementComponent implements OnInit {
   }
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     public messageService: MessageService
   ) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     this.fetchAnnouncements();
   }
 

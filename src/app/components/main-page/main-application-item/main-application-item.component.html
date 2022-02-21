@@ -34,7 +34,7 @@
 
         <mat-card-subtitle fxLayout="row wrap" fxLayoutAlign="space-between stretch"
                            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
-          <div class="workspace-name center__v" *ngIf="content.identifier==='catalog'" [ngClass]="userAssociationType">
+          <div class="workspace-name center__v" *ngIf="context?.identifier==='catalog'" [ngClass]="userAssociationType">
             <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
               <mat-icon class="user-role-icon md-16 mr-5" [matTooltip]="userAssociationType">group</mat-icon>
               {{ application.workspace_name }}
@@ -89,7 +89,7 @@
     <!-- Card RIGHT section -->
     <mat-card-actions fxFlex="0 0 130px" class="card-action-container center__vh">
       <app-main-session-button [applicationId]="application.id"
-                               [content]="content"
+                               [context]="context"
                                [isSessionDeleted]="isSessionDeleted">
       </app-main-session-button>
     </mat-card-actions>

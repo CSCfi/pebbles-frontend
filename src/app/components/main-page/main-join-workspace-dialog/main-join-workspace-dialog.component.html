@@ -21,7 +21,7 @@
       </form>
       <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
     </section>
-    <section class="workspace-list mt-30" *ngIf="data.content && data.content.identifier === 'catalog'">
+    <section class="workspace-list mt-30" *ngIf="data.context && data.context.identifier === 'catalog'">
       <ng-container *ngIf=" workspaces.length > 0; else noWorkspaceBlock">
         <h3>My Workspaces</h3>
         <ul class="workspace-list">

@@ -27,7 +27,7 @@ describe('MainJoinWorkspaceDialogComponent', () => {
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
-            content: {
+            context: {
               identifier: 'catalog'
             }
           }

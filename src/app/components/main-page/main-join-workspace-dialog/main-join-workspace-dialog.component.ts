@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Data } from '@angular/router';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
@@ -11,7 +12,7 @@ import { Utilities } from 'src/app/utilities';
 })
 export class MainJoinWorkspaceDialogComponent implements OnInit {
 
-  public content: any;
+  public context: Data;
   public newWorkspace: Workspace;
   public joinWorkspaceForm: FormGroup;
   public errorMessage = '';
@@ -38,7 +39,7 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<MainJoinWorkspaceDialogComponent>,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: {
-      content: any
+      context: Data
     },
   ) {
   }
@@ -63,7 +64,7 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
       if (resp instanceof Object) {
         this.newWorkspace = resp;
       }
-      if (this.data.content.identifier === 'my-workspace') {
+      if (this.data.context.identifier === 'my-workspace') {
         this.closeForm();
       }
     });

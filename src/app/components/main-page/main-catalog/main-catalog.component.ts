@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Application } from 'src/app/models/application';
 import { ApplicationCategory } from 'src/app/models/application-category';
-import { UserAssociationType, Workspace } from 'src/app/models/workspace';
+import { Workspace } from 'src/app/models/workspace';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
@@ -16,15 +17,10 @@ import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/
 })
 export class MainCatalogComponent implements OnInit {
 
-  public content = {
-    path: 'catalog',
-    title: 'Applications',
-    identifier: 'catalog'
-  };
-
-  selectedCatalog: ApplicationCategory;
-  referenceApplicationId: string;
-  queryText = '';
+  public context: Data;
+  public selectedCatalog: ApplicationCategory;
+  public referenceApplicationId: string;
+  public queryText = '';
 
   get applications(): Application[] {
     if (!this.applicationService.isInitialized) {
@@ -41,6 +37,7 @@ export class MainCatalogComponent implements OnInit {
   }
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
     private applicationService: ApplicationService,
     private catalogService: ApplicationCategoryService,
@@ -49,6 +46,9 @@ export class MainCatalogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     // ---- MEMO: getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }
@@ -59,7 +59,7 @@ export class MainCatalogComponent implements OnInit {
       width: '600px',
       autoFocus: false,
       data: {
-        content: this.content
+        context: this.context
       }
     }).afterClosed().subscribe();
   }

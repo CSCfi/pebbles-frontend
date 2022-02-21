@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
+import { ActivatedRoute, Data } from '@angular/router';
 import { ApplicationSessionService } from '../../../services/application-session.service';
 import { ApplicationSession } from '../../../models/application-session';
 import { ApplicationService } from '../../../services/application.service';
@@ -29,38 +30,36 @@ export interface SessionTableRow {
 })
 export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 
-  public content = {
-    path: 'active-sessions',
-    title: 'Active sessions',
-    identifier: 'active-sessions'
-  };
+  public context: Data;
+  public sessions: ApplicationSession[];
+  public lastUpdateTs = 0;
+  private interval = 0;
+  public queryText = '';
 
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft', 'sessionLink'
   ];
-
-  selection = new SelectionModel<SessionTableRow>(true, []);
-  tableRowData: SessionTableRow[] = [];
-  sessions: ApplicationSession[];
-  @ViewChild(MatSort) sort: MatSort;
-
-  lastUpdateTs = 0;
-  dataSource: MatTableDataSource<SessionTableRow>;
-  interval = 0;
-  queryText = '';
-  sortCondition: Sort = {
+  public dataSource: MatTableDataSource<SessionTableRow>;
+  public selection = new SelectionModel<SessionTableRow>(true, []);
+  public tableRowData: SessionTableRow[] = [];
+  public sortCondition: Sort = {
     direction: 'asc',
     active: 'workspaceName'
   };
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
     private applicationSessionService: ApplicationSessionService,
     private applicationService: ApplicationService,
-    private dialog: MatDialog,
   ) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     this.applicationService.fetchApplications().subscribe(() =>
       this.applicationSessionService.fetchSessions().subscribe(() =>
         this.updateRowData()

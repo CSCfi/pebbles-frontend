@@ -54,7 +54,7 @@
     <mat-expansion-panel [expanded]="panelOpenState">
       <div class="application-item pl-15 pt-5" *ngFor="let application of applications">
         <div class="tree"></div>
-        <app-main-application-item [application]="application" [content]="content">
+        <app-main-application-item [application]="application" [context]="context">
         </app-main-application-item>
       </div>
     </mat-expansion-panel>

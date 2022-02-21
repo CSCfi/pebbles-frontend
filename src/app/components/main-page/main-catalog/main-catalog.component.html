@@ -3,7 +3,7 @@
      fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start" fxLayoutGap.lt-sm="10px">
   <app-main-content-header fxFlex="grow"
     (emitApplyFilter)="applyFilter($event)"
-    [content]="content"
+    [context]="context"
     [isSearchOn]="true"
     [isAutocompleteDisabled]="true"
     [labels]="selectedCatalog ? selectedCatalog.labels : []">
@@ -39,7 +39,7 @@
             <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container"
               fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
               <ng-container *ngFor="let application of applications">
-                <app-main-application-item [application]="application" [content]="content">
+                <app-main-application-item [application]="application" [context]="context">
                 </app-main-application-item>
               </ng-container>
             </div>

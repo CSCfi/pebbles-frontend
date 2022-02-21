@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { UserAssociationType, Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
-
 
 @Component({
   selector: 'app-main-workspace-item-detail',
@@ -14,15 +12,9 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
   styleUrls: ['./main-workspace-item-detail.component.scss']
 })
 export class MainWorkspaceItemDetailComponent implements OnChanges {
-  public content = {
-    path: 'workspace-owner/:id/setting',
-    title: 'Workspace item setting',
-    identifier: 'workspace-owner-item-setting'
-  };
 
   public workspace: Workspace;
   public isWorkspaceDeleted = false;
-
   public workspaceEditForm: FormGroup;
   public isWorkspaceFormChanged = false;
   public isWorkspaceNameEditOn = false;
@@ -59,7 +51,6 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   }
 
   constructor(
-    private route: ActivatedRoute,
     public dialog: MatDialog, // JoinCode
     private formBuilder: FormBuilder,
     private workspaceService: WorkspaceService,
@@ -78,7 +69,6 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       return;
     }
     this.isWorkspaceFormChanged = false;
-    this.content.title = `Workspace: ${this.workspace.name}`;
     this.workspaceEditForm = this.formBuilder.group({
       name: [this.workspace.name, [Validators.required]],
       description: [this.workspace.description, [Validators.required]],

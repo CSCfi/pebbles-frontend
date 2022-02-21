@@ -3,7 +3,7 @@
      fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
   <app-main-content-header fxFlex="grow"
                            (emitApplyFilter)="applyFilter($event)"
-                           [content]="content"
+                           [context]="context"
                            [isSearchOn]="true"
                            [isAutocompleteDisabled]="true"
                            [labels]="[]">
@@ -38,7 +38,7 @@
           [id]="workspace.id"
           [workspace]="workspace"
           [isNew]="workspace.id === newWorkspaceId"
-          [content]="content">
+          [context]="context">
         </app-main-workspace-item>
       </ng-container>
     </ng-container>

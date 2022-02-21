@@ -1,4 +1,5 @@
 import { ApplicationRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { AccountService } from 'src/app/services/account.service';
 import { User } from 'src/app/models/user';
@@ -10,24 +11,23 @@ import { DesktopNotificationService } from 'src/app/services/desktop-notificatio
 })
 export class MainAccountComponent implements OnInit {
 
-  user: User;
-  public content = {
-    path: 'account',
-    title: 'Account',
-    identifier: 'account'
-  };
-
-  notificationPermissionState: string = null;
+  public context: Data;
+  public user: User;
+  public notificationPermissionState: string = null;
 
   constructor(
+    private appRef: ApplicationRef,
+    private activatedRoute: ActivatedRoute,
     private accountService: AccountService,
     private authService: AuthService,
     private desktopNotificationService: DesktopNotificationService,
-    private appRef: ApplicationRef
   ) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.context = data;
+    });
     this.fetchAccount();
     this.notificationPermissionState = DesktopNotificationService.getPermissionState();
   }

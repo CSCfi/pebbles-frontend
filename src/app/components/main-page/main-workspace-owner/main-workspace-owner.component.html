@@ -9,7 +9,7 @@
     <div class="content-header-container" fxFlex="0 0 70px"
          fxLayout="row" fxLayoutAlign="center center" fxLayoutAlign.lt-md="start center">
       <app-main-content-header fxFlex="0 0 auto"
-                               [content]="content"
+                               [context]="context"
                                [isSearchOn]="false"
                                [isAutocompleteDisabled]="false"
                                [labels]="[]">
@@ -137,7 +137,7 @@
               {{applicationCount}}
             </mat-chip>
           </ng-template>
-          <app-main-workspace-applications [workspaceId]="selectedWorkspaceId" [content]="content">
+          <app-main-workspace-applications [workspaceId]="selectedWorkspaceId" [context]="context">
           </app-main-workspace-applications>
         </mat-tab>
         <mat-tab label="members">
