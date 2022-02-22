@@ -27,16 +27,6 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     return this.authService.getUserName();
   }
 
-  get created_date(): string {
-    const date = new Date(this.workspace.create_ts * 1000);
-    return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
-  }
-
-  get expiry_date(): string {
-    const date = new Date(this.workspace.expiry_ts * 1000);
-    return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
-  }
-
   get isEditable(): boolean {
     return this.workspace.user_association_type !== UserAssociationType.Public;
   }

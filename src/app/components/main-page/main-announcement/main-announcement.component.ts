@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
 import { MessageService } from 'src/app/services/message.service';
 import { Announcement } from 'src/app/models/announcement';
+import { Utilities } from '../../../utilities';
 
 @Component({
   selector: 'app-main-announcement',
@@ -41,15 +42,11 @@ export class MainAnnouncementComponent implements OnInit {
     this.messageService.fetchAnnouncements().subscribe();
   }
 
-  formatDate(dateStr: string): string {
-    // window.navigator.language should be covered well in modern browsers
-    // https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage/languages
-    return new Date(dateStr).toLocaleString(
-      window.navigator.language ? window.navigator.language : 'en-gb'
-    );
-  }
-
   markAnnouncementsAsRead() {
     this.messageService.markAnnouncementsAsRead();
+  }
+
+  getIsoToTimestamp(broadcasted: string) {
+    return Utilities.getIsoToTimestamp(broadcasted);
   }
 }

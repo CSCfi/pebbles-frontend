@@ -75,11 +75,11 @@
               {{ workspace.description || 'No description for the workspace' }}
             </div>
             <div class="pt-10" fxLayout="row" fxLayoutAlign="start stretch">
-              <span fxFlex="0 0 100px">Your role</span>
+              <span fxFlex="0 0 110px">Your role</span>
               <span class="user-role-txt">{{ getUserAssociationType(workspace) }}</span>
             </div>
             <div class="join-code-info pt-10 pb-10" fxLayout="row" fxLayoutAlign="start stretch">
-              <span class="function-title" fxFlex="0 0 100px">Join code</span>
+              <span class="function-title" fxFlex="0 0 110px">Join code</span>
               <div class="open-join-code-button" fxLayout="row"
                    (click)="openJoinCodeDialog(workspace)">
                 <mat-icon class="mr-5">vpn_key</mat-icon>
@@ -87,8 +87,12 @@
               </div>
             </div>
             <div class="expiration-date-info" fxLayout="row" fxLayoutAlign="start stretch">
-              <span class="function-title" fxFlex="0 0 100px">Expiring by</span>
-              <span class="expiration-date">{{ getExpiry_date(workspace) }}</span>
+              <span class="function-title" fxFlex="0 0 110px">Days till expiry</span>
+              <span class="expiration-date u-line txt__primary"
+                    [matTooltip]="workspace.expiry_ts | dateDisplay"
+                    matTooltipPosition="right">
+                {{ workspace.expiry_ts | remainingDaysDisplay }}
+              </span>
             </div>
           </mat-card-content>
         </mat-card>

@@ -32,6 +32,10 @@ export class Utilities {
     return timestamp ? new Date(timestamp).toISOString() : '-';
   }
 
+  static getIsoToTimestamp(isoTime: string): number {
+    return Math.floor(new Date(isoTime).getTime() / 1000);
+  }
+
   public static compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }

@@ -247,7 +247,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         envTemplate.base_config.maximum_lifetime,
         {},
         true,
-      ).subscribe((env) => {
+      ).subscribe( _ => {
         this.selectWorkspace(ws.id);
       });
     });
@@ -286,11 +286,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         });
       }
     });
-  }
-
-  getExpiry_date(workspace: Workspace): string {
-    const date = new Date(workspace.expiry_ts * 1000);
-    return `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
   }
 
   getUserAssociationType(workspace: Workspace): string {

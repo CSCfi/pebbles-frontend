@@ -10,6 +10,7 @@ import { MaterialModule } from 'src/app/material.module';
 // ---- Pipe
 import { DateDisplayPipe } from '../../pipes/date-display.pipe';
 import { LifeTimeDisplayPipe } from '../../pipes/life-time-display.pipe';
+import { RemainingDaysDisplayPipe } from '../../pipes/remaining-days-display.pipe';
 // ---- Content component
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
@@ -71,7 +72,8 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainWorkspaceQuotaFormComponent,
     MainSystemStatusComponent,
     DateDisplayPipe,
-    LifeTimeDisplayPipe
+    LifeTimeDisplayPipe,
+    RemainingDaysDisplayPipe
   ],
   imports: [
     CommonModule,
@@ -86,8 +88,8 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
-    LifeTimeDisplayPipe,
-    MainApplicationItemComponent
+    MainApplicationItemComponent,
+    LifeTimeDisplayPipe
   ]
 })
 export class MainModule {

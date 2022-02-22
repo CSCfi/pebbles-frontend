@@ -21,7 +21,7 @@
       <ng-container *ngFor="let announcement of getAnnouncements()">
         <div class="announcement info-body" [ngClass]="{'unread':!announcement.is_read}">
           <div class="title mat-title">{{ announcement.subject }}</div>
-          <span class="date mat-caption">{{ formatDate(announcement.broadcasted) }}</span>
+          <span class="date mat-caption">{{ getIsoToTimestamp(announcement.broadcasted) | dateDisplay }}</span>
           <p class="message">
             <span [innerHtml]="announcement.message"></span>
           </p>

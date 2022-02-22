@@ -468,6 +468,12 @@ export class MockInterceptor implements HttpInterceptor {
     function getWorkspaces(): Observable<HttpResponse<Workspace[]>> {
       const user_name = localStorage.getItem('user_name');
       const workspaces = getAccessibleWorkspaces(user_name);
+      const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+      workspaces.map( ws => {
+        ws.create_ts = new Date( new Date().setDate(new Date().getDate() - randomRange(0, 10))).getTime() / 1000;
+        ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange( 0, 40))).getTime() / 1000;
+      });
       return ok(workspaces);
     }
 
