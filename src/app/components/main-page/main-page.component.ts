@@ -10,13 +10,9 @@ export class MainPageComponent implements OnInit {
 
   @ViewChild('sidenav', {static: false}) sidenav: MatSidenav;
   public isSideNavOpen = true;
-  private contentWidth: any;
+  private minWorkAreaWidth = 1250;
 
   constructor() {
-  }
-
-  ngOnInit(): void {
-    this.setSideNav();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -24,15 +20,16 @@ export class MainPageComponent implements OnInit {
     this.setSideNav();
   }
 
+  ngOnInit(): void {
+    this.setSideNav();
+  }
+
   setSideNav(): void {
-    this.contentWidth = window.innerWidth;
-    this.isSideNavOpen = localStorage.getItem('is_sidenav_open') === 'true';
-    if (this.contentWidth < 1000) {
-      this.isSideNavOpen = false;
+    if (localStorage.getItem('is_sidenav_open') === 'true') {
+      // ---- Auto close side-navigation
+      this.isSideNavOpen = window.innerWidth > this.minWorkAreaWidth;
     } else {
-      if (localStorage.getItem('is_sidenav_open') !== 'false') {
-        this.isSideNavOpen = true;
-      }
+      this.isSideNavOpen = false;
     }
   }
 
