@@ -92,6 +92,10 @@ $sides: (
       color: #fff;
     }
 
+    &-100 {
+      background: map-get($app-primary, 100);
+    }
+
     &-light {
       color: #fff;
       background: map-get($app-primary, light);
@@ -108,11 +112,16 @@ $sides: (
     }
   }
 
+  &__secondary {
+    background: map-get($app-secondary, default);
+  }
+
   &__accent {
     background: map-get($app-accent, default);
+    color: #fff;
 
     &-light {
-      color: #fff;
+      color: map-get($app-gray, 900);
       background: map-get($app-accent, light);
     }
 
@@ -167,60 +176,8 @@ $sides: (
   }
 
   &__warn {
-    color: map-get($app-warn, default);
-
-    &-dark {
-      color: map-get($app-warn, dark);
-    }
-  }
-
-  &__center {
-    text-align: center;
-  }
-
-  &__left {
-    text-align: left;
-  }
-}
-
-.bg {
-  &__primary {
-    background: map-get($app-primary, default);
-
-    &-100 {
-      background: map-get($app-primary, 100);
-    }
-
-    &-light {
-      background: map-get($app-primary, light);
-    }
-
-    &-dark {
-      background: map-get($app-primary, dark);
-    }
-  }
-
-  &__secondary {
-    background: map-get($app-secondary, default);
-  }
-
-  &__accent {
-    background: map-get($app-accent, default);
-    color: #fff;
-
-    &-light {
-      background: map-get($app-accent, light);
-      color: map-get($app-gray, 900);
-    }
-
-    &-dark {
-      background: map-get($app-accent, dark);
-      color: #fff;
-    }
-  }
-
-  &__warn {
     background: map-get($app-warn, default);
+    color: map-get($app-warn, default);
 
     &-light {
       background: map-get($app-warn, light);
@@ -228,7 +185,7 @@ $sides: (
 
     &-dark {
       background: map-get($app-warn, dark);
-      color: #fff;
+      color: map-get($app-warn, dark);
     }
   }
 
@@ -243,6 +200,14 @@ $sides: (
       background: map-get($app-gray, 900);
       color: #fff;
     }
+  }
+
+  &__center {
+    text-align: center;
+  }
+
+  &__left {
+    text-align: left;
   }
 }
 

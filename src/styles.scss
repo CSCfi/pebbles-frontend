@@ -259,6 +259,10 @@ button {
   max-height: 100px;
   overflow: auto;
 
+  a {
+    color: map-get($app-primary, default);
+  }
+
   h1, h2, h3, h4 {
     font-size: 1.3rem !important;
     margin-bottom: 0 !important;
