@@ -176,6 +176,16 @@ export class WorkspaceService {
     );
   }
 
+
+  transferOwnership(workspaceId: string, userId: string): Observable<any> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/transfer_ownership`;
+    return this.http.patch(url, {new_owner_id: userId}).pipe(
+      map(_ => {
+        this.refreshWorkspaceMembers(workspaceId);
+      })
+    );
+  }
+
   promoteMember(workspaceId: string, userId: string): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/members`;
     return this.http.patch(url, {user_id: userId, operation: 'promote'}).pipe(

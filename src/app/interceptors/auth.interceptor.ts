@@ -49,6 +49,8 @@ export class AuthInterceptor implements HttpInterceptor {
             this.messageService.displayError(`Error: ${err.error}`);
           } else if (err.error?.message) {
             this.messageService.displayError(`Error: ${err.error.message}`);
+          } else if (typeof err.error.error === 'string') {
+            this.messageService.displayError(`Error: ${err.error.error}`);
           } else {
             this.messageService.displayError(`Error: ${err.statusText}`);
           }

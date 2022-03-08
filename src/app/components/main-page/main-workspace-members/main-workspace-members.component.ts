@@ -146,7 +146,11 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   }
 
   isTransferOwnerActive(role): boolean {
-    return  (this.user?.is_admin || this.workspace.user_association_type === 'owner') && role === 'manager';
+    return  (this.user?.is_admin || this.workspace.user_association_type === 'owner');
+  }
+
+  transferOwnership(userId: string): void {
+    this.workspaceService.transferOwnership(this.workspace.id, userId).subscribe();
   }
 
   isPromoteCoOwnerActive(role): boolean {

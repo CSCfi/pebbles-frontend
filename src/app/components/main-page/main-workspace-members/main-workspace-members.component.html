@@ -75,8 +75,8 @@
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item
-                    [disabled]="true"
-                    *ngIf="isTransferOwnerActive(element.role)">
+                    *ngIf="isTransferOwnerActive(element.role)"
+                    (click)="transferOwnership(element.userId)">
               <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
               <span>transfer ownership</span>
             </button>
