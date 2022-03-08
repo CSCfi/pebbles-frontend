@@ -18,7 +18,7 @@ const routes: Routes = [
       breadcrumbs: ['welcome']
     }
   },
-  { path: 'main', loadChildren: './components/main-page/main-routing.module'},
+  { path: 'main', loadChildren: () => import('./components/main-page/main-routing.module')},
   { path: 'session/:id', component: SessionPageComponent,
     data: {
       title: 'Session',
