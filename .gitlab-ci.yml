@@ -1,4 +1,4 @@
-image: node:14.11.0
+image: node:14.19.0
 
 variables:
   PRIVATE_IMAGE: $CI_DOCKER_REPOSITORY_PRIVATE/pebbles-frontend
@@ -158,4 +158,3 @@ ci-pipeline:
   only:
     refs:
       - master
-
