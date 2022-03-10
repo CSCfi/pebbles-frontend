@@ -3,7 +3,7 @@
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between center">
       <mat-card-title class="mat-title mb-0 center__v" fxFlex="grow">
         <ng-container *ngIf="userAssociationType!=='public'; else publicBlock">
-          <mat-icon class="mr-8 user-role-icon" [matTooltip]="workspace.user_association_type">group</mat-icon>
+          <mat-icon class="mr-8 user-role-icon" [matTooltip]="workspace.user_association_type">apps</mat-icon>
         </ng-container>
         <ng-template #publicBlock>
           <mat-icon class="mr-8 user-role-icon" matTooltip="public">public</mat-icon>

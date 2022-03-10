@@ -12,7 +12,7 @@
   <button mat-flat-button color="accent" id="join-workspace-button" aria-label="Join Workspace"
           fxFlex="0 0 180px" fxFlex.lt-sm="grow"
           (click)="openJoinWorkspaceDialog()">
-    <mat-icon fontSet="material-icons-outlined" class="mr-5">group_add</mat-icon>
+    <mat-icon fontSet="material-icons-outlined" class="mr-5">person_add_alt_1</mat-icon>
     Join workspace
   </button>
 </div>
@@ -24,13 +24,6 @@
     <ng-container *ngFor="let catalog of getCatalogs()">
       <mat-tab label="{{ catalog.name }}">
         <ng-template mat-tab-label>
-          <div [ngSwitch]="catalog.type">
-            <ng-container *ngSwitchCase="'all'">
-              <mat-icon fontSet="material-icons-outlined" class="tab-icon">
-                apps
-              </mat-icon>
-            </ng-container>
-          </div>
           <span class="tab-title mat-subheading-2">{{ catalog.name }}</span>
         </ng-template>
 

@@ -23,7 +23,7 @@
                 aria-label="create a new workspace"
                 [disabled]="!isQuotaLeft()"
                 (click)="openWorkspaceCreationDialog()">
-          <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>
+          <mat-icon class="mr-5">dashboard_customize</mat-icon>
           <span>Create workspace</span>
         </button>
         <ng-container *ngIf="isDemoButtonShown">
@@ -54,7 +54,7 @@
               <mat-icon class="user-role-icon"
                         [matTooltip]="getUserAssociationType(workspace)"
                         *ngIf="getUserAssociationType(workspace)!=='public'; else publicBlock">
-                group
+                apps
               </mat-icon>
             </div>
             <ng-template #publicBlock>
@@ -135,7 +135,7 @@
                      [selectedIndex]="selectedTab">
         <mat-tab label="applications">
           <ng-template mat-tab-label>
-            <mat-icon class="md-18">book</mat-icon>
+            <mat-icon class="md-18">import_contacts</mat-icon>
             <span class="tab-title" fxHide.lt-sm="true">Applications</span>
             <mat-chip *ngIf="applicationCount > 0" class="chip__circle bg__primary-light">
               {{applicationCount}}

@@ -1,10 +1,12 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormControl} from '@angular/forms';
-import {AuthService} from 'src/app/services/auth.service';
-import {Announcement} from '../../../models/announcement';
-import {MessageService} from '../../../services/message.service';
-import {ApplicationSessionService} from '../../../services/application-session.service';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { Announcement } from '../../../models/announcement';
+import { MessageService } from '../../../services/message.service';
+import { ApplicationSessionService } from '../../../services/application-session.service';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 // export enum MainPages {
@@ -24,6 +26,9 @@ import { PublicConfigService } from '../../../services/public-config.service';
 export class MainNavComponent implements OnInit {
 
   public isTextVisible: boolean;
+  public faChevronRightIcon = faChevronRight;
+  public faChevronLeftIcon = faChevronLeft;
+
   @ViewChildren('tooltip') tooltips: any;
   @Output() toggleSideNavEvent = new EventEmitter<boolean>();
 

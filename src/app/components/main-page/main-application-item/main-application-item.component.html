@@ -36,7 +36,7 @@
                            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
           <div class="workspace-name center__v" *ngIf="context?.identifier==='catalog'" [ngClass]="userAssociationType">
             <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
-              <mat-icon class="user-role-icon md-16 mr-5" [matTooltip]="userAssociationType">group</mat-icon>
+              <mat-icon class="user-role-icon md-16 mr-5" [matTooltip]="userAssociationType">apps</mat-icon>
               {{ application.workspace_name }}
             </ng-container>
             <ng-template #publicBlock>

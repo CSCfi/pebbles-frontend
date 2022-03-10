@@ -57,3 +57,4 @@ report.*.json
 .vscode/settings.json
 .htmllintrc
 .sass-lint.yml
+/.angular

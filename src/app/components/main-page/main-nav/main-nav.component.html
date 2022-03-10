@@ -17,19 +17,17 @@
   <!-- Navigation panel toggle button -->
   <ul id="nav-toggle-button" class="nav-items scrollable">
     <li class="nav-item">
-      <button class="action" #tooltip="matTooltip" matTooltip="Toggle size"
+      <button class="action" #tooltip="matTooltip" [matTooltip]="isTextVisible ? 'Close navigation' : 'Open navigation'"
               (click)="emitSideNavToggle()">
         <ng-container *ngIf="isTextVisible ; else elseBlock">
-          <span class="icon-holder">
-            <mat-icon fontSet="material-icons-outlined">more_vert</mat-icon>
+          <span class="icon-holder center__vh">
+            <fa-icon class="md-12" [icon]="faChevronLeftIcon"></fa-icon>
           </span>
-          <!--<span class="title" *ngIf="isTextVisible">Minimize menu</span>-->
         </ng-container>
         <ng-template #elseBlock>
-          <span class="icon-holder">
-            <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
+          <span class="icon-holder center__vh">
+            <fa-icon class="md-12" [icon]="faChevronRightIcon"></fa-icon>
           </span>
-          <!--<span class="title" *ngIf="isTextVisible">Expand</span>-->
         </ng-template>
       </button>
     </li>
@@ -40,7 +38,7 @@
         #tooltip="matTooltip" matTooltip="Applications" [matTooltipDisabled]="true">
       <a [routerLink]="['/main/catalog']">
         <span class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">book</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
         </span>
         <span class="title mat-title" *ngIf="isTextVisible">Applications</span>
       </a>
@@ -49,7 +47,7 @@
         #tooltip="matTooltip" matTooltip="My workspaces" [matTooltipDisabled]="true">
       <a [routerLink]="['/main/my-workspaces']">
         <span class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
         </span>
         <div class="title mat-title" *ngIf="isTextVisible">My workspaces</div>
       </a>
@@ -63,7 +61,7 @@
         <a [routerLink]="['/main/workspace-owner']">
           <span class="icon-holder">
             <mat-icon fontSet="material-icons-outlined">
-              folder_shared
+              app_registration
             </mat-icon>
           </span>
           <div class="title mat-title" *ngIf="isTextVisible">Manage workspaces</div>
@@ -96,7 +94,7 @@
           #tooltip="matTooltip" matTooltip="System status" [matTooltipDisabled]="true">
         <a [routerLink]="['/main/system-status']">
           <span class="icon-holder">
-            <mat-icon fontSet="material-icons-outlined">favorite</mat-icon>
+            <mat-icon fontSet="material-icons-outlined">check_circle</mat-icon>
           </span>
           <div class="title mat-title" *ngIf="isTextVisible">System status</div>
         </a>
@@ -123,7 +121,7 @@
                     [matBadgeHidden]="getUnreadAnnouncements().length === 0"
                     [matBadge]="getUnreadAnnouncements().length"
                     matBadgeColor="{{getUnreadAnnouncements().length > 0 ? 'warn': 'normal'}}">
-            announcements
+            mail
           </mat-icon>
         </span>
         <div class="title mat-title" *ngIf="isTextVisible">Announcements</div>
@@ -147,7 +145,7 @@
     <li class="nav-item">
       <a id="account" [routerLink]="['/main/account']">
         <span class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
         </span>
         <span class="email u-line" *ngIf="isTextVisible">{{ userName }}</span>
       </a>
@@ -156,7 +154,7 @@
       <button id="logout-button" class="action"
               (click)="authService.logout()">
         <span class="icon-holder">
-          <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
+          <mat-icon>exit_to_app</mat-icon>
         </span>
         <span class="title" *ngIf="isTextVisible">Logout</span>
       </button>
@@ -178,18 +176,18 @@
 <!-- Mobile mode : Dropdown menu -->
 <div fxLayout="column" fxHide="true" fxShow.lt-sm="true">
   <button mat-menu-item [routerLink]="['/main/catalog']">
-    <mat-icon fontSet="material-icons-outlined">book</mat-icon>
+    <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
     Applications
   </button>
   <button mat-menu-item [routerLink]="['/main/my-workspaces']">
-    <mat-icon fontSet="material-icons-outlined">people_outline</mat-icon>
+    <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
     My workspaces
   </button>
   <ng-container *ngIf="authService.isWorkspaceOwner">
     <mat-divider class="dark"></mat-divider>
     <button mat-menu-item [routerLink]="['/main/workspace-owner']">
       <mat-icon fontSet="material-icons-outlined">
-        folder_shared
+        app_registration
       </mat-icon>
       Manage workspaces
     </button>
@@ -205,7 +203,7 @@
       Manage Users
     </button>
     <button mat-menu-item [routerLink]="['/main/system-status']">
-      <mat-icon fontSet="material-icons-outlined">favorite</mat-icon>
+      <mat-icon fontSet="material-icons-outlined">check_circle</mat-icon>
       System status
     </button>
     <button mat-menu-item [routerLink]="['/main/statistics']">
@@ -219,7 +217,7 @@
               [matBadgeHidden]="getUnreadAnnouncements().length === 0"
               [matBadge]="getUnreadAnnouncements().length"
               matBadgeColor="{{getUnreadAnnouncements().length > 0 ? 'warn': 'normal'}}">
-      announcements
+      mail
     </mat-icon>
     Announcements
   </button>
@@ -229,7 +227,7 @@
   </button>
 
   <button mat-menu-item [routerLink]="['/main/account']">
-    <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+    <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
     {{ userName }}
   </button>
   <button mat-menu-item (click)="authService.logout()">
