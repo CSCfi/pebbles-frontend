@@ -58,3 +58,6 @@ report.*.json
 .htmllintrc
 .sass-lint.yml
 /.angular
+
+# local environment settings
+/src/environments/environment.local.ts
