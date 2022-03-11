@@ -37,16 +37,17 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   public queryText = '';
 
   public displayedColumns: string[] = [
-    'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft', 'sessionLink'
+     'index', 'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft', 'sessionLink'
   ];
   public dataSource: MatTableDataSource<SessionTableRow>;
   public selection = new SelectionModel<SessionTableRow>(true, []);
   public tableRowData: SessionTableRow[] = [];
   public sortCondition: Sort = {
     direction: 'asc',
-    active: 'workspaceName'
+    active: 'index'
   };
   @ViewChild(MatSort) sort: MatSort;
+  public activeSessionNumber = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -75,7 +76,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 
   refreshSessionContent(): void {
     this.applicationSessionService.fetchSessions().subscribe(_ =>
-      this.updateRowData()
+      this.updateRowData(true)
     );
   }
 
@@ -88,7 +89,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     this.lastUpdateTs = sessionServiceUpdateTs;
 
     // update existing row data entries and insert new ones
-    this.applicationSessionService.getAllSessions().map(session => {
+    this.applicationSessionService.getAllSessions().map((session, index) => {
       const existingEntry = this.tableRowData.find(r => r.sessionId === session.id);
       if (existingEntry) {
         existingEntry.lifetimeLeft = Utilities.lifetimeToString(session.lifetime_left);
@@ -113,15 +114,18 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         });
       }
     });
+
+    this.activeSessionNumber = this.applicationSessionService.getAllSessions().length;
     // leave only fresh data
     this.tableRowData = this.tableRowData.filter(r => r.index < 0);
     // update indexes
     for (let i = 0; i < this.tableRowData.length; i++) {
-      this.tableRowData[i].index = i;
+      this.tableRowData[i].index = i + 1;
     }
     // create a new datasource to trigger table rendering
     const sortedData = this.tableRowData.slice();
     this.sortData(sortedData, this.sortCondition);
+
     this.dataSource = new MatTableDataSource<SessionTableRow>(sortedData);
     this.dataSource.filter = Utilities.cleanText(this.queryText);
   }
@@ -216,6 +220,8 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
+        case 'index':
+          return Utilities.compare(a.index, b.index, isAsc);
         case 'workspaceName':
           return Utilities.compare(a.workspaceName, b.workspaceName, isAsc);
         case 'applicationName':

@@ -18,12 +18,13 @@
 <div id="active-sessions-container" class="content-container">
 
   <ng-container *ngIf="tableRowData.length > 0; else noSessions">
-    <div class="mt-10 mb-10">
+    <div class="mt-10 mb-10" fxLayout="row" fxLayoutAlign="space-between end">
       <button mat-flat-button
               (click)="openStopSessionDialog(this.selection.selected)"
               [disabled]="selection.isEmpty()">
         Delete selected sessions
       </button>
+      <div class="mat-button txt__gray-dark">Total active sessions: {{ activeSessionNumber }}</div>
     </div>
 
     <!-- active sessions list -->
@@ -31,7 +32,11 @@
       <table mat-table [dataSource]="dataSource"
              matSort (matSortChange)="changeSortCondition($event)"
              [matSortActive]="sortCondition.active" [matSortDirection]="sortCondition.direction">
-
+        <!-- Index Column -->
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef class="icon-cell" mat-sort-header></th>
+          <td mat-cell class="cell-index icon-cell" *matCellDef="let row"> {{row.index}} </td>
+        </ng-container>
         <!-- checkbox column -->
         <ng-container matColumnDef="isSelected">
           <th mat-header-cell *matHeaderCellDef class="square-cell">
@@ -46,7 +51,6 @@
             </mat-checkbox>
           </td>
         </ng-container>
-
         <!-- sessionName -->
         <ng-container matColumnDef="sessionName">
           <th mat-header-cell *matHeaderCellDef>Session</th>
@@ -54,28 +58,24 @@
             {{ element.sessionName }}
           </td>
         </ng-container>
-
         <!-- workspaceName -->
         <ng-container matColumnDef="workspaceName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="workspaceName">Workspace</th>
           <td mat-cell *matCellDef="let element">{{element.workspaceName}}</td>
         </ng-container>
-
         <!-- applicationName -->
         <ng-container matColumnDef="applicationName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="applicationName">Application</th>
           <td mat-cell *matCellDef="let element">{{element.applicationName}}</td>
         </ng-container>
-
         <!-- username -->
         <ng-container matColumnDef="username">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="username">Username</th>
           <td mat-cell *matCellDef="let element">{{ element.username }}</td>
         </ng-container>
-
         <!-- state -->
         <ng-container matColumnDef="state">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="state">State</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
           <td mat-cell *matCellDef="let element" class="cell-state">
             <div class="center__v">
               <mat-icon class="mr-5 txt__secondary md-18"
@@ -89,13 +89,11 @@
             </div>
           </td>
         </ng-container>
-
         <!-- lifetimeLeft -->
         <ng-container matColumnDef="lifetimeLeft">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by time">Lifetime</th>
           <td mat-cell *matCellDef="let element" class="cell-lifetime-left">{{ element.lifetimeLeft }}</td>
         </ng-container>
-
         <!-- sessionLink -->
         <ng-container matColumnDef="sessionLink">
           <th mat-header-cell *matHeaderCellDef>Open session</th>
@@ -107,7 +105,6 @@
             </button>
           </td>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
