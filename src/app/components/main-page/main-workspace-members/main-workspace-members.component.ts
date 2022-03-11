@@ -1,5 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -11,6 +12,7 @@ import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
+import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 export interface MemberRow {
   index: number;
@@ -44,6 +46,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
 
   constructor(
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private authService: AuthService,
     private accountService: AccountService,
     private workspaceService: WorkspaceService,
@@ -149,8 +152,21 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     return  (this.user?.is_admin || this.workspace.user_association_type === 'owner');
   }
 
-  transferOwnership(userId: string): void {
-    this.workspaceService.transferOwnership(this.workspace.id, userId).subscribe();
+  transferOwnership(userId: string, email: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '500px',
+      autoFocus: false,
+      data: {
+        dialogTitle: 'Confirm transfer ownership',
+        dialogContent: `<p>Are you sure to transfer ownership to <b class="txt__warn-dark">${email}</b> ?</p>`,
+        dialogActions: ['confirm', 'cancel']
+      }
+    });
+    dialogRef.afterClosed().subscribe(params => {
+      if (params) {
+        this.workspaceService.transferOwnership(this.workspace.id, userId).subscribe();
+      }
+    });
   }
 
   isPromoteCoOwnerActive(role): boolean {
@@ -166,7 +182,24 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   }
 
   demoteManager(userId: string): void {
-    this.workspaceService.demoteMember(this.workspace.id, userId).subscribe();
+    if (userId === this.user.id && !this.user.is_admin) {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        width: '500px',
+        autoFocus: false,
+        data: {
+          dialogTitle: 'Warning!',
+          dialogContent: `<p>Are you sure to give up a control right to this workspace?</p>`,
+          dialogActions: ['confirm', 'cancel']
+        }
+      });
+      dialogRef.afterClosed().subscribe(params => {
+        if (params) {
+          this.workspaceService.demoteMember(this.workspace.id, userId).subscribe();
+        }
+      });
+    } else {
+      this.workspaceService.demoteMember(this.workspace.id, userId).subscribe();
+    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

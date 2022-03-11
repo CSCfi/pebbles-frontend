@@ -176,29 +176,26 @@ $sides: (
   }
 
   &__warn {
-    background: map-get($app-warn, default);
     color: map-get($app-warn, default);
 
     &-light {
-      background: map-get($app-warn, light);
+      color: map-get($app-warn, light);
     }
 
     &-dark {
-      background: map-get($app-warn, dark);
       color: map-get($app-warn, dark);
     }
   }
 
   &__gray {
-    background: map-get($app-gray, default);
+    color: map-get($app-gray, default);
 
     &-light {
-      background: map-get($app-gray, 300);
+      color: map-get($app-gray, 300);
     }
 
     &-dark {
-      background: map-get($app-gray, 900);
-      color: #fff;
+      color: map-get($app-gray, 900);
     }
   }
 
