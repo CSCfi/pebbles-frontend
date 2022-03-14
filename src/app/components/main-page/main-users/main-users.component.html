@@ -66,16 +66,21 @@
      -->
     <div class="table-wrapper">
       <table mat-table matSort [dataSource]="userDataSource" class="mt-20">
+        <!-- Index Column -->
+        <ng-container matColumnDef="index">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="icon-cell"></th>
+          <td mat-cell class="cell-index icon-cell" *matCellDef="let row"> {{row.index}} </td>
+        </ng-container>
         <!-- Checkbox Column -->
         <ng-container matColumnDef="isSelected">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef class="icon-cell">
             <mat-checkbox (change)="$event ? masterToggle() : null"
                           [checked]="selection.hasValue() && isAllSelected()"
                           [indeterminate]="selection.hasValue() && !isAllSelected()"
                           [aria-label]="checkboxLabel()">
             </mat-checkbox>
           </th>
-          <td mat-cell *matCellDef="let row">
+          <td mat-cell *matCellDef="let row" class="icon-cell">
             <mat-checkbox (click)="$event.stopPropagation()"
                           (change)="$event ? selection.toggle(row) : null"
                           [checked]="selection.isSelected(row)"
@@ -83,12 +88,17 @@
             </mat-checkbox>
           </td>
         </ng-container>
-        <!-- Index Column -->
-        <ng-container matColumnDef="index">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef class="square-cell"></th>
-          <td mat-cell class="cell-index square-cell" *matCellDef="let row"> {{row.index}} </td>
+        <!-- ext_id column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>email</th>
+          <td mat-cell *matCellDef="let element">{{element.email}}</td>
         </ng-container>
-        <!-- Role column -->
+        <!-- pseudonym column -->
+        <ng-container matColumnDef="pseudonym">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>pseudonym</th>
+          <td mat-cell *matCellDef="let element">{{element.pseudonym}}</td>
+        </ng-container>
+        <!-- State column -->
         <ng-container matColumnDef="state">
           <th mat-header-cell mat-sort-header *matHeaderCellDef>state</th>
           <td mat-cell *matCellDef="let element" class="cell-state">
@@ -102,16 +112,6 @@
             </mat-chip-list>
           </td>
         </ng-container>
-        <!-- ext_id column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef>email</th>
-          <td mat-cell *matCellDef="let element">{{element.email}}</td>
-        </ng-container>
-        <!-- Nickname column -->
-        <ng-container matColumnDef="pseudonym">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef>pseudonym</th>
-          <td mat-cell *matCellDef="let element">{{element.pseudonym}}</td>
-        </ng-container>
         <!-- quota column -->
         <ng-container matColumnDef="workspaceQuota">
           <th mat-header-cell mat-sort-header *matHeaderCellDef>workspace quota</th>
@@ -120,7 +120,7 @@
             {{element.workspaceCount}}{{element.workspaceQuota}}
           </td>
         </ng-container>
-        <!-- expiry date -->
+        <!-- joining date -->
         <ng-container matColumnDef="joiningDate">
           <th mat-header-cell mat-sort-header *matHeaderCellDef>joined</th>
           <td mat-cell *matCellDef="let element">
@@ -143,8 +143,8 @@
         </ng-container>
         <!-- menu column -->
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="cell-action square-cell">action</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="cell-action icon-cell">action</th>
+          <td mat-cell *matCellDef="let element" class="sicon-cell">
             <button mat-icon-button [disabled]="element.isAdmin"
                     [matMenuTriggerFor]="menu" aria-label="open application menu">
               <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
@@ -169,7 +169,6 @@
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.deleted]="row.isDeleted"></tr>
-
       </table>
     </div>
   </ng-container>
