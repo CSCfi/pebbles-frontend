@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Data } from '@angular/router';
 import { faPython, faRProject } from '@fortawesome/free-brands-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,7 @@ import { WorkspaceService } from '../../../services/workspace.service';
   templateUrl: './main-application-item.component.html',
   styleUrls: ['./main-application-item.component.scss']
 })
-export class MainApplicationItemComponent implements OnInit {
+export class MainApplicationItemComponent {
 
   public faBook = faBook;
   public faRProject = faRProject;
@@ -64,7 +64,4 @@ export class MainApplicationItemComponent implements OnInit {
   constructor(
     private workspaceService: WorkspaceService
   ) { }
-
-  ngOnInit(): void {
-  }
 }

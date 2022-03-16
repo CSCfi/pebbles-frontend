@@ -33,7 +33,8 @@
               <h3 class="mat-title mt-40 mb-10">{{ faq.name }}</h3>
               <ng-container *ngIf="faq.content.length>0 ;else noContent">
                 <mat-expansion-panel class="info-body mb-5 p-10" *ngFor="let content of faq.content; let sur = index"
-                                     [expanded]="indexExpanded == pre +'-'+ sur " disabled="true"
+                                     [expanded]="indexExpanded === pre +'-'+ sur "
+                                     disabled="true"
                                      (click)="togglePanels(pre +'-'+ sur)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>

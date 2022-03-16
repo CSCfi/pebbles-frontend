@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -10,7 +10,7 @@ import { ApplicationCategoryService } from 'src/app/services/application-categor
   templateUrl: './main-content-header.component.html',
   styleUrls: ['./main-content-header.component.scss']
 })
-export class MainContentHeaderComponent implements OnInit {
+export class MainContentHeaderComponent {
 
   @Input() context: Data;
   @Input() isSearchOn: boolean;
@@ -63,9 +63,6 @@ export class MainContentHeaderComponent implements OnInit {
   constructor(
     private applicationCategoryService: ApplicationCategoryService
   ) {
-  }
-
-  ngOnInit() {
   }
 
   queryTextAdded(event: Event): void {

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Data, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
   templateUrl: './main-session-button.component.html',
   styleUrls: ['./main-session-button.component.scss']
 })
-export class MainSessionButtonComponent implements OnInit {
+export class MainSessionButtonComponent {
 
   @Input() applicationId: string;
   @Input() context: Data;
@@ -111,9 +111,6 @@ export class MainSessionButtonComponent implements OnInit {
     private applicationSessionService: ApplicationSessionService,
     private dialog: MatDialog
   ) {
-  }
-
-  ngOnInit(): void {
   }
 
   startSession(): void {

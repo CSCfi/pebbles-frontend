@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,13 +6,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent {
 
   @Input() dialogTitle: string;
   @Input() dialogContent: string;
   @Input() dialog: any; // ---- TODO: Check we need it or not
-
-  public isClipboardOn = false;
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
@@ -23,9 +21,6 @@ export class DialogComponent implements OnInit {
       dialogActions: string[],
     }
   ) {
-  }
-
-  ngOnInit(): void {
   }
 
   onConfirm(): void {

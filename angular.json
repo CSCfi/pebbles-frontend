@@ -38,8 +38,7 @@
               "./node_modules/material-icons/iconfont/filled.scss",
               "src/styles.scss"
             ],
-            "scripts": [
-            ],
+            "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -143,12 +142,22 @@
               "devServerTarget": "pebbles-frontend:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "defaultProject": "pebbles-frontend",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

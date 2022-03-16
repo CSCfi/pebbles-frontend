@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { PublicConfigService } from '../../../services/public-config.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   @Input() isNaviVisible: boolean;
   @Input() logoTypeSize: number;
@@ -16,8 +16,5 @@ export class HeaderComponent implements OnInit {
   constructor(
     public publicConfigService: PublicConfigService,
   ) {
-  }
-
-  ngOnInit(): void {
   }
 }

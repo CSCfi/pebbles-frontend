@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
@@ -23,7 +23,7 @@ import { PublicConfigService } from '../../../services/public-config.service';
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss']
 })
-export class MainNavComponent implements OnInit {
+export class MainNavComponent {
 
   public isTextVisible: boolean;
   public faChevronRightIcon = faChevronRight;
@@ -53,9 +53,6 @@ export class MainNavComponent implements OnInit {
   ) {
     // fetch announcements to update the nav bar unread announcements number
     this.messageService.fetchAnnouncements().subscribe();
-  }
-
-  ngOnInit(): void {
   }
 
   reload(link: string): void {

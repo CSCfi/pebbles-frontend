@@ -66,7 +66,7 @@
         </ng-container>
         <!-- Session [Running] -->
         <ng-container *ngSwitchDefault>
-          <ng-container *ngIf="context?.identifier!='session'; else sessionPageRunningBlock">
+          <ng-container *ngIf="context?.identifier!=='session'; else sessionPageRunningBlock">
             <button mat-button matTooltip="Enter session" matTooltipPosition="above" class="open-button center__vi"
                     fxFlex="0 0 70px" fxLayout="column" fxLayoutAlign="center center"
                     (click)="openSessionInBrowser()">

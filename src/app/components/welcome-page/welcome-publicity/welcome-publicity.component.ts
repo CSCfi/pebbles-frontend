@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-welcome-publicity',
   templateUrl: './welcome-publicity.component.html',
   styleUrls: ['./welcome-publicity.component.scss']
 })
-export class WelcomePublicityComponent implements OnInit {
+export class WelcomePublicityComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
