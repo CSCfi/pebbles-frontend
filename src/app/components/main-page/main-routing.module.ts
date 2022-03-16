@@ -39,7 +39,7 @@ export const routes: Routes = [
       {
         path: 'workspace-owner', component: MainWorkspaceOwnerComponent,
         data: {
-          title: 'Manage Workspace',
+          title: 'Manage workspace',
           identifier: 'workspace-owner',
           breadcrumbs: ['home', 'workspace-owner']
         }
@@ -72,7 +72,7 @@ export const routes: Routes = [
       {
         path: 'active-sessions', component: MainActiveSessionsComponent,
         data: {
-          title: 'active-session',
+          title: 'Active sessions',
           identifier: 'active-session',
           breadcrumbs: ['home', 'active-session']
         }
