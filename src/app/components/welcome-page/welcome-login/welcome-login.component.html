@@ -7,10 +7,14 @@
       {{ publicConfigService.getShortDescription() }}
     </h2>
     <div class="mat-display-2 mb-30" [innerHTML]="publicConfigService.getInstallationDescription()"></div>
-    <a mat-raised-button id="oauth-login-button" class="button-lg" color="accent" href="/oauth2?rd=%2Foauth2">
+    <a mat-raised-button id="oauth-login-button" class="button-lg mb-10" color="accent" href="/oauth2?rd=%2Foauth2">
       <div>Login</div>
       <div class="mat-display-1">Haka / Virtu / CSC account</div>
     </a>
+    <button id="special-login-button" class="center__vh" (click)="openSpecialLogin()">
+      <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">chevron_right</mat-icon>
+      <span class="u-line">Special Login</span>
+    </button>
   </div>
   <!-- // Left -->
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Data } from '@angular/router';
 import { PublicConfigService } from '../../../services/public-config.service';
 
@@ -10,14 +10,9 @@ import { PublicConfigService } from '../../../services/public-config.service';
 export class FooterComponent {
 
   @Input() context: Data;
-  @Output() emitSpecialLogin = new EventEmitter<boolean>();
 
   constructor(
     public publicConfigService: PublicConfigService
   ) {
-  }
-
-  openSpecialLogin() {
-    this.emitSpecialLogin.emit();
   }
 }

@@ -31,3 +31,7 @@
     &:hover { background: map-get($app-warn, default); }
   }
 }
+
+#special-login-button {
+  margin-left: -20px;
+}

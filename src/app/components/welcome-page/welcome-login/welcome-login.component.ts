@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { PublicConfigService } from '../../../services/public-config.service';
@@ -31,6 +31,8 @@ export class WelcomeLoginComponent implements OnInit {
   isImageVisible0 = false;
   isImageVisible1 = false;
   isImageVisible2 = false;
+
+  @Output() emitSpecialLogin = new EventEmitter<boolean>();
 
   constructor(
     private authService: AuthService,
@@ -71,5 +73,8 @@ export class WelcomeLoginComponent implements OnInit {
     // this.images = images.map(
     //     (value, i) => i === index ? true : false
     // );
+  }
+  openSpecialLogin() {
+    this.emitSpecialLogin.emit();
   }
 }
