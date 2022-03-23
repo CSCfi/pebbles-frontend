@@ -23,16 +23,20 @@ export class MainSessionButtonComponent {
 
   // ---- Setting of a spinner
   spinnerMode: ProgressSpinnerMode = 'determinate';
-  isWaitingInterval = false;
+  isWaitingStartResponse = false;
   diameter = 120;
   strokeWidth = 10;
   sessionState: SessionStates;
+  autoOpenTimer: number;
 
   get accessUrl(): string {
     return this.session.session_data?.endpoints?.[0]?.access;
   }
 
   get isSpinnerOn(): boolean {
+    if (this.isWaitingStartResponse) {
+      return true;
+    }
     if (this.session) {
       switch (this.state) {
         case SessionStates.Running:
@@ -114,32 +118,40 @@ export class MainSessionButtonComponent {
   }
 
   startSession(): void {
-    this.isWaitingInterval = true;
     const applicationSession = this.applicationSessionService.getSession(this.application.session_id);
+    if (applicationSession) {
+      this.openSessionInBrowser();
+    }
+
+    if (this.isWaitingStartResponse) {
+      // there is already session being launched
+      return;
+    }
+    this.isWaitingStartResponse = true;
     this.applicationService.startApplication(this.application.id).subscribe(_ => {
-      if (applicationSession) {
+      this.isWaitingStartResponse = false;
+      this.autoOpenTimer = window.setTimeout(() => {
         this.openSessionInBrowser();
-      } else {
-        setTimeout(() => {
-          this.isWaitingInterval = false;
-          this.openSessionInBrowser();
-        }, 1600);
-      }
+      }, 1600);
     });
   }
 
   openSessionInBrowser(): void {
     const origin = this.document.location.origin;
-    if (!this.isWaitingInterval) {
-      // check if the session is running and already has access url
-      if (this.session.state === SessionStates.Running && this.accessUrl) {
-        window.open(this.accessUrl, '_blank');
-      } else {
-        const url = origin + this.router.serializeUrl(
-          this.router.createUrlTree(['/session/', this.application.session_id])
-        );
-        window.open(url, '_blank');
+    // check if the session is running and already has access url
+    if (this.session.state === SessionStates.Running && this.accessUrl) {
+      if (this.autoOpenTimer) {
+        window.clearTimeout(this.autoOpenTimer);
       }
+      window.open(this.accessUrl, '_blank');
+    } else if (this.application?.session_id) {
+      if (this.autoOpenTimer) {
+        window.clearTimeout(this.autoOpenTimer);
+      }
+      const url = origin + this.router.serializeUrl(
+        this.router.createUrlTree(['/session/', this.application.session_id])
+      );
+      window.open(url, '_blank');
     }
   }
 
