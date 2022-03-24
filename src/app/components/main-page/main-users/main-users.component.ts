@@ -70,6 +70,9 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.eventService.userDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
     }));
+    this.subscriptions.push(this.eventService.workspaceDataUpdate$.subscribe(_ => {
+      this.rebuildDataSource();
+    }));
     this.refreshUsers();
   }
 
@@ -79,9 +82,6 @@ export class MainUsersComponent implements OnInit, OnDestroy {
 
   refreshUsers(): void {
     this.accountService.fetchUsers();
-    // set the data to null to clear possible old data from the previous selection and to render 'loading' message
-    this.userDataSource = null;
-    this.tableRowData = null;
   }
 
   rebuildDataSource(): void {
@@ -95,13 +95,15 @@ export class MainUsersComponent implements OnInit, OnDestroy {
       return;
     }
     this.tableRowData = this.composeDataSource(this.accountService.getUsers());
+    // create a new datasource to trigger table rendering
     this.userDataSource = new MatTableDataSource<UserTableRow>(this.tableRowData);
     this.userDataSource.filter = Utilities.cleanText(this.queryText);
-    this.tableRowData = this.userDataSource.filteredData;
-    this.userDataSource.paginator = this.paginator;
-    // ---- Paginator becomes invisible after data has been inserted
-    this.isPaginatorVisible = this.tableRowData.length > this.minUnitNumber;
-    this.pageSizeOptions = Utilities.getPageSizeOptions(this.userDataSource, this.minUnitNumber);
+    setTimeout(_=> {
+      this.userDataSource.paginator = this.paginator;
+      // ---- Paginator becomes invisible after data has been inserted
+      this.isPaginatorVisible = this.tableRowData.length > this.minUnitNumber;
+      this.pageSizeOptions = Utilities.getPageSizeOptions(this.userDataSource, this.minUnitNumber);
+      }, 0);
   }
 
   private getLabels(user): string[] {
@@ -124,16 +126,15 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     return labels;
   }
 
-  private getWorkspaceCount(user): string {
+  private getWorkspaceCount(user): Number {
     if (user.is_admin) {
       // ---- admin has default.workspace additionally
-      const count = Number(this.workspaceService.getOwnedWorkspaces(user).length) + 1;
-      return count + ' / ';
+      return Number(this.workspaceService.getOwnedWorkspaces(user).length) + 1;
     }
     if (user.workspace_quota > 0) {
-      return this.workspaceService.getOwnedWorkspaces(user).length + ' / ';
+      return this.workspaceService.getOwnedWorkspaces(user).length;
     }
-    return '';
+    return 0;
   }
 
   composeDataSource(data: User[]): UserTableRow[] {
