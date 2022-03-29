@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -31,17 +32,26 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
-  displayedColumns: string[] = ['index', 'role', 'email', 'menu'];
-  memberDataSource: MatTableDataSource<MemberRow>;
-  selection = new SelectionModel<MemberRow>(true, []);
-  memberList: MemberRow[] = null;
-  user: User;
+  public displayedColumns: string[] = ['index', 'role', 'email', 'menu'];
+  public memberDataSource: MatTableDataSource<MemberRow>;
+  public selection = new SelectionModel<MemberRow>(true, []);
+  public memberList: MemberRow[] = null;
+  public user: User;
+  private queryText = '';
 
   // ---- Paginator
-  isPaginatorVisible = true;
-  minUnitNumber = 25;
-  pageSizeOptions = [this.minUnitNumber];
+  public isPaginatorVisible = true;
+  private minUnitNumber = 25;
+  public pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  public sortCondition: Sort = {
+    direction: 'asc',
+    active: 'index'
+  };
+  private roleOrder = ['owner', 'manager', 'member', 'banned'];
+  @ViewChild(MatSort) sort: MatSort;
+
   @Input() workspace: Workspace;
 
   constructor(
@@ -62,7 +72,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Whenever our @Input changes, we rebuild our table data source
+    // Whenever @Input workspace changes -> rebuild table data source
     if (this.workspaceService.getWorkspaceMembers(this.workspace.id)) {
       this.rebuildDataSource();
     } else {
@@ -95,8 +105,13 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
       setTimeout(_ => this.rebuildDataSource(), 0);
       return;
     }
+    console.log(this.workspaceService.getWorkspaceMembers(this.workspace.id));
     this.memberList = this.composeDataSource(this.workspaceService.getWorkspaceMembers(this.workspace.id));
-    this.memberDataSource = new MatTableDataSource(this.memberList);
+    // create a new datasource to trigger table rendering
+    const sortingMemberList = this.memberList.slice();
+    this.sortData(sortingMemberList, this.sortCondition);
+    this.memberDataSource = new MatTableDataSource(sortingMemberList);
+    this.memberDataSource.filter = Utilities.cleanText(this.queryText);
     this.memberDataSource.paginator = this.paginator;
     // ---- Paginator becomes invisible after data has been inserted
     this.isPaginatorVisible = this.memberList.length > this.minUnitNumber;
@@ -107,17 +122,9 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     if (!members) {
       return [];
     }
-
     const rows = [];
-    let index = 0;
-
     // ---- to locate your account in the top of the list before indexing
-    members.sort((x, y) => {
-      return (x.ext_id === this.user.ext_id) ? -1 : (y.ext_id === this.user.ext_id) ? 1 : 0;
-    });
-
-    members.forEach((member) => {
-      index = index + 1;
+    members.forEach(member => {
       let role = 'member';
       if (member.is_banned) {
         role = 'banned';
@@ -127,13 +134,27 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
         role = 'manager';
       }
       rows.push({
-        index,
-        select: false,
-        role,
+        userId: member.user_id,
         email: member.ext_id,
-        userId: member.user_id
-      });
+        select: false,
+        role
+      })
     });
+
+    // ---- sort based on the user-role
+    rows.sort((x, y) => {
+      return (this.roleOrder.indexOf(x.role) - this.roleOrder.indexOf(y.role));
+    });
+
+    // ---- to locate your account in the top of the list before indexing
+    rows.sort((x, y) => {
+      return (x.email === this.user.ext_id) ? -1 : (y.email === this.user.ext_id) ? 1 : 0;
+    });
+
+    rows.map((row, index) => {
+      row.index = index + 1;
+    });
+
     return rows;
   }
 
@@ -142,20 +163,17 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   }
 
   applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.memberDataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.memberDataSource.paginator) {
-      this.memberDataSource.paginator.firstPage();
-    }
+    this.queryText = (event.target as HTMLInputElement).value;
+    this.selection.clear();
+    this.rebuildDataSource()
   }
 
   displayUserAssociationType(role): string {
     return role === UserAssociationType.Manager ? 'co-owner' : role;
   }
 
-  isTransferOwnerActive(role): boolean {
-    return  (this.user?.is_admin || this.workspace.user_association_type === 'owner');
+  isTransferOwnerActive(): boolean {
+    return (this.user?.is_admin || this.workspace.user_association_type === 'owner');
   }
 
   transferOwnership(userId: string, email: string): void {
@@ -205,6 +223,31 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
       });
     } else {
       this.workspaceService.demoteMember(this.workspace.id, userId).subscribe();
+    }
+  }
+
+  changeSortCondition(sort: Sort): void {
+    this.sortCondition = {
+      direction: sort.direction,
+      active: sort.active
+    };
+    this.rebuildDataSource();
+  }
+
+  sortData(data: MemberRow[], sort: Sort) {
+    if (sort.active && sort.direction !== '') {
+      data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'index':
+            return Utilities.compare(a.index, b.index, isAsc);
+          case 'role':
+            if (a.role === b.role) return b.index - a.index;
+            return (this.roleOrder.indexOf(a.role) - this.roleOrder.indexOf(b.role)) * (isAsc ? 1 : -1);
+          default:
+            return 0;
+        }
+      });
     }
   }
 

@@ -18,7 +18,11 @@
       - ext_id (email) column
       - Menu button column
      -->
-    <table mat-table [dataSource]="memberDataSource" class="workspace-member-table">
+    <table mat-table matSort class="workspace-member-table"
+           [dataSource]="memberDataSource"
+           (matSortChange)="changeSortCondition($event)"
+           [matSortActive]="sortCondition.active"
+           [matSortDirection]="sortCondition.direction">
       <!-- Checkbox Column -->
       <!--
       <ng-container matColumnDef="select">
@@ -36,14 +40,14 @@
       -->
       <!-- Index Column -->
       <ng-container matColumnDef="index">
-        <th mat-header-cell class="icon-cell" *matHeaderCellDef>index</th>
+        <th mat-header-cell mat-sort-header class="icon-cell" *matHeaderCellDef>index</th>
         <td mat-cell class="center icon-cell" *matCellDef="let element">
           {{element.index}}
         </td>
       </ng-container>
       <!-- Role column -->
       <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Role</th>
         <td mat-cell class="cell-role" *matCellDef="let element">
           <ng-container [ngSwitch]="element.role">
             <div [ngClass]="element.role" class="center__v mat-caption user-association-type">
@@ -82,7 +86,7 @@
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item
-                    *ngIf="isTransferOwnerActive(element.role)"
+                    *ngIf="isTransferOwnerActive()"
                     (click)="transferOwnership(element.userId, element.email)">
               <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
               <span>transfer ownership</span>
