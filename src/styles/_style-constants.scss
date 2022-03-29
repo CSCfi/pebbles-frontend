@@ -38,12 +38,12 @@ $app-gray: (
 
 $app-primary: (
   default: #18227c,
+  light: #919cd2,
+  dark: #14144b,
   100: #ededf8,
   200: #e0e0f1,
   300: #d0d1e5,
   400: #acb0e0,
-  light: #919cd2,
-  dark: #14144b,
   contrast: (
     default: $light-text,
     light: $light-text,
@@ -55,6 +55,7 @@ $app-secondary: (
   default: #ffdd00,
   light: #ffe065,
   dark: #e7a201,
+  100: #fffee0,
   contrast: (
     default: $light-text,
     light: $light-text,

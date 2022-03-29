@@ -32,7 +32,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   private subscriptions: Subscription[] = [];
 
   displayedColumns: string[] = ['index', 'role', 'email', 'menu'];
-  dataSource: MatTableDataSource<MemberRow>;
+  memberDataSource: MatTableDataSource<MemberRow>;
   selection = new SelectionModel<MemberRow>(true, []);
   memberList: MemberRow[] = null;
   user: User;
@@ -55,9 +55,9 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   }
 
   ngOnInit(): void {
+    this.user = this.accountService.get(this.authService.getUserId());
     this.subscriptions.push(this.eventService.workspaceMemberDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
-      this.user = this.accountService.get(this.authService.getUserId());
     }));
   }
 
@@ -81,7 +81,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
       this.workspaceService.refreshWorkspaceMembers(this.workspace.id);
     }
     // set the data to null to clear possible old data from the previous selection and to render 'loading' message
-    this.dataSource = null;
+    this.memberDataSource = null;
     this.memberList = null;
   }
 
@@ -96,11 +96,11 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
       return;
     }
     this.memberList = this.composeDataSource(this.workspaceService.getWorkspaceMembers(this.workspace.id));
-    this.dataSource = new MatTableDataSource(this.memberList);
-    this.dataSource.paginator = this.paginator;
+    this.memberDataSource = new MatTableDataSource(this.memberList);
+    this.memberDataSource.paginator = this.paginator;
     // ---- Paginator becomes invisible after data has been inserted
     this.isPaginatorVisible = this.memberList.length > this.minUnitNumber;
-    this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
+    this.pageSizeOptions = Utilities.getPageSizeOptions(this.memberDataSource, this.minUnitNumber);
   }
 
   composeDataSource(members: WorkspaceMember[]): MemberRow[] {
@@ -110,6 +110,12 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
 
     const rows = [];
     let index = 0;
+
+    // ---- to locate your account in the top of the list before indexing
+    members.sort((x, y) => {
+      return (x.ext_id === this.user.ext_id) ? -1 : (y.ext_id === this.user.ext_id) ? 1 : 0;
+    });
+
     members.forEach((member) => {
       index = index + 1;
       let role = 'member';
@@ -137,10 +143,10 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.memberDataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    if (this.memberDataSource.paginator) {
+      this.memberDataSource.paginator.firstPage();
     }
   }
 
@@ -205,7 +211,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   /** Whether the number of selected elements matches the total number of rows. */
   // isAllSelected(): boolean {
   //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
+  //   const numRows = this.memberDataSource.data.length;
   //   return numSelected === numRows;
   // }
 
@@ -213,7 +219,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   // masterToggle(): void {
   //   this.isAllSelected() ?
   //     this.selection.clear() :
-  //     this.dataSource.data.forEach(row => this.selection.select(row));
+  //     this.memberDataSource.data.forEach(row => this.selection.select(row));
   // }
 
   /** The label for the checkbox on the passed row */
