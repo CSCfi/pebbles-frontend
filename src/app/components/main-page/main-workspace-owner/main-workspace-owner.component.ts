@@ -138,12 +138,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       this.autoSelectFirstWorkspace = false;
     }
 
-    // if there is a selection, update that and make sure it still exists
+    // if there is a selection, update that
     if (this.selectedWorkspaceId) {
       this.selectedWorkspace = this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
-      if (!this.selectedWorkspace) {
-        this.selectWorkspace(null);
-      }
     }
     // if there is a selected workspace, refresh the member counts
     if (this.selectedWorkspace) {

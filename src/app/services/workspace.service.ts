@@ -92,14 +92,32 @@ export class WorkspaceService {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
-        // if the number of workspaces has changed, we also fire an event (e.g. to notify ApplicationService)
-        const eventNeeded = this.workspaces?.length !== resp.length;
-        this.workspaces = resp;
-        this.workspaces.sort((a, b) => b.create_ts - a.create_ts);
-        this.workspaces.sort((a, b) => {
-          return Object.values(UserAssociationType).indexOf(a.user_association_type)
+
+        resp.sort((a, b) => {
+          // primary sorting by role association
+          const roleDelta = Object.values(UserAssociationType).indexOf(a.user_association_type)
             - Object.values(UserAssociationType).indexOf(b.user_association_type);
+          if (roleDelta) {
+            return roleDelta;
+          }
+          // secondary sorting: newest first
+          return b.create_ts - a.create_ts;
         });
+
+        // if the number of workspaces has changed or the contents are not the same,
+        // we fire an event to notify listeners
+        let eventNeeded = this.workspaces?.length !== resp.length;
+        if (!eventNeeded) {
+          // number of workspaces match, check if they are equal
+          for (let i = 0; i < this.workspaces.length; i++) {
+            if (!Workspace.equals(this.workspaces[i], resp[i])) {
+              eventNeeded = true;
+              break;
+            }
+          }
+        }
+        // assign fresh workspace data
+        this.workspaces = resp;
         if (eventNeeded) {
           this.eventService.workspaceDataUpdate$.next('all');
         }
