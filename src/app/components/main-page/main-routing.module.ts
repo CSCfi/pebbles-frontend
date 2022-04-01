@@ -31,7 +31,7 @@ export const routes: Routes = [
       {
         path: 'my-workspaces', component: MainMyWorkspacesComponent,
         data: {
-          title: 'My workspace',
+          title: 'My workspaces',
           identifier: 'my-workspace',
           breadcrumbs: ['home', 'My workspaces']
         }
@@ -39,7 +39,7 @@ export const routes: Routes = [
       {
         path: 'workspace-owner', component: MainWorkspaceOwnerComponent,
         data: {
-          title: 'Manage workspace',
+          title: 'Manage workspaces',
           identifier: 'workspace-owner',
           breadcrumbs: ['home', 'workspace-owner']
         }
