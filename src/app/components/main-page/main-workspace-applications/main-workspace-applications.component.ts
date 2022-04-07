@@ -3,11 +3,9 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChil
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { faRProject } from '@fortawesome/free-brands-svg-icons';
-import { faPython } from '@fortawesome/free-brands-svg-icons';
 import { Application } from 'src/app/models/application';
 import { ApplicationService } from 'src/app/services/application.service';
 import { ApplicationType } from '../../../models/application-template';
@@ -40,9 +38,6 @@ export interface ApplicationRow {
 })
 export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, OnChanges {
 
-  public faBook = faBook;
-  public faRProject = faRProject;
-  public faPython = faPython;
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
   public isSessionDeleted = false;
@@ -214,5 +209,13 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       }
     }).afterClosed().subscribe(_ => {
     });
+  }
+
+  getApplicationIcon(labels): IconProp {
+    return Utilities.getApplicationIcon(labels);
+  }
+
+  getApplicationTypeName(type): string {
+    return Utilities.applicationTypeName(type);
   }
 }

@@ -19,8 +19,6 @@
     }
 
     .cell-thumbnail {
-      //color: map-get($app-gray, 100);
-      width: 100px;
 
       &.published {
         color: map-get($app-primary, light);
@@ -28,11 +26,17 @@
           background: map-get($app-primary, light);
         }
       }
+
+      .thumbnail fa-icon {
+        text-align: center;
+        margin: auto;
+        display: block;
+        width: 90px;
+      }
     }
 
     .cell-info {
       padding: 5px 10px !important;
-      vertical-align: top;
 
       .application-labels {
         white-space: nowrap;
@@ -50,7 +54,6 @@
 
     .cell-spec {
       min-width: 135px;
-      vertical-align: middle;
     }
 
     .cell-launch {

@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Data } from '@angular/router';
-import { faPython, faRProject } from '@fortawesome/free-brands-svg-icons';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { Application } from 'src/app/models/application';
-import { ApplicationType } from '../../../models/application-template';
 import { UserAssociationType } from '../../../models/workspace';
 import { WorkspaceService } from '../../../services/workspace.service';
+import { Utilities } from '../../../utilities';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'app-main-application-item',
@@ -13,10 +12,6 @@ import { WorkspaceService } from '../../../services/workspace.service';
   styleUrls: ['./main-application-item.component.scss']
 })
 export class MainApplicationItemComponent {
-
-  public faBook = faBook;
-  public faRProject = faRProject;
-  public faPython = faPython;
 
   @Input() application: Application;
   @Input() context: Data;
@@ -40,8 +35,12 @@ export class MainApplicationItemComponent {
     return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   }
 
-  get applicationType(): ApplicationType {
-    return this.application?.application_type;
+  get applicationIcon(): IconProp {
+    return Utilities.getApplicationIcon(this.application.labels);
+  }
+
+  get applicationTypeName(): string {
+    return Utilities.applicationTypeName(this.application.application_type);
   }
 
   get description(): string {

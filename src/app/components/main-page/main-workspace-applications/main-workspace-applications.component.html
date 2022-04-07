@@ -57,22 +57,9 @@
           <td mat-cell class="cell-thumbnail icon" *matCellDef="let element"
               [ngClass]="{'published': element.is_enabled, 'draft': !element.is_enabled}" fxHide.lt-sm="true">
             <div class="thumbnail-placeholder">
-              <div class="thumbnail" [ngSwitch]="element.type">
-                <div *ngSwitchCase="'jupyter'">
-                  <fa-icon class="md-24" [icon]="faPython"></fa-icon>
-                  <br/>
-                  <span>Jupyter</span>
-                </div>
-                <div *ngSwitchCase="'rstudio'">
-                  <fa-icon class="md-24" [icon]="faRProject"></fa-icon>
-                  <br/>
-                  <span>RStudio</span>
-                </div>
-                <div *ngSwitchDefault>
-                  <fa-icon class="md-24" [icon]="faBook"></fa-icon>
-                  <br/>
-                  <span>Generic</span>
-                </div>
+              <div class="thumbnail">
+                <fa-icon [icon]="getApplicationIcon(element.labels)" class="md-24"></fa-icon>
+                <span>{{ getApplicationTypeName(element.type) }}</span>
               </div>
             </div>
             <div class="chip__m mt-5">{{ element.is_enabled ? 'published' : 'draft' }}</div>

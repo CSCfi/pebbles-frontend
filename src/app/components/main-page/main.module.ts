@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from 'src/app/components/shared/shared.module';
 // ---- Custom module
 import { MaterialModule } from 'src/app/material.module';
+import { IconModule } from 'src/app/icon.module';
 // ---- Pipe
 import { DateDisplayPipe } from '../../pipes/date-display.pipe';
 import { LifeTimeDisplayPipe } from '../../pipes/life-time-display.pipe';
@@ -84,12 +85,14 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainRoutingModule,
     MaterialModule,
     SharedModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    IconModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     MainApplicationItemComponent,
-    LifeTimeDisplayPipe
+    LifeTimeDisplayPipe,
+    IconModule,
   ]
 })
 export class MainModule {

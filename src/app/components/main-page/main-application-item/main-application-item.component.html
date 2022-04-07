@@ -2,24 +2,13 @@
   <mat-card class="card" [attr.id]="'env-'+application.id" ngClass.lt-sm="mobile"
             fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
             fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
-
     <!-- Card LEFT section -->
     <div class="card-media-container bg__primary-light center__vh"
-         [ngSwitch]="applicationType"
-         [ngClass]="{'jupyter':applicationType==='jupyter', 'rstudio':applicationType==='rstudio'}"
+         [ngClass]="application?.application_type"
          fxFlex="0 0 125px">
       <div class="thumbnail mat-headline">
-        <ng-container *ngSwitchCase="'jupyter'">
-          <fa-icon [icon]="faPython" class="md-48"></fa-icon>
-          <span>Jupyter</span>
-        </ng-container>
-        <ng-container *ngSwitchCase="'rstudio'">
-          <fa-icon [icon]="faRProject" class="md-48"></fa-icon>
-          <span>RStudio</span>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-          <fa-icon [icon]="faBook" class="md-48"></fa-icon>
-        </ng-container>
+        <fa-icon [icon]="applicationIcon" class="mb-2 md-48"></fa-icon>
+        <span>{{ applicationTypeName }}</span>
       </div>
     </div>
     <!-- //// End of Left section -->

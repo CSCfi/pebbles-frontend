@@ -1,3 +1,5 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 export class Utilities {
   public static lifetimeToString(lifetime: number): string {
     const hours: number = Math.floor(lifetime / 3600);
@@ -38,5 +40,42 @@ export class Utilities {
 
   public static compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  public static getApplicationIcon(labels: string[]): IconProp {
+    if (labels.includes('python')) {
+      return ['fab', 'python'];
+    } else if (labels.includes('r') || labels.includes('rstudio')) {
+      return ['fab', 'r-project'];
+    } else if (labels.includes('js') || labels.includes('javascript')) {
+      return ['fab', 'js'];
+    } else if (labels.includes('markup') || labels.includes('html')) {
+      return ['fas', 'code'];
+    } else if (labels.includes('linux') || labels.includes('command line')) {
+      return ['fab', 'linux'];
+    } else if (labels.includes('ai') || labels.includes('deep learning')) {
+      return ['fas', 'brain'];
+    } else if (labels.includes('data analytics') || labels.includes('data science') || labels.includes('analytics')) {
+      return ['fas', 'chart-column'];
+    } else if (labels.includes('quantum computing')) {
+      return ['fas', 'atom'];
+    } else if (labels.includes('bio') || labels.includes('bio informatics')) {
+      return ['fas', 'dna'];
+    } else if (labels.includes('nlp') || labels.includes('natural language processing')) {
+      return ['fas', 'language'];
+    } else {
+      return ['fas', 'book'];
+    }
+  }
+
+  public static applicationTypeName(type): string {
+    switch (type) {
+      case 'jupyter':
+        return 'Jupyter';
+      case 'rstudio':
+        return 'RStudio';
+      default:
+        return 'Generic';
+    }
   }
 }

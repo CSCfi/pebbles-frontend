@@ -21,12 +21,12 @@
               (click)="emitSideNavToggle()">
         <ng-container *ngIf="isTextVisible ; else elseBlock">
           <span class="icon-holder center__vh">
-            <fa-icon class="md-12" [icon]="faChevronLeftIcon"></fa-icon>
+            <mat-icon class="md-12">chevron_left</mat-icon>
           </span>
         </ng-container>
         <ng-template #elseBlock>
           <span class="icon-holder center__vh">
-            <fa-icon class="md-12" [icon]="faChevronRightIcon"></fa-icon>
+            <mat-icon class="md-12">chevron_right</mat-icon>
           </span>
         </ng-template>
       </button>
