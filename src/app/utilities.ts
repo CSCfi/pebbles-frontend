@@ -18,10 +18,10 @@ export class Utilities {
     return str.toLocaleLowerCase().trim();
   }
 
-  public static getPageSizeOptions(dataSource, minUnitNumber): number[]{
+  public static getPageSizeOptions(dataSource, minUnitNumber): number[] {
     if (dataSource) {
       const unitNumbers = [];
-      for ( let i = 1; i < dataSource.data.length / minUnitNumber; i++) {
+      for (let i = 1; i < dataSource.data.length / minUnitNumber; i++) {
         unitNumbers.push(minUnitNumber * i);
       }
       unitNumbers.push(dataSource.data.length);
@@ -43,11 +43,7 @@ export class Utilities {
   }
 
   public static getApplicationIcon(labels: string[]): IconProp {
-    if (labels.includes('python')) {
-      return ['fab', 'python'];
-    } else if (labels.includes('r') || labels.includes('rstudio')) {
-      return ['fab', 'r-project'];
-    } else if (labels.includes('js') || labels.includes('javascript')) {
+    if (labels.includes('js') || labels.includes('javascript')) {
       return ['fab', 'js'];
     } else if (labels.includes('markup') || labels.includes('html')) {
       return ['fas', 'code'];
@@ -55,14 +51,20 @@ export class Utilities {
       return ['fab', 'linux'];
     } else if (labels.includes('ai') || labels.includes('deep learning')) {
       return ['fas', 'brain'];
-    } else if (labels.includes('data analytics') || labels.includes('data science') || labels.includes('analytics')) {
-      return ['fas', 'chart-column'];
+    } else if (labels.includes('machine learning')) {
+      return ['fas', 'circle-nodes'];
     } else if (labels.includes('quantum computing')) {
       return ['fas', 'atom'];
     } else if (labels.includes('bio') || labels.includes('bio informatics')) {
       return ['fas', 'dna'];
     } else if (labels.includes('nlp') || labels.includes('natural language processing')) {
       return ['fas', 'language'];
+    } else if (labels.includes('r') || labels.includes('rstudio')) {
+      return ['fab', 'r-project'];
+    } else if (labels.includes('data analytics') || labels.includes('data science') || labels.includes('analytics')) {
+      return ['fas', 'chart-column'];
+    } else if (labels.includes('python')) {
+      return ['fab', 'python'];
     } else {
       return ['fas', 'book'];
     }
