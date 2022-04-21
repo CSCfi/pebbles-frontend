@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
@@ -39,6 +39,8 @@ export class MainApplicationWizardFormComponent implements OnInit {
   wizardApplicationTemplateDataSource: MatTableDataSource<WizardApplicationTemplateRow> = null;
   private wizardApplicationTemplateTableRowData: WizardApplicationTemplateRow[] = null;
 
+  createButtonClicked: boolean;
+
   get applicationTemplates(): ApplicationTemplate[] {
     return this.applicationTemplateService.getApplicationTemplates();
   }
@@ -63,6 +65,8 @@ export class MainApplicationWizardFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.createButtonClicked = false;
+
     this.rebuildWizardApplicationTemplateDataSource();
 
     this.selectedDownloadMethod = 'none';
@@ -124,6 +128,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
   }
 
   createApplicationByWizardMode(): void {
+    this.createButtonClicked = true;
     this.applicationService.createApplication(
       this.data.workspaceId,
       this.wizardProfileFormGroup.controls.name.value,

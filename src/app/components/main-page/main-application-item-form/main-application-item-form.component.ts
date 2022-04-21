@@ -3,11 +3,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ApplicationService } from 'src/app/services/application.service';
 import { Application } from 'src/app/models/application';
-import { ApplicationTemplateService } from 'src/app/services/application-template.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
+import { ApplicationTemplateService } from 'src/app/services/application-template.service';
+import { ApplicationService } from 'src/app/services/application.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 export interface ApplicationTemplateRow {
   name: string;
@@ -41,6 +41,9 @@ export class MainApplicationItemFormComponent implements OnInit {
   applicationTemplateColumns: string[] = ['info', 'spec'];
   applicationTemplateDataSource: MatTableDataSource<ApplicationTemplateRow> = null;
 
+  editButtonClicked: boolean;
+  createButtonClicked: boolean;
+
   get isCreationMode(): boolean {
     return !this.data.application;
   }
@@ -73,6 +76,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.editButtonClicked = this.createButtonClicked = false;
     if (this.isCreationMode) {
       this.setCreationForm();
     } else {
@@ -160,9 +164,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   }
 
   createApplicationByPlainMode(): void {
-    // TODO: this can be removed when selectTemplate() callback starts working
-    // this.selectedTemplate = this.applicationTemplateService.getApplicationTemplates().find(
-    //   x => x.id === this.applicationItemEditFormGroup.controls.Application.value);
+    this.createButtonClicked = true;
     this.applicationService.createApplication(
       this.data.workspaceId,
       this.applicationItemEditFormGroup.controls.name.value,
@@ -187,6 +189,8 @@ export class MainApplicationItemFormComponent implements OnInit {
   }
 
   editApplicationItem(): void {
+    this.editButtonClicked = true;
+
     this.data.application.name = this.applicationItemEditFormGroup.controls.name.value;
     this.data.application.description = this.applicationItemEditFormGroup.controls.description.value;
     this.data.application.labels = this.selectedLabels;

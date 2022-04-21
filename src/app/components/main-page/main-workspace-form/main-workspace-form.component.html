@@ -54,7 +54,7 @@
       <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
         <button mat-flat-button color="primary" fxFlex="grow"
-                [disabled]="!workspaceForm.valid"
+                [disabled]="!workspaceForm.valid || createButtonClicked"
                 (click)="createWorkspace()">
             Create
         </button>

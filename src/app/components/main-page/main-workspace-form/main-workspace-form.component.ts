@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 
@@ -10,7 +10,8 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 })
 export class MainWorkspaceFormComponent implements OnInit {
 
-  public workspaceForm: FormGroup;
+  workspaceForm: FormGroup;
+  createButtonClicked: boolean;
 
   errorHandling = (control: string, error: string) => {
     return this.workspaceForm.controls[control].hasError(error);
@@ -29,6 +30,7 @@ export class MainWorkspaceFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initReactiveForm();
+    this.createButtonClicked = false;
     if (!this.data.isCreationMode) {
       this.workspaceForm.controls.name.setValue(this.data.workspace.name);
       this.workspaceForm.controls.description.setValue(this.data.workspace.description);
@@ -47,6 +49,7 @@ export class MainWorkspaceFormComponent implements OnInit {
   }
 
   createWorkspace(): void {
+    this.createButtonClicked = true;
     this.workspaceService.createWorkspace(
       this.workspaceForm.controls.name.value,
       this.workspaceForm.controls.description.value

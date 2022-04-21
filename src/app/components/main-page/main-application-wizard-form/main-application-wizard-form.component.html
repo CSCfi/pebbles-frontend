@@ -37,7 +37,7 @@
               </ng-container>
               <!-- Template Info column -->
               <ng-container matColumnDef="info">
-                <th mat-header-cell class="cell-info" *matHeaderCellDef>Templates information</th>
+                <th mat-header-cell class="cell-info" *matHeaderCellDef>Template information</th>
                 <td mat-cell class="cell-info" *matCellDef="let element">
                   <ul>
                     <li class="template-name mat-subheading-2 mb-5"> {{element.name}} </li>
@@ -55,7 +55,7 @@
               </ng-container>
               <!-- Template spec column -->
               <ng-container matColumnDef="spec">
-                <th mat-header-cell class="cell-spec" *matHeaderCellDef>Templates spec</th>
+                <th mat-header-cell class="cell-spec" *matHeaderCellDef>Template spec</th>
                 <td class="cell-spec" mat-cell *matCellDef="let element">
                   <ul class="mat-caption">
                     <li class="center__v">
@@ -306,7 +306,8 @@
             <span fxHide.lt-sm="true">Back</span>
           </button>
           <button mat-flat-button color="primary" fxFlex="grow" matStepperNext
-                  (click)="createApplicationByWizardMode()">
+                  [disabled]="createButtonClicked"
+                (click)="createApplicationByWizardMode()">
             Create
           </button>
         </div>

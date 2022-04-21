@@ -25,7 +25,7 @@
             <table mat-table [dataSource]="applicationTemplateDataSource" class="mt-10 mb-20"
                    *ngIf="selectedApplicationTemplate">
               <ng-container matColumnDef="info">
-                <th mat-header-cell *matHeaderCellDef>Templates information</th>
+                <th mat-header-cell *matHeaderCellDef>Template information</th>
                 <td mat-cell *matCellDef="let element">
                   <ul>
                     <li class="template-name mat-subheading-2 mb-5"> {{element.name}} </li>
@@ -214,13 +214,13 @@
            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
         <button mat-flat-button color="primary" fxFlex="grow"
                 *ngIf="isCreationMode"
-                [disabled]="applicationItemEditFormGroup.invalid"
+                [disabled]="applicationItemEditFormGroup.invalid || createButtonClicked"
                 (click)="createApplicationByPlainMode()">
           Add new
         </button>
         <button mat-flat-button class="submit-button" color="primary" fxFlex="grow"
                 *ngIf="!isCreationMode"
-                [disabled]="applicationItemEditFormGroup.invalid"
+                [disabled]="applicationItemEditFormGroup.invalid || editButtonClicked"
                 (click)="editApplicationItem()">
           Update
         </button>
