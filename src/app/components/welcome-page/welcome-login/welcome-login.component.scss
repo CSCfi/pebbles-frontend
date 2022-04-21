@@ -1,13 +1,32 @@
 @import "src/styles/main.scss";
 
+.hero-video {
+  position: relative;
+  z-index: 1000;
+  max-width: 650px;
+  height: 572px;
+
+  video {
+    width: 100%;
+    border: 1px solid map-get($app-primary, 600);
+    box-shadow: 5px 6px 5px rgba( 20, 20, 75, .8);
+    border-radius: 12px;
+  }
+}
+
+#special-login-button {
+  margin-left: -20px;
+}
+
 .hero-images {
   position: relative;
-  max-width: 600px;
+  z-index: 1000;
+  max-width: 650px;
   height: auto;
   overflow: hidden;
 
   border-radius: 6px;
-  border: 3px solid #FFFFFF;
+  //border: 3px solid #FFFFFF;
 
   .image-container {
     position: absolute;
@@ -30,8 +49,4 @@
     background: map-get($app-secondary, default);
     &:hover { background: map-get($app-warn, default); }
   }
-}
-
-#special-login-button {
-  margin-left: -20px;
 }

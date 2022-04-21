@@ -35,8 +35,6 @@ export class WelcomeLoginComponent implements OnInit {
   @Output() emitSpecialLogin = new EventEmitter<boolean>();
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
     public publicConfigService: PublicConfigService,
   ) {
   }

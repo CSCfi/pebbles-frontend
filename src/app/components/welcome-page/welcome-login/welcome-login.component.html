@@ -1,8 +1,8 @@
 <section class="container mb-80"
-         fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="50px"
+         fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="60px"
          fxLayout.lt-sm="column-reverse" fxLayoutGap.lt-sm="20px">
   <!-- Left -->
-  <div class="login-wrapper" fxLayout="column" fxLayoutGap="30px">
+  <div class="login-wrapper" fxLayout="column" fxLayoutGap="40px">
     <h2 class="mat-display-3 mb-30">
       {{ publicConfigService.getShortDescription() }}
     </h2>
@@ -19,28 +19,37 @@
   <!-- // Left -->
 
   <!-- Right -->
-  <div id="hero-shots" class="mb-20" fxFlex="0 0 550px" fxFlex.lt-sm="auto" fxLayout="column" fxLayoutGap="20px">
-    <div class="hero-images">
-      <div class="image-container center__v" [@openClose]="isImageVisible0 ? 'open' : 'closed'">
-        <img src="assets/images/screenshot-0.png" alt="Example screenshots of Notebooks"/>
-      </div>
-      <div class="image-container center__v" [@openClose]="isImageVisible1 ? 'open' : 'closed'">
-        <img src="assets/images/screenshot-1.png" alt="Example screenshots of Notebooks"/>
-      </div>
-      <div class="image-container center__v" [@openClose]="isImageVisible2 ? 'open' : 'closed'">
-        <img src="assets/images/screenshot-2.png" alt="Example screenshots of Notebooks"/>
-      </div>
-    </div>
-    <div class="control-buttons" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-      <button mat-mini-fab aria-label="Screenshot of the applications page"
-              (click)="onImageShow(0)" [ngClass]="{'focus':isImageVisible0}">
-      </button>
-      <button mat-mini-fab aria-label="Screenshot of launching application session"
-              (click)="onImageShow(1)" [ngClass]="{'focus':isImageVisible1}">
-      </button>
-      <button mat-mini-fab aria-label="Screenshot of the JupyterLab"
-              (click)="onImageShow(2)" [ngClass]="{'focus':isImageVisible2}">
-      </button>
+  <div id="hero-shots" class="mb-20" fxFlex="0 0 650px" fxFlex.lt-sm="auto" fxLayout="column" fxLayoutGap="40px">
+    <div class="hero-video">
+      <video autoplay
+             muted
+             onloadeddata="this.play();"
+             onloadedmetadata="this.muted = true">
+        <source src="assets/images/csc-notebooks-demo.mp4" alt="csc-logo" type="video/mp4">
+        <!-- Show images if the browser doesn't support video tag -->
+        <div class="hero-images">
+          <div class="image-container center__v" [@openClose]="isImageVisible0 ? 'open' : 'closed'">
+            <img src="assets/images/screenshot-0.png" alt="Example screenshots of Notebooks"/>
+          </div>
+          <div class="image-container center__v" [@openClose]="isImageVisible1 ? 'open' : 'closed'">
+            <img src="assets/images/screenshot-1.png" alt="Example screenshots of Notebooks"/>
+          </div>
+          <div class="image-container center__v" [@openClose]="isImageVisible2 ? 'open' : 'closed'">
+            <img src="assets/images/screenshot-2.png" alt="Example screenshots of Notebooks"/>
+          </div>
+        </div>
+        <div class="control-buttons" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+          <button mat-mini-fab aria-label="Screenshot of the applications page"
+                  (click)="onImageShow(0)" [ngClass]="{'focus':isImageVisible0}">
+          </button>
+          <button mat-mini-fab aria-label="Screenshot of launching application session"
+                  (click)="onImageShow(1)" [ngClass]="{'focus':isImageVisible1}">
+          </button>
+          <button mat-mini-fab aria-label="Screenshot of the JupyterLab"
+                  (click)="onImageShow(2)" [ngClass]="{'focus':isImageVisible2}">
+          </button>
+        </div>
+      </video>
     </div>
   </div>
   <!-- // Right -->
