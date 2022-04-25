@@ -19,6 +19,7 @@ export class Workspace {
     public expiry_ts: number,
     public owner_ext_id: string,
     public application_quota?: number,
+    public memory_limit_gib?: number,
     public user_association_type?: UserAssociationType
   ) {
   }

@@ -42,6 +42,8 @@
       <dd>{{ workspace.create_ts | dateDisplay }}</dd>
       <dt class="">Expiring</dt>
       <dd>{{ workspace.expiry_ts | dateDisplay }}  ({{ workspace.expiry_ts | remainingDaysDisplay }})</dd>
+      <dt class="">Memory limit</dt>
+      <dd>{{ workspace.memory_limit_gib }} GiB total for concurrent sessions</dd>
     </dl>
     <div fxLayout="column" fxLayoutAlign="start stretch">
       <button mat-flat-button class="workspace-update-button mt-20" color="accent"
