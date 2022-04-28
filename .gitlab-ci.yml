@@ -20,6 +20,7 @@ stages:
   - test
   - docker build
   - ci-pipeline
+  - mirroring
 
 static-analysis:
   stage: static analysis
@@ -158,3 +159,24 @@ ci-pipeline:
   only:
     refs:
       - master
+
+mirroring:
+  stage: mirroring
+  image: python:3.8
+  variables:
+    GITHUB_MIRROR: git@github.com:CSCfi/pebbles-frontend.git
+  script:
+    - mkdir mirror_dir
+    - cd mirror_dir
+    - echo "cloning the gitlab.ci repo"
+    - git clone $CI_REPOSITORY_URL pebbles-frontend
+    - cd pebbles-frontend
+    - echo "pushing to github repo"
+    - git checkout master
+    - mkdir ~/.ssh
+    - echo -e "Host github.com\n    StrictHostKeyChecking no\n" >> ~/.ssh/config
+    - eval `ssh-agent -s`
+    - ssh-agent bash -c 'ssh-add /root/ssh/pebbles-frontend-key/id_rsa; git push $GITHUB_MIRROR master'
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+
