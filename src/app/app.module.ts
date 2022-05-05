@@ -25,6 +25,7 @@ import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { WelcomeLoginComponent } from './components/welcome-page/welcome-login/welcome-login.component';
+import { WelcomeBackgroundComponent } from './components/welcome-page/welcome-background/welcome-background.component';
 import { WelcomePublicityComponent } from './components/welcome-page/welcome-publicity/welcome-publicity.component';
 import { SessionPageComponent } from './components/session-page/session-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
@@ -39,6 +40,7 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     WelcomeLoginComponent,
     WelcomePublicityComponent,
     SessionPageComponent,
+    WelcomeBackgroundComponent,
   ],
   imports: [
     BrowserModule,

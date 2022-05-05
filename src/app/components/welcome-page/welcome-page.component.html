@@ -1,22 +1,25 @@
-<div class="container__screen bg__primary" fxLayout="column">
+<div id="welcome-page-wrapper" class="container__screen bg__primary" fxLayout="column">
   <app-header [isNaviVisible]="true"
               [logoMarkSize]="80" [logoTypeSize]="4" [displayMode]="'cutout'"
-              class="mt-40 app-header">
+              class="mt-40 app-header pl-20 pr-20">
   </app-header>
-  <div id="jumbotron" role="main" ngClass.gt-xs="mt-75" ngClass.lt-sm="mt-15">
-    <app-welcome-login (emitSpecialLogin)="openSpecialLoginDialog()"></app-welcome-login>
+  <div class="main-content pl-20 pr-20">
+    <div id="jumbotron" role="main" ngClass.gt-xs="mt-75" ngClass.lt-sm="mt-15">
+      <app-welcome-login (emitSpecialLogin)="openSpecialLoginDialog()"></app-welcome-login>
+    </div>
+    <div class="bg-pattern-1">
+      <img class="csc-img-1" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
+    </div>
+    <div class="bg-pattern-2">
+      <img class="csc-img-2" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
+    </div>
   </div>
-  <div class="bg-pattern-1">
-    <img class="csc-img-1" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
-  </div>
-  <div class="bg-pattern-2">
-    <img class="csc-img-2" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
-  </div>
+  <!-- <app-welcome-publicity></app-welcome-publicity> -->
+  <app-footer [context]="context"></app-footer>
 </div>
-<!-- <app-welcome-publicity></app-welcome-publicity> -->
-<app-footer [context]="context"></app-footer>
 <ng-template #specialLoginDialog>
-  <form class="special-login-form" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup" fxLayout="column" fxLayoutAlign="start stretch">
+  <form class="special-login-form" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup" fxLayout="column"
+        fxLayoutAlign="start stretch">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">

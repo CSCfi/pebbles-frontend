@@ -1,7 +1,22 @@
 //@import "src/styles/main.scss";
 
+#welcome-page-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .app-header {
+  min-height: 50px;
   z-index: 1000;
+}
+
+app-footer {
+  min-height: 230px;
+}
+
+.main-content {
+  flex: 1;
+  position: relative;
 }
 
 .bg-pattern-1,
@@ -11,12 +26,12 @@
 }
 
 .bg-pattern-1 {
-  bottom: 0px;
+  bottom: 0;
   left: 0;
 }
 
 .bg-pattern-2 {
-  top: 0px;
+  top: -90px;
   right: 0;
   transform: scale(-1, -1);
 }

@@ -1,6 +1,10 @@
 <section class="container mb-80"
          fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="60px"
          fxLayout.lt-sm="column-reverse" fxLayoutGap.lt-sm="20px">
+  <app-welcome-background class="app-welcome-background" [cube]="0" fxHide.lt-md="ture"></app-welcome-background>
+  <app-welcome-background class="app-welcome-background" [cube]="1" fxHide.lt-md="ture"></app-welcome-background>
+  <app-welcome-background class="app-welcome-background" [cube]="2" fxHide.lt-md="ture"></app-welcome-background>
+  <app-welcome-background class="app-welcome-background" [cube]="3" fxHide.lt-md="ture"></app-welcome-background>
   <!-- Left -->
   <div class="login-wrapper" fxLayout="column" fxLayoutGap="40px">
     <h2 class="mat-display-3 mb-30">
@@ -19,7 +23,10 @@
   <!-- // Left -->
 
   <!-- Right -->
-  <div id="hero-shots" class="mb-20" fxFlex="0 0 650px" fxFlex.lt-sm="auto" fxLayout="column" fxLayoutGap="40px">
+  <div id="hero-shots" class="mb-20"
+       fxLayout="column" fxLayoutGap="40px"
+       ngClass.gt-sm="mb-200"
+       fxFlex="0 0 650px" fxFlex.lt-md="0 0 400px" fxFlex.lt-sm="auto" >
     <div class="hero-video">
       <video autoplay
              muted

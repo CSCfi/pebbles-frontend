@@ -1,6 +1,5 @@
-@use '@angular/material' as mat;
-
 @charset "utf-8";
+@use "@angular/material" as mat;
 
 // ---- Associated Sass
 @import "./styles/main.scss";
@@ -126,11 +125,10 @@ button {
   }
 
   &__screen {
-    padding-left: 15px;
-    padding-right: 15px;
     max-width: 100%;
     min-height: 100vh;
     height: auto;
+    overflow: hidden;
   }
 }
 
@@ -675,7 +673,7 @@ a.mat-stroked-button,
     &:before {
       margin-top: 2px;
       font-size: 1rem;
-      font-family: 'Material Icons';
+      font-family: 'Material Icons', serif;
       content: '\e061 \e061 \e061 \e061 \e061 \e061';
       white-space: nowrap;
     }
