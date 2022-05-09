@@ -23,6 +23,11 @@
       fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="end start" fxLayoutGap.lt-sm="5px"
       *ngIf="isNaviVisible">
     <li>
+      <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank" rel="noopener">
+        Documentation
+      </a>
+    </li>
+    <li>
       <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">
         Terms & Pricing
       </a>
