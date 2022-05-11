@@ -45,6 +45,10 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   public pageSizeOptions = [this.minUnitNumber];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  public get isInviteHintEnabled(): boolean {
+    return this.memberList?.length < 2;
+  }
+
   public sortCondition: Sort = {
     direction: 'asc',
     active: 'index'

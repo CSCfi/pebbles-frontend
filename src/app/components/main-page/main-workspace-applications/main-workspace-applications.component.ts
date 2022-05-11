@@ -10,6 +10,7 @@ import { Application } from 'src/app/models/application';
 import { ApplicationService } from 'src/app/services/application.service';
 import { ApplicationType } from '../../../models/application-template';
 import { EventService } from '../../../services/event.service';
+import { PublicConfigService } from '../../../services/public-config.service';
 import { Utilities } from '../../../utilities';
 import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
 import { MainApplicationWizardFormComponent } from '../main-application-wizard-form/main-application-wizard-form.component';
@@ -59,6 +60,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     private applicationService: ApplicationService,
     private dialog: MatDialog,
     private eventService: EventService,
+    public publicConfigService: PublicConfigService,
   ) {
   }
 

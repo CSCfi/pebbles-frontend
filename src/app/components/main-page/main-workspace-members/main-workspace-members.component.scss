@@ -4,4 +4,7 @@
   .my-account {
     background: map-get($app-secondary, 100);
   }
+  .hint-join-code {
+    font-style: italic;
+  }
 }

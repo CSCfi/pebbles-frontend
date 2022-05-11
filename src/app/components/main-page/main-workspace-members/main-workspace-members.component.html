@@ -131,6 +131,21 @@
     </table>
   </ng-container>
 
+  <!-- Hint to invite members -->
+  <ng-container *ngIf="isInviteHintEnabled">
+    <div class="message-container">
+      <div class="hint-message">
+        <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
+        <span class="message-description">
+          Tip: Share workspace
+          <span class="hint-join-code">Join code </span>
+          <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
+          to invite members to this workspace.
+        </span>
+      </div>
+    </div>
+  </ng-container>
+
   <!-- Loading / No Members -->
   <ng-template #noMember>
     <div class="message-container">
