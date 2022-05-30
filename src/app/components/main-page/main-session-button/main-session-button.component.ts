@@ -7,6 +7,7 @@ import { Application } from 'src/app/models/application';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { AuthService } from '../../../services/auth.service';
 import { Utilities } from '../../../utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
@@ -48,6 +49,10 @@ export class MainSessionButtonComponent {
       }
     }
     return false;
+  }
+
+  get isLaunchButtonDisabled(): boolean {
+    return  (this.applicationSessionService.getSessions().length < 2 || this.authService.isAdmin) ? false : true;
   }
 
   get application(): Application {
@@ -113,6 +118,7 @@ export class MainSessionButtonComponent {
     private router: Router,
     private applicationService: ApplicationService,
     private applicationSessionService: ApplicationSessionService,
+    private authService: AuthService,
     private dialog: MatDialog
   ) {
   }

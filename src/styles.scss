@@ -65,7 +65,7 @@ ul.list-style {
 button {
   border-radius: 3px;
 
-  &:hover {
+  &:hover:not(.mat-button-disabled) {
     cursor: pointer;
     filter: brightness(110%);
   }

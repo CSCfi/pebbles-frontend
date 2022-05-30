@@ -36,7 +36,6 @@
     circle {
       stroke: map-get($app-accent, default);
       transform: scale(1, -1);
-      translate: (0, -100);
     }
   }
 }
@@ -115,11 +114,21 @@
       color: map-get($app-gray, 700);
     }
 
-    &:hover {
-      background: map-get($app-primary, default);
+    &.mat-button-disabled {
+      background: map-get($app-gray, 200);
 
       .mat-icon {
-        color: white;
+        color: map-get($app-gray, 50);
+      }
+    }
+
+    &:not(.mat-button-disabled) {
+      &:hover {
+        background: map-get($app-primary, default);
+
+        .mat-icon {
+          color: white;
+        }
       }
     }
   }
