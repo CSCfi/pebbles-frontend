@@ -23,7 +23,7 @@
     <!--
       Actionable Circle conditional UI
       1. UI for active session
-      2. Launch Button for application card -> #LaunchUI
+      2. Launch Button for application widget -> #LaunchUI
     -->
     <!-- 1: active session -->
     <ng-container *ngIf="isSessionActive; else powerButtonBlock">
@@ -113,7 +113,7 @@
       <!-- //// END of Switch -->
     </ng-container>
     <!-- //// END of 1: active session -->
-    <!-- Action view 2 : Launch Button for application card -->
+    <!-- Action view 2 : Launch Button for application widget -->
     <ng-template #powerButtonBlock>
       <ng-container *ngIf="!isSessionDeleted && context?.identifier!=='session'">
         <button mat-button matTooltip="Start session" class="launch-button circle-button"
@@ -131,6 +131,6 @@
         </button>
       </ng-container>
     </ng-template>
-    <!-- //// END of 2. Launch Button for application card -->
+    <!-- //// END of 2. Launch Button for application widget -->
   </div>
 </div>
