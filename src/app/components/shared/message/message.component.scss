@@ -1,0 +1,41 @@
+@import "src/styles/main.scss";
+
+.message-item {
+  padding: 15px;
+  border-radius: 4px;
+  color: map-get($app-primary, dark);
+  background-color: map-get($app-primary, 100);
+
+  .close-button {
+    text-decoration: none;
+    float: right;
+    cursor: pointer;
+  }
+
+  strong {
+    text-transform: uppercase;
+    margin-right: 5px;
+
+    &::after {
+      content: ":";
+    }
+  }
+
+  &.success {
+    color: map-get($app-accent, dark);
+    background-color: map-get($app-accent, 100);
+    border: 1px solid map-get($app-accent, default);
+  }
+
+  &.note {
+    color: map-get($app-secondary, 800);
+    background-color: map-get($app-secondary, 100);
+    border: 1px solid map-get($app-secondary, default);
+  }
+
+  &.warning {
+    color: map-get($app-warn, dark);
+    background-color: map-get($app-warn, 100);
+    border: 1px solid map-get($app-warn, default);
+  }
+}

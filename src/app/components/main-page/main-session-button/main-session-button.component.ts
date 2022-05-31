@@ -7,7 +7,9 @@ import { Application } from 'src/app/models/application';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { MessageType } from '../../../models/message';
 import { AuthService } from '../../../services/auth.service';
+import { EventService } from '../../../services/event.service';
 import { Utilities } from '../../../utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
@@ -52,7 +54,7 @@ export class MainSessionButtonComponent {
   }
 
   get isLaunchButtonDisabled(): boolean {
-    return  (this.applicationSessionService.getSessions().length < 2 || this.authService.isAdmin) ? false : true;
+    return (!(this.applicationSessionService.getSessions().length < 2 || this.authService.isAdmin));
   }
 
   get application(): Application {
@@ -116,11 +118,24 @@ export class MainSessionButtonComponent {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
+    private eventService: EventService,
     private applicationService: ApplicationService,
     private applicationSessionService: ApplicationSessionService,
     private authService: AuthService,
     private dialog: MatDialog
   ) {
+    if (this.isLaunchButtonDisabled) {
+      this.showMaxSessionMessage();
+    }
+  }
+
+  showMaxSessionMessage(): void {
+    this.eventService.messageDataUpdate$.next({
+      isVisible: true,
+      type: MessageType.Note,
+      description: 'You are allowed to launch up to two sessions simultaneously. If you want to launch another, please delete one running.',
+      pages: ['catalog', 'my-workspace', 'workspace-owner']
+    });
   }
 
   startSession(): void {
@@ -136,6 +151,9 @@ export class MainSessionButtonComponent {
     this.isWaitingStartResponse = true;
     this.applicationService.startApplication(this.application.id).subscribe(_ => {
       this.isWaitingStartResponse = false;
+      if (this.isLaunchButtonDisabled) {
+        this.showMaxSessionMessage();
+      }
       this.autoOpenTimer = window.setTimeout(() => {
         this.openSessionInBrowser();
       }, 1600);
@@ -192,11 +210,12 @@ export class MainSessionButtonComponent {
   }
 
   proceedSessionDeletion(): void {
-
     const applicationSession = this.applicationSessionService.getSession(this.application.session_id);
     applicationSession.state = SessionStates.Deleting;
     // ---- Delete data for applicationSession-notification queue.
     localStorage.removeItem(applicationSession.name);
     this.applicationSessionService.deleteSession(applicationSession.id).subscribe();
+    // ---- Delete max session message
+    this.eventService.messageDataUpdate$.next();
   }
 }

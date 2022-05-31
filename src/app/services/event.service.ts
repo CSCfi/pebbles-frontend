@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Message } from '../models/message';
 
 export enum LoginStatusChange {
   login,
@@ -19,6 +20,8 @@ export class EventService {
   public applicationDataUpdate$: Subject<string> = new Subject();
   // subject for changes in user-list data. event content is 'all'
   public userDataUpdate$: Subject<string> = new Subject();
+  // subject for changes in message data. event content is Alert
+  public messageDataUpdate$: Subject<Message> = new Subject();
 
   // subject for tapping to login/logout events
   public loginStatus$: Subject<LoginStatusChange> = new Subject();

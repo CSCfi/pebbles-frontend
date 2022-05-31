@@ -2,11 +2,11 @@
      fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
      fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start" fxLayoutGap.lt-sm="10px">
   <app-main-content-header fxFlex="grow"
-    (emitApplyFilter)="applyFilter($event)"
-    [context]="context"
-    [isSearchOn]="true"
-    [isAutocompleteDisabled]="true"
-    [labels]="selectedCatalog ? selectedCatalog.labels : []">
+                           (emitApplyFilter)="applyFilter($event)"
+                           [context]="context"
+                           [isSearchOn]="true"
+                           [isAutocompleteDisabled]="true"
+                           [labels]="selectedCatalog ? selectedCatalog.labels : []">
   </app-main-content-header>
   <div class="flex-spacer"></div>
   <button mat-flat-button color="accent" id="join-workspace-button" aria-label="Join Workspace"
@@ -18,9 +18,10 @@
 </div>
 
 <!-- Application Catalogs -->
-<section class="applications-catalog content-container" ngClass.lt-sm="mobile">
+<section class="applications-catalog" ngClass.lt-sm="mobile">
+  <app-message [message]="message"></app-message>
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
-    (selectedTabChange)="changeCatalog($event)">
+                 (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()">
       <mat-tab label="{{ catalog.name }}">
         <ng-template mat-tab-label>
@@ -30,7 +31,7 @@
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
             <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container"
-              fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+                 fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
               <ng-container *ngFor="let application of applications">
                 <app-main-application-item [application]="application" [context]="context">
                 </app-main-application-item>

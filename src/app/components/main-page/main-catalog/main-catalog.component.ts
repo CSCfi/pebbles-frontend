@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Data } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
 import { ApplicationCategory } from 'src/app/models/application-category';
+import { Message, MessageType } from 'src/app/models/message';
 import { Workspace } from 'src/app/models/workspace';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
+import { EventService } from '../../../services/event.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
 
 @Component({
@@ -21,6 +24,9 @@ export class MainCatalogComponent implements OnInit {
   public selectedCatalog: ApplicationCategory;
   public referenceApplicationId: string;
   public queryText = '';
+
+  private subscriptions: Subscription[] = [];
+  public message: Message;
 
   get applications(): Application[] {
     if (!this.applicationService.isInitialized) {
@@ -39,6 +45,7 @@ export class MainCatalogComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
+    private eventService: EventService,
     private applicationService: ApplicationService,
     private catalogService: ApplicationCategoryService,
     public workspaceService: WorkspaceService,
@@ -49,6 +56,9 @@ export class MainCatalogComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
+    this.subscriptions.push(this.eventService.messageDataUpdate$.subscribe(message => {
+      this.message = message;
+    }));
     // ---- MEMO: getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }
@@ -157,7 +167,6 @@ export class MainCatalogComponent implements OnInit {
   }
 
   changeCatalog($event): void {
-    const catalogId = this.catalogService.getCategories()[$event.index].id;
-    this.selectedCatalog = this.catalogService.getCategoryById(catalogId);
+    this.selectedCatalog = this.catalogService.getCategoryById(this.catalogService.getCategories()[$event.index].id);
   }
 }

@@ -9,6 +9,13 @@
 @include mat.core($custom-typography);
 @include mat.all-component-themes($app-theme);
 
+.applications-catalog {
+  .message-item {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+
 // ---- Global base style on element ---- //
 html {
   // ---- set '62.5%'

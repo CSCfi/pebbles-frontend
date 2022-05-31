@@ -1,13 +1,14 @@
 @import "src/styles/main.scss";
 
 .applications-catalog {
-  background: map-get($app-primary, 100);
+  background-color: map-get($app-primary, 300);
+  margin: 0;
+  padding-top: 10px;
 
   ::ng-deep .mat-tab-header {
-    background-color: map-get($app-primary, 300);
     border-bottom: 1px solid map-get($app-transparent, dark) !important;
-    padding-top: 15px;
-    margin: -15px -40px 0;
+    padding-top: 5px;
+    //margin: -15px -40px 0;
 
     .mat-ripple {
       background: #fff;
@@ -30,9 +31,10 @@
   }
 
   ::ng-deep .mat-tab-body-wrapper {
-    padding: 15px 0 !important;
+    background: map-get($app-primary, 100);
 
     .catalog-section {
+      padding: 15px 40px;
       margin: auto;
       max-width: 1200px;
       width: 100%;
