@@ -4,6 +4,14 @@
   position: relative;
 }
 
+.service-message {
+  padding: 15px 30px;
+  letter-spacing: 0.1rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  z-index: 3000;
+}
+
 .app-welcome-background {
   position: absolute;
   width: 100%;
@@ -27,6 +35,7 @@
 
 #special-login-button {
   margin-left: -20px;
+  margin-bottom: 20px !important;
 }
 
 .hero-images {
