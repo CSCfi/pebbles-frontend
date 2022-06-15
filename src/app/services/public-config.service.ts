@@ -62,22 +62,13 @@ export class PublicConfigService {
     return this.publicConfig?.get('SHORT_DESCRIPTION');
   }
 
-  getInstallationDescriptionTop(): string {
-    // split INSTALLATION_DESCRIPTION and return the first part
-    const firstBrIndex = this.publicConfig?.get('INSTALLATION_DESCRIPTION').indexOf('<BR>');
-    if (firstBrIndex >= 0) {
-      return this.publicConfig?.get('INSTALLATION_DESCRIPTION').substring(0, firstBrIndex);
-    }
+  getInstallationDescription(): string {
     return this.publicConfig?.get('INSTALLATION_DESCRIPTION');
   }
 
-  getInstallationDescriptionBottom(): string {
+  getServiceAnnouncement(): string {
     // split INSTALLATION_DESCRIPTION and return the second part
-    const firstBrIndex = this.publicConfig?.get('INSTALLATION_DESCRIPTION').indexOf('<BR>');
-    if (firstBrIndex >= 0) {
-      return this.publicConfig?.get('INSTALLATION_DESCRIPTION').substring(firstBrIndex + 4);
-    }
-    return '';
+    return this.publicConfig?.get('SERVICE_ANNOUNCEMENT');
   }
 
   getCourseRequestFormUrl(): string {

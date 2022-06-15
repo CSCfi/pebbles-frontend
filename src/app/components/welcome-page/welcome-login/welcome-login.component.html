@@ -10,7 +10,9 @@
     <h2 class="mat-display-3 mb-30">
       {{ publicConfigService.getShortDescription() }}
     </h2>
-    <div class="service-description mat-display-2 mb-30" [innerHTML]="publicConfigService.getInstallationDescriptionTop()"></div>
+    <div class="service-description mat-display-2 mb-30"
+         [innerHTML]="publicConfigService.getInstallationDescription()">
+    </div>
     <a mat-raised-button id="oauth-login-button" class="button-lg mb-10" color="accent" href="/oauth2?rd=%2Foauth2">
       <div>Login</div>
       <div class="mat-display-1">Haka / Virtu / CSC account</div>
@@ -19,7 +21,11 @@
       <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">chevron_right</mat-icon>
       <span class="u-line">Special Login</span>
     </button>
-    <div class="service-message mat-body-1 mb-30" [innerHTML]="publicConfigService.getInstallationDescriptionBottom()"></div>
+    <div
+      class="service-message mat-body-1 mb-30"
+      [innerHTML]="publicConfigService.getServiceAnnouncement()"
+      *ngIf="publicConfigService.getServiceAnnouncement()">
+    </div>
   </div>
   <!-- // Left -->
 
@@ -27,7 +33,7 @@
   <div id="hero-shots" class="mb-20"
        fxLayout="column" fxLayoutGap="40px"
        ngClass.gt-sm="mb-200"
-       fxFlex="0 0 650px" fxFlex.lt-md="0 0 400px" fxFlex.lt-sm="auto" >
+       fxFlex="0 0 650px" fxFlex.lt-md="0 0 400px" fxFlex.lt-sm="auto">
     <div class="hero-video">
       <video autoplay
              muted
