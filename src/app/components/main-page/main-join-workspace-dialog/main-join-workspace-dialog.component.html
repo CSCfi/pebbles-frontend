@@ -9,6 +9,7 @@
     <section class="workspace-input-form">
       <form [formGroup]="joinWorkspaceForm" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
             fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
+        <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
         <mat-form-field appearance="fill" class="join-code-input" fxFlex="grow">
           <mat-label>Enter Join Code</mat-label>
           <input matInput type="text" placeholder="Join code" formControlName="joinCode"

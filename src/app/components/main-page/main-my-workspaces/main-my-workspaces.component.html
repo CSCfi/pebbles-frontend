@@ -12,7 +12,7 @@
     <button mat-flat-button id="join-workspace-button" color="accent" fxFlex.lt-sm="grow"
             aria-label="Join Workspace"
             (click)="openJoinWorkspaceDialog()">
-      <mat-icon fontSet="material-icons-outlined" class="mr-5">group_add</mat-icon>
+      <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
       Join workspace
     </button>
     <ng-container *ngIf="visibleWorkspaces?.length > 0">
@@ -59,6 +59,12 @@
         <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
         <span class="message-title">
           You are currently not a member of any workspace
+        </span>
+        <span class="message-description">
+          When you participate in courses or collaborations, you will get a
+          <span class="hint-join-code">Join code </span>
+          <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
+          to become a workspace member.
         </span>
       </div>
     </div>
