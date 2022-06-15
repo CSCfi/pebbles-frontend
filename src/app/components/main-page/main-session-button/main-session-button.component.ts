@@ -1,8 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Data, Router } from '@angular/router';
+import { catchError, tap } from 'rxjs/operators';
 import { Application } from 'src/app/models/application';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
@@ -25,11 +25,9 @@ export class MainSessionButtonComponent {
   @Input() isSessionDeleted = false;
 
   // ---- Setting of a spinner
-  spinnerMode: ProgressSpinnerMode = 'determinate';
   isWaitingStartResponse = false;
   diameter = 120;
   strokeWidth = 10;
-  sessionState: SessionStates;
   autoOpenTimer: number;
 
   get accessUrl(): string {
@@ -124,16 +122,15 @@ export class MainSessionButtonComponent {
     private authService: AuthService,
     private dialog: MatDialog
   ) {
-    if (this.isLaunchButtonDisabled) {
-      this.showMaxSessionMessage();
-    }
   }
 
   showMaxSessionMessage(): void {
     this.eventService.messageDataUpdate$.next({
       isVisible: true,
       type: MessageType.Note,
-      description: 'You are allowed to launch up to two sessions simultaneously. If you want to launch another, please delete one running.',
+      description:
+        'You are allowed to launch up to two sessions simultaneously. ' +
+        'If you want to launch another, please first delete an existing session.',
       pages: ['catalog', 'my-workspace', 'workspace-owner']
     });
   }
@@ -149,15 +146,22 @@ export class MainSessionButtonComponent {
       return;
     }
     this.isWaitingStartResponse = true;
-    this.applicationService.startApplication(this.application.id).subscribe(_ => {
-      this.isWaitingStartResponse = false;
-      if (this.isLaunchButtonDisabled) {
-        this.showMaxSessionMessage();
-      }
-      this.autoOpenTimer = window.setTimeout(() => {
-        this.openSessionInBrowser();
-      }, 1600);
-    });
+    this.applicationService.startApplication(this.application.id).pipe(
+      tap(_ => {
+        this.isWaitingStartResponse = false;
+        if (this.isLaunchButtonDisabled) {
+          this.showMaxSessionMessage();
+        }
+        this.autoOpenTimer = window.setTimeout(() => {
+          this.openSessionInBrowser();
+        }, 1600);
+      }),
+      catchError(err => {
+        // stop the spinner in case the API bounced us right back
+        this.isWaitingStartResponse = false;
+        throw err;
+      })
+    ).subscribe();
   }
 
   openSessionInBrowser(): void {
