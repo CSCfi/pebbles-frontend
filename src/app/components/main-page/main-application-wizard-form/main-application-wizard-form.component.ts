@@ -117,7 +117,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
         is_enabled: tmpl.is_enabled,
         application_type: tmpl.application_type,
         labels: tmpl.base_config?.labels,
-        memory: tmpl.base_config?.memory_limit,
+        memory_gib: tmpl.base_config?.memory_gib,
         lifetime: tmpl.base_config?.maximum_lifetime,
       };
     });

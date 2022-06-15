@@ -16,7 +16,7 @@ export interface ApplicationTemplateRow {
   application_type: ApplicationType;
   labels: string[];
   lifetime: string;
-  memory: string;
+  memory_gib: string;
 }
 
 @Component({
@@ -227,7 +227,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         name: tmpl.name,
         description: tmpl.description,
         labels: tmpl.base_config?.labels,
-        memory: tmpl.base_config?.memory_limit,
+        memory_gib: tmpl.base_config?.memory_gib,
         lifetime: tmpl.base_config?.maximum_lifetime,
         application_type: tmpl.application_type,
         is_enabled: tmpl.is_enabled,
