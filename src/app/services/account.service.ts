@@ -5,7 +5,6 @@ import { map, tap } from 'rxjs/operators';
 import { User, WorkspaceUserAssociation } from 'src/app/models/user';
 import { buildConfiguration } from '../../environments/environment';
 import { EventService } from './event.service';
-import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +44,8 @@ export class AccountService {
     const url = `${buildConfiguration.apiUrl}/users`;
     this.http.get<User[]>(url).pipe(
       map((resp) => {
-        resp.forEach( user => {
-          this.userMap.set( user.id, user);
+        resp.forEach(user => {
+          this.userMap.set(user.id, user);
         });
         this.users = resp;
         this.eventService.userDataUpdate$.next();
@@ -55,41 +54,36 @@ export class AccountService {
     ).subscribe();
   }
 
-  removeUsers(selectedUsers) {
-    const removedUsers = [];
-    selectedUsers.forEach(user => {
-      const url = `${buildConfiguration.apiUrl}/users/${user.id}`;
-      this.http.delete<User[]>(url).pipe(map( _ => {
-        this.users = this.users.map(x => {
-          if (x.id === user.id) {
-            x.is_deleted = true;
-          } else {
-            x.is_deleted = false;
+  removeUsers(userIds: String[]) {
+    userIds.forEach(userId => {
+      const url = `${buildConfiguration.apiUrl}/users/${userId}`;
+      this.http.delete<User[]>(url).pipe(tap(_ => {
+        this.users.forEach((user) => {
+          if (user.id === userId) {
+            user.is_deleted = true;
           }
-          return x;
         });
         this.eventService.userDataUpdate$.next();
-        return this.users;
       })).subscribe();
     });
   }
 
   toggleBlockUser(userId: string, isBlocked: boolean): Observable<User> {
     const url = `${buildConfiguration.apiUrl}/users/${userId}`;
-    return this.http.patch<User>(url, { is_blocked: !isBlocked }).pipe(tap( _ => {
-        this.users = this.users.map(user => {
-          if (user.id === userId) {
-            user.is_blocked = !isBlocked;
-          }
-          return user;
-        });
+    return this.http.patch<User>(url, {is_blocked: !isBlocked}).pipe(tap(_ => {
+      this.users = this.users.map(user => {
+        if (user.id === userId) {
+          user.is_blocked = !isBlocked;
+        }
+        return user;
+      });
     }));
   }
 
   updateWorkspaceQuotas(userId: string, value: number): Observable<User> {
     const url = `${buildConfiguration.apiUrl}/users/${userId}`;
-    return this.http.patch<User>(url, {workspace_quota: value}).pipe(tap( resp => {
-      this.users = this.users.map( user => {
+    return this.http.patch<User>(url, {workspace_quota: value}).pipe(tap(resp => {
+      this.users = this.users.map(user => {
         if (user.id === userId) {
           user.workspace_quota = resp.workspace_quota;
         }

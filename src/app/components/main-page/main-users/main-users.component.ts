@@ -1,11 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Data } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
 import { EventService } from '../../../services/event.service';
@@ -17,6 +17,7 @@ import { MainWorkspaceQuotaFormComponent } from '../main-workspace-quota-form/ma
 export interface UserTableRow {
   isSelected: boolean;
   index: number;
+  id: string;
   email: string;
   pseudonym: string;
   state: string[];
@@ -48,11 +49,13 @@ export class MainUsersComponent implements OnInit, OnDestroy {
   public isPaginatorVisible = false;
   public minUnitNumber = 100;
   public pageSizeOptions = [this.minUnitNumber];
+
   @ViewChild(MatSort) set matSort(sort: MatSort) {
     if (this.userDataSource && !this.userDataSource.sort) {
-        this.userDataSource.sort = sort;
+      this.userDataSource.sort = sort;
     }
   }
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -61,7 +64,8 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private accountService: AccountService,
     private workspaceService: WorkspaceService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
@@ -98,12 +102,12 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     // create a new datasource to trigger table rendering
     this.userDataSource = new MatTableDataSource<UserTableRow>(this.tableRowData);
     this.userDataSource.filter = Utilities.cleanText(this.queryText);
-    setTimeout(_=> {
+    setTimeout(_ => {
       this.userDataSource.paginator = this.paginator;
       // ---- Paginator becomes invisible after data has been inserted
       this.isPaginatorVisible = this.tableRowData.length > this.minUnitNumber;
       this.pageSizeOptions = Utilities.getPageSizeOptions(this.userDataSource, this.minUnitNumber);
-      }, 0);
+    }, 0);
   }
 
   private getLabels(user): string[] {
@@ -144,34 +148,34 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     const returns = [];
     let index = 0;
     data.forEach((user) => {
-        index = index + 1;
-        returns.push({
-          isSelected: false,
-          index,
-          id: user.id,
-          email: user.ext_id,
-          pseudonym: user.pseudonym,
-          state: this.getLabels(user),
-          isAdmin: user.is_admin,
-          isBlocked: user.is_blocked,
-          isDeleted: user.is_deleted,
-          workspaceQuota: user.is_admin ? 'Unlimited' : user.workspace_quota,
-          workspaceCount: this.getWorkspaceCount(user),
-          joiningDate: user.joining_ts,
-          expiryDate: user.expiry_ts,
-          lastLoginDate: user.last_login_ts
-        });
+      index = index + 1;
+      returns.push({
+        isSelected: false,
+        index,
+        id: user.id,
+        email: user.ext_id,
+        pseudonym: user.pseudonym,
+        state: this.getLabels(user),
+        isAdmin: user.is_admin,
+        isBlocked: user.is_blocked,
+        isDeleted: user.is_deleted,
+        workspaceQuota: user.is_admin ? 'Unlimited' : user.workspace_quota,
+        workspaceCount: this.getWorkspaceCount(user),
+        joiningDate: user.joining_ts,
+        expiryDate: user.expiry_ts,
+        lastLoginDate: user.last_login_ts
       });
+    });
     return returns;
   }
 
-  applyFilter(value: string ): void {
+  applyFilter(value: string): void {
     this.queryText = value;
     this.selection.clear();
     this.rebuildDataSource();
   }
 
-  OpenWorkspaceQuotaDialog(userId: string, email: string, workspaceCount: number, workspaceQuota: number): void {
+  openWorkspaceQuotaDialog(userId: string, email: string, workspaceCount: number, workspaceQuota: number): void {
     this.dialog.open(MainWorkspaceQuotaFormComponent, {
       width: 'auto',
       height: 'auto',
@@ -190,10 +194,12 @@ export class MainUsersComponent implements OnInit, OnDestroy {
 
   openRemoveUserDialog(selectedUsers: UserTableRow[]): void {
     let emailList = '';
-    selectedUsers.forEach( user => {
-      emailList += `<li>${ user.email }</li>`;
+    selectedUsers.forEach(user => {
+      emailList += `<li>${user.email}</li>`;
     });
-
+    const selectedUserIds = selectedUsers.map((x) => {
+      return x.id;
+    });
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
       autoFocus: false,
@@ -205,7 +211,7 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(params => {
       if (params) {
-        this.accountService.removeUsers(selectedUsers);
+        this.accountService.removeUsers(selectedUserIds);
         this.selection.clear();
       }
     });
@@ -217,20 +223,20 @@ export class MainUsersComponent implements OnInit, OnDestroy {
       autoFocus: false,
       data: {
         dialogTitle: 'Confirm user state change!',
-        dialogContent: `<p>Are you sure to ${ !isBlocked ? 'BLOCK' : 'UNBLOCK' } the user "${email}"?</p>`,
+        dialogContent: `<p>Are you sure to ${!isBlocked ? 'BLOCK' : 'UNBLOCK'} the user "${email}"?</p>`,
         dialogActions: ['confirm', 'cancel']
       }
     });
     dialogRef.afterClosed().subscribe(params => {
       if (params) {
-        this.accountService.toggleBlockUser(userId, isBlocked).subscribe( _ => {
+        this.accountService.toggleBlockUser(userId, isBlocked).subscribe(_ => {
           this.rebuildDataSource();
         });
       }
     });
   }
 
-   /** Whether the number of selected elements matches the total number of rows. */
+  /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.userDataSource.filteredData.length;
@@ -242,7 +248,7 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     if (this.isAllSelected()) {
       this.selection.clear();
     } else {
-      this.tableRowData.forEach(row => this.selection.select(row));
+      this.userDataSource.filteredData.forEach(row => this.selection.select(row));
     }
   }
 
