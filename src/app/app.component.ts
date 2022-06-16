@@ -1,10 +1,11 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { map } from 'rxjs/operators';
-import { AuthService } from './services/auth.service';
+import { map, tap } from 'rxjs/operators';
+import { AccountService } from './services/account.service';
 import { ApplicationCategoryService } from './services/application-category.service';
 import { ApplicationSessionService } from './services/application-session.service';
 import { ApplicationService } from './services/application.service';
+import { AuthService } from './services/auth.service';
 import { EventService, LoginStatusChange } from './services/event.service';
 import { PublicConfigService } from './services/public-config.service';
 import { WorkspaceService } from './services/workspace.service';
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private publicConfigService: PublicConfigService,
     private titleService: Title,
+    private accountService: AccountService,
   ) {
   }
 
@@ -62,5 +64,25 @@ export class AppComponent implements OnInit {
       })
     ).subscribe();
     this.applicationCategoryService.fetchCategories().subscribe();
+
+    // Figure out if we are a workspace owner/manager. We do this at login also, but this way
+    // users do not have to log out/in to get owner rights, a browser reload is enough.
+    this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).pipe(
+      tap(res => {
+        let is_owner = false;
+        let is_manager = false;
+        res.forEach(wua => {
+          is_owner = is_owner || wua.is_owner;
+          is_manager = is_manager || wua.is_manager;
+        });
+        this.accountService.fetchAccount(this.authService.getUserId()).pipe(
+          tap(res => {
+            is_owner = is_owner || res.workspace_quota > 0;
+            localStorage.setItem('is_workspace_owner', String(is_owner));
+            localStorage.setItem('is_workspace_manager', String(is_manager));
+          })
+        ).subscribe();
+      })
+    ).subscribe();
   }
 }
