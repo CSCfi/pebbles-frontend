@@ -27,6 +27,10 @@ export class ApplicationSessionService implements OnDestroy {
     this.setPollingInterval(60 * 1000);
   }
 
+  get isInitialized(): boolean {
+    return this.lastUpdateTs > 0;
+  }
+
   ngOnDestroy(): void {
     this.clearPollingInterval();
   }
