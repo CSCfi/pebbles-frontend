@@ -24,6 +24,11 @@
           </div>
         </ng-container>
       </div>
+      <div>
+        <ng-container *ngIf="explanationMessage">
+          <span [innerHTML]="explanationMessage"></span>
+        </ng-container>
+      </div>
       <app-main-application-item class="application-item"
                                  [context]="context"
                                  [application]="targetApplication"

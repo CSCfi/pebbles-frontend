@@ -63,6 +63,8 @@ export class SessionPageComponent implements OnInit, OnDestroy {
   private sessionProcessFlag = false;
   public isSessionDeleted = false;
   private interval;
+  public explanationMessage: String;
+
   @ViewChild('spinner') spinner: TemplateRef<any>;
 
   get description(): string {
@@ -158,6 +160,17 @@ export class SessionPageComponent implements OnInit, OnDestroy {
           if (current && previousCurrent) {
             this.progressBarAnimation(current.index, previousCurrent.index);
           }
+
+          // figure out if there is a problem pulling the image and report it
+          if (lastMessage == 'image could not be pulled') {
+            this.explanationMessage = 'Container image for the application could not be pulled. ' +
+              'This could be a misconfiguration or a temporary issue.';
+            const pullStep = this.sessionProgressSteps.find(step => step.state === 'pulling container image');
+            this.progressBarAnimation(pullStep.index, 0);
+          }
+          else {
+            this.explanationMessage = null;
+          }
         }, () => {
           this.sessionFailed(true);
         }
@@ -165,7 +178,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  progressBarAnimation(currentIndex, previousCurrentIndex): void {
+  progressBarAnimation(currentIndex: number, previousCurrentIndex: number): void {
     if (currentIndex > previousCurrentIndex) {
       this.sessionProgressSteps.map(step => {
         if (step.index === previousCurrentIndex) {
