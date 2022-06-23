@@ -116,14 +116,27 @@
     <!-- Action view 2 : Launch Button for application item -->
     <ng-template #powerButtonBlock>
       <ng-container *ngIf="!isSessionDeleted && context?.identifier!=='session'">
-        <button mat-button matTooltip="Start session" class="launch-button circle-button"
-                fxLayout="column" fxLayoutAlign="center center"
-                [disabled]="isLaunchButtonDisabled"
-                (click)="startSession()">
-          <span class="button-icon center__v">
-            <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
-          </span>
-        </button>
+        <!-- Check if the button is disabled and show the correct version with the right tool tip-->
+        <ng-container *ngIf="!isLaunchButtonDisabled">
+          <button mat-button class="launch-button circle-button"
+                  matTooltip="Start session"
+                  fxLayout="column" fxLayoutAlign="center center"
+                  (click)="startSession()">
+            <span class="button-icon center__v">
+              <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
+            </span>
+          </button>
+        </ng-container>
+        <ng-container *ngIf="isLaunchButtonDisabled">
+          <button mat-button class="launch-button-inactive circle-button"
+                  matTooltip="You are allowed to launch two sessions simultaneously.
+                              If you want to launch another, please first delete an existing session."
+                  fxLayout="column" fxLayoutAlign="center center">
+            <span class="button-icon center__v">
+              <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
+            </span>
+          </button>
+        </ng-container>
       </ng-container>
       <ng-container *ngIf="isSessionDeleted">
         <button mat-button matTooltip="Close page"

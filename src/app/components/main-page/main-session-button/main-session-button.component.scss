@@ -79,12 +79,12 @@
     //background: map-get($app-gray, default);
   }
 
-  .stat-button{
+  .stat-button {
     padding-top: 10px;
     text-align: center;
   }
 
-  .state-area{
+  .state-area {
     padding-top: 15px;
     text-align: center;
   }
@@ -114,22 +114,20 @@
       color: map-get($app-gray, 700);
     }
 
-    &.mat-button-disabled {
-      background: map-get($app-gray, 200);
+    &:hover {
+      background: map-get($app-primary, default);
 
       .mat-icon {
-        color: map-get($app-gray, 50);
+        color: white;
       }
     }
+  }
 
-    &:not(.mat-button-disabled) {
-      &:hover {
-        background: map-get($app-primary, default);
+  .launch-button-inactive {
+    background: map-get($app-gray, 200);
 
-        .mat-icon {
-          color: white;
-        }
-      }
+    .mat-icon {
+      color: map-get($app-gray, 50);
     }
   }
 
@@ -153,6 +151,7 @@
       stroke: map-get($app-gray, 200);
     }
   }
+
   .circle-button {
     background: map-get($app-warn, dark);
   }

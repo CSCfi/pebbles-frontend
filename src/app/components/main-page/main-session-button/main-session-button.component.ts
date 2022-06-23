@@ -7,9 +7,7 @@ import { Application } from 'src/app/models/application';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { ApplicationService } from 'src/app/services/application.service';
-import { MessageType } from '../../../models/message';
 import { AuthService } from '../../../services/auth.service';
-import { EventService } from '../../../services/event.service';
 import { Utilities } from '../../../utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
@@ -81,12 +79,6 @@ export class MainSessionButtonComponent {
     return this.lifetimePercentage < 25 && !this.isSpinnerOn;
   }
 
-  get lifetime(): string {
-    const hours = Number(this.application.maximum_lifetime) / 3600;
-    const mins = Number(this.application.maximum_lifetime) % 3600;
-    return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
-  }
-
   get lifetimePercentage(): number {
     if (!this.session) {
       return 0;
@@ -116,23 +108,11 @@ export class MainSessionButtonComponent {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
-    private eventService: EventService,
     private applicationService: ApplicationService,
     private applicationSessionService: ApplicationSessionService,
     private authService: AuthService,
     private dialog: MatDialog
   ) {
-  }
-
-  showMaxSessionMessage(): void {
-    this.eventService.messageDataUpdate$.next({
-      isVisible: true,
-      type: MessageType.Note,
-      description:
-        'You are allowed to launch up to two sessions simultaneously. ' +
-        'If you want to launch another, please first delete an existing session.',
-      pages: ['catalog', 'my-workspace', 'workspace-owner']
-    });
   }
 
   startSession(): void {
@@ -149,9 +129,6 @@ export class MainSessionButtonComponent {
     this.applicationService.startApplication(this.application.id).pipe(
       tap(_ => {
         this.isWaitingStartResponse = false;
-        if (this.isLaunchButtonDisabled) {
-          this.showMaxSessionMessage();
-        }
         this.autoOpenTimer = window.setTimeout(() => {
           this.openSessionInBrowser();
         }, 1600);
@@ -219,7 +196,5 @@ export class MainSessionButtonComponent {
     // ---- Delete data for applicationSession-notification queue.
     localStorage.removeItem(applicationSession.name);
     this.applicationSessionService.deleteSession(applicationSession.id).subscribe();
-    // ---- Delete max session message
-    this.eventService.messageDataUpdate$.next();
   }
 }
