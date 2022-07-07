@@ -13,12 +13,17 @@ export class MainSystemStatusComponent implements OnInit, OnDestroy {
 
   public context: Data;
   private interval: number;
+  isShowArchived: boolean;
+  alerts: Alert[];
+  systemStatus: String;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
     private applicationSessionService: ApplicationSessionService
   ) {
+    this.alerts = null;
+    this.systemStatus = 'Unknown';
   }
 
   ngOnInit(): void {
@@ -29,29 +34,31 @@ export class MainSystemStatusComponent implements OnInit, OnDestroy {
     this.interval = window.setInterval(_ => this.refresh(), 30 * 1000);
   }
 
-  getAlerts(): Alert[] {
-    return this.alertService.getAlerts();
-  }
-
-  getSystemStatus(): string {
-    return this.alertService.getSystemStatus() ? this.alertService.getSystemStatus() : 'unknown';
-  }
-
   getSessionSummary(): any {
     const sessions = this.applicationSessionService.getAllSessions();
     const nRunning = sessions.filter(i => i.state === 'running').length;
     const nQueueing = sessions.filter(i => i.state === 'queueing').length;
     const nStarting = sessions.filter(i => i.state === 'starting').length;
     const nDeleting = sessions.filter(i => i.state === 'deleting').length;
-    return {nRunning, nQueueing, nStarting, nDeleting};
+    const nFailed = sessions.filter(i => i.state === 'failed').length;
+    return {nRunning, nQueueing, nStarting, nDeleting, nFailed};
   }
 
   refresh() {
-    this.alertService.fetchSystemStatus().subscribe();
-    this.alertService.fetchAlerts().subscribe();
+    this.alertService.fetchSystemStatus().subscribe(status => {this.systemStatus = status});
+    const tsWeekAgo = Math.floor(Date.now()/1000 - 86400 * 7);
+    this.alertService.fetchAlerts(this.isShowArchived, tsWeekAgo).subscribe(alerts => {this.alerts = alerts});
   }
 
   ngOnDestroy(): void {
     window.clearInterval(this.interval);
+  }
+
+  showArchivedCheckboxChange():void {
+    this.refresh();
+  }
+
+  formatTsToUTC(ts: number) {
+    return new Date(ts * 1000).toISOString().replace('T', ' ').replace('.000Z',' UTC');
   }
 }

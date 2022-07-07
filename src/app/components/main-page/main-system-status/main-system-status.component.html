@@ -23,34 +23,40 @@
       <dd>S:{{getSessionSummary()['nStarting']}}</dd>
       <dd>R:{{getSessionSummary()['nRunning']}}</dd>
       <dd>D:{{getSessionSummary()['nDeleting']}}</dd>
+      <dd>F:{{getSessionSummary()['nFailed']}}</dd>
     </dl>
     <dl class="grid center__v">
       <dt>Overall</dt>
-      <dd class="chip" [ngClass]="getSystemStatus()==='ok' ? 'status-ok': 'status-warning'">
-        {{ getSystemStatus().toUpperCase() }}
+      <dd class="chip" [ngClass]="systemStatus==='ok' ? 'status-ok': 'status-warning'">
+        {{ systemStatus.toUpperCase() }}
       </dd>
     </dl>
   </div>
 
   <h2 class="mb-5">Alerts</h2>
-  <div class="info-body mb-30" *ngIf="getAlerts(); else loading">
-    <ng-container *ngFor="let alert of getAlerts()">
-      <ng-container *ngIf="alert.data?.length || alert.status !== 'ok'; else statusOk">
+  <mat-checkbox [(ngModel)]="isShowArchived" (change)="showArchivedCheckboxChange()"  class="mt-5">
+    Include archived alerts for last 7 days
+  </mat-checkbox>
+  <div class="info-body mb-30" *ngIf="alerts; else loading">
+    <ng-container *ngFor="let alert of alerts">
+      <ng-container *ngIf="alert.status !== 'ok'; else statusOk">
         <dl class="grid status bg__warn-light">
-          <dt>{{ alert.target }}/{{ alert.source }}</dt>
-          <dd>Status: <span class="mat-body-2">{{ alert.status }}</span></dd>
-          <ng-container *ngFor="let data of alert.data">
-            <dd>
-              Summary: {{ data.annotations?.summary }} <br>
-              Description: {{ data.annotations?.description }}
-            </dd>
-          </ng-container>
+          <dt>
+            {{ alert.target }}/{{ alert.source }}
+            <br>
+            {{ alert.status }}
+          </dt>
+          <dd>
+            {{ alert.data.annotations?.description }}
+            <br>
+            From {{ formatTsToUTC(alert.first_seen_ts) }} to {{ formatTsToUTC(alert.last_seen_ts) }}
+          </dd>
         </dl>
       </ng-container>
       <ng-template #statusOk>
         <dl class="grid status bg__accent-light">
           <dt>{{ alert.target }}/{{ alert.source }}</dt>
-          <dd>Status: <span class="mat-body-2">OK</span></dd>
+          <dd><span class="mat-body-2">OK</span></dd>
         </dl>
       </ng-template>
     </ng-container>

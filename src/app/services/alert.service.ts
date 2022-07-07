@@ -10,37 +10,31 @@ import { Alert } from '../models/alert';
 })
 export class AlertService {
 
-  alerts: Alert[] = null;
-  systemStatus: string = null;
-
   constructor(
     private http: HttpClient
   ) {
-  }
-
-  getSystemStatus(): string {
-    return this.systemStatus;
-  }
-
-  getAlerts(): Alert[] {
-    return this.alerts;
   }
 
   fetchSystemStatus(): Observable<string> {
     const url = `${buildConfiguration.apiUrl}/status`;
     return this.http.get<string>(url).pipe(
       map(resp => {
-        this.systemStatus = resp;
         return resp;
       })
     );
   }
 
-  fetchAlerts(): Observable<Alert[]> {
-    const url = `${buildConfiguration.apiUrl}/alerts`;
+  fetchAlerts(showArchived:boolean = false, since_ts = 0): Observable<Alert[]> {
+    let url = `${buildConfiguration.apiUrl}/alerts`;
+    if (showArchived) {
+      url += '?include_archived=1';
+      if (since_ts) {
+        url += '&since_ts='+since_ts;
+      }
+    }
+
     return this.http.get<Alert[]>(url).pipe(
       map(resp => {
-        this.alerts = resp;
         return resp;
       })
     );

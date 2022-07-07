@@ -3,6 +3,7 @@ export interface Alert {
   target: string;
   source: string;
   status: string;
+  first_seen_ts: number,
+  last_seen_ts: number,
   data: any;
-  update_ts: number;
 }
