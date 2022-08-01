@@ -28,9 +28,9 @@ export class AuthService {
     return localStorage.getItem('is_workspace_manager') === 'true';
   }
 
-  login(ext_id: string, password: string): Observable<any> {
+  login(ext_id: string, password: string, agreement_sign: string = null): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/sessions`;
-    return this.http.post(url, {ext_id, password}).pipe(
+    return this.http.post(url, {ext_id, password, agreement_sign}).pipe(
       tap(_ => {
         // defer the event to the next tick so that localstorage is populated properly before the call
         window.setTimeout(() => this.eventService.loginStatus$.next(LoginStatusChange.login), 1);

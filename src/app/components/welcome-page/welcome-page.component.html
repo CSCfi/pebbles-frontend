@@ -33,3 +33,24 @@
     </button>
   </form>
 </ng-template>
+<ng-template #specialLoginDialogTerms>
+  <div class="form-container centered">
+    <div class="header">
+      <img src="{{ publicConfigService.getAgreementLogoPath() }}" alt="logo" />
+      <h1>{{ publicConfigService.getInstallationName() }}</h1>
+    </div>
+    <form class="special-login-form" (ngSubmit)="onTermsAgree()" [formGroup]="loginFormGroup" fxLayout="column"
+        fxLayoutAlign="start stretch">
+      <p>Before continuing, you need to agree to our
+        <a href="{{ publicConfigService.getTermsOfUseUrl() }}" rel="noopener" target="_blank"> Terms of Use, </a>
+          including sections concerning use of
+        <a href="{{ publicConfigService.getCookiesPolicyUrl() }}" rel="noopener" target="_blank"> Cookies </a>
+          on this site and
+        <a href="{{ publicConfigService.getPrivacyPolicyUrl() }}" rel="noopener" target="_blank"> Privacy Policy.</a>
+      </p>
+      <button mat-flat-button color="primary">
+          Agree & Continue
+      </button>
+    </form>
+  </div>
+</ng-template>

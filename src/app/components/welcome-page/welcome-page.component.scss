@@ -35,3 +35,23 @@ app-footer {
   right: 0;
   transform: scale(-1, -1);
 }
+
+.header {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+}
+
+.header img {
+  width: 100px;
+  height: auto;
+}
+
+.header h1 {
+  letter-spacing: 0.03em;
+  margin: 5px auto;
+  position: absolute;
+  top: auto;
+  left: 47%;
+}

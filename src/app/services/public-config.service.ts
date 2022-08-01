@@ -66,6 +66,14 @@ export class PublicConfigService {
     return this.publicConfig?.get('INSTALLATION_DESCRIPTION');
   }
 
+  getBrandImageUrl(): string {
+    return this.publicConfig?.get('BRAND_IMAGE_URL');
+  }
+
+  getAgreementLogoPath(): string {
+    return this.publicConfig?.get('AGREEMENT_LOGO_PATH');
+  }
+
   getServiceAnnouncement(): string {
     // split INSTALLATION_DESCRIPTION and return the second part
     return this.publicConfig?.get('SERVICE_ANNOUNCEMENT');
@@ -77,6 +85,14 @@ export class PublicConfigService {
 
   getTermsOfUseUrl(): string {
     return this.publicConfig?.get('TERMS_OF_USE_URL');
+  }
+
+  getCookiesPolicyUrl(): string {
+    return this.publicConfig?.get('COOKIES_POLICY_URL');
+  }
+
+  getPrivacyPolicyUrl(): string {
+    return this.publicConfig?.get('PRIVACY_POLICY_URL');
   }
 
   getAccessibilityStatementUrl(): string {
