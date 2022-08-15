@@ -88,6 +88,7 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     FontAwesomeModule,
     IconModule
   ],
+  providers: [DateDisplayPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     MainApplicationItemComponent,

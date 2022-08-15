@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { DateDisplayPipe } from '../../../pipes/date-display.pipe';
 import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
 import { EventService } from '../../../services/event.service';
@@ -64,6 +65,7 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private accountService: AccountService,
     private workspaceService: WorkspaceService,
+    private dateDisplayPipe: DateDisplayPipe
   ) {
   }
 
@@ -101,11 +103,21 @@ export class MainUsersComponent implements OnInit, OnDestroy {
     this.tableRowData = this.composeDataSource(this.accountService.getUsers());
     // create a new datasource to trigger table rendering
     this.userDataSource = new MatTableDataSource<UserTableRow>(this.tableRowData);
+    /* configure filter */
+    this.userDataSource.filterPredicate = (data: UserTableRow, filter: string) => {
+      return data.index.toString().indexOf(filter) != -1 ||
+        data.email.indexOf(filter) != -1 ||
+        data.pseudonym.indexOf(filter) != -1 ||
+        data.state.indexOf(filter) != -1 ||
+        this.dateDisplayPipe.transform(data.joiningDate).indexOf(filter) != -1 ||
+        this.dateDisplayPipe.transform(data.expiryDate).indexOf(filter) != -1 ||
+        this.dateDisplayPipe.transform(data.latestLoginDate).indexOf(filter) != -1
+    }
     this.userDataSource.filter = Utilities.cleanText(this.queryText);
     setTimeout(_ => {
       this.userDataSource.paginator = this.paginator;
       // ---- Paginator becomes invisible after data has been inserted
-      this.isPaginatorVisible = this.tableRowData.length > this.minUnitNumber;
+      this.isPaginatorVisible = this.userDataSource.filteredData.length > this.minUnitNumber;
       this.pageSizeOptions = Utilities.getPageSizeOptions(this.userDataSource, this.minUnitNumber);
     }, 0);
   }
