@@ -62,7 +62,7 @@
               </mat-icon>
               <mat-icon fontSet="material-icons-outlined" class="user-role-icon mr-5" *ngSwitchDefault> person
               </mat-icon>
-              {{ displayUserAssociationType(element.role) }}
+              <span [innerHTML]="displayUserAssociationType(element.displayRole)"></span>
             </div>
           </ng-container>
         </td>
@@ -71,9 +71,7 @@
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>email</th>
         <td mat-cell *matCellDef="let element">
-          <span class="center__v">
-            {{element.email}}
-          </span>
+          <span class="center__v" [innerHtml]="element.email"></span>
         </td>
       </ng-container>
       <!-- menu column -->
