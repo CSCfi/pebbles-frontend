@@ -4,13 +4,14 @@ import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
 import { ApplicationCategory } from 'src/app/models/application-category';
-import { Message, MessageType } from 'src/app/models/message';
+import { Message } from 'src/app/models/message';
 import { Workspace } from 'src/app/models/workspace';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
 import { EventService } from '../../../services/event.service';
+import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
 
 @Component({
@@ -38,7 +39,7 @@ export class MainCatalogComponent implements OnInit {
       return app.is_enabled;
     });
     apps = this.filterApplicationsByLabels(apps, this.selectedCatalog.labels, 'any');
-    apps = this.filterApplicationsByText(apps, this.queryText);
+    apps = this.searchService.filterByText(apps, this.queryText, ['name', 'description', 'labels']);
     return this.sortApplications(apps);
   }
 
@@ -49,6 +50,7 @@ export class MainCatalogComponent implements OnInit {
     private applicationService: ApplicationService,
     private catalogService: ApplicationCategoryService,
     public workspaceService: WorkspaceService,
+    private searchService: SearchService
   ) {
   }
 
@@ -105,7 +107,6 @@ export class MainCatalogComponent implements OnInit {
       return objects;
 
     } else {
-
       if (method === 'any') {
         // ---- Any label matches search
         return objects.filter(obj => {
@@ -129,35 +130,6 @@ export class MainCatalogComponent implements OnInit {
 
   applyFilter(value: string): void {
     this.queryText = value;
-  }
-
-  filterApplicationsByText(objects: Application[], term: string): Application[] {
-    term = Utilities.cleanText(term);
-    if (term === '') {
-      return objects;
-    } else {
-      objects = objects.filter(obj => {
-        let isMatch = false;
-        // ---- Search in name
-        if (Utilities.cleanText(obj.name).indexOf(term) > -1) {
-          obj.name = obj.name.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-          isMatch = true;
-        }
-        // ---- Search in description
-        if (Utilities.cleanText(obj.description).indexOf(term) > -1) {
-          obj.description = obj.description.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-          isMatch = true;
-        }
-        // ---- Search in label
-        if (obj.labels.indexOf(term) > -1) {
-          isMatch = true;
-        }
-        if (isMatch) {
-          return obj;
-        }
-      });
-    }
-    return objects;
   }
 
   // ---- Catalogs

@@ -11,6 +11,7 @@ import { UserAssociationType, Workspace, WorkspaceMember } from '../../../models
 import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
+import { SearchService } from '../../../services/search.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
@@ -65,7 +66,8 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     private authService: AuthService,
     private accountService: AccountService,
     private workspaceService: WorkspaceService,
-    private eventService: EventService
+    private eventService: EventService,
+    private searchService: SearchService
   ) {
   }
 
@@ -114,7 +116,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     // create a new datasource to trigger table rendering
     let sortingMemberList = this.memberList.slice();
     this.sortData(sortingMemberList, this.sortCondition);
-    sortingMemberList = this.filterMembersByText(sortingMemberList, this.queryText);
+    sortingMemberList = this.searchService.filterByText(sortingMemberList, this.queryText, ['email', 'displayRole']);
     this.memberDataSource = new MatTableDataSource(sortingMemberList);
     this.memberDataSource.filter = Utilities.cleanText(this.queryText);
     this.memberDataSource.paginator = this.paginator;
@@ -172,29 +174,6 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     this.queryText = (event.target as HTMLInputElement).value;
     this.selection.clear();
     this.rebuildDataSource()
-  }
-
-  filterMembersByText(data: MemberRow[], term: string): MemberRow[] {
-    term = Utilities.cleanText(term);
-    if (term !== '') {
-      data = data.filter(obj => {
-        let isMatch = false;
-        // ---- Search in email
-        if (Utilities.cleanText(obj.email).indexOf(term) > -1) {
-          obj.email = obj.email.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-          isMatch = true;
-        }
-        // ---- Search in role
-        if (obj.role.indexOf(term) > -1) {
-          obj.displayRole = obj.displayRole.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-          isMatch = true;
-        }
-        if (isMatch) {
-          return obj;
-        }
-      });
-    }
-    return data;
   }
 
   displayUserAssociationType(role): string {

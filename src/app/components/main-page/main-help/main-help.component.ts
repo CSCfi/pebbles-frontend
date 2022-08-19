@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { FaqService } from '../../../services/faq.service';
-import { Content, Faq } from 'src/app/models/faq';
+import { Faq } from 'src/app/models/faq';
 import { PublicConfigService } from '../../../services/public-config.service';
+import { SearchService } from '../../../services/search.service';
 import { Utilities } from '../../../utilities';
 import { MatAccordion } from '@angular/material/expansion';
 
@@ -31,6 +32,7 @@ export class MainHelpComponent implements OnInit {
     public faqService: FaqService,
     public publicConfigService: PublicConfigService,
     private router: Router,
+    private searchService: SearchService
   ) {
   }
 
@@ -69,7 +71,7 @@ export class MainHelpComponent implements OnInit {
       this.isAllExpanded = false;
     } else {
       const faqs_result = this.faqTopics.map(topic => {
-        topic.content = this.filterFaqsByText(topic.content, this.queryText);
+        topic.content = this.searchService.filterByText(topic.content, this.queryText, ['question', 'answer']);
         return topic;
       });
       this.isAllExpanded = true;
@@ -99,31 +101,6 @@ export class MainHelpComponent implements OnInit {
       return;
     }
     this.tabGroup.selectedIndex = idx;
-  }
-
-  filterFaqsByText(objects: Content[], term: string): Content[] {
-    term = Utilities.cleanText(term);
-    if (term === '') {
-      return objects;
-    } else {
-      objects = objects.filter(obj => {
-        let isMatch = false;
-        // ---- Search in question
-        if (Utilities.cleanText(obj.question).indexOf(term) > -1) {
-          obj.question = obj.question.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-          isMatch = true;
-        }
-        // ---- Search in answer
-        if (Utilities.cleanText(obj.answer).indexOf(term) > -1) {
-          obj.answer = obj.answer.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
-          isMatch = true;
-        }
-        if (isMatch) {
-          return obj;
-        }
-      });
-    }
-    return objects;
   }
 
   togglePanels(index: string) {
