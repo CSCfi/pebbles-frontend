@@ -27,7 +27,7 @@ export class DesktopNotificationService {
   static secondsToMinutesText(secs: number): string {
     const mins = Math.round(secs / 60);
     if (mins > 60) {
-      const hours = mins / 60;
+      const hours = Math.floor(mins / 60);
       const rem_mins = mins - (hours * 60);
       return `${hours}h ${rem_mins}m`;
     } else {
