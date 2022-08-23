@@ -42,7 +42,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
 
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
-  public isSessionDeleted = false;
   public message: Message;
 
   public displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
@@ -188,7 +187,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     if (!confirm(`Are you sure you want to delete this application "${application.name}"?`)) {
       return;
     }
-    this.isSessionDeleted = true;
     this.applicationService.deleteApplication(application).subscribe();
   }
 
