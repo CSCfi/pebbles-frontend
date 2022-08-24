@@ -108,7 +108,7 @@
                 </span>
               </li>
               <li class="volume center__v">
-                <ng-container *ngIf="!element.workspace_name?.startsWith('System.'); else noSharedVolume">
+                <ng-container *ngIf="element.shared_folder_enabled; else noSharedVolume">
                   <mat-icon class="md-16 mr-5">folder</mat-icon>
                   <span>shared: On</span>
                 </ng-container>

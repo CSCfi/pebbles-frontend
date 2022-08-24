@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
 import { UserAssociationType } from '../../../models/workspace';
+import { ApplicationService } from '../../../services/application.service';
 import { WorkspaceService } from '../../../services/workspace.service';
-import { Utilities } from '../../../utilities';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
@@ -21,6 +21,10 @@ export class MainApplicationItemComponent {
     return this.application.workspace_name.startsWith('System.');
   }
 
+  get isSharedVolumeActive(): boolean {
+    return this.applicationService.isSharedFolderEnabled(this.application, this.isPublic);
+  }
+
   get isWorkVolumeActive(): boolean {
     return !!this.application.info?.work_folder_enabled;
   }
@@ -36,11 +40,11 @@ export class MainApplicationItemComponent {
   }
 
   get applicationIcon(): IconProp {
-    return Utilities.getApplicationIcon(this.application.labels);
+    return this.applicationService.getApplicationIcon(this.application.labels);
   }
 
   get applicationTypeName(): string {
-    return Utilities.applicationTypeName(this.application.application_type);
+    return this.applicationService.applicationTypeName(this.application.application_type);
   }
 
   get description(): string {
@@ -61,6 +65,7 @@ export class MainApplicationItemComponent {
   }
 
   constructor(
-    private workspaceService: WorkspaceService
+    private workspaceService: WorkspaceService,
+    private applicationService: ApplicationService,
   ) { }
 }

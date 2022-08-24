@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Application } from 'src/app/models/application';
 import { buildConfiguration } from '../../environments/environment';
 import { ApplicationType } from '../models/application-template';
@@ -171,4 +172,58 @@ export class ApplicationService implements OnDestroy {
     }
   }
 
+  isSharedFolderEnabled(app: Application|null, isPublic: boolean): boolean {
+    // ---- If the application is Public
+    if (isPublic) {
+      return false;
+    }
+    // ----  Parameter 'app' is null when user opens form for application creation
+    if( app===null ) {
+      return true;
+    }
+    // ---- If object/key doesn't exist
+    if ( !('shared_folder_enabled' in app.info) || app.info.shared_folder_enabled === null ) {
+      return true;
+    }
+    return app.info.shared_folder_enabled;
+  }
+
+  getApplicationIcon(labels: string[]): IconProp {
+    if (labels.includes('js') || labels.includes('javascript')) {
+      return ['fab', 'js'];
+    } else if (labels.includes('markup') || labels.includes('html')) {
+      return ['fas', 'code'];
+    } else if (labels.includes('linux') || labels.includes('command line')) {
+      return ['fab', 'linux'];
+    } else if (labels.includes('ai') || labels.includes('deep learning')) {
+      return ['fas', 'brain'];
+    } else if (labels.includes('machine learning')) {
+      return ['fas', 'circle-nodes'];
+    } else if (labels.includes('quantum computing')) {
+      return ['fas', 'atom'];
+    } else if (labels.includes('bio') || labels.includes('bio informatics')) {
+      return ['fas', 'dna'];
+    } else if (labels.includes('nlp') || labels.includes('natural language processing')) {
+      return ['fas', 'language'];
+    } else if (labels.includes('r') || labels.includes('rstudio')) {
+      return ['fab', 'r-project'];
+    } else if (labels.includes('data analytics') || labels.includes('data science') || labels.includes('analytics')) {
+      return ['fas', 'chart-column'];
+    } else if (labels.includes('python')) {
+      return ['fab', 'python'];
+    } else {
+      return ['fas', 'book'];
+    }
+  }
+
+  applicationTypeName(type: ApplicationType): string {
+    switch (type) {
+      case 'jupyter':
+        return 'Jupyter';
+      case 'rstudio':
+        return 'RStudio';
+      default:
+        return 'Generic';
+    }
+  }
 }

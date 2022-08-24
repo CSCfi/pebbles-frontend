@@ -174,12 +174,20 @@
           </div>
         </section>
 
-        <!-- 6-5 User work folder -->
+        <!-- 6-5 Shared / User work folder -->
+        <section class="form-container">
+          <h3 class="mat-title">Shared folder</h3>
+          <div class="checkbox-group">
+            <mat-checkbox formControlName="isEnableSharedFolder" [disabled]="data.isWorkspacePublic" >
+              Enable 'shared' folder within your workspace. <span class="mat-caption ml-10">(It's workspace specific and read-only for users.)</span>
+            </mat-checkbox>
+          </div>
+        </section>
         <section class="form-container">
           <h3 class="mat-title">Work folder per user</h3>
           <div class="checkbox-group">
             <mat-checkbox formControlName="isEnableUserWorkFolder">
-              Enable personal persistent 'work' folder for users. The folder is workspace specific.
+              Enable personal persistent 'work' folder for users. <span class="mat-caption ml-10">(It's workspace specific.)</span>
             </mat-checkbox>
           </div>
         </section>

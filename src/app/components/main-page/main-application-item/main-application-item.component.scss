@@ -29,7 +29,7 @@
           color: map-get($app-gray, 300);
 
           &.active {
-            color: map-get($app-gray, 900);
+            color: map-get($app-gray, 800);
 
             .mat-icon {
               color: map-get($app-accent, light);

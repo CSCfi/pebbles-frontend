@@ -245,17 +245,22 @@
             <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label>
             <br>
             <mat-checkbox formControlName="isAutoExecution" class="mt-5">
-              <span class="mat-subheading-2 mr-10">On</span> : Execute or unpack downloaded file when the application
-              is launched.
+              Execute or unpack downloaded file when the application is launched.
             </mat-checkbox>
           </section>
-          <!-- 3.4 Enable user work folder -->
-          <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
+          <!-- 3.4 Enable share folder / user work folder -->
+          <section class="form-container mb-20">
+            <mat-label class="mat-subheading-2">Shared folder</mat-label>
+            <br>
+            <mat-checkbox formControlName="isEnableSharedFolder" class="mt-5" [disabled]="data.isWorkspacePublic">
+              Enable 'shared' folder within workspace users. <span class="mat-caption ml-10">(It's workspace specific and read-only for users.)</span>
+            </mat-checkbox>
+          </section>
           <section class="form-container mb-20">
             <mat-label class="mat-subheading-2">Work folder per user</mat-label>
             <br>
             <mat-checkbox formControlName="isEnableUserWorkFolder" class="mt-5">
-              Enable personal persistent 'work' folder for users. The folder is workspace specific.
+              Enable personal persistent 'work' folder for users. <span class="mat-caption ml-10">(It's workspace specific.)</span>
             </mat-checkbox>
           </section>
           <!-- 3.5 Work User Folder Size -->

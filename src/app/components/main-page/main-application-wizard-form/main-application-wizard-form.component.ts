@@ -54,7 +54,8 @@ export class MainApplicationWizardFormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<MainApplicationWizardFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      workspaceId: string
+      workspaceId: string,
+      isWorkspacePublic: boolean
     },
     public authService: AuthService,
     private formBuilder: FormBuilder,
@@ -84,6 +85,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
       downloadMethod: [''],
       source: [''],
       isAutoExecution: [''],
+      isEnableSharedFolder: [''],
       isEnableUserWorkFolder: [''],
       userWorkFolderSize: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
     });
@@ -95,6 +97,8 @@ export class MainApplicationWizardFormComponent implements OnInit {
     this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
     this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
     this.wizardOptionFormGroup.controls.isAutoExecution.disable();
+    this.wizardOptionFormGroup.controls.isEnableSharedFolder.setValue(
+      this.applicationService.isSharedFolderEnabled(null, this.data.isWorkspacePublic));
     this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.wizardPublishFormGroup.controls.isActive.setValue(false);
     // TODO: Populate the actual value
@@ -141,6 +145,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
         download_method: this.wizardOptionFormGroup.controls.downloadMethod.value,
         download_url: this.wizardOptionFormGroup.controls.source.value,
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
+        enable_shared_folder: this.data.isWorkspacePublic ? false : this.wizardOptionFormGroup.controls.isEnableSharedFolder.value,
         enable_user_work_folder: this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.value,
         user_work_folder_size: this.wizardOptionFormGroup.controls.userWorkFolderSize.value,
         image_url: this.wizardApplicationTemplateFormGroup.controls.imageUrl.value,

@@ -36,18 +36,17 @@
           <div class="application-meta mat-caption" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px"
                fxLayoutAlign.lt-sm="start">
             <div class="volumes center__v">
-              <div class="volume center__v mr-10" [ngClass]="{'active':!isPublic}"
-                   [matTooltip]="!isPublic ? 'Shared folder available' : 'No shared folder'">
-                <mat-icon class="md-16 mr-2" *ngIf="!isPublic; else noSharedVolume">folder</mat-icon>
+              <div class="volume center__v mr-10" [ngClass]="{'active': isSharedVolumeActive }"
+                   [matTooltip]="isSharedVolumeActive ? 'Shared folder available' : 'No shared folder'">
+                <mat-icon class="md-16 mr-2" *ngIf="isSharedVolumeActive; else noSharedVolume">folder</mat-icon>
                 <ng-template #noSharedVolume>
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2" *ngIf="isPublic">folder_off</mat-icon>
+                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">folder_off</mat-icon>
                 </ng-template>
                 <span class="heading">shared</span>
               </div>
               <div class="volume center__v" [ngClass]="{'active':!isPublic && isWorkVolumeActive}"
                    [matTooltip]="isWorkVolumeActive ? 'Work folder available' : 'No work folder'">
-                <mat-icon class="md-16 mr-2" *ngIf="!isPublic && isWorkVolumeActive ; else noWorkVolume ">folder
-                </mat-icon>
+                <mat-icon class="md-16 mr-2" *ngIf="!isPublic && isWorkVolumeActive ; else noWorkVolume ">folder</mat-icon>
                 <ng-template #noWorkVolume>
                   <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">folder_off</mat-icon>
                 </ng-template>

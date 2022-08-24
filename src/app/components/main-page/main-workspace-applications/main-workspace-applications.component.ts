@@ -12,6 +12,7 @@ import { ApplicationType } from '../../../models/application-template';
 import { Message } from '../../../models/message';
 import { EventService } from '../../../services/event.service';
 import { PublicConfigService } from '../../../services/public-config.service';
+import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
 import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
 import { MainApplicationWizardFormComponent } from '../main-application-wizard-form/main-application-wizard-form.component';
@@ -30,6 +31,7 @@ export interface ApplicationRow {
   session_id: string;
   workspace_name: string;
   memory: number;
+  shared_folder_enabled: boolean;
   work_folder_enabled: boolean;
 }
 
@@ -61,6 +63,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     private applicationService: ApplicationService,
     private dialog: MatDialog,
     private eventService: EventService,
+    private workspaceService: WorkspaceService,
     public publicConfigService: PublicConfigService,
   ) {
   }
@@ -120,6 +123,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
           labels: env.labels,
           session_id: env.session_id,
           workspace_name: env.workspace_name,
+          shared_folder_enabled: this.applicationService.isSharedFolderEnabled(env, env.workspace_name.startsWith('System.')),
           work_folder_enabled: env.info?.work_folder_enabled,
           memory: env.info?.memory
         };
@@ -197,7 +201,8 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       autoFocus: false,
       data: {
         workspaceId: this.workspaceId,
-        application: applicationId ? this.getTargetApplication(applicationId) : null
+        application: applicationId ? this.getTargetApplication(applicationId) : null,
+        isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspaceId).name.startsWith('System.')
       }
     }).afterClosed().subscribe(_ => {
     });
@@ -210,17 +215,18 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       maxHeight: '95vh',
       autoFocus: false,
       data: {
-        workspaceId: this.workspaceId
+        workspaceId: this.workspaceId,
+        isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspaceId).name.startsWith('System.')
       }
     }).afterClosed().subscribe(_ => {
     });
   }
 
   getApplicationIcon(labels): IconProp {
-    return Utilities.getApplicationIcon(labels);
+    return this.applicationService.getApplicationIcon(labels);
   }
 
   getApplicationTypeName(type): string {
-    return Utilities.applicationTypeName(type);
+    return this.applicationService.applicationTypeName(type);
   }
 }

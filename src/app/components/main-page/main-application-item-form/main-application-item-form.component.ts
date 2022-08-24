@@ -30,7 +30,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   isAutoExecution: boolean;
   isAlwaysPullImage: boolean;
-  isEnableUserWorkFolder: boolean;
   applicationType: ApplicationType;
 
   // ---- Values for Radio Input
@@ -61,7 +60,8 @@ export class MainApplicationItemFormComponent implements OnInit {
     public dialogRef: MatDialogRef<MainApplicationItemFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       application: Application,
-      workspaceId: string
+      workspaceId: string,
+      isWorkspacePublic: boolean
     },
     public authService: AuthService,
     private formBuilder: FormBuilder,
@@ -94,6 +94,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       downloadMethod: [''],
       source: [''],
       isAutoExecution: [''],
+      isEnableSharedFolder: [''],
       isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
       imageUrl: [''],
@@ -108,6 +109,8 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.isAutoExecution.setValue(false);
     this.applicationItemEditFormGroup.controls.isAlwaysPullImage.setValue(false);
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
+    this.applicationItemEditFormGroup.controls.isEnableSharedFolder.setValue(
+      this.applicationService.isSharedFolderEnabled(null, this.data.isWorkspacePublic));
     this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.applicationItemEditFormGroup.controls.userWorkFolderSize.setValue(1);
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
@@ -126,7 +129,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       x => x.id === this.data.application.template_id
     ).application_type;
 
-    this.isEnableUserWorkFolder = coerceBooleanProperty(this.data.application.config.enable_user_work_folder);
     this.isAlwaysPullImage = coerceBooleanProperty(this.data.application.config.always_pull_image);
 
     // if custom image is not present get the template base image
@@ -149,7 +151,8 @@ export class MainApplicationItemFormComponent implements OnInit {
       imageUrl: [this.data.application.config.image_url],
       isAlwaysPullImage: [this.isAlwaysPullImage],
       isAutoExecution: [this.isAutoExecution],
-      isEnableUserWorkFolder: [this.isEnableUserWorkFolder],
+      isEnableSharedFolder: [this.applicationService.isSharedFolderEnabled(this.data.application, this.data.isWorkspacePublic)],
+      isEnableUserWorkFolder: [coerceBooleanProperty(this.data.application.config.enable_user_work_folder)],
       userWorkFolderSize: [this.data.application.config.user_work_folder_size],
       publish: [this.data.application.is_enabled, [Validators.required]]
     });
@@ -177,6 +180,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         download_method: this.applicationItemEditFormGroup.controls.downloadMethod.value,
         download_url: this.applicationItemEditFormGroup.controls.source.value,
         auto_execution: this.applicationItemEditFormGroup.controls.isAutoExecution.value,
+        enable_shared_folder: this.applicationItemEditFormGroup.controls.isEnableSharedFolder.value,
         enable_user_work_folder: this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value,
         user_work_folder_size: this.applicationItemEditFormGroup.controls.userWorkFolderSize.value,
         image_url: this.applicationItemEditFormGroup.controls.imageUrl.value.trim(),
@@ -198,6 +202,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.config.download_method = this.applicationItemEditFormGroup.controls.downloadMethod.value;
     this.data.application.config.download_url = this.applicationItemEditFormGroup.controls.source.value;
     this.data.application.config.auto_execution = this.applicationItemEditFormGroup.controls.isAutoExecution.value;
+    this.data.application.config.enable_shared_folder = this.applicationItemEditFormGroup.controls.isEnableSharedFolder.value;
     this.data.application.config.enable_user_work_folder = this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value.trim();
     this.data.application.config.always_pull_image = this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value;
@@ -209,6 +214,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       this.closeForm();
     });
   }
+
 
   onChangeApplicationTemplate(val: string) {
     const tmpl = this.applicationTemplates.find(x => x.id === val);
