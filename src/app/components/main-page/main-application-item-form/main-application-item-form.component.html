@@ -50,18 +50,6 @@
                       <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">apps</mat-icon>
                       Application type: {{ element["application_type"] }}
                     </li>
-                    <li class="template-meta">
-                      <span class="center__v">
-                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">watch_later</mat-icon>
-                        Lifetime: {{ element.lifetime | lifeTimeDisplay }}
-                      </span>
-                    </li>
-                    <li class="template-meta">
-                      <span class="center__v">
-                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
-                        Memory: {{ element.memory_gib || '-' }}GiB
-                      </span>
-                    </li>
                   </ul>
                 </td>
               </ng-container>
@@ -117,7 +105,27 @@
           </mat-radio-group>
         </section>
 
-        <!-- 6-1-1 Container Image -->
+        <!-- 6.1 Lifetime -->
+        <section class="form-container">
+          <h3 class="mat-title">Session lifetime</h3>
+          <mat-select formControlName="sessionLifetimeHours">
+            <mat-option *ngFor="let opt of availableLifetimeOptions" [value]="opt.value">
+              {{opt.viewValue}}
+            </mat-option>
+          </mat-select>
+        </section>
+
+        <!-- 6.2 Memory -->
+        <section class="form-container">
+          <h3 class="mat-title">Session memory</h3>
+          <mat-select formControlName="sessionMemoryGiB">
+            <mat-option *ngFor="let opt of availableMemoryOptions" [value]="opt.value">
+              {{opt.viewValue}}
+            </mat-option>
+          </mat-select>
+        </section>
+
+        <!-- 7-1-1 Container Image -->
         <section class="form-container">
           <h3 class="mat-title">Container Image *</h3>
           Change only if you need a custom image. The image has to be compatible with the template.
@@ -129,7 +137,7 @@
           </mat-checkbox>
         </section>
 
-        <!-- 6-2 Include External files -->
+        <!-- 7-2 Include External files -->
         <section class="form-container">
           <h3 class="mat-title">Download method</h3>
           <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
@@ -150,7 +158,7 @@
           </mat-radio-group>
         </section>
 
-        <!-- 6-3 Source -->
+        <!-- 7-3 Source -->
         <section class="form-container">
           <ng-container [ngSwitch]="selectedDownloadMethod">
             <div *ngSwitchCase="'local'">
@@ -166,7 +174,7 @@
           </ng-container>
         </section>
 
-        <!-- 6-4 Auto Execution -->
+        <!-- 7-4 Auto Execution -->
         <section class="form-container" *ngIf="selectedDownloadMethod !== 'none'">
           <h3 class="mat-title">Auto execution</h3>
           <div class="checkbox-group">
@@ -174,7 +182,7 @@
           </div>
         </section>
 
-        <!-- 6-5 Shared / User work folder -->
+        <!-- 7-5 Shared / User work folder -->
         <section class="form-container">
           <h3 class="mat-title">Shared folder</h3>
           <div class="checkbox-group">
@@ -187,12 +195,12 @@
           <h3 class="mat-title">Work folder per user</h3>
           <div class="checkbox-group">
             <mat-checkbox formControlName="isEnableUserWorkFolder">
-              Enable personal persistent 'work' folder for users. <span class="mat-caption ml-10">(It's workspace specific.)</span>
+              Enable personal persistent 'work' folder for users. The folder is workspace specific.
             </mat-checkbox>
           </div>
         </section>
 
-        <!-- 6-6 Work User Folder Size -->
+        <!-- 7-6 Work User Folder Size -->
         <section class="form-container" *ngIf="authService.isAdmin">
           <h3 class="mat-title">Size of the user work folder per user in Gi (Default is 1)</h3>
           <mat-form-field appearance="fill">
@@ -201,7 +209,7 @@
         </section>
 
 
-        <!-- 7 Publish -->
+        <!-- 8 Publish -->
         <section class="form-container">
           <h3 class="mat-title">Publication</h3>
           <mat-radio-group formControlName="publish">

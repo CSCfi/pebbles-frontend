@@ -8,6 +8,7 @@ import { ApplicationTemplate, ApplicationType } from 'src/app/models/application
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { WorkspaceService } from '../../../services/workspace.service';
 
 export interface ApplicationTemplateRow {
   name: string;
@@ -31,6 +32,8 @@ export class MainApplicationItemFormComponent implements OnInit {
   isAutoExecution: boolean;
   isAlwaysPullImage: boolean;
   applicationType: ApplicationType;
+  sessionLifetimeHours: number;
+  sessionMemoryGiB: number;
 
   // ---- Values for Radio Input
   selectedLabels: string[];
@@ -42,6 +45,9 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   editButtonClicked: boolean;
   createButtonClicked: boolean;
+
+  availableLifetimeOptions: any[];
+  availableMemoryOptions: any[];
 
   get isCreationMode(): boolean {
     return !this.data.application;
@@ -67,6 +73,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private applicationService: ApplicationService,
     private applicationTemplateService: ApplicationTemplateService,
+    private workspaceService: WorkspaceService,
   ) {
     // TODO: Needed in case application is not available (e.g test case)
     // if (this.data.application) {
@@ -77,6 +84,8 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.editButtonClicked = this.createButtonClicked = false;
+    this.availableLifetimeOptions = this.getLifetimeOptions();
+    this.availableMemoryOptions = this.getMemoryOptions();
     if (this.isCreationMode) {
       this.setCreationForm();
     } else {
@@ -100,6 +109,8 @@ export class MainApplicationItemFormComponent implements OnInit {
       imageUrl: [''],
       isAlwaysPullImage: [''],
       userWorkFolderSize: ['', [Validators.min(1), Validators.max(5)]],
+      sessionLifetimeHours: [''],
+      sessionMemoryGiB: [''],
     });
 
     // ---- Set default value
@@ -115,6 +126,8 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.userWorkFolderSize.setValue(1);
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
     this.applicationType = ApplicationType.Generic;
+    this.applicationItemEditFormGroup.controls.sessionLifetimeHours.setValue(4);
+    this.applicationItemEditFormGroup.controls.sessionMemoryGiB.setValue(1);
   }
 
   setEditForm(): void {
@@ -137,6 +150,20 @@ export class MainApplicationItemFormComponent implements OnInit {
         x => x.id === this.data.application.template_id).base_config.image;
     }
 
+    // take maximum lifetime from config if there, fall back to application field that always has a default value
+    if (this.data.application.config.maximum_lifetime) {
+      this.sessionLifetimeHours = Math.floor(this.data.application.config.maximum_lifetime / 3600);
+    } else {
+      this.sessionLifetimeHours = Math.floor(this.data.application.maximum_lifetime / 3600);
+    }
+
+    // take memory from config if there, otherwise from info (populated from base config in the backend)
+    if (this.data.application.config.memory_gib) {
+      this.sessionMemoryGiB = this.data.application.config.memory_gib;
+    } else {
+      this.sessionMemoryGiB = this.data.application.info.memory_gib;
+    }
+
     this.applicationItemEditFormGroup = this.formBuilder.group({
       applicationTemplateId: [{
         value: this.data.application.template_id,
@@ -154,7 +181,9 @@ export class MainApplicationItemFormComponent implements OnInit {
       isEnableSharedFolder: [this.applicationService.isSharedFolderEnabled(this.data.application, this.data.isWorkspacePublic)],
       isEnableUserWorkFolder: [coerceBooleanProperty(this.data.application.config.enable_user_work_folder)],
       userWorkFolderSize: [this.data.application.config.user_work_folder_size],
-      publish: [this.data.application.is_enabled, [Validators.required]]
+      publish: [this.data.application.is_enabled, [Validators.required]],
+      sessionLifetimeHours: [this.sessionLifetimeHours],
+      sessionMemoryGiB: [this.sessionMemoryGiB],
     });
 
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
@@ -185,6 +214,8 @@ export class MainApplicationItemFormComponent implements OnInit {
         user_work_folder_size: this.applicationItemEditFormGroup.controls.userWorkFolderSize.value,
         image_url: this.applicationItemEditFormGroup.controls.imageUrl.value.trim(),
         always_pull_image: this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value,
+        maximum_lifetime: this.applicationItemEditFormGroup.controls.sessionLifetimeHours.value * 3600,
+        memory_gib: this.applicationItemEditFormGroup.controls.sessionMemoryGiB.value,
       },
       this.applicationItemEditFormGroup.controls.publish.value || false,
     ).subscribe(_ => {
@@ -208,6 +239,8 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.config.always_pull_image = this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value;
     this.data.application.config.user_work_folder_size = this.applicationItemEditFormGroup.controls.userWorkFolderSize.value;
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
+    this.data.application.config.maximum_lifetime = this.applicationItemEditFormGroup.controls.sessionLifetimeHours.value * 3600;
+    this.data.application.config.memory_gib = this.applicationItemEditFormGroup.controls.sessionMemoryGiB.value;
     this.applicationService.updateApplication(
       this.data.application
     ).subscribe(_ => {
@@ -247,5 +280,32 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   onChangeJupyterInterface(val: string) {
     this.selectedJupyterInterface = val;
+  }
+
+  getLifetimeOptions(): any[] {
+
+    let res = [];
+    for (let lifetimeOption of [1, 2, 4, 8, 12]) {
+      res.push({value: lifetimeOption, viewValue: lifetimeOption + " h"})
+
+    }
+    return res;
+  }
+
+  getMemoryOptions(): any[] {
+    // get the workspace session memory limit to calculate the number of parallel sessions per option
+    const workspaceMemGiB = this.workspaceService.getWorkspaceById(this.data.workspaceId)?.memory_limit_gib;
+
+    let res = [];
+    for (let memOption of [0.5, 1, 2, 3, 4, 6, 8]) {
+      res.push(
+        {
+          value: memOption,
+          viewValue: memOption + " GiB "
+            + "(" + Math.floor(workspaceMemGiB / memOption) + " concurrent sessions in workspace)",
+        }
+      );
+    }
+    return res;
   }
 }

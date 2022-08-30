@@ -6,7 +6,7 @@ export class Application {
     public id: string,
     public name: string,
     public description: string,
-    public maximum_lifetime: string,
+    public maximum_lifetime: number,
     public workspace_id: string,
     public labels: string[],
     public thumbnail: string,
