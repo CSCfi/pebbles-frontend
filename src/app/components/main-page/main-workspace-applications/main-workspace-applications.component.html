@@ -56,14 +56,14 @@
         <ng-container matColumnDef="thumbnail">
           <th mat-header-cell *matHeaderCellDef fxHide.lt-sm="true">type / sate</th>
           <td mat-cell class="cell-thumbnail icon" *matCellDef="let element"
-              [ngClass]="{'published': element.is_enabled, 'draft': !element.is_enabled}" fxHide.lt-sm="true">
+              [ngClass]="{'published': element.isEnabled, 'draft': !element.isEnabled}" fxHide.lt-sm="true">
             <div class="thumbnail-placeholder">
               <div class="thumbnail">
                 <fa-icon [icon]="getApplicationIcon(element.labels)" class="md-24"></fa-icon>
                 <span>{{ getApplicationTypeName(element.type) }}</span>
               </div>
             </div>
-            <div class="chip__m mt-5">{{ element.is_enabled ? 'published' : 'draft' }}</div>
+            <div class="chip__m mt-5">{{ element.isEnabled ? 'published' : 'draft' }}</div>
           </td>
         </ng-container>
         <!-- Information column -->
@@ -107,8 +107,14 @@
                   Memory: {{ element.memory || '-' }}
                 </span>
               </li>
+              <li class="application-meta">
+                <span class="center__v">
+                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+                  Concurrent sessions: {{ element.maximumConcurrentSessions }}
+                </span>
+              </li>
               <li class="volume center__v">
-                <ng-container *ngIf="element.shared_folder_enabled; else noSharedVolume">
+                <ng-container *ngIf="element.sharedFolderEnabled; else noSharedVolume">
                   <mat-icon class="md-16 mr-5">folder</mat-icon>
                   <span>shared: On</span>
                 </ng-container>
@@ -118,7 +124,7 @@
                 </ng-template>
               </li>
               <li class="volume center__v">
-                <ng-container *ngIf="element.work_folder_enabled; else noWorkVolume">
+                <ng-container *ngIf="element.workFolderEnabled; else noWorkVolume">
                   <mat-icon class="md-16 mr-5">folder</mat-icon>
                   <span>my-work: On</span>
                 </ng-container>
@@ -153,15 +159,15 @@
                 <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
                 <span>edit application</span>
               </button>
-              <button mat-menu-item *ngIf="!element.is_enabled" (click)="toggleApplicationActivation(true, element.id)">
+              <button mat-menu-item *ngIf="!element.isEnabled" (click)="toggleApplicationActivation(true, element.id)">
                 <mat-icon fontSet="material-icons-outlined">cloud</mat-icon>
                 <span>publish</span>
               </button>
-              <button mat-menu-item *ngIf="element.is_enabled" (click)="toggleApplicationActivation(false, element.id)">
+              <button mat-menu-item *ngIf="element.isEnabled" (click)="toggleApplicationActivation(false, element.id)">
                 <mat-icon fontSet="material-icons-outlined">cloud_off</mat-icon>
                 <span>make draft</span>
               </button>
-              <button mat-menu-item *ngIf="element.is_enabled" (click)="toggleGpuActivation(true)" disabled>
+              <button mat-menu-item *ngIf="element.isEnabled" (click)="toggleGpuActivation(true)" disabled>
                 <mat-icon fontSet="material-icons-outlined">local_fire_department</mat-icon>
                 <span>activate GPU</span>
               </button>

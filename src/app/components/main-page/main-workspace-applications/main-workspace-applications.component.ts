@@ -3,8 +3,8 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChil
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ActivatedRoute, Data } from '@angular/router';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -15,7 +15,9 @@ import { PublicConfigService } from '../../../services/public-config.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
 import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
-import { MainApplicationWizardFormComponent } from '../main-application-wizard-form/main-application-wizard-form.component';
+import {
+  MainApplicationWizardFormComponent
+} from '../main-application-wizard-form/main-application-wizard-form.component';
 
 export interface ApplicationRow {
   select: boolean;
@@ -24,15 +26,15 @@ export interface ApplicationRow {
   name: string;
   description: string;
   type: ApplicationType;
-  state: string;
-  is_enabled: boolean;
-  lifetime: string;
+  isEnabled: boolean;
+  lifetime: number;
   labels: string[];
-  session_id: string;
-  workspace_name: string;
+  sessionId: string;
+  workspaceName: string;
   memory: number;
-  shared_folder_enabled: boolean;
-  work_folder_enabled: boolean;
+  sharedFolderEnabled: boolean;
+  workFolderEnabled: boolean;
+  maximumConcurrentSessions: number,
 }
 
 @Component({
@@ -98,34 +100,37 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       setTimeout(() => this.rebuildDataSource(), 0);
       return;
     }
-    const envs = this.applicationService.getApplicationsByWorkspaceId(this.workspaceId).sort(
+    const applications = this.applicationService.getApplicationsByWorkspaceId(this.workspaceId).sort(
       (a, b) => Number(b.is_enabled) - Number(a.is_enabled));
-    this.dataSource = this.composeDataSource(envs);
+    this.dataSource = this.composeDataSource(applications);
     this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
     this.isPaginatorVisible = this.dataSource.data.length > this.minUnitNumber;
     this.paginator.length = this.dataSource.data.length;
     this.dataSource.paginator = this.paginator;
   }
 
-  composeDataSource(envs: Application[]): MatTableDataSource<any> {
+  composeDataSource(applications: Application[]): MatTableDataSource<ApplicationRow> {
+    const workspace = this.workspaceService.getWorkspaceById(this.workspaceId);
     return new MatTableDataSource(
-      envs.map((env, i) => {
+      applications.map((app, i) => {
         return {
           select: false,
-          is_enabled: env.is_enabled,
+          isEnabled: app.is_enabled,
           index: i,
-          id: env.id,
-          name: env.name,
-          template: env.template_name,
-          description: env.description,
-          type: env.application_type,
-          lifetime: env.maximum_lifetime,
-          labels: env.labels,
-          session_id: env.session_id,
-          workspace_name: env.workspace_name,
-          shared_folder_enabled: this.applicationService.isSharedFolderEnabled(env, env.workspace_name.startsWith('System.')),
-          work_folder_enabled: env.info?.work_folder_enabled,
-          memory: env.info?.memory
+          id: app.id,
+          name: app.name,
+          template: app.template_name,
+          description: app.description,
+          type: app.application_type,
+          lifetime: app.maximum_lifetime,
+          labels: app.labels,
+          sessionId: app.session_id,
+          workspaceName: app.workspace_name,
+          workFolderEnabled: app.info?.work_folder_enabled,
+          sharedFolderEnabled: this.applicationService.isSharedFolderEnabled(
+            app, app.workspace_name.startsWith('System.')),
+          memory: app.info?.memory,
+          maximumConcurrentSessions: Math.trunc(workspace.memory_limit_gib / app.info.memory_gib),
         };
       })
     );
