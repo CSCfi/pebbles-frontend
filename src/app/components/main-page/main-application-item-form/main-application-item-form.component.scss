@@ -28,17 +28,20 @@
       }
     }
 
-    .dialog-actions {
-      //margin-top: 0 !important;
-      //margin-bottom: 0 !important;
-    }
-
     ::ng-deep .mat-form-field-infix {
       border-top: none !important;
     }
 
     ::ng-deep .mat-select-arrow-wrapper {
       transform: translateY(0%);
+    }
+
+    .session-memory .mat-select,
+    .session-lifetime .mat-select{
+      background-color: rgba(0, 0, 0, 0.04);
+      padding: 10px;
+      border-radius: 4px 4px 0 0;
+      border-bottom: 1px solid  map-get($app-gray, light);
     }
   }
 
