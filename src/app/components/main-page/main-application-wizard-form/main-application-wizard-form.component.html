@@ -1,6 +1,6 @@
 <div class="mat-typography dialog-container wizard-container" ngClass.lt-sm="mobile">
   <div class="corner-button-container">
-    <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
+    <button mat-icon-button mat-dialog-close="true" class="corner-button">
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -130,11 +130,17 @@
           </section>
 
           <!-- 2-1 Name -->
-          <h2 class="mat-title mb-20">Fill your application information</h2>
+          <h2 class="mat-title ">Fill your application information</h2>
           <section class="form-container">
             <mat-form-field appearance="fill">
               <mat-label class="mat-subheading-2">Application name</mat-label>
               <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
+              <mat-error *ngIf="wizardProfileFormGroup.controls.name.hasError('required')">
+                <strong>Name is required</strong>
+              </mat-error>
+              <mat-error *ngIf="wizardProfileFormGroup.controls.name.hasError('maxlength')">
+                <strong>Max length (128 characters) exceeded</strong>
+              </mat-error>
             </mat-form-field>
           </section>
           <!-- 2-2 Description -->
@@ -142,6 +148,9 @@
             <mat-form-field appearance="fill">
               <mat-label class="mat-subheading-2">Description (can contain HTML formatting)</mat-label>
               <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
+              <mat-error *ngIf="!wizardProfileFormGroup.controls.description.valid">
+                <strong>Description is required</strong>
+              </mat-error>
             </mat-form-field>
           </section>
           <!-- 2-3 Label search component -->
@@ -163,7 +172,7 @@
       </form>
     </mat-step>
 
-    <!-- 3 application option setting-->
+    <!-- 3 application option srtting-->
     <mat-step [stepControl]="wizardOptionFormGroup">
       <form [formGroup]="wizardOptionFormGroup">
         <mat-dialog-content>
@@ -197,7 +206,7 @@
                 <mat-label class="mat-subheading-2">Interface</mat-label>
                 <mat-radio-group formControlName="jupyterInterface"
                                  (change)="onChangeJupyterInterface($event.value)">
-                  <ul class="mt-5 mb-20">
+                  <ul class="mt-5 ">
                     <li>
                       <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
                     </li>
@@ -210,7 +219,7 @@
             </div>
           </section>
           <!-- 3.1 Include External files -->
-          <section class="form-container mb-20">
+          <section class="form-container ">
             <mat-label class="mat-subheading-2">Download Method</mat-label>
             <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
               <ul class="mt-5 mb-10">
@@ -231,7 +240,7 @@
             <section class="form-container" *ngSwitchCase="'local'">
               <button mat-flat-button color="primary">Upload file</button>
             </section>
-            <section class="form-container mb-20"
+            <section class="form-container "
                      *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
               <mat-form-field appearance="fill">
                 <mat-label class="mat-subheading-2">Source(URL)</mat-label>
@@ -241,7 +250,7 @@
           </ng-container>
           <!-- 3.3 Auto Execution -->
           <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
-          <section class="form-container mb-20">
+          <section class="form-container ">
             <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label>
             <br>
             <mat-checkbox formControlName="isAutoExecution" class="mt-5">
@@ -249,25 +258,28 @@
             </mat-checkbox>
           </section>
           <!-- 3.4 Enable share folder / user work folder -->
-          <section class="form-container mb-20">
+          <section class="form-container ">
             <mat-label class="mat-subheading-2">Shared folder</mat-label>
             <br>
             <mat-checkbox formControlName="isEnableSharedFolder" class="mt-5" [disabled]="data.isWorkspacePublic">
               Enable 'shared' folder within workspace users. <span class="mat-caption ml-10">(It's workspace specific and read-only for users.)</span>
             </mat-checkbox>
           </section>
-          <section class="form-container mb-20">
+          <section class="form-container ">
             <mat-label class="mat-subheading-2">Work folder per user</mat-label>
             <br>
-            <mat-checkbox formControlName="isEnableUserWorkFolder" class="mt-5">
+            <mat-checkbox formControlName="isEnableUserWorkFolder" (change)="onChangeUserWorkFolder($event.checked)" class="mt-5">
               Enable personal persistent 'work' folder for users. <span class="mat-caption ml-10">(It's workspace specific.)</span>
             </mat-checkbox>
           </section>
           <!-- 3.5 Work User Folder Size -->
-          <section class="form-container" *ngIf="authService.isAdmin">
-            <h3 class="mat-title">Size of the user work folder per user in Gi (Default is 1)</h3>
+          <section class="form-container" *ngIf="authService.isAdmin && isCheckedUserWorkFolder">
+            <h3 class="mat-title">Size of the user work folder per user in GiB (Default is 1GiB)</h3>
             <mat-form-field appearance="fill">
               <input matInput type="number" formControlName="userWorkFolderSize">
+              <mat-error *ngIf="wizardOptionFormGroup.controls.userWorkFolderSize.hasError">
+                <strong>Set the folder size from 1Gi to 5GiB</strong>
+              </mat-error>
             </mat-form-field>
           </section>
         </mat-dialog-content>

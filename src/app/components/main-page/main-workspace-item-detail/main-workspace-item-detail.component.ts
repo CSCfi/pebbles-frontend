@@ -14,7 +14,6 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   public workspace: Workspace;
-  public isWorkspaceDeleted = false;
   public workspaceEditForm: FormGroup;
   public isWorkspaceFormChanged = false;
   public isWorkspaceNameEditOn = false;
@@ -41,7 +40,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   }
 
   constructor(
-    public dialog: MatDialog, // JoinCode
+    public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private workspaceService: WorkspaceService,
     private authService: AuthService,
@@ -60,7 +59,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     }
     this.isWorkspaceFormChanged = false;
     this.workspaceEditForm = this.formBuilder.group({
-      name: [this.workspace.name, [Validators.required]],
+      name: [this.workspace.name, [Validators.required, Validators.maxLength(64)]],
       description: [this.workspace.description, [Validators.required]],
     });
   }

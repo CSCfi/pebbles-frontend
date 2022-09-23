@@ -39,13 +39,9 @@ export class MainWorkspaceFormComponent implements OnInit {
 
   initReactiveForm(): void {
     this.workspaceForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.maxLength(64)]],
       description: ['', [Validators.required]],
     });
-  }
-
-  closeForm(): void {
-    this.dialogRef.close();
   }
 
   createWorkspace(): void {

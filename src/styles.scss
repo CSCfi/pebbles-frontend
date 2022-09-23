@@ -350,7 +350,7 @@ dl.grid {
 
   .form-container {
     margin-top: 30px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .mat-form-field {
@@ -361,7 +361,9 @@ dl.grid {
     }
 
     .mat-form-field-subscript-wrapper {
+      position: relative;
       margin: 0;
+      top: 5px;
 
       .mat-error {
         margin-bottom: 15px;
@@ -490,6 +492,7 @@ dl.grid {
 // ----------------------------------------
 .mat-form-field-underline {
   bottom: 0;
+  position: relative !important;
 
   &::before {
     background: map-get($app-primary, 300) !important;

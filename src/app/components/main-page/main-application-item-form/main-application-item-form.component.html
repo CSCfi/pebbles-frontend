@@ -1,6 +1,6 @@
 <div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
   <div class="corner-button-container" fxHide.lt-sm="true">
-    <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
+    <button mat-icon-button mat-dialog-close="true" class="corner-button">
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -21,6 +21,9 @@
                   {{ tmpl.name }}
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="applicationItemEditFormGroup.controls.applicationTemplateId.hasError('required')">
+                <strong>Application template should be selected.</strong>
+              </mat-error>
             </mat-form-field>
             <table mat-table [dataSource]="applicationTemplateDataSource" class="mt-10 mb-20"
                    *ngIf="selectedApplicationTemplate">
@@ -64,7 +67,7 @@
 
         <!-- 1-2 Container Image -->
         <section class="form-container">
-          <h3 class="mat-title">Container Image *</h3>
+          <h3 class="mat-title">Container Image</h3>
           <p class="mat-caption">Change only if you need a custom image. The image has to be compatible with the template.</p>
           <mat-form-field appearance="fill">
             <input matInput formControlName="imageUrl" [value]="selectedApplicationTemplateImage">
@@ -80,8 +83,11 @@
           <h3 class="mat-title">Application name *</h3>
           <mat-form-field appearance="fill">
             <input matInput formControlName="name">
-            <mat-error *ngIf="!applicationItemEditFormGroup.controls.name.valid">
+            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('required')">
               <strong>Name is required</strong>
+            </mat-error>
+            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('maxlength')">
+              <strong>Max length (128 characters) exceeded</strong>
             </mat-error>
           </mat-form-field>
         </section>
@@ -193,10 +199,11 @@
             <p class="mat-caption mt-4 ml-25">(It's workspace specific and read-only for users.)</p>
           </div>
         </section>
+
         <section class="form-container">
-          <h3 class="mat-title">Work folder per user</h3>
+          <h3 class="mat-title">User work folder per user</h3>
           <div class="checkbox-group">
-            <mat-checkbox formControlName="isEnableUserWorkFolder">
+            <mat-checkbox formControlName="isEnableUserWorkFolder" (change)="onChangeUserWorkFolder($event.checked)">
               Enable personal persistent 'work' folder for users.
             </mat-checkbox>
             <p class="mat-caption mt-4 ml-25">(The folder is workspace specific.)</p>
@@ -204,10 +211,13 @@
         </section>
 
         <!-- 7-6 Work User Folder Size -->
-        <section class="form-container" *ngIf="authService.isAdmin">
-          <h3 class="mat-title">Size of the user work folder per user in Gi (Default is 1)</h3>
+        <section class="form-container" *ngIf="authService.isAdmin && isCheckedUserWorkFolder">
+          <h3 class="mat-title">Size of the user work folder per user in GiB (Default is 1GiB)</h3>
           <mat-form-field appearance="fill">
             <input matInput type="number" formControlName="userWorkFolderSize">
+            <mat-error *ngIf="applicationItemEditFormGroup.controls.userWorkFolderSize.hasError">
+              <strong>Set the folder size from 1Gi to 5GiB</strong>
+            </mat-error>
           </mat-form-field>
         </section>
 
@@ -243,7 +253,7 @@
                 (click)="editApplicationItem()">
           Update
         </button>
-        <button mat-button class="button-link button-sm" fxFlex="0 0 auto" (click)="closeForm()">
+        <button mat-button mat-dialog-close="true" class="button-link button-sm" fxFlex="0 0 auto">
           Cancel
         </button>
       </div>

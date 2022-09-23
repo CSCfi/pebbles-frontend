@@ -34,6 +34,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
   selectedJupyterInterface: string;
   selectedDownloadMethod: string;
   selectedWizardApplicationTemplateImage: string = null;
+  isCheckedUserWorkFolder = true;
 
   wizardApplicationTemplateColumns: string[] = ['select', 'info', 'spec'];
   wizardApplicationTemplateDataSource: MatTableDataSource<WizardApplicationTemplateRow> = null;
@@ -76,7 +77,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
       imageUrl: ['']
     });
     this.wizardProfileFormGroup = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.maxLength(128)]],
       description: ['', [Validators.required]],
       labels: ['']
     });
@@ -127,10 +128,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
     });
   }
 
-  closeForm(): void {
-    this.dialogRef.close();
-  }
-
   createApplicationByWizardMode(): void {
     this.createButtonClicked = true;
     this.applicationService.createApplication(
@@ -152,7 +149,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
       },
       this.wizardPublishFormGroup.controls.isActive.value
     ).subscribe(_ => {
-      this.closeForm();
+      this.dialogRef.close();
     });
   }
 
@@ -171,5 +168,9 @@ export class MainApplicationWizardFormComponent implements OnInit {
 
   onChangeJupyterInterface(val: string): void {
     this.selectedJupyterInterface = val;
+  }
+
+  onChangeUserWorkFolder(val: boolean): void {
+    this.isCheckedUserWorkFolder = val;
   }
 }

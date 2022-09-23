@@ -42,6 +42,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   selectedApplicationTemplateImage: string = null;
   applicationTemplateColumns: string[] = ['info', 'spec'];
   applicationTemplateDataSource: MatTableDataSource<ApplicationTemplateRow> = null;
+  isCheckedUserWorkFolder = true;
 
   editButtonClicked: boolean;
   createButtonClicked: boolean;
@@ -96,7 +97,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   setCreationForm(): void {
     this.applicationItemEditFormGroup = this.formBuilder.group({
       applicationTemplateId: ['', [Validators.required]],
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.maxLength(128)]],
       description: ['', [Validators.required]],
       labels: [''],
       jupyterInterface: [''],
@@ -169,7 +170,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         value: this.data.application.template_id,
         disabled: true
       }],
-      name: [this.data.application.name, [Validators.required]],
+      name: [this.data.application.name, [Validators.required, Validators.maxLength(128)]],
       description: [this.data.application.description, [Validators.required]],
       labels: [''],
       jupyterInterface: [this.data.application.config.jupyter_interface],
@@ -189,10 +190,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
 
     this.selectedLabels = this.data.application.labels;
-  }
-
-  closeForm(): void {
-    this.dialogRef.close();
   }
 
   createApplicationByPlainMode(): void {
@@ -219,7 +216,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       },
       this.applicationItemEditFormGroup.controls.publish.value || false,
     ).subscribe(_ => {
-      this.closeForm();
+      this.dialogRef.close();
     });
   }
 
@@ -244,7 +241,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationService.updateApplication(
       this.data.application
     ).subscribe(_ => {
-      this.closeForm();
+      this.dialogRef.close();
     });
   }
 
@@ -274,11 +271,15 @@ export class MainApplicationItemFormComponent implements OnInit {
     );
   }
 
-  onChangeDownloadMethod(val: string) {
+  onChangeDownloadMethod(val: string): void {
     this.selectedDownloadMethod = val;
   }
 
-  onChangeJupyterInterface(val: string) {
+  onChangeUserWorkFolder(val: boolean): void {
+    this.isCheckedUserWorkFolder = val;
+  }
+
+  onChangeJupyterInterface(val: string): void {
     this.selectedJupyterInterface = val;
   }
 
@@ -287,7 +288,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     let res = [];
     for (let lifetimeOption of [1, 2, 4, 8, 12]) {
       res.push({value: lifetimeOption, viewValue: lifetimeOption + " h"})
-
     }
     return res;
   }

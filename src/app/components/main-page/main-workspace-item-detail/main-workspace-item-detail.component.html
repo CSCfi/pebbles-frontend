@@ -15,6 +15,12 @@
         </div>
         <mat-form-field appearance="fill" *ngIf="isWorkspaceNameEditOn">
           <input matInput formControlName="name">
+          <mat-error *ngIf="workspaceEditForm.controls.name.hasError('required')">
+            <strong>Name is required</strong>
+          </mat-error>
+          <mat-error *ngIf="workspaceEditForm.controls.name.hasError('maxlength')">
+            <strong>Max length (64 characters) exceeded</strong>
+          </mat-error>
         </mat-form-field>
       </dd>
       <dt>
