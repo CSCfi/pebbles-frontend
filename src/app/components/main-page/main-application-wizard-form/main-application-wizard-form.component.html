@@ -303,18 +303,24 @@
           <ng-template matStepLabel>Save</ng-template>
           <div class="form-items mt-20 mb-50">
             <h2 class="mat-headline mb-20">Congratulations! Your new application is almost ready :)</h2>
-            <mat-label class="mat-subheading-2">Visibility</mat-label>
-            <mat-radio-group formControlName="isActive">
-              <ul class="mt-10">
-                <li>
-                  <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
-                </li>
-                <li>
-                  <mat-radio-button [value]="false">Save as a draft (visible only to owners and co-owners)
-                  </mat-radio-button>
-                </li>
-              </ul>
-            </mat-radio-group>
+            <div class="center__vi">
+              <mat-icon fontSet="material-icons-outlined" class="mr-5">lightbulb</mat-icon>
+              There are more options available through <span class="mr-5 ml-5 hint__menu">Edit application</span> in the application menu.
+            </div>
+            <section class="form-container">
+              <mat-label class="mat-subheading-2">Visibility</mat-label>
+              <mat-radio-group formControlName="isActive">
+                <ul class="mt-10">
+                  <li>
+                    <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
+                  </li>
+                  <li>
+                    <mat-radio-button [value]="false">Save as a draft (visible only to owners and co-owners)
+                    </mat-radio-button>
+                  </li>
+                </ul>
+              </mat-radio-group>
+            </section>
           </div>
         </mat-dialog-content>
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">

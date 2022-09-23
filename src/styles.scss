@@ -440,6 +440,15 @@ dl.grid {
 
 }
 
+.hint {
+  &__menu {
+    background: map-get($app-secondary, 100);
+    border: 1px solid map-get($app-secondary, 200);
+    border-radius: 5px;
+    padding: 1px 5px;
+  }
+}
+
 // -------------------------------------------------------- //
 // ---- MaterialDesign/FontAwesome overwritten styles  ---- //
 // -------------------------------------------------------- //
