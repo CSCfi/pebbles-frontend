@@ -328,10 +328,15 @@
             <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
             <span fxHide.lt-sm="true">Back</span>
           </button>
+          <button  mat-stroked-button fxFlex="grow" matStepperNext
+                  [disabled]="createButtonClicked"
+                  (click)="createApplicationByWizardMode(true)">
+                  Save & Open in Advanced form
+          </button>
           <button mat-flat-button color="primary" fxFlex="grow" matStepperNext
                   [disabled]="createButtonClicked"
-                (click)="createApplicationByWizardMode()">
-            Create
+                  (click)="createApplicationByWizardMode(false)">
+            Save
           </button>
         </div>
       </form>

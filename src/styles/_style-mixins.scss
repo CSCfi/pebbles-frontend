@@ -208,6 +208,16 @@ $sides: (
   }
 }
 
+.stroke {
+  &__accent {
+    border-color: map-get($app-accent, default);
+
+    &-light {
+      border-color: map-get($app-accent, light);
+    }
+  }
+}
+
 .icon {
 
   &__notification:before {

@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
 
 export interface WizardApplicationTemplateRow {
   select: boolean;
@@ -53,6 +54,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
   }
 
   constructor(
+    private dialog: MatDialog,
     public dialogRef: MatDialogRef<MainApplicationWizardFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       workspaceId: string,
@@ -128,7 +130,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
     });
   }
 
-  createApplicationByWizardMode(): void {
+  createApplicationByWizardMode(isOpeningAdvancedEditor:boolean): void {
     this.createButtonClicked = true;
     this.applicationService.createApplication(
       this.data.workspaceId,
@@ -148,8 +150,20 @@ export class MainApplicationWizardFormComponent implements OnInit {
         image_url: this.wizardApplicationTemplateFormGroup.controls.imageUrl.value,
       },
       this.wizardPublishFormGroup.controls.isActive.value
-    ).subscribe(_ => {
+    ).subscribe(application => {
       this.dialogRef.close();
+      if (isOpeningAdvancedEditor) {
+            this.dialog.open(MainApplicationItemFormComponent, {
+            width: '800px',
+            height: '95vh',
+            autoFocus: false,
+            data: {
+              workspaceId: this.data.workspaceId,
+              application: application,
+              isWorkspacePublic: this.data.isWorkspacePublic
+            }
+          }).afterClosed().subscribe();
+      }
     });
   }
 

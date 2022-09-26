@@ -7,18 +7,21 @@
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
   <!-- Buttons -->
-  <div class="application-actions" *ngIf="dataSource?.data !== null"
-       fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="5px"
+  <div class="application-actions center__vh" *ngIf="dataSource?.data !== null"
+       fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px"
        fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch" fxLayoutGap.lt-sm="5px">
+    <div class="mat-subheading-2 center__vh txt__gray-dark">
+      <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>Create application :
+    </div>
     <button mat-flat-button color="accent" class="open-application-creation-wizard-button"
             aria-label="add new application" (click)="openApplicationWizardDialog()">
       <mat-icon class="mr-10">auto_fix_high</mat-icon>
-      <span>Application wizard</span>
+      <span>Wizard</span>
     </button>
-    <button mat-stroked-button class="open-application-creation-form-button"
+    <button mat-stroked-button class="open-application-creation-form-button txt__accent stroke__accent"
             aria-label="create a new application" (click)="openApplicationItemFormDialog(null)">
-      <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>
-      <span>Application form</span>
+      <mat-icon fontSet="material-icons-outlined" class="mr-5">edit_note</mat-icon>
+      <span>Advanced form</span>
     </button>
   </div>
 
