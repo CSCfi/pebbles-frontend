@@ -40,6 +40,7 @@ export class MockInterceptor implements HttpInterceptor {
     const apiComponents = url.substring(url.lastIndexOf('api/v1/') + 7).split('/');
     const endpoint = apiComponents[0];
     let objectId = null;
+    let operation = null;
     const userName = localStorage.getItem('user_name');
     const userId = localStorage.getItem('user_id');
 
@@ -62,6 +63,9 @@ export class MockInterceptor implements HttpInterceptor {
         break;
       case (endpoint === 'users' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
+        if (apiComponents[2] !== undefined) {
+          operation = apiComponents[2];
+        }
         break;
       case (endpoint === 'messages' && apiComponents[1] !== undefined):
         objectId = apiComponents[1];
@@ -183,6 +187,19 @@ export class MockInterceptor implements HttpInterceptor {
         return (user.id === objectId);
       });
       if (account) {
+        // check if a sub-operation is defined, e.g. users/12345/workspace_associations
+        if (operation === 'workspace_associations') {
+          const wss = getAccessibleWorkspaces(account.ext_id);
+          return ok(wss.map(ws => {
+            return {
+              workspace_id: ws.id,
+              user_id: account.id,
+              is_owner: ws.user_association_type === UserAssociationType.Owner,
+              is_manager: ws.user_association_type === UserAssociationType.Manager,
+              is_banned: false
+            }
+          }));
+        }
         return ok(account);
       } else {
         return error('account not found');
@@ -200,14 +217,6 @@ export class MockInterceptor implements HttpInterceptor {
     }
 
     function toggleBlockUser() {
-      // let updatedUser: User;
-      // database.users.map(user => {
-      //   if ( user.id === objectId ) {
-      //     user.is_blocked = !user.is_blocked;
-      //     updatedUser = user;
-      //   }
-      //   return user;
-      // });
       const user = database.users.find(i => i.id === objectId);
       user.is_blocked = !user.is_blocked;
       return ok(user);
@@ -338,9 +347,18 @@ export class MockInterceptor implements HttpInterceptor {
         return workspaceIds.includes(app.workspace_id);
       });
       // here we mimic the behavior of backend which populates the application object from config
-      applications = applications.map(e => {
-        e.workspace_name = workspaces.find(w => e.workspace_id === w.id).name;
-        return e;
+      applications = applications.map(app => {
+        app.workspace_name = workspaces.find(w => app.workspace_id === w.id).name;
+        if ('memory_gib' in app.config == false) {
+          app.config.memory_gib = 1;
+        }
+        app.info = {
+          memory: app.config.memory_gib + 'GiB',
+          memory_gib: app.config.memory_gib,
+          shared_folder_enabled: 'enable_shared_folder' in app.config ? app.config.enable_shared_folder : true,
+          work_folder_enabled: 'enable_user_work_folder' in app.config ? app.config.enable_user_work_folder : true,
+        };
+        return app;
       });
       return ok(applications);
     }
@@ -352,14 +370,15 @@ export class MockInterceptor implements HttpInterceptor {
         appId,
         body.name,
         body.description,
-        3600,
+        body.config.maximum_lifetime,
         body.workspace_id,
         body.labels,
         'jupyter',
         body.is_enabled,
         body.template_id,
-        body.template_name
+        body.template_name,
       );
+      application.config = body.config;
 
       database.applications.push(application);
       return ok(application);
@@ -389,6 +408,7 @@ export class MockInterceptor implements HttpInterceptor {
       app.description = body.description;
       app.config = body.config;
       app.is_enabled = body.is_enabled;
+      app.maximum_lifetime = app.config.maximum_lifetime;
       return ok();
     }
 
@@ -671,18 +691,6 @@ export class MockInterceptor implements HttpInterceptor {
           return true;
         }
       });
-
-      // workspaces.map( ws => {
-      //   if (isAdmin) {
-      //     ws.user_role = 'admin';
-      //   } else if (ws.owner_ext_id === user.ext_id) {
-      //     ws.user_role = 'owner';
-      //   } else if (ws._members.filter( member => member.ext_id === user.ext_id && member.is_manager)) {
-      //     ws.user_role = 'manager';
-      //   }else {
-      //     ws.user_role = 'member';
-      //   }
-      // });
 
       return workspaces;
     }

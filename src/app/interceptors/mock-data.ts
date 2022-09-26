@@ -79,6 +79,7 @@ export let db = {
       thumbnail: 'jupyter',
       labels: ['csc', 'python', 'basic', 'self-learning', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -97,6 +98,7 @@ export let db = {
       thumbnail: 'rstudio',
       labels: ['csc', 'rstudio', 'basic', 'self-learning'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'lab',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -115,6 +117,7 @@ export let db = {
       thumbnail: 'deep-learning',
       labels: ['csc', 'python', 'deep learning', 'machine learning', '2020', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -133,6 +136,7 @@ export let db = {
       thumbnail: 'machine-learning',
       labels: ['course-ml', 'python', 'machine learning', '2019', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'lab',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -151,6 +155,7 @@ export let db = {
       thumbnail: 'jupyter',
       labels: ['csc', 'api', 'python', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -169,6 +174,7 @@ export let db = {
       thumbnail: 'data-science',
       labels: ['csc', 'data-science', 'python', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -187,6 +193,7 @@ export let db = {
       thumbnail: 'machine-learning',
       labels: ['course-ml', 'data-science', 'python', 'jupyter', 'machine learning'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -205,6 +212,7 @@ export let db = {
       thumbnail: 'jupyter',
       labels: ['csc', 'data-science', 'python', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -223,6 +231,7 @@ export let db = {
       thumbnail: 'rstudio',
       labels: ['csc', 'data-science', 'rstudio'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -241,6 +250,7 @@ export let db = {
       thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -259,6 +269,7 @@ export let db = {
       thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -277,6 +288,7 @@ export let db = {
       thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python', 'jupyter', 'machine learning'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -295,6 +307,7 @@ export let db = {
       thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python', 'jupyter', 'machine learning'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -313,6 +326,7 @@ export let db = {
       thumbnail: 'ipython',
       labels: ['course-ds', 'data-science', 'python', 'jupyter', 'machine learning'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -331,6 +345,7 @@ export let db = {
       thumbnail: 'jupyter',
       labels: ['basic', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -349,6 +364,7 @@ export let db = {
       thumbnail: 'jupyter',
       labels: ['basic', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -367,6 +383,7 @@ export let db = {
       thumbnail: 'data-science',
       labels: ['csc', 'data-science', 'python', 'jupyter'],
       config: {
+        image_url: 'example.org/cool-image:master',
         jupyter_interface: 'notebook',
         download_method: 'http-get',
         download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
@@ -797,6 +814,7 @@ export let db = {
       create_ts: 1616572104,
       expiry_ts: 1632124104,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -836,6 +854,7 @@ export let db = {
       create_ts: 1616572105,
       expiry_ts: 1732124105,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -853,6 +872,7 @@ export let db = {
       create_ts: 1616572106,
       expiry_ts: 1832124106,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'owner-1@example.org',
       _members: [
         {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
@@ -872,6 +892,7 @@ export let db = {
       create_ts: 1616572107,
       expiry_ts: 1932124107,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'admin-1@example.org',
       _members: [
         {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
@@ -891,6 +912,7 @@ export let db = {
       create_ts: 1616572108,
       expiry_ts: 2032124108,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'admin-1@example.org',
       _members: [
         {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
@@ -910,6 +932,7 @@ export let db = {
       create_ts: 1616572109,
       expiry_ts: 2132124109,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'admin@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -928,6 +951,7 @@ export let db = {
       create_ts: 1616572114,
       expiry_ts: 2232124114,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'owner@example.org',
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
@@ -947,6 +971,7 @@ export let db = {
       create_ts: 1616572115,
       expiry_ts: 2332124115,
       application_quota: 10,
+      memory_limit_gib: 50,
       owner_ext_id: 'owner-1@example.org',
       _members: [
         {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
