@@ -1,6 +1,7 @@
 <mat-sidenav-container>
   <!-- SideNav Area -->
   <mat-sidenav #sidenav opened mode="side" fxHide.lt-sm="true"
+               disableClose="true"
                [ngClass]="{'minimize':!isSideNavOpen}">
     <app-main-nav class="sidebar" (toggleSideNavEvent)="toggleSideNav()"
                   [isSideNavOpen]="isSideNavOpen">
