@@ -11,11 +11,11 @@ RUN if [ -d extra_content ]; then cp -rv extra_content/* dist/pebbles-frontend/;
 #-----------------------------------------------------------------------------
 
 # Stage two: runtime
-FROM bitnami/nginx:latest
+FROM bitnami/nginx:1.23
 LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
 
 # copy compiled application
 COPY --from=build-stage /usr/src/app/dist/pebbles-frontend /app
 
 # set up redirection to /index.html for Angular routing
-RUN echo 'try_files $uri $uri/ /index.html;' > /opt/bitnami/nginx/conf/bitnami/angular.conf
+COPY deployment/nginx_angular.conf /opt/bitnami/nginx/conf/bitnami/nginx_angular.conf
