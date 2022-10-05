@@ -1,5 +1,7 @@
 <ng-container *ngIf="application">
-  <mat-card class="card" [attr.id]="'env-'+application.id" ngClass.lt-sm="mobile"
+  <mat-card class="card"
+            [ngClass]="{'expired': workspaceService.isExpired(application.info.workspace_expiry_ts) }"
+            [attr.id]="'env-'+application.id" ngClass.lt-sm="mobile"
             fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
             fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
     <!-- Card LEFT section -->
@@ -23,14 +25,29 @@
 
         <mat-card-subtitle fxLayout="row wrap" fxLayoutAlign="space-between stretch"
                            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
-          <div class="workspace-name center__v" *ngIf="context?.identifier==='catalog'" [ngClass]="userAssociationType">
+          <div *ngIf="context?.identifier==='catalog'"
+               class="workspace-info"
+               [ngClass]="userAssociationType"
+               fxLayout="row">
             <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
-              <mat-icon class="user-role-icon md-16 mr-5" [matTooltip]="userAssociationType">apps</mat-icon>
-              {{ application.workspace_name }}
+              <div class="workspace-name center__v">
+                <mat-icon class="user-role-icon md-16 mr-2" [matTooltip]="userAssociationType">apps</mat-icon>
+                {{ application.workspace_name }}
+              </div>
+              <div class="expiry-date mat-caption center__vh p-8">
+                <mat-icon class="md-16 mr-2 user-role-icon" matTooltip="Expired by">event_available</mat-icon>
+                Valid till {{ application.info.workspace_expiry_ts | dateDisplay }}
+                <span class="expiry-warning ml-5" *ngIf="expirationDateGap < 7">
+                ({{ application.info.workspace_expiry_ts | remainingDaysDisplay }})
+                </span>
+              </div>
+
             </ng-container>
             <ng-template #publicBlock>
-              <mat-icon class="user-role-icon md-16 mr-2" matTooltip="public">public</mat-icon>
-              Public
+              <div class="workspace-name center__v">
+                <mat-icon class="user-role-icon md-16 mr-2" matTooltip="public">public</mat-icon>
+                Public
+              </div>
             </ng-template>
           </div>
           <div class="application-meta mat-caption" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px"
@@ -78,7 +95,8 @@
     <mat-card-actions fxFlex="0 0 130px" class="card-action-container center__vh">
       <app-main-session-button [applicationId]="application.id"
                                [context]="context"
-                               [isSessionDeleted]="isSessionDeleted">
+                               [isSessionDeleted]="isSessionDeleted"
+                               [isWorkspaceExpired]="workspaceService.isExpired(application.info.workspace_expiry_ts)">
       </app-main-session-button>
     </mat-card-actions>
   </mat-card>

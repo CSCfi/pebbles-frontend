@@ -58,7 +58,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private workspaceService: WorkspaceService,
+    public workspaceService: WorkspaceService,
     private authService: AuthService,
     private accountService: AccountService,
     private applicationService: ApplicationService,
@@ -187,6 +187,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     return workspace.id === this.selectedWorkspaceId;
   }
 
+  isExpired(expiryTs: number) : boolean {
+    return this.workspaceService.isExpired(expiryTs);
+  }
+
   // ---- workspace creation
   // ----------------------------------------
   isNewWorkspace(id: string): boolean {
@@ -311,4 +315,5 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   workspaceSelectChange() {
     this.selectWorkspace(this.selectedWorkspaceId);
   }
+
 }

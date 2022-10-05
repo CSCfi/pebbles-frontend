@@ -2,6 +2,17 @@
 
 .workspace-item {
 
+  &.expired{
+    .card {
+      background: map-get($app-primary, 200);
+      border: 1px solid map-get($app-gray, 300);
+    }
+
+    .expiry-warning {
+      color: map-deep-get($app-warn, dark);
+    }
+  }
+
   mat-card-header {
     .workspace-item-menu {
       margin-top: -4px;

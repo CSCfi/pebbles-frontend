@@ -60,4 +60,14 @@
       width: 120px;
     }
   }
+
+  table.expired {
+    .cell-thumbnail {
+      color: map-get($app-gray, light);
+
+      .chip__m {
+          background: map-get($app-gray, light);
+      }
+    }
+  }
 }

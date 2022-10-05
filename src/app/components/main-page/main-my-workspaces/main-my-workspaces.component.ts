@@ -35,7 +35,7 @@ export class MainMyWorkspacesComponent implements OnInit {
     if (!this.workspaceService.isInitialized) {
       return null;
     }
-    const wss = this.workspaceService.getWorkspaces().map(ws => {
+    const wss = this.workspaceService.getWorkspaces().filter(ws => {
       ws.name = Utilities.resetText(ws.name);
       ws.description = Utilities.resetText(ws.description);
       return ws;

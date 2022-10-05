@@ -46,7 +46,11 @@
          fxShow.gt-sm="true" fxHide.lt-md="true">
       <ng-container *ngFor="let workspace of workspaces">
         <mat-card class="workspace-item {{getUserAssociationType(workspace)}}"
-                  [ngClass]="{'selected': isWorkspaceSelected(workspace), 'new': isNewWorkspace(workspace.id)}"
+                  [ngClass]="{
+                    'selected': isWorkspaceSelected(workspace),
+                    'new': isNewWorkspace(workspace.id),
+                    'archived': workspaceService.isExpired(workspace.expiry_ts)
+                    }"
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
           <div class="card-header" fxLayout="row" fxLayoutAlign="space-between center">
@@ -88,8 +92,10 @@
             </div>
             <div class="expiration-date-info" fxLayout="row" fxLayoutAlign="start stretch">
               <span class="function-title" fxFlex="0 0 110px">Days till expiry</span>
-              <span class="expiration-date u-line txt__primary"
+              <span class="expiration-date txt__primary"
+                    [ngClass]="{'u-line': workspace.expiry_ts}"
                     [matTooltip]="workspace.expiry_ts | dateDisplay"
+                    [matTooltipDisabled]="!workspace.expiry_ts"
                     matTooltipPosition="right">
                 {{ workspace.expiry_ts | remainingDaysDisplay }}
               </span>
@@ -141,7 +147,10 @@
               {{applicationCount}}
             </mat-chip>
           </ng-template>
-          <app-main-workspace-applications [workspaceId]="selectedWorkspaceId" [context]="context">
+          <app-main-workspace-applications
+            [workspaceId]="selectedWorkspaceId"
+            [context]="context"
+            [isWorkspaceExpired]="workspaceService.isExpired(selectedWorkspace.expiry_ts)">
           </app-main-workspace-applications>
         </mat-tab>
         <mat-tab label="members">

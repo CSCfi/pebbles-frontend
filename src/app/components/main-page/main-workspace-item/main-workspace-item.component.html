@@ -1,4 +1,4 @@
-<div class="workspace-item" [ngClass]="userAssociationType" *ngIf="workspace">
+<div class="workspace-item {{ userAssociationType }}" [ngClass]="{'expired': workspaceService.isExpired(workspace.expiry_ts) }" *ngIf="workspace">
   <mat-card class="card pl-20 pr-20">
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between center">
       <mat-card-title class="mat-title mb-0 center__v" fxFlex="grow">
@@ -28,6 +28,12 @@
     </mat-card-header>
     <!-- //// workspace-info -->
     <mat-card-content>
+      <div class="expiry-date mt-5 mb-5">
+        Valid till {{ workspace.expiry_ts | dateDisplay }}
+        <span class="expiry-warning mat-caption ml-5" [ngClass]="{'txt__warn-dark': isExpiredSoon }">
+        ({{ workspace.expiry_ts | remainingDaysDisplay }})
+        </span>
+      </div>
       <div class="description mb-5" [innerHTML]="workspace.description">
       </div>
       <div class="application-list" *ngIf="applications !== null" [ngClass]="{'active': applications?.length > 0}">

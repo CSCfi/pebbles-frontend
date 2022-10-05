@@ -56,9 +56,11 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   public isPaginatorVisible = false;
   public minUnitNumber = 25;
   public pageSizeOptions = [this.minUnitNumber];
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() context: Data;
   @Input() workspaceId: string = null;
+  @Input() isWorkspaceExpired = false;
 
   constructor(
     private route: ActivatedRoute,

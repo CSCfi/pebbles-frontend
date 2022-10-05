@@ -72,6 +72,10 @@ ul.list-style {
 button {
   border-radius: 3px;
 
+  &.mat-button-disabled.mat-stroked-button {
+    border-color: map-get($app-gray, 200);
+  }
+
   &:hover:not(.mat-button-disabled) {
     cursor: pointer;
     filter: brightness(110%);
@@ -806,7 +810,7 @@ a.mat-stroked-button,
 }
 
 .workspace-item,
-.workspace-name,
+.workspace-info,
 .workspace-member-table {
 
   &.admin,
@@ -848,17 +852,17 @@ a.mat-stroked-button,
   &.manager,
   .manager {
     .user-role-icon {
-      color: map-get($app-warn, default);
+      color: map-get($app-secondary, 800);
     }
 
     .user-role-txt {
-      color: map-get($app-warn, default);
+      color: map-get($app-secondary, 800);
       font-weight: bold;
     }
 
     .user-role-chip {
       color: #fff;
-      background: map-get($app-warn, default);
+      background: map-get($app-secondary, 800);
     }
   }
 

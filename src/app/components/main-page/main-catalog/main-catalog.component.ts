@@ -23,7 +23,6 @@ export class MainCatalogComponent implements OnInit {
 
   public context: Data;
   public selectedCatalog: ApplicationCategory;
-  public referenceApplicationId: string;
   public queryText = '';
 
   private subscriptions: Subscription[] = [];
@@ -34,9 +33,11 @@ export class MainCatalogComponent implements OnInit {
       return null;
     }
     let apps = this.applicationService.getApplications().filter(app => {
-      app.name = Utilities.resetText(app.name);
-      app.description = Utilities.resetText(app.description);
-      return app.is_enabled;
+      if ( !this.workspaceService.isExpired(app.info.workspace_expiry_ts) ) {
+        app.name = Utilities.resetText(app.name);
+        app.description = Utilities.resetText(app.description);
+        return app.is_enabled;
+      }
     });
     apps = this.filterApplicationsByLabels(apps, this.selectedCatalog.labels, 'any');
     apps = this.searchService.filterByText(apps, this.queryText, ['name', 'description', 'labels']);

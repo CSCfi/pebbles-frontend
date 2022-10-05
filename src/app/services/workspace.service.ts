@@ -65,6 +65,13 @@ export class WorkspaceService {
     return this.workspaceMemberCountMap.get(workspaceId);
   }
 
+  isExpired(expiryTs: number): boolean {
+    if (expiryTs) {
+      return expiryTs !== 0 && (0 > expiryTs * 1000 - new Date().getTime());
+    }
+    return false;
+  }
+
   joinWorkspace(joinCode: string): Observable<Workspace | string> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
@@ -94,14 +101,14 @@ export class WorkspaceService {
       map((resp) => {
 
         resp.sort((a, b) => {
-          // primary sorting by role association
-          const roleDelta = Object.values(UserAssociationType).indexOf(a.user_association_type)
-            - Object.values(UserAssociationType).indexOf(b.user_association_type);
-          if (roleDelta) {
-            return roleDelta;
-          }
-          // secondary sorting: newest first
-          return b.create_ts - a.create_ts;
+          // ---- primary sorting by role association
+          // const roleDelta = Object.values(UserAssociationType).indexOf(a.user_association_type)
+          //   - Object.values(UserAssociationType).indexOf(b.user_association_type);
+          // if (roleDelta) {
+          //   return roleDelta;
+          // }
+          // ---- secondary sorting: newest first
+          return b.expiry_ts - a.expiry_ts;
         });
 
         // if the number of workspaces has changed or the contents are not the same,

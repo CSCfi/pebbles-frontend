@@ -1,6 +1,16 @@
 @import "src/styles/main.scss";
 
 .card {
+
+   &.expired {
+     background: map-get($app-primary, 200);
+     border: 1px solid map-get($app-gray, 300);
+
+     .expiry-warning {
+        color: map-deep-get($app-warn, dark);
+      }
+   }
+
   .card-media-container {
     border-radius: 3px;
     min-height: 125px;

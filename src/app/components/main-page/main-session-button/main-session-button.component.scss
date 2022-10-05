@@ -156,3 +156,21 @@
     background: map-get($app-warn, dark);
   }
 }
+
+.my-workspace.session-button-container {
+  &.expired {
+    .background-circle-container {
+      circle {
+        stroke: map-get($app-primary, 100);
+      }
+    }
+
+    .launch-button-inactive {
+      background: map-get($app-primary, 200);
+
+      .mat-icon {
+        color: white;
+      }
+    }
+  }
+}

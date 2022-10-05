@@ -21,12 +21,19 @@ export class MainSessionButtonComponent {
   @Input() applicationId: string;
   @Input() context: Data;
   @Input() isSessionDeleted = false;
+  @Input() isWorkspaceExpired = false;
 
   // ---- Setting of a spinner
   isWaitingStartResponse = false;
   diameter = 120;
   strokeWidth = 10;
   autoOpenTimer: number;
+
+  get sessionTooltips(): string {
+    return this.isWorkspaceExpired ?
+      "This workspace is expired." :
+      "You are allowed to launch two sessions simultaneously. If you want to launch another, please first delete an existing session."
+  }
 
   get accessUrl(): string {
     return this.session.session_data?.endpoints?.[0]?.access;
@@ -50,6 +57,9 @@ export class MainSessionButtonComponent {
   }
 
   get isLaunchButtonDisabled(): boolean {
+    if (this.isWorkspaceExpired) {
+      return true;
+    }
     return (!(this.applicationSessionService.getSessions().length < 2 || this.authService.isAdmin));
   }
 

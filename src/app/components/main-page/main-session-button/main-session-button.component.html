@@ -1,6 +1,6 @@
-<div class="session-button-container"
+<div class="session-button-container {{ context.identifier }}"
      *ngIf="application"
-     [ngClass]="{'warning':state==='failed'}">
+     [ngClass]="{'warning': state==='failed' , 'expired': isWorkspaceExpired }">
   <!-- Background circle  -->
   <div class="background-circle-container">
     <svg focusable="false">
@@ -129,8 +129,7 @@
         </ng-container>
         <ng-container *ngIf="isLaunchButtonDisabled">
           <button mat-button class="launch-button-inactive circle-button"
-                  matTooltip="You are allowed to launch two sessions simultaneously.
-                              If you want to launch another, please first delete an existing session."
+                  [matTooltip]="sessionTooltips"
                   fxLayout="column" fxLayoutAlign="center center">
             <span class="button-icon center__v">
               <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>

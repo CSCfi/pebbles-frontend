@@ -348,11 +348,13 @@ export class MockInterceptor implements HttpInterceptor {
       });
       // here we mimic the behavior of backend which populates the application object from config
       applications = applications.map(app => {
-        app.workspace_name = workspaces.find(w => app.workspace_id === w.id).name;
+        const workspace = workspaces.find(w => app.workspace_id === w.id);
+        app.workspace_name = workspace.name;
         if ('memory_gib' in app.config == false) {
           app.config.memory_gib = 1;
         }
         app.info = {
+          workspace_expiry_ts: workspace.expiry_ts,
           memory: app.config.memory_gib + 'GiB',
           memory_gib: app.config.memory_gib,
           shared_folder_enabled: 'enable_shared_folder' in app.config ? app.config.enable_shared_folder : true,
@@ -467,17 +469,14 @@ export class MockInterceptor implements HttpInterceptor {
 
     function createWorkspace() {
       const workspaceId = Math.random().toString(36).substring(2, 8);
-      const currentDate = new Date();
-      const createTs = Math.floor(currentDate.getTime() / 1000);
-      const expiryTs = Math.floor(currentDate.setMonth(currentDate.getMonth() + 3) / 1000);
 
       const workspace = new Workspace(
         workspaceId,
         body.name + '-12345',
         body.name,
         body.description,
-        createTs,
-        expiryTs,
+        null,
+        null,
         userName
       );
 
@@ -490,9 +489,22 @@ export class MockInterceptor implements HttpInterceptor {
       const workspaces = getAccessibleWorkspaces(user_name);
       const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-      workspaces.map( ws => {
-        ws.create_ts = new Date( new Date().setDate(new Date().getDate() - randomRange(0, 10))).getTime() / 1000;
-        ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange( 0, 40))).getTime() / 1000;
+      workspaces.map( (ws, i) => {
+        if (ws.name.startsWith('System.')) {
+          ws.create_ts = null;
+          ws.expiry_ts = null;
+        } else if (i == 1) {
+          // ---- Deactivation : Expired
+          ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(10, 20))).getTime() / 1000;
+          ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(1, 10))).getTime() / 1000;
+        } else if (i == 2) {
+          // ---- Warning color : Expired in a week
+          ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(7, 20))).getTime() / 1000;
+          ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange(0, 7))).getTime() / 1000;
+        } else {
+          ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(0, 10))).getTime() / 1000;
+          ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange(0, 40))).getTime() / 1000;
+        }
       });
       return ok(workspaces);
     }

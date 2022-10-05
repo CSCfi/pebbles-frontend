@@ -43,9 +43,33 @@
           }
         }
 
+        &.co-owner,
         &.manager {
           &.selected {
-            border-left: 8px solid map-get($app-accent, default);
+            border-left: 8px solid map-get($app-secondary, 800);
+          }
+        }
+
+        &.archived {
+          border-left: 8px solid map-get($app-primary, 300);
+          border: 1px solid map-get($app-primary, 400);
+          background-color: map-get($app-primary, 300) !important;
+
+          .chip__password {
+            background: map-get($app-gray, default);
+          }
+
+          .user-role-txt,
+          mat-icon {
+            color: map-get($app-gray, 800);
+          }
+
+          .expiration-date {
+            color: map-get($app-warn, 900);
+          }
+
+          &.selected {
+            border-left: 8px solid map-get($app-primary, 400);
           }
         }
       }
@@ -71,11 +95,40 @@
 
 // ---- Right UI
 #workspace-owner-container {
+
   #workspace-owner-tab-container {
+    position: relative;
     background: #FFFFFF;
     border: 5px solid map-get($app-primary, 400);
     height: 100%;
     overflow: auto;
+
+    .gray-out-container {
+      position: absolute;
+      z-index: 10000;
+      height: 100%;
+      width: 100%;
+
+      .gray-out-panel {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: map-get($app-gray, 900);
+        opacity: 0.8;
+        top: 0;
+        z-index: 1;
+      }
+
+      .message-container {
+        height: 100%;
+
+        .error-message {
+          position: relative;
+          z-index: 1000;
+          color: white;
+        }
+      }
+    }
 
     ::ng-deep .mat-tab-header {
       padding-top: 15px;

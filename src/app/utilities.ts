@@ -37,6 +37,33 @@ export class Utilities {
     return Math.floor(new Date(isoTime).getTime() / 1000);
   }
 
+  static getTimeGap(timestamp: number, unit: string|null): number {
+
+    const eventUtfTimestamp = new Date(timestamp).getTime();
+    const todayUtfTimestamp = new Date().getTime();
+    const offsetTimestamp = eventUtfTimestamp - todayUtfTimestamp;
+
+    let duration;
+    switch (unit) {
+      case 'second':
+        duration = 1000;
+        break;
+      case 'minute':
+        duration = 1000 * 60;
+        break;
+      case 'hour':
+        duration = 1000 * 60 * 60;
+        break;
+      case 'day':
+        duration = 1000 * 60 * 60 * 24;
+        break;
+      default:
+        duration = 1;
+    }
+
+    return Math.floor(offsetTimestamp / duration);
+  }
+
   public static compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }

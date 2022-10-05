@@ -5,6 +5,7 @@ import { Application } from 'src/app/models/application';
 import { UserAssociationType, Workspace } from 'src/app/models/workspace';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
+import { Utilities } from '../../../utilities';
 
 @Component({
   selector: 'app-main-workspace-item',
@@ -26,12 +27,17 @@ export class MainWorkspaceItemComponent implements OnInit {
     return null;
   }
 
+  get isExpiredSoon(): boolean {
+    const dayDifference = Utilities.getTimeGap(this.workspace.expiry_ts * 1000, 'day');
+    return dayDifference < 7 && dayDifference >= 0;
+  }
+
   get userAssociationType(): string {
     return this.workspace.user_association_type === UserAssociationType.Manager ? 'co-owner' : this.workspace.user_association_type;
   }
 
   constructor(
-    private workspaceService: WorkspaceService,
+    public workspaceService: WorkspaceService,
     private applicationService: ApplicationService,
   ) {
   }

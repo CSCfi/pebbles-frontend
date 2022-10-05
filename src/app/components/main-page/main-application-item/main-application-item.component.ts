@@ -5,6 +5,7 @@ import { UserAssociationType } from '../../../models/workspace';
 import { ApplicationService } from '../../../services/application.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { Utilities } from '../../../utilities';
 
 @Component({
   selector: 'app-main-application-item',
@@ -15,7 +16,20 @@ export class MainApplicationItemComponent {
 
   @Input() application: Application;
   @Input() context: Data;
-  @Input() isSessionDeleted: boolean;
+  @Input() isSessionDeleted = false;
+
+
+  // get isWorkspaceExpired(): boolean {
+  //   return this.workspaceService.isExpired(this.application.info.workspace_expiry_ts);
+  // };
+
+  get expirationDateGap(): number {
+    if (!this.application.info.workspace_expiry_ts) {
+      return null
+    }
+    const expiryUtfTimestamp = new Date(this.application.info.workspace_expiry_ts * 1000).getTime();
+    return Utilities.getTimeGap(expiryUtfTimestamp, 'day')
+  }
 
   get isPublic(): boolean {
     return this.application.workspace_name.startsWith('System.');
@@ -39,6 +53,10 @@ export class MainApplicationItemComponent {
     return (hours > 0 ? `${hours}h` : '') + (mins > 0 ? `${mins / 100}m` : '');
   }
 
+  get workspace() {
+    return this.workspaceService.getWorkspaceById(this.application.workspace_id);
+  }
+
   get applicationIcon(): IconProp {
     return this.applicationService.getApplicationIcon(this.application.labels);
   }
@@ -56,16 +74,15 @@ export class MainApplicationItemComponent {
   }
 
   get userAssociationType(): string {
-    const workspace = this.workspaceService.getWorkspaceById(this.application.workspace_id);
-    if (workspace) {
-      return workspace.user_association_type === UserAssociationType.Manager ? 'co-owner' : workspace.user_association_type;
+    if (this.workspace) {
+      return this.workspace.user_association_type === UserAssociationType.Manager ? 'co-owner' : this.workspace.user_association_type;
     } else {
-      return '';
+      return 'public';
     }
   }
 
   constructor(
-    private workspaceService: WorkspaceService,
+    public workspaceService: WorkspaceService,
     private applicationService: ApplicationService,
   ) { }
 }
