@@ -137,7 +137,7 @@ export class ApplicationService implements OnDestroy {
   }
 
   copyApplication(application: Application): Observable<Application> {
-    const url = `${buildConfiguration.apiUrl}/applications/application_copy/${application.id}`;
+    const url = `${buildConfiguration.apiUrl}/applications/${application.id}/copy`;
 
     return this.http.put<Application>(url, null).pipe(
       map(_ => {
