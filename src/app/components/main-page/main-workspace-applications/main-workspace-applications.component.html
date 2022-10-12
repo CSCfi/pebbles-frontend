@@ -113,7 +113,7 @@
               <li class="application-meta">
                 <span class="center__v">
                   <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
-                  Concurrent sessions: {{ element.maximumConcurrentSessions }}
+                  Max concurrent sessions: {{ element.maximumConcurrentSessions }}
                 </span>
               </li>
               <li class="volume center__v">
@@ -155,14 +155,15 @@
         <ng-container matColumnDef="menu">
           <th mat-header-cell *matHeaderCellDef class="icon">menu</th>
           <td mat-cell *matCellDef="let element" class="cell-edit icon-cell">
-            <button mat-button [matMenuTriggerFor]="menu" aria-label="open application menu">
+            <button mat-button aria-label="edit application"
+                    matTooltip="Edit" matTooltipPosition="above"
+                    (click)="openApplicationItemFormDialog(element.id)">
+              <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+            </button>
+            <button mat-button matTooltip="Other actions" [matMenuTriggerFor]="menu" aria-label="open application menu">
               <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="openApplicationItemFormDialog(element.id)">
-                <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
-                <span>edit application</span>
-              </button>
               <button mat-menu-item *ngIf="!element.isEnabled" (click)="toggleApplicationActivation(true, element.id)">
                 <mat-icon fontSet="material-icons-outlined">cloud</mat-icon>
                 <span>publish</span>
