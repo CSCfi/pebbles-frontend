@@ -6,11 +6,11 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
 import { UserAssociationType, Workspace } from 'src/app/models/workspace';
-import { User } from '../../../models/user';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
+import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
 import { EventService } from '../../../services/event.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
@@ -127,10 +127,12 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     if (this.user.is_admin) {
       this.workspaces = this.workspaceService.getWorkspaces();
     } else {
-      this.workspaces = this.workspaceService.getWorkspaces().filter( ws => {
-        return ws.user_association_type === UserAssociationType.Owner || ws.user_association_type === UserAssociationType.Manager;
+      // list manageable workspaces
+      this.workspaces = this.workspaceService.getWorkspaces().filter(ws => {
+        return [UserAssociationType.Owner, UserAssociationType.Manager].includes(ws.user_association_type);
       });
     }
+    this.workspaces = Workspace.sortWorkspaces(this.workspaces, ['expiry', 'role', 'create_ts']);
 
     // if no workspace selected and we have workspaces to select from, pick the first
     if (this.autoSelectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
@@ -185,10 +187,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
   isWorkspaceSelected(workspace: Workspace): boolean {
     return workspace.id === this.selectedWorkspaceId;
-  }
-
-  isExpired(expiryTs: number) : boolean {
-    return this.workspaceService.isExpired(expiryTs);
   }
 
   // ---- workspace creation
@@ -248,7 +246,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         envTemplate.base_config.maximum_lifetime,
         {},
         true,
-      ).subscribe( _ => {
+      ).subscribe(_ => {
         this.selectWorkspace(ws.id);
       });
     });

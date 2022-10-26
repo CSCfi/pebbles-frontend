@@ -49,7 +49,7 @@
                   [ngClass]="{
                     'selected': isWorkspaceSelected(workspace),
                     'new': isNewWorkspace(workspace.id),
-                    'archived': workspaceService.isExpired(workspace.expiry_ts)
+                    'archived': workspaceService.hasExpired(workspace)
                     }"
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
@@ -150,7 +150,7 @@
           <app-main-workspace-applications
             [workspaceId]="selectedWorkspaceId"
             [context]="context"
-            [isWorkspaceExpired]="workspaceService.isExpired(selectedWorkspace.expiry_ts)">
+            [isWorkspaceExpired]="workspaceService.hasExpired(selectedWorkspace)">
           </app-main-workspace-applications>
         </mat-tab>
         <mat-tab label="members">

@@ -31,8 +31,9 @@ export class MainSessionButtonComponent {
 
   get sessionTooltips(): string {
     return this.isWorkspaceExpired ?
-      "This workspace is expired." :
-      "You are allowed to launch two sessions simultaneously. If you want to launch another, please first delete an existing session."
+      'This workspace has expired.' :
+      'You are allowed to launch two sessions simultaneously.' +
+      ' If you want to launch another, please first delete an existing session.'
   }
 
   get accessUrl(): string {

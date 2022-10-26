@@ -65,11 +65,8 @@ export class WorkspaceService {
     return this.workspaceMemberCountMap.get(workspaceId);
   }
 
-  isExpired(expiryTs: number): boolean {
-    if (expiryTs) {
-      return expiryTs !== 0 && (0 > expiryTs * 1000 - new Date().getTime());
-    }
-    return false;
+  hasExpired(workspace: Workspace): boolean {
+    return Workspace.hasExpired(workspace);
   }
 
   joinWorkspace(joinCode: string): Observable<Workspace | string> {
@@ -100,16 +97,8 @@ export class WorkspaceService {
     return this.http.get<Workspace[]>(url).pipe(
       map((resp) => {
 
-        resp.sort((a, b) => {
-          // ---- primary sorting by role association
-          // const roleDelta = Object.values(UserAssociationType).indexOf(a.user_association_type)
-          //   - Object.values(UserAssociationType).indexOf(b.user_association_type);
-          // if (roleDelta) {
-          //   return roleDelta;
-          // }
-          // ---- secondary sorting: newest first
-          return b.expiry_ts - a.expiry_ts;
-        });
+        // default sorting: newest first
+        resp = Workspace.sortWorkspaces(resp, ['create_ts']);
 
         // if the number of workspaces has changed or the contents are not the same,
         // we fire an event to notify listeners

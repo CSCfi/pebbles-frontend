@@ -19,10 +19,6 @@ export class MainApplicationItemComponent {
   @Input() isSessionDeleted = false;
 
 
-  // get isWorkspaceExpired(): boolean {
-  //   return this.workspaceService.isExpired(this.application.info.workspace_expiry_ts);
-  // };
-
   get expirationDateGap(): number {
     if (!this.application.info.workspace_expiry_ts) {
       return null
@@ -84,5 +80,10 @@ export class MainApplicationItemComponent {
   constructor(
     public workspaceService: WorkspaceService,
     private applicationService: ApplicationService,
-  ) { }
+  ) {
+  }
+
+  isExpiredTimestamp(ts: number) {
+    return Utilities.isExpiredTimestamp(ts);
+  }
 }

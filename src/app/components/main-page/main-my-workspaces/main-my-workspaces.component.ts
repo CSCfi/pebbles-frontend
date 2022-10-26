@@ -1,10 +1,10 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Workspace } from 'src/app/models/workspace';
+import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
-import { MatDialog } from '@angular/material/dialog';
 import { Message } from '../../../models/message';
 import { EventService } from '../../../services/event.service';
 import { SearchService } from '../../../services/search.service';
@@ -35,11 +35,14 @@ export class MainMyWorkspacesComponent implements OnInit {
     if (!this.workspaceService.isInitialized) {
       return null;
     }
-    const wss = this.workspaceService.getWorkspaces().filter(ws => {
+    let wss = this.workspaceService.getWorkspaces().filter(ws => {
       ws.name = Utilities.resetText(ws.name);
       ws.description = Utilities.resetText(ws.description);
       return ws;
     });
+
+    wss = Workspace.sortWorkspaces(wss, ['expiry', 'create_ts']);
+
     return this.searchService.filterByText(wss, this.queryText, ['name', 'description']);
   }
 
@@ -49,7 +52,8 @@ export class MainMyWorkspacesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private workspaceService: WorkspaceService,
     private searchService: SearchService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
@@ -62,7 +66,7 @@ export class MainMyWorkspacesComponent implements OnInit {
 
   toggleWorkspaceList(): void {
     this.isListOpen = !this.isListOpen;
-    this.workspaceItems.map( item => {
+    this.workspaceItems.map(item => {
       if (item.accordion) {
         if (this.isListOpen) {
           item.accordion.openAll();
@@ -85,7 +89,7 @@ export class MainMyWorkspacesComponent implements OnInit {
       data: {
         context: this.context
       }
-    }).afterClosed().subscribe( ws => {
+    }).afterClosed().subscribe(ws => {
       if (ws) {
         this.newWorkspaceId = ws.id;
       }

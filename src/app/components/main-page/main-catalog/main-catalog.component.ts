@@ -33,7 +33,7 @@ export class MainCatalogComponent implements OnInit {
       return null;
     }
     let apps = this.applicationService.getApplications().filter(app => {
-      if ( !this.workspaceService.isExpired(app.info.workspace_expiry_ts) ) {
+      if (!Utilities.isExpiredTimestamp(app.info.workspace_expiry_ts)) {
         app.name = Utilities.resetText(app.name);
         app.description = Utilities.resetText(app.description);
         return app.is_enabled;
@@ -89,13 +89,14 @@ export class MainCatalogComponent implements OnInit {
       if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) &&
         (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
         return (('' + a.name).localeCompare(b.name));
-      }
-      else if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) ||
+      } else if ((('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) ||
         (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0)) {
-        if (('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) { return 1; }
-        else if (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0) { return -1; }
-      }
-      else {
+        if (('' + a.workspace_name).localeCompare(defaultWorkspace) === 0) {
+          return 1;
+        } else if (('' + b.workspace_name).localeCompare(defaultWorkspace) === 0) {
+          return -1;
+        }
+      } else {
         return (('' + a.name).localeCompare(b.name));
       }
     });
