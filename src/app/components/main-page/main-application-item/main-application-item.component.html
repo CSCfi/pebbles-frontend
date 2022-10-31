@@ -37,7 +37,8 @@
               <div class="expiry-date mat-caption center__vh p-8">
                 <mat-icon class="md-16 mr-2" matTooltip="Expired by">event_available</mat-icon>
                 Valid till {{ application.info.workspace_expiry_ts | dateDisplay }}
-                <span class="expiry-warning ml-5 txt__warn-dark" *ngIf="expirationDateGap < 7">
+                <span class="expiry-warning ml-5 txt__warn-dark"
+                      *ngIf="expirationDateGap < 7" [matTooltip]="getSoonExpiresTooltip()">
                 ({{ application.info.workspace_expiry_ts | remainingDaysDisplay }})
                 </span>
               </div>

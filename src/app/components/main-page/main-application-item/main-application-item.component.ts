@@ -86,4 +86,9 @@ export class MainApplicationItemComponent {
   isExpiredTimestamp(ts: number) {
     return Utilities.isExpiredTimestamp(ts);
   }
+
+  getSoonExpiresTooltip() {
+    return "Workspace for this application is expiring soon." +
+      " Please download any data you may have in your 'my-work' folder"
+  }
 }
