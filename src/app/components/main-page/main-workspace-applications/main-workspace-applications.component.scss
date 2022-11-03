@@ -10,6 +10,13 @@
   }
 
   table {
+    height:100%;
+
+    th {
+      padding: 5px !important;
+      text-align: center;
+    }
+
     .cell-thumbnail,
     .cell-edit,
     .cell-launch {
@@ -58,6 +65,21 @@
 
     .cell-launch {
       width: 120px;
+    }
+
+    .cell-edit {
+      padding: 0 !important;
+      height: 100%;
+
+      button {
+        width: 100%;
+        height: 50%;
+        border-radius: 0;
+
+        &:first-child {
+          border-bottom: 1px solid map-get($app-gray, light);
+        }
+      }
     }
   }
 
