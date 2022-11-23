@@ -1,9 +1,9 @@
 <div id="workspace-owner-container" fxLayout="row" fxLayoutAlign="space-between stretch"
-     fxLayout.lt-md="column" fxLayoutAlign.lt-md="start stretch" fxLayoutGap.lt-md="10px">
+     fxLayout.lt-lg="column" fxLayoutAlign.lt-md="start stretch" fxLayoutGap.lt-lg="10px">
 
   <!-- Left Column : Workspace list -->
   <div class="workspace-list-container" fxFlex="0 0 300px"
-       fxLayout="column" fxLayoutAlign="start stretch" fxFlex.lt-md="0 0 auto">
+       fxLayout="column" fxLayoutAlign="start stretch" fxFlex.lt-lg="0 0 auto">
 
     <!--  Content header  -->
     <div class="content-header-container" fxFlex="0 0 70px"
@@ -43,7 +43,7 @@
     <!-- Workspace list -->
     <div class="workspace-list pl-10 pr-10" *ngIf="workspaces"
          fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px"
-         fxShow.gt-sm="true" fxHide.lt-md="true">
+         fxShow.gt-sm="true" fxHide.lt-lg="true">
       <ng-container *ngFor="let workspace of workspaces">
         <mat-card class="workspace-item {{getUserAssociationType(workspace)}}"
                   [ngClass]="{
@@ -106,7 +106,7 @@
     </div>
     <!-- Mobile workspace-list -->
     <div class="mobile-workspace-list ml-10 mr-10" *ngIf="workspaces" fxLayout="column" fxLayoutAlign="start stretch"
-         fxHide.gt-sm="true" fxShow.lt-md="true">
+         fxHide.gt-md="true" fxShow.lt-lg="true">
       <mat-form-field appearance="fill">
         <mat-label>Select workspace</mat-label>
         <mat-select [(value)]="selectedWorkspaceId" (selectionChange)="workspaceSelectChange()">
@@ -134,6 +134,9 @@
 
   <!-- Right Column : Workspace Detail -->
   <div id="workspace-owner-tab-container" fxFlex="grow">
+    <button mat-button matTooltip="Hosting a course? Please inform us by using this form." class="course-request" (click)="openCourseRequest()">
+      <mat-icon class="md-18 mr-4">event</mat-icon>Course Request<mat-icon class="md-18 ml-10">open_in_new</mat-icon>
+    </button>
     <ng-container *ngIf="selectedWorkspace">
       <mat-tab-group mat-align-tabs="center" class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"

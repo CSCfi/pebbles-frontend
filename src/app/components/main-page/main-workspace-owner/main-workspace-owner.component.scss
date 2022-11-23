@@ -103,6 +103,17 @@
     height: 100%;
     overflow: auto;
 
+    button.course-request {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: #fff;
+      z-index: 1000;
+      padding: 3px 10px;
+      //font-size: 1.4rem;
+      color: map-get($app-primary, default);
+    }
+
     .gray-out-container {
       position: absolute;
       z-index: 10000;
@@ -132,6 +143,7 @@
 
     ::ng-deep .mat-tab-header {
       padding-top: 15px;
+      padding-right: 180px;
       height: 65px;
       background-color: map-get($app-primary, 400);
       border-bottom: none;

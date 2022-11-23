@@ -13,6 +13,7 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
 import { EventService } from '../../../services/event.service';
+import { PublicConfigService } from '../../../services/public-config.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
 
@@ -64,6 +65,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     private applicationService: ApplicationService,
     private applicationTemplateService: ApplicationTemplateService,
     private eventService: EventService,
+    private publicConfigService: PublicConfigService,
     private fb: FormBuilder
   ) {
     this.createDemoWorkspaceClickTs = 0;
@@ -314,4 +316,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     this.selectWorkspace(this.selectedWorkspaceId);
   }
 
+  openCourseRequest() {
+    window.open(this.publicConfigService.getCourseRequestFormUrl(), '_blank');
+  }
 }
