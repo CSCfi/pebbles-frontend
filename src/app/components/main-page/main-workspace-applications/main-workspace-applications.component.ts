@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
 import { ApplicationService } from 'src/app/services/application.service';
 import { ApplicationType } from '../../../models/application-template';
-import { Message } from '../../../models/message';
 import { EventService } from '../../../services/event.service';
 import { PublicConfigService } from '../../../services/public-config.service';
 import { WorkspaceService } from '../../../services/workspace.service';
@@ -46,7 +45,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
 
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
-  public message: Message;
 
   public displayedColumns: string[] = ['thumbnail', 'info', 'meta', 'launch', 'menu'];
   public dataSource: MatTableDataSource<ApplicationRow> = null;
@@ -75,9 +73,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   ngOnInit(): void {
     this.subscriptions.push(this.eventService.applicationDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
-    }));
-    this.subscriptions.push(this.eventService.messageDataUpdate$.subscribe(message => {
-      this.message = message;
     }));
   }
 

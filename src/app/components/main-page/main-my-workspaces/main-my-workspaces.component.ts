@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
-import { Message } from '../../../models/message';
 import { EventService } from '../../../services/event.service';
 import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
@@ -25,7 +24,6 @@ export class MainMyWorkspacesComponent implements OnInit {
   public queryText = '';
 
   private subscriptions: Subscription[] = [];
-  public message: Message;
 
   get workspaceCount(): number {
     return this.workspaceService.getWorkspaces().length;
@@ -59,9 +57,6 @@ export class MainMyWorkspacesComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
-    this.subscriptions.push(this.eventService.messageDataUpdate$.subscribe(message => {
-      this.message = message;
-    }));
   }
 
   toggleWorkspaceList(): void {

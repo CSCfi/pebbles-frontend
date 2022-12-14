@@ -19,7 +19,6 @@
 
 <!-- Application Catalogs -->
 <section class="applications-catalog" ngClass.lt-sm="mobile">
-  <app-message [message]="message"></app-message>
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
                  (selectedTabChange)="changeCatalog($event)">
     <ng-container *ngFor="let catalog of getCatalogs()">

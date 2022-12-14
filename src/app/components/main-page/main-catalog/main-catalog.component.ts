@@ -4,7 +4,6 @@ import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
 import { ApplicationCategory } from 'src/app/models/application-category';
-import { Message } from 'src/app/models/message';
 import { Workspace } from 'src/app/models/workspace';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -26,7 +25,6 @@ export class MainCatalogComponent implements OnInit {
   public queryText = '';
 
   private subscriptions: Subscription[] = [];
-  public message: Message;
 
   get applications(): Application[] {
     if (!this.applicationService.isInitialized) {
@@ -59,9 +57,6 @@ export class MainCatalogComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
-    this.subscriptions.push(this.eventService.messageDataUpdate$.subscribe(message => {
-      this.message = message;
-    }));
     // ---- MEMO: getCategoryById('1') : 1 means 'all category'
     this.selectedCatalog = this.catalogService.getCategoryById('1');
   }

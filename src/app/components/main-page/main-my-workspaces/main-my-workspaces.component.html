@@ -32,7 +32,6 @@
 <div class="content-container" ngClass.lt-sm="mobile" *ngIf="visibleWorkspaces !== null">
   <section class="workspace-list content-cutout mt-5 mb-30" *ngIf="workspaceCount > 0 ; else noMembershipBlock"
            fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
-    <app-message [message]="message"></app-message>
     <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">
       <ng-container *ngFor="let workspace of visibleWorkspaces">
         <app-main-workspace-item
