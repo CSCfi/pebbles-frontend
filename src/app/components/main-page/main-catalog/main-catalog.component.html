@@ -37,14 +37,14 @@
               </ng-container>
             </div>
             <ng-template #noApplicationBlock>
-              <section class="message-container">
-                <div class="empty-message" *ngIf="applications !== null">
+              <section class="status-info-container">
+                <div class="empty-status" *ngIf="applications !== null">
                   <mat-icon fontSet="material-icons-outlined" class="md-96">import_contacts</mat-icon>
-                  <span class="message-title">No applications found.</span>
+                  <span class="status-summary">No applications found.</span>
                 </div>
-                <div class="empty-message" *ngIf="applications === null">
+                <div class="empty-status" *ngIf="applications === null">
                   <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-                  <span class="message-title">...Loading...</span>
+                  <span class="status-summary">...Loading...</span>
                 </div>
               </section>
             </ng-template>
@@ -57,10 +57,10 @@
 
   <!-- Catalogs have not been fetched yet -->
   <ng-container *ngIf="getCatalogs().length === 0">
-    <section class="message-container">
-      <div class="empty-message">
+    <section class="status-info-container">
+      <div class="empty-status">
         <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-        <span class="message-title">...Loading...</span>
+        <span class="status-summary">...Loading...</span>
       </div>
     </section>
   </ng-container>

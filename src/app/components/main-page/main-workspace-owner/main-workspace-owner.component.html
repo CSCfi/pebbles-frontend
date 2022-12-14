@@ -116,17 +116,17 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- message space -->
-    <div class="message-container" *ngIf="!workspaces">
-      <div class="empty-message" *ngIf="workspaces !== null">
+    <!-- status info space -->
+    <div class="status-info-container" *ngIf="!workspaces">
+      <div class="empty-status" *ngIf="workspaces !== null">
         <mat-icon fontSet="material-icons-outlined" class="md-96">memory</mat-icon>
-        <span class="message-title">
+        <span class="status-summary">
           No workspaces
         </span>
       </div>
-      <div class="empty-message" *ngIf="workspaces === null">
+      <div class="empty-status" *ngIf="workspaces === null">
         <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-        <span class="message-title">...Loading...</span>
+        <span class="status-summary">...Loading...</span>
       </div>
     </div>
   </div>
@@ -180,11 +180,11 @@
     </ng-container>
 
     <ng-container *ngIf="isWorkspaceDeleted">
-      <section class="message-container">
-        <div class="error-message">
-          <span class="message-title mt-80">Workspace successfully deleted</span>
+      <section class="status-info-container">
+        <div class="success-status">
+          <span class="status-summary mt-80">Workspace successfully deleted</span>
           <mat-icon fontSet="material-icons-outlined" class="md-96">delete</mat-icon>
-          <p class="message-description">
+          <p class="status-postscript">
             Please select another workspace from the left column.
           </p>
         </div>
@@ -192,11 +192,11 @@
     </ng-container>
 
     <ng-container *ngIf="isNoWorkspace && !isWorkspaceDeleted">
-      <div class="message-container">
-        <div class="empty-message">
-          <span class="message-title mt-80">No workspaces</span>
+      <div class="status-info-container">
+        <div class="empty-status">
+          <span class="status-summary mt-80">No workspaces</span>
           <mat-icon fontSet="material-icons-outlined" class="md-96">touch_app</mat-icon>
-          <span class="message-description">Start by creating a new workspace</span>
+          <span class="status-postscript">Start by creating a new workspace</span>
         </div>
       </div>
     </ng-container>

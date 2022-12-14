@@ -20,7 +20,7 @@
           <mat-icon fontSet="material-icons-outlined">add</mat-icon>
         </button>
       </form>
-      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="error-status" *ngIf="errorMessage">{{ errorMessage }}</div>
     </section>
     <section class="workspace-list mt-30" *ngIf="data.context && data.context.identifier === 'catalog'">
       <ng-container *ngIf=" workspaces.length > 0; else noWorkspaceBlock">

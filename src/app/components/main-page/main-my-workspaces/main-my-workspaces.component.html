@@ -43,25 +43,25 @@
       </ng-container>
     </ng-container>
     <ng-template #noWorkspaceBlock>
-      <div class="message-container">
-        <div class="empty-message">
+      <div class="status-info-container">
+        <div class="empty-status">
           <mat-icon fontSet="material-icons-outlined" class="md-96">search</mat-icon>
-          <span class="message-title">No results were found by search</span>
+          <span class="status-summary">No results were found by search</span>
         </div>
       </div>
     </ng-template>
   </section>
 
   <ng-template #noMembershipBlock>
-    <div class="message-container">
-      <div class="empty-message">
+    <div class="status-info-container">
+      <div class="empty-status">
         <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
-        <span class="message-title">
+        <span class="status-summary">
           You are currently not a member of any workspace
         </span>
-        <span class="message-description">
+        <span class="status-postscript">
           When you participate in courses or collaborations, you will get a
-          <span class="hint-join-code">Join code </span>
+          <span class="hint-join-code">Join code</span>
           <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
           to become a workspace member.
         </span>
@@ -70,9 +70,9 @@
   </ng-template>
 </div>
 
-<div class="message-container" *ngIf="visibleWorkspaces === null">
-  <div class="empty-message">
+<div class="status-info-container" *ngIf="visibleWorkspaces === null">
+  <div class="empty-status">
     <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-    <span class="message-title">...Loading...</span>
+    <span class="status-summary">...Loading...</span>
   </div>
 </div>

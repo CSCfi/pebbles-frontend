@@ -9,13 +9,6 @@
 @include mat.core($custom-typography);
 @include mat.all-component-themes($app-theme);
 
-.applications-catalog {
-  .message-item {
-    margin-left: 40px;
-    margin-right: 40px;
-  }
-}
-
 // ---- Global base style on element ---- //
 html {
   // ---- set '62.5%'
@@ -159,14 +152,15 @@ button {
   }
 }
 
-.message-container {
+.status-info-container {
   text-align: center;
   line-height: 175%;
 
-  .hint-message,
-  .empty-message,
-  .under-construction-message,
-  .error-message {
+  .hint,
+  .empty-status,
+  .maintenance-status,
+  .error-status,
+  .success-status {
     @include center(vertical);
     padding: 20px;
     min-height: 250px;
@@ -181,20 +175,20 @@ button {
       margin-bottom: 10px;
     }
 
-    .message-title {
+    .status-summary {
       font-weight: 600;
       font-size: 2.2rem;
       margin-top: 10px;
       margin-bottom: 10px;
     }
 
-    .message-description {
+    .status-postscript {
       margin-top: 10px;
       font-weight: 500;
       font-size: 1.8rem;
     }
 
-    .hint-message-content {
+    .hint-content {
       margin-top: 20px;
       ul {
         text-align: left;
@@ -406,7 +400,7 @@ dl.grid {
     }
   }
 
-  .error-message {
+  .error-status {
     color: map-get($app-warn, default);
   }
 }

@@ -113,14 +113,14 @@
 
   <!-- No sessions -->
   <ng-template #noSessions>
-    <div class="message-container">
-      <div class="empty-message" *ngIf="lastUpdateTs === 0">
+    <div class="status-info-container">
+      <div class="empty-status" *ngIf="lastUpdateTs === 0">
         <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-        <span class="message-title">...Loading...</span>
+        <span class="status-summary">...Loading...</span>
       </div>
-      <div class="empty-message" *ngIf="lastUpdateTs > 0">
+      <div class="empty-status" *ngIf="lastUpdateTs > 0">
         <mat-icon fontSet="material-icons-outlined" class="md-96">memory</mat-icon>
-        <span class="message-title">
+        <span class="status-summary">
           No active sessions
         </span>
       </div>
