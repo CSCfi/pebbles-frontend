@@ -109,7 +109,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       publish: ['', [Validators.required]],
       imageUrl: [''],
       isAlwaysPullImage: [''],
-      userWorkFolderSize: ['', [Validators.min(1), Validators.max(5)]],
       sessionLifetimeHours: [''],
       sessionMemoryGiB: [''],
     });
@@ -124,7 +123,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.isEnableSharedFolder.setValue(
       this.applicationService.isSharedFolderEnabled(null, this.data.isWorkspacePublic));
     this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(true);
-    this.applicationItemEditFormGroup.controls.userWorkFolderSize.setValue(1);
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
     this.applicationType = ApplicationType.Generic;
     this.applicationItemEditFormGroup.controls.sessionLifetimeHours.setValue(4);
@@ -181,7 +179,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       isAutoExecution: [this.isAutoExecution],
       isEnableSharedFolder: [this.applicationService.isSharedFolderEnabled(this.data.application, this.data.isWorkspacePublic)],
       isEnableUserWorkFolder: [coerceBooleanProperty(this.data.application.config.enable_user_work_folder)],
-      userWorkFolderSize: [this.data.application.config.user_work_folder_size],
       publish: [this.data.application.is_enabled, [Validators.required]],
       sessionLifetimeHours: [this.sessionLifetimeHours],
       sessionMemoryGiB: [this.sessionMemoryGiB],
@@ -208,7 +205,6 @@ export class MainApplicationItemFormComponent implements OnInit {
         auto_execution: this.applicationItemEditFormGroup.controls.isAutoExecution.value,
         enable_shared_folder: this.applicationItemEditFormGroup.controls.isEnableSharedFolder.value,
         enable_user_work_folder: this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value,
-        user_work_folder_size: this.applicationItemEditFormGroup.controls.userWorkFolderSize.value,
         image_url: this.applicationItemEditFormGroup.controls.imageUrl.value.trim(),
         always_pull_image: this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value,
         maximum_lifetime: this.applicationItemEditFormGroup.controls.sessionLifetimeHours.value * 3600,
@@ -234,7 +230,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.config.enable_user_work_folder = this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value.trim();
     this.data.application.config.always_pull_image = this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value;
-    this.data.application.config.user_work_folder_size = this.applicationItemEditFormGroup.controls.userWorkFolderSize.value;
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
     this.data.application.config.maximum_lifetime = this.applicationItemEditFormGroup.controls.sessionLifetimeHours.value * 3600;
     this.data.application.config.memory_gib = this.applicationItemEditFormGroup.controls.sessionMemoryGiB.value;
@@ -246,7 +241,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   }
 
 
-  onChangeApplicationTemplate(val: string) {
+  onChangeApplicationTemplate(val: string): void {
     const tmpl = this.applicationTemplates.find(x => x.id === val);
     this.applicationType = tmpl.application_type;
     // take the default label values from the template

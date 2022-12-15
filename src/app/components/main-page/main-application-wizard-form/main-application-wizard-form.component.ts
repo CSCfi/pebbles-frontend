@@ -90,7 +90,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
       isAutoExecution: [''],
       isEnableSharedFolder: [''],
       isEnableUserWorkFolder: [''],
-      userWorkFolderSize: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
     });
     this.wizardPublishFormGroup = this.formBuilder.group({
       isActive: ['', [Validators.required]]
@@ -104,8 +103,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
       this.applicationService.isSharedFolderEnabled(null, this.data.isWorkspacePublic));
     this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.setValue(true);
     this.wizardPublishFormGroup.controls.isActive.setValue(false);
-    // TODO: Populate the actual value
-    this.wizardOptionFormGroup.controls.userWorkFolderSize.setValue(1);
   }
 
   rebuildWizardApplicationTemplateDataSource(): void {
@@ -146,7 +143,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
         enable_shared_folder: this.data.isWorkspacePublic ? false : this.wizardOptionFormGroup.controls.isEnableSharedFolder.value,
         enable_user_work_folder: this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.value,
-        user_work_folder_size: this.wizardOptionFormGroup.controls.userWorkFolderSize.value,
         image_url: this.wizardApplicationTemplateFormGroup.controls.imageUrl.value,
       },
       this.wizardPublishFormGroup.controls.isActive.value

@@ -272,16 +272,6 @@
               Enable personal persistent 'work' folder for users. <span class="mat-caption ml-10">(It's workspace specific.)</span>
             </mat-checkbox>
           </section>
-          <!-- 3.5 Work User Folder Size -->
-          <section class="form-container" *ngIf="authService.isAdmin && isCheckedUserWorkFolder">
-            <h3 class="mat-title">Size of the user work folder per user in GiB (Default is 1GiB)</h3>
-            <mat-form-field appearance="fill">
-              <input matInput type="number" formControlName="userWorkFolderSize">
-              <mat-error *ngIf="wizardOptionFormGroup.controls.userWorkFolderSize.hasError">
-                <strong>Set the folder size from 1Gi to 5GiB</strong>
-              </mat-error>
-            </mat-form-field>
-          </section>
         </mat-dialog-content>
         <!-- Stepper -->
         <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
