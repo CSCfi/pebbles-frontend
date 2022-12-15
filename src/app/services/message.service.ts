@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Announcement } from 'src/app/models/announcement';
+import { Message } from 'src/app/models/message';
 import { buildConfiguration } from '../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MessageService {
 
-  private announcements: Announcement[] = [];
+  private messages: Message[] = [];
 
   constructor(
     private http: HttpClient,
@@ -19,16 +19,16 @@ export class MessageService {
   ) {
   }
 
-  getAnnouncements(): Announcement[] {
-    return this.announcements;
+  getMessages(): Message[] {
+    return this.messages;
   }
 
-  fetchAnnouncements(): Observable<Announcement[]> {
+  fetchMessages(): Observable<Message[]> {
     const url = `${buildConfiguration.apiUrl}/messages`;
-    return this.http.get<Announcement[]>(url).pipe(
+    return this.http.get<Message[]>(url).pipe(
       map(resp => {
-        this.announcements = resp;
-        return this.announcements.sort((a, b) =>
+        this.messages = resp;
+        return this.messages.sort((a, b) =>
           new Date(b.broadcasted).getTime() - new Date(a.broadcasted).getTime());
       })
     );
@@ -47,16 +47,16 @@ export class MessageService {
     });
   }
 
-  markAnnouncementsAsRead() {
-    const url = `${buildConfiguration.apiUrl}/messages/${this.announcements[0].id}`;
+  markMessagesAsRead() {
+    const url = `${buildConfiguration.apiUrl}/messages/${this.messages[0].id}`;
     this.http.patch(url, {}).pipe(
       tap(_ => {
-        this.fetchAnnouncements().subscribe();
+        this.fetchMessages().subscribe();
       })
     ).subscribe();
   }
 
-  getUnreadAnnouncements(): Announcement[] {
-    return this.announcements.filter(a => ! a.is_read);
+  getUnreadMessages(): Message[] {
+    return this.messages.filter(a => ! a.is_read);
   }
 }

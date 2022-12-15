@@ -113,18 +113,18 @@
   </ng-container>
 
   <ul class="nav-items">
-    <li class="nav-item" [class.active]="router.url==='/main/announcements'"
-        #tooltip="matTooltip" matTooltip="Announcements" [matTooltipDisabled]="true">
-      <a [routerLink]="['/main/announcements']">
+    <li class="nav-item" [class.active]="router.url==='/main/messages'"
+        #tooltip="matTooltip" matTooltip="Messages" [matTooltipDisabled]="true">
+      <a [routerLink]="['/main/messages']">
         <span class="icon-holder">
           <mat-icon fontSet="material-icons-outlined"
-                    [matBadgeHidden]="getUnreadAnnouncements().length === 0"
-                    [matBadge]="getUnreadAnnouncements().length"
-                    matBadgeColor="{{getUnreadAnnouncements().length > 0 ? 'warn': 'normal'}}">
+                    [matBadgeHidden]="getUnreadMessages().length === 0"
+                    [matBadge]="getUnreadMessages().length"
+                    matBadgeColor="{{getUnreadMessages().length > 0 ? 'warn': 'normal'}}">
             mail
           </mat-icon>
         </span>
-        <div class="title mat-title" *ngIf="isTextVisible">Announcements</div>
+        <div class="title mat-title" *ngIf="isTextVisible">Messages</div>
       </a>
     </li>
   </ul>
@@ -212,14 +212,14 @@
     </button>
     <mat-divider class="dark"></mat-divider>
   </ng-container>
-  <button mat-menu-item [routerLink]="['/main/announcements']">
+  <button mat-menu-item [routerLink]="['/main/messages']">
     <mat-icon fontSet="material-icons-outlined"
-              [matBadgeHidden]="getUnreadAnnouncements().length === 0"
-              [matBadge]="getUnreadAnnouncements().length"
-              matBadgeColor="{{getUnreadAnnouncements().length > 0 ? 'warn': 'normal'}}">
+              [matBadgeHidden]="getUnreadMessages().length === 0"
+              [matBadge]="getUnreadMessages().length"
+              matBadgeColor="{{getUnreadMessages().length > 0 ? 'warn': 'normal'}}">
       mail
     </mat-icon>
-    Announcements
+    Messages
   </button>
   <button mat-menu-item [routerLink]="['/main/help']">
     <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>

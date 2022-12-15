@@ -9,21 +9,21 @@
   </app-main-content-header>
   <div class="flex-spacer"></div>
   <button mat-flat-button color="warn"
-          (click)="markAnnouncementsAsRead()"
+          (click)="markMessagesAsRead()"
           [disabled]="isAllRead">
     <mat-icon fontSet="material-icons-outlined">check</mat-icon>
     Mark as read
   </button>
 </div>
-<div id="announcement-page" class="content-container">
-  <ng-container *ngIf="getAnnouncements().length > 0; else elseBlock">
+<div id="message-page" class="content-container">
+  <ng-container *ngIf="getMessages().length > 0; else elseBlock">
     <section class="content-cutout" fxLayout="column" fxLayoutGap="10px">
-      <ng-container *ngFor="let announcement of getAnnouncements()">
-        <div class="announcement info-body" [ngClass]="{'unread':!announcement.is_read}">
-          <div class="title mat-title">{{ announcement.subject }}</div>
-          <span class="date mat-caption">{{ getIsoToTimestamp(announcement.broadcasted) | dateDisplay }}</span>
-          <p class="message">
-            <span [innerHtml]="announcement.message"></span>
+      <ng-container *ngFor="let message of getMessages()">
+        <div class="message info-body" [ngClass]="{'unread':!message.is_read}">
+          <div class="title mat-title">{{ message.subject }}</div>
+          <span class="date mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
+          <p class="content">
+            <span [innerHtml]="message.message"></span>
           </p>
         </div>
       </ng-container>
@@ -34,7 +34,7 @@
     <section class="status-info-container">
       <div class="empty-status">
         <mat-icon fontSet="material-icons-outlined" class="md-96">mail</mat-icon>
-        <span class="status-summary">No announcements yet.</span>
+        <span class="status-summary">No messages yet.</span>
       </div>
     </section>
   </ng-template>

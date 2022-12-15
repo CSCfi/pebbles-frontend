@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from 'src/app/components/not-found-page/not-found-page.component';
 import { MainAccountComponent } from './main-account/main-account.component';
 import { MainActiveSessionsComponent } from './main-active-sessions/main-active-sessions.component';
-import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
+import { MainMessageComponent } from './main-message/main-message.component';
 import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainHelpComponent } from './main-help/main-help.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
@@ -53,11 +53,11 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'announcements', component: MainAnnouncementComponent,
+        path: 'messages', component: MainMessageComponent,
         data: {
-          title: 'Announcements',
-          identifier: 'announcements',
-          breadcrumbs: ['home', 'announcements']
+          title: 'Messages',
+          identifier: 'messages',
+          breadcrumbs: ['home', 'messages']
         }
       },
       {

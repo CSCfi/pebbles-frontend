@@ -4,12 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 
-import { MainAnnouncementComponent } from './main-announcement.component';
+import { MainMessageComponent } from './main-message.component';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
 
-describe('MainAnnouncementComponent', () => {
-  let component: MainAnnouncementComponent;
-  let fixture: ComponentFixture<MainAnnouncementComponent>;
+describe('MainMessageComponent', () => {
+  let component: MainMessageComponent;
+  let fixture: ComponentFixture<MainMessageComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -20,7 +20,7 @@ describe('MainAnnouncementComponent', () => {
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       declarations: [
-        MainAnnouncementComponent,
+        MainMessageComponent,
         MainContentHeaderComponent
       ]
     })
@@ -28,7 +28,7 @@ describe('MainAnnouncementComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainAnnouncementComponent);
+    fixture = TestBed.createComponent(MainMessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

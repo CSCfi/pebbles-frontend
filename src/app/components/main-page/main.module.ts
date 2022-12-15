@@ -20,7 +20,7 @@ import { MainActiveSessionsComponent } from './main-active-sessions/main-active-
 import { MainUsersComponent } from './main-users/main-users.component';
 import { MainSystemStatusComponent } from './main-system-status/main-system-status.component';
 import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
-import { MainAnnouncementComponent } from './main-announcement/main-announcement.component';
+import { MainMessageComponent } from './main-message/main-message.component';
 import { MainHelpComponent } from './main-help/main-help.component';
 import { MainAccountComponent } from './main-account/main-account.component';
 // ---- Application parts component
@@ -57,7 +57,7 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainStatisticsComponent,
     MainHelpComponent,
     MainAccountComponent,
-    MainAnnouncementComponent,
+    MainMessageComponent,
     MainWorkspaceFormComponent,
     MainWorkspaceItemComponent,
     MainWorkspaceItemDetailComponent,

@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { Announcement } from '../../../models/announcement';
+import { Message } from '../../../models/message';
 import { MessageService } from '../../../services/message.service';
 import { ApplicationSessionService } from '../../../services/application-session.service';
 import { PublicConfigService } from '../../../services/public-config.service';
@@ -51,8 +51,8 @@ export class MainNavComponent {
     public applicationSessionService: ApplicationSessionService,
     public publicConfigService: PublicConfigService,
   ) {
-    // fetch announcements to update the nav bar unread announcements number
-    this.messageService.fetchAnnouncements().subscribe();
+    // fetch messages to update the nav bar unread messages number
+    this.messageService.fetchMessages().subscribe();
   }
 
   reload(link: string): void {
@@ -78,8 +78,8 @@ export class MainNavComponent {
     }
   }
 
-  getUnreadAnnouncements(): Announcement[] {
-    return this.messageService.getUnreadAnnouncements();
+  getUnreadMessages(): Message[] {
+    return this.messageService.getUnreadMessages();
   }
 
   logout(): void {

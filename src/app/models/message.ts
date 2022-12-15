@@ -1,4 +1,4 @@
-export class Announcement {
+export class Message {
 
   constructor(
     public id: string,
