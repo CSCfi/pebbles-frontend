@@ -1,10 +1,10 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthInterceptor } from './auth.interceptor';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Overlay } from '@angular/cdk/overlay';
 
 describe('AuthInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -14,9 +14,9 @@ describe('AuthInterceptor', () => {
     ],
     providers: [
       AuthInterceptor,
-      MatSnackBar,
-      Overlay,
       ENVIRONMENT_SPECIFIC_PROVIDERS,
+      MatSnackBar,
+      Overlay
     ]
   }));
 

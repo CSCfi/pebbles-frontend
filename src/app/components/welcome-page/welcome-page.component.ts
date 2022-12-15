@@ -4,9 +4,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
-import { MessageService } from '../../services/message.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PublicConfigService } from '../../services/public-config.service';
+import { SystemNotificationService } from '../../services/system-notification.service';
 
 @Component({
   selector: 'app-welcome-page',
@@ -29,7 +28,7 @@ export class WelcomePageComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthService,
     public publicConfigService: PublicConfigService,
-    private messageService: MessageService,
+    private systemNotificationService: SystemNotificationService,
   ) {
   }
 
@@ -66,7 +65,7 @@ export class WelcomePageComponent implements OnInit {
       }),
       catchError(err => {
         if (typeof err.error === 'string') {
-          this.messageService.displayError(`Login error: ${err.error}`);
+          this.systemNotificationService.displayError(`Login error: ${err.error}`);
         }
         throw err;
       })
@@ -91,7 +90,7 @@ export class WelcomePageComponent implements OnInit {
       }),
       catchError(err => {
         if (typeof err.error === 'string') {
-          this.messageService.displayError(`Login error: ${err.error}`);
+          this.systemNotificationService.displayError(`Login error: ${err.error}`);
         }
         throw err;
       })

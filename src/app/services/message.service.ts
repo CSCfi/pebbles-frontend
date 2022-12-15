@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Message } from 'src/app/models/message';
 import { buildConfiguration } from '../../environments/environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,6 @@ export class MessageService {
 
   constructor(
     private http: HttpClient,
-    private snackbar: MatSnackBar,
   ) {
   }
 
@@ -32,19 +30,6 @@ export class MessageService {
           new Date(b.broadcasted).getTime() - new Date(a.broadcasted).getTime());
       })
     );
-  }
-
-  displayError(s: string) {
-    // limit the message to 200 chars
-    s = s.substring(0, 200);
-    this.snackbar.open(s, null, {duration: 5000});
-  }
-
-  displayResult(s: string) {
-    this.snackbar.open(s, 'x', {
-      duration: 3000,
-      verticalPosition: 'top'
-    });
   }
 
   markMessagesAsRead() {

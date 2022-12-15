@@ -1,7 +1,5 @@
-import { Overlay } from '@angular/cdk/overlay';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { WorkspaceService } from './workspace.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
@@ -16,7 +14,6 @@ describe('WorkspaceService', () => {
       ],
       providers: [
         ENVIRONMENT_SPECIFIC_PROVIDERS,
-        MatSnackBar, Overlay
       ]
     });
     service = TestBed.inject(WorkspaceService);

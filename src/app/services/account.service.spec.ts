@@ -2,8 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AccountService } from './account.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('AccountService', () => {
   let service: AccountService;
@@ -12,9 +10,10 @@ describe('AccountService', () => {
     TestBed.configureTestingModule({
     imports: [
         HttpClientTestingModule,
-        OverlayModule
       ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS, MatSnackBar]
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS,
+      ]
     });
     service = TestBed.inject(AccountService);
   });

@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { MessageService } from '../services/message.service';
+import { SystemNotificationService } from '../services/system-notification.service';
 
 
 @Injectable()
@@ -13,7 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private authService: AuthService,
-    private messageService: MessageService,
+    private systemNotificationService: SystemNotificationService,
     private router: Router) {
   }
 
@@ -44,15 +43,15 @@ export class AuthInterceptor implements HttpInterceptor {
             this.router.navigate(['welcome']).then();
           } else if (err.status === 0 || err.status === 503) {
             // if we can't connect at all, we'll get 0. If ingress/route can't respond, we'll get 503
-            this.messageService.displayError('Error: cannot connect to the API');
+            this.systemNotificationService.displayError('Error: cannot connect to the API');
           } else if (typeof err.error === 'string') {
-            this.messageService.displayError(`Error: ${err.error}`);
+            this.systemNotificationService.displayError(`Error: ${err.error}`);
           } else if (err.error?.message) {
-            this.messageService.displayError(`Error: ${err.error.message}`);
+            this.systemNotificationService.displayError(`Error: ${err.error.message}`);
           } else if (typeof err.error.error === 'string') {
-            this.messageService.displayError(`Error: ${err.error.error}`);
+            this.systemNotificationService.displayError(`Error: ${err.error.error}`);
           } else {
-            this.messageService.displayError(`Error: ${err.statusText}`);
+            this.systemNotificationService.displayError(`Error: ${err.statusText}`);
           }
         }
         throw err;
