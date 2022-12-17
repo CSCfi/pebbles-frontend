@@ -98,20 +98,32 @@
 
   #workspace-owner-tab-container {
     position: relative;
-    background: #FFFFFF;
+    background: #fff;
     border: 5px solid map-get($app-primary, 400);
     height: 100%;
     overflow: auto;
 
-    button.course-request {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: #fff;
-      z-index: 1000;
-      padding: 3px 10px;
-      //font-size: 1.4rem;
-      color: map-get($app-primary, default);
+    ::ng-deep app-service-announcement {
+      background: #acb0e0;
+    }
+
+    .course-request-wrapper {
+      position: relative;
+      background: #acb0e0;
+      bottom: -15px;
+      height: 0;
+
+      button.course-request {
+        position: relative;
+        float: right;
+        margin-right: 10px;
+        background: #fff;
+        z-index: 1000;
+        padding: 1px 15px 3px 20px;
+        //font-size: 1.4rem;
+        border-radius: 50px;
+        color: map-get($app-primary, default);
+      }
     }
 
     .gray-out-container {
@@ -164,6 +176,10 @@
           min-height: 20px;
         }
       }
+    }
+
+    ::ng-deep .mat-tab-body-wrapper {
+      //background: #fff;
     }
   }
 }

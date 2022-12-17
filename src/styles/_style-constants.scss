@@ -62,6 +62,7 @@ $app-secondary: (
   100: #fffee0,
   200: #ecddbc,
   800: #ee8600,
+  900: #e75f01,
   contrast: (
     default: $light-text,
     light: $light-text,
@@ -86,6 +87,7 @@ $app-warn: (
   light: #f8cdc3,
   dark: #fc614d,
   100: #ffe9e5,
+  800: #cb1e00,
   900: #721a00,
   contrast: (
     default: $light-text,

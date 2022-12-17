@@ -5,6 +5,17 @@
   margin: 0;
   padding-top: 10px;
 
+  app-service-announcement {
+    position: relative;
+
+    ::ng-deep .service-announcement-item {
+      position: relative;
+      margin-left: 20px !important;
+      margin-right: 20px !important;
+    }
+  }
+
+
   ::ng-deep .mat-tab-header {
     border-bottom: 1px solid map-get($app-transparent, dark) !important;
     padding-top: 5px;

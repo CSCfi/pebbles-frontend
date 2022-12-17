@@ -1,0 +1,50 @@
+@import "src/styles/main.scss";
+
+.service-announcement-item {
+  position: relative;
+  padding: 15px;
+  border-radius: 4px;
+  z-index: 5000;
+  background: rgba(0, 10, 49, 0.6);
+  color: white;
+
+  &.default {
+    background: rgba(0, 10, 49, 0.6);
+    color: white;
+  }
+
+  &.general {
+    color: map-get($app-primary, dark);
+    background-color: map-get($app-primary, 400);
+    //font-weight: bold;
+  }
+
+  &.moderate {
+    color: map-get($app-accent, dark);
+    background-color: map-get($app-accent, 100);
+    font-weight: bold;
+  }
+
+  &.important {
+    color: map-get($app-secondary, 900);
+    background-color: map-get($app-secondary, 100);
+    border: 2px solid map-get($app-secondary, default);
+    font-weight: bold;
+  }
+
+  &.critical {
+    color: map-get($app-warn, 800);
+    background-color: map-get($app-warn, 100);
+    border: 3px solid map-get($app-warn, default);
+    font-weight: bold;
+  }
+
+  strong {
+    text-transform: uppercase;
+    margin-right: 5px;
+
+    &::after {
+      content: ":";
+    }
+  }
+}

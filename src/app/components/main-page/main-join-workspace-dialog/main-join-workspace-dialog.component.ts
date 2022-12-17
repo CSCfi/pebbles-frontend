@@ -64,7 +64,7 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
       if (resp instanceof Object) {
         this.newWorkspace = resp;
       }
-      if (this.data.context.identifier === 'my-workspace') {
+      if (this.data.context.identifier === 'my-workspaces') {
         this.closeForm();
       }
     });

@@ -133,15 +133,22 @@
   <!--  //// END div.workspaces-actions-container -->
 
   <!-- Right Column : Workspace Detail -->
-  <div id="workspace-owner-tab-container" fxFlex="grow">
-    <button mat-button matTooltip="Hosting a course? Please inform us by using this form." class="course-request" (click)="openCourseRequest()">
-      <mat-icon class="md-18 mr-4">event</mat-icon>Course Request<mat-icon class="md-18 ml-10">open_in_new</mat-icon>
-    </button>
+  <div id="workspace-owner-tab-container" fxFlex="grow" fxLayout="column" fxLayoutAlign="space-between stretch">
+
+    <!--  Service Announcement 'workspace-owner'  -->
+    <app-service-announcement [context]="context"></app-service-announcement>
+
     <ng-container *ngIf="selectedWorkspace">
+      <div class="course-request-wrapper">
+        <button mat-button matTooltip="Hosting a course? Please inform us by using this form." class="course-request" (click)="openCourseRequest()">
+          <mat-icon class="md-18 mr-4">event</mat-icon>Course Request<mat-icon class="md-18 ml-10">open_in_new</mat-icon>
+        </button>
+      </div>
       <mat-tab-group mat-align-tabs="center" class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
-                     [selectedIndex]="selectedTab">
+                     [selectedIndex]="selectedTab"
+                     fxFlex="grow">
         <mat-tab label="applications">
           <ng-template mat-tab-label>
             <mat-icon class="md-18">import_contacts</mat-icon>

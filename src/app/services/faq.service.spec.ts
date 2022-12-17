@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FaqService } from './faq.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
-import { Overlay } from '@angular/cdk/overlay';
 
 describe('FaqService', () => {
   let service: FaqService;
@@ -10,9 +9,9 @@ describe('FaqService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
+        HttpClientTestingModule
       ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS, Overlay]
+      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS]
     });
     service = TestBed.inject(FaqService);
   });

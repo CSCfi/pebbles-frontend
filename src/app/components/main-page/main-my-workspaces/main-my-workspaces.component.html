@@ -30,6 +30,9 @@
 </div>
 
 <div class="content-container" ngClass.lt-sm="mobile" *ngIf="visibleWorkspaces !== null">
+  <!--  Service Announcement 'catalog'  -->
+  <app-service-announcement [context]="context"></app-service-announcement>
+
   <section class="workspace-list content-cutout mt-5 mb-30" *ngIf="workspaceCount > 0 ; else noMembershipBlock"
            fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
     <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">

@@ -21,11 +21,8 @@
       <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">chevron_right</mat-icon>
       <span class="u-line">Special Login</span>
     </button>
-    <div
-      class="service-announcement mat-body-1 mb-30"
-      [innerHTML]="publicConfigService.getServiceAnnouncement()"
-      *ngIf="publicConfigService.getServiceAnnouncement()">
-    </div>
+    <!--  Service Announcement 'welcome'  -->
+    <app-service-announcement [context]="context"></app-service-announcement>
   </div>
   <!-- // Left -->
 

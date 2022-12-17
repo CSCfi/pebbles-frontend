@@ -8,6 +8,7 @@ import { ApplicationService } from './services/application.service';
 import { AuthService } from './services/auth.service';
 import { EventService, LoginStatusChange } from './services/event.service';
 import { PublicConfigService } from './services/public-config.service';
+import { ServiceAnnouncementService } from './services/service-announcement.service';
 import { WorkspaceService } from './services/workspace.service';
 
 @Component({
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit {
     private publicConfigService: PublicConfigService,
     private titleService: Title,
     private accountService: AccountService,
+    private serviceAnnouncementService: ServiceAnnouncementService,
   ) {
   }
 
@@ -52,6 +54,8 @@ export class AppComponent implements OnInit {
     this.publicConfigService.fetchPublicConfig().subscribe(_ => {
       this.titleService.setTitle(this.publicConfigService.getInstallationName());
     });
+    // public service announcements do not need authentication, fetch them right away
+    this.serviceAnnouncementService.fetchServiceAnnouncements().subscribe();
   }
 
   initializeServices(): void {

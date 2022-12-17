@@ -32,7 +32,7 @@ export const routes: Routes = [
         path: 'my-workspaces', component: MainMyWorkspacesComponent,
         data: {
           title: 'My workspaces',
-          identifier: 'my-workspace',
+          identifier: 'my-workspaces',
           breadcrumbs: ['home', 'My workspaces']
         }
       },

@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Data, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { PublicConfigService } from '../../../services/public-config.service';
 
@@ -32,6 +32,7 @@ export class WelcomeLoginComponent implements OnInit {
   isImageVisible1 = false;
   isImageVisible2 = false;
 
+  @Input() context: Data;
   @Output() emitSpecialLogin = new EventEmitter<boolean>();
 
   constructor(
@@ -43,6 +44,9 @@ export class WelcomeLoginComponent implements OnInit {
     setTimeout(() => {
       this.isImageVisible0 = true;
     }, 300);
+    // ---- MEMO:  Copy is needed by spread operator, to change the identifier for serviceAnnouncement.
+    this.context = { ... this.context };
+    this.context.identifier = 'login';
   }
 
   onImageShow(index): void {

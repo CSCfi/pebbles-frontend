@@ -4,8 +4,11 @@
               class="mt-40 app-header pl-20 pr-20">
   </app-header>
   <div class="main-content pl-20 pr-20">
+    <!--  Service Announcement 'welcome'  -->
+    <app-service-announcement [context]="context"></app-service-announcement>
+
     <div id="jumbotron" role="main" ngClass.gt-xs="mt-75" ngClass.lt-sm="mt-15">
-      <app-welcome-login (emitSpecialLogin)="openSpecialLoginDialog()"></app-welcome-login>
+      <app-welcome-login [context]="context" (emitSpecialLogin)="openSpecialLoginDialog()"></app-welcome-login>
     </div>
     <div class="bg-pattern-1">
       <img class="csc-img-1" src="assets/images/csc_pattern.svg" alt="CSC Pattern">

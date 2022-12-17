@@ -23,6 +23,7 @@ import { EventService } from './services/event.service';
 import { FaqService } from './services/faq.service';
 import { PublicConfigService } from './services/public-config.service';
 import { SearchService } from './services/search.service';
+import { ServiceAnnouncementService } from './services/service-announcement.service';
 import { SystemNotificationService } from './services/system-notification.service';
 import { WorkspaceService } from './services/workspace.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
@@ -72,6 +73,7 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     MessageService,
     PublicConfigService,
     SearchService,
+    ServiceAnnouncementService,
     SystemNotificationService,
     WorkspaceService,
     {

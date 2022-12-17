@@ -8,12 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DialogComponent } from 'src/app/components/shared/dialog/dialog.component';
+import { ServiceAnnouncementComponent } from './service-announcement/service-announcement.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     DialogComponent,
+    ServiceAnnouncementComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { DialogComponent } from 'src/app/components/shared/dialog/dialog.compone
   exports: [
     HeaderComponent,
     FooterComponent,
+    ServiceAnnouncementComponent,
   ],
 })
 export class SharedModule { }

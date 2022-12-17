@@ -36,6 +36,7 @@ export class WelcomePageComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
+
     this.loginFormGroup = this.formBuilder.group({
       ext_id: ['', [Validators.required]],
       password: ['', [Validators.required]]

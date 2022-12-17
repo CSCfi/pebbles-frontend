@@ -19,7 +19,6 @@ export class EventService {
   public applicationDataUpdate$: Subject<string> = new Subject();
   // subject for changes in user-list data. event content is 'all'
   public userDataUpdate$: Subject<string> = new Subject();
-
   // subject for tapping to login/logout events
   public loginStatus$: Subject<LoginStatusChange> = new Subject();
 

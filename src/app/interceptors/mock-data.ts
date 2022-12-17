@@ -1159,6 +1159,26 @@ export let db = {
       is_read: false
     },
   ],
+  service_announcements: [
+    {
+      subject: 'Login announcement',
+      content: 'This is the content for login announcement',
+      level: 5,
+      targets: 'login',
+      is_enabled: true,
+      is_public: true,
+      created_ts: Date.now()/1000 - 3600,
+    },
+    {
+      subject: 'Welcome announcement',
+      content: 'This is the content for welcome announcement',
+      level: 5,
+      targets: 'welcome',
+      is_enabled: true,
+      is_public: true,
+      created_ts: Date.now()/1000 - 3600,
+    },
+  ],
   help: [
     {
       name: 'Category 1',
