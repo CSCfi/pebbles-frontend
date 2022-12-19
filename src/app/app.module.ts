@@ -15,10 +15,15 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { MessageService } from 'src/app/services/message.service';
 import { AccountService } from './services/account.service';
+import { AlertService } from './services/alert.service';
 import { DesktopNotificationService } from './services/desktop-notification.service';
 import { ApplicationCategoryService } from './services/application-category.service';
 import { ApplicationTemplateService } from './services/application-template.service';
+import { EventService } from './services/event.service';
 import { FaqService } from './services/faq.service';
+import { PublicConfigService } from './services/public-config.service';
+import { SearchService } from './services/search.service';
+import { SystemNotificationService } from './services/system-notification.service';
 import { WorkspaceService } from './services/workspace.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 // ---- Components
@@ -55,14 +60,19 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
   ],
   providers: [
     AccountService,
-    AuthService,
-    DesktopNotificationService,
+    AlertService,
     ApplicationService,
     ApplicationCategoryService,
-    ApplicationTemplateService,
-    FaqService,
     ApplicationSessionService,
+    ApplicationTemplateService,
+    AuthService,
+    DesktopNotificationService,
+    EventService,
+    FaqService,
     MessageService,
+    PublicConfigService,
+    SearchService,
+    SystemNotificationService,
     WorkspaceService,
     {
       provide: HTTP_INTERCEPTORS,
