@@ -70,6 +70,10 @@ export class PublicConfigService {
     return this.publicConfig?.get('BRAND_IMAGE_URL');
   }
 
+  getAgreementTitle(): string {
+    return this.publicConfig?.get('AGREEMENT_TITLE');
+  }
+
   getAgreementLogoPath(): string {
     return this.publicConfig?.get('AGREEMENT_LOGO_PATH');
   }

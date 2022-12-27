@@ -37,7 +37,7 @@
   <div class="form-container centered">
     <div class="header">
       <img src="{{ publicConfigService.getAgreementLogoPath() }}" alt="logo" />
-      <h1>{{ publicConfigService.getInstallationName() }}</h1>
+      <h1>{{ publicConfigService.getAgreementTitle() }}</h1>
     </div>
     <form class="special-login-form" (ngSubmit)="onTermsAgree()" [formGroup]="loginFormGroup" fxLayout="column"
         fxLayoutAlign="start stretch">
