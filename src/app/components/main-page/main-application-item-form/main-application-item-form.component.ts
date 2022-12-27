@@ -85,13 +85,13 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.editButtonClicked = this.createButtonClicked = false;
-    this.availableLifetimeOptions = this.getLifetimeOptions();
-    this.availableMemoryOptions = this.getMemoryOptions();
     if (this.isCreationMode) {
       this.setCreationForm();
     } else {
       this.setEditForm();
     }
+    this.availableLifetimeOptions = this.getLifetimeOptions();
+    this.availableMemoryOptions = this.getMemoryOptions();
   }
 
   setCreationForm(): void {
@@ -187,6 +187,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
 
     this.selectedLabels = this.data.application.labels;
+    this.availableMemoryOptions = this.getMemoryOptions();
   }
 
   createApplicationByPlainMode(): void {
@@ -291,8 +292,14 @@ export class MainApplicationItemFormComponent implements OnInit {
     // get the workspace session memory limit to calculate the number of parallel sessions per option
     const workspaceMemGiB = this.workspaceService.getWorkspaceById(this.data.workspaceId)?.memory_limit_gib;
 
+    // start with the standard options, and add the currently set memory if not present
+    let memoryOptions = [0.5, 1, 2, 3, 4, 6, 8];
+    if (this.sessionMemoryGiB && !memoryOptions.includes(this.sessionMemoryGiB)) {
+      memoryOptions.push(this.sessionMemoryGiB);
+      memoryOptions.sort();
+    }
     let res = [];
-    for (let memOption of [0.5, 1, 2, 3, 4, 6, 8]) {
+    for (let memOption of memoryOptions) {
       res.push(
         {
           value: memOption,
