@@ -11,12 +11,16 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { ApplicationType } from '../../../models/application-template';
 import { EventService } from '../../../services/event.service';
 import { PublicConfigService } from '../../../services/public-config.service';
+import { SystemNotificationService } from '../../../services/system-notification.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
 import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
 import {
   MainApplicationWizardFormComponent
 } from '../main-application-wizard-form/main-application-wizard-form.component';
+import {
+  MainSelectWorkspaceDialogComponent
+} from '../main-select-workspace-dialog/main-select-workspace-dialog.component';
 
 export interface ApplicationRow {
   select: boolean;
@@ -66,6 +70,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     private dialog: MatDialog,
     private eventService: EventService,
     private workspaceService: WorkspaceService,
+    private systemNotificationService: SystemNotificationService,
     public publicConfigService: PublicConfigService,
   ) {
   }
@@ -176,16 +181,26 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     this.applicationService.updateApplication(application).subscribe();
   }
 
-  copyApplication(applicationId: string): void {
+  openCopyApplicationDialog(applicationId: string): void {
     const application = this.getTargetApplication(applicationId);
-    if (!confirm(`Are you sure you want to copy this application "${application.name}"?`)) {
-      return;
-    }
-    this.applicationService.copyApplication(application).subscribe();
-  }
-
-  toggleGpuActivation(active: boolean): void {
-    // ---- TODO: place holder. write later !
+    this.dialog.open(MainSelectWorkspaceDialogComponent, {
+      width: '800px',
+      height: 'auto',
+      maxHeight: '95vh',
+      data: {
+        heading: `Copying application "${application.name}"`,
+        text: 'Select target workspace for copy below.',
+      }
+    }).afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+      const targetWs = this.workspaceService.getWorkspaceById(res);
+      this.applicationService.copyApplication(application, targetWs.id).subscribe(_ => {
+        this.systemNotificationService.displayResult(
+          `Application "${application.name}" was copied to workspace "${targetWs.name}".`);
+      });
+    });
   }
 
   deleteApplication(applicationId: string): void {

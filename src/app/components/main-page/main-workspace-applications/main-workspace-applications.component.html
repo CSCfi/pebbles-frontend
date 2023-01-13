@@ -171,12 +171,8 @@
                 <mat-icon fontSet="material-icons-outlined">cloud_off</mat-icon>
                 <span>make draft</span>
               </button>
-              <button mat-menu-item *ngIf="element.isEnabled" (click)="toggleGpuActivation(true)" disabled>
-                <mat-icon fontSet="material-icons-outlined">local_fire_department</mat-icon>
-                <span>activate GPU</span>
-              </button>
-              <button mat-menu-item (click)="copyApplication(element.id)">
-                <mat-icon fontSet="material-icons-outlined">content_copy</mat-icon>
+              <button mat-menu-item (click)="openCopyApplicationDialog(element.id)">
+                <mat-icon fontSet="material-icons-outlined">ios_share</mat-icon>
                 <span>copy application</span>
               </button>
               <button mat-menu-item (click)="deleteApplication(element.id)">

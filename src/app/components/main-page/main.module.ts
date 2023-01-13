@@ -43,6 +43,7 @@ import { MainWorkspaceApplicationsComponent } from './main-workspace-application
 import { MainWorkspaceItemComponent } from './main-workspace-item/main-workspace-item.component';
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
 import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/main-workspace-quota-form.component';
+import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dialog/main-select-workspace-dialog.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/mai
     MainSystemStatusComponent,
     DateDisplayPipe,
     LifeTimeDisplayPipe,
-    RemainingDaysDisplayPipe
+    RemainingDaysDisplayPipe,
+    MainSelectWorkspaceDialogComponent
   ],
   imports: [
     CommonModule,

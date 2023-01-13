@@ -1,0 +1,16 @@
+@import "src/styles/main.scss";
+
+.dialog-container {
+  height: 100%;
+
+  .corner-button-container {
+    height: 20px;
+  }
+
+  .mat-select {
+    background-color: rgba(0, 0, 0, 0.04);
+    padding: 10px;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid map-get($app-gray, light);
+  }
+}

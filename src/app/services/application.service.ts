@@ -136,8 +136,11 @@ export class ApplicationService implements OnDestroy {
     );
   }
 
-  copyApplication(application: Application): Observable<Application> {
-    const url = `${buildConfiguration.apiUrl}/applications/${application.id}/copy`;
+  copyApplication(application: Application, targetWorkspaceId: string = null): Observable<Application> {
+    let url = `${buildConfiguration.apiUrl}/applications/${application.id}/copy`;
+    if (targetWorkspaceId) {
+      url += `?workspace_id=${targetWorkspaceId}`
+    }
 
     return this.http.put<Application>(url, null).pipe(
       map(_ => {

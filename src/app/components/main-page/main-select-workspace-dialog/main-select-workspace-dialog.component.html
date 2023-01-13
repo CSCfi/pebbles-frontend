@@ -1,0 +1,36 @@
+<div id="select-workspace-dialog" class="mat-typography dialog-container pb-20" ngClass.lt-sm="mobile">
+  <div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="closeForm()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <h1 class="mat-dialog-title mat-headline">{{ heading }}</h1>
+  <mat-dialog-content>
+    {{ textContent }}
+    <section class="workspace-input-form">
+      <form [formGroup]="selectWorkspaceForm">
+        <mat-select formControlName="selectedWorkspaceId" class="select-workspace">
+          <mat-option *ngFor="let opt of availableWorkspaceOptions" [value]="opt.value">
+            {{opt.viewValue}}
+          </mat-option>
+        </mat-select>
+
+        <!-- Submit -->
+        <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
+             fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
+
+          <button mat-flat-button color="primary"
+                  class="select-workspace-btn"
+                  (click)="selectWorkspace()"
+                  [disabled]="!isFormReady()"
+          >
+            Select
+          </button>
+          <button mat-button class="button-link button-sm" (click)="closeForm()" fxFlex="0 0 auto">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </section>
+  </mat-dialog-content>
+</div>
