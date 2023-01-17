@@ -38,14 +38,11 @@ export class ServiceAnnouncementComponent {
     let itemStyle;
 
     switch (level) {
-      case 5:
+      case 4:
         itemStyle = 'critical';
         break;
-      case 4:
-        itemStyle = 'important';
-        break;
       case 3:
-        itemStyle = 'moderate';
+        itemStyle = 'important';
         break;
       case 2:
         itemStyle = 'general';
