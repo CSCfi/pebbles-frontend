@@ -1161,6 +1161,26 @@ export let db = {
   ],
   service_announcements: [
     {
+      subject: 'Catalog announcement',
+      content: 'This is the content for login announcement',
+      level: 5,
+      targets: 'catalog',
+      is_enabled: true,
+      is_public: true,
+      created_ts: Date.now()/1000 - 3600,
+    },
+    {
+      subject: 'My workspace announcement',
+      content: 'This is the content for welcome announcement',
+      level: 5,
+      targets: 'myWorkspace',
+      is_enabled: true,
+      is_public: true,
+      created_ts: Date.now()/1000 - 3600,
+    },
+  ],
+  service_announcements_public: [
+    {
       subject: 'Login announcement',
       content: 'This is the content for login announcement',
       level: 5,

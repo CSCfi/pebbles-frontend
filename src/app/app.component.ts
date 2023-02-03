@@ -54,8 +54,6 @@ export class AppComponent implements OnInit {
     this.publicConfigService.fetchPublicConfig().subscribe(_ => {
       this.titleService.setTitle(this.publicConfigService.getInstallationName());
     });
-    // public service announcements do not need authentication, fetch them right away
-    this.serviceAnnouncementService.fetchServiceAnnouncements().subscribe();
   }
 
   initializeServices(): void {

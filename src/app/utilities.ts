@@ -1,4 +1,3 @@
-
 export class Utilities {
   public static lifetimeToString(lifetime: number): string {
     const hours: number = Math.floor(lifetime / 3600);
@@ -37,7 +36,7 @@ export class Utilities {
     return Math.floor(new Date(isoTime).getTime() / 1000);
   }
 
-  static getTimeGap(timestamp: number, unit: string|null): number {
+  static getTimeGap(timestamp: number, unit: string | null): number {
 
     const eventUtfTimestamp = new Date(timestamp).getTime();
     const todayUtfTimestamp = new Date().getTime();
@@ -74,5 +73,9 @@ export class Utilities {
       return false;
     }
     return ts * 1000 < Date.now();
+  }
+
+  public static camelize(str: string): string {
+    return str.replace(/-./g, x => x[1].toUpperCase());
   }
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { PublicConfigService } from '../../services/public-config.service';
+import { ServiceAnnouncementService } from '../../services/service-announcement.service';
 import { SystemNotificationService } from '../../services/system-notification.service';
 
 @Component({
@@ -29,6 +30,7 @@ export class WelcomePageComponent implements OnInit {
     private authService: AuthService,
     public publicConfigService: PublicConfigService,
     private systemNotificationService: SystemNotificationService,
+    private serviceAnnouncementService: ServiceAnnouncementService
   ) {
   }
 
@@ -41,6 +43,9 @@ export class WelcomePageComponent implements OnInit {
       ext_id: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
+
+    // public service announcements do not need authentication, fetch them right away
+    this.serviceAnnouncementService.fetchPublicServiceAnnouncements().subscribe();
   }
 
   onLogin(): void {

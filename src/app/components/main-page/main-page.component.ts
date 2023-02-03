@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { ServiceAnnouncementService } from '../../services/service-announcement.service';
 
 @Component({
   selector: 'app-main-page',
@@ -12,7 +13,9 @@ export class MainPageComponent implements OnInit {
   public isSideNavOpen = true;
   private minWorkAreaWidth = 1250;
 
-  constructor() {
+  constructor(
+    private serviceAnnouncementService: ServiceAnnouncementService
+  ) {
   }
 
   @HostListener('window:resize', ['$event'])
@@ -22,6 +25,8 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.setSideNav();
+    // Service announcements which needs authentication
+    this.serviceAnnouncementService.fetchServiceAnnouncements().subscribe();
   }
 
   setSideNav(): void {

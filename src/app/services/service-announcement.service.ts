@@ -20,6 +20,16 @@ export class ServiceAnnouncementService {
     return this.serviceAnnouncements;
   }
 
+  fetchPublicServiceAnnouncements(): Observable<ServiceAnnouncement[]> {
+    const url = `${buildConfiguration.apiUrl}/service_announcements_public`;
+    return this.http.get<ServiceAnnouncement[]>(url).pipe(
+      map(resp => {
+        this.serviceAnnouncements = this.serviceAnnouncements = resp.filter(item => item.is_enabled);
+        return this.serviceAnnouncements;
+      })
+    );
+  }
+
   fetchServiceAnnouncements(): Observable<ServiceAnnouncement[]> {
     const url = `${buildConfiguration.apiUrl}/service_announcements`;
     return this.http.get<ServiceAnnouncement[]>(url).pipe(
