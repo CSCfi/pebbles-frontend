@@ -1,5 +1,5 @@
 # Stage one: build
-FROM node:14-alpine as build-stage
+FROM docker.io/library/node:14 as build-stage
 WORKDIR /usr/src/app
 COPY . .
 RUN npm ci

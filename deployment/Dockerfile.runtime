@@ -1,4 +1,4 @@
-FROM bitnami/nginx:1.23
+FROM docker.io/bitnami/nginx:1.23
 LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
 
 # copy compiled application
