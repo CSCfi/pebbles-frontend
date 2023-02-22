@@ -1,4 +1,4 @@
-image: node:14.19.0
+image: docker.io/library/node:18
 
 variables:
   PRIVATE_IMAGE: $CI_DOCKER_REPOSITORY_PRIVATE/pebbles-frontend
@@ -65,7 +65,7 @@ ng-build:
 
 ng-test:
   stage: test
-  image: trion/ng-cli-karma:11.2.12
+  image: docker.io/trion/ng-cli-karma:11.2.12
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -78,7 +78,7 @@ ng-test:
     - ng test --no-watch --no-progress --browsers=ChromiumHeadlessCI
 ng-e2e:
   stage: test
-  image: trion/ng-cli-karma:11.2.12
+  image: docker.io/trion/ng-cli-karma:11.2.12
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -96,7 +96,7 @@ ng-e2e:
 
 build-image:
   stage: docker build
-  image: docker:git
+  image: docker.io/library/docker:git
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -162,7 +162,7 @@ ci-pipeline:
 
 mirroring:
   stage: mirroring
-  image: python:3.8
+  image: docker.io/library/python:3.8
   variables:
     GITHUB_MIRROR: git@github.com:CSCfi/pebbles-frontend.git
   script:
