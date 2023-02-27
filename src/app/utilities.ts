@@ -75,7 +75,7 @@ export class Utilities {
     return ts * 1000 < Date.now();
   }
 
-  public static camelize(str: string): string {
-    return str.replace(/-./g, x => x[1].toUpperCase());
-  }
+  // public static camelize(str: string): string {
+  //   return str.replace(/-./g, x => x[1].toUpperCase());
+  // }
 }

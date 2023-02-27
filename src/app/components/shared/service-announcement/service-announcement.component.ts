@@ -3,7 +3,6 @@ import { Data } from '@angular/router';
 import { ServiceAnnouncement } from '../../../models/service-announcement';
 import { EventService } from '../../../services/event.service';
 import { ServiceAnnouncementService } from '../../../services/service-announcement.service';
-import { Utilities } from '../../../utilities';
 
 @Component({
   selector: 'app-service-announcement',
@@ -27,7 +26,7 @@ export class ServiceAnnouncementComponent {
 
     return this.serviceAnnouncements.filter(item => {
       const targets = item.targets.split(',').map(item => item.trim());
-      return targets.includes(Utilities.camelize(this.context.identifier));
+      return targets.includes(this.context.identifier);
     });
   }
 
