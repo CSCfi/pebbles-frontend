@@ -9,6 +9,7 @@ import { Utilities } from '../../../utilities';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { LoginStatusChange } from "../../../services/event.service";
 
 export interface SessionTableRow {
   isSelected: boolean;
@@ -88,8 +89,14 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     }
     this.lastUpdateTs = sessionServiceUpdateTs;
 
+    // record if there are sessions without the corresponding application
+    let applicationsMissing = false;
     // update existing row data entries and insert new ones
     this.applicationSessionService.getAllSessions().map((session, index) => {
+      // if the application for the session is not present, refresh applications
+      if (!this.applicationService.get(session.application_id)) {
+        applicationsMissing = true;
+      }
       const existingEntry = this.tableRowData.find(r => r.sessionId === session.id);
       if (existingEntry) {
         existingEntry.lifetimeLeft = Utilities.lifetimeToString(session.lifetime_left);
@@ -114,6 +121,13 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         });
       }
     });
+
+    // refresh in case we found sessions that refer to applications that the service does not have
+    if (applicationsMissing) {
+      this.applicationService.fetchApplications().subscribe(_ => {
+        window.setTimeout(() => this.updateRowData(true), 1);
+      });
+    }
 
     this.activeSessionNumber = this.applicationSessionService.getAllSessions().length;
     // leave only fresh data
