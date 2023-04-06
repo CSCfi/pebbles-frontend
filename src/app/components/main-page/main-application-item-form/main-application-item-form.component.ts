@@ -1,6 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Application } from 'src/app/models/application';
@@ -27,7 +27,7 @@ export interface ApplicationTemplateRow {
 })
 export class MainApplicationItemFormComponent implements OnInit {
 
-  applicationItemEditFormGroup: FormGroup;
+  applicationItemEditFormGroup: UntypedFormGroup;
 
   isAutoExecution: boolean;
   isAlwaysPullImage: boolean;
@@ -71,7 +71,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       isWorkspacePublic: boolean
     },
     public authService: AuthService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private applicationService: ApplicationService,
     private applicationTemplateService: ApplicationTemplateService,
     private workspaceService: WorkspaceService,

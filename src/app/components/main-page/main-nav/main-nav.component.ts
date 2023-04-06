@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -37,8 +37,8 @@ export class MainNavComponent {
     this.toggleToolTips(value);
   }
 
-  position = new FormControl('after');
-  disabled = new FormControl(false);
+  position = new UntypedFormControl('after');
+  disabled = new UntypedFormControl(false);
 
   get userName(): string {
     return this.authService.getUserName();

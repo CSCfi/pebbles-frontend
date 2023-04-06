@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
@@ -40,8 +40,8 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
   private autoSelectFirstWorkspace = true;
-  private options: FormGroup;
-  private workspaceIdControl = new FormControl();
+  private options: UntypedFormGroup;
+  private workspaceIdControl = new UntypedFormControl();
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
@@ -66,7 +66,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     private applicationTemplateService: ApplicationTemplateService,
     private eventService: EventService,
     private publicConfigService: PublicConfigService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.createDemoWorkspaceClickTs = 0;
     this.options = fb.group({

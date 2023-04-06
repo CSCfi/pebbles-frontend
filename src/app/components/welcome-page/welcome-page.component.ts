@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { SystemNotificationService } from '../../services/system-notification.se
 export class WelcomePageComponent implements OnInit {
 
   public context: Data;
-  public loginFormGroup: FormGroup;
+  public loginFormGroup: UntypedFormGroup;
   @ViewChild('specialLoginDialog') specialLoginDialog: TemplateRef<any>;
   @ViewChild('specialLoginDialogTerms') specialLoginDialogTerms: TemplateRef<any>;
   private dialogRef: MatDialogRef<any>;
@@ -25,7 +25,7 @@ export class WelcomePageComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private dialog: MatDialog,
     private authService: AuthService,
     public publicConfigService: PublicConfigService,

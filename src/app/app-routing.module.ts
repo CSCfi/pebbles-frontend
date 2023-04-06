@@ -7,9 +7,9 @@ import { MainRoutingModule } from './components/main-page/main-routing.module';
 import { SessionPageComponent } from './components/session-page/session-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+  {path: '', redirectTo: 'welcome', pathMatch: 'full'},
   // ---- Development deployment fallback for missing oauth2-proxy sign_out
-  { path: 'oauth2/sign_out', redirectTo: 'welcome', pathMatch: 'full' },
+  {path: 'oauth2/sign_out', redirectTo: 'welcome', pathMatch: 'full'},
   {
     path: 'welcome', component: WelcomePageComponent,
     data: {
@@ -18,14 +18,19 @@ const routes: Routes = [
       breadcrumbs: ['welcome']
     }
   },
-  { path: 'main', loadChildren: () => import('./components/main-page/main-routing.module')},
-  { path: 'session/:id', component: SessionPageComponent,
+  {
+    path: 'main',
+    loadChildren: () => import('./components/main-page/main-routing.module').then(mod => mod.MainRoutingModule)
+  },
+  {
+    path: 'session/:id', component: SessionPageComponent,
     data: {
       title: 'Session',
       identifier: 'session',
       breadcrumbs: ['session']
-    }},
-  { path: '**', component: NotFoundPageComponent },
+    }
+  },
+  {path: '**', component: NotFoundPageComponent},
 ];
 
 @NgModule({
@@ -38,4 +43,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

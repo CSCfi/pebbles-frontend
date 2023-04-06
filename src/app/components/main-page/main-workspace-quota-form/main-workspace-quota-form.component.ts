@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AccountService} from '../../../services/account.service';
 
@@ -10,13 +10,13 @@ import {AccountService} from '../../../services/account.service';
 })
 export class MainWorkspaceQuotaFormComponent implements OnInit {
 
-  public workspaceQuotaForm: FormGroup;
+  public workspaceQuotaForm: UntypedFormGroup;
   get isMinusActive(): boolean {
     return this.workspaceQuotaForm.controls.newValue.value !== 0;
   }
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<MainWorkspaceQuotaFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       userId: string,

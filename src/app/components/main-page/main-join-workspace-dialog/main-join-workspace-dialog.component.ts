@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Data } from '@angular/router';
 import { Workspace } from 'src/app/models/workspace';
@@ -14,7 +14,7 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
 
   public context: Data;
   public newWorkspace: Workspace;
-  public joinWorkspaceForm: FormGroup;
+  public joinWorkspaceForm: UntypedFormGroup;
   public errorMessage = '';
 
   get workspaces(): Workspace[] {
@@ -37,7 +37,7 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
   constructor(
     private workspaceService: WorkspaceService,
     public dialogRef: MatDialogRef<MainJoinWorkspaceDialogComponent>,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: {
       context: Data
     },

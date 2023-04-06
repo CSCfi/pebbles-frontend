@@ -65,7 +65,7 @@ ng-build:
 
 ng-test:
   stage: test
-  image: docker.io/trion/ng-cli-karma:11.2.12
+  image: docker.io/trion/ng-cli-karma:14.2.8
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -75,24 +75,7 @@ ng-test:
     - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
 
     # run Karma/Jasmine unit tests
-    - ng test --no-watch --no-progress --browsers=ChromiumHeadlessCI
-ng-e2e:
-  stage: test
-  image: docker.io/trion/ng-cli-karma:11.2.12
-  needs: ['ng-build']
-  cache:
-    # inherit all global cache settings
-    <<: *global_cache
-  script:
-    # check if ng client is already installed and create a symlink if needed
-    - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
-    # check if webdriver-manager is already installed and create a symlink if needed
-    - test -e /usr/local/bin/webdriver-manager || ln -s $PWD/node_modules/.bin/webdriver-manager /usr/local/bin/webdriver-manager
-
-    # run Protractor end-to-end tests. Chrome and ChromeDriver need to be in sync
-    # in ng-cli-karma image, protractor.conf.ci.js and here
-    - webdriver-manager update --versions.chrome=90.0.4430.212
-    - ng e2e --protractor-config e2e/protractor.conf.ci.js
+    - ng test --no-watch --no-progress --browsers=Chrome
 
 build-image:
   stage: docker build

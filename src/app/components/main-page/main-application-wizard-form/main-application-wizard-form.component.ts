@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
@@ -25,10 +25,10 @@ export interface WizardApplicationTemplateRow {
 })
 export class MainApplicationWizardFormComponent implements OnInit {
 
-  wizardApplicationTemplateFormGroup: FormGroup;
-  wizardProfileFormGroup: FormGroup;
-  wizardOptionFormGroup: FormGroup;
-  wizardPublishFormGroup: FormGroup;
+  wizardApplicationTemplateFormGroup: UntypedFormGroup;
+  wizardProfileFormGroup: UntypedFormGroup;
+  wizardOptionFormGroup: UntypedFormGroup;
+  wizardPublishFormGroup: UntypedFormGroup;
 
   // ---- Values for Radio Input
   selectedLabels: string[];
@@ -61,7 +61,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
       isWorkspacePublic: boolean
     },
     public authService: AuthService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private applicationTemplateService: ApplicationTemplateService,
     private applicationService: ApplicationService,
   ) {

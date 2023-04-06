@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Data } from '@angular/router';
@@ -21,7 +21,7 @@ export class MainContentHeaderComponent {
   public isLabelSelectable = true;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   private selectedLabels: string[];
-  public inputCtrl = new FormControl();
+  public inputCtrl = new UntypedFormControl();
 
   @ViewChild('labelInput') labelInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../../../services/auth.service';
 import { WorkspaceService } from '../../../services/workspace.service';
@@ -11,7 +11,7 @@ import { WorkspaceService } from '../../../services/workspace.service';
 })
 export class MainSelectWorkspaceDialogComponent implements OnInit {
 
-  public selectWorkspaceForm: FormGroup;
+  public selectWorkspaceForm: UntypedFormGroup;
   public availableWorkspaceOptions: any[];
   public heading = 'Select workspace';
   public textContent = 'Select workspace from below';
@@ -23,7 +23,7 @@ export class MainSelectWorkspaceDialogComponent implements OnInit {
     },
     private workspaceService: WorkspaceService,
     private dialogRef: MatDialogRef<MainSelectWorkspaceDialogComponent>,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService,
   ) {
   }

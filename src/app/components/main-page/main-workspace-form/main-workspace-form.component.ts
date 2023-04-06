@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
@@ -10,7 +10,7 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 })
 export class MainWorkspaceFormComponent implements OnInit {
 
-  workspaceForm: FormGroup;
+  workspaceForm: UntypedFormGroup;
   createButtonClicked: boolean;
 
   errorHandling = (control: string, error: string) => {
@@ -18,7 +18,7 @@ export class MainWorkspaceFormComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<MainWorkspaceFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       isCreationMode: boolean,

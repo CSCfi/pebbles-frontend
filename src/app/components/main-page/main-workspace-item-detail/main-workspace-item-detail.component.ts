@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { UserAssociationType, Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,7 +14,7 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   public workspace: Workspace;
-  public workspaceEditForm: FormGroup;
+  public workspaceEditForm: UntypedFormGroup;
   public isWorkspaceFormChanged = false;
   public isWorkspaceNameEditOn = false;
   public isWorkspaceDescriptionEditOn = false;
@@ -41,7 +41,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   constructor(
     public dialog: MatDialog,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private workspaceService: WorkspaceService,
     private authService: AuthService,
   ) {
