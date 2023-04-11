@@ -89,7 +89,11 @@ build-image:
     - echo "Going to build and push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}"
 
     # build the runtime image from files in 'dist/pebbles-frontend'
-    - docker build --tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} . --file=deployment/Dockerfile.runtime
+    - docker build
+      --build-arg=APP_VERSION=$(date -Is)
+      --tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}
+      .
+      --file=deployment/Dockerfile.runtime
     - docker push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}
 
     # push to public registry

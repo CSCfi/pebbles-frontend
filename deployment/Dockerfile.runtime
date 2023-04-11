@@ -1,8 +1,15 @@
 FROM docker.io/bitnami/nginx:1.23
 LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
+ARG APP_VERSION="not-set"
 
 # copy compiled application
 COPY dist/pebbles-frontend /app
 
 # set up redirection to /index.html for Angular routing
 COPY deployment/nginx_angular.conf /opt/bitnami/nginx/conf/bitnami/nginx_angular.conf
+
+# stamp with given application version
+USER root
+RUN echo "{\"appVersion\": \"$APP_VERSION\"}" > /app/app-version.json
+
+USER 1001
