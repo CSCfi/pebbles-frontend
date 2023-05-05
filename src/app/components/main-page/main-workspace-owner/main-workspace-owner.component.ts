@@ -5,7 +5,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
-import { UserAssociationType, Workspace } from 'src/app/models/workspace';
+import { MembershipType, Workspace } from 'src/app/models/workspace';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -99,7 +99,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
         this.user = user;
         this.refreshView();
       });
-      this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).subscribe();
+      this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
     } else {
       this.refreshView();
     }
@@ -131,7 +131,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     } else {
       // list manageable workspaces
       this.workspaces = this.workspaceService.getWorkspaces().filter(ws => {
-        return [UserAssociationType.Owner, UserAssociationType.Manager].includes(ws.user_association_type);
+        return [MembershipType.Owner, MembershipType.Manager].includes(ws.membership_type);
       });
     }
     this.workspaces = Workspace.sortWorkspaces(this.workspaces, ['expiry', 'role', 'create_ts']);
@@ -289,8 +289,8 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     });
   }
 
-  getUserAssociationType(workspace: Workspace): string {
-    return workspace.user_association_type === 'manager' ? 'co-owner' : workspace.user_association_type;
+  getMembershipType(workspace: Workspace): string {
+    return workspace.membership_type === 'manager' ? 'co-owner' : workspace.membership_type;
   }
 
   handleTabChange($event: MatTabChangeEvent) {

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
-import { UserAssociationType } from '../../../models/workspace';
+import { MembershipType } from '../../../models/workspace';
 import { ApplicationService } from '../../../services/application.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -69,9 +69,9 @@ export class MainApplicationItemComponent {
     }
   }
 
-  get userAssociationType(): string {
+  get membershipType(): string {
     if (this.workspace) {
-      return this.workspace.user_association_type === UserAssociationType.Manager ? 'co-owner' : this.workspace.user_association_type;
+      return this.workspace.membership_type === MembershipType.Manager ? 'co-owner' : this.workspace.membership_type;
     } else {
       return 'public';
     }

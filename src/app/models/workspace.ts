@@ -1,6 +1,6 @@
 import { Utilities } from '../utilities';
 
-export enum UserAssociationType {
+export enum MembershipType {
   Public = 'public',
   Admin = 'admin',
   Owner = 'owner',
@@ -23,7 +23,7 @@ export class Workspace {
     public owner_ext_id: string,
     public application_quota?: number,
     public memory_limit_gib?: number,
-    public user_association_type?: UserAssociationType
+    public membership_type?: MembershipType
   ) {
   }
 
@@ -47,7 +47,7 @@ export class Workspace {
       ws1.owner_ext_id === ws2.owner_ext_id &&
       ws1.application_quota === ws2.application_quota &&
       ws1.memory_limit_gib === ws2.memory_limit_gib &&
-      ws1.user_association_type === ws2.user_association_type
+      ws1.membership_type === ws2.membership_type
     );
   }
 
@@ -82,8 +82,8 @@ export class Workspace {
           }
           case 'role': {
             // sort more important roles first
-            const roleDelta = Object.values(UserAssociationType).indexOf(a.user_association_type)
-              - Object.values(UserAssociationType).indexOf(b.user_association_type);
+            const roleDelta = Object.values(MembershipType).indexOf(a.membership_type)
+              - Object.values(MembershipType).indexOf(b.membership_type);
             if (roleDelta !== 0) {
               return roleDelta;
             }

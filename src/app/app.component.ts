@@ -69,13 +69,13 @@ export class AppComponent implements OnInit {
 
     // Figure out if we are a workspace owner/manager. We do this at login also, but this way
     // users do not have to log out/in to get owner rights, a browser reload is enough.
-    this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).pipe(
+    this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).pipe(
       tap(res => {
         let is_owner = false;
         let is_manager = false;
-        res.forEach(wua => {
-          is_owner = is_owner || wua.is_owner;
-          is_manager = is_manager || wua.is_manager;
+        res.forEach(wm => {
+          is_owner = is_owner || wm.is_owner;
+          is_manager = is_manager || wm.is_manager;
         });
         this.accountService.fetchAccount(this.authService.getUserId()).pipe(
           tap(res => {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
-import { UserAssociationType, Workspace, WorkspaceMember } from 'src/app/models/workspace';
+import { Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
@@ -47,13 +47,13 @@ export class WorkspaceService {
     if (!this.isInitialized) {
       return [];
     }
-    const wuas = this.accountService.getWorkspaceAssociations(userid);
-    if (!wuas) {
+    const wms = this.accountService.getWorkspaceMemberships(userid);
+    if (!wms) {
       return [];
     }
-    // filter associations by the manager role, map to workspaces and filter out non-existing (deleted)
-    return wuas.filter(wua => wua.is_manager).map(wua => {
-      return this.getWorkspaceById(wua.workspace_id);
+    // filter memberships by the manager role, map to workspaces and filter out non-existing (deleted)
+    return wms.filter(wm => wm.is_manager).map(wm => {
+      return this.getWorkspaceById(wm.workspace_id);
     }).filter(ws => ws != null);
   }
 
@@ -153,7 +153,7 @@ export class WorkspaceService {
     return this.http.post<Workspace>(url, {name, description}).pipe(
       tap((resp) => {
         this.fetchWorkspaces().subscribe();
-        this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).subscribe();
+        this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
       }),
     );
   }
@@ -185,7 +185,7 @@ export class WorkspaceService {
       tap(_ => {
         this.workspaces = this.workspaces.filter(x => x.id !== workspaceId);
         this.eventService.workspaceDataUpdate$.next(workspaceId);
-        this.accountService.fetchWorkspaceAssociations(this.authService.getUserId()).subscribe();
+        this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
       })
     );
   }

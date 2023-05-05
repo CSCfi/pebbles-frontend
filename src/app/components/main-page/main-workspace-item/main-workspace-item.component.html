@@ -1,10 +1,10 @@
-<div class="workspace-item {{ userAssociationType }}" [ngClass]="{'expired': workspaceService.hasExpired(workspace)}"
+<div class="workspace-item {{ membershipType }}" [ngClass]="{'expired': workspaceService.hasExpired(workspace)}"
      *ngIf="workspace">
   <mat-card class="card pl-20 pr-20">
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between center">
       <mat-card-title class="mat-title mb-0 center__v" fxFlex="grow">
-        <ng-container *ngIf="userAssociationType!=='public'; else publicBlock">
-          <mat-icon class="mr-8 user-role-icon" [matTooltip]="workspace.user_association_type">apps</mat-icon>
+        <ng-container *ngIf="membershipType!=='public'; else publicBlock">
+          <mat-icon class="mr-8 user-role-icon" [matTooltip]="workspace.membership_type">apps</mat-icon>
         </ng-container>
         <ng-template #publicBlock>
           <mat-icon class="mr-8 user-role-icon" matTooltip="public">public</mat-icon>
@@ -17,7 +17,7 @@
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item aria-label="workspace delete" matTooltip="Leave Workspace"
-                [disabled]="workspace.user_association_type === 'public'" (click)="exitWorkspace()">
+                [disabled]="workspace.membership_type === 'public'" (click)="exitWorkspace()">
           <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
           Exit workspace
         </button>

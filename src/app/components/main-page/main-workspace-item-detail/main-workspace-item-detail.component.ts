@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { UserAssociationType, Workspace } from 'src/app/models/workspace';
+import { MembershipType, Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
@@ -27,12 +27,12 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   }
 
   get isEditable(): boolean {
-    return this.workspace.user_association_type !== UserAssociationType.Public;
+    return this.workspace.membership_type !== MembershipType.Public;
   }
 
   get isDeletable(): boolean {
     // System workspaces cannot be deleted
-    if (this.workspace.user_association_type === UserAssociationType.Public) {
+    if (this.workspace.membership_type === MembershipType.Public) {
       return false;
     }
     // only owner or admin can delete workspaces

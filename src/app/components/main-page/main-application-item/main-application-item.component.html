@@ -27,11 +27,11 @@
                            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
           <div *ngIf="context?.identifier==='catalog'"
                class="workspace-info"
-               [ngClass]="userAssociationType"
+               [ngClass]="membershipType"
                fxLayout="row">
             <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
               <div class="workspace-name center__v">
-                <mat-icon class="user-role-icon md-16 mr-2" [matTooltip]="userAssociationType">apps</mat-icon>
+                <mat-icon class="user-role-icon md-16 mr-2" [matTooltip]="membershipType">apps</mat-icon>
                 {{ application.workspace_name }}
               </div>
               <div class="expiry-date mat-caption center__vh p-8">

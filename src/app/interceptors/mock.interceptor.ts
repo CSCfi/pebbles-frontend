@@ -13,7 +13,7 @@ import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { User } from 'src/app/models/user';
 import { Application } from '../models/application';
-import { UserAssociationType, Workspace, WorkspaceMember } from '../models/workspace';
+import { MembershipType, Workspace, WorkspaceMember } from '../models/workspace';
 import * as TESTDATA from './mock-data';
 
 // Mock interceptor based on fake-backend.ts from github.com/cornflourblue/angular-9-registration-login-example
@@ -187,15 +187,15 @@ export class MockInterceptor implements HttpInterceptor {
         return (user.id === objectId);
       });
       if (account) {
-        // check if a sub-operation is defined, e.g. users/12345/workspace_associations
-        if (operation === 'workspace_associations') {
+        // check if a sub-operation is defined, e.g. users/12345/workspace_memberships
+        if (operation === 'workspace_memberships') {
           const wss = getAccessibleWorkspaces(account.ext_id);
           return ok(wss.map(ws => {
             return {
               workspace_id: ws.id,
               user_id: account.id,
-              is_owner: ws.user_association_type === UserAssociationType.Owner,
-              is_manager: ws.user_association_type === UserAssociationType.Manager,
+              is_owner: ws.user_association_type === MembershipType.Owner,
+              is_manager: ws.user_association_type === MembershipType.Manager,
               is_banned: false
             }
           }));
@@ -675,26 +675,26 @@ export class MockInterceptor implements HttpInterceptor {
       const workspaces = database.workspaces.filter( ws => {
         if (isAdmin) {
           if (ws.name.startsWith('System.')) {
-            ws.user_association_type = UserAssociationType.Public;
+            ws.user_association_type = MembershipType.Public;
           } else {
-            ws.user_association_type = UserAssociationType.Admin;
+            ws.user_association_type = MembershipType.Admin;
           }
           return true;
         }
         if (ws.name.startsWith('System.')) {
-          ws.user_association_type = UserAssociationType.Public;
+          ws.user_association_type = MembershipType.Public;
           return false;
         }
         const memberInfo = ws._members.find(member => {
           if (member.ext_id === ext_id) {
             if (ws.owner_ext_id === user.ext_id) {
-              ws.user_association_type = UserAssociationType.Owner;
+              ws.user_association_type = MembershipType.Owner;
             } else if (member.is_manager) {
-              ws.user_association_type = UserAssociationType.Manager;
+              ws.user_association_type = MembershipType.Manager;
             } else if (member.is_banned) {
               ws.user_association_type = 'banned';
             } else {
-              ws.user_association_type = UserAssociationType.Member;
+              ws.user_association_type = MembershipType.Member;
             }
             return true;
           }

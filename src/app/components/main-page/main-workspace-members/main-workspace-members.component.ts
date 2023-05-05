@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../../../models/user';
-import { UserAssociationType, Workspace, WorkspaceMember } from '../../../models/workspace';
+import { MembershipType, Workspace, WorkspaceMember } from '../../../models/workspace';
 import { AccountService } from '../../../services/account.service';
 import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
@@ -176,12 +176,12 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     this.rebuildDataSource()
   }
 
-  displayUserAssociationType(role): string {
-    return role === UserAssociationType.Manager ? 'co-owner' : role;
+  displayMembershipType(role): string {
+    return role === MembershipType.Manager ? 'co-owner' : role;
   }
 
   isTransferOwnerActive(): boolean {
-    return (this.user?.is_admin || this.workspace.user_association_type === 'owner');
+    return (this.user?.is_admin || this.workspace.membership_type === 'owner');
   }
 
   transferOwnership(userId: string, email: string): void {
@@ -202,7 +202,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
   }
 
   isPromoteCoOwnerActive(role): boolean {
-    return role === 'member' && this.workspace.user_association_type !== 'public';
+    return role === 'member' && this.workspace.membership_type !== 'public';
   }
 
   promoteMember(userId: string): void {

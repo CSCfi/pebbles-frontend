@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { User, WorkspaceUserAssociation } from 'src/app/models/user';
+import { User, WorkspaceMembership } from 'src/app/models/user';
 import { buildConfiguration } from '../../environments/environment';
 import { EventService } from './event.service';
 
@@ -13,7 +13,7 @@ export class AccountService {
 
   private users: User[] = null;
   private userMap: Map<string, User> = new Map();
-  private workspaceUserAssociationMap: Map<string, WorkspaceUserAssociation[]> = new Map();
+  private workspaceMembershipMap: Map<string, WorkspaceMembership[]> = new Map();
 
   constructor(
     private http: HttpClient,
@@ -92,16 +92,16 @@ export class AccountService {
     }));
   }
 
-  getWorkspaceAssociations(userId: string): WorkspaceUserAssociation[] {
-    const wuas = this.workspaceUserAssociationMap.get(userId);
-    return wuas;
+  getWorkspaceMemberships(userId: string): WorkspaceMembership[] {
+    const wms = this.workspaceMembershipMap.get(userId);
+    return wms;
   }
 
-  fetchWorkspaceAssociations(userId: string): Observable<WorkspaceUserAssociation[]> {
-    const url = `${buildConfiguration.apiUrl}/users/${userId}/workspace_associations`;
-    return this.http.get<WorkspaceUserAssociation[]>(url).pipe(
+  fetchWorkspaceMemberships(userId: string): Observable<WorkspaceMembership[]> {
+    const url = `${buildConfiguration.apiUrl}/users/${userId}/workspace_memberships`;
+    return this.http.get<WorkspaceMembership[]>(url).pipe(
       map((resp) => {
-        this.workspaceUserAssociationMap.set(userId, resp);
+        this.workspaceMembershipMap.set(userId, resp);
         return resp;
       }),
       tap(_ => this.eventService.userDataUpdate$.next())

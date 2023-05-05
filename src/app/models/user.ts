@@ -16,8 +16,8 @@ export class User {
   ) {}
 }
 
-// Replicate API response defined in pebbles.views.commons.workspace_user_association_fields in the backend
-export interface WorkspaceUserAssociation {
+// Replicate API response defined in pebbles.views.commons.workspace_membership_fields in the backend
+export interface WorkspaceMembership {
     workspace_id: string;
     user_id: string;
     is_owner: boolean;

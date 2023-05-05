@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
-import { UserAssociationType, Workspace } from 'src/app/models/workspace';
+import { MembershipType, Workspace } from 'src/app/models/workspace';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from '../../../utilities';
@@ -32,8 +32,8 @@ export class MainWorkspaceItemComponent implements OnInit {
     return dayDifference < 7 && dayDifference >= 0;
   }
 
-  get userAssociationType(): string {
-    return this.workspace.user_association_type === UserAssociationType.Manager ? 'co-owner' : this.workspace.user_association_type;
+  get membershipType(): string {
+    return this.workspace.membership_type === MembershipType.Manager ? 'co-owner' : this.workspace.membership_type;
   }
 
   constructor(
