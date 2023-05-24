@@ -143,10 +143,9 @@ export class MainApplicationItemFormComponent implements OnInit {
 
     this.isAlwaysPullImage = coerceBooleanProperty(this.data.application.config.always_pull_image);
 
-    // if custom image is not present get the template base image
+    // if custom image is not set, populate config.image_url with info.base_config_image
     if (!this.data.application.config.image_url) {
-      this.data.application.config.image_url = this.applicationTemplateService.getApplicationTemplates().find(
-        x => x.id === this.data.application.template_id).base_config.image;
+      this.data.application.config.image_url = this.data.application.info.base_config_image;
     }
 
     // take maximum lifetime from config if there, fall back to application field that always has a default value
