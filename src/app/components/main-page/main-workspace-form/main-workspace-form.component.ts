@@ -1,7 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Workspace } from 'src/app/models/workspace';
+import { MatDialogRef } from '@angular/material/dialog';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 
 @Component({
@@ -20,10 +19,6 @@ export class MainWorkspaceFormComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<MainWorkspaceFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      isCreationMode: boolean,
-      workspace?: Workspace,
-    },
     private workspaceService: WorkspaceService
   ) {
   }
@@ -31,10 +26,6 @@ export class MainWorkspaceFormComponent implements OnInit {
   ngOnInit(): void {
     this.initReactiveForm();
     this.createButtonClicked = false;
-    if (!this.data.isCreationMode) {
-      this.workspaceForm.controls.name.setValue(this.data.workspace.name);
-      this.workspaceForm.controls.description.setValue(this.data.workspace.description);
-    }
   }
 
   initReactiveForm(): void {

@@ -1,75 +1,63 @@
 <div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
   <div class="corner-button-container" fxHide.lt-sm="true">
-    <button mat-icon-button mat-dialog-close="true" class="corner-button">
+    <button mat-icon-button mat-dialog-close class="corner-button">
       <mat-icon>close</mat-icon>
     </button>
   </div>
   <form [formGroup]="workspaceForm" novalidate>
-    <ng-container *ngIf="data.isCreationMode;else editMode">
-      <h1 class="mat-dialog-title mat-headline">Create new workspace</h1>
-
-      <mat-dialog-content>
-        <section class="instruction-body" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
-          <div class="form-help-icon center__v" fxFlex="0 0 100px">
-            <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+    <h1 class="mat-dialog-title mat-headline">Create new workspace</h1>
+    <mat-dialog-content>
+      <section class="instruction-body" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
+        <div class="form-help-icon center__v" fxFlex="0 0 100px">
+          <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+        </div>
+        <div class="instruction-text">
+          <h1 class="question">What is Workspace?</h1>
+          <div class="answer mat-body-1">
+            "Workspace" is the virtual space where you can share customized competing applications and materials with
+            students or collaborators.
+            User can join your Workspace with the shared "Join Code".
           </div>
-          <div class="instruction-text">
-            <h1 class="question">What is Workspace?</h1>
-            <div class="answer mat-body-1">
-              "Workspace" is the virtual space where you can share customized competing applications and materials with
-              students or collaborators.
-              User can join your Workspace with the shared "Join Code".
-            </div>
-            <div class="warning mat-body-2 mt-20">
-              <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
-              Note: Each Workspace is valid for 6 months.
-            </div>
+          <div class="warning mat-body-2 mt-20">
+            <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
+            Note: Each Workspace is valid for 6 months.
           </div>
-        </section>
-
-        <section class="form-container">
-          <!-- Name -->
-          <mat-form-field appearance="fill">
-            <mat-label>Workspace name</mat-label>
-            <input matInput formControlName="name" placeholder="Workspace name">
-            <mat-error *ngIf="workspaceForm.controls.name.hasError('required')">
-              You must provide a <strong>workspace name</strong>
-            </mat-error>
-            <mat-error *ngIf="workspaceForm.controls.name.hasError('maxlength')">
-              <strong>Max length (64 characters) exceeded</strong>
-            </mat-error>
-          </mat-form-field>
-        </section>
-        <section class="form-container">
-          <!-- Description-->
-          <mat-form-field appearance="fill">
-            <mat-label>Workspace description</mat-label>
-            <textarea matInput formControlName="description" placeholder="Workspace description"></textarea>
-            <!-- error -->
-            <mat-error *ngIf="errorHandling('description', 'required')">
-              You must provide a <strong>description about workspace</strong>
-            </mat-error>
-            <!-- <mat-hint>Ex) </mat-hint> -->
-          </mat-form-field>
-        </section>
-      </mat-dialog-content>
-      <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
-           fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
-        <button mat-flat-button color="primary" fxFlex="grow"
-                [disabled]="!workspaceForm.valid || createButtonClicked"
-                (click)="createWorkspace()">
-            Create
-        </button>
-        <button mat-button mat-dialog-close="true" class="button-link button-sm" fxFlex="0 0 auto">Cancel</button>
-      </div>
-    </ng-container>
-    <ng-template #editMode>
-      <h2>Edit Workspace</h2>
-      <!-- <button mat-flat-button color="primary" class="submit-button" fxFlex="grow"
-        [disabled]="!workspaceForm.valid"
-        (click)="updateWorkspace()">
-        Update
-      </button> -->
-    </ng-template>
+        </div>
+      </section>
+      <section class="form-container">
+        <!-- Name -->
+        <mat-form-field appearance="fill">
+          <mat-label>Workspace name</mat-label>
+          <input matInput formControlName="name" placeholder="Workspace name">
+          <mat-error *ngIf="workspaceForm.controls.name.hasError('required')">
+            You must provide a <strong>workspace name</strong>
+          </mat-error>
+          <mat-error *ngIf="workspaceForm.controls.name.hasError('maxlength')">
+            <strong>Max length (64 characters) exceeded</strong>
+          </mat-error>
+        </mat-form-field>
+      </section>
+      <section class="form-container">
+        <!-- Description-->
+        <mat-form-field appearance="fill">
+          <mat-label>Workspace description</mat-label>
+          <textarea matInput formControlName="description" placeholder="Workspace description"></textarea>
+          <!-- error -->
+          <mat-error *ngIf="errorHandling('description', 'required')">
+            You must provide a <strong>description about workspace</strong>
+          </mat-error>
+          <!-- <mat-hint>Ex) </mat-hint> -->
+        </mat-form-field>
+      </section>
+    </mat-dialog-content>
+    <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
+         fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
+      <button mat-flat-button color="primary" fxFlex="grow"
+              [disabled]="!workspaceForm.valid || createButtonClicked"
+              (click)="createWorkspace()">
+        Create
+      </button>
+      <button mat-button mat-dialog-close class="button-link button-sm" fxFlex="0 0 auto">Cancel</button>
+    </div>
   </form>
 </div>

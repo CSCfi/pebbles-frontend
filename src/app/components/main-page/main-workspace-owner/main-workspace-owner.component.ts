@@ -205,9 +205,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       width: '800px',
       height: 'auto',
       autoFocus: false,
-      data: {
-        isCreationMode: true,
-      }
     });
 
     dialogRef.afterClosed().subscribe(resp => {
