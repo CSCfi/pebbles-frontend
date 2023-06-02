@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 
@@ -30,7 +30,13 @@ export class MainWorkspaceFormComponent implements OnInit {
 
   initReactiveForm(): void {
     this.workspaceForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(64)]],
+      name: ['', [
+        Validators.required,
+        Validators.maxLength(64),
+        (control: AbstractControl) => {
+          return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
+        }
+      ]],
       description: ['', [Validators.required]],
     });
   }
@@ -40,8 +46,12 @@ export class MainWorkspaceFormComponent implements OnInit {
     this.workspaceService.createWorkspace(
       this.workspaceForm.controls.name.value,
       this.workspaceForm.controls.description.value
-    ).subscribe(resp => {
-      this.dialogRef.close(resp);
-    });
+    ).subscribe(
+      resp => {
+        this.dialogRef.close(resp);
+      },
+      err => {
+        this.createButtonClicked = false;
+      });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MembershipType, Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
@@ -59,7 +59,13 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     }
     this.isWorkspaceFormChanged = false;
     this.workspaceEditForm = this.formBuilder.group({
-      name: [this.workspace.name, [Validators.required, Validators.maxLength(64)]],
+      name: [this.workspace.name, [
+        Validators.required,
+        Validators.maxLength(64),
+        (control: AbstractControl) => {
+          return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
+        }
+      ]],
       description: [this.workspace.description, [Validators.required]],
     });
   }

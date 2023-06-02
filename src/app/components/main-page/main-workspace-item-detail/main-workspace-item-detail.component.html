@@ -21,6 +21,9 @@
           <mat-error *ngIf="workspaceEditForm.controls.name.hasError('maxlength')">
             <strong>Max length (64 characters) exceeded</strong>
           </mat-error>
+          <mat-error *ngIf="workspaceEditForm.controls.name.hasError('forbiddenValue')">
+            <strong>Workspace name cannot start with "system"</strong>
+          </mat-error>
         </mat-form-field>
       </dd>
       <dt>
