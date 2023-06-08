@@ -50,7 +50,7 @@
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Role</th>
         <td mat-cell class="cell-role" *matCellDef="let element">
           <ng-container [ngSwitch]="element.role">
-            <div [ngClass]="element.role" class="center__v mat-caption user-association-type">
+            <div [ngClass]="element.role" class="center__v mat-caption">
               <mat-icon fontSet="material-icons-outlined" class="user-role-icon mr-5" *ngSwitchCase="'owner'">
                 manage_accounts
               </mat-icon>

@@ -194,8 +194,8 @@ export class MockInterceptor implements HttpInterceptor {
             return {
               workspace_id: ws.id,
               user_id: account.id,
-              is_owner: ws.user_association_type === MembershipType.Owner,
-              is_manager: ws.user_association_type === MembershipType.Manager,
+              is_owner: ws.membership_type === MembershipType.Owner,
+              is_manager: ws.membership_type === MembershipType.Manager,
               is_banned: false
             }
           }));
@@ -675,26 +675,26 @@ export class MockInterceptor implements HttpInterceptor {
       const workspaces = database.workspaces.filter( ws => {
         if (isAdmin) {
           if (ws.name.startsWith('System.')) {
-            ws.user_association_type = MembershipType.Public;
+            ws.membership_type = MembershipType.Public;
           } else {
-            ws.user_association_type = MembershipType.Admin;
+            ws.membership_type = MembershipType.Admin;
           }
           return true;
         }
         if (ws.name.startsWith('System.')) {
-          ws.user_association_type = MembershipType.Public;
+          ws.membership_type = MembershipType.Public;
           return false;
         }
         const memberInfo = ws._members.find(member => {
           if (member.ext_id === ext_id) {
             if (ws.owner_ext_id === user.ext_id) {
-              ws.user_association_type = MembershipType.Owner;
+              ws.membership_type = MembershipType.Owner;
             } else if (member.is_manager) {
-              ws.user_association_type = MembershipType.Manager;
+              ws.membership_type = MembershipType.Manager;
             } else if (member.is_banned) {
-              ws.user_association_type = 'banned';
+              ws.membership_type = 'banned';
             } else {
-              ws.user_association_type = MembershipType.Member;
+              ws.membership_type = MembershipType.Member;
             }
             return true;
           }
