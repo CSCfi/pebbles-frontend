@@ -3,13 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ActivatedRoute, Data } from '@angular/router';
 import { ApplicationSessionService } from '../../../services/application-session.service';
-import { ApplicationSession } from '../../../models/application-session';
+import { ApplicationSession, ApplicationSessionLog, SessionStates } from '../../../models/application-session';
 import { ApplicationService } from '../../../services/application.service';
 import { Utilities } from '../../../utilities';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
-import { LoginStatusChange } from "../../../services/event.service";
 
 export interface SessionTableRow {
   isSelected: boolean;
@@ -31,24 +30,35 @@ export interface SessionTableRow {
 })
 export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 
-  public context: Data;
-  public sessions: ApplicationSession[];
-  public lastUpdateTs = 0;
-  private interval = 0;
-  public queryText = '';
+  context: Data;
+  sessions: ApplicationSession[];
+  lastUpdateTs = 0;
+  interval = 0;
+  queryText = '';
 
-  public displayedColumns: string[] = [
-     'index', 'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft', 'sessionLink'
+  displayedColumns: string[] = [
+    'index', 'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft',
+    'sessionDetails', 'sessionLink'
   ];
-  public dataSource: MatTableDataSource<SessionTableRow>;
-  public selection = new SelectionModel<SessionTableRow>(true, []);
-  public tableRowData: SessionTableRow[] = [];
-  public sortCondition: Sort = {
+  dataSource: MatTableDataSource<SessionTableRow>;
+  selection = new SelectionModel<SessionTableRow>(true, []);
+  tableRowData: SessionTableRow[] = [];
+  sortCondition: Sort = {
     direction: 'asc',
     active: 'index'
   };
   @ViewChild(MatSort) sort: MatSort;
-  public activeSessionNumber = 0;
+  activeSessionNumber = 0;
+  selectedDetailSessionId: string | null = null;
+  selectedSessionLogs: ApplicationSessionLog[] = [];
+  selectedSessionPreviousState: SessionStates;
+  logRefreshPending: boolean = false;
+
+  protected readonly SessionStates = SessionStates;
+
+  get selectedDetailSession(): ApplicationSession | null {
+    return this.applicationSessionService.getSession(this.selectedDetailSessionId);
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,12 +72,13 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
-    this.applicationService.fetchApplications().subscribe(() =>
-      this.applicationSessionService.fetchSessions().subscribe(() =>
-        this.updateRowData()
-      )
-    );
-    this.interval = window.setInterval(() => this.updateRowData(), 5000);
+    this.applicationService.fetchApplications().subscribe(() => {
+      this.applicationSessionService.fetchSessions().subscribe(() => {
+        this.updateView();
+        //this.showSessionDetails(this.applicationSessionService.getSessions()[0].id);
+      })
+    });
+    this.interval = window.setInterval(() => this.updateView(), 5000);
   }
 
   ngOnDestroy(): void {
@@ -80,6 +91,30 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       this.updateRowData(true)
     );
   }
+
+  updateView(force = false): void {
+    if (this.selectedDetailSessionId) {
+      this.updateDetailView();
+    }
+    else {
+      this.updateRowData(force);
+    }
+  }
+
+  updateDetailView() {
+    // refresh logs in case
+    // a) the session does not have a 'ready' event yet
+    // b) the user has requested new logs and the logs have been fetched by the worker already
+    if (!this.selectedSessionLogs.find(x => x.message === 'ready')) {
+      this.selectedSessionPreviousState = this.selectedDetailSession.state;
+      this.refreshApplicationSessionLogs(this.selectedDetailSessionId);
+    }
+    else if (this.logRefreshPending && !this.selectedDetailSession?.log_fetch_pending) {
+      this.refreshApplicationSessionLogs(this.selectedDetailSessionId);
+      this.logRefreshPending = false;
+    }
+  }
+
 
   updateRowData(force = false): void {
     // first check if we already have the latest data
@@ -106,7 +141,8 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         existingEntry.applicationName = this.applicationService.get(session.application_id)?.name;
         existingEntry.sessionUrl = session.url;
         existingEntry.username = session.username;
-      } else {
+      }
+      else {
         this.tableRowData.push({
           isSelected: false,
           index: -1,
@@ -179,7 +215,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   openStopSessionDialog(selectedSessions: SessionTableRow[]): void {
     let sessionNamesList = '';
     selectedSessions.forEach(sess => {
-      sessionNamesList += `<li>${sess.sessionName} <span class="ml-5">(${ sess.username })</span></li>`;
+      sessionNamesList += `<li>${sess.sessionName} <span class="ml-5">(${sess.username})</span></li>`;
     });
 
     const dialogRef = this.dialog.open(DialogComponent, {
@@ -187,7 +223,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       autoFocus: false,
       data: {
         dialogTitle: 'Confirm session deletion',
-        dialogContent: `<p>The following sessions will be deleted.</p><ul class="list-style">${ sessionNamesList }</ul>`,
+        dialogContent: `<p>The following sessions will be deleted.</p><ul class="list-style">${sessionNamesList}</ul>`,
         dialogActions: ['confirm', 'cancel']
       }
     });
@@ -250,5 +286,40 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
           return 0;
       }
     });
+  }
+
+  showSessionDetails(sessionId: string): void {
+    this.selectedDetailSessionId = sessionId;
+    this.refreshApplicationSessionLogs(sessionId);
+  }
+
+  closeSessionDetails(): void {
+    this.selectedDetailSessionId = null;
+    this.selectedSessionLogs = [];
+    this.updateRowData();
+  }
+
+  requestLogFetch(sessionId: string): void {
+    this.logRefreshPending = true;
+    this.applicationSessionService.requestLogFetch(sessionId).subscribe();
+  }
+
+  refreshApplicationSessionLogs(sessionId: string): void {
+    this.applicationSessionService.fetchApplicationSessionLogs(sessionId).subscribe(logs => {
+      this.selectedSessionLogs = logs;
+      setTimeout(() => {
+        const terminal = document.getElementById("terminal");
+        terminal.scrollTop = terminal.scrollHeight;
+      }, 1000);
+    });
+  }
+
+  getSelectedSessionEvents(): ApplicationSessionLog[] {
+    return this.selectedSessionLogs.filter(x => x.log_type == 'provisioning');
+  }
+
+  getSelectedSessionOutputLines(): string[] {
+    const runningLog = this.selectedSessionLogs.find(x => x.log_type == 'running');
+    return runningLog ? runningLog.message.split('\n') : [];
   }
 }

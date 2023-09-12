@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
+import { SessionStates } from 'src/app/models/application-session';
 import { User } from 'src/app/models/user';
 import { Application } from '../models/application';
 import { MembershipType, Workspace, WorkspaceMember } from '../models/workspace';
@@ -34,7 +34,8 @@ export class MockInterceptor implements HttpInterceptor {
     if (req.url.indexOf('?') >= 0) {
       url = req.url.split('?')[0];
       args = req.url.split('?')[1];
-    } else {
+    }
+    else {
       url = req.url;
     }
     const apiComponents = url.substring(url.lastIndexOf('api/v1/') + 7).split('/');
@@ -137,11 +138,11 @@ export class MockInterceptor implements HttpInterceptor {
           return getAllUsers();
         case url.includes('/users') && objectId && method === 'PATCH':
           // if (typeof body.is_blocked !== 'undefined') {
-          if ('is_blocked' in body ) {
+          if ('is_blocked' in body) {
             return toggleBlockUser();
           }
           // if (typeof body.workspace_quota !== 'undefined') {
-          if ('workspace_quota' in body ) {
+          if ('workspace_quota' in body) {
             return updateWorkspaceQuotas();
           }
           break;
@@ -201,14 +202,15 @@ export class MockInterceptor implements HttpInterceptor {
           }));
         }
         return ok(account);
-      } else {
+      }
+      else {
         return error('account not found');
       }
     }
 
     function removeUser() {
       database.users.map(user => {
-        if ( user.id === objectId ) {
+        if (user.id === objectId) {
           user.is_deleted = true;
         }
         return user;
@@ -231,13 +233,13 @@ export class MockInterceptor implements HttpInterceptor {
 
     function genPastTs(days: number): number {
       const today = new Date();
-      const diff = Math.floor(Math.random() * ( today.getUTCHours() * 60 * 60 ));
-      return Math.floor((today.getTime() / 1000 + days * ( 24 * 60 * 60 ) - diff));
+      const diff = Math.floor(Math.random() * (today.getUTCHours() * 60 * 60));
+      return Math.floor((today.getTime() / 1000 + days * (24 * 60 * 60) - diff));
     }
 
     function getAllUsers() {
       if (database.users.length > 0) {
-        const users = database.users.map( user => {
+        const users = database.users.map(user => {
           switch (user.joining_ts) {
             case 'today':
               user.joining_ts = genPastTs(0);
@@ -266,7 +268,8 @@ export class MockInterceptor implements HttpInterceptor {
         });
 
         return ok(users);
-      } else {
+      }
+      else {
         return error('account not found');
       }
     }
@@ -325,7 +328,8 @@ export class MockInterceptor implements HttpInterceptor {
             session.state = SessionStates.Failed;
             session._mockLastStateUpdateTs = Date.now();
             session.is_failed = true;
-          } else if (Date.now() - session._mockLastStateUpdateTs > 5000) {
+          }
+          else if (Date.now() - session._mockLastStateUpdateTs > 5000) {
             session.state = states[states.indexOf(session.state) + 1];
             session._mockLastStateUpdateTs = Date.now();
           }
@@ -436,16 +440,21 @@ export class MockInterceptor implements HttpInterceptor {
 
       const sessionId = Math.random().toString(36).substring(2, 8);
 
-      const session = new ApplicationSession(
-        sessionId,
-        userId,
-        'pb-random-' + sessionId,
-        appId,
-        SessionStates.Queueing,
-        '',
-        application.maximum_lifetime,
-        userName,
-      );
+      const session = {
+        id: sessionId,
+        user_id: userId,
+        name: 'pb-random-' + sessionId,
+        application_id: appId,
+        state: SessionStates.Queueing,
+        url: '',
+        lifetime_left: application.maximum_lifetime,
+        username: userName,
+        log_fetch_pending: false,
+        created_at: '',
+        provisioned_at: '',
+        provisioning_config: {},
+        session_data: {},
+      };
 
       (session as any)._mockLastStateUpdateTs = Date.now();
       database.application_sessions.push(session);
@@ -462,7 +471,8 @@ export class MockInterceptor implements HttpInterceptor {
         session.state = 'deleting';
         session._mockLastStateUpdateTs = Date.now();
         return ok(session);
-      } else {
+      }
+      else {
         return error('session not found');
       }
     }
@@ -489,19 +499,22 @@ export class MockInterceptor implements HttpInterceptor {
       const workspaces = getAccessibleWorkspaces(user_name);
       const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-      workspaces.map( (ws, i) => {
+      workspaces.map((ws, i) => {
         if (ws.name.startsWith('System.')) {
           ws.create_ts = null;
           ws.expiry_ts = null;
-        } else if (i == 1) {
+        }
+        else if (i == 1) {
           // ---- Deactivation : Expired
           ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(10, 20))).getTime() / 1000;
           ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(1, 10))).getTime() / 1000;
-        } else if (i == 2) {
+        }
+        else if (i == 2) {
           // ---- Warning color : Expired in a week
           ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(7, 20))).getTime() / 1000;
           ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange(0, 7))).getTime() / 1000;
-        } else {
+        }
+        else {
           ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(0, 10))).getTime() / 1000;
           ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange(0, 40))).getTime() / 1000;
         }
@@ -515,12 +528,13 @@ export class MockInterceptor implements HttpInterceptor {
       if (!target_workspace) {
         return error('workspace not found');
       }
-      const memberInfo = target_workspace._members.find( member => member.ext_id === user_name );
+      const memberInfo = target_workspace._members.find(member => member.ext_id === user_name);
       if (!memberInfo) {
         target_workspace._members.push({
           ext_id: user_name
         });
-      } else {
+      }
+      else {
         return error('already a member of the workspace');
       }
       return ok(target_workspace);
@@ -528,9 +542,9 @@ export class MockInterceptor implements HttpInterceptor {
 
     function exitWorkspace() {
       const user_name = localStorage.getItem('user_name');
-      database.workspaces.map( ws => {
+      database.workspaces.map(ws => {
         if (ws.id === objectId) {
-          ws._members = ws._members.filter( member => member.ext_id !== user_name );
+          ws._members = ws._members.filter(member => member.ext_id !== user_name);
         }
         return ws;
       });
@@ -567,7 +581,8 @@ export class MockInterceptor implements HttpInterceptor {
       // testMemberRefresh();
       if (targetWorkspace) {
         return ok(constructWorkspaceMemberList(targetWorkspace));
-      } else {
+      }
+      else {
         return error('workspace not found');
       }
     }
@@ -576,7 +591,8 @@ export class MockInterceptor implements HttpInterceptor {
       const targetWorkspace = getTargetWorkspace(objectId);
       if (targetWorkspace) {
         return ok(constructWorkspaceMemberList(targetWorkspace).length);
-      } else {
+      }
+      else {
         return error('workspace not found');
       }
     }
@@ -603,7 +619,8 @@ export class MockInterceptor implements HttpInterceptor {
 
       if (workspace) {
         return ok(workspace);
-      } else {
+      }
+      else {
         return error('workspace not found');
       }
     }
@@ -655,7 +672,8 @@ export class MockInterceptor implements HttpInterceptor {
     function loadDatabase() {
       if (localStorage.getItem('mock.database')) {
         return JSON.parse(localStorage.getItem('mock.database'));
-      } else {
+      }
+      else {
         return TESTDATA.db;
       }
     }
@@ -672,11 +690,12 @@ export class MockInterceptor implements HttpInterceptor {
       }
       const isAdmin = user.is_admin;
 
-      const workspaces = database.workspaces.filter( ws => {
+      const workspaces = database.workspaces.filter(ws => {
         if (isAdmin) {
           if (ws.name.startsWith('System.')) {
             ws.membership_type = MembershipType.Public;
-          } else {
+          }
+          else {
             ws.membership_type = MembershipType.Admin;
           }
           return true;
@@ -689,11 +708,14 @@ export class MockInterceptor implements HttpInterceptor {
           if (member.ext_id === ext_id) {
             if (ws.owner_ext_id === user.ext_id) {
               ws.membership_type = MembershipType.Owner;
-            } else if (member.is_manager) {
+            }
+            else if (member.is_manager) {
               ws.membership_type = MembershipType.Manager;
-            } else if (member.is_banned) {
+            }
+            else if (member.is_banned) {
               ws.membership_type = 'banned';
-            } else {
+            }
+            else {
               ws.membership_type = MembershipType.Member;
             }
             return true;
@@ -760,8 +782,10 @@ export class MockInterceptor implements HttpInterceptor {
       for (const wm of workspace._members) {
         const user = getUserByEppn(wm.ext_id);
         if (user) {
-        res.push({user_id: user.id, ext_id: user.ext_id, email_id: user.email_id,
-          is_owner: wm.is_owner, is_manager: wm.is_manager, is_banned: wm.is_banned});
+          res.push({
+            user_id: user.id, ext_id: user.ext_id, email_id: user.email_id,
+            is_owner: wm.is_owner, is_manager: wm.is_manager, is_banned: wm.is_banned
+          });
         }
       }
       return res;

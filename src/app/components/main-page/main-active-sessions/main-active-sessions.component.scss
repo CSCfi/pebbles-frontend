@@ -1,6 +1,8 @@
 @import "src/styles/main.scss";
 
 #active-sessions-container {
+  min-height: 100vh;
+  max-height: 100vh;
 
   table {
 
@@ -35,6 +37,80 @@
     ::ng-deep .mat-sort-header-sorted .mat-sort-header-arrow {
       color: map-get($app-primary, default);
       opacity: 1 !important;
+    }
+  }
+}
+
+#active-sessions-log-container {
+  min-height: 100vh;
+  max-height: 100vh;
+  display: grid;
+  grid-template-areas:
+    'header'
+    'content';
+  gap: 20px;
+  grid-template-rows: 30px auto;
+
+  .back-button {
+    grid-area: header;
+
+    button {
+      text-decoration: underline;
+      padding: 0;
+    }
+  }
+
+  .content {
+    grid-area: content;
+    max-height: calc(100vh - 100px);
+    display: grid;
+    grid-gap: 20px 20px;
+    grid-template-areas:
+    'info-box event-box'
+    'log-box log-box';
+    grid-template-rows: 230px auto;
+
+    .info-box {
+      grid-area: info-box;
+
+      dl{
+        grid-gap: 0px 20px;
+      };
+
+      .mat-title {
+        border-bottom: 1px solid #c7c7c7;
+      }
+    }
+
+    .event-box {
+      grid-area: event-box;
+
+      dl{
+        grid-gap: 0px 20px;
+      };
+
+      .mat-title {
+        border-bottom: 1px solid #c7c7c7;
+      }
+    }
+
+    .log-box {
+      grid-area: log-box;
+      height: 100%;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: auto;
+      grid-template-rows: 20px auto 50px;
+      gap: 5px;
+
+      .terminal {
+        //border: solid #fff 3px;
+        overflow: auto;
+        padding: 20px 30px;
+        background: #000;
+        color: #00EAC3;
+        border-radius: 5px;
+      }
     }
   }
 }

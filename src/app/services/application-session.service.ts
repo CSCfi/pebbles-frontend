@@ -7,6 +7,7 @@ import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/ap
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 import { buildConfiguration } from '../../environments/environment';
 import { AuthService } from './auth.service';
+import { EventService } from "./event.service";
 
 
 @Injectable({
@@ -23,6 +24,7 @@ export class ApplicationSessionService implements OnDestroy {
     private http: HttpClient,
     private desktopNotificationService: DesktopNotificationService,
     private authService: AuthService,
+    private eventService: EventService,
   ) {
     this.setPollingInterval(60 * 1000);
   }
@@ -59,6 +61,9 @@ export class ApplicationSessionService implements OnDestroy {
         let nonStatic = false;
         for (const session of sessions) {
           if (session.state !== SessionStates.Running && session.state !== SessionStates.Failed) {
+            nonStatic = true;
+          }
+          if (session.log_fetch_pending) {
             nonStatic = true;
           }
           if (session.session_data?.endpoints?.length) {
@@ -99,7 +104,7 @@ export class ApplicationSessionService implements OnDestroy {
 
   deleteSession(sessionId: string): Observable<ApplicationSession> {
     const url = `${buildConfiguration.apiUrl}/application_sessions/${sessionId}`;
-    return this.http.delete<ApplicationSession>(url).pipe(tap(resp => {
+    return this.http.delete<ApplicationSession>(url).pipe(tap(_ => {
       this.fetchSessions().subscribe();
     }));
   }
@@ -135,5 +140,16 @@ export class ApplicationSessionService implements OnDestroy {
       this.fetchSessions().subscribe();
     }, intervalMs);
     this.intervalValue = intervalMs;
+  }
+
+  requestLogFetch(sessionId: string): Observable<any> {
+    const url = `${buildConfiguration.apiUrl}/application_sessions/${sessionId}`;
+    return this.http.patch<string>(
+      url,
+      {'log_fetch_pending': true}
+    ).pipe(tap(resp => {
+      this.getSession(sessionId).log_fetch_pending = true;
+      this.fetchSessions().subscribe();
+    }));
   }
 }

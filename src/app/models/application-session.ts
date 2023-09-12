@@ -15,27 +15,29 @@ export enum SessionLifetimeLevel {
   Failed = 'failed'
 }
 
-export class ApplicationSession {
-
+// Replicate API response defined in pebbles.views.application_sessions.application_session_fields in the backend
+export interface ApplicationSession {
+  id: string,
+  user_id: string,
+  name: string,
+  application_id: string,
+  state: SessionStates,
+  url: string,
+  lifetime_left: number,
+  username: string,
+  log_fetch_pending: boolean,
+  created_at: string,
+  provisioned_at: string,
+  provisioning_config: any,
   session_data: any;
-
-  constructor(
-    public id: string,
-    public user_id: string,
-    public name: string,
-    public application_id: string,
-    public state: SessionStates,
-    public url: string,
-    public lifetime_left?: number,
-    public username?: string) {}
 }
 
 // Replicate API response defined in pebbles.views.application_sessions.application_session_log_fields in the backend
 export interface ApplicationSessionLog {
-    id: string;
-    application_session_id: string;
-    log_type: string;
-    log_level: string;
-    timestamp: number;
-    message: string;
+  id: string;
+  application_session_id: string;
+  log_type: string;
+  log_level: string;
+  timestamp: number;
+  message: string;
 }
