@@ -40,6 +40,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   selectedJupyterInterface: string;
   selectedDownloadMethod: string = null;
   selectedApplicationTemplateImage: string = null;
+  selectedApplicationEnvironmentVars: string = null;
   applicationTemplateColumns: string[] = ['info', 'spec'];
   applicationTemplateDataSource: MatTableDataSource<ApplicationTemplateRow> = null;
   isCheckedUserWorkFolder = true;
@@ -111,6 +112,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       isAlwaysPullImage: [''],
       sessionLifetimeHours: [''],
       sessionMemoryGiB: [''],
+      environmentVars: '',
     });
 
     // ---- Set default value
@@ -155,11 +157,16 @@ export class MainApplicationItemFormComponent implements OnInit {
       this.sessionLifetimeHours = Math.floor(this.data.application.maximum_lifetime / 3600);
     }
 
-    // take memory from config if there, otherwise from info (populated from base config in the backend)
+    // take memory from config if exists, otherwise from info (populated from base config in the backend)
     if (this.data.application.config.memory_gib) {
       this.sessionMemoryGiB = this.data.application.config.memory_gib;
     } else {
       this.sessionMemoryGiB = this.data.application.info.memory_gib;
+    }
+
+    // environment vars
+    if (this.data.application.config.environment_vars) {
+      this.selectedApplicationEnvironmentVars = this.data.application.config.environment_vars;
     }
 
     this.applicationItemEditFormGroup = this.formBuilder.group({
@@ -181,6 +188,7 @@ export class MainApplicationItemFormComponent implements OnInit {
       publish: [this.data.application.is_enabled, [Validators.required]],
       sessionLifetimeHours: [this.sessionLifetimeHours],
       sessionMemoryGiB: [this.sessionMemoryGiB],
+      environmentVars: [this.selectedApplicationEnvironmentVars],
     });
 
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
@@ -209,6 +217,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         always_pull_image: this.applicationItemEditFormGroup.controls.isAlwaysPullImage.value,
         maximum_lifetime: this.applicationItemEditFormGroup.controls.sessionLifetimeHours.value * 3600,
         memory_gib: this.applicationItemEditFormGroup.controls.sessionMemoryGiB.value,
+        environment_vars: this.applicationItemEditFormGroup.controls.environmentVars.value.trim(),
       },
       this.applicationItemEditFormGroup.controls.publish.value || false,
     ).subscribe(_ => {
@@ -218,7 +227,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   editApplicationItem(): void {
     this.editButtonClicked = true;
-
     this.data.application.name = this.applicationItemEditFormGroup.controls.name.value;
     this.data.application.description = this.applicationItemEditFormGroup.controls.description.value;
     this.data.application.labels = this.selectedLabels;
@@ -233,6 +241,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
     this.data.application.config.maximum_lifetime = this.applicationItemEditFormGroup.controls.sessionLifetimeHours.value * 3600;
     this.data.application.config.memory_gib = this.applicationItemEditFormGroup.controls.sessionMemoryGiB.value;
+    this.data.application.config.environment_vars = this.applicationItemEditFormGroup.controls.environmentVars.value.trim();
     this.applicationService.updateApplication(
       this.data.application
     ).subscribe(_ => {

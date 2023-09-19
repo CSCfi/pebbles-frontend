@@ -210,6 +210,18 @@
           </div>
         </section>
 
+        <!-- 7-6 Environment Variables -->
+        <section class="form-container">
+          <h3 class="mat-title">Environment variables</h3>
+          <p class="mat-caption">
+            Optionally set environment variables for your application, formatted as a space separated list
+            ("FOO=hello BAR=there")
+          </p>
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="environmentVars" [value]="selectedApplicationEnvironmentVars">
+          </mat-form-field>
+        </section>
+
         <!-- 8 Publish -->
         <section class="form-container">
           <h3 class="mat-title">Publication</h3>
