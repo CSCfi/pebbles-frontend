@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceFormComponent } from './main-workspace-form.component';
+import { DateDisplayPipe } from "../../../pipes/date-display.pipe";
 
 describe('MainWorkspaceFormComponent', () => {
   let component: MainWorkspaceFormComponent;
@@ -17,9 +18,8 @@ describe('MainWorkspaceFormComponent', () => {
         FormsModule,
         MaterialModule,
         MatDialogModule,
-        MatDialogModule
       ],
-      declarations: [ MainWorkspaceFormComponent ],
+      declarations: [ MainWorkspaceFormComponent, DateDisplayPipe ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -30,7 +30,7 @@ describe('MainWorkspaceFormComponent', () => {
         {
           provide: MatDialogRef,
           useValue: {}
-        }
+        },
       ]
     })
     .compileComponents();

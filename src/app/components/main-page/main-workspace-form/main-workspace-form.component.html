@@ -14,13 +14,9 @@
         <div class="instruction-text">
           <h1 class="question">What is Workspace?</h1>
           <div class="answer mat-body-1">
-            "Workspace" is the virtual space where you can share customized competing applications and materials with
-            students or collaborators.
-            User can join your Workspace with the shared "Join Code".
-          </div>
-          <div class="warning mat-body-2 mt-20">
-            <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
-            Note: Each Workspace is valid for 6 months.
+            "Workspace" is the virtual space where you can share customized applications and materials with
+            students or collaborators. There are folders for storing shared and user's data.
+            Users join your Workspace using shared "Join Code".
           </div>
         </div>
       </section>
@@ -41,7 +37,7 @@
         </mat-form-field>
       </section>
       <section class="form-container">
-        <!-- Description-->
+        <!-- Description -->
         <mat-form-field appearance="fill">
           <mat-label>Workspace description</mat-label>
           <textarea matInput formControlName="description" placeholder="Workspace description"></textarea>
@@ -51,6 +47,21 @@
           </mat-error>
           <!-- <mat-hint>Ex) </mat-hint> -->
         </mat-form-field>
+      </section>
+      <section class="form-container">
+        <!-- Validity -->
+        <mat-form-field appearance="fill">
+          <mat-label>Valid for</mat-label>
+          <mat-select formControlName="validity" placeholder="Valid for" (selectionChange)="updateProjectedExpiryDate()">
+            <mat-option *ngFor="let opt of validityOptions" [value]="opt.value">
+              {{opt.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="warning mat-body-2 mt-20">
+          <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
+          Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
+        </div>
       </section>
     </mat-dialog-content>
     <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"

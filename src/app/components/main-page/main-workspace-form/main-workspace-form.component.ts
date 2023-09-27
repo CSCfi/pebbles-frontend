@@ -11,6 +11,8 @@ export class MainWorkspaceFormComponent implements OnInit {
 
   workspaceForm: UntypedFormGroup;
   createButtonClicked: boolean;
+  validityOptions: any[];
+  projectedExpiryTs: number;
 
   errorHandling = (control: string, error: string) => {
     return this.workspaceForm.controls[control].hasError(error);
@@ -26,6 +28,8 @@ export class MainWorkspaceFormComponent implements OnInit {
   ngOnInit(): void {
     this.initReactiveForm();
     this.createButtonClicked = false;
+    this.validityOptions = this.createValidityOptions();
+    this.updateProjectedExpiryDate();
   }
 
   initReactiveForm(): void {
@@ -38,6 +42,7 @@ export class MainWorkspaceFormComponent implements OnInit {
         }
       ]],
       description: ['', [Validators.required]],
+      validity: [3, [Validators.required]],
     });
   }
 
@@ -45,7 +50,8 @@ export class MainWorkspaceFormComponent implements OnInit {
     this.createButtonClicked = true;
     this.workspaceService.createWorkspace(
       this.workspaceForm.controls.name.value,
-      this.workspaceForm.controls.description.value
+      this.workspaceForm.controls.description.value,
+      this.projectedExpiryTs,
     ).subscribe(
       resp => {
         this.dialogRef.close(resp);
@@ -53,5 +59,17 @@ export class MainWorkspaceFormComponent implements OnInit {
       err => {
         this.createButtonClicked = false;
       });
+  }
+
+  createValidityOptions(): any[] {
+    const res = [];
+    for (let i = 1; i <= 6; i++) {
+      res.push({value: i, viewValue: i + (i == 1 ? ' month' : ' months')});
+    }
+    return res;
+  }
+
+  updateProjectedExpiryDate(): void {
+    this.projectedExpiryTs = Math.floor(Date.now() / 1000 + 86400 * 30 * this.workspaceForm.controls.validity.value);
   }
 }

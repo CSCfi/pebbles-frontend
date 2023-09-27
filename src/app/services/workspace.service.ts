@@ -148,9 +148,12 @@ export class WorkspaceService {
     ).subscribe();
   }
 
-  createWorkspace(name: string, description: string): Observable<Workspace> {
+  createWorkspace(name: string, description: string, expiry_ts = null): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
-    return this.http.post<Workspace>(url, {name, description}).pipe(
+    if (!expiry_ts) {
+      expiry_ts = Math.floor(Date.now()/1000 + 86400 * 30 * 3);
+    }
+    return this.http.post<Workspace>(url, {name, description, expiry_ts}).pipe(
       tap((resp) => {
         this.fetchWorkspaces().subscribe();
         this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
