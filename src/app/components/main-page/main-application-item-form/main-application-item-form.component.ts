@@ -241,7 +241,9 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.is_enabled = this.applicationItemEditFormGroup.controls.publish.value;
     this.data.application.config.maximum_lifetime = this.applicationItemEditFormGroup.controls.sessionLifetimeHours.value * 3600;
     this.data.application.config.memory_gib = this.applicationItemEditFormGroup.controls.sessionMemoryGiB.value;
-    this.data.application.config.environment_vars = this.applicationItemEditFormGroup.controls.environmentVars.value.trim();
+    if (this.applicationItemEditFormGroup.controls.environmentVars.value) {
+      this.data.application.config.environment_vars = this.applicationItemEditFormGroup.controls.environmentVars.value.trim();
+    }
     this.applicationService.updateApplication(
       this.data.application
     ).subscribe(_ => {
