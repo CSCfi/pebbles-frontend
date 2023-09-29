@@ -1,6 +1,6 @@
-<mat-sidenav-container>
+<mat-sidenav-container ngClass.lt-sm="mobile">
   <!-- SideNav Area -->
-  <mat-sidenav #sidenav opened mode="side" fxHide.lt-sm="true"
+  <mat-sidenav #sidenav opened mode="side"
                disableClose="true"
                [ngClass]="{'minimize':!isSideNavOpen}">
     <app-main-nav class="sidebar" (toggleSideNavEvent)="toggleSideNav()"
@@ -8,21 +8,17 @@
     </app-main-nav>
   </mat-sidenav>
   <!-- Main Page Area -->
-  <mat-sidenav-content id="sidenav-content" [ngClass]="{'expanded':!isSideNavOpen}" [ngClass.lt-sm]="'lt-sm'" >
+  <mat-sidenav-content id="sidenav-content" [ngClass]="{'expanded':!isSideNavOpen}" [ngClass.lt-sm]="'lt-sm'">
     <!-- Mobile mode : Header  -->
-    <mat-toolbar color="primary" fxHide.gt-xs="true" fxShow.lt-sm="true">
-      <div class="logo mat-display-3" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="10px"
-           fxLayoutAlign="space-between center">
-          <div class="logo__mark" fxFlex="0 0 36px">
-            <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
-          </div>
-          <div class="logo__type">
-            Notebooks
-          </div>
-        </a>
-      </div>
-      <div class="flex-spacer"></div>
+    <mat-toolbar color="primary">
+      <a class="logo mat-display-3" [routerLink]="['/main/catalog']">
+        <div class="logo__mark">
+          <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
+        </div>
+        <div class="logo__type">
+          Notebooks
+        </div>
+      </a>
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
         <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
       </button>

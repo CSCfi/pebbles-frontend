@@ -5,28 +5,37 @@
 }
 
 #session-container {
+  justify-self: center;
+  align-self: center;
   background: map-get($app-primary, dark);
   height: 100%;
   z-index: 1;
   padding-bottom: 150px;
 
   .status-wrapper {
-    margin: auto;
-    height: 100%;
+    grid-template-rows: auto;
+    align-items: center;
 
     .state-info {
       color: #fff;
+      text-align: center;
+    }
+
+    .explanation-message p {
+      text-align: center;
     }
   }
 
   .progress-ui {
     max-width: 1000px;
     margin: 20px;
+    grid-template-columns: repeat(6, max-content);
 
     .step {
       width: 150px;
       height: 80px;
       margin-bottom: 2px;
+      margin-right: 5px;
       text-align: center;
       color: map-get($app-primary, dark);
       position: relative;
@@ -137,6 +146,7 @@
   .application-item {
     width: 100%;
     max-width: 850px;
+    margin: auto;
   }
 
   &.mobile {

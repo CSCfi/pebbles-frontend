@@ -1,9 +1,9 @@
-<div id="welcome-page-wrapper" class="container__screen bg__primary" fxLayout="column">
+<div id="welcome-page-wrapper" class="container__screen bg__primary">
   <app-header [isNaviVisible]="true"
               [logoMarkSize]="80" [logoTypeSize]="4" [displayMode]="'cutout'"
               class="mt-40 app-header pl-20 pr-20">
   </app-header>
-  <div class="main-content pl-20 pr-20">
+  <div class="main-content ml-20 mr-20">
     <!--  Service Announcement 'welcome'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
 
@@ -17,12 +17,10 @@
       <img class="csc-img-2" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
     </div>
   </div>
-  <!-- <app-welcome-publicity></app-welcome-publicity> -->
   <app-footer [context]="context"></app-footer>
 </div>
 <ng-template #specialLoginDialog>
-  <form class="special-login-form" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup" fxLayout="column"
-        fxLayoutAlign="start stretch">
+  <form class="special-login-form grid-row" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">
@@ -31,19 +29,18 @@
       <mat-label>Password</mat-label>
       <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
     </mat-form-field>
-    <button id="special-login-submit-button" mat-flat-button color="primary">
+    <button id="special-login-submit-button" class="mt-10" mat-flat-button color="primary">
       Submit
     </button>
   </form>
 </ng-template>
 <ng-template #specialLoginDialogTerms>
-  <div class="form-container centered">
+  <div class="form-container centered grid-row">
     <div class="header">
       <img src="{{ publicConfigService.getAgreementLogoPath() }}" alt="logo" />
       <h1>{{ publicConfigService.getAgreementTitle() }}</h1>
     </div>
-    <form class="special-login-form" (ngSubmit)="onTermsAgree()" [formGroup]="loginFormGroup" fxLayout="column"
-        fxLayoutAlign="start stretch">
+    <form class="special-login-form" (ngSubmit)="onTermsAgree()" [formGroup]="loginFormGroup">
       <p>Before continuing, you need to agree to our
         <a href="{{ publicConfigService.getTermsOfUseUrl() }}" rel="noopener" target="_blank"> Terms of Use, </a>
           including sections concerning use of

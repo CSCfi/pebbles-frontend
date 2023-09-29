@@ -1,5 +1,5 @@
-<div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
-  <div class="corner-button-container" fxHide.lt-sm="true">
+<div class="mat-typography dialog-container">
+  <div class="corner-button-container">
     <button mat-icon-button mat-dialog-close class="corner-button">
       <mat-icon>close</mat-icon>
     </button>
@@ -7,8 +7,8 @@
   <form [formGroup]="workspaceForm" novalidate>
     <h1 class="mat-dialog-title mat-headline">Create new workspace</h1>
     <mat-dialog-content>
-      <section class="instruction-body" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
-        <div class="form-help-icon center__v" fxFlex="0 0 100px">
+      <section class="instruction-body">
+        <div class="form-help-icon center__v">
           <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
         </div>
         <div class="instruction-text">
@@ -64,14 +64,13 @@
         </div>
       </section>
     </mat-dialog-content>
-    <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
-         fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
-      <button mat-flat-button color="primary" fxFlex="grow"
+    <div class="dialog-actions">
+      <button mat-flat-button color="primary"
               [disabled]="!workspaceForm.valid || createButtonClicked"
               (click)="createWorkspace()">
         Create
       </button>
-      <button mat-button mat-dialog-close class="button-link button-sm" fxFlex="0 0 auto">Cancel</button>
+      <button mat-button mat-dialog-close class="button-link button-sm">Cancel</button>
     </div>
   </form>
 </div>

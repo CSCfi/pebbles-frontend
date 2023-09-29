@@ -1,67 +1,65 @@
-<section class="container mb-80"
-         fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="60px"
-         fxLayout.lt-sm="column-reverse" fxLayoutGap.lt-sm="20px">
-  <app-welcome-background class="app-welcome-background" [cube]="0" fxHide.lt-lg="ture"></app-welcome-background>
-  <app-welcome-background class="app-welcome-background" [cube]="1" fxHide.lt-md="ture"></app-welcome-background>
-  <app-welcome-background class="app-welcome-background" [cube]="2" fxHide.lt-md="ture"></app-welcome-background>
-  <app-welcome-background class="app-welcome-background" [cube]="3" fxHide.lt-md="ture"></app-welcome-background>
+<section class="container mb-80" ngClass.lt-md="tablet">
+  <app-welcome-background class="app-welcome-background" [cube]="0"></app-welcome-background>
+  <app-welcome-background class="app-welcome-background" [cube]="1"></app-welcome-background>
+  <app-welcome-background class="app-welcome-background" [cube]="2"></app-welcome-background>
+  <app-welcome-background class="app-welcome-background" [cube]="3"></app-welcome-background>
   <!-- Left -->
-  <div class="login-wrapper" fxLayout="column" fxLayoutGap="40px">
-    <h2 class="mat-display-3 mb-30">
-      {{ publicConfigService.getShortDescription() }}
-    </h2>
-    <div class="service-description mat-display-2 mb-30"
-         [innerHTML]="publicConfigService.getInstallationDescription()">
+  <div class="content-wrapper grid-col">
+    <div class="login-wrapper mr-60">
+      <h2 class="mat-display-3 mb-30">
+        {{ publicConfigService.getShortDescription() }}
+      </h2>
+      <div class="service-description mat-display-2 mb-30"
+           [innerHTML]="publicConfigService.getInstallationDescription()">
+      </div>
+      <a mat-raised-button id="oauth-login-button" class="button-lg mb-10" color="accent" href="/oauth2?rd=%2Foauth2">
+        <div>Login</div>
+        <div class="mat-display-1">Haka / Virtu / CSC account</div>
+      </a>
+      <button id="special-login-button" class="center__vh" (click)="openSpecialLogin()">
+        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">chevron_right</mat-icon>
+        <span class="u-line">Special Login</span>
+      </button>
+      <!--  Service Announcement 'welcome'  -->
+      <app-service-announcement [context]="context"></app-service-announcement>
     </div>
-    <a mat-raised-button id="oauth-login-button" class="button-lg mb-10" color="accent" href="/oauth2?rd=%2Foauth2">
-      <div>Login</div>
-      <div class="mat-display-1">Haka / Virtu / CSC account</div>
-    </a>
-    <button id="special-login-button" class="center__vh" (click)="openSpecialLogin()">
-      <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">chevron_right</mat-icon>
-      <span class="u-line">Special Login</span>
-    </button>
-    <!--  Service Announcement 'welcome'  -->
-    <app-service-announcement [context]="context"></app-service-announcement>
-  </div>
-  <!-- // Left -->
+    <!-- // Left -->
 
-  <!-- Right -->
-  <div id="hero-shots" class="mb-20"
-       fxLayout="column" fxLayoutGap="40px"
-       ngClass.gt-sm="mb-200"
-       fxFlex="0 0 650px" fxFlex.lt-md="0 0 400px" fxFlex.lt-sm="auto">
-    <div class="hero-video">
-      <video autoplay
-             muted
-             onloadeddata="this.play();"
-             onloadedmetadata="this.muted = true">
-        <source src="assets/images/csc-notebooks-demo.mp4" alt="csc-logo" type="video/mp4">
-        <!-- Show images if the browser doesn't support video tag -->
-        <div class="hero-images">
-          <div class="image-container center__v" [@openClose]="isImageVisible0 ? 'open' : 'closed'">
-            <img src="assets/images/screenshot-0.png" alt="Example screenshots of Notebooks"/>
+    <!-- Right -->
+    <div id="hero-shots" class="mb-20 grid-row">
+      <div class="hero-video grid-row">
+        <video autoplay
+               muted
+               onloadeddata="this.play();"
+               onloadedmetadata="this.muted = true">
+          <source src="assets/images/csc-notebooks-demo.mp4" alt="csc-logo" type="video/mp4">
+           Show images if the browser doesn't support video tag
+          <div class="hero-images mb-10">
+            <div class="image-container center__v" [@openClose]="isImageVisible0 ? 'open' : 'closed'">
+              <img src="assets/images/screenshot-0.png" alt="Example screenshots of Notebooks"/>
+            </div>
+            <div class="image-container center__v" [@openClose]="isImageVisible1 ? 'open' : 'closed'">
+              <img src="assets/images/screenshot-1.png" alt="Example screenshots of Notebooks"/>
+            </div>
+            <div class="image-container center__v" [@openClose]="isImageVisible2 ? 'open' : 'closed'">
+              <img src="assets/images/screenshot-2.png" alt="Example screenshots of Notebooks"/>
+            </div>
           </div>
-          <div class="image-container center__v" [@openClose]="isImageVisible1 ? 'open' : 'closed'">
-            <img src="assets/images/screenshot-1.png" alt="Example screenshots of Notebooks"/>
+
+          <div class="control-buttons">
+            <button mat-mini-fab aria-label="Screenshot of the applications page" class="mr-10"
+                    (click)="onImageShow(0)" [ngClass]="{'focus':isImageVisible0}">
+            </button>
+            <button mat-mini-fab aria-label="Screenshot of launching application session" class="mr-10"
+                    (click)="onImageShow(1)" [ngClass]="{'focus':isImageVisible1}">
+            </button>
+            <button mat-mini-fab aria-label="Screenshot of the JupyterLab"
+                    (click)="onImageShow(2)" [ngClass]="{'focus':isImageVisible2}">
+            </button>
           </div>
-          <div class="image-container center__v" [@openClose]="isImageVisible2 ? 'open' : 'closed'">
-            <img src="assets/images/screenshot-2.png" alt="Example screenshots of Notebooks"/>
-          </div>
-        </div>
-        <div class="control-buttons" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-          <button mat-mini-fab aria-label="Screenshot of the applications page"
-                  (click)="onImageShow(0)" [ngClass]="{'focus':isImageVisible0}">
-          </button>
-          <button mat-mini-fab aria-label="Screenshot of launching application session"
-                  (click)="onImageShow(1)" [ngClass]="{'focus':isImageVisible1}">
-          </button>
-          <button mat-mini-fab aria-label="Screenshot of the JupyterLab"
-                  (click)="onImageShow(2)" [ngClass]="{'focus':isImageVisible2}">
-          </button>
-        </div>
-      </video>
+        </video>
+      </div>
     </div>
+    <!-- // Right -->
   </div>
-  <!-- // Right -->
 </section>

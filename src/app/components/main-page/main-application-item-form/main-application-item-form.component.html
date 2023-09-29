@@ -1,5 +1,5 @@
 <div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
-  <div class="corner-button-container" fxHide.lt-sm="true">
+  <div class="corner-button-container">
     <button mat-icon-button mat-dialog-close="true" class="corner-button">
       <mat-icon>close</mat-icon>
     </button>
@@ -239,21 +239,20 @@
       </mat-dialog-content>
 
       <!-- Submit -->
-      <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
-           fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
-        <button mat-flat-button color="primary" fxFlex="grow"
+      <div class="dialog-actions">
+        <button mat-flat-button color="primary"
                 *ngIf="isCreationMode"
                 [disabled]="applicationItemEditFormGroup.invalid || createButtonClicked"
                 (click)="createApplicationByPlainMode()">
           Add new
         </button>
-        <button mat-flat-button class="submit-button" color="primary" fxFlex="grow"
+        <button mat-flat-button class="submit-button" color="primary"
                 *ngIf="!isCreationMode"
                 [disabled]="applicationItemEditFormGroup.invalid || editButtonClicked"
                 (click)="editApplicationItem()">
           Update
         </button>
-        <button mat-button mat-dialog-close="true" class="button-link button-sm" fxFlex="0 0 auto">
+        <button mat-button mat-dialog-close="true" class="button-link button-sm">
           Cancel
         </button>
       </div>

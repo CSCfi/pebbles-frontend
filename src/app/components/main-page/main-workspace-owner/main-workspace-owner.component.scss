@@ -1,10 +1,30 @@
 @import "src/styles/main.scss";
 
-// ---- Left UI
 #workspace-owner-container {
+  grid-template-columns: 300px auto;
   background: map-get($app-primary, 200);
   height: 100vh;
   overflow: hidden;
+
+  .content-header-container {
+    #content-header {
+      display: block !important;
+    }
+  }
+
+  .card-header {
+    display: grid;
+    grid-column-gap: 5px;
+    grid-template-columns: max-content auto max-content;
+  }
+}
+
+// ---- Left UI
+#workspace-owner-container {
+
+  .workspaces-actions-container button {
+    width: 100%;
+  }
 
   .max-quota-warning {
     border-radius: 5px;
@@ -27,6 +47,19 @@
 
         .workspace-info {
           border-top: map-get($borders, thin-dark);
+
+          dl {
+            grid-template-columns: 110px auto;
+
+            .open-join-code-button {
+              display: grid;
+              grid-template-columns: 30px auto;
+
+              mat-icon {
+                color: map-get($app-primary, light);
+              }
+            }
+          }
         }
 
         &.deleted {
@@ -84,10 +117,15 @@
         border-radius: 8px;
       }
     }
+
+    .mat-form-field {
+      width: 100% !important;
+    }
   }
 }
 
 .mobile-workspace-list {
+
   ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
     background: #fff;
   }
@@ -95,28 +133,25 @@
 
 // ---- Right UI
 #workspace-owner-container {
-
   #workspace-owner-tab-container {
     position: relative;
-    background: #fff;
+    background: #acb0e0;
     border: 5px solid map-get($app-primary, 400);
-    height: 100%;
-    overflow: auto;
+    height: 100vh;
+    overflow: hidden;
 
     ::ng-deep app-service-announcement {
-      background: #acb0e0;
+      background-color: #acb0e0;
     }
 
     .course-request-wrapper {
       position: relative;
       background: #acb0e0;
-      bottom: -15px;
+      top: 15px;
+      float: right;
       height: 0;
 
       button.course-request {
-        position: relative;
-        float: right;
-        margin-right: 10px;
         background: #fff;
         z-index: 1000;
         padding: 1px 15px 3px 20px;
@@ -153,14 +188,22 @@
       }
     }
 
+    .mat-tab-group {
+      min-height: calc(100vh - 10px);
+      height: calc(100vh - 10px);
+    }
+
     ::ng-deep .mat-tab-header {
       padding-top: 15px;
       padding-right: 180px;
       height: 65px;
       background-color: map-get($app-primary, 400);
       border-bottom: none;
+      flex-basis: 65px;
 
       .mat-tab-label {
+        padding: 0 15px;
+        min-width: 150px;
         height: 50px;
         background: #fff;
         border: 1px solid map-get($app-primary, 400);
@@ -179,7 +222,46 @@
     }
 
     ::ng-deep .mat-tab-body-wrapper {
-      //background: #fff;
+      background: #fff;
     }
+  }
+}
+
+.tablet#workspace-owner-container {
+  grid-template-columns: auto !important;
+  grid-template-rows: auto auto !important;
+  overflow: auto !important;
+
+  .workspace-list-container {
+    overflow: auto !important;
+  }
+
+}
+
+.mobile#workspace-owner-container {
+
+  height: 100% !important;
+
+  .content-header-container {
+    display: grid;
+    grid-template-rows: auto !important;
+    min-height: 50px !important;
+  }
+
+
+  #workspace-owner-tab-container {
+    overflow: auto !important;
+  }
+
+  .course-request-wrapper {
+    display: none !important;
+  }
+
+  ::ng-deep .mat-tab-header {
+    padding-right: 0 !important;
+  }
+
+  .table-container {
+    overflow: auto !important;
   }
 }

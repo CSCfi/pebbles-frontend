@@ -1,0 +1,135 @@
+
+.grid {
+  display: grid !important;
+
+  &-col {
+    display: grid !important;
+    grid-template-columns: max-content;
+  }
+
+  &-row {
+    display: grid !important;
+    grid-template-rows: max-content;
+  }
+
+  &-center {
+    display: grid;
+    place-content: center;
+    place-items: center;
+  }
+
+  &-center-v {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: start;
+    align-items: center;
+  }
+
+  &-center-vh {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+  }
+
+  &-icon-text {
+    display: grid;
+    grid-template-columns: 18px auto;
+    align-items: center;
+  }
+
+  &-centralize {
+    align-self: center;
+    justify-self: center;
+  }
+}
+
+.flx {
+  &.-v {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &.-h {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+//---- lt-sm
+
+.mobile .mat-sidenav {
+  display: none !important;
+}
+
+.mobile .sidenav-mobile {
+  display: block;
+}
+
+.mobile .content-header-container {
+  display: grid !important;
+  grid-template-columns: none !important;
+  grid-template-rows: auto auto;
+  grid-row-gap: 5px;
+  padding: 6px 15px !important;
+}
+
+.mobile .table-wrapper {
+  overflow: auto;
+}
+
+.mobile#workspace-owner-container {
+  grid-template-columns: auto !important;
+  grid-template-rows: max-content max-content !important;
+
+  .workspace-list {
+    display: none;
+  }
+
+  .mobile-workspace-list {
+    display: block;
+  }
+}
+
+.mobile #sidenav-content {
+  min-height: 100vh;
+  height: 500px;
+
+  .mat-toolbar {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 20px;
+    justify-content: space-between;
+  }
+}
+
+//---- gt-xs
+@media screen and (min-width: 600px) {
+  #workspace-owner-container.workspace-list {
+    display: block;
+  }
+
+  .mobile-workspace-list {
+    display: none !important;
+  }
+
+  .mat-menu-panel {
+    display: none;
+  }
+
+  app-main-nav {
+    display: block;
+  }
+
+  .sidenav-mobile {
+    display: none;
+  }
+
+  #sidenav-content {
+    .mat-toolbar {
+      display: none;
+    }
+  }
+}

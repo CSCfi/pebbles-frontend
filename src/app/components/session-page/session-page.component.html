@@ -1,15 +1,13 @@
-<div class="page-container__screen bg__primary-dark"
-     fxLayout="column" fxLayoutAlign="start stretch">
+<div class="page-container__screen bg__primary-dark grid-row">
   <app-header [isNaviVisible]="false"
               [logoMarkSize]="60" [logoTypeSize]="3" [displayMode]="'fluid'"
               class="bg__primary-dark">
   </app-header>
-  <div id="session-container" ngClass.lt-sm="mobile" fxLayout="column">
-    <div class="status-wrapper p-10"
-         fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px"
+  <div id="session-container" class="center__vh">
+    <div class="status-wrapper p-10 grid-row"
          *ngIf="targetSession; else noSessionBlock">
       <div class="mat-display-3 state-info">{{ sessionStatesInfo }}</div>
-      <div class="progress-ui mb-50" fxLayout="row" fxLayoutGap="4px" fxLayout.lt-md="row wrap">
+      <div class="progress-ui mb-50 grid-col">
         <ng-container *ngFor="let step of sessionProgressSteps">
           <div class="step sentence-head">
             <p class="description mat-subheading-2"><span [innerHTML]="step?.message"></span></p>
@@ -24,10 +22,8 @@
           </div>
         </ng-container>
       </div>
-      <div>
-        <ng-container *ngIf="explanationMessage || warningMessage">
-          <span [innerHTML]="warningMessage ? warningMessage : explanationMessage"></span>
-        </ng-container>
+      <div class="explanation-message" *ngIf="explanationMessage || warningMessage">
+        <p [innerHTML]="warningMessage ? warningMessage : explanationMessage"></p>
       </div>
       <app-main-application-item class="application-item"
                                  [context]="context"
@@ -36,8 +32,7 @@
       </app-main-application-item>
     </div>
     <ng-template #noSessionBlock>
-      <div class="status-wrapper"
-           fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
+      <div class="status-wrapper">
         <div class="mat-display-3 state-info">{{ sessionStatesInfo }}</div>
       </div>
     </ng-template>

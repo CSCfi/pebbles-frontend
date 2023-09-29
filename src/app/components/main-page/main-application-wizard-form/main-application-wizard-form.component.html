@@ -10,11 +10,11 @@
       <form [formGroup]="wizardApplicationTemplateFormGroup">
         <mat-dialog-content>
           <ng-template matStepLabel>Application Template</ng-template>
-          <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
-            <div class="form-help-icon center__v" fxFlex="0 0 100px">
+          <section class="instruction-body center__v">
+            <div class="form-help-icon center__v">
               <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
             </div>
-            <div class="instruction-text" fxFlex="grow">
+            <div class="instruction-text">
               <h1 class="question">What is application template?</h1>
               <div class="answer mat-body-1">
                 Application defines the content that users access by starting a browser based isolated session.
@@ -100,10 +100,9 @@
             </div>
           </section>
         </mat-dialog-content>
-        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
+        <div class="stepper-action-buttons first">
           <button mat-flat-button class="next" color="primary"
-                  [disabled]="selectedWizardApplicationTemplateImage===null" matStepperNext
-                  fxFlex="grow">
+                  [disabled]="selectedWizardApplicationTemplateImage===null" matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
           </button>
@@ -116,11 +115,11 @@
       <form [formGroup]="wizardProfileFormGroup">
         <mat-dialog-content>
           <ng-template matStepLabel>Application Profile</ng-template>
-          <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
-            <div class="form-help-icon center__v" fxFlex="0 0 100px">
+          <section class="instruction-body center__v">
+            <div class="form-help-icon center__v">
               <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
             </div>
-            <div class="instruction-text" fxFlex="grow">
+            <div class="instruction-text">
               <h1 class="question">How new application is seen by members?</h1>
               <div class="answer mat-body-1">
                 Members of your workspace can find your application in the applications page.
@@ -130,8 +129,8 @@
           </section>
 
           <!-- 2-1 Name -->
-          <h2 class="mat-title ">Fill your application information</h2>
-          <section class="form-container">
+          <h2 class="mat-title">Fill your application information</h2>
+          <section class="form-container mt-10">
             <mat-form-field appearance="fill">
               <mat-label class="mat-subheading-2">Application name</mat-label>
               <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
@@ -144,7 +143,7 @@
             </mat-form-field>
           </section>
           <!-- 2-2 Description -->
-          <section class="form-container">
+          <section class="form-container mt-10">
             <mat-form-field appearance="fill">
               <mat-label class="mat-subheading-2">Description (can contain HTML formatting)</mat-label>
               <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
@@ -154,16 +153,16 @@
             </mat-form-field>
           </section>
           <!-- 2-3 Label search component -->
-          <section class="form-container">
+          <section class="form-container mt-10">
             <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
           </section>
         </mat-dialog-content>
-        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-          <button mat-stroked-button class="back" fxFlex="0 0 auto" matStepperPrevious>
+        <div class="stepper-action-buttons">
+          <button mat-stroked-button class="back" matStepperPrevious>
             <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
-            <span fxHide.lt-sm="true">Back</span>
+            <span>Back</span>
           </button>
-          <button mat-flat-button class="next" color="primary" [disabled]="wizardProfileFormGroup.invalid" fxFlex="grow"
+          <button mat-flat-button class="next" color="primary" [disabled]="wizardProfileFormGroup.invalid"
                   matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
@@ -177,11 +176,11 @@
       <form [formGroup]="wizardOptionFormGroup">
         <mat-dialog-content>
           <ng-template matStepLabel>Optional functions</ng-template>
-          <section class="instruction-body center__v" fxLayout="row" fxLayoutGap="20px" fxHide.lt-sm="true">
-            <div class="form-help-icon center__v" fxFlex="0 0 100px">
+          <section class="instruction-body center__v">
+            <div class="form-help-icon center__v">
               <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
             </div>
-            <div class="instruction-text" fxFlex="grow">
+            <div class="instruction-text">
               <h1 class="question">How you can customize application?</h1>
               <div class="answer mat-body-1">
                 <p>Customize settings according to what you want to do.</p>
@@ -274,12 +273,12 @@
           </section>
         </mat-dialog-content>
         <!-- Stepper -->
-        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-          <button mat-stroked-button class="back" fxFlex="0 0 auto" matStepperPrevious>
+        <div class="stepper-action-buttons">
+          <button mat-stroked-button class="back" matStepperPrevious>
             <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
-            <span fxHide.lt-sm="true">Back</span>
+            <span>Back</span>
           </button>
-          <button mat-flat-button class="next" fxFlex="grow" color="primary" matStepperNext>
+          <button mat-flat-button class="next" color="primary" matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
           </button>
@@ -297,7 +296,7 @@
               <mat-icon fontSet="material-icons-outlined" class="mr-5">lightbulb</mat-icon>
               There are more options available through <span class="mr-5 ml-5 hint__menu">Edit application</span> in the application menu.
             </div>
-            <section class="form-container">
+            <section class="form-container mt-15">
               <mat-label class="mat-subheading-2">Visibility</mat-label>
               <mat-radio-group formControlName="isActive">
                 <ul class="mt-10">
@@ -313,17 +312,17 @@
             </section>
           </div>
         </mat-dialog-content>
-        <div class="stepper-action-buttons" fxLayout="row" fxLayoutGap="10px">
-          <button mat-stroked-button class="back" fxFlex="0 0 auto" matStepperPrevious>
+        <div class="stepper-action-buttons end">
+          <button mat-stroked-button class="back" matStepperPrevious>
             <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
-            <span fxHide.lt-sm="true">Back</span>
+            <span>Back</span>
           </button>
-          <button  mat-stroked-button fxFlex="grow" matStepperNext
+          <button  mat-stroked-button matStepperNext
                   [disabled]="createButtonClicked"
                   (click)="createApplicationByWizardMode(true)">
                   Save & Open in Advanced form
           </button>
-          <button mat-flat-button color="primary" fxFlex="grow" matStepperNext
+          <button mat-flat-button color="primary" matStepperNext
                   [disabled]="createButtonClicked"
                   (click)="createApplicationByWizardMode(false)">
             Save

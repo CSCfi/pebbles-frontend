@@ -1,7 +1,7 @@
-<footer id="footer" class="bg__primary-dark pt-50 pb-45 pl-20 pr-20 mat-body-1" ngClass.lt-sm="p-20">
-  <div class="container" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between start"
-       fxLayoutGap="30px">
-    <dl class="info-notebook footer-column" fxFlex="grow">
+<footer id="footer" class="bg__primary-dark pt-50 pb-45 pl-20 pr-20 mat-body-1"
+        ngClass.lt-sm="p-20 mobile">
+  <div class="container grid-col">
+    <dl class="info-notebook footer-column">
       <dt>About Notebooks</dt>
       <dd>
         <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Terms of use</a>
@@ -16,7 +16,7 @@
         <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Privacy</a>
       </dd>
     </dl>
-    <dl class="info-support footer-column" fxFlex="grow">
+    <dl class="info-support footer-column">
       <dt>Notebooks Support</dt>
       <dd>Open Monday to Friday (9:00 - 16:00)</dd>
       <dd class="center__v">
@@ -30,14 +30,14 @@
         Keilaranta 14, Espoo, Finland
       </dd>
     </dl>
-    <dl class="info-company footer-column" fxFlex="0 0 auto">
+    <dl class="info-company footer-column">
       <dt>
         CSC - IT CENTER FOR SCIENCE LTD.
       </dt>
       <dd>
         <a href="https://www.csc.fi/" target="_blank" rel="noopener" class="no-u-line">
-          <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-            <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
+          <div class="csc-logo grid-col">
+            <img src="assets/images/logo/csc_logo.svg" alt="csc-logo" class="mr-10">
             <p>ICT Solutions for Brilliant Minds</p>
           </div>
         </a>

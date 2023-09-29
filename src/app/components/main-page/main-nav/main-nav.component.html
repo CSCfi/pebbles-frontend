@@ -1,19 +1,16 @@
-<div class="sidenav-inner bg__primary no-u-line" fxLayout="column" fxHide.lt-sm="true">
+<div class="sidenav-inner bg__primary no-u-line">
   <!-- Logo -->
-  <div class="logo mat-display-3">
-    <a class="center__v" [routerLink]="['/main/catalog']" fxLayout="row" fxLayoutGap="5px"
-       fxLayoutAlign="start center">
-      <div class="logo__mark" fxFlex="0 0 auto">
-        <div class="csc-logo">
-          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
-        </div>
+  <a class="logo mat-display-3" [routerLink]="['/main/catalog']">
+    <div class="logo__mark">
+      <div class="csc-logo">
+        <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
       </div>
-      <div class="logo__type" *ngIf="isTextVisible" >
-        {{ publicConfigService.getInstallationName() }}
-        <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
-      </div>
-    </a>
-  </div>
+    </div>
+    <div class="logo__type" *ngIf="isTextVisible">
+      {{ publicConfigService.getInstallationName() }}
+      <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
+    </div>
+  </a>
   <!-- Navigation panel toggle button -->
   <ul id="nav-toggle-button" class="nav-items scrollable">
     <li class="nav-item">
@@ -139,9 +136,10 @@
       </a>
     </li>
   </ul>
-  <div class="flex-spacer"></div>
+</div>
+<div class="sidenav-inner nav__bottom  bg__primary no-u-line">
   <!-- Logout -->
-  <ul class="nav-items nav__bottom nav-partition pt-10 pb-10">
+  <ul class="nav-items nav-partition pt-10 pb-10">
     <li class="nav-item">
       <a id="account" [routerLink]="['/main/account']">
         <span class="icon-holder">
@@ -160,21 +158,10 @@
       </button>
     </li>
   </ul>
-  <!-- CSC Logo -->
-  <!--  <ul class="bg__primary-dark" *ngIf="isTextVisible">-->
-  <!--    <li>-->
-  <!--      <a href="https://www.csc.fi/contact-info" target="_blank" rel="noopener">-->
-  <!--        <div class="csc-logo" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">-->
-  <!--          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">-->
-  <!--          <p class="m-0">ICT Solutions for Brilliant Minds</p>-->
-  <!--        </div>-->
-  <!--      </a>-->
-  <!--    </li>-->
-  <!--  </ul>-->
 </div>
 
 <!-- Mobile mode : Dropdown menu -->
-<div fxLayout="column" fxHide="true" fxShow.lt-sm="true">
+<div class="sidenav-mobile" ngClass.lt-sm="mobile">
   <button mat-menu-item [routerLink]="['/main/catalog']">
     <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
     Applications

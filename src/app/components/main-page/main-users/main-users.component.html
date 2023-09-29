@@ -1,16 +1,11 @@
-<div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
-     fxLayoutAlign.lt-sm="end end">
-  <app-main-content-header fxFlex="grow"
-                           (emitApplyFilter)="applyFilter($event)"
+<div class="content-header-container grid-col">
+  <app-main-content-header (emitApplyFilter)="applyFilter($event)"
                            [context]="context"
                            [isSearchOn]="true"
                            [isAutocompleteDisabled]="true"
                            [labels]="[]">
   </app-main-content-header>
-  <div class="flex-spacer"></div>
   <button mat-stroked-button class="reload-button"
-          fxFlex="1 0 60px"
           (click)="refreshUsers()">
     <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
   </button>
@@ -22,8 +17,8 @@
 
       <!--  User invite button  -->
       <!--
-      <div class="user-invite-button-row mb-20" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
-        <mat-form-field appearance="outline" fxFlex="grow">
+      <div class="user-invite-button-row mb-20">
+        <mat-form-field appearance="outline">
           <mat-label>Emails</mat-label>
           <textarea matInput placeholder="Placeholder"></textarea>
           <mat-hint>Enter multiple users by separating email with SPACE.</mat-hint>
@@ -39,8 +34,8 @@
             <mat-option value="6">6 month</mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-flat-button fxFlex="0 0 120px">Invite user</button>
-        <button mat-flat-button fxFlex="0 0 180px">Invite multiple users</button>
+        <button mat-flat-button>Invite user</button>
+        <button mat-flat-button>Invite multiple users</button>
         </div>
         -->
 

@@ -1,13 +1,10 @@
-<div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
-     fxLayout.lt-sm="column">
+<div class="content-header-container grid-col">
   <app-main-content-header
     [context]="context"
     [isSearchOn]="false"
     [isAutocompleteDisabled]="true"
     [labels]="null">
   </app-main-content-header>
-  <div class="flex-spacer"></div>
   <button mat-flat-button color="warn"
           (click)="markMessagesAsRead()"
           [disabled]="isAllRead">
@@ -17,7 +14,7 @@
 </div>
 <div id="message-page" class="content-container">
   <ng-container *ngIf="getMessages().length > 0; else elseBlock">
-    <section class="content-cutout" fxLayout="column" fxLayoutGap="10px">
+    <section class="content-cutout">
       <ng-container *ngFor="let message of getMessages()">
         <div class="message info-body" [ngClass]="{'unread':!message.is_read}">
           <div class="title mat-title">{{ message.subject }}</div>

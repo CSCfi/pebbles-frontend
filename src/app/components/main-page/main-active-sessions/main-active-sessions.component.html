@@ -1,25 +1,20 @@
-<div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
-     fxLayoutAlign.lt-sm="end end"
+<div class="content-header-container grid-col"
      *ngIf="!selectedDetailSession">
   <app-main-content-header
-    fxFlex="grow"
     (emitApplyFilter)="applyFilter($event)"
     [context]="context"
     [isSearchOn]="true"
     [isAutocompleteDisabled]="true"
     [labels]="[]">
   </app-main-content-header>
-  <div class="flex-spacer"></div>
-  <button mat-stroked-button class="reload-button"
-          fxFlex="1 0 60px" (click)="refreshSessionContent()">
+  <button mat-stroked-button class="reload-button ml-10" (click)="refreshSessionContent()">
     <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
   </button>
 </div>
 <div id="active-sessions-container" class="content-container">
   <ng-container *ngIf="tableRowData.length > 0; else noSessions">
     <ng-container *ngIf="!selectedDetailSession; else sessionDetails">
-      <div class="mt-10 mb-10" fxLayout="row" fxLayoutAlign="space-between end">
+      <div class="mt-10 mb-10">
         <button mat-flat-button
                 (click)="openStopSessionDialog(this.selection.selected)"
                 [disabled]="selection.isEmpty()">

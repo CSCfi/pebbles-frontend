@@ -17,7 +17,6 @@ import { PublicConfigService } from '../../../services/public-config.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
 
-
 @Component({
   selector: 'app-main-workspace-owner',
   templateUrl: './main-workspace-owner.component.html',

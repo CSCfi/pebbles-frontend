@@ -1,15 +1,42 @@
 //@import "src/styles/main.scss";
 
 .wizard-container {
+  .corner-button-container {
+    margin-top: -15px;
+    right: -30px;
+  }
+
   .plain-form-action-buttons,
   .stepper-action-buttons {
+    display: grid;
+    grid-template-columns: max-content auto;
+    grid-column-gap: 10px;
+    margin-top: 30px !important;
+
+    &.first {
+      grid-template-columns: auto;
+    }
+
+    &.end {
+      grid-template-columns: max-content auto auto;
+    }
+
     .back {
+      width: 150px;
       color: #999;
     }
   }
 
+  ::ng-deep .mat-horizontal-stepper-header-container {
+    margin: 20px 24px 0 !important;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header {
+    height: 50px;
+  }
+
   form {
-    overflow: scroll;
+    overflow: auto;
 
     .mat-dialog-content {
       overflow: unset;

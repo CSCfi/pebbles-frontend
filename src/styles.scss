@@ -5,6 +5,8 @@
 @import "./styles/main.scss";
 // ---- Material Design
 @import "./styles/style-md-custom";
+// ---- Grid Layout Design
+@import "./styles/style-grid-layput";
 
 @include mat.core($custom-typography);
 @include mat.all-component-themes($app-theme);
@@ -138,6 +140,12 @@ button {
 
 // ---- Shared parts styles ---- //
 .logo {
+  display: grid;
+  grid-template-columns: max-content 190px;
+  justify-content: start;
+  align-items: center;
+  grid-gap: 10px;
+
   &__type {
     position: relative;
     line-height: 100%;
@@ -190,12 +198,14 @@ button {
 
     .hint-content {
       margin-top: 20px;
+
       ul {
         text-align: left;
         list-style: revert;
         margin: revert;
         padding: revert;
       }
+
       a {
         color: #999;
       }
@@ -205,11 +215,12 @@ button {
 
 .content-header-container {
   @include shadow(.05);
+  //display: block;
   min-height: map-deep-get($layout-set, main, header, min-h);
   width: 100%;
   padding: 15px 30px 8px;
   //border-bottom: 1px solid map-get($colors , white);height: 100%;
-  height: 100%;
+  //height: 100%;
   background: #fff;
 }
 
@@ -263,6 +274,10 @@ button {
   border: 6px solid map-get($app-gray, 200);
   border-radius: 20px;
 
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-columns: max-content auto;
+
   .form-help-icon .mat-icon {
     color: map-get($app-gray, 200);
   }
@@ -275,7 +290,7 @@ button {
 .description {
   height: auto;
   max-height: 100px;
-  overflow: auto;
+  overflow: unset;
 
   a {
     color: map-get($app-primary, default);
@@ -342,7 +357,7 @@ dl.grid {
 
     button {
       float: right;
-      margin-right: -15px;
+      margin-right: 15px;
     }
   }
 
@@ -375,6 +390,12 @@ dl.grid {
   .mat-dialog-content,
   .dialog-actions {
     margin: 10px 24px 10px !important;
+  }
+
+  .dialog-actions {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: auto max-content;
   }
 
   .mat-horizontal-stepper-header-container,
@@ -491,8 +512,12 @@ dl.grid {
   width: 100%;
 }
 
-.mat-card-actions, .mat-card-subtitle, .mat-card-content {
-  margin-bottom: 5px;
+.mat-card-actions, .mat-card-subtitle {
+  margin-bottom: 5px !important;
+}
+
+.mat-card-content {
+  margin-bottom: 10px !important;
 }
 
 // ---- Mat-Form

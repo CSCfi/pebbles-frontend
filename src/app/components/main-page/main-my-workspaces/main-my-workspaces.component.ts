@@ -13,6 +13,7 @@ import { MainWorkspaceItemComponent } from '../main-workspace-item/main-workspac
 @Component({
   selector: 'app-main-my-workspaces',
   templateUrl: './main-my-workspaces.component.html',
+  styleUrls: ['./main-my-workspaces.component.scss']
 })
 export class MainMyWorkspacesComponent implements OnInit {
 

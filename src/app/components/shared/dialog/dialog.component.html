@@ -9,18 +9,17 @@
     <div class="dialog-content" *ngIf="this.data.dialogContent" [innerHTML]="data.dialogContent">
     </div>
     <div *ngIf="this.data.dialogClipboard" class="mt-20">
-      <div class="dialog-clipboard mat-title center__v r__md" fxLayout="row" fxLayoutAlign="space-evenly stretch"
-           fxLayoutGap="10px">
-        <div fxFlex="grow">{{ this.data.dialogClipboard }}</div>
-        <button fxFlex="0 0 25px" matTooltip="Copy to clipboard" mat-dialog-close
+      <div class="dialog-clipboard mat-title center__v r__md">
+        <div>{{ this.data.dialogClipboard }}</div>
+        <button matTooltip="Copy to clipboard" mat-dialog-close class="center__vh"
                 [cdkCopyToClipboard]="this.data.dialogClipboard">
           <mat-icon fontSet="material-icons-outlined" class="md-24">content_copy</mat-icon>
         </button>
       </div>
     </div>
   </mat-dialog-content>
-  <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
-    <button mat-button mat-dialog-close
+  <div class="dialog-actions">
+    <button mat-stroked-button mat-dialog-close
             *ngIf="data.dialogActions.includes('close')">Close
     </button>
     <button color="primary" mat-flat-button

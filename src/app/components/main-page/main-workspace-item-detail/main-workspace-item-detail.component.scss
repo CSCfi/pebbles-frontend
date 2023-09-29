@@ -1,8 +1,11 @@
 @import "src/styles/main.scss";
 
 #workspace-setting-container {
+  padding: 30px;
 
   .open-join-code-button {
+    display: grid;
+    grid-template-columns: 30px auto;
     min-width: 120px;
     cursor: pointer;
   }
@@ -21,5 +24,33 @@
   ::ng-deep.mat-form-field-subscript-wrapper {
     bottom: 0px;
     position: relative;
+  }
+
+  dl.workspace-info dd div.preview {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-column-gap: 10px;
+  }
+
+  .action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 10px;
+
+    .workspace-update-button {
+      grid-column: 1 / 3;
+      grid-row: 1 / 2;
+    }
+
+    .workspace-edit-cancel-button {
+      grid-column: 3 / 4;
+      grid-row: 1 / 2;
+    }
+
+    .workspace-delete-button {
+      grid-column: 1 / 4;
+      grid-row: 2 / 3;
+    }
   }
 }

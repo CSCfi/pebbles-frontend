@@ -1,5 +1,4 @@
-<div id="workspace-setting-container" ngClass.gt-xs="p-40" ngClass.lt-sm="p-20"
-     fxLayout="column" fxLayoutGap="10px">
+<div id="workspace-setting-container">
 
   <form [formGroup]="workspaceEditForm" novalidate *ngIf="workspaceEditForm">
     <dl class="workspace-info grid mb-30">
@@ -7,8 +6,8 @@
         Workspace name
       </dt>
       <dd>
-        <div class="preview" *ngIf="!isWorkspaceNameEditOn" fxLayout="row" fxLayoutAlign="space-between start">
-          <p fxFlex="grow">{{ workspace.name }}</p>
+        <div class="preview" *ngIf="!isWorkspaceNameEditOn" >
+          <p>{{ workspace.name }}</p>
           <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
             <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
           </button>
@@ -30,8 +29,8 @@
         Workspace description
       </dt>
       <dd>
-        <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn" fxLayout="row" fxLayoutAlign="space-between start">
-          <p fxFlex="grow" [innerHTML]="workspace.description || 'No description'"></p>
+        <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
+          <p [innerHTML]="workspace.description || 'No description'"></p>
           <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceDescription()">
             <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
           </button>
@@ -41,8 +40,8 @@
         </mat-form-field>
       </dd>
       <dt class="join-code-title">Join code</dt>
-      <dd fxLayout="row" fxLayoutAlign="space-between center">
-        <div class="open-join-code-button" fxLayout="row" (click)="openJoinCodeDialog()">
+      <dd>
+        <div class="open-join-code-button" (click)="openJoinCodeDialog()">
           <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
           <div class="chip__password center__v"></div>
         </div>
@@ -54,17 +53,17 @@
       <dt class="">Memory limit</dt>
       <dd>{{ workspace.memory_limit_gib }} GiB total for concurrent sessions</dd>
     </dl>
-    <div fxLayout="column" fxLayoutAlign="start stretch">
-      <button mat-flat-button class="workspace-update-button mt-20" color="accent"
+    <div class="action-buttons">
+      <button mat-flat-button class="workspace-update-button" color="accent"
               *ngIf="workspace.name!=='System.default'"
               [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
         save changes
       </button>
-      <button mat-stroked-button class="workspace-edit-cancel-button mt-10" *ngIf="isWorkspaceFormChanged"
+      <button mat-stroked-button class="workspace-edit-cancel-button" [disabled]="!isWorkspaceFormChanged"
               (click)="cancelWorkspaceEditing()">
         cancel changes
       </button>
-      <button mat-stroked-button class="workspace-delete-button mt-10" *ngIf="isDeletable"
+      <button mat-stroked-button class="workspace-delete-button" *ngIf="isDeletable"
               (click)="deleteWorkspace()">
         <mat-icon fontSet="material-icons-outlined" class="mr-5">delete_outline</mat-icon>
         delete workspace

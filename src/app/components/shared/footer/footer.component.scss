@@ -1,12 +1,30 @@
 //@import "src/styles/main.scss";
 
 #footer {
+  .container {
+    grid-template-columns: 1fr 1fr max-content;
+    justify-content: space-between;
+  }
 
   .csc-logo {
     margin: 10px 0;
+    grid-template-columns: repeat(2, max-content);
+    align-items: center;
 
     img {
       width: 80px;
     }
+  }
+}
+
+.mobile#footer .container {
+  grid-template-columns: auto !important;
+  grid-template-rows: auto auto auto !important;
+  grid-row-gap: 25px;
+  justify-content: space-between;
+
+  dl dd {
+    margin-left: 15px;
+    justify-content: start;
   }
 }

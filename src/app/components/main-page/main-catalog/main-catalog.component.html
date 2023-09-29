@@ -1,16 +1,11 @@
-<div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
-     fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start" fxLayoutGap.lt-sm="10px">
-  <app-main-content-header fxFlex="grow"
-                           (emitApplyFilter)="applyFilter($event)"
+<div class="content-header-container grid-col">
+  <app-main-content-header (emitApplyFilter)="applyFilter($event)"
                            [context]="context"
                            [isSearchOn]="true"
                            [isAutocompleteDisabled]="true"
                            [labels]="selectedCatalog ? selectedCatalog.labels : []">
   </app-main-content-header>
-  <div class="flex-spacer"></div>
   <button mat-flat-button color="accent" id="join-workspace-button" aria-label="Join Workspace"
-          fxFlex="0 0 180px" fxFlex.lt-sm="grow"
           (click)="openJoinWorkspaceDialog()">
     <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
     Join workspace
@@ -32,8 +27,7 @@
 
         <div class="tab-content">
           <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
-            <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container"
-                 fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+            <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container">
               <ng-container *ngFor="let application of applications">
                 <app-main-application-item [application]="application" [context]="context">
                 </app-main-application-item>

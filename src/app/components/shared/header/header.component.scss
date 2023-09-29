@@ -2,16 +2,36 @@
 
 #header {
   height: map-deep-get($layout-set, shared, header, h);
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-column-gap: 20px;
+  align-items: center;
+  justify-content: space-between;
 
   &.container__fluid {
     padding: 6px 20px;
 
     .logo__mark {
       margin-top: 5px;
+      grid-template-columns: max-content;
     }
   }
 
   .course-request-button {
     border: #fff 2px solid;
+  }
+
+  .navbar {
+    display: grid;
+    grid-column-gap: 16px;
+    grid-template-columns: repeat(4, max-content);
+  }
+}
+
+#header.mobile {
+  margin-bottom: 20px;
+
+  .navbar {
+    display: none;
   }
 }

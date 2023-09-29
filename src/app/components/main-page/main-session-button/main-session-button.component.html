@@ -33,24 +33,23 @@
         B. Failed -> 'failed'
         C. Running -> *ngSwitchDefault
       -->
-      <div class="control-button circle-button"
-           fxLayout="column" fxLayoutAlign="center center"
+      <div class="control-button circle-button grid-row"
            [ngSwitch]="state">
         <!-- A: Session [Shutdown] -->
         <ng-container *ngSwitchCase="'deleting'||'deleted'">
-          <div class="state center__vi">
-            {{ state }}
+          <div class="state grid-centralize">
+            <div>{{ state }}</div>
           </div>
         </ng-container>
         <!-- B: Session [Failed] -->
         <ng-container *ngSwitchCase="'failed'">
           <ng-container *ngIf="context?.identifier!=='session'; else sessionPageDeletionBlock">
-            <div class="state-area" fxFlex="0 0 70px">
+            <div class="state-area">
               <mat-icon fontSet="material-icons-outlined">running_with_errors</mat-icon>
               <div class="state mat-caption">Session failed</div>
             </div>
-            <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
-                    class="shutdown-button center__vi" (click)="deleteSession(true)">
+            <button mat-button matTooltip="Delete session" matTooltipPosition="below"
+                    class="shutdown-button center__vhi" (click)="deleteSession(true)">
               <span class="button-icon">
                 <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
               </span>
@@ -58,8 +57,7 @@
           </ng-container>
           <ng-template #sessionPageDeletionBlock>
             <button mat-button matTooltip="Close page"
-                    fxLayout="column" fxLayoutAlign="center stretch"
-                    class="close-button center__vi bg__warn" (click)="deleteSession(true)">
+                    class="close-button center__vhi bg__warn" (click)="deleteSession(true)">
               <span class="button-icon">Delete</span>
             </button>
           </ng-template>
@@ -67,8 +65,7 @@
         <!-- Session [Running] -->
         <ng-container *ngSwitchDefault>
           <ng-container *ngIf="context?.identifier!=='session'; else sessionPageRunningBlock">
-            <button mat-button matTooltip="Enter session" matTooltipPosition="above" class="open-button center__vi"
-                    fxFlex="0 0 70px" fxLayout="column" fxLayoutAlign="center center"
+            <button mat-button matTooltip="Enter session" matTooltipPosition="above" class="open-button center__vhi"
                     (click)="openSessionInBrowser()">
               <span class="button-icon block">
                 <mat-icon fontSet="material-icons-outlined" class="md-24">launch</mat-icon>
@@ -80,8 +77,8 @@
                 <span class="state block mat-body-1">{{ state }}</span>
               </ng-template>
             </button>
-            <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
-                    class="shutdown-button center__vi" (click)="deleteSession(false)">
+            <button mat-button matTooltip="Delete session" matTooltipPosition="below"
+                    class="shutdown-button center__vhi" (click)="deleteSession(false)">
               <span class="button-icon">
                 <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
               </span>
@@ -89,19 +86,18 @@
           </ng-container>
           <ng-template #sessionPageRunningBlock>
             <ng-container *ngIf="session.state === 'running'; else loadingBlock">
-              <div class="center__vi session-page-button" fxLayout="column" fxLayoutAlign="center center">
+              <div class="grid-centralize session-page-button">
                 <a [href]="accessUrl">
                   OPEN
                 </a>
               </div>
             </ng-container>
             <ng-template #loadingBlock>
-              <div class="center__vi session-page-button pt-10" fxFlex="0 0 70px" fxLayout="column"
-                   fxLayoutAlign="center center">
+              <div class="center__vhi session-page-button upper-button pt-10">
                 LOADING
               </div>
-              <button mat-button fxFlex="0 0 30px" matTooltip="Delete session" matTooltipPosition="below"
-                      class="shutdown-button center__vi" (click)="deleteSession(false)">
+              <button mat-button matTooltip="Delete session" matTooltipPosition="below"
+                      class="shutdown-button lower-button center__vhi" (click)="deleteSession(false)">
                 <span class="button-icon">
                   <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
                 </span>
@@ -120,18 +116,16 @@
         <ng-container *ngIf="!isLaunchButtonDisabled">
           <button mat-button class="launch-button circle-button"
                   matTooltip="Start session"
-                  fxLayout="column" fxLayoutAlign="center center"
                   (click)="startSession()">
-            <span class="button-icon center__v">
+            <span class="button-icon center__vhi">
               <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
             </span>
           </button>
         </ng-container>
         <ng-container *ngIf="isLaunchButtonDisabled">
           <button mat-button class="launch-button-inactive circle-button"
-                  [matTooltip]="sessionTooltips"
-                  fxLayout="column" fxLayoutAlign="center center">
-            <span class="button-icon center__v">
+                  [matTooltip]="sessionTooltips">
+            <span class="button-icon center__vhi">
               <mat-icon fontSet="material-icons-outlined" class="md-24">power_settings_new</mat-icon>
             </span>
           </button>
@@ -139,8 +133,7 @@
       </ng-container>
       <ng-container *ngIf="isSessionDeleted">
         <button mat-button matTooltip="Close page"
-                fxLayout="column" fxLayoutAlign="center stretch"
-                class="close-button center__vi" (click)="closeWindow()">
+                class="close-button center__vhi" (click)="closeWindow()">
           <span class="button-icon">Close</span>
         </button>
       </ng-container>

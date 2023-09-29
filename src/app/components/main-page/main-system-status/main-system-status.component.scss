@@ -1,4 +1,9 @@
-@import "../../../../styles/main";
+@import "src/styles/main.scss";
+
+.content-header-container {
+  grid-template-columns: auto 60px;
+  grid-column-gap: 20px;
+}
 
 .status {
   padding: 10px;

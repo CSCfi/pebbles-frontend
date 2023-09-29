@@ -1,13 +1,11 @@
 <ng-container *ngIf="application">
-  <mat-card class="card"
+  <mat-card class="card grid-col mb-5"
             [ngClass]="{'expired': isExpiredTimestamp(application.info.workspace_expiry_ts) }"
-            [attr.id]="'env-'+application.id" ngClass.lt-sm="mobile"
-            fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
-            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
+            ngClass.lt-sm="mobile" ngClass.lt-md="tablet"
+            [attr.id]="'env-'+application.id">
     <!-- Card LEFT section -->
-    <div class="card-media-container bg__primary-light center__vh"
-         [ngClass]="application?.application_type"
-         fxFlex="0 0 125px">
+    <div class="card-media-container bg__primary-light grid-center"
+         [ngClass]="application?.application_type">
       <div class="thumbnail mat-headline">
         <fa-icon [icon]="applicationIcon" class="mb-2 md-48"></fa-icon>
         <span>{{ applicationTypeName }}</span>
@@ -16,28 +14,25 @@
     <!-- //// End of Left section -->
 
     <!-- Card CENTER section -->
-    <div class="card-info-container" fxFlex="grow"
-         fxLayout="column" fxLayoutAlign="space-between stretch" fxLayoutGap="8px">
-      <mat-card-header fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap.lt-sm="10px">
+    <div class="card-info-container grid-row">
+      <mat-card-header>
         <mat-card-title class="application-name mat-title mb-0">
           <span [innerHTML]="application.name"></span>
         </mat-card-title>
 
-        <mat-card-subtitle fxLayout="row wrap" fxLayoutAlign="space-between stretch"
-                           fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
+        <mat-card-subtitle>
           <div *ngIf="context?.identifier==='catalog'"
-               class="workspace-info"
-               [ngClass]="membershipType"
-               fxLayout="row">
+               class="workspace-info center__vi"
+               [ngClass]="membershipType">
             <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
-              <div class="workspace-name center__v">
-                <mat-icon class="user-role-icon md-16 mr-2" [matTooltip]="membershipType">apps</mat-icon>
+              <div class="workspace-name grid-icon-text">
+                <mat-icon class="user-role-icon md-16" [matTooltip]="membershipType">apps</mat-icon>
                 {{ application.workspace_name }}
               </div>
-              <div class="expiry-date mat-caption center__vh p-8">
-                <mat-icon class="md-16 mr-2" matTooltip="Expired by">event_available</mat-icon>
+              <div class="expiry-date mat-caption">
+                <mat-icon class="md-16" matTooltip="Expired by">event_available</mat-icon>
                 Valid till {{ application.info.workspace_expiry_ts | dateDisplay }}
-                <span class="expiry-warning ml-5 txt__warn-dark"
+                <span class="expiry-warning txt__warn-dark"
                       *ngIf="expirationDateGap < 7" [matTooltip]="getSoonExpiresTooltip()">
                 ({{ application.info.workspace_expiry_ts | remainingDaysDisplay }})
                 </span>
@@ -45,15 +40,14 @@
 
             </ng-container>
             <ng-template #publicBlock>
-              <div class="workspace-name center__v">
+              <div class="workspace-name grid-icon-text">
                 <mat-icon class="user-role-icon md-16 mr-2" matTooltip="public">public</mat-icon>
                 Public
               </div>
             </ng-template>
           </div>
-          <div class="application-meta mat-caption" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px"
-               fxLayoutAlign.lt-sm="start">
-            <div class="volumes center__v">
+          <div class="application-meta mat-caption center__vi">
+            <div class="volumes center__v mr-10">
               <div class="volume center__v mr-10" [ngClass]="{'active': isSharedVolumeActive }"
                    [matTooltip]="isSharedVolumeActive ? 'Shared folder available' : 'No shared folder'">
                 <mat-icon class="md-16 mr-2" *ngIf="isSharedVolumeActive; else noSharedVolume">folder</mat-icon>
@@ -80,9 +74,9 @@
 
         </mat-card-subtitle>
       </mat-card-header>
-      <mat-card-content class="mb-10" fxLayout="column" fxLayoutAlign="space-between stretch" fxLayoutGap="8px">
+      <mat-card-content class="grid-row">
         <div class="description mat-body-1" [innerHTML]="description"></div>
-        <div class="chips mat-caption" fxHide.lt-sm="true">
+        <div class="chips mat-caption">
           <ng-container *ngFor="let label of labels.split(',')">
             <span class="chip__sm"
                   [ngClass]="{'self-learning':label.trim()==='self-learning'}">{{ label.trim() }}
@@ -94,7 +88,7 @@
     <!-- //// END of CENTER section-->
 
     <!-- Card RIGHT section -->
-    <mat-card-actions fxFlex="0 0 130px" class="card-action-container center__vh">
+    <mat-card-actions class="card-action-container center__vh">
       <app-main-session-button [applicationId]="application.id"
                                [context]="context"
                                [isSessionDeleted]="isSessionDeleted"

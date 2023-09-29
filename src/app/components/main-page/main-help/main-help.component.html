@@ -1,7 +1,5 @@
-<div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="30px">
+<div class="content-header-container grid-col">
   <app-main-content-header
-    fxFlex="grow"
     (emitApplyFilter)="applyFilter($event)"
     [context]="context"
     [isSearchOn]="selectedTab===0"
@@ -10,13 +8,12 @@
   </app-main-content-header>
 </div>
 
-<ul class="mobile-nav p-15 txt__primary" fxShow.lt-sm="true" fxHide="true">
-  <li><a [routerLink]="['/main/help']" [queryParams]="{content:'faq'}">FAQ</a></li>
-  <li><a [routerLink]="['/main/help']" [queryParams]="{content:'documentation'}">Documentation</a></li>
-  <li><a [routerLink]="['/main/help']" [queryParams]="{content:'contact'}">Contact us</a></li>
-</ul>
-
-<div id="help-page" class="content-container pt-30" ngClass.lt-sm="mobile">
+<div id="help-page" class="content-container" ngClass.lt-sm="mobile">
+  <ul class="mobile-nav txt__primary">
+    <li><a [routerLink]="['/main/help']" [queryParams]="{content:'faq'}">FAQ</a></li>
+    <li><a [routerLink]="['/main/help']" [queryParams]="{content:'documentation'}">Documentation</a></li>
+    <li><a [routerLink]="['/main/help']" [queryParams]="{content:'contact'}">Contact us</a></li>
+  </ul>
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms"
                  (selectedTabChange)="handleTabChange($event)"
                  [selectedIndex]="selectedTab">
@@ -58,7 +55,7 @@
         <span class="tab-title mat-subheading-2">Documentation</span>
       </ng-template>
       <ng-template matTabContent>
-        <section class="mt-30 content-cutout info-body" fxLayout="column" fxLayoutGap="25px">
+        <section class="mt-30 content-cutout info-body">
           <div>
             <h3 class="mat-subheading-2 mb-5 mr-20">Notebooks Documentation</h3>
             <p class="mat-body-1 center__v">
@@ -101,7 +98,7 @@
           <div class="contact-info">
             <mat-icon fontSet="material-icons-outlined" class="md-96 business-icon">business</mat-icon>
             <div class="mb-10 mat-headline">Service Desk</div>
-            <dl class="mt-30 mb-20 mat-title" ngClass.gt-xs="grid">
+            <dl class="mt-30 mb-20 mat-title">
               <dt class="center__v">
                 <mat-icon fontSet="material-icons-outlined" class="mr-5">mail</mat-icon>
                 <span class="mr-10">E-mail</span>

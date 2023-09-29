@@ -1,6 +1,8 @@
 @import "src/styles/main.scss";
 
 .card {
+  grid-column-gap: 20px;
+  grid-template-columns: 125px auto 130px;
 
    &.expired {
      background: map-get($app-primary, 200);
@@ -12,6 +14,7 @@
    }
 
   .card-media-container {
+    column-gap: 8px;
     border-radius: 3px;
     min-height: 125px;
 
@@ -22,27 +25,52 @@
     }
   }
 
-  .mat-card-header {
-    .mat-card-title {
-      padding-top: 5px;
-      border-bottom: 1px solid #c7c7c7 !important;
-      padding-bottom: 2px;
-    }
+  .card-info-container {
+    grid-row-gap: 10px;
+    //min-width: 484px;
 
-    .mat-card-subtitle {
-      margin: 0 !important;
-      color: map-get($app-gray, 800);
+    .mat-card-header {
+      .mat-card-title {
+        padding-top: 5px;
+        border-bottom: 1px solid #c7c7c7 !important;
+        padding-bottom: 2px;
+      }
 
-      .application-meta {
+      .mat-card-subtitle {
+        margin: 0 !important;
+        color: map-get($app-gray, 800);
+        display: grid;
+        grid-template-columns: max-content max-content;
+        grid-gap: 20px;
+        justify-content: space-between;
 
-        .volume {
-          color: map-get($app-gray, 300);
+        .workspace-info {
+          flex-wrap: wrap;
 
-          &.active {
-            color: map-get($app-gray, 800);
+          & > div {
+            margin-right: 20px;
+          }
 
-            .mat-icon {
-              color: map-get($app-accent, light);
+          .expiry-date {
+            display: grid;
+            grid-template-columns: 18px max-content max-content;
+            grid-column-gap: 5px;
+            align-items: center;
+          }
+        }
+
+        .application-meta {
+          flex-wrap: wrap;
+
+          .volume {
+            color: map-get($app-gray, 300);
+
+            &.active {
+              color: map-get($app-gray, 800);
+
+              .mat-icon {
+                color: map-get($app-accent, light);
+              }
             }
           }
         }
@@ -52,6 +80,8 @@
 
   .mat-card-content {
     min-height: 60px;
+    grid-row-gap: 20px;
+    align-content: space-between;
 
     a {
       text-decoration: underline !important;
@@ -62,13 +92,11 @@
     }
   }
 
-  &.mobile {
-     .card-info-container {
-       padding: 0 10px;
-       margin: 0 !important;
-     }
-    .mat-card-content {
-      margin-bottom: 0 !important;
+  .card-info-container {
+    .description {
+      min-height: 20px;
+      max-height: 100px;
+      overflow: auto;
     }
   }
 
@@ -77,4 +105,70 @@
     margin: -2px;
     position: relative;
   }
+}
+
+.tablet.card {
+  grid-template-columns: 80px auto 130px !important;
+  grid-column-gap: 5px !important;
+
+  .card-media-container {
+    margin-right: 15px !important;
+  }
+
+  .thumbnail{
+    .md-48 {
+      font-size: 30px !important;
+      height: 30px;
+    }
+
+    span {
+      font-size: 1.3rem !important;
+    }
+  }
+
+  .mat-card-subtitle {
+    display: grid;
+    grid-template-columns: 100% !important;
+    grid-template-rows: auto auto !important;
+    grid-gap: 5px !important;
+
+    .workspace-info {
+      flex-wrap: wrap !important;
+    }
+
+    .application-meta {
+      flex-wrap: wrap !important;
+    }
+  }
+}
+
+.mobile.card {
+  grid-template-columns: 100% !important;
+  grid-template-rows: auto auto auto;
+  grid-gap: 15px !important;
+
+  .card-media-container {
+    min-height: auto !important;
+    padding: 10px;
+  }
+
+  .card-info-container {
+    grid-gap: 10px !important;
+    padding: 0 10px;
+    margin: 0 !important;
+
+    .mat-card-content {
+      margin-bottom: 0 !important;
+      grid-gap: 15px !important;
+      min-height: auto !important;
+    }
+  }
+
+  .mat-card-subtitle {
+    display: grid;
+    grid-template-columns: 100% !important;
+    grid-template-rows: auto auto;
+    grid-gap: 5px !important;
+  }
+
 }

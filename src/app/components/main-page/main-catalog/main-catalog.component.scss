@@ -1,5 +1,10 @@
 @import "src/styles/main.scss";
 
+.content-header-container {
+  grid-template-columns: auto 180px;
+  grid-column-gap: 20px;
+}
+
 .applications-catalog {
   background-color: map-get($app-primary, 300);
   margin: 0;
@@ -19,7 +24,6 @@
   ::ng-deep .mat-tab-header {
     border-bottom: 1px solid map-get($app-transparent, dark) !important;
     padding-top: 5px;
-    //margin: -15px -40px 0;
 
     .mat-ripple {
       background: #fff;
@@ -50,5 +54,11 @@
       max-width: 1200px;
       width: 100%;
     }
+  }
+}
+
+.mobile.applications-catalog {
+  .catalog-section {
+    padding: 15px !important;
   }
 }

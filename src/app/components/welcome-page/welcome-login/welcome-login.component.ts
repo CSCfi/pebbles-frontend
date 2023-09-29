@@ -1,7 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Data, Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { Data } from '@angular/router';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 export const heroShotsAnimation = trigger('openClose', [

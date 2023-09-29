@@ -1,7 +1,17 @@
 @import "src/styles/main.scss";
 
 #workspace-applications-container {
+  padding: 20px 20px;
+
+  .application-header {
+    width: 100%;
+  }
+
   .application-actions {
+    grid-template-columns: auto 130px 180px;
+    grid-column-gap: 5px;
+    justify-content: end;
+
     button {
       height: auto;
       white-space: normal;
@@ -9,8 +19,12 @@
     }
   }
 
+  .table-container {
+    overflow: auto;
+  }
+
   table {
-    height:100%;
+    height: 100%;
 
     th {
       padding: 5px !important;
@@ -29,6 +43,7 @@
 
       &.published {
         color: map-get($app-primary, light);
+
         .chip__m {
           background: map-get($app-primary, light);
         }
@@ -88,8 +103,27 @@
       color: map-get($app-gray, light);
 
       .chip__m {
-          background: map-get($app-gray, light);
+        background: map-get($app-gray, light);
       }
     }
+  }
+}
+
+.mobile#workspace-applications-container {
+
+  padding: 0 !important;
+
+  .application-actions {
+    grid-template-columns: 1fr !important;
+    justify-content: stretch;
+    padding: 0 10px !important;
+  }
+
+  .application-actions * {
+    display: none !important;
+  }
+
+  .application-actions *:last-child {
+    display: block !important;
   }
 }

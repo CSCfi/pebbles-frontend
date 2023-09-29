@@ -1,6 +1,17 @@
 @import "src/styles/main.scss";
 
 #workspace-members-container {
+  padding: 20px 20px;
+
+  .member-header {
+    grid-template-columns: auto 65px;
+    grid-column-gap: 10px;
+
+    button {
+      height: 100%;
+    }
+  }
+
   .my-account {
     background: map-get($app-secondary, 100);
   }

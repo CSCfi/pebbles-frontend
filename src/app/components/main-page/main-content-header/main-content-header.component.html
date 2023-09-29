@@ -1,11 +1,9 @@
 <ng-container *ngIf="context">
-  <div id="content-header" ngClass.lt-sm="mobile"
-    fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="15px"
-    fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch">
+  <div id="content-header" ngClass.lt-sm="mobile">
     <!-- title -->
-    <div fxFlex="0 0 auto"><h1 class="mat-headline center__v" [innerHTML]="context.title"></h1></div>
+    <h1 class="mat-headline center__v mr-15" [innerHTML]="context.title"></h1>
     <!-- search form -->
-    <form class="search-form" *ngIf="isSearchOn" fxFlex="grow">
+    <form class="search-form" *ngIf="isSearchOn">
       <mat-form-field class="chip-list" appearance="fill">
 
         <span matPrefix><mat-icon fontSet="material-icons-outlined">search</mat-icon></span>

@@ -11,7 +11,24 @@
   border-radius: 5px;
 }
 
-.login-wrapper {
+.content-wrapper {
+  grid-template-columns: auto 650px;
+
+  .login-wrapper {
+    display: grid;
+    grid-template-rows: max-content max-content max-content max-content;
+
+    #oauth-login-button {
+      width: 100%;
+    }
+
+    #hero-shots {
+      box-sizing: border-box;
+    }
+  }
+
+
+
   app-service-announcement {
     ::ng-deep.service-announcement-item {
       margin-top: 10px !important;
@@ -33,24 +50,27 @@
 .hero-video {
   position: relative;
   max-width: 650px;
+  margin-bottom: 200px;
 
   video {
     width: 100%;
     border: 1px solid map-get($app-primary, 600);
-    box-shadow: 5px 6px 5px rgba( 20, 20, 75, .8);
+    box-shadow: 5px 6px 5px rgba(20, 20, 75, .8);
     border-radius: 12px;
   }
 }
 
 #special-login-button {
-  margin-left: -20px;
   margin-bottom: 20px !important;
+  justify-self: center;
+  align-self: center;
 }
 
 .hero-images {
   position: relative;
   z-index: 1000;
   max-width: 650px;
+  min-height: 400px;
   height: auto;
   overflow: hidden;
 
@@ -63,19 +83,53 @@
     opacity: 0;
     top: 0;
 
-    &:first-child { position: relative; }
-    img { width: 100%; }
+    &:first-child {
+      position: relative;
+    }
+
+    img {
+      width: 100%;
+    }
   }
 }
 
-.control-buttons > button {
-  width: 10px;
-  height: 10px;
-  background: white;
+.control-buttons {
 
-  &:hover { background: map-get($app-warn, default); }
-  &.focus {
-    background: map-get($app-secondary, default);
-    &:hover { background: map-get($app-warn, default); }
+  display: flex;
+	flex-direction: row;
+  justify-content: center;
+
+  button {
+    width: 10px;
+    height: 10px;
+    background: white;
+
+    &:hover {
+      background: map-get($app-warn, default);
+    }
+
+    &.focus {
+      background: map-get($app-secondary, default);
+
+      &:hover {
+        background: map-get($app-warn, default);
+      }
+    }
+  }
+}
+
+.tablet.container {
+  .content-wrapper {
+    grid-template-columns: auto !important;
+    grid-template-rows: auto auto !important;
+
+    .login-wrapper {
+      margin-right: 0 !important;
+    }
+
+    .hero-video {
+      margin: auto !important;
+      z-index: 2000;
+    }
   }
 }

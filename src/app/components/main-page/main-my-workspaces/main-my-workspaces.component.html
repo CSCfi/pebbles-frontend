@@ -1,15 +1,12 @@
-<div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px"
-     fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
-  <app-main-content-header fxFlex="grow"
-                           (emitApplyFilter)="applyFilter($event)"
+<div class="content-header-container">
+  <app-main-content-header (emitApplyFilter)="applyFilter($event)"
                            [context]="context"
                            [isSearchOn]="true"
                            [isAutocompleteDisabled]="true"
                            [labels]="[]">
   </app-main-content-header>
-  <div class="action-buttons" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
-    <button mat-flat-button id="join-workspace-button" color="accent" fxFlex.lt-sm="grow"
+  <div class="action-buttons grid-col">
+    <button mat-flat-button id="join-workspace-button" color="accent"
             aria-label="Join Workspace"
             (click)="openJoinWorkspaceDialog()">
       <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
@@ -19,10 +16,10 @@
       <button mat-stroked-button (click)="toggleWorkspaceList()">
         <mat-icon class="material-icons-outlined mr-5">list</mat-icon>
         <ng-container *ngIf="isListOpen; else openButtonBlock">
-          <span fxHide.lt-sm="true">Close list</span>
+          <span>Close list</span>
         </ng-container>
         <ng-template #openButtonBlock>
-          <span fxHide.lt-sm="true">Open list</span>
+          <span>Open list</span>
         </ng-template>
       </button>
     </ng-container>
@@ -33,8 +30,7 @@
   <!--  Service Announcement 'catalog'  -->
   <app-service-announcement [context]="context"></app-service-announcement>
 
-  <section class="workspace-list content-cutout mt-5 mb-30" *ngIf="workspaceCount > 0 ; else noMembershipBlock"
-           fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+  <section class="workspace-list content-cutout mt-5 mb-30" *ngIf="workspaceCount > 0 ; else noMembershipBlock">
     <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">
       <ng-container *ngFor="let workspace of visibleWorkspaces">
         <app-main-workspace-item

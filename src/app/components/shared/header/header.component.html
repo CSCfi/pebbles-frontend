@@ -1,26 +1,18 @@
 <mat-toolbar-row id="header" role="heading"
-                 [ngClass]="'container__'+displayMode">
+                 [ngClass]="'container__'+displayMode" ngClass.lt-sm="mobile">
   <!-- Logo -->
-  <div class="logo no-u-line" fxFlex="0 0 300px"
-       [ngClass]="('mat-display-'+logoTypeSize)">
-    <a [routerLink]="['/welcome']" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-      <div class="logo__mark" [fxFlex]="('0 '+'0 '+ logoMarkSize+'px')">
-        <div class="csc-logo">
-          <img src="assets/images/logo/csc_logo.svg" alt="csc-logo" [width]="logoMarkSize">
-        </div>
-      </div>
-      <div class="logo__type" fxFlex="0 0 240px">
-        {{ publicConfigService.getInstallationName() }}
-        <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
-      </div>
-    </a>
-  </div>
+  <a [routerLink]="['/welcome']" class="logo no-u-line"
+     [ngClass]="('mat-display-'+logoTypeSize)">
+    <div class="logo__mark csc-logo">
+      <img src="assets/images/logo/csc_logo.svg" alt="csc-logo" [width]="logoMarkSize">
+    </div>
+    <div class="logo__type">
+      {{ publicConfigService.getInstallationName() }}
+      <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
+    </div>
+  </a>
   <!-- Navigation -->
-  <span fxFlex></span>
   <ul class="navbar mat-display-2 no-u-line mb-10 mt-10"
-      fxShow="true" fxHide.lt-sm="true"
-      fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px"
-      fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="end start" fxLayoutGap.lt-sm="5px"
       *ngIf="isNaviVisible">
     <li>
       <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank" rel="noopener">

@@ -1,5 +1,10 @@
 @import "src/styles/main.scss";
 
+.content-header-container {
+  grid-template-columns: auto 160px;
+  grid-column-gap: 20px;
+}
+
 #message-page {
   .message {
     position: relative;

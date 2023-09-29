@@ -1,14 +1,11 @@
-<div id="workspace-applications-container" ngClass.gt-xs="pt-20 pl-40 pr-40 pb-50" ngClass.lt-sm="p-10"
-     fxLayout="column" fxLayoutGap="10px">
+<div id="workspace-applications-container" ngClass.lt-sm="mobile">
   <!-- Search Box -->
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="application-header mb-10">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
   <!-- Buttons -->
-  <div class="application-actions center__vh" *ngIf="dataSource?.data !== null"
-       fxLayout="row" fxLayoutAlign="end stretch" fxLayoutGap="10px"
-       fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch" fxLayoutGap.lt-sm="5px">
+  <div class="application-actions mb-10 grid-col" *ngIf="dataSource?.data !== null">
     <div class="mat-subheading-2 center__vh txt__gray-dark">
       <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>Create application :
     </div>
@@ -56,9 +53,9 @@
         -->
         <!-- Thumbnail column -->
         <ng-container matColumnDef="thumbnail">
-          <th mat-header-cell *matHeaderCellDef fxHide.lt-sm="true">type / sate</th>
+          <th mat-header-cell *matHeaderCellDef>type / sate</th>
           <td mat-cell class="cell-thumbnail icon" *matCellDef="let element"
-              [ngClass]="{'published': element.isEnabled, 'draft': !element.isEnabled}" fxHide.lt-sm="true">
+              [ngClass]="{'published': element.isEnabled, 'draft': !element.isEnabled}">
             <div class="thumbnail-placeholder">
               <div class="thumbnail">
                 <fa-icon [icon]="getApplicationIcon(element.labels)" class="md-24"></fa-icon>

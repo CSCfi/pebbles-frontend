@@ -6,7 +6,7 @@
   </div>
   <h1 class="mat-dialog-title mat-headline">{{ heading }}</h1>
   <mat-dialog-content>
-    {{ textContent }}
+    <div class="mb-20">{{ textContent }}</div>
     <section class="workspace-input-form">
       <form [formGroup]="selectWorkspaceForm">
         <mat-select formControlName="selectedWorkspaceId" class="select-workspace">
@@ -16,17 +16,15 @@
         </mat-select>
 
         <!-- Submit -->
-        <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px"
-             fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="center stretch">
+        <div class="dialog-actions">
 
           <button mat-flat-button color="primary"
                   class="select-workspace-btn"
                   (click)="selectWorkspace()"
-                  [disabled]="!isFormReady()"
-          >
+                  [disabled]="!isFormReady()">
             Select
           </button>
-          <button mat-button class="button-link button-sm" (click)="closeForm()" fxFlex="0 0 auto">
+          <button mat-button class="button-link button-sm" (click)="closeForm()">
             Cancel
           </button>
         </div>

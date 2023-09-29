@@ -1,20 +1,16 @@
-<div class="content-header-container"
-     fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="20px">
+<div class="content-header-container grid-col">
   <app-main-content-header
-    fxFlex="grow"
     [context]="context"
     [isSearchOn]="false"
     [isAutocompleteDisabled]="true"
     [labels]="[]">
   </app-main-content-header>
-  <div class="flex-spacer"></div>
-  <button mat-stroked-button class="reload-button" fxFlex="1 0 60px" (click)="refresh()">
+  <button mat-stroked-button class="reload-button" (click)="refresh()">
     <mat-icon>refresh</mat-icon>
   </button>
 </div>
 
 <div class="alerts-container p-30">
-
   <h2 class="mb-5">Summary</h2>
   <div class="info-body mb-30">
     <dl class="grid center__v">

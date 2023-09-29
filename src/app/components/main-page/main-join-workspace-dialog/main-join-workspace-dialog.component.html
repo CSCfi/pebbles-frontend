@@ -6,17 +6,15 @@
   </div>
   <h1 class="mat-dialog-title mat-headline">Join Workspace</h1>
   <mat-dialog-content>
-    <section class="workspace-input-form">
-      <form [formGroup]="joinWorkspaceForm" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
-            fxLayout.lt-sm="column" fxLayoutAlign.lt-sm="start stretch" fxLayoutGap.lt-sm="10px">
+    <section class="join-code-input-form">
+      <form [formGroup]="joinWorkspaceForm">
         <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
-        <mat-form-field appearance="fill" class="join-code-input" fxFlex="grow">
+        <mat-form-field appearance="fill" class="join-code-input">
           <mat-label>Enter Join Code</mat-label>
-          <input matInput type="text" placeholder="Join code" formControlName="joinCode"
-                 fxFlex="0 0 220px"/>
+          <input matInput type="text" placeholder="Join code" formControlName="joinCode">
           <mat-error *ngIf="isJoinCodeValid" [ngClass]="'error'">error</mat-error>
         </mat-form-field>
-        <button mat-flat-button color="primary" class="join-workspace-btn" (click)="joinWorkspace()">
+        <button mat-flat-button color="primary" class="join-workspace-btn center__vh" (click)="joinWorkspace()">
           <mat-icon fontSet="material-icons-outlined">add</mat-icon>
         </button>
       </form>
@@ -49,7 +47,7 @@
       </ng-template>
     </section>
   </mat-dialog-content>
-  <!--  <mat-dialog-actions class="mb-10" fxLayout="row" fxLayoutAlign="end">-->
+  <!--  <mat-dialog-actions class="mb-10">-->
   <!--    <button mat-stroked-button mat-dialog-close (click)="closeForm()">Close</button>-->
   <!--  </mat-dialog-actions>-->
 </div>

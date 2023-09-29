@@ -1,8 +1,7 @@
-<div id="workspace-members-container" ngClass.gt-xs="pt-20 pl-40 pr-40 pb-50" ngClass.lt-sm="p-10"
-     fxLayout="column" fxLayoutGap="10px">
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-    <!-- Search Box -->
-    <mat-form-field appearance="fill" fxFlex="grow">
+<div id="workspace-members-container">
+  <!-- Search Box -->
+  <div class="member-header grid-col mb-10">
+    <mat-form-field appearance="fill">
       <mat-icon matPrefix>search</mat-icon>
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>

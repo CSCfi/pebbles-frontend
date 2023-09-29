@@ -2,26 +2,32 @@
 
 ::ng-deep mat-sidenav-container {
   height: 100%;
+  min-height: 100vh;
   padding-top: 0 !important;
   margin-top: 0 !important;
+
+  .mat-drawer-inner-container {
+    height: 100vh;
+    overflow: hidden;
+  }
 
   .mat-sidenav {
     @include shadow(0.2);
     position: fixed;
     border: none !important;
-    width:  map-deep-get($layout-set, main, sidenav, w);
+    width: map-deep-get($layout-set, main, sidenav, w);
+    display: grid;
+    grid-template-rows: max-content max-content;
 
     &.minimize {
       width: map-deep-get($layout-set, main, sidenav-min, w);
     }
 
-    app-main-nav{
+    app-main-nav {
       @include animation();
-      display: block;
+      display: grid;
       height: 100% !important;
-      width: 100%;
-      bottom: 0;
-      top: 0;
+      grid-template-rows: auto max-content;
     }
   }
 
@@ -36,12 +42,18 @@
       margin-left: 0 !important;
     }
 
-    .main-content-container{
+    .main-content-container {
       display: block;
       width: 100%;
       min-height: map-deep-get($layout-set, main, content, min-h);
       background-color: map-get($app-primary, 100);
       overflow: hidden;
     }
+  }
+}
+
+.mobile {
+  &.mat-sidenav-container {
+    height: 100vh !important;
   }
 }

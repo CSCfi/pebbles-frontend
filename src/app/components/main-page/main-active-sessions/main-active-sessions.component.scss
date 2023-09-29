@@ -1,9 +1,14 @@
 @import "src/styles/main.scss";
 
-#active-sessions-container {
-  min-height: 100vh;
+.content-header-container {
+  grid-template-columns: auto 60px;
+}
 
-  table {
+#active-sessions-container {
+  min-height: calc(100vh - 130px);
+
+  .table-wrapper {
+    overflow: auto;
 
     td {
       font-size: 1.2rem;

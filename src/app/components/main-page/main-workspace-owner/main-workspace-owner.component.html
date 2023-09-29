@@ -1,23 +1,14 @@
-<div id="workspace-owner-container" fxLayout="row" fxLayoutAlign="space-between stretch"
-     fxLayout.lt-lg="column" fxLayoutAlign.lt-md="start stretch" fxLayoutGap.lt-lg="10px">
-
+<div id="workspace-owner-container" class="grid-col"
+     ngClass.lt-sm="mobile" ngClass.lt-md="tablet">
   <!-- Left Column : Workspace list -->
-  <div class="workspace-list-container" fxFlex="0 0 300px"
-       fxLayout="column" fxLayoutAlign="start stretch" fxFlex.lt-lg="0 0 auto">
-
+  <div class="workspace-list-container">
     <!--  Content header  -->
-    <div class="content-header-container" fxFlex="0 0 70px"
-         fxLayout="row" fxLayoutAlign="center center" fxLayoutAlign.lt-md="start center">
-      <app-main-content-header fxFlex="0 0 auto"
-                               [context]="context"
-                               [isSearchOn]="false"
-                               [isAutocompleteDisabled]="false"
-                               [labels]="[]">
-      </app-main-content-header>
+    <div class="content-header-container center__vh">
+      <h1 class="mat-headline mr-15" [innerHTML]="context.title"></h1>
     </div>
     <!-- Workspace creation buttons -->
     <ng-container *ngIf="workspaces">
-      <div class="workspaces-actions-container p-10" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <div class="workspaces-actions-container p-10">
         <button mat-flat-button class="create-workspace-button"
                 [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
                 aria-label="create a new workspace"
@@ -33,7 +24,7 @@
             <span>Create demo workspace</span>
           </button>
         </ng-container>
-        <div *ngIf="!isQuotaLeft()" class="max-quota-warning p-10">
+        <div *ngIf="!isQuotaLeft()" class="max-quota-warning p-10 mt-10">
           No workspace quota left.
           If you want to create more workspaces and you cannot free up quota by deleting unused workspaces,
           please contact us.
@@ -41,11 +32,9 @@
       </div>
     </ng-container>
     <!-- Workspace list -->
-    <div class="workspace-list pl-10 pr-10" *ngIf="workspaces"
-         fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px"
-         fxShow.gt-sm="true" fxHide.lt-lg="true">
+    <div class="workspace-list pl-10 pr-10" *ngIf="workspaces">
       <ng-container *ngFor="let workspace of workspaces">
-        <mat-card class="workspace-item {{getMembershipType(workspace)}}"
+        <mat-card class="workspace-item mb-5 {{getMembershipType(workspace)}}"
                   [ngClass]="{
                     'selected': isWorkspaceSelected(workspace),
                     'new': isNewWorkspace(workspace.id),
@@ -53,8 +42,8 @@
                     }"
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
-          <div class="card-header" fxLayout="row" fxLayoutAlign="space-between center">
-            <div class="workspace-icon center__v" fxFlex="0 0 32px">
+          <div class="card-header">
+            <div class="workspace-icon center__v">
               <mat-icon class="user-role-icon"
                         [matTooltip]="getMembershipType(workspace)"
                         *ngIf="getMembershipType(workspace)!=='public'; else publicBlock">
@@ -64,49 +53,48 @@
             <ng-template #publicBlock>
               <mat-icon class="user-role-icon" [matTooltip]="getMembershipType(workspace)">public</mat-icon>
             </ng-template>
-            <div class="workspace-title mat-subheading-2" fxFlex="grow">
+            <div class="workspace-title mat-subheading-2">
               <span>{{ workspace.name }}</span>
             </div>
-            <div class="workspace-selected-arrow center__v" fxFlex="0 0 25px"
+            <div class="workspace-selected-arrow center__v"
                  *ngIf="isWorkspaceSelected(workspace)">
               <mat-icon>navigate_next</mat-icon>
             </div>
           </div>
           <!-- widget detail -->
-          <mat-card-content class="workspace-info mt-10 pt-10" fxLayout="column"
+          <mat-card-content class="workspace-info mt-10 pt-10"
                             *ngIf="isWorkspaceSelected(workspace)">
             <div class="description pb-10 mat-body-1">
               {{ workspace.description || 'No description for the workspace' }}
             </div>
-            <div class="pt-10" fxLayout="row" fxLayoutAlign="start stretch">
-              <span fxFlex="0 0 110px">Your role</span>
-              <span class="user-role-txt">{{ getMembershipType(workspace) }}</span>
-            </div>
-            <div class="join-code-info pt-10 pb-10" fxLayout="row" fxLayoutAlign="start stretch">
-              <span class="function-title" fxFlex="0 0 110px">Join code</span>
-              <div class="open-join-code-button" fxLayout="row"
-                   (click)="openJoinCodeDialog(workspace)">
+            <dl class="pt-10 grid-col">
+              <dt>Your role</dt>
+              <dd class="user-role-txt">{{ getMembershipType(workspace) }}</dd>
+            </dl>
+            <dl class="join-code-info pt-10 pb-10 grid-col">
+              <dt class="function-title">Join code</dt>
+              <dd class="open-join-code-button"
+                  (click)="openJoinCodeDialog(workspace)">
                 <mat-icon class="mr-5">vpn_key</mat-icon>
                 <div class="chip__password center__v"></div>
-              </div>
-            </div>
-            <div class="expiration-date-info" fxLayout="row" fxLayoutAlign="start stretch">
-              <span class="function-title" fxFlex="0 0 110px">Days till expiry</span>
-              <span class="expiration-date txt__primary"
-                    [ngClass]="{'u-line': workspace.expiry_ts}"
-                    [matTooltip]="workspace.expiry_ts | dateDisplay"
-                    [matTooltipDisabled]="!workspace.expiry_ts"
-                    matTooltipPosition="right">
+              </dd>
+            </dl>
+            <dl class="expiration-date-info grid-col">
+              <dt class="function-title">Days till expiry</dt>
+              <dd class="expiration-date txt__primary"
+                  [ngClass]="{'u-line': workspace.expiry_ts}"
+                  [matTooltip]="workspace.expiry_ts | dateDisplay"
+                  [matTooltipDisabled]="!workspace.expiry_ts"
+                  matTooltipPosition="right">
                 {{ workspace.expiry_ts | remainingDaysDisplay }}
-              </span>
-            </div>
+              </dd>
+            </dl>
           </mat-card-content>
         </mat-card>
       </ng-container>
     </div>
     <!-- Mobile workspace-list -->
-    <div class="mobile-workspace-list ml-10 mr-10" *ngIf="workspaces" fxLayout="column" fxLayoutAlign="start stretch"
-         fxHide.gt-md="true" fxShow.lt-lg="true">
+    <div class="mobile-workspace-list ml-10 mr-10 mb-10" *ngIf="workspaces">
       <mat-form-field appearance="fill">
         <mat-label>Select workspace</mat-label>
         <mat-select [(value)]="selectedWorkspaceId" (selectionChange)="workspaceSelectChange()">
@@ -133,26 +121,29 @@
   <!--  //// END div.workspaces-actions-container -->
 
   <!-- Right Column : Workspace Detail -->
-  <div id="workspace-owner-tab-container" fxFlex="grow" fxLayout="column" fxLayoutAlign="start stretch">
+  <div id="workspace-owner-tab-container">
 
     <!--  Service Announcement 'workspace-owner'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
 
     <ng-container *ngIf="selectedWorkspace">
       <div class="course-request-wrapper">
-        <button mat-button matTooltip="Hosting a course? Please inform us by using this form." class="course-request" (click)="openCourseRequest()">
-          <mat-icon class="md-18 mr-4">event</mat-icon>Course Request<mat-icon class="md-18 ml-10">open_in_new</mat-icon>
+        <button mat-button matTooltip="Hosting a course? Please inform us by using this form."
+                class="course-request" (click)="openCourseRequest()">
+          <mat-icon class="md-18 mr-4">event</mat-icon>
+          Course Request
+          <mat-icon class="md-18 ml-10">open_in_new</mat-icon>
         </button>
       </div>
       <mat-tab-group mat-align-tabs="center" class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
-                     [selectedIndex]="selectedTab"
-                     fxFlex="grow">
+                     [selectedIndex]="selectedTab">
         <mat-tab label="applications">
+
           <ng-template mat-tab-label>
             <mat-icon class="md-18">import_contacts</mat-icon>
-            <span class="tab-title" fxHide.lt-sm="true">Applications</span>
+            <span class="tab-title">Applications</span>
             <mat-chip *ngIf="applicationCount > 0" class="chip__circle bg__primary-light">
               {{applicationCount}}
             </mat-chip>
@@ -166,7 +157,7 @@
         <mat-tab label="members">
           <ng-template mat-tab-label>
             <mat-icon class="md-18">person</mat-icon>
-            <span class="tab-title" fxHide.lt-sm="true">Members</span>
+            <span class="tab-title">Members</span>
             <mat-chip *ngIf="memberCount > 0" class="chip__circle bg__primary-light">
               {{memberCount}}
             </mat-chip>
@@ -177,7 +168,7 @@
         <mat-tab label="info">
           <ng-template mat-tab-label>
             <mat-icon class="md-18">settings</mat-icon>
-            <span class="tab-title" fxHide.lt-sm="true">Info</span>
+            <span class="tab-title">Info</span>
           </ng-template>
           <app-main-workspace-item-detail [workspaceId]="selectedWorkspaceId"
                                           (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">

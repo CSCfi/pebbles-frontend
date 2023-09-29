@@ -5,4 +5,11 @@
   padding: 10px;
   color: #fff;
   background: map-get($app-accent, default);
+  display: grid;
+  grid-template-columns: auto max-content;
+  align-items: center;
+}
+
+.dialog-actions {
+  display: grid;
 }

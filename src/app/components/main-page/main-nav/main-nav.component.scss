@@ -2,7 +2,10 @@
 
 .sidenav-inner {
   position: relative;
-  min-height: 100%;
+  //min-height: 100%;
+  display: grid;
+  grid-template-rows: repeat(9, max-content);
+  align-content: start;
 }
 
 .logo {
@@ -66,5 +69,23 @@
         padding: 5px 18px !important;
       }
     }
+  }
+
+  &.nav__bottom {
+    align-self: end;
+  }
+}
+
+@media screen and (max-width: 599px) {
+
+  .sidenav-inner {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 600px) {
+
+  .sidenav-inner {
+    display: block;
   }
 }

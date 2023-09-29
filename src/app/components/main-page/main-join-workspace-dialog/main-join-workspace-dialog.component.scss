@@ -1,0 +1,13 @@
+@import "src/styles/main.scss";
+
+.join-code-input-form form {
+  display: grid;
+  grid-template-columns: max-content auto max-content;
+  grid-column-gap: 5px;
+  align-items: center;
+  align-content: center;
+
+  button {
+    height: 100%;
+  }
+}
