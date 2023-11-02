@@ -6,7 +6,7 @@
 // ---- Material Design
 @import "./styles/style-md-custom";
 // ---- Grid Layout Design
-@import "./styles/style-grid-layput";
+@import "./styles/style-grid-layout";
 
 @include mat.core($custom-typography);
 @include mat.all-component-themes($app-theme);
