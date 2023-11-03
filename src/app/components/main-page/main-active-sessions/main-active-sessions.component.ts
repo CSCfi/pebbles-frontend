@@ -309,8 +309,10 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       this.selectedSessionLogs = logs;
       setTimeout(() => {
         const terminal = document.getElementById("terminal");
-        terminal.scrollTop = terminal.scrollHeight;
-      }, 1000);
+        if (terminal) {
+          terminal.scrollTop = terminal.scrollHeight;
+        }
+      }, 100);
     });
   }
 
