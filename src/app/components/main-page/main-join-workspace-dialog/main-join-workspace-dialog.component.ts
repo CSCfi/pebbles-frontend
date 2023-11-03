@@ -56,7 +56,9 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
   }
 
   joinWorkspace(): void {
-    this.workspaceService.joinWorkspace(this.joinCode).subscribe((resp) => {
+    // clean quotes (sometimes present after copy-paster) and extra spaces from the join code
+    const cleanJoinCode = this.joinCode.trim().replace(/["']/g, '');
+    this.workspaceService.joinWorkspace(cleanJoinCode).subscribe((resp) => {
       this.joinWorkspaceForm.reset();
       if (typeof (resp) === 'string') {
         this.errorMessage = resp;
