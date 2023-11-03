@@ -49,8 +49,8 @@ export class WelcomePageComponent implements OnInit {
   }
 
   onLogin(): void {
-    const ext_id = this.loginFormGroup.controls.ext_id.value;
-    const password = this.loginFormGroup.controls.password.value;
+    const ext_id = this.loginFormGroup.controls.ext_id.value.trim();
+    const password = this.loginFormGroup.controls.password.value.trim();
     this.authService.login(ext_id, password).pipe(
       tap(session => {
         if (!session.terms_agreed) {
