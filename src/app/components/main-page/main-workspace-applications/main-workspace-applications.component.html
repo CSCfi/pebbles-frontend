@@ -152,11 +152,12 @@
           <th mat-header-cell *matHeaderCellDef class="icon">menu</th>
           <td mat-cell *matCellDef="let element" class="cell-edit icon-cell">
             <button mat-button aria-label="edit application"
-                    matTooltip="Edit" matTooltipPosition="above"
+                    matTooltip="Edit" matTooltipPosition="left"
                     (click)="openApplicationItemFormDialog(element.id)">
               <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
             </button>
-            <button mat-button matTooltip="Other actions" [matMenuTriggerFor]="menu" aria-label="open application menu">
+            <button mat-button matTooltip="Other actions" matTooltipPosition="left"
+                    [matMenuTriggerFor]="menu" aria-label="open application menu">
               <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
