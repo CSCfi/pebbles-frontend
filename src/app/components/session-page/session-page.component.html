@@ -22,8 +22,8 @@
           </div>
         </ng-container>
       </div>
-      <div class="explanation-message" *ngIf="explanationMessage || warningMessage">
-        <p [innerHTML]="warningMessage ? warningMessage : explanationMessage"></p>
+      <div class="explanation-message">
+        <p [innerHTML]="warningMessage ? warningMessage : explanationMessage? explanationMessage : ' '"></p>
       </div>
       <app-main-application-item class="application-item"
                                  [context]="context"
@@ -36,5 +36,33 @@
         <div class="mat-display-3 state-info">{{ sessionStatesInfo }}</div>
       </div>
     </ng-template>
+
+    <!-- Note about data expiration -->
+    <ng-container *ngIf="targetWorkspace">
+      <div *ngIf="targetWorkspace?.membership_expiry_policy?.kind==='activity_timeout'; else persistentMembership"
+           class="policy-note">
+        <div class="policy-icon-column">
+          <mat-icon class="material-icons-outlined">warning</mat-icon>
+        </div>
+        <div class="policy-content">
+          Please note that due to workspace policy, your membership will terminate after
+          {{ targetWorkspace.membership_expiry_policy.timeout_days }} days of inactivity.
+          After termination, you cannot access data, including "my-work" content, in this workspace anymore.
+          Remember to download files you want to save to your local computer.
+        </div>
+      </div>
+      <ng-template #persistentMembership>
+        <div class="policy-note" *ngIf="targetWorkspace.expiry_ts">
+          <div class="policy-icon-column">
+            <mat-icon class="material-icons-outlined">warning</mat-icon>
+          </div>
+          <div class="policy-content">
+            The workspace containing this application and "my-work" content will expire and become inaccessible
+            {{ targetWorkspace?.expiry_ts * 1000 | date }}.
+            Remember to download files you want to save to your local computer.
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
   </div>
 </div>

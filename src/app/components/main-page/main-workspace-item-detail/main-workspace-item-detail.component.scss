@@ -32,6 +32,14 @@
     grid-column-gap: 10px;
   }
 
+  .workspace-extend-button {
+    //background-color: #00EAC3;
+  }
+
+  .extend-checkbox {
+    padding-left: 2em;
+  }
+
   .action-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

@@ -30,14 +30,18 @@
                 {{ application.workspace_name }}
               </div>
               <div class="expiry-date mat-caption">
-                <mat-icon class="md-16" matTooltip="Expired by">event_available</mat-icon>
-                Valid till {{ application.info.workspace_expiry_ts | dateDisplay }}
+                <mat-icon class="md-16" matTooltip="Expires">event_available</mat-icon>
+                <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='persistent'">
+                  Valid till {{ application.info.workspace_expiry_ts | dateDisplay }}
+                </ng-container>
+                <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='activity_timeout'">
+                  Expires after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity
+                </ng-container>
                 <span class="expiry-warning txt__warn-dark"
-                      *ngIf="expirationDateGap < 7" [matTooltip]="getSoonExpiresTooltip()">
-                ({{ application.info.workspace_expiry_ts | remainingDaysDisplay }})
+                      *ngIf="expirationDateGap < 14" [matTooltip]="getSoonExpiresTooltip()">
+                    ({{ application.info.workspace_expiry_ts | remainingDaysDisplay }})
                 </span>
               </div>
-
             </ng-container>
             <ng-template #publicBlock>
               <div class="workspace-name grid-icon-text">

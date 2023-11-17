@@ -220,7 +220,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
         autoFocus: false,
         data: {
           dialogTitle: 'Warning!',
-          dialogContent: `<p>Are you sure to give up a control right to this workspace?</p>`,
+          dialogContent: `<p>Are you sure to give up control rights to this workspace?</p>`,
           dialogActions: ['confirm', 'cancel']
         }
       });

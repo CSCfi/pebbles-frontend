@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
@@ -75,9 +75,6 @@ export class WorkspaceService {
       tap(resp => {
         this.fetchWorkspaces().subscribe();
         return resp;
-      }),
-      catchError(resp => {
-        return of(resp.error.error);
       })
     );
   }
@@ -148,12 +145,12 @@ export class WorkspaceService {
     ).subscribe();
   }
 
-  createWorkspace(name: string, description: string, expiry_ts = null): Observable<Workspace> {
+  createWorkspace(name: string, description: string, expiry_ts = null, workspace_type = null): Observable<Workspace> {
     const url = `${buildConfiguration.apiUrl}/workspaces`;
     if (!expiry_ts) {
-      expiry_ts = Math.floor(Date.now()/1000 + 86400 * 30 * 3);
+      expiry_ts = Math.floor(Date.now() / 1000 + 86400 * 30 * 3);
     }
-    return this.http.post<Workspace>(url, {name, description, expiry_ts}).pipe(
+    return this.http.post<Workspace>(url, {name, description, expiry_ts, workspace_type}).pipe(
       tap((resp) => {
         this.fetchWorkspaces().subscribe();
         this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
@@ -161,20 +158,9 @@ export class WorkspaceService {
     );
   }
 
-  updateWorkspace(workspace: Workspace): Observable<Workspace> {
-    const url = `${buildConfiguration.apiUrl}/workspaces/${workspace.id}`;
-    return this.http.put<Workspace>(url, {
-      name: workspace.name,
-      description: workspace.description,
-      // join_code: workspace.join_code,
-      // owner_ext_id: workspace.owner_ext_id,
-      // role: null
-      // user_config:{
-      //     // banned_users: workspace.banned_users,
-      //     managers: workspace.manager_ext_ids,
-      //     owner:[{id: workspace.owner_ext_id}]
-      //   }
-    }).pipe(
+  updateWorkspace(id: string, name: string, description: string, expiry_ts: number): Observable<Workspace> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${id}`;
+    return this.http.put<Workspace>(url, {name, description, expiry_ts}).pipe(
       tap(res => {
         this.eventService.workspaceDataUpdate$.next(res.id);
         this.fetchWorkspaces().subscribe();

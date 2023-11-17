@@ -111,6 +111,10 @@ export class PublicConfigService {
     return this.publicConfig?.get('SERVICE_DOCUMENTATION_URL');
   }
 
+  getPublicApplicationAccessNote(): string {
+    return this.publicConfig?.get('PUBLIC_APPLICATION_ACCESS_NOTE');
+  }
+
   fetchPublicConfig(): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/config`;
     return this.http.get(url).pipe(

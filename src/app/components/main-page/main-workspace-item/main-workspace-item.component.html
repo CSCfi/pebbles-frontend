@@ -34,7 +34,10 @@
       <div class="expiry-date mt-5 mb-5">
         Valid till {{ workspace.expiry_ts | dateDisplay }}
         <span class="expiry-warning mat-caption ml-5" [ngClass]="{'txt__warn-dark': isExpiredSoon }">
-        ({{ workspace.expiry_ts | remainingDaysDisplay }})
+        ({{ workspace.expiry_ts | remainingDaysDisplay }}).
+        </span>
+        <span *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
+          Membership expires after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity.
         </span>
       </div>
       <div class="description mb-5" [innerHTML]="workspace.description">

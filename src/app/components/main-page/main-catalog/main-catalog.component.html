@@ -12,32 +12,46 @@
   </button>
 </div>
 
-<!-- Application Catalogs -->
+<!-- Application categories -->
 <section class="applications-catalog" ngClass.lt-sm="mobile">
   <!--  Service Announcement 'catalog'  -->
   <app-service-announcement [context]="context"></app-service-announcement>
 
   <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
-                 (selectedTabChange)="changeCatalog($event)">
-    <ng-container *ngFor="let catalog of getCatalogs()">
-      <mat-tab label="{{ catalog.name }}">
+                 (selectedTabChange)="changeCategory($event)">
+    <ng-container *ngFor="let category of getCategories()">
+      <mat-tab label="{{ category.name }}">
         <ng-template mat-tab-label>
-          <span class="tab-title mat-subheading-2">{{ catalog.name }}</span>
+          <span class="tab-title mat-subheading-2">{{ category.name }}</span>
         </ng-template>
 
         <div class="tab-content">
-          <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === catalog.name">
+          <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === category.name">
             <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container">
               <ng-container *ngFor="let application of applications">
                 <app-main-application-item [application]="application" [context]="context">
                 </app-main-application-item>
               </ng-container>
+              <div *ngIf="getPublicApplicationAccessNote()" class="no-public-applications">
+                <div class="no-public-applications-divider">...</div>
+                <div class="no-public-applications-card">
+                  <div class="no-public-applications-icon">
+                    <fa-icon icon="chart-column"></fa-icon>
+                    <fa-icon icon="circle-nodes"></fa-icon>
+                    <fa-icon icon="atom"></fa-icon>
+                  </div>
+                  <div class="no-public-applications-text" [innerHTML]="getPublicApplicationAccessNote()"></div>
+                </div>
+              </div>
+
             </div>
             <ng-template #noApplicationBlock>
               <section class="status-info-container">
                 <div class="empty-status" *ngIf="applications !== null">
                   <mat-icon fontSet="material-icons-outlined" class="md-96">import_contacts</mat-icon>
-                  <span class="status-summary">No applications found.</span>
+                  <span class="status-summary">
+                    No applications found. Join a workspace using the button on top to access the content.
+                  </span>
                 </div>
                 <div class="empty-status" *ngIf="applications === null">
                   <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
@@ -52,8 +66,8 @@
     </ng-container>
   </mat-tab-group>
 
-  <!-- Catalogs have not been fetched yet -->
-  <ng-container *ngIf="getCatalogs().length === 0">
+  <!-- Categories have not been fetched yet -->
+  <ng-container *ngIf="getCategories().length === 0">
     <section class="status-info-container">
       <div class="empty-status">
         <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>

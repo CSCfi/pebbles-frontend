@@ -32,7 +32,9 @@
     .mat-tab-label {
       border-right: 1px solid map-get($app-primary, 200);
 
-      &:last-child { border-right: none; }
+      &:last-child {
+        border-right: none;
+      }
 
       .tab-icon {
         margin-right: 5px;
@@ -40,7 +42,7 @@
       }
 
       .tab-title {
-        color:  map-get($app-primary, default);
+        color: map-get($app-primary, default);
       }
     }
   }
@@ -53,9 +55,44 @@
       margin: auto;
       max-width: 1200px;
       width: 100%;
+
+      .no-public-applications {
+        display: flex;
+        flex-direction: column;
+
+        .no-public-applications-divider {
+          text-align: center;
+        }
+
+        .no-public-applications-card {
+          display: flex;
+          justify-content: center;
+
+          .no-public-applications-icon {
+            padding: 5px;
+            height: 64px;
+            min-width: 64px;
+            max-width: 64px;
+            border-color: map-get($app-primary, light);
+            text-align: center;
+
+            fa-icon {
+              padding: 2px;
+              color: map-get($app-primary, light);
+              font-size: 22px;
+            }
+          }
+
+          .no-public-applications-text {
+            padding: 1em;
+          }
+        }
+      }
+
     }
   }
 }
+
 
 .mobile.applications-catalog {
   .catalog-section {

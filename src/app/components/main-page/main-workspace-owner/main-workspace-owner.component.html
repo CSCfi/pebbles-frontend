@@ -89,6 +89,10 @@
                 {{ workspace.expiry_ts | remainingDaysDisplay }}
               </dd>
             </dl>
+            <dl class="pt-10 grid-col" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
+              <dt>Membership expiry</dt>
+              <dd>{{ workspace.membership_expiry_policy.timeout_days }} days</dd>
+            </dl>
           </mat-card-content>
         </mat-card>
       </ng-container>

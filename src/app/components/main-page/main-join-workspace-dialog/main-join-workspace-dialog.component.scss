@@ -1,13 +1,56 @@
 @import "src/styles/main.scss";
 
-.join-code-input-form form {
-  display: grid;
-  grid-template-columns: max-content auto max-content;
-  grid-column-gap: 5px;
-  align-items: center;
-  align-content: center;
+.join-code-input-form {
+  form {
+    display: grid;
+    grid-template-columns: max-content auto max-content;
+    grid-column-gap: 5px;
+    align-items: center;
+    align-content: center;
 
-  button {
-    height: 100%;
+    button {
+      height: 100%;
+    }
+  }
+}
+
+#join-workspace-dialog {
+  .highlight-line {
+    font-weight: bold;
+    text-align: center;
+    padding: 1em;
+  }
+
+  .policy-note {
+    display: flex;
+    border-style: dashed;
+    border-width: thin;
+    border-radius: 1em;
+    border-color: orange;
+    padding: 1em;
+    margin: 1em;
+
+    .policy-icon-column {
+      align-self: center;
+
+      mat-icon {
+        transform: scale(1.5);
+        margin-right: 1em;
+      }
+    }
+
+    .policy-content {
+      align-self: flex-end;
+    }
+
+  }
+
+  .dialog-buttons {
+    flex: auto;
+    align-content: flex-end;
+
+    button {
+      flex: auto;
+    }
   }
 }

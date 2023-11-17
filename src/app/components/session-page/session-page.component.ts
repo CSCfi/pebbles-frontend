@@ -5,6 +5,8 @@ import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/ap
 import { Application } from '../../models/application';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { ApplicationService } from '../../services/application.service';
+import { WorkspaceService } from "../../services/workspace.service";
+import { Workspace } from "../../models/workspace";
 
 export class SessionProgressStep {
   constructor(
@@ -32,15 +34,16 @@ export class SessionPageComponent implements OnInit, OnDestroy {
 
   public targetSession: ApplicationSession;
   public targetApplication: Application;
+  public targetWorkspace: Workspace;
   private redirectUrl: string;
   private readonly sessionId: string;
   public sessionStatesInfo = '';
   public sessionProgressSteps: SessionProgressStep[];
   private sessionProcessFlag = false;
   public isSessionDeleted = false;
-  private interval;
-  public explanationMessage: String;
-  public warningMessage: String;
+  private interval: number;
+  public explanationMessage = '';
+  public warningMessage = '';
 
   @ViewChild('spinner') spinner: TemplateRef<any>;
 
@@ -53,6 +56,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private applicationService: ApplicationService,
     private applicationSessionService: ApplicationSessionService,
+    private workspaceService: WorkspaceService,
     private titleService: Title,
   ) {
     this.sessionId = this.activatedRoute.snapshot.params.id;
@@ -64,12 +68,13 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       this.context = data;
     });
     // setup a timer to check the session state/progress
-    this.interval = setInterval(() => {
+    this.interval = window.setInterval(() => {
       this.checkSessionStatus();
     }, 1000);
     // we are running in a new window, so we need to trigger sessionService
     this.applicationSessionService.fetchSessions().subscribe();
     this.applicationService.fetchApplications().subscribe();
+    this.workspaceService.fetchWorkspaces().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -129,7 +134,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     if (!this.applicationSessionService.isInitialized) {
       return;
     }
-    // assign application
+    // assign session, application and workspace
     this.targetSession = this.applicationSessionService.getSessions().find((session) => {
       return (session.id === this.sessionId);
     });
@@ -140,6 +145,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     this.sessionStatesInfo = 'Preparing your application session';
     this.targetApplication = this.applicationService.get(this.targetSession.application_id);
 
+    this.targetWorkspace = this.workspaceService.getWorkspaceById(this.targetApplication.workspace_id);
     // set the title of the tab if not set previously
     if (!this.titleService.getTitle().startsWith('Launching')) {
       this.titleService.setTitle('Launching ' + this.targetApplication.name);
@@ -163,7 +169,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       clearInterval(this.interval);
       this.interval = 0;
       this.sessionStatesInfo = 'Ready!';
-      setTimeout(() => {
+      window.setTimeout(() => {
         this.redirectToSession(this.targetSession);
       }, 1000);
     } else if (this.targetSession.state === SessionStates.Failed) {
@@ -234,7 +240,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
       });
     }
 
-    clearInterval(this.interval);
+    window.clearInterval(this.interval);
     this.interval = 0;
     this.sessionStatesInfo = isDeleted ? 'Session is deleted' : 'Session failed';
   }

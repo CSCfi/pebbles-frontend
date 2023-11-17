@@ -12,6 +12,7 @@ import { Utilities } from 'src/app/utilities';
 import { EventService } from '../../../services/event.service';
 import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
+import { PublicConfigService } from "../../../services/public-config.service";
 
 @Component({
   selector: 'app-main-catalog',
@@ -49,7 +50,8 @@ export class MainCatalogComponent implements OnInit {
     private applicationService: ApplicationService,
     private catalogService: ApplicationCategoryService,
     public workspaceService: WorkspaceService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private publicConfigService: PublicConfigService,
   ) {
   }
 
@@ -129,13 +131,23 @@ export class MainCatalogComponent implements OnInit {
     this.queryText = value;
   }
 
-  // ---- Catalogs
+  // ---- Categories
   // ------------------------------------------------------------ //
-  getCatalogs(): ApplicationCategory[] {
+  getCategories(): ApplicationCategory[] {
     return this.catalogService.getCategories();
   }
 
-  changeCatalog($event): void {
+  changeCategory($event): void {
     this.selectedCatalog = this.catalogService.getCategoryById(this.catalogService.getCategories()[$event.index].id);
+  }
+
+  getNumPublicApplications(): number {
+    return this.applications?.filter(x => x.workspace_name.startsWith('System.')).length;
+  }
+
+  getPublicApplicationAccessNote() {
+    if (this.applications !== null && !this.getNumPublicApplications()) {
+      return this.publicConfigService.getPublicApplicationAccessNote();
+    }
   }
 }

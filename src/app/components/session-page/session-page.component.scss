@@ -5,6 +5,8 @@
 }
 
 #session-container {
+  display: flex;
+  flex-direction: column;
   justify-self: center;
   align-self: center;
   background: map-get($app-primary, dark);
@@ -23,6 +25,7 @@
 
     .explanation-message p {
       text-align: center;
+      height: 20px;
     }
   }
 
@@ -113,15 +116,19 @@
         &.delay-1:before, &.delay-1:after {
           animation-delay: 100ms;
         }
+
         &.delay-2:before, &.delay-2:after {
           animation-delay: 150ms;
         }
+
         &.delay-3:before, &.delay-3:after {
           animation-delay: 200ms;
         }
+
         &.delay-4:before, &.delay-4:after {
           animation-delay: 250ms;
         }
+
         &.delay-5:before, &.delay-5:after {
           animation-delay: 300ms;
         }
@@ -147,6 +154,32 @@
     width: 100%;
     max-width: 850px;
     margin: auto;
+  }
+
+  .policy-note {
+    display: flex;
+    border-style: dashed;
+    border-width: thin;
+    border-radius: 1em;
+    border-color: white;
+    padding: 1em;
+    margin: 1em;
+    max-width: 850px;
+    width: 100%;
+
+    .policy-icon-column {
+      align-self: center;
+
+      mat-icon {
+        transform: scale(1.5);
+        margin-right: 1em;
+        margin-left: 0.5em;
+      }
+    }
+
+    .policy-content {
+      align-self: flex-end;
+    }
   }
 
   &.mobile {

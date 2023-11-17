@@ -8,6 +8,22 @@ export enum MembershipType {
   Member = 'member'
 }
 
+// API ref: pebbles.models.Workspace
+export enum MembershipExpiryPolicyKind {
+  MEP_PERSISTENT = 'persistent',
+  MEP_ACTIVITY_TIMEOUT = 'activity_timeout',
+}
+
+export interface MembershipExpiryPolicy {
+  kind: MembershipExpiryPolicyKind,
+  timeout_days?: number,
+}
+
+// API exposes limited subset of config attributes
+export interface WorkspaceConfig {
+  allow_expiry_extension: boolean;
+}
+
 // Replicate API response defined in pebbles.views.workspace.workspace_fields_* in the backend
 export class Workspace {
   public static DEMO_WORKSPACE_NAME = 'Demo Workspace';
@@ -23,7 +39,9 @@ export class Workspace {
     public owner_ext_id: string,
     public application_quota?: number,
     public memory_limit_gib?: number,
-    public membership_type?: MembershipType
+    public membership_type?: MembershipType,
+    public membership_expiry_policy?: MembershipExpiryPolicy,
+    public config?: WorkspaceConfig,
   ) {
   }
 

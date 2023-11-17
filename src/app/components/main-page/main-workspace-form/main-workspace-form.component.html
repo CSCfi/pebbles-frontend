@@ -43,24 +43,45 @@
           <textarea matInput formControlName="description" placeholder="Workspace description"></textarea>
           <!-- error -->
           <mat-error *ngIf="errorHandling('description', 'required')">
-            You must provide a <strong>description about workspace</strong>
+            You must provide a <strong>description about the workspace</strong>
           </mat-error>
           <!-- <mat-hint>Ex) </mat-hint> -->
+        </mat-form-field>
+      </section>
+      <section class="form-container">
+        <!-- workspace type -->
+        <mat-form-field appearance="fill">
+          <mat-label>Workspace type</mat-label>
+          <mat-select formControlName="workspaceType" placeholder="Choose workspace type"
+                      [(value)]="workspaceType"
+                      (selectionChange)="onWorkspaceTypeChange()">
+            <mat-option *ngFor="let opt of workspaceTypeOptions" [value]="opt.value">
+              {{ opt.viewValue }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </section>
       <section class="form-container">
         <!-- Validity -->
         <mat-form-field appearance="fill">
           <mat-label>Valid for</mat-label>
-          <mat-select formControlName="validity" placeholder="Valid for" (selectionChange)="updateProjectedExpiryDate()">
+          <mat-select formControlName="validityMonths" placeholder="Valid for"
+                      [(value)]="validityMonths"
+                      (selectionChange)="updateProjectedExpiryDate()">
             <mat-option *ngFor="let opt of validityOptions" [value]="opt.value">
-              {{opt.viewValue}}
+              {{ opt.viewValue }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <div class="warning mat-body-2 mt-20">
+        <div *ngIf="workspaceType==='fixed-time-course'" class="warning mat-body-2 mt-20" >
           <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
           Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
+        </div>
+        <div *ngIf="workspaceType==='long-running-course'" class="warning mat-body-2 mt-20" >
+          <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
+          Workspace members are automatically removed after 90 days of inactivity.
+          Workspace will expire at {{ projectedExpiryTs | dateDisplay }}. You can extend the validity
+          on the Workspace Info tab 13 months at a time.
         </div>
       </section>
     </mat-dialog-content>

@@ -6,7 +6,7 @@
         Workspace name
       </dt>
       <dd>
-        <div class="preview" *ngIf="!isWorkspaceNameEditOn" >
+        <div class="preview" *ngIf="!isWorkspaceNameEditOn">
           <p>{{ workspace.name }}</p>
           <button mat-icon-button aria-label="edit" *ngIf="isEditable" (click)="editWorkspaceName()">
             <mat-icon fontSet="material-icons-outlined">mode_edit</mat-icon>
@@ -39,7 +39,9 @@
           <textarea matInput formControlName="description"></textarea>
         </mat-form-field>
       </dd>
-      <dt class="join-code-title">Join code</dt>
+      <dt class="join-code-title">
+        Join code
+      </dt>
       <dd>
         <div>
           <button class="open-join-code-button" (click)="openJoinCodeDialog()">
@@ -48,12 +50,29 @@
           </button>
         </div>
       </dd>
-      <dt class="">Created</dt>
+      <dt>
+        Created
+      </dt>
       <dd>{{ workspace.create_ts | dateDisplay }}</dd>
-      <dt class="">Expiring</dt>
-      <dd>{{ workspace.expiry_ts | dateDisplay }}  ({{ workspace.expiry_ts | remainingDaysDisplay }})</dd>
-      <dt class="">Memory limit</dt>
+      <dt>
+        Expiring
+      </dt>
+      <dd>
+        {{ workspace.expiry_ts | dateDisplay }}  ({{ workspace.expiry_ts | remainingDaysDisplay }})
+        <span class="extend-checkbox" *ngIf="workspace.config?.allow_expiry_extension">
+          <mat-checkbox formControlName="isExtendExpiryChecked" (click)="onExtendExpiryDateClick()">
+            Extend to 13 months from now
+          </mat-checkbox>
+        </span>
+      </dd>
+      <dt>
+        Memory limit
+      </dt>
       <dd>{{ workspace.memory_limit_gib }} GiB total for concurrent sessions</dd>
+      <ng-container class="pt-10 grid-col" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
+        <dt>Membership expiry</dt>
+        <dd>after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity</dd>
+      </ng-container>
     </dl>
     <div class="action-buttons">
       <button mat-flat-button class="workspace-update-button" color="accent"

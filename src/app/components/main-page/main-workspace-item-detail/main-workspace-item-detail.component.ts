@@ -67,6 +67,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
         }
       ]],
       description: [this.workspace.description, [Validators.required]],
+      isExtendExpiryChecked: [false],
     });
   }
 
@@ -80,6 +81,11 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     this.isWorkspaceFormChanged = true;
   }
 
+  onExtendExpiryDateClick(): void {
+    this.isWorkspaceFormChanged = !this.workspaceEditForm.controls.isExtendExpiryChecked.value
+      || this.isWorkspaceNameEditOn || this.isWorkspaceDescriptionEditOn;
+  }
+
   cancelWorkspaceEditing(): void {
     this.initReactiveForm();
     this.isWorkspaceNameEditOn = false;
@@ -87,10 +93,20 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   }
 
   updateWorkspace(): void {
-    this.workspace.name = this.workspaceEditForm.controls.name.value;
-    this.workspace.description = this.workspaceEditForm.controls.description.value;
+    let expiry_ts = 0;
 
-    this.workspaceService.updateWorkspace(this.workspace).subscribe(res => {
+    if (this.workspaceEditForm.controls.isExtendExpiryChecked.value){
+      const ed = new Date();
+      ed.setMonth(ed.getMonth()+13);
+      expiry_ts = Math.floor(ed.valueOf()/1000);
+    }
+
+    this.workspaceService.updateWorkspace(
+      this.workspaceId,
+      this.workspaceEditForm.controls.name.value,
+      this.workspaceEditForm.controls.description.value,
+      expiry_ts,
+    ).subscribe(res => {
       // Take the new workspace object from API response.
       // In case of name change, the join code has been regenerated as well
       this.workspace = res;
@@ -116,5 +132,9 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       }
     });
     dialogRef.afterClosed().subscribe();
+  }
+
+  extendValidity(): void {
+
   }
 }
