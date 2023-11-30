@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Application } from 'src/app/models/application';
+import { Application, AttributeLimit } from 'src/app/models/application';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -34,6 +34,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   applicationType: ApplicationType;
   sessionLifetimeHours: number;
   sessionMemoryGiB: number;
+  sessionMemoryMaxGiB: number;
 
   // ---- Values for Radio Input
   selectedLabels: string[];
@@ -301,13 +302,24 @@ export class MainApplicationItemFormComponent implements OnInit {
   getMemoryOptions(): any[] {
     // get the workspace session memory limit to calculate the number of parallel sessions per option
     const workspaceMemGiB = this.workspaceService.getWorkspaceById(this.data.workspaceId)?.memory_limit_gib;
-
-    // start with the standard options, and add the currently set memory if not present
-    let memoryOptions = [0.5, 1, 2, 3, 4, 6, 8];
+    this.sessionMemoryMaxGiB = this.data.application?.attribute_limits.find((obj: AttributeLimit) =>
+      obj.name == "memory_gib"
+    ).max;
+    if (!this.sessionMemoryMaxGiB) {
+      this.sessionMemoryMaxGiB = 8;
+    }
+    // start with the standard options, filter out those that are larger than the maximum allowed memory,
+    // and add the currently set memory if not present
+    let allMemoryOptions =
+      [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256];
+    let memoryOptions = allMemoryOptions.filter((option) => option <= this.sessionMemoryMaxGiB)
     if (this.sessionMemoryGiB && !memoryOptions.includes(this.sessionMemoryGiB)) {
       memoryOptions.push(this.sessionMemoryGiB);
-      memoryOptions.sort();
     }
+    if (!memoryOptions.includes(this.sessionMemoryMaxGiB)) {
+      memoryOptions.push(this.sessionMemoryMaxGiB);
+    }
+    memoryOptions.sort((n1, n2) => n1 - n2);
     let res = [];
     for (let memOption of memoryOptions) {
       res.push(

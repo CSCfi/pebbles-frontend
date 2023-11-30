@@ -1,6 +1,13 @@
 import { ApplicationType } from './application-template';
 import { Workspace } from './workspace';
 
+// Replicate schema defined in pebbles.utils.check_attribute_limit_format()
+export interface AttributeLimit {
+  name: string;
+  min: number;
+  max: number;
+}
+
 export class Application {
   constructor(
     public id: string,
@@ -11,6 +18,7 @@ export class Application {
     public labels: string[],
     public thumbnail: string,
     public is_enabled: boolean,
+    public attribute_limits?: AttributeLimit[],
     public template_id?: string,
     public template_name?: string,
     public application_type?: ApplicationType,
