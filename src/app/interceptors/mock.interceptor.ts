@@ -372,18 +372,18 @@ export class MockInterceptor implements HttpInterceptor {
     function createApplication() {
       const appId = Math.random().toString(36).substring(2, 8);
 
-      const application = new Application(
-        appId,
-        body.name,
-        body.description,
-        body.config.maximum_lifetime,
-        body.workspace_id,
-        body.labels,
-        'jupyter',
-        body.is_enabled,
-        body.template_id,
-        body.template_name,
-      );
+      const application: Application = {
+        id: appId,
+        name: body.name,
+        description: body.description,
+        maximum_lifetime: body.config.maximum_lifetime,
+        workspace_id: body.workspace_id,
+        labels: body.labels,
+        thumbnail: 'jupyter',
+        is_enabled: body.is_enabled,
+        template_id: body.template_id,
+        template_name: body.template_name,
+      }
       application.config = body.config;
 
       database.applications.push(application);
@@ -393,16 +393,17 @@ export class MockInterceptor implements HttpInterceptor {
     function copyApplication() {
       const app = database.applications.find(i => i.id === objectId);
       const appId = Math.random().toString(36).substring(2, 8);
-      const application = new Application(
-        appId,
-        `${app.name} - Copy`,
-        app.description,
-        3600,
-        app.workspace_id,
-        app.labels,
-        app.thumbnail,
-        app.is_enabled
-      );
+
+      const application: Application = {
+        id: appId,
+        name: `${app.name} - Copy`,
+        description: app.description,
+        maximum_lifetime: 3600,
+        workspace_id: app.workspace_id,
+        labels: app.labels,
+        thumbnail: 'jupyter',
+        is_enabled: app.is_enabled,
+      }
 
       database.applications.push(application);
       return ok();

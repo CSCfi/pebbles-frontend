@@ -8,25 +8,23 @@ export interface AttributeLimit {
   max: number;
 }
 
-export class Application {
-  constructor(
-    public id: string,
-    public name: string,
-    public description: string,
-    public maximum_lifetime: number,
-    public workspace_id: string,
-    public labels: string[],
-    public thumbnail: string,
-    public is_enabled: boolean,
-    public attribute_limits?: AttributeLimit[],
-    public template_id?: string,
-    public template_name?: string,
-    public application_type?: ApplicationType,
-    public session_id?: string,
-    public workspace?: Workspace,
-    public workspace_name?: string,
-    public config?: any,
-    public info?: any
-  ) {
-  }
+// Replicate API response defined in pebbles.views.applications.application_field_role_map
+export interface Application {
+  id: string;
+  name: string;
+  description: string;
+  maximum_lifetime: number;
+  workspace_id: string;
+  labels: string[];
+  thumbnail: string;
+  is_enabled: boolean;
+  attribute_limits?: AttributeLimit[];
+  template_id?: string;
+  template_name?: string;
+  application_type?: ApplicationType;
+  session_id?: string;
+  workspace?: Workspace;
+  workspace_name?: string;
+  config?: any;
+  info?: any;
 }
