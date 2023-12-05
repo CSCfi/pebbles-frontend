@@ -138,7 +138,7 @@
     background: #acb0e0;
     border: 5px solid map-get($app-primary, 400);
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
 
     ::ng-deep app-service-announcement {
       background-color: #acb0e0;
@@ -186,11 +186,6 @@
           color: white;
         }
       }
-    }
-
-    .mat-tab-group {
-      min-height: calc(100vh - 10px);
-      height: calc(100vh - 10px);
     }
 
     ::ng-deep .mat-tab-header {
