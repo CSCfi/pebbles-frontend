@@ -1,6 +1,7 @@
 <ng-container *ngFor="let item of getServiceAnnouncements()">
   <div class="service-announcement-item mt-5 mb-5 mat-body-1"
        [ngClass]="getServiceAnnouncementType(item.level)">
-    <span [innerHTML]="item.content"></span>
+    <span class="service-announcement-subject" [innerHTML]="item.subject"></span>
+    <span class="service-announcement-content" [innerHTML]="item.content"></span>
   </div>
 </ng-container>
