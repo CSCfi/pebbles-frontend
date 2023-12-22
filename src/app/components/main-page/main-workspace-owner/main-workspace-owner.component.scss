@@ -34,10 +34,9 @@
   }
 
   .workspace-list-container {
-    overflow: hidden;
+    overflow: auto;
 
     .workspace-list {
-      overflow: auto;
 
       .workspace-item {
         color: map-get($app-primary, default);
