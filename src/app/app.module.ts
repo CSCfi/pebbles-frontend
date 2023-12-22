@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 // ---- Custom Modules
 import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -52,7 +51,6 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    FlexLayoutModule,
     MaterialModule,
     SharedModule,
     MainModule,

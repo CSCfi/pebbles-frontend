@@ -22,7 +22,7 @@ mat-typography-level(
 )
 ---- */
 
-$custom-typography: mat.define-typography-config(
+$custom-typography: mat.define-legacy-typography-config(
   $font-family:   map-get($font-families, base),
   $display-4:     mat.define-typography-level(3.6rem, 105%, 600, map-get($font-families, styled), 0.08rem),
   $display-3:     mat.define-typography-level(2.8rem, 120%, 500, map-get($font-families, styled), 0.04rem),
@@ -50,7 +50,15 @@ $app-theme-primary: mat.define-palette($app-primary, default, light, dark, defau
 $app-theme-accent: mat.define-palette($app-accent, default, light, dark, default);
 $app-theme-warn: mat.define-palette($app-warn, default, light, dark, default);
 
-$app-theme: mat.define-light-theme($app-theme-primary, $app-theme-accent, $app-theme-warn);
+$app-theme: mat.define-light-theme((
+  color: (
+    primary: $app-theme-primary,
+    accent: $app-theme-accent,
+    warn: $app-theme-warn,
+  ),
+  typography: $custom-typography,
+  density: 0,
+));
 //$mat-theming-theme-user: mat-light-theme($mat-theming-primary, $mat-theming-accent, $mat-theming-warn);
 //$mat-theming-theme-owner: mat-dark-theme($mat-theming-primary, $mat-theming-accent, $mat-theming-warn);
 

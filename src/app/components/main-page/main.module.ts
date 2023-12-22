@@ -1,7 +1,6 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from 'src/app/components/shared/shared.module';
@@ -82,7 +81,6 @@ import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dial
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     ClipboardModule,
     MainRoutingModule,
     MaterialModule,

@@ -15,7 +15,7 @@ describe('MainWorkspaceItemComponent', () => {
         MainWorkspaceItemComponent,
       ],
       imports: [
-        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot([], {}),
         RouterTestingModule,
         HttpClientTestingModule,
         MaterialModule

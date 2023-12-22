@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ActivatedRoute, Data } from '@angular/router';
 import { ApplicationSessionService } from '../../../services/application-session.service';
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from '../../../models/application-session';
 import { ApplicationService } from '../../../services/application.service';
 import { Utilities } from '../../../utilities';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 

@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Data, Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from 'src/app/models/application';

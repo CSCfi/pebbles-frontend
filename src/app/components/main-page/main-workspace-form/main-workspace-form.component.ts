@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { MatSelectChange } from "@angular/material/select";
+import { MatLegacySelectChange as MatSelectChange } from "@angular/material/legacy-select";
 
 @Component({
   selector: 'app-main-workspace-form',

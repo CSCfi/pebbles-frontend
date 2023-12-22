@@ -15,7 +15,7 @@ describe('SessionPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot([], {}),
         MaterialModule
       ],
       providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
