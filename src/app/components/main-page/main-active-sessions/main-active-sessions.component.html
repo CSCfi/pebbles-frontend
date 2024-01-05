@@ -94,6 +94,11 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by time">Lifetime</th>
             <td mat-cell *matCellDef="let element" class="cell-lifetime-left">{{ element.lifetimeLeft }}</td>
           </ng-container>
+          <!-- startup -->
+          <ng-container matColumnDef="startUpTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by time">Startup time</th>
+            <td mat-cell *matCellDef="let element" class="cell-start-time">{{ element.startUpTime }}</td>
+          </ng-container>
           <!-- sessionDetails -->
           <ng-container matColumnDef="sessionDetails">
             <th mat-header-cell *matHeaderCellDef>Show details</th>

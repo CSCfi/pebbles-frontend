@@ -21,6 +21,7 @@ export interface SessionTableRow {
   state: string;
   lifetimeLeft: string;
   sessionId: string;
+  startUpTime: string;
 }
 
 @Component({
@@ -38,7 +39,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = [
     'index', 'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft',
-    'sessionDetails', 'sessionLink'
+    'startUpTime', 'sessionDetails', 'sessionLink'
   ];
   dataSource: MatTableDataSource<SessionTableRow>;
   selection = new SelectionModel<SessionTableRow>(true, []);
@@ -133,6 +134,12 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         applicationsMissing = true;
       }
       const existingEntry = this.tableRowData.find(r => r.sessionId === session.id);
+      let startUpTime = "-"
+        if (session.provisioned_at !== null) {
+          startUpTime = `${Math.round(
+            ((new Date(session.provisioned_at)).getTime() - (new Date(session.created_at)).getTime()
+            ) / 1000).toString()}s`
+        }
       if (existingEntry) {
         existingEntry.lifetimeLeft = Utilities.lifetimeToString(session.lifetime_left);
         existingEntry.state = session.state;
@@ -141,6 +148,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         existingEntry.applicationName = this.applicationService.get(session.application_id)?.name;
         existingEntry.sessionUrl = session.url;
         existingEntry.username = session.username;
+        existingEntry.startUpTime = startUpTime;
       }
       else {
         this.tableRowData.push({
@@ -154,6 +162,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
           state: session.state,
           lifetimeLeft: this.lifetimeToString(session.lifetime_left),
           sessionId: session.id,
+          startUpTime: startUpTime,
         });
       }
     });
@@ -282,6 +291,8 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
           return Utilities.compare(a.state, b.state, isAsc);
         case 'lifetimeLeft':
           return Utilities.compare(a.lifetimeLeft, b.lifetimeLeft, isAsc);
+        case 'startUpTime':
+          return Utilities.compare(a.startUpTime, b.startUpTime, isAsc);
         default:
           return 0;
       }

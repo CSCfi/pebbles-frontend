@@ -30,6 +30,12 @@
       font-size: 1.1rem;
     }
 
+    .cell-start-time {
+      width: 30px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
     .mat-sort-header {
       color: map-get($app-primary, default);
     }
