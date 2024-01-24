@@ -32,7 +32,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
 
   // ---- Values for Radio Input
   selectedLabels: string[];
-  selectedJupyterInterface: string;
   selectedDownloadMethod: string;
   selectedWizardApplicationTemplateImage: string = null;
   isCheckedUserWorkFolder = true;
@@ -84,7 +83,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
       labels: ['']
     });
     this.wizardOptionFormGroup = this.formBuilder.group({
-      jupyterInterface: ['', [Validators.required]],
       downloadMethod: [''],
       source: [''],
       isAutoExecution: [''],
@@ -95,7 +93,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
       isActive: ['', [Validators.required]]
     });
     // ---- Set default value
-    this.wizardOptionFormGroup.controls.jupyterInterface.setValue('lab');
     this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
     this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
     this.wizardOptionFormGroup.controls.isAutoExecution.disable();
@@ -137,7 +134,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
       this.selectedLabels,
       this.selectedWizardApplicationTemplate.base_config.maximum_lifetime,
       {
-        jupyter_interface: this.wizardOptionFormGroup.controls.jupyterInterface.value,
         download_method: this.wizardOptionFormGroup.controls.downloadMethod.value,
         download_url: this.wizardOptionFormGroup.controls.source.value,
         auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
@@ -174,10 +170,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
 
   onChangeDownloadMethod(val: string): void {
     this.selectedDownloadMethod = val;
-  }
-
-  onChangeJupyterInterface(val: string): void {
-    this.selectedJupyterInterface = val;
   }
 
   onChangeUserWorkFolder(val: boolean): void {

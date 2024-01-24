@@ -109,22 +109,7 @@
           <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
         </section>
 
-        <!-- 5 Jupyter Interface-->
-        <section class="form-container" *ngIf="applicationType==='jupyter'">
-          <h3 class="mat-title">Jupyter interface</h3>
-          <mat-radio-group formControlName="jupyterInterface" (change)="onChangeJupyterInterface($event.value)">
-            <ul>
-              <li>
-                <mat-radio-button [value]="'lab'">Lab</mat-radio-button>
-              </li>
-              <li>
-                <mat-radio-button [value]="'notebook'">Notebook</mat-radio-button>
-              </li>
-            </ul>
-          </mat-radio-group>
-        </section>
-
-        <!-- 6.1 Lifetime -->
+        <!-- 5.1 Lifetime -->
         <section class="form-container session-lifetime">
           <h3 class="mat-title">Session lifetime</h3>
           <mat-select formControlName="sessionLifetimeHours">
@@ -134,7 +119,7 @@
           </mat-select>
         </section>
 
-        <!-- 6.2 Memory -->
+        <!-- 5.2 Memory -->
         <section class="form-container session-memory">
           <h3 class="mat-title">Session memory</h3>
           <mat-select formControlName="sessionMemoryGiB">
@@ -144,7 +129,7 @@
           </mat-select>
         </section>
 
-        <!-- 7-2 Include External files -->
+        <!-- 6-2 Include External files -->
         <section class="form-container">
           <h3 class="mat-title">Download method</h3>
           <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
@@ -165,7 +150,7 @@
           </mat-radio-group>
         </section>
 
-        <!-- 7-3 Source -->
+        <!-- 6-3 Source -->
         <section class="form-container">
           <ng-container [ngSwitch]="selectedDownloadMethod">
             <div *ngSwitchCase="'local'">
@@ -181,7 +166,7 @@
           </ng-container>
         </section>
 
-        <!-- 7-4 Auto Execution -->
+        <!-- 6-4 Auto Execution -->
         <section class="form-container" *ngIf="selectedDownloadMethod !== 'none'">
           <h3 class="mat-title">Auto execution</h3>
           <div class="checkbox-group">
@@ -189,7 +174,7 @@
           </div>
         </section>
 
-        <!-- 7-5 Shared / User work folder -->
+        <!-- 6-5 Shared / User work folder -->
         <section class="form-container">
           <h3 class="mat-title">Shared folder</h3>
           <div class="checkbox-group">
@@ -210,7 +195,7 @@
           </div>
         </section>
 
-        <!-- 7-6 Environment Variables -->
+        <!-- 6-6 Environment Variables -->
         <section class="form-container">
           <h3 class="mat-title">Environment variables</h3>
           <p class="mat-caption">
@@ -222,7 +207,7 @@
           </mat-form-field>
         </section>
 
-        <!-- 8 Publish -->
+        <!-- 7 Publish -->
         <section class="form-container">
           <h3 class="mat-title">Publication</h3>
           <mat-radio-group formControlName="publish">

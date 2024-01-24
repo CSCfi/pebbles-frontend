@@ -38,7 +38,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   // ---- Values for Radio Input
   selectedLabels: string[];
-  selectedJupyterInterface: string;
   selectedDownloadMethod: string = null;
   selectedApplicationTemplateImage: string = null;
   selectedApplicationEnvironmentVars: string = null;
@@ -102,7 +101,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(128)]],
       description: ['', [Validators.required]],
       labels: [''],
-      jupyterInterface: [''],
       downloadMethod: [''],
       source: [''],
       isAutoExecution: [''],
@@ -118,7 +116,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
     // ---- Set default value
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
-    this.applicationItemEditFormGroup.controls.jupyterInterface.setValue('lab');
     this.applicationItemEditFormGroup.controls.downloadMethod.setValue('none');
     this.applicationItemEditFormGroup.controls.isAutoExecution.setValue(false);
     this.applicationItemEditFormGroup.controls.isAlwaysPullImage.setValue(false);
@@ -178,7 +175,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       name: [this.data.application.name, [Validators.required, Validators.maxLength(128)]],
       description: [this.data.application.description, [Validators.required]],
       labels: [''],
-      jupyterInterface: [this.data.application.config.jupyter_interface],
       downloadMethod: [this.selectedDownloadMethod],
       source: [this.data.application.config.download_url],
       imageUrl: [this.data.application.config.image_url],
@@ -208,7 +204,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       this.selectedLabels,
       this.selectedApplicationTemplate.base_config.maximum_lifetime,
       {
-        jupyter_interface: this.applicationItemEditFormGroup.controls.jupyterInterface.value,
         download_method: this.applicationItemEditFormGroup.controls.downloadMethod.value,
         download_url: this.applicationItemEditFormGroup.controls.source.value,
         auto_execution: this.applicationItemEditFormGroup.controls.isAutoExecution.value,
@@ -231,7 +226,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.name = this.applicationItemEditFormGroup.controls.name.value;
     this.data.application.description = this.applicationItemEditFormGroup.controls.description.value;
     this.data.application.labels = this.selectedLabels;
-    this.data.application.config.jupyter_interface = this.applicationItemEditFormGroup.controls.jupyterInterface.value;
     this.data.application.config.download_method = this.applicationItemEditFormGroup.controls.downloadMethod.value;
     this.data.application.config.download_url = this.applicationItemEditFormGroup.controls.source.value;
     this.data.application.config.auto_execution = this.applicationItemEditFormGroup.controls.isAutoExecution.value;
@@ -284,10 +278,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   onChangeUserWorkFolder(val: boolean): void {
     this.isCheckedUserWorkFolder = val;
-  }
-
-  onChangeJupyterInterface(val: string): void {
-    this.selectedJupyterInterface = val;
   }
 
   getLifetimeOptions(): any[] {

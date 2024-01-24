@@ -198,25 +198,6 @@
           </section>
 
           <h2 class="mat-title mb-10">Configure application options</h2>
-          <!-- 3.4 Jupyter Interface -->
-          <section class="form-container">
-            <div class="form-option" *ngIf="selectedWizardApplicationTemplate?.application_type==='jupyter'">
-              <div class="form-item">
-                <mat-label class="mat-subheading-2">Interface</mat-label>
-                <mat-radio-group formControlName="jupyterInterface"
-                                 (change)="onChangeJupyterInterface($event.value)">
-                  <ul class="mt-5 ">
-                    <li>
-                      <mat-radio-button [value]="'lab'">Jupyter Lab</mat-radio-button>
-                    </li>
-                    <li>
-                      <mat-radio-button [value]="'notebook'">Jupyter Notebook</mat-radio-button>
-                    </li>
-                  </ul>
-                </mat-radio-group>
-              </div>
-            </div>
-          </section>
           <!-- 3.1 Include External files -->
           <section class="form-container ">
             <mat-label class="mat-subheading-2">Download Method</mat-label>
