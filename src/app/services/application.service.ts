@@ -29,7 +29,7 @@ export class ApplicationService implements OnDestroy {
   ) {
     this.interval = window.setInterval(() => {
       this.fetchApplications().subscribe();
-    }, 60 * 1000);
+    }, 6000 * 1000);
 
     // we are interested in workspace updates, register and refresh our data if there are changes
     this.eventService.workspaceDataUpdate$.subscribe(_ => {

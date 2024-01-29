@@ -98,14 +98,14 @@
         <ng-container matColumnDef="state">
           <th mat-header-cell mat-sort-header *matHeaderCellDef>state</th>
           <td mat-cell *matCellDef="let element" class="cell-state">
-            <mat-chip-list aria-label="Fish selection">
-              <mat-chip class="chip__sm ml-5 bg__primary" *ngIf="element.state.includes('admin')">admin</mat-chip>
-              <mat-chip class="chip__sm bg__accent ml-5" *ngIf="element.state.includes('owner')">owner</mat-chip>
-              <mat-chip class="chip__sm ml-5 bg__warn-dark" *ngIf="element.state.includes('blocked')">blocked</mat-chip>
-              <mat-chip class="chip__sm ml-5 bg__gray-dark" *ngIf="element.state.includes('deleted')">deleted</mat-chip>
-              <mat-chip class="chip__sm ml-5" *ngIf="element.state.includes('inactive')">inactive</mat-chip>
-              <mat-chip class="chip__sm ml-5 bg__secondary" *ngIf="element.state.includes('new')">new</mat-chip>
-            </mat-chip-list>
+            <mat-chip-listbox aria-label="Fish selection">
+              <mat-chip-option class="chip__sm ml-5 bg__primary" *ngIf="element.state.includes('admin')">admin</mat-chip-option>
+              <mat-chip-option class="chip__sm bg__accent ml-5" *ngIf="element.state.includes('owner')">owner</mat-chip-option>
+              <mat-chip-option class="chip__sm ml-5 bg__warn-dark" *ngIf="element.state.includes('blocked')">blocked</mat-chip-option>
+              <mat-chip-option class="chip__sm ml-5 bg__gray-dark" *ngIf="element.state.includes('deleted')">deleted</mat-chip-option>
+              <mat-chip-option class="chip__sm ml-5" *ngIf="element.state.includes('inactive')">inactive</mat-chip-option>
+              <mat-chip-option class="chip__sm ml-5 bg__secondary" *ngIf="element.state.includes('new')">new</mat-chip-option>
+            </mat-chip-listbox>
           </td>
         </ng-container>
         <!-- quota column -->

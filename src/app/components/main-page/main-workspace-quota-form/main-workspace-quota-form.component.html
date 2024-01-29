@@ -1,10 +1,10 @@
 <div class="mat-typography dialog-container" ngClass.lt-sm="mobile">
   <form [formGroup]="workspaceQuotaForm" novalidate>
-    <h1 class="mat-dialog-title mat-headline">Change workspace Quota</h1>
+    <h1 class="mat-dialog-title mat-headline-5">Change workspace Quota</h1>
     <div class="mb-20 form-description center__v">
       <!--    <mat-icon fontSet="material-icons-outlined" class="">face</mat-icon>-->
       Current workspace quota for
-      <mat-chip class="mat-chip-sm ml-5 mr-5">{{ data.email }}</mat-chip>
+      <mat-chip-option class="mat-chip-sm ml-5 mr-5">{{ data.email }}</mat-chip-option>
       <span class="mr-10">: <em>{{data.workspaceQuota}}</em></span>
     </div>
     <div class="form-container mb-10">

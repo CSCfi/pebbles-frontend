@@ -1,22 +1,22 @@
 <ng-container *ngIf="context">
   <div id="content-header" ngClass.lt-sm="mobile">
     <!-- title -->
-    <h1 class="mat-headline center__v mr-15" [innerHTML]="context.title"></h1>
+    <h1 class="mat-headline-5 center__v mr-15" [innerHTML]="context.title"></h1>
     <!-- search form -->
     <form class="search-form" *ngIf="isSearchOn">
       <mat-form-field class="chip-list" appearance="fill">
 
         <span matPrefix><mat-icon fontSet="material-icons-outlined">search</mat-icon></span>
-        <mat-chip-list #chipList aria-label="keyword and text search">
+        <mat-chip-grid #chipList aria-label="keyword and text search">
           <!-- chips -->
-          <mat-chip class="selected-label"
+          <mat-chip-row class="selected-label"
             *ngFor="let label of labels"
             [selectable]="isLabelSelectable"
             [removable]="isLabelRemovable"
             (removed)="removeLabel(label)">
             {{label}}
             <mat-icon fontSet="material-icons-outlined" matChipRemove *ngIf="isLabelRemovable">cancel</mat-icon>
-          </mat-chip>
+          </mat-chip-row>
           <!-- input -->
           <input
             matInput
@@ -27,16 +27,16 @@
             [matAutocomplete]="auto"
             [matChipInputFor]="chipList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-        </mat-chip-list>
+        </mat-chip-grid>
         <!-- label selection panel -->
         <mat-autocomplete
           #auto="matAutocomplete"
           (optionSelected)="labelSelected($event)">
           <mat-option *ngFor="let label of candidateLabels" [value]="label">
-            <mat-chip class="mat-chip-sm"
+            <mat-chip-option class="mat-chip-sm"
               (click)="labelClicked($event)">
               {{label}}
-            </mat-chip>
+            </mat-chip-option>
           </mat-option>
         </mat-autocomplete>
 

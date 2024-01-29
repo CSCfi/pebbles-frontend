@@ -134,7 +134,7 @@
         </div>
         <div class="content">
           <div class="info-box">
-            <h3 class="mat-title mb-10">Info</h3>
+            <h3 class="mat-headline-6 mb-10">Info</h3>
             <dl class="grid">
               <dt class="">Name</dt>
               <dd>{{ selectedDetailSession.name }}</dd>
@@ -153,7 +153,7 @@
             </dl>
           </div>
           <div class="event-box">
-            <h3 class="mat-title mb-10">Events</h3>
+            <h3 class="mat-headline-6 mb-10">Events</h3>
             <ng-container *ngFor="let logLine of getSelectedSessionEvents()">
               <dl class="grid status bg__warn-light">
                 <dt>
@@ -165,7 +165,7 @@
           </div>
 
           <div class="log-box" *ngIf="selectedDetailSession.state === SessionStates.Running">
-            <h3 class="mat-title mb-10">Session output</h3>
+            <h3 class="mat-headline-6 mb-10">Session output</h3>
             <div id="terminal" class="terminal">
               <p *ngFor="let rll of getSelectedSessionOutputLines()">{{ rll }}</p>
             </div>

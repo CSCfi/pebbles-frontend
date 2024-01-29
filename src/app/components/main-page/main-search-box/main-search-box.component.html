@@ -1,15 +1,15 @@
 <mat-form-field class="chip-list mb-5" appearance="fill">
-  <mat-chip-list #chipList aria-label="keyword selection">
-    <mat-chip class="label chip__m bg__accent" *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
+  <mat-chip-grid #chipList aria-label="keyword selection">
+    <mat-chip-row class="label chip__m bg__accent" *ngFor="let label of labels" [selectable]="selectable" [removable]="removable"
       (removed)="removeLabel(label)" selected>
       {{label}}
       <mat-icon fontSet="material-icons-outlined" matChipRemove *ngIf="removable">cancel</mat-icon>
-    </mat-chip>
+    </mat-chip-row>
     <input #labelInput
       [formControl]="labelCtrl" [matAutocomplete]="auto"
       [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
-  </mat-chip-list>
+  </mat-chip-grid>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let label of filteredLabels | async" [value]="label">
       {{label}}
@@ -17,11 +17,11 @@
   </mat-autocomplete>
 </mat-form-field>
 <div class="candidate-label-outer p-10 mb-20 r__md">
-  <mat-chip-list class="candidate-labels">
-    <mat-chip class="label chip__sm" (click)="clicked($event)" *ngFor="let label of getCandidateLabels()">
+  <mat-chip-listbox class="candidate-labels">
+    <mat-chip-option class="label chip__sm" (click)="clicked($event)" *ngFor="let label of getCandidateLabels()">
       {{label}}
-    </mat-chip>
-  </mat-chip-list>
+    </mat-chip-option>
+  </mat-chip-listbox>
 </div>
 <!-- <button mat-flat-button color="primary" type="button" (click)="saveLabels()" class="save-label-btn">
   <mat-icon>add</mat-icon>

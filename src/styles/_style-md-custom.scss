@@ -22,22 +22,19 @@ mat-typography-level(
 )
 ---- */
 
-$custom-typography: mat.define-legacy-typography-config(
+$custom-typography: mat.define-typography-config(
   $font-family:   map-get($font-families, base),
-  $display-4:     mat.define-typography-level(3.6rem, 105%, 600, map-get($font-families, styled), 0.08rem),
-  $display-3:     mat.define-typography-level(2.8rem, 120%, 500, map-get($font-families, styled), 0.04rem),
-  $display-2:     mat.define-typography-level(1.6rem, 150%, 400, map-get($font-families, styled), 0.04rem),
-  $display-1:     mat.define-typography-level(1.2rem, 150%, 400, map-get($font-families, base), 0.04rem),
-
-  $headline:      mat.define-typography-level(1.8rem, 130%, 600, map-get($font-families, styled), 0.01rem),
-  $title:         mat.define-typography-level(1.5rem, 130%, 600, map-get($font-families, base), 0.02rem),
-  $subheading-2:  mat.define-typography-level(1.4rem, 170%, 600, map-get($font-families, base), 0.02rem),
-  $subheading-1:  mat.define-typography-level(1.3rem, 170%, 600, map-get($font-families, base), 0.02rem),
-  $body-2:        mat.define-typography-level(1.3rem, 150%, 600, map-get($font-families, base), 0.01rem),
-  $body-1:        mat.define-typography-level(1.3rem, 160%, 400, map-get($font-families, base), 0.01rem),
+  $headline-1:     mat.define-typography-level(3.6rem, 105%, 600, map-get($font-families, styled), 0.08rem),
+  $headline-2:     mat.define-typography-level(2.8rem, 120%, 500, map-get($font-families, styled), 0.04rem),
+  $headline-3:     mat.define-typography-level(1.6rem, 150%, 400, map-get($font-families, styled), 0.04rem),
+  $headline-4:     mat.define-typography-level(1.2rem, 150%, 400, map-get($font-families, base), 0.04rem),
+  $headline-5:      mat.define-typography-level(1.8rem, 130%, 600, map-get($font-families, styled), 0.01rem),
+  $headline-6:         mat.define-typography-level(1.5rem, 130%, 600, map-get($font-families, base), 0.02rem),
+  $subtitle-1:  mat.define-typography-level(1.4rem, 170%, 600, map-get($font-families, base), 0.02rem),
+  $body-1:  mat.define-typography-level(1.3rem, 170%, 600, map-get($font-families, base), 0.02rem),
+  $subtitle-2:        mat.define-typography-level(1.3rem, 150%, 600, map-get($font-families, base), 0.01rem),
   $caption:       mat.define-typography-level(1.1rem, 110%, 400, map-get($font-families, base), 0.01rem),
   $button:        mat.define-typography-level(1.5rem, 110%, 600, map-get($font-families, styled), 0.04rem),
-  $input:         mat.define-typography-level(1.4rem, 1.125, 400),
 );
 
 // Include the common styles for Angular Material.

@@ -6,7 +6,7 @@
   </mat-form-field>
   <!-- Buttons -->
   <div class="application-actions mb-10 grid-col" *ngIf="dataSource?.data !== null">
-    <div class="mat-subheading-2 center__vh txt__gray-dark">
+    <div class="mat-subtitle-1 center__vh txt__gray-dark">
       <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>Create application :
     </div>
     <button mat-flat-button color="accent" class="open-application-creation-wizard-button"
@@ -70,7 +70,7 @@
           <th mat-header-cell class="cell-info" *matHeaderCellDef>basic information</th>
           <td class="cell-info" mat-cell *matCellDef="let element">
             <ul>
-              <li class="application-name mat-subheading-2 mb-5"> {{element.name}} </li>
+              <li class="application-name mat-subtitle-1 mb-5"> {{element.name}} </li>
               <li class="description mat-caption" [innerHTML]="element.description"></li>
               <li class="mat-caption">
                 <span class="center__v">
@@ -209,7 +209,7 @@
               <li>Publish the application for users</li>
             </ul>
             <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
-               class="tab-title mat-subheading-2 txt__primary center__vh" rel="noopener">
+               class="tab-title mat-subtitle-1 txt__primary center__vh" rel="noopener">
               Open Documentation &nbsp;
               <mat-icon class="mr-10">launch</mat-icon>
             </a>

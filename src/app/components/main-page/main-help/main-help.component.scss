@@ -15,12 +15,13 @@
     padding: 15px 30px 0;
   }
 
-  ::ng-deep .mat-tab-header {
+  ::ng-deep .mat-mdc-tab-header {
     display: flex !important;
     border-bottom: none !important;
     margin-top: 30px;
   }
-
+  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   ::ng-deep .mat-tab-label {
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.12);
@@ -29,7 +30,7 @@
     font-weight: 600;
     padding: 35px 20px 35px;
     min-width: 200px;
-
+    /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
     &.mat-tab-label-active {
       background: map-get($app-primary, default);
       color: #fff;
@@ -86,7 +87,7 @@
     list-style: circle;
   }
 
-  ::ng-deep .mat-tab-header {
+  ::ng-deep .mat-mdc-tab-header {
     display: none !important;
   }
 

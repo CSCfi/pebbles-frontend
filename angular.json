@@ -96,24 +96,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pebbles-frontend:build"
+            "buildTarget": "pebbles-frontend:build"
           },
           "configurations": {
             "mock": {
-              "browserTarget": "pebbles-frontend:build:mock"
+              "buildTarget": "pebbles-frontend:build:mock"
             },
             "local": {
-              "browserTarget": "pebbles-frontend:build:local"
+              "buildTarget": "pebbles-frontend:build:local"
             },
             "production": {
-              "browserTarget": "pebbles-frontend:build:production"
+              "buildTarget": "pebbles-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pebbles-frontend:build"
+            "buildTarget": "pebbles-frontend:build"
           }
         },
         "test": {

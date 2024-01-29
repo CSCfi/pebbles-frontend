@@ -6,11 +6,11 @@
   <div id="session-container" class="center__vh">
     <div class="status-wrapper p-10 grid-row"
          *ngIf="targetSession; else noSessionBlock">
-      <div class="mat-display-3 state-info">{{ sessionStatesInfo }}</div>
+      <div class="mat-headline-2 state-info">{{ sessionStatesInfo }}</div>
       <div class="progress-ui mb-50 grid-col">
         <ng-container *ngFor="let step of sessionProgressSteps">
           <div class="step sentence-head">
-            <p class="description mat-subheading-2"><span [innerHTML]="step?.message"></span></p>
+            <p class="description mat-subtitle-1"><span [innerHTML]="step?.message"></span></p>
             <div class="arrow-wrapper {{ 'delay-'+step.index }}"
                  [ngClass]="{
                  'done': step?.isDone,
@@ -33,7 +33,7 @@
     </div>
     <ng-template #noSessionBlock>
       <div class="status-wrapper">
-        <div class="mat-display-3 state-info">{{ sessionStatesInfo }}</div>
+        <div class="mat-headline-2 state-info">{{ sessionStatesInfo }}</div>
       </div>
     </ng-template>
 

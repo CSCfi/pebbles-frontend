@@ -1,8 +1,8 @@
 <div class="workspace-item mb-10 {{ membershipType }}" [ngClass]="{'expired': workspaceService.hasExpired(workspace)}"
      *ngIf="workspace">
-  <mat-card class="card pl-20 pr-20">
+  <mat-card appearance="outlined" class="card pl-20 pr-20">
     <mat-card-header>
-      <mat-card-title class="mat-title mb-0 center__v">
+      <mat-card-title class="mat-headline-6 mb-0 center__v">
         <ng-container *ngIf="membershipType!=='public'; else publicBlock">
           <mat-icon class="mr-8 user-role-icon" [matTooltip]="workspace.membership_type">apps</mat-icon>
         </ng-container>
@@ -10,7 +10,7 @@
           <mat-icon class="mr-8 user-role-icon" matTooltip="public">public</mat-icon>
         </ng-template>
         <span [innerHTML]="workspace.name"></span>
-        <mat-chip class="chip__sm ml-5" color="accent" selected *ngIf="isNew">New</mat-chip>
+        <mat-chip-option class="chip__sm ml-5" color="accent" selected *ngIf="isNew">New</mat-chip-option>
       </mat-card-title>
       <button mat-button class="workspace-item-menu" [matMenuTriggerFor]="menu" aria-label="open menu">
         <mat-icon fontSet="material-icons-outlined">menu</mat-icon>

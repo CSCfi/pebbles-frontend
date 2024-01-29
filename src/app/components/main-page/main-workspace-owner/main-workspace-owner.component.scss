@@ -117,14 +117,14 @@
       }
     }
 
-    .mat-form-field {
+    .mat-mdc-form-field {
       width: 100% !important;
     }
   }
 }
 
 .mobile-workspace-list {
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
   ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
     background: #fff;
   }
@@ -187,14 +187,14 @@
       }
     }
 
-    ::ng-deep .mat-tab-header {
+    ::ng-deep .mat-mdc-tab-header {
       padding-top: 15px;
       padding-right: 180px;
       height: 65px;
       background-color: map-get($app-primary, 400);
       border-bottom: none;
       flex-basis: 65px;
-
+      /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
       .mat-tab-label {
         padding: 0 15px;
         min-width: 150px;
@@ -214,7 +214,7 @@
         }
       }
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
     ::ng-deep .mat-tab-body-wrapper {
       background: #fff;
     }
@@ -251,7 +251,7 @@
     display: none !important;
   }
 
-  ::ng-deep .mat-tab-header {
+  ::ng-deep .mat-mdc-tab-header {
     padding-right: 0 !important;
   }
 

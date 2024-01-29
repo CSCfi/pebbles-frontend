@@ -26,7 +26,7 @@ export class ApplicationSessionService implements OnDestroy {
     private authService: AuthService,
     private eventService: EventService,
   ) {
-    this.setPollingInterval(60 * 1000);
+    this.setPollingInterval(6000 * 1000);
   }
 
   get isInitialized(): boolean {

@@ -4,7 +4,7 @@
   <div class="workspace-list-container">
     <!--  Content header  -->
     <div class="content-header-container center__vh">
-      <h1 class="mat-headline mr-15" [innerHTML]="context.title"></h1>
+      <h1 class="mat-headline-5 mr-15" [innerHTML]="context.title"></h1>
     </div>
     <!-- Workspace creation buttons -->
     <ng-container *ngIf="workspaces">
@@ -34,7 +34,7 @@
     <!-- Workspace list -->
     <div class="workspace-list pl-10 pr-10" *ngIf="workspaces">
       <ng-container *ngFor="let workspace of workspaces">
-        <mat-card class="workspace-item mb-5 {{getMembershipType(workspace)}}"
+        <mat-card appearance="outlined" class="workspace-item mb-5 {{getMembershipType(workspace)}}"
                   [ngClass]="{
                     'selected': isWorkspaceSelected(workspace),
                     'new': isNewWorkspace(workspace.id),
@@ -53,7 +53,7 @@
             <ng-template #publicBlock>
               <mat-icon class="user-role-icon" [matTooltip]="getMembershipType(workspace)">public</mat-icon>
             </ng-template>
-            <div class="workspace-title mat-subheading-2">
+            <div class="workspace-title mat-subtitle-1">
               <span>{{ workspace.name }}</span>
             </div>
             <div class="workspace-selected-arrow center__v"
@@ -64,7 +64,7 @@
           <!-- widget detail -->
           <mat-card-content class="workspace-info mt-10 pt-10"
                             *ngIf="isWorkspaceSelected(workspace)">
-            <div class="description pb-10 mat-body-1">
+            <div class="description pb-10 mat-body-2">
               {{ workspace.description || 'No description for the workspace' }}
             </div>
             <dl class="pt-10 grid-col">
@@ -148,9 +148,9 @@
           <ng-template mat-tab-label>
             <mat-icon class="md-18">import_contacts</mat-icon>
             <span class="tab-title">Applications</span>
-            <mat-chip *ngIf="applicationCount > 0" class="chip__circle bg__primary-light">
+            <mat-chip-option *ngIf="applicationCount > 0" class="chip__circle bg__primary-light">
               {{applicationCount}}
-            </mat-chip>
+            </mat-chip-option>
           </ng-template>
           <app-main-workspace-applications
             [workspaceId]="selectedWorkspaceId"
@@ -162,9 +162,9 @@
           <ng-template mat-tab-label>
             <mat-icon class="md-18">person</mat-icon>
             <span class="tab-title">Members</span>
-            <mat-chip *ngIf="memberCount > 0" class="chip__circle bg__primary-light">
+            <mat-chip-option *ngIf="memberCount > 0" class="chip__circle bg__primary-light">
               {{memberCount}}
-            </mat-chip>
+            </mat-chip-option>
           </ng-template>
           <app-main-workspace-members [workspace]="selectedWorkspace">
           </app-main-workspace-members>

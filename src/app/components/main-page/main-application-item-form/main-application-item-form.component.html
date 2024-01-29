@@ -5,12 +5,12 @@
     </button>
   </div>
   <form id="dialog" [formGroup]="applicationItemEditFormGroup">
-    <h1 class="mat-dialog-title mat-headline">{{ isCreationMode ? 'Add new' : 'Edit' }} application</h1>
+    <h1 class="mat-dialog-title mat-headline-5">{{ isCreationMode ? 'Add new' : 'Edit' }} application</h1>
     <div class="form-inner">
       <mat-dialog-content class="plain-form-container">
         <!-- 1 Env Templates-->
         <section class="form-container">
-          <h3 class="mat-title">Application template *</h3>
+          <h3 class="mat-headline-6">Application template *</h3>
           <ng-container *ngIf="isCreationMode; else templateNameBlock">
             <mat-form-field appearance="fill">
               <mat-select formControlName="applicationTemplateId"
@@ -31,7 +31,7 @@
                 <th mat-header-cell *matHeaderCellDef>Template information</th>
                 <td mat-cell *matCellDef="let element">
                   <ul>
-                    <li class="template-name mat-subheading-2 mb-5"> {{element.name}} </li>
+                    <li class="template-name mat-subtitle-1 mb-5"> {{element.name}} </li>
                     <li class="description mat-caption" [innerHTML]="element.description"></li>
                     <li class="template-labels mat-caption center__v">
                       <span class="mr-5 center__v">
@@ -67,7 +67,7 @@
 
         <!-- 1-2 Container Image -->
         <section class="form-container">
-          <h3 class="mat-title">Container Image</h3>
+          <h3 class="mat-headline-6">Container Image</h3>
           <p class="mat-caption">Change only if you need a custom image. The image has to be compatible with the template.</p>
           <mat-form-field appearance="fill">
             <input matInput formControlName="imageUrl" [value]="selectedApplicationTemplateImage">
@@ -80,7 +80,7 @@
 
         <!-- 2 Name-->
         <section class="form-container">
-          <h3 class="mat-title">Application name *</h3>
+          <h3 class="mat-headline-6">Application name *</h3>
           <mat-form-field appearance="fill">
             <input matInput formControlName="name">
             <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('required')">
@@ -94,7 +94,7 @@
 
         <!-- 3 Description-->
         <section class="form-container">
-          <h3 class="mat-title">Description *</h3>
+          <h3 class="mat-headline-6">Description *</h3>
           <mat-form-field appearance="fill">
             <textarea matInput formControlName="description"></textarea>
             <mat-error *ngIf="!applicationItemEditFormGroup.controls.description.valid">
@@ -105,13 +105,13 @@
 
         <!-- 4 Category-->
         <section class="form-container">
-          <h3 class="mat-title">Category labels </h3>
+          <h3 class="mat-headline-6">Category labels </h3>
           <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
         </section>
 
         <!-- 5.1 Lifetime -->
         <section class="form-container session-lifetime">
-          <h3 class="mat-title">Session lifetime</h3>
+          <h3 class="mat-headline-6">Session lifetime</h3>
           <mat-select formControlName="sessionLifetimeHours">
             <mat-option *ngFor="let opt of availableLifetimeOptions" [value]="opt.value">
               {{opt.viewValue}}
@@ -121,7 +121,7 @@
 
         <!-- 5.2 Memory -->
         <section class="form-container session-memory">
-          <h3 class="mat-title">Session memory</h3>
+          <h3 class="mat-headline-6">Session memory</h3>
           <mat-select formControlName="sessionMemoryGiB">
             <mat-option *ngFor="let opt of availableMemoryOptions" [value]="opt.value">
               {{opt.viewValue}}
@@ -131,7 +131,7 @@
 
         <!-- 6-2 Include External files -->
         <section class="form-container">
-          <h3 class="mat-title">Download method</h3>
+          <h3 class="mat-headline-6">Download method</h3>
           <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
             <ul>
               <li>
@@ -168,7 +168,7 @@
 
         <!-- 6-4 Auto Execution -->
         <section class="form-container" *ngIf="selectedDownloadMethod !== 'none'">
-          <h3 class="mat-title">Auto execution</h3>
+          <h3 class="mat-headline-6">Auto execution</h3>
           <div class="checkbox-group">
             <mat-checkbox formControlName="isAutoExecution"> Execute initial file (Bash file, unZip)</mat-checkbox>
           </div>
@@ -176,7 +176,7 @@
 
         <!-- 6-5 Shared / User work folder -->
         <section class="form-container">
-          <h3 class="mat-title">Shared folder</h3>
+          <h3 class="mat-headline-6">Shared folder</h3>
           <div class="checkbox-group">
             <mat-checkbox formControlName="isEnableSharedFolder">
               Enable 'shared' folder within your workspace. <span class="mat-caption ml-10"></span>
@@ -186,7 +186,7 @@
         </section>
 
         <section class="form-container">
-          <h3 class="mat-title">User work folder per user</h3>
+          <h3 class="mat-headline-6">User work folder per user</h3>
           <div class="checkbox-group">
             <mat-checkbox formControlName="isEnableUserWorkFolder" (change)="onChangeUserWorkFolder($event.checked)">
               Enable personal persistent 'work' folder for users.
@@ -197,7 +197,7 @@
 
         <!-- 6-6 Environment Variables -->
         <section class="form-container">
-          <h3 class="mat-title">Environment variables</h3>
+          <h3 class="mat-headline-6">Environment variables</h3>
           <p class="mat-caption">
             Optionally set environment variables for your application, formatted as a space separated list, e.g.
             <code class="env-var-example">FOO=hello BAR=there</code>
@@ -209,7 +209,7 @@
 
         <!-- 7 Publish -->
         <section class="form-container">
-          <h3 class="mat-title">Publication</h3>
+          <h3 class="mat-headline-6">Publication</h3>
           <mat-radio-group formControlName="publish">
             <ul>
               <li>

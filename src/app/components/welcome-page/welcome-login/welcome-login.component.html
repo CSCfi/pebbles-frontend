@@ -6,15 +6,15 @@
   <!-- Left -->
   <div class="content-wrapper grid-col">
     <div class="login-wrapper mr-60">
-      <h2 class="mat-display-3 mb-30">
+      <h2 class="mat-headline-2 mb-30">
         {{ publicConfigService.getShortDescription() }}
       </h2>
-      <div class="service-description mat-display-2 mb-30"
+      <div class="service-description mat-headline-3 mb-30"
            [innerHTML]="publicConfigService.getInstallationDescription()">
       </div>
       <a mat-raised-button id="oauth-login-button" class="button-lg mb-10" color="accent" href="/oauth2?rd=%2Foauth2">
         <div>Login</div>
-        <div class="mat-display-1">Haka / Virtu / CSC account</div>
+        <div class="mat-headline-4">Haka / Virtu / CSC account</div>
       </a>
       <button id="special-login-button" class="center__vh" (click)="openSpecialLogin()">
         <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">chevron_right</mat-icon>

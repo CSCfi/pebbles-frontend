@@ -16,7 +16,7 @@
             </div>
             <div class="instruction-text">
               <h1 class="question">What is application template?</h1>
-              <div class="answer mat-body-1">
+              <div class="answer mat-body-2">
                 Application defines the content that users access by starting a browser based isolated session.
                 As workspace owner/co-owner, you can create your own customized applications from templates below.
               </div>
@@ -24,7 +24,7 @@
           </section>
 
           <section class="form-container">
-            <h2 class="mat-title mb-10">Select a template for your new application.*</h2>
+            <h2 class="mat-headline-6 mb-10">Select a template for your new application.*</h2>
             <table mat-table [dataSource]="wizardApplicationTemplateDataSource">
               <!-- Radio button column -->
               <ng-container matColumnDef="select">
@@ -40,7 +40,7 @@
                 <th mat-header-cell class="cell-info" *matHeaderCellDef>Template information</th>
                 <td mat-cell class="cell-info" *matCellDef="let element">
                   <ul>
-                    <li class="template-name mat-subheading-2 mb-5"> {{element.name}} </li>
+                    <li class="template-name mat-subtitle-1 mb-5"> {{element.name}} </li>
                     <li class="description mat-caption" [innerHTML]="element.description"></li>
                     <li class="template-labels mat-caption center__v">
                       <span class="mr-5 center__v">
@@ -92,7 +92,7 @@
           <!-- Image hidden by default in wizard. TODO: enabled based on selected template -->
           <section class="form-container">
             <div [hidden]="true">
-              <h2 class="mat-title mb-10">Container image</h2>
+              <h2 class="mat-headline-6 mb-10">Container image</h2>
               Change only if you need a custom image. The image has to be compatible with the template.
               <mat-form-field appearance="fill">
                 <input matInput formControlName="imageUrl" [value]="selectedWizardApplicationTemplateImage">
@@ -121,7 +121,7 @@
             </div>
             <div class="instruction-text">
               <h1 class="question">How new application is seen by members?</h1>
-              <div class="answer mat-body-1">
+              <div class="answer mat-body-2">
                 Members of your workspace can find your application in the applications page.
                 Carefully consider names, descriptions and labels to let them identify and find the content.
               </div>
@@ -129,10 +129,10 @@
           </section>
 
           <!-- 2-1 Name -->
-          <h2 class="mat-title">Fill your application information</h2>
+          <h2 class="mat-headline-6">Fill your application information</h2>
           <section class="form-container mt-10">
             <mat-form-field appearance="fill">
-              <mat-label class="mat-subheading-2">Application name</mat-label>
+              <mat-label class="mat-subtitle-1">Application name</mat-label>
               <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
               <mat-error *ngIf="wizardProfileFormGroup.controls.name.hasError('required')">
                 <strong>Name is required</strong>
@@ -145,7 +145,7 @@
           <!-- 2-2 Description -->
           <section class="form-container mt-10">
             <mat-form-field appearance="fill">
-              <mat-label class="mat-subheading-2">Description (can contain HTML formatting)</mat-label>
+              <mat-label class="mat-subtitle-1">Description (can contain HTML formatting)</mat-label>
               <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
               <mat-error *ngIf="!wizardProfileFormGroup.controls.description.valid">
                 <strong>Description is required</strong>
@@ -182,7 +182,7 @@
             </div>
             <div class="instruction-text">
               <h1 class="question">How you can customize application?</h1>
-              <div class="answer mat-body-1">
+              <div class="answer mat-body-2">
                 <p>Customize settings according to what you want to do.</p>
                 <ul>
                   <li>
@@ -197,10 +197,10 @@
             </div>
           </section>
 
-          <h2 class="mat-title mb-10">Configure application options</h2>
+          <h2 class="mat-headline-6 mb-10">Configure application options</h2>
           <!-- 3.1 Include External files -->
           <section class="form-container ">
-            <mat-label class="mat-subheading-2">Download Method</mat-label>
+            <mat-label class="mat-subtitle-1">Download Method</mat-label>
             <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
               <ul class="mt-5 mb-10">
                 <li>
@@ -223,7 +223,7 @@
             <section class="form-container "
                      *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
               <mat-form-field appearance="fill">
-                <mat-label class="mat-subheading-2">Source(URL)</mat-label>
+                <mat-label class="mat-subtitle-1">Source(URL)</mat-label>
                 <input matInput formControlName="source" placeholder="">
               </mat-form-field>
             </section>
@@ -231,7 +231,7 @@
           <!-- 3.3 Auto Execution -->
           <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
           <section class="form-container ">
-            <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label>
+            <mat-label class="mat-subtitle-1">Auto Execution (TODO)</mat-label>
             <br>
             <mat-checkbox formControlName="isAutoExecution" class="mt-5">
               Execute or unpack downloaded file when the application is launched.
@@ -239,14 +239,14 @@
           </section>
           <!-- 3.4 Enable share folder / user work folder -->
           <section class="form-container ">
-            <mat-label class="mat-subheading-2">Shared folder</mat-label>
+            <mat-label class="mat-subtitle-1">Shared folder</mat-label>
             <br>
             <mat-checkbox formControlName="isEnableSharedFolder" class="mt-5">
               Enable 'shared' folder within workspace users. <span class="mat-caption ml-10">(It's workspace specific and read-only for users.)</span>
             </mat-checkbox>
           </section>
           <section class="form-container ">
-            <mat-label class="mat-subheading-2">Work folder per user</mat-label>
+            <mat-label class="mat-subtitle-1">Work folder per user</mat-label>
             <br>
             <mat-checkbox formControlName="isEnableUserWorkFolder" (change)="onChangeUserWorkFolder($event.checked)" class="mt-5">
               Enable personal persistent 'work' folder for users. <span class="mat-caption ml-10">(It's workspace specific.)</span>
@@ -272,13 +272,13 @@
         <mat-dialog-content>
           <ng-template matStepLabel>Save</ng-template>
           <div class="form-items mt-20 mb-50">
-            <h2 class="mat-headline mb-20">Congratulations! Your new application is almost ready :)</h2>
+            <h2 class="mat-headline-5 mb-20">Congratulations! Your new application is almost ready :)</h2>
             <div class="center__vi">
               <mat-icon fontSet="material-icons-outlined" class="mr-5">lightbulb</mat-icon>
               There are more options available through <span class="mr-5 ml-5 hint__menu">Edit application</span> in the application menu.
             </div>
             <section class="form-container mt-15">
-              <mat-label class="mat-subheading-2">Visibility</mat-label>
+              <mat-label class="mat-subtitle-1">Visibility</mat-label>
               <mat-radio-group formControlName="isActive">
                 <ul class="mt-10">
                   <li>

@@ -16,9 +16,9 @@
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy($custom-typography);`
-@include mat.all-legacy-component-typographies($custom-typography);
-@include mat.legacy-core();
-@include mat.all-legacy-component-themes($app-theme);
+// @include mat.all-legacy-component-typographies($custom-typography);
+//@include mat.legacy-core();
+//@include mat.all-legacy-component-themes($app-theme);
 
 // ---- Global base style on element ---- //
 html {
@@ -75,11 +75,11 @@ ul.list-style {
 
 button {
   border-radius: 3px;
-
-  &.mat-button-disabled.mat-stroked-button {
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
+  &.mat-button-disabled.mat-mdc-outlined-button {
     border-color: map-get($app-gray, 200);
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   &:hover:not(.mat-button-disabled) {
     cursor: pointer;
     filter: brightness(110%);
@@ -350,6 +350,7 @@ dl.grid {
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
 ::ng-deep .mat-checkbox-layout,
 ::ng-deep .mat-radio-label-content {
   white-space: break-spaces !important;
@@ -375,19 +376,20 @@ dl.grid {
     margin-bottom: 20px;
   }
 
-  .mat-form-field {
+  .mat-mdc-form-field {
     width: 100%;
 
     textarea {
       height: 60px;
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
     .mat-form-field-subscript-wrapper {
       position: relative;
       margin: 0;
       top: 5px;
 
-      .mat-error {
+      .mat-mdc-form-field-error {
         margin-bottom: 15px;
         font-size: 1.2rem;
         color: map-get($app-warn, dark);
@@ -395,8 +397,8 @@ dl.grid {
     }
   }
 
-  .mat-dialog-title,
-  .mat-dialog-content,
+  .mat-mdc-dialog-title,
+  .mat-mdc-dialog-content,
   .dialog-actions {
     margin: 10px 24px 10px !important;
   }
@@ -412,7 +414,7 @@ dl.grid {
     margin: 0 24px 10px !important;
   }
 
-  .mat-dialog-title {
+  .mat-mdc-dialog-title {
     text-align: center;
     padding-bottom: 2px;
     border-bottom: 1px solid map-get($app-gray, 200);
@@ -420,7 +422,7 @@ dl.grid {
     margin-bottom: 30px !important;
   }
 
-  .mat-dialog-content {
+  .mat-mdc-dialog-content {
     padding: 0;
   }
 
@@ -458,8 +460,8 @@ dl.grid {
     }
   }
 
-  .mat-dialog-title,
-  .mat-dialog-content,
+  .mat-mdc-dialog-title,
+  .mat-mdc-dialog-content,
   .dialog-actions,
   .mat-horizontal-stepper-header-container,
   .stepper-action-buttons {
@@ -483,11 +485,12 @@ dl.grid {
 
 // ---- Mat-Tab
 // ----------------------------------------
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .mat-tab-label {
   opacity: 1 !important;
 }
 
-.mat-tab-header {
+.mat-mdc-tab-header {
   .mat-ink-bar {
     background-color: map-get($app-accent, default) !important;
     height: 6px !important;
@@ -496,41 +499,43 @@ dl.grid {
 
 // ---- Mat-Card
 // ----------------------------------------
-.mat-card {
+.mat-mdc-card {
   padding: 8px !important;
   //border-radius: 3px !important;
-
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
   .mat-card-header-text {
     //color: rgba(0, 0, 0, 0.77);
     margin: 0 !important;
     width: 100%;
   }
 
-  .mat-card-subtitle {
+  .mat-mdc-card-subtitle {
     color: map-get($app-gray, 900) !important;
     font-weight: 400 !important;
   }
 }
 
-.mat-card-header {
+.mat-mdc-card-header {
   width: 100%;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 .mat-card-header-text {
   margin-bottom: 0 !important;
   width: 100%;
 }
 
-.mat-card-actions, .mat-card-subtitle {
+.mat-mdc-card-actions, .mat-mdc-card-subtitle {
   margin-bottom: 5px !important;
 }
 
-.mat-card-content {
+.mat-mdc-card-content {
   margin-bottom: 10px !important;
 }
 
 // ---- Mat-Form
 // ----------------------------------------
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 .mat-form-field-underline {
   bottom: 0;
   position: relative !important;
@@ -540,21 +545,22 @@ dl.grid {
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 .mat-form-field-wrapper {
   padding-bottom: 0;
 }
 
-.mat-option[aria-selected="true"] {
+.mat-mdc-option[aria-selected="true"] {
   background: map-get($app-warn, light) !important;
 }
 
 // ---- Button
 // ----------------------------------------
-a.mat-raised-button,
+a.mat-mdc-raised-button,
 .mat-raised-button,
-a.mat-flat-button,
+a.mat-mdc-unelevated-button,
 .mat-flat-button,
-a.mat-stroked-button,
+a.mat-mdc-outlined-button,
 .mat-stroked-button {
   padding: 4px 15px !important;
   height: 45px;
@@ -567,7 +573,7 @@ a.mat-stroked-button,
   }
 }
 
-.mat-button {
+.mat-mdc-button {
   &.button-sm {
     font-weight: normal;
     font-size: 1.3rem;
@@ -644,7 +650,7 @@ a.mat-stroked-button,
 // ----------------------------------------
 // ---- MEMO:
 // ---- To show "All" as the last one in options, we need dominated style here.
-::ng-deep .mat-option {
+::ng-deep .mat-mdc-option {
   &:last-child:before {
     content: 'All-';
     float: left;
@@ -689,7 +695,7 @@ a.mat-stroked-button,
     min-height: 28px !important;
     border-radius: 14px;
     padding: 0 15px !important;
-
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
     .mat-chip-remove {
       margin-left: 4px !important;
       width: 15px !important;
@@ -740,7 +746,7 @@ a.mat-stroked-button,
   height: auto;
 }
 
-.mat-table {
+.mat-mdc-table {
   width: 100%;
   margin: auto;
 
@@ -757,24 +763,24 @@ a.mat-stroked-button,
       text-align: center;
       vertical-align: middle;
 
-      .mat-button {
+      .mat-mdc-button {
         min-width: 30px !important;
         padding: 0 10px !important;
       }
     }
 
-    .mat-checkbox {
+    .mat-mdc-checkbox {
       width: 16px;
       margin: auto;
       display: block;
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
     .mat-radio-label {
       width: 20px;
     }
   }
 
-  .mat-header-row {
+  .mat-mdc-header-row {
     height: 20px;
     background: map-get($app-gray, 100);
     text-transform: capitalize;

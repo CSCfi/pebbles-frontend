@@ -40,12 +40,12 @@
       width: 100%;
       //margin-bottom: -1.25em;
       //border-radius: 20px;
-
+      /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
       ::ng-deep .mat-form-field-infix {
         border-top: none;
       }
     }
-
+    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
     ::ng-deep .mat-form-field-flex {
       background-color: #ededf8 !important;
       //border-radius: 4px;

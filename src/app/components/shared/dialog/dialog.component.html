@@ -4,12 +4,12 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <h1 class="mat-dialog-title mat-headline">{{ data.dialogTitle }}</h1>
+  <h1 class="mat-dialog-title mat-headline-5">{{ data.dialogTitle }}</h1>
   <mat-dialog-content>
     <div class="dialog-content" *ngIf="this.data.dialogContent" [innerHTML]="data.dialogContent">
     </div>
     <div *ngIf="this.data.dialogClipboard" class="mt-20">
-      <div class="dialog-clipboard mat-title center__v r__md">
+      <div class="dialog-clipboard mat-headline-6 center__v r__md">
         <div>{{ this.data.dialogClipboard }}</div>
         <button matTooltip="Copy to clipboard" mat-dialog-close class="center__vh"
                 [cdkCopyToClipboard]="this.data.dialogClipboard">

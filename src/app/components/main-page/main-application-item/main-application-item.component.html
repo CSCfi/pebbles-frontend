@@ -1,12 +1,12 @@
 <ng-container *ngIf="application">
-  <mat-card class="card grid-col mb-5"
+  <mat-card appearance="outlined" class="card grid-col mb-5"
             [ngClass]="{'expired': isExpiredTimestamp(application.info.workspace_expiry_ts) }"
             ngClass.lt-sm="mobile" ngClass.lt-md="tablet"
             [attr.id]="'env-'+application.id">
     <!-- Card LEFT section -->
     <div class="card-media-container bg__primary-light grid-center"
          [ngClass]="application?.application_type">
-      <div class="thumbnail mat-headline">
+      <div class="thumbnail mat-headline-5">
         <fa-icon [icon]="applicationIcon" class="mb-2 md-48"></fa-icon>
         <span>{{ applicationTypeName }}</span>
       </div>
@@ -16,7 +16,7 @@
     <!-- Card CENTER section -->
     <div class="card-info-container grid-row">
       <mat-card-header>
-        <mat-card-title class="application-name mat-title mb-0">
+        <mat-card-title class="application-name mat-headline-6 mb-0">
           <span [innerHTML]="application.name"></span>
         </mat-card-title>
 
@@ -79,7 +79,7 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content class="grid-row">
-        <div class="description mat-body-1" [innerHTML]="description"></div>
+        <div class="description mat-body-2" [innerHTML]="description"></div>
         <div class="chips mat-caption">
           <ng-container *ngFor="let label of labels.split(',')">
             <span class="chip__sm"

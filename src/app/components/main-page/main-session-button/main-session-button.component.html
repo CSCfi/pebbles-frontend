@@ -71,10 +71,10 @@
                 <mat-icon fontSet="material-icons-outlined" class="md-24">launch</mat-icon>
               </span>
               <ng-container *ngIf="lifetimeLeft; else stateBlock">
-                <span class="time-left block mat-body-1"> {{ lifetimeLeft }}</span>
+                <span class="time-left block mat-body-2"> {{ lifetimeLeft }}</span>
               </ng-container>
               <ng-template #stateBlock>
-                <span class="state block mat-body-1">{{ state }}</span>
+                <span class="state block mat-body-2">{{ state }}</span>
               </ng-template>
             </button>
             <button mat-button matTooltip="Delete session" matTooltipPosition="below"

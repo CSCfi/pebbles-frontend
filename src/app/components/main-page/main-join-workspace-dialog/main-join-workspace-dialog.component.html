@@ -5,7 +5,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <h1 class="mat-dialog-title mat-headline">Join Workspace</h1>
+    <h1 class="mat-dialog-title mat-headline-5">Join Workspace</h1>
     <mat-dialog-content>
       <section class="join-code-input-form">
         <form [formGroup]="joinWorkspaceForm">
@@ -27,7 +27,7 @@
     <!--  </mat-dialog-actions>-->
   </ng-container>
   <ng-container *ngIf="newWorkspace">
-    <h1 class="mat-dialog-title mat-headline">Workspace "{{ newWorkspace.name }}" data policy</h1>
+    <h1 class="mat-dialog-title mat-headline-5">Workspace "{{ newWorkspace.name }}" data policy</h1>
     <mat-dialog-content>
       <div>
         You have successfully joined workspace "{{ newWorkspace.name }}".

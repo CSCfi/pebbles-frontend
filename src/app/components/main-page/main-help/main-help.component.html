@@ -20,14 +20,14 @@
     <mat-tab label="faq">
       <ng-template mat-tab-label>
         <mat-icon fontSet="material-icons-outlined" class="tab-icon mr-10 md-36"> help_outline</mat-icon>
-        <span class="tab-title mat-subheading-2 mr-20">FAQ</span>
+        <span class="tab-title mat-subtitle-1 mr-20">FAQ</span>
       </ng-template>
       <ng-template matTabContent>
         <section class="mt-30 content-cutout">
           <!--<h2 class="help-title mat-title">Frequently asked questions</h2>-->
           <ng-container *ngIf="faqTopics?.length > 0">
             <mat-accordion class="" *ngFor="let faq of faqTopics let pre = index" multi>
-              <h3 class="mat-title mt-40 mb-10">{{ faq.name }}</h3>
+              <h3 class="mat-headline-6 mt-40 mb-10">{{ faq.name }}</h3>
               <ng-container *ngIf="faq.content.length>0 ;else noContent">
                 <mat-expansion-panel class="info-body mb-5 p-10" *ngFor="let content of faq.content; let sur = index"
                                      [expanded]="indexExpanded === pre +'-'+ sur "
@@ -38,7 +38,7 @@
                       <span class="txt__primary" [innerHTML]="content.question"></span>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <span class="mat-body-1" [innerHTML]="content.answer"></span>
+                  <span class="mat-body-2" [innerHTML]="content.answer"></span>
                 </mat-expansion-panel>
               </ng-container>
               <ng-template #noContent>
@@ -52,26 +52,26 @@
     <mat-tab label="documentation">
       <ng-template mat-tab-label>
         <mat-icon fontSet="material-icons-outlined" class="tab-icon mr-10 md-36">library_books</mat-icon>
-        <span class="tab-title mat-subheading-2">Documentation</span>
+        <span class="tab-title mat-subtitle-1">Documentation</span>
       </ng-template>
       <ng-template matTabContent>
         <section class="mt-30 content-cutout info-body">
           <div>
-            <h3 class="mat-subheading-2 mb-5 mr-20">Notebooks Documentation</h3>
-            <p class="mat-body-1 center__v">
+            <h3 class="mat-subtitle-1 mb-5 mr-20">Notebooks Documentation</h3>
+            <p class="mat-body-2 center__v">
               <mat-icon class="mr-10">launch</mat-icon>
               <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
-                 class="tab-title mat-subheading-2 txt__primary" rel="noopener">
+                 class="tab-title mat-subtitle-1 txt__primary" rel="noopener">
                 Open Documentation (External link)
               </a>
             </p>
           </div>
           <div>
-            <h3 class="mat-subheading-2 mb-5">Pebbles source code</h3>
-            <p class="mat-body-1 center__v">
+            <h3 class="mat-subtitle-1 mb-5">Pebbles source code</h3>
+            <p class="mat-body-2 center__v">
               <mat-icon class="mr-10">launch</mat-icon>
               <a href="https://github.com/CSCfi/pebbles" target="_blank"
-                 class="tab-title mat-subheading-2 txt__primary" rel="noopener">
+                 class="tab-title mat-subtitle-1 txt__primary" rel="noopener">
                 See source code in GitHub
               </a>
             </p>
@@ -83,22 +83,22 @@
     <mat-tab label="contact">
       <ng-template mat-tab-label>
         <mat-icon fontSet="material-icons-outlined" class="tab-icon mr-10 md-36">mail</mat-icon>
-        <span class="tab-title mat-subheading-2 mr-10">Contact us</span>
+        <span class="tab-title mat-subtitle-1 mr-10">Contact us</span>
       </ng-template>
       <ng-template matTabContent>
         <section class="mt-30 content-cutout">
           <div class="balloon mt-60 mb-40 p-30">
-            <ul class="mat-headline mb-30">
+            <ul class="mat-headline-5 mb-30">
               <li>Do you want to host a course?</li>
               <li>Would you need a new kind of application template?</li>
               <li>Is there something out of order?</li>
             </ul>
-            <div class="mat-display-3">Contact us!</div>
+            <div class="mat-headline-2">Contact us!</div>
           </div>
           <div class="contact-info">
             <mat-icon fontSet="material-icons-outlined" class="md-96 business-icon">business</mat-icon>
-            <div class="mb-10 mat-headline">Service Desk</div>
-            <dl class="mt-30 mb-20 mat-title grid center__v">
+            <div class="mb-10 mat-headline-5">Service Desk</div>
+            <dl class="mt-30 mb-20 mat-headline-6 grid center__v">
               <dt class="center__v">
                 <mat-icon fontSet="material-icons-outlined" class="mr-5">mail</mat-icon>
                 <span class="mr-10">E-mail</span>

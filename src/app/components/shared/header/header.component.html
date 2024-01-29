@@ -8,11 +8,11 @@
     </div>
     <div class="logo__type">
       {{ publicConfigService.getInstallationName() }}
-      <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
+      <span class="owner mat-headline-4">{{ publicConfigService.getInstallationDomain() }}</span>
     </div>
   </a>
   <!-- Navigation -->
-  <ul class="navbar mat-display-2 no-u-line mb-10 mt-10"
+  <ul class="navbar mat-headline-3 no-u-line mb-10 mt-10"
       *ngIf="isNaviVisible">
     <li>
       <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank" rel="noopener">

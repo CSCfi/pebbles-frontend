@@ -29,14 +29,14 @@
     grid-row-gap: 10px;
     //min-width: 484px;
 
-    .mat-card-header {
-      .mat-card-title {
+    .mat-mdc-card-header {
+      .mat-mdc-card-title {
         padding-top: 5px;
         border-bottom: 1px solid #c7c7c7 !important;
         padding-bottom: 2px;
       }
 
-      .mat-card-subtitle {
+      .mat-mdc-card-subtitle {
         margin: 0 !important;
         color: map-get($app-gray, 800);
         display: grid;
@@ -78,7 +78,7 @@
     }
   }
 
-  .mat-card-content {
+  .mat-mdc-card-content {
     min-height: 60px;
     grid-row-gap: 20px;
     align-content: space-between;
@@ -126,7 +126,7 @@
     }
   }
 
-  .mat-card-subtitle {
+  .mat-mdc-card-subtitle {
     display: grid;
     grid-template-columns: 100% !important;
     grid-template-rows: auto auto !important;
@@ -157,14 +157,14 @@
     padding: 0 10px;
     margin: 0 !important;
 
-    .mat-card-content {
+    .mat-mdc-card-content {
       margin-bottom: 0 !important;
       grid-gap: 15px !important;
       min-height: auto !important;
     }
   }
 
-  .mat-card-subtitle {
+  .mat-mdc-card-subtitle {
     display: grid;
     grid-template-columns: 100% !important;
     grid-template-rows: auto auto;

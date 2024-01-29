@@ -21,14 +21,14 @@
   }
 
 
-  ::ng-deep .mat-tab-header {
+  ::ng-deep .mat-mdc-tab-header {
     border-bottom: 1px solid map-get($app-transparent, dark) !important;
     padding-top: 5px;
 
     .mat-ripple {
       background: #fff;
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
     .mat-tab-label {
       border-right: 1px solid map-get($app-primary, 200);
 
@@ -46,7 +46,7 @@
       }
     }
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   ::ng-deep .mat-tab-body-wrapper {
     background: map-get($app-primary, 100);
 

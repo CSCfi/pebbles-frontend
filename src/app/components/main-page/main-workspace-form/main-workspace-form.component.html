@@ -5,7 +5,7 @@
     </button>
   </div>
   <form [formGroup]="workspaceForm" novalidate>
-    <h1 class="mat-dialog-title mat-headline">Create new workspace</h1>
+    <h1 class="mat-dialog-title mat-headline-5">Create new workspace</h1>
     <mat-dialog-content>
       <section class="instruction-body">
         <div class="form-help-icon center__v">
@@ -13,7 +13,7 @@
         </div>
         <div class="instruction-text">
           <h1 class="question">What is Workspace?</h1>
-          <div class="answer mat-body-1">
+          <div class="answer mat-body-2">
             "Workspace" is the virtual space where you can share customized applications and materials with
             students or collaborators. There are folders for storing shared and user's data.
             Users join your Workspace using shared "Join Code".
@@ -73,11 +73,11 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <div *ngIf="workspaceType==='fixed-time-course'" class="warning mat-body-2 mt-20" >
+        <div *ngIf="workspaceType==='fixed-time-course'" class="warning mat-subtitle-2 mt-20" >
           <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
           Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
         </div>
-        <div *ngIf="workspaceType==='long-running-course'" class="warning mat-body-2 mt-20" >
+        <div *ngIf="workspaceType==='long-running-course'" class="warning mat-subtitle-2 mt-20" >
           <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
           Workspace members are automatically removed after 90 days of inactivity.
           Workspace will expire at {{ projectedExpiryTs | dateDisplay }}. You can extend the validity
