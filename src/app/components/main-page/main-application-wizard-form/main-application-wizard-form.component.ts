@@ -96,10 +96,15 @@ export class MainApplicationWizardFormComponent implements OnInit {
     this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
     this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
     this.wizardOptionFormGroup.controls.isAutoExecution.disable();
-    this.wizardOptionFormGroup.controls.isEnableSharedFolder.setValue(
-      this.applicationService.isSharedFolderEnabled(null, this.data.isWorkspacePublic));
-    this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.setValue(true);
+    this.wizardOptionFormGroup.controls.isEnableSharedFolder.setValue(!this.data.isWorkspacePublic);
+    this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.setValue(!this.data.isWorkspacePublic);
     this.wizardPublishFormGroup.controls.isActive.setValue(false);
+
+    // public workspaces cannot have persistent folders ATM
+    if (this.data.isWorkspacePublic) {
+      this.wizardOptionFormGroup.controls.isEnableSharedFolder.disable();
+      this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.disable();
+    }
   }
 
   rebuildWizardApplicationTemplateDataSource(): void {

@@ -1,7 +1,10 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Application, AttributeLimit } from 'src/app/models/application';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
@@ -120,13 +123,18 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.isAutoExecution.setValue(false);
     this.applicationItemEditFormGroup.controls.isAlwaysPullImage.setValue(false);
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
-    this.applicationItemEditFormGroup.controls.isEnableSharedFolder.setValue(
-      this.applicationService.isSharedFolderEnabled(null, this.data.isWorkspacePublic));
-    this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(true);
+    this.applicationItemEditFormGroup.controls.isEnableSharedFolder.setValue(!this.data.isWorkspacePublic);
+    this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(!this.data.isWorkspacePublic);
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
     this.applicationType = ApplicationType.Generic;
     this.applicationItemEditFormGroup.controls.sessionLifetimeHours.setValue(4);
     this.applicationItemEditFormGroup.controls.sessionMemoryGiB.setValue(1);
+
+    // public workspaces cannot have persistent folders ATM
+    if (this.data.isWorkspacePublic) {
+      this.applicationItemEditFormGroup.controls.isEnableSharedFolder.disable();
+      this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.disable();
+    }
   }
 
   setEditForm(): void {
@@ -168,10 +176,11 @@ export class MainApplicationItemFormComponent implements OnInit {
     }
 
     this.applicationItemEditFormGroup = this.formBuilder.group({
-      applicationTemplateId: [{
-        value: this.data.application.template_id,
-        disabled: true
-      }],
+      applicationTemplateId: [
+        {
+          value: this.data.application.template_id,
+          disabled: true
+        }],
       name: [this.data.application.name, [Validators.required, Validators.maxLength(128)]],
       description: [this.data.application.description, [Validators.required]],
       labels: [''],
@@ -187,6 +196,12 @@ export class MainApplicationItemFormComponent implements OnInit {
       sessionMemoryGiB: [this.sessionMemoryGiB],
       environmentVars: [this.selectedApplicationEnvironmentVars],
     });
+
+    // public workspaces cannot have persistent folders ATM
+    if (this.data.isWorkspacePublic) {
+      this.applicationItemEditFormGroup.controls.isEnableSharedFolder.disable();
+      this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.disable();
+    }
 
     this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
 
@@ -260,15 +275,16 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   composeApplicationTemplateDataSource(tmpl: ApplicationTemplate): MatTableDataSource<ApplicationTemplateRow> {
     return new MatTableDataSource(
-      [{
-        name: tmpl.name,
-        description: tmpl.description,
-        labels: tmpl.base_config?.labels,
-        memory_gib: tmpl.base_config?.memory_gib,
-        lifetime: tmpl.base_config?.maximum_lifetime,
-        application_type: tmpl.application_type,
-        is_enabled: tmpl.is_enabled,
-      }]
+      [
+        {
+          name: tmpl.name,
+          description: tmpl.description,
+          labels: tmpl.base_config?.labels,
+          memory_gib: tmpl.base_config?.memory_gib,
+          lifetime: tmpl.base_config?.maximum_lifetime,
+          application_type: tmpl.application_type,
+          is_enabled: tmpl.is_enabled,
+        }]
     );
   }
 
