@@ -116,8 +116,10 @@
       <a [routerLink]="['/main/messages']">
         <span class="icon-holder" matTooltip="Messages"
               [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+          <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
           <mat-icon fontSet="material-icons-outlined"
                     [matBadgeHidden]="getUnreadMessages().length === 0"
+                    [attr.aria-hidden]="getUnreadMessages().length === 0" aria-hidden="false"
                     [matBadge]="getUnreadMessages().length"
                     matBadgeColor="{{getUnreadMessages().length > 0 ? 'warn': 'normal'}}">
             mail
@@ -204,8 +206,10 @@
     <mat-divider class="dark"></mat-divider>
   </ng-container>
   <button mat-menu-item [routerLink]="['/main/messages']">
+    <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
     <mat-icon fontSet="material-icons-outlined"
               [matBadgeHidden]="getUnreadMessages().length === 0"
+              [attr.aria-hidden]="getUnreadMessages().length === 0" aria-hidden="false"
               [matBadge]="getUnreadMessages().length"
               matBadgeColor="{{getUnreadMessages().length > 0 ? 'warn': 'normal'}}">
       mail

@@ -47,7 +47,7 @@ ng-build:
   stage: build
   needs: []
   cache:
-    # this task populates the cache, set the policy accordinly
+    # this task populates the cache, set the policy accordingly
     <<: *global_cache
     policy: pull-push
   script:
@@ -65,7 +65,7 @@ ng-build:
 
 ng-test:
   stage: test
-  image: docker.io/trion/ng-cli-karma:14.2.8
+  image: docker.io/trion/ng-cli-karma:16.2.9
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
