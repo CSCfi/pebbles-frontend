@@ -28,7 +28,8 @@ export interface ApplicationSession {
   log_fetch_pending: boolean,
   created_at: string,
   provisioned_at: string,
-  provisioning_config: any,
+  provisioning_config?: any,
+  info: any,
   session_data: any;
 }
 
