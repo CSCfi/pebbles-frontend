@@ -14,7 +14,7 @@ export class MainWorkspaceFormComponent implements OnInit {
   createButtonClicked: boolean;
   validityOptions: any[];
   workspaceTypeOptions: any[];
-  workspaceType = '';
+  workspaceType = 'fixed-time-course';
   validityMonths = 0;
   projectedExpiryTs: number;
 
