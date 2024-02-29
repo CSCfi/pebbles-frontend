@@ -49,7 +49,7 @@ export class MainWorkspaceFormComponent implements OnInit {
       ]],
       description: ['', [Validators.required]],
       workspaceType: ['fixed-time-course', [Validators.required]],
-      validityMonths: [0, [Validators.required]],
+      validityMonths: [null, [Validators.required]],
     });
   }
 
