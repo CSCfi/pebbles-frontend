@@ -816,6 +816,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'admin@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
         {ext_id: 'admin-1@example.org', is_owner: false, is_manager: true},
@@ -856,6 +857,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'admin@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
         {ext_id: 'owner-1@example.org', is_owner: false, is_manager: true},
@@ -874,6 +876,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'owner-1@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
         {ext_id: 'admin@example.org', is_owner: false, is_manager: true},
@@ -894,6 +897,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'admin-1@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
         {ext_id: 'admin@example.org', is_manager: true},
@@ -914,6 +918,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'admin-1@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'admin-1@example.org', is_owner: true, is_manager: true},
         {ext_id: 'admin@example.org', is_manager: true},
@@ -934,6 +939,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'admin@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
         {ext_id: 'user@example.org'},
@@ -953,6 +959,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'owner@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'admin@example.org', is_owner: true, is_manager: true},
         {ext_id: 'owner@example.org'},
@@ -973,6 +980,7 @@ export let db = {
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'owner-1@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
       _members: [
         {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
         {ext_id: 'owner-1@example.org', is_owner: false, is_manager: true},
@@ -1162,7 +1170,7 @@ export let db = {
   service_announcements: [
     {
       subject: 'Catalog announcement',
-      content: 'This is the content for login announcement',
+      content: 'This is the content for catalog announcement',
       level: 5,
       targets: 'catalog',
       is_enabled: true,
@@ -1171,9 +1179,9 @@ export let db = {
     },
     {
       subject: 'My workspace announcement',
-      content: 'This is the content for welcome announcement',
+      content: 'This is the content for my workspaces announcement',
       level: 5,
-      targets: 'myWorkspace',
+      targets: 'my-workspaces',
       is_enabled: true,
       is_public: true,
       created_ts: Date.now()/1000 - 3600,
