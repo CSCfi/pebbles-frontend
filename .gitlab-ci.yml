@@ -1,9 +1,9 @@
+---
 image: docker.io/library/node:18
 
 variables:
-  PRIVATE_IMAGE: $CI_DOCKER_REPOSITORY_PRIVATE/pebbles-frontend
-  PUBLIC_IMAGE: $CI_DOCKER_REPOSITORY_PUBLIC/pebbles-frontend
-  PUBLISH_IMAGE: $CI_DOCKER_REPOSITORY_PUBLISH/pebbles-frontend
+  KUBERNETES_MEMORY_REQUEST: "1Gi"
+  KUBERNETES_MEMORY_LIMIT: "1Gi"
 
 # cache setting, by default only pull files
 cache: &global_cache
@@ -23,6 +23,7 @@ stages:
   - mirroring
 
 static-analysis:
+  tags: ['new-runner']
   stage: static analysis
   needs: []
   cache:
@@ -44,12 +45,16 @@ static-analysis:
     - node_modules/.bin/linthtml .
 
 ng-build:
+  tags: ['new-runner']
   stage: build
   needs: []
   cache:
     # this task populates the cache, set the policy accordingly
     <<: *global_cache
     policy: pull-push
+  variables:
+    KUBERNETES_MEMORY_REQUEST: "3Gi"
+    KUBERNETES_MEMORY_LIMIT: "3Gi"
   script:
     # install npm packages, using cache as source. To speed things up for feature branches, use npm install to
     # make use of cached node_modules
@@ -64,12 +69,16 @@ ng-build:
 
 
 ng-test:
+  tags: ['new-runner']
   stage: test
   image: docker.io/trion/ng-cli-karma:16.2.9
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
     <<: *global_cache
+  variables:
+    KUBERNETES_MEMORY_REQUEST: "2Gi"
+    KUBERNETES_MEMORY_LIMIT: "2Gi"
   script:
     # check if ng client is already installed and create a symlink if needed
     - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
@@ -78,92 +87,36 @@ ng-test:
     - ng test --no-watch --no-progress --browsers=Chrome
 
 build-image:
+  tags: ['new-runner']
   stage: docker build
-  image: docker.io/library/docker:git
   needs: ['ng-build']
+  image:
+    name: gcr.io/kaniko-project/executor:v1.21.1-debug
+    entrypoint: [""]
   cache:
     # inherit all global cache settings
     <<: *global_cache
   script:
+    - ln -s /run/secrets/runner-job-secrets/docker_config_ci.json /kaniko/.docker/config.json
     # copy compiled application from cache to runtime image. This assumes cache accessible by all runners
     - echo "Going to build and push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}"
 
     # build the runtime image from files in 'dist/pebbles-frontend'
-    - docker build
-      --build-arg=APP_VERSION=$(date -Is)
-      --tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}
-      .
-      --file=deployment/Dockerfile.runtime
-    - docker push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/deployment/Dockerfile.runtime"
+      --destination "${CI_IMAGE_REPO_CI}/pebbles-frontend:${CI_COMMIT_REF_NAME}"
+      --build-arg APP_VERSION=$(date -Is)
+      ${CI_KANIKO_OPTIONS}
 
-    # push to public registry
-    - docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLIC_IMAGE}:${CI_COMMIT_REF_NAME}
-    - docker push ${PUBLIC_IMAGE}:${CI_COMMIT_REF_NAME}
-
-    # if we are on master branch, create master and versioned tags and also push to PUBLISH repo
-    - |
-      if [[ ${CI_COMMIT_REF_NAME} == 'master' ]]; then
-        echo "Tagging and publishing ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}:master"
-        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PRIVATE_IMAGE}:master
-        docker push ${PRIVATE_IMAGE}:master
-
-        # push to PUBLIC registry
-        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLIC_IMAGE}:master
-        docker push ${PUBLIC_IMAGE}:master
-
-        # push to PUBLISH registry
-        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLISH_IMAGE}:master
-        docker push ${PUBLISH_IMAGE}:master
-        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLISH_IMAGE}:latest
-        docker push ${PUBLISH_IMAGE}:latest
-
-        export IMAGE_TAG="${CI_COMMIT_REF_NAME}-$(date +%Y-%m-%d_%H%M)"
-        echo "Tagging and publishing ${PRIVATE_IMAGE}:${IMAGE_TAG}"
-        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PRIVATE_IMAGE}:${IMAGE_TAG}
-        docker push ${PRIVATE_IMAGE}:${IMAGE_TAG}
-
-        # push to PUBLIC registry
-        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLIC_IMAGE}:${IMAGE_TAG}
-        docker push ${PUBLIC_IMAGE}:${IMAGE_TAG}
-
-        # push to PUBLISH registry
-        docker tag ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME} ${PUBLISH_IMAGE}:${IMAGE_TAG}
-        docker push ${PUBLISH_IMAGE}:${IMAGE_TAG}
-      fi
-
-# call pipeline project for master changes to update QA
+# call pipeline project for 'main' branch changes to update QA
 ci-pipeline:
   stage: ci-pipeline
   needs: ['build-image']
-  variables:
-    ENV_NAME: "${CI_ENV_NAME}"
-    DEPROVISION_ENVIRONMENT: 1
-    ENV_NAME_QA: "${CI_ENV_NAME_QA}"
   trigger:
     project: pebbles/cicd-pipeline
-    branch: master
+    branch: main
     strategy: depend
   only:
     refs:
-      - master
-
-mirroring:
-  stage: mirroring
-  image: docker.io/library/python:3.8
-  variables:
-    GITHUB_MIRROR: git@github.com:CSCfi/pebbles-frontend.git
-  script:
-    - mkdir mirror_dir
-    - cd mirror_dir
-    - echo "cloning the gitlab.ci repo"
-    - git clone $CI_REPOSITORY_URL pebbles-frontend
-    - cd pebbles-frontend
-    - echo "pushing to github repo"
-    - git checkout master
-    - mkdir ~/.ssh
-    - echo -e "Host github.com\n    StrictHostKeyChecking no\n" >> ~/.ssh/config
-    - eval `ssh-agent -s`
-    - ssh-agent bash -c 'ssh-add /root/ssh/pebbles-frontend-key/id_rsa; git push $GITHUB_MIRROR master'
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
-
+      - main
