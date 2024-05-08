@@ -106,7 +106,7 @@ build-image:
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/deployment/Dockerfile.runtime"
       --destination "${CI_IMAGE_REPO_CI}/pebbles-frontend:${CI_COMMIT_REF_NAME}"
-      --build-arg APP_VERSION=$(date -Is)
+      --build-arg PB_APP_VERSION=$(date -Is)
       ${CI_KANIKO_OPTIONS}
 
 # call pipeline project for 'main' branch changes to update QA

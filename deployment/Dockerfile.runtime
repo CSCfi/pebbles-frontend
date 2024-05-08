@@ -1,6 +1,9 @@
 FROM docker.io/bitnami/nginx:1.23
 LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
-ARG APP_VERSION="not-set"
+ARG PB_APP_VERSION="not-set"
+
+# display app version in build logs
+RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
 
 # copy compiled application
 COPY dist/pebbles-frontend /app
@@ -10,6 +13,6 @@ COPY deployment/nginx_angular.conf /opt/bitnami/nginx/conf/bitnami/nginx_angular
 
 # stamp with given application version
 USER root
-RUN echo "{\"appVersion\": \"$APP_VERSION\"}" > /app/app-version.json
+RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > /app/app-version.json
 
 USER 1001

@@ -1,6 +1,9 @@
 # Stage one: build
 FROM docker.io/library/node:18-bullseye as build-stage
-ARG APP_VERSION="not-set"
+ARG PB_APP_VERSION="not-set"
+
+# display app version in build logs
+RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
 
 WORKDIR /usr/src/app
 COPY . .
@@ -11,7 +14,7 @@ RUN npm run-script build:prod
 RUN if [ -d extra_content ]; then cp -rv extra_content/* dist/pebbles-frontend/; fi
 
 # stamp with given application version
-RUN echo "{\"appVersion\": \"$APP_VERSION\"}" > dist/pebbles-frontend/app-version.json
+RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > dist/pebbles-frontend/app-version.json
 
 #-----------------------------------------------------------------------------
 
