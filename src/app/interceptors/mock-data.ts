@@ -1317,5 +1317,8 @@ export let db = {
       value: 'http://link-to-service-documentation'
     },
   ],
+  structured_config: {
+    frontend: {}
+  },
   status: 'warning'
 };

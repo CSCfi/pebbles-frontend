@@ -9,15 +9,17 @@ import { buildConfiguration } from '../../environments/environment';
 })
 export class PublicConfigService {
   private publicConfig: Map<string, string> = null;
+  private publicStructuredConfig: any = null;
 
   constructor(
     private http: HttpClient
   ) {
     this.fetchPublicConfig().subscribe();
+    this.fetchPublicStructuredConfig().subscribe();
   }
 
-  getPublicConfig(): Map<string, string> {
-    return this.publicConfig;
+  getPublicStructuredConfig(): any {
+    return this.publicStructuredConfig;
   }
 
   getInstallationName(): string {
@@ -112,7 +114,8 @@ export class PublicConfigService {
   }
 
   getPublicApplicationAccessNote(): string {
-    return this.publicConfig?.get('PUBLIC_APPLICATION_ACCESS_NOTE');
+    const res = this.getPublicStructuredConfig()?.frontend?.publicApplicationAccessNote;
+    return res ? res : 'Public applications are not available for the current user.';
   }
 
   fetchPublicConfig(): Observable<any> {
@@ -123,6 +126,15 @@ export class PublicConfigService {
         for (const entry of res) {
           this.publicConfig.set(entry.key, entry.value);
         }
+      })
+    );
+  }
+
+  fetchPublicStructuredConfig(): Observable<any> {
+    const url = `${buildConfiguration.apiUrl}/structured_config`;
+    return this.http.get(url).pipe(
+      tap(res => {
+        this.publicStructuredConfig = res;
       })
     );
   }

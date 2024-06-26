@@ -145,9 +145,10 @@ export class MainCatalogComponent implements OnInit {
     return this.applications?.filter(x => x.workspace_name.startsWith('System.')).length;
   }
 
-  getPublicApplicationAccessNote() {
+  getPublicApplicationAccessNote(): string|null {
     if (this.applications !== null && !this.getNumPublicApplications()) {
       return this.publicConfigService.getPublicApplicationAccessNote();
     }
+    return null;
   }
 }

@@ -32,18 +32,17 @@
                 <app-main-application-item [application]="application" [context]="context">
                 </app-main-application-item>
               </ng-container>
-              <div *ngIf="getPublicApplicationAccessNote()" class="no-public-applications">
-                <div class="no-public-applications-divider">...</div>
-                <div class="no-public-applications-card">
-                  <div class="no-public-applications-icon">
-                    <fa-icon icon="chart-column"></fa-icon>
-                    <fa-icon icon="circle-nodes"></fa-icon>
-                    <fa-icon icon="atom"></fa-icon>
-                  </div>
-                  <div class="no-public-applications-text" [innerHTML]="getPublicApplicationAccessNote()"></div>
+            </div>
+            <div *ngIf="getPublicApplicationAccessNote()" class="no-public-applications">
+              <div class="no-public-applications-divider">...</div>
+              <div class="no-public-applications-card">
+                <div class="no-public-applications-icon">
+                  <fa-icon icon="chart-column"></fa-icon>
+                  <fa-icon icon="circle-nodes"></fa-icon>
+                  <fa-icon icon="atom"></fa-icon>
                 </div>
+                <div class="no-public-applications-text" [innerHTML]="getPublicApplicationAccessNote()"></div>
               </div>
-
             </div>
             <ng-template #noApplicationBlock>
               <section class="status-info-container">
