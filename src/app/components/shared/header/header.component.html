@@ -1,33 +1,40 @@
-<mat-toolbar-row id="header" role="heading"
-                 [ngClass]="'container__'+displayMode" ngClass.lt-sm="mobile">
-  <!-- Logo -->
-  <a [routerLink]="['/welcome']" class="logo no-u-line"
-     [ngClass]="('mat-display-'+logoTypeSize)">
-    <div class="logo__mark csc-logo">
-      <img src="assets/images/logo/csc_logo.svg" alt="csc-logo" [width]="logoMarkSize">
-    </div>
-    <div class="logo__type">
-      {{ publicConfigService.getInstallationName() }}
-      <span class="owner mat-headline-4">{{ publicConfigService.getInstallationDomain() }}</span>
-    </div>
-  </a>
-  <!-- Navigation -->
-  <ul class="navbar mat-headline-3 no-u-line mb-10 mt-10"
-      *ngIf="isNaviVisible">
-    <li>
-      <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank" rel="noopener">
-        Documentation
-      </a>
-    </li>
-    <li>
-      <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">
-        Terms & Pricing
-      </a>
-    </li>
-    <li>
-      <a [href]="publicConfigService.getAccessibilityStatementUrl()" target="_blank" rel="noopener">
-        Accessibility
-      </a>
-    </li>
-  </ul>
-</mat-toolbar-row>
+<header class="site-header">
+  <div class="site-header-wrapper">
+    <!-- Brand -->
+    <a class="brand" [routerLink]="['/welcome']">
+      <div class="site-logo">
+        <img src="assets/images/logo/site-logo.svg" alt="site-logo"
+             [width]="logoMarkSize" height="371">
+      </div>
+      <h1 class="site-name">
+        {{ publicConfigService.getInstallationName() }}
+        <h5 class="owner-name">
+          {{ publicConfigService.getInstallationDomain() }}
+        </h5>
+      </h1>
+    </a>
+
+    <!-- Landing page navigation -->
+    <nav class="nav">
+      <input type="checkbox" id="toggle-nav" checked>
+      <label class="toggle-nav-label button" for="toggle-nav">menu</label>
+      <ul class="nav-wrapper">
+        <li>
+          <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank" rel="noopener">
+            Documentation
+          </a>
+        </li>
+        <li>
+          <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">
+            Terms & Pricing
+          </a>
+        </li>
+        <li>
+          <a [href]="publicConfigService.getAccessibilityStatementUrl()" target="_blank" rel="noopener">
+            Accessibility
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

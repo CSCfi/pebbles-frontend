@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {Component, inject, model, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Data, Router } from '@angular/router';
@@ -17,16 +17,21 @@ export class WelcomePageComponent implements OnInit {
 
   public context: Data;
   public loginFormGroup: UntypedFormGroup;
-  @ViewChild('specialLoginDialog') specialLoginDialog: TemplateRef<any>;
+
   @ViewChild('specialLoginDialogTerms') specialLoginDialogTerms: TemplateRef<any>;
+
   private dialogRef: MatDialogRef<any>;
   private dialogRefTerms: MatDialogRef<any>;
+
+  @ViewChild('specialLoginDialog') specialLoginDialog: TemplateRef<any>;
+  readonly ext_id = model('');
+  readonly password = model('');
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private formBuilder: UntypedFormBuilder,
-    private dialog: MatDialog,
     private authService: AuthService,
     public publicConfigService: PublicConfigService,
     private systemNotificationService: SystemNotificationService,
@@ -39,34 +44,46 @@ export class WelcomePageComponent implements OnInit {
       this.context = data;
     });
 
-    this.loginFormGroup = this.formBuilder.group({
-      ext_id: ['', [Validators.required]],
-      password: ['', [Validators.required]]
-    });
+    // this.loginFormGroup = this.formBuilder.group({
+    //   ext_id: ['', [Validators.required]],
+    //   password: ['', [Validators.required]]
+    // });
 
     // public service announcements do not need authentication, fetch them right away
     this.serviceAnnouncementService.fetchPublicServiceAnnouncements().subscribe();
   }
 
+  openSpecialLoginDialog(): void {
+    const dialogRef = this.dialog.open(this.specialLoginDialog, {
+      height: 'auto',
+      width: '400px',
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result !== undefined) {
+        this.ext_id.set(result.ext_id);
+        this.password.set(result.password);
+        this.onLogin();
+      }
+    });
+  }
+
   onLogin(): void {
-    const ext_id = this.loginFormGroup.controls.ext_id.value.trim();
-    const password = this.loginFormGroup.controls.password.value.trim();
-    this.authService.login(ext_id, password).pipe(
+    this.authService.login(this.ext_id(), this.password()).pipe(
       tap(session => {
         if (!session.terms_agreed) {
-          this.dialogRef.close();
           this.openSpecialLoginDialogTerms();
           return;
         }
         localStorage.setItem('token', btoa(session.token + ':'));
         localStorage.setItem('user_id', session.user_id);
-        localStorage.setItem('user_name', ext_id);
+        localStorage.setItem('user_name', this.ext_id());
         localStorage.setItem('is_admin', session.is_admin);
         localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
         localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
         localStorage.setItem('is_sidenav_open', 'true');
-
-        this.dialogRef.close();
         this.router.navigateByUrl('/main').then();
       }),
       catchError(err => {
@@ -79,14 +96,12 @@ export class WelcomePageComponent implements OnInit {
   }
 
   onTermsAgree(): void {
-    const ext_id = this.loginFormGroup.controls.ext_id.value;
-    const password = this.loginFormGroup.controls.password.value;
     const agreement_sign: string = 'signed';
-    this.authService.login(ext_id, password, agreement_sign).pipe(
+    this.authService.login(this.ext_id(), this.password(), agreement_sign).pipe(
       tap(session => {
         localStorage.setItem('token', btoa(session.token + ':'));
         localStorage.setItem('user_id', session.user_id);
-        localStorage.setItem('user_name', ext_id);
+        localStorage.setItem('user_name', this.ext_id());
         localStorage.setItem('is_admin', session.is_admin);
         localStorage.setItem('is_workspace_owner', session.is_workspace_owner);
         localStorage.setItem('is_workspace_manager', session.is_workspace_manager);
@@ -103,19 +118,17 @@ export class WelcomePageComponent implements OnInit {
     ).subscribe();
   }
 
-  openSpecialLoginDialog(): void {
-    this.dialogRef = this.dialog.open(this.specialLoginDialog, {
-      height: 'auto',
-      width: '400px',
-      autoFocus: false
-    });
-  }
-
   openSpecialLoginDialogTerms(): void {
     this.dialogRefTerms = this.dialog.open(this.specialLoginDialogTerms, {
       height: 'auto',
       width: '400px',
       autoFocus: false
+    });
+    this.dialogRefTerms.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result !== undefined) {
+        this.onTermsAgree();
+      }
     });
   }
 }

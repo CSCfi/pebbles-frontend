@@ -1,56 +1,70 @@
-<div id="welcome-page-wrapper" class="container__screen bg__primary">
-  <app-header [isNaviVisible]="true"
-              [logoMarkSize]="80" [logoTypeSize]="4" [displayMode]="'cutout'"
-              class="mt-40 mb-50 app-header pl-20 pr-20">
+<div id="welcome-page" class="bg__dark page-wrapper">
+
+  <div class="background">
+    <div class="bg-pattern-1">
+      <img ngSrc="assets/images/bg_pattern.svg" alt="company brand Pattern" height="309" width="307">
+    </div>
+    <div class="bg-pattern-2">
+      <img ngSrc="assets/images/bg_pattern.svg" alt="company brand Pattern" height="309" width="307">
+    </div>
+  </div>
+
+  <app-header class="app-header"
+              [isNaviVisible]="true"
+              [logoMarkSize]="80"
+              [logoTypeSize]="2.2">
   </app-header>
-  <div class="main-content ml-20 mr-20">
+
+  <div class="main-content">
     <!--  Service Announcement 'welcome'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
 
-    <div id="jumbotron" role="main" ngClass.gt-xs="mt-75" ngClass.lt-sm="mt-15">
+    <div id="jumbotron" role="main">
       <app-welcome-login [context]="context" (emitSpecialLogin)="openSpecialLoginDialog()"></app-welcome-login>
-    </div>
-    <div class="bg-pattern-1">
-      <img class="csc-img-1" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
-    </div>
-    <div class="bg-pattern-2">
-      <img class="csc-img-2" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
     </div>
   </div>
   <app-footer [context]="context"></app-footer>
 </div>
+
 <ng-template #specialLoginDialog>
-  <form class="special-login-form grid-row" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup">
-    <mat-form-field appearance="outline">
+  <h2 mat-dialog-title>Special Login</h2>
+  <mat-dialog-content>
+    <mat-form-field>
       <mat-label>Email</mat-label>
-      <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">
+      <input matInput [(ngModel)]="ext_id" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Password</mat-label>
-      <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
+      <input matInput [(ngModel)]="password" [type]="'password'" />
     </mat-form-field>
-    <button id="special-login-submit-button" class="mt-10" mat-flat-button color="primary">
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="{ext_id: ext_id(), password: password()}" cdkFocusInitial>
       Submit
     </button>
-  </form>
+  </mat-dialog-actions>
 </ng-template>
+
 <ng-template #specialLoginDialogTerms>
-  <div class="form-container centered grid-row">
-    <div class="header">
-      <img src="{{ publicConfigService.getAgreementLogoPath() }}" alt="logo" />
-      <h1>{{ publicConfigService.getAgreementTitle() }}</h1>
-    </div>
-    <form class="special-login-form" (ngSubmit)="onTermsAgree()" [formGroup]="loginFormGroup">
-      <p>Before continuing, you need to agree to our
-        <a href="{{ publicConfigService.getTermsOfUseUrl() }}" rel="noopener" target="_blank"> Terms of Use, </a>
-          including sections concerning use of
-        <a href="{{ publicConfigService.getCookiesPolicyUrl() }}" rel="noopener" target="_blank"> Cookies </a>
-          on this site and
-        <a href="{{ publicConfigService.getPrivacyPolicyUrl() }}" rel="noopener" target="_blank"> Privacy Policy.</a>
-      </p>
-      <button mat-flat-button color="primary">
-          Agree & Continue
-      </button>
-    </form>
-  </div>
+  <img ngSrc="{{ publicConfigService.getAgreementLogoPath() }}" alt="logo" />
+  <h2 mat-dialog-title>{{ publicConfigService.getAgreementTitle() }}</h2>
+  <mat-dialog-content>
+    <p>Before continuing, you need to agree to our
+      <a href="{{ publicConfigService.getTermsOfUseUrl() }}" rel="noopener" target="_blank">
+        Terms of Use,
+      </a>
+      including sections concerning use of
+      <a href="{{ publicConfigService.getCookiesPolicyUrl() }}" rel="noopener" target="_blank"> Cookies </a>
+      on this site and
+      <a href="{{ publicConfigService.getPrivacyPolicyUrl() }}" rel="noopener" target="_blank"> Privacy Policy.</a>
+    </p>
+    <button mat-button>
+      Agree & Continue
+    </button>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button cdkFocusInitial>
+      Submit
+    </button>
+  </mat-dialog-actions>
 </ng-template>

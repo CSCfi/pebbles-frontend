@@ -1,35 +1,82 @@
-//@import "src/styles/main.scss";
+@import "src/styles/main.scss";
 
-#welcome-page-wrapper {
+.page-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+
+  .app-header {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    min-height: 50px;
+    width: 100%;
+    height: 50px;
+    z-index: 1000;
+    padding: 0 20px;
+  }
 
   .main-content {
-    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 50px);
+    margin-bottom: 50px;
+    padding: 0 20px;
+    z-index: 1000;
 
     app-service-announcement {
       ::ng-deep.service-announcement-item {
         margin-top: 20px !important;
         margin-left: auto;
         margin-right: auto;
-        max-width: 1200px;
+        max-width: $content-max-width;
       }
     }
   }
+
+  app-footer {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    z-index: 1000;
+  }
 }
 
-.app-header {
-  min-height: 50px;
-  z-index: 1000;
+.mat-mdc-form-field {
+  display: flex;
+  flex-direction: column;
 }
 
-app-footer {
-  min-height: 230px;
+.mat-mdc-dialog-content {
+  padding-bottom: 5px !important;
 }
 
-.main-content {
-  flex: 1;
-  position: relative;
+.mat-mdc-dialog-actions {
+  padding:  5px 20px 30px;
+
+  button {
+    width: 100%;
+  }
+}
+
+.special-login-form {
+  z-index: 9999;
+}
+
+// ----- LAPTOP
+@media (max-width: 600px) {
+  .background {
+    display: block;
+    position: absolute;
+    top: 0;
+  }
+}
+
+// ----- MOBILE
+@media (max-width: 599px) {
+  .background{
+    display: none;
+  }
 }
 
 .bg-pattern-1,
@@ -39,7 +86,7 @@ app-footer {
 }
 
 .bg-pattern-1 {
-  bottom: 0;
+  bottom: -170px;
   left: -20px;
 }
 
@@ -47,28 +94,4 @@ app-footer {
   top: -90px;
   right: -20px;
   transform: scale(-1, -1);
-}
-
-.header {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: center;
-}
-
-.header img {
-  width: 100px;
-  height: auto;
-}
-
-.header h1 {
-  letter-spacing: 0.03em;
-  margin: 5px auto;
-  position: absolute;
-  top: auto;
-  left: 47%;
-}
-
-.special-login-form {
-  z-index: 9999;
 }

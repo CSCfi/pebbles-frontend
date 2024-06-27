@@ -1,37 +1,96 @@
 @import "src/styles/main.scss";
 
-#header {
-  height: map-deep-get($layout-set, shared, header, h);
-  display: grid;
-  grid-template-columns: max-content max-content;
-  grid-column-gap: 20px;
-  align-items: center;
+.site-header {
+  height: inherit;
+}
+
+.site-header-wrapper {
+  position: relative;
+  height: inherit;
+  max-width: $content-max-width;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
   justify-content: space-between;
+  align-items: center;
+  z-index: 10000;
 
-  &.container__fluid {
-    padding: 6px 20px;
 
-    .logo__mark {
-      margin-top: 5px;
-      grid-template-columns: max-content;
+  .brand {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 2rem;
+
+    .site-name {
+      .owner-name {
+
+      }
     }
   }
 
-  .course-request-button {
-    border: #fff 2px solid;
+}
+
+// ----- Laptop
+
+@media (min-width: 600px) {
+  .site-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  .navbar {
-    display: grid;
-    grid-column-gap: 16px;
-    grid-template-columns: repeat(3, max-content);
+  #toggle-nav,
+  .toggle-nav-label {
+    display: none;
+  }
+
+  .nav-wrapper {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
-#header.mobile {
-  margin-bottom: 20px;
+// ----- MOBILE
 
-  .navbar {
+@media (max-width: 599px) {
+
+  .toggle-nav-label {
+    visibility: visible !important;
+    background: #b6beff;
+    color: #18227c;
+    padding: 5px 10px;
+  }
+
+  .nav-wrapper {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 70px;
+    padding: 10px 10px 10px 10px;
+    background: #b6beff;
+
+    li {
+      color: #18227c;
+      margin-bottom: 10px;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  #toggle-nav:checked + .toggle-nav-label + .nav-wrapper {
     display: none;
+  }
+
+  #toggle-nav + .toggle-nav-label + .nav-wrapper {
+    display: block;
   }
 }

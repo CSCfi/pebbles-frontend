@@ -2,11 +2,3 @@
 @import './style-constants';
 // global mixins
 @import './style-mixins';
-
-// ---- Mat-Typography
-// ----------------------------------------
-.mat-headline-5-4, .mat-headline-3, .mat-headline-2, .mat-headline-1,
-.mat-headline, .mat-headline-6, .mat-body-1, .mat-subtitle-1,
-.mat-mdc-button, .mat-subtitle-2, .mat-body-2 {
-  margin-bottom: 0;
-}

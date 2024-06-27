@@ -9,9 +9,9 @@ import { PublicConfigService } from '../../../services/public-config.service';
 export class HeaderComponent {
 
   @Input() isNaviVisible: boolean;
-  @Input() logoTypeSize: number;
+  @Input() logoTypeSize: number; // -- need?
   @Input() logoMarkSize: number;
-  @Input() displayMode: string;
+  @Input() displayMode: string; // -- need?
 
   constructor(
     public publicConfigService: PublicConfigService,

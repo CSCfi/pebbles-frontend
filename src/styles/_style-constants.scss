@@ -9,14 +9,32 @@ $font-families: (
 // ---- Color
 // ----------------------------------------
 
+$light-text: white;
+$dark-text: rgba(#2f3538, 0.87);
+
+$primary-color: #18227c;
+$primary-dark-color: #14144b;
+$secondary-color: #00969a;
+$accent-color: #ccff65;
+$warn-color: #ffa494;
+
+$light-text-color: #ffffff;
+$dark-text-color: rgba(#2f3538, 0.87);
+$primary-text-color: #14144b;
+$secondary-text-color: #006778;
+$accent-text-color: #ccff65;
+$warn-color: #fc614d;
+
+// ---- Layout
+// ----------------------------------------
+$content-max-width: 1200px;
+
 $app-transparent: (
   default: rgb(255, 255, 255, 0),
   light: rgb(255, 255, 255, .1),
   dark: rgb(0, 0, 0, .1),
 );
 
-$light-text: white;
-$dark-text: rgba(#2f3538, 0.87);
 
 $app-gray: (
   default: #9e9e9e,

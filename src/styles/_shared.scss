@@ -1,0 +1,70 @@
+@import "src/styles/main.scss";
+
+html {
+  height: 100%;
+  font-family: "Open Sans", sans-serif;
+  @include common-font;
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font-size: 1.5rem;
+  line-height: 160%;
+}
+
+.bg__dark {
+  color: #ffffffff;
+  background-color: #18227cff;
+}
+
+.bg__light {
+  background: #b6beff;
+  color: #18227c;
+}
+
+button,
+.button {
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 10px;
+  background-color: $primary-color !important;
+  color: $light-text-color !important;
+
+  &.primary {
+    background-color: $secondary-color !important;
+    color: $light-text-color !important;
+
+    &:hover {
+      color: $accent-color !important;
+    }
+  }
+}
+
+a:hover,
+button:hover,
+.button:hover {
+  color: $accent-color;
+}
+
+form {
+  padding: 30px;
+}
+
+h1 {
+  @include headline-1;
+}
+h2 {
+  @include headline-2;
+}
+h3 {
+  @include headline-3;
+}
+h4 {
+  @include headline-4;
+}
+h5 {
+  @include headline-5;
+}
+

@@ -1,7 +1,34 @@
 @import "src/styles/main.scss";
 
-.container {
-  position: relative;
+.background-images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+
+  .app-welcome-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+.welcome-content-wrapper {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: $content-max-width;
+  margin: 20px auto;
+}
+
+app-service-announcement {
+  ::ng-deep.service-announcement-item {
+    margin-top: 10px !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .service-announcement {
@@ -11,125 +38,96 @@
   border-radius: 5px;
 }
 
-.content-wrapper {
-  grid-template-columns: auto 650px;
+.left-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  max-width: 500px;
 
   .login-wrapper {
-    display: grid;
-    grid-template-rows: max-content max-content max-content max-content;
-
-    #oauth-login-button {
-      width: 100%;
-    }
-
-    #hero-shots {
-      box-sizing: border-box;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 
-
-
-  app-service-announcement {
-    ::ng-deep.service-announcement-item {
-      margin-top: 10px !important;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-}
-
-.app-welcome-background {
-  position: absolute;
-  width: 100%;
-  height: 600px;
-  top: 0;
-  left: 0;
-}
-
-
-.hero-video {
-  position: relative;
-  max-width: 650px;
-  margin-bottom: 200px;
-
-  video {
+  #oauth-login-button {
     width: 100%;
-    border: 1px solid map-get($app-primary, 600);
-    box-shadow: 5px 6px 5px rgba(20, 20, 75, .8);
-    border-radius: 12px;
+    height: 60px;
+    color: #ffffff;
+    text-align: center;
+    background-color: #00969a;
+    border-radius: 3px;
+    padding: 5px;
   }
-}
 
-#special-login-button {
-  margin-bottom: 20px !important;
-  justify-self: center;
-  align-self: center;
-}
-
-.hero-images {
-  position: relative;
-  z-index: 1000;
-  max-width: 650px;
-  min-height: 400px;
-  height: auto;
-  overflow: hidden;
-
-  border-radius: 6px;
-  //border: 3px solid #FFFFFF;
-
-  .image-container {
-    position: absolute;
+  #special-login-button {
     width: 100%;
-    opacity: 0;
-    top: 0;
+    @include headline-5;
+    @include center(both);
+  }
+}
 
-    &:first-child {
-      position: relative;
-    }
+#hero-shots {
+  position: relative;
 
-    img {
+  .hero-video {
+    video {
       width: 100%;
+      border: 1px solid map-get($app-primary, 600);
+      box-shadow: 5px 6px 5px rgba(20, 20, 75, .8);
+      border-radius: 12px;
     }
   }
 }
 
-.control-buttons {
 
-  display: flex;
-	flex-direction: row;
-  justify-content: center;
+// ----- Laptop
 
-  button {
-    width: 10px;
-    height: 10px;
-    background: white;
+@media (min-width: 600px) {
+  .welcome-content-wrapper {
+    flex-direction: row;
+    //flex-wrap: wrap;
+    align-items: flex-start;
+  }
 
-    &:hover {
-      background: map-get($app-warn, default);
-    }
+  .login-wrapper {
+    //flex-basis: 30%;
+    flex: 1;
+  }
 
-    &.focus {
-      background: map-get($app-secondary, default);
+  #hero-shots {
+    z-index: 500;
+    flex-basis: auto;
+    max-width: 700px;
 
-      &:hover {
-        background: map-get($app-warn, default);
+    .hero-video{
+      height: inherit;
+
+      video{
+        height: inherit;
       }
     }
   }
+
+  .background-images {
+    display: block;
+  }
 }
 
-.tablet.container {
-  .content-wrapper {
-    grid-template-columns: auto !important;
-    grid-template-rows: auto auto !important;
+// ----- MOBILE
 
-    .login-wrapper {
-      margin-right: 0 !important;
-    }
+@media (max-width: 599px) {
+  .welcome-content-wrapper {
+    flex-direction: column;
+  }
 
-    .hero-video {
-      margin: auto !important;
-      z-index: 2000;
-    }
+  .login-wrapper,
+  #hero-shots {
+    width: 100%;
+  }
+
+  .background-images {
+    display: none;
   }
 }
