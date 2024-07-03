@@ -17,36 +17,67 @@
   <svg class="cube-green"
        viewBox="0 0 250 250"
        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- 1st -->
-    <use xlink:href="#cube" x="121" y="112"/>
-    <use xlink:href="#cube" x="100" y="118"/>
-    <use xlink:href="#cube" x="142" y="118"/>
-    <use class="move-down" xlink:href="#cube" x="121" y="184"/><!--  down  -->
-    <use class="move-left" xlink:href="#cube" x="34" y="124"/><!--  left  -->
-    <use xlink:href="#cube" x="163" y="124"/>
-    <use xlink:href="#cube" x="142" y="130"/>
-    <use class="move-down" xlink:href="#cube" x="100" y="130"/>
+
+    <!-- 1st body-layer / foot -->
+    <use xlink:href="#cube" x="56" y="194"/>
+    <use xlink:href="#cube" x="184" y="194"/>
+    <use xlink:href="#cube" x="121" y="212"/>
+    <!-- 2nd body-layer / right body -->
+    <use xlink:href="#cube" x="163" y="164"/>
+    <use xlink:href="#cube" x="184" y="170"/>
+    <!-- 2nd body-layer / center body -->
+    <use xlink:href="#cube" x="78" y="164"/>
+    <use xlink:href="#cube" x="56" y="170"/>
+    <use xlink:href="#cube" x="142" y="182"/>
+    <use xlink:href="#cube" x="121" y="176"/>
+    <use xlink:href="#cube" x="163" y="176"/>
+    <use xlink:href="#cube" x="142" y="182"/>
+    <use xlink:href="#cube" x="100" y="170"/>
+    <!-- 2nd body-layer / left body -->
+    <use xlink:href="#cube" x="56" y="170"/>
+    <use xlink:href="#cube" x="78" y="176"/>
+    <use xlink:href="#cube" x="100" y="182"/>
+    <use xlink:href="#cube" x="121" y="188"/>
+
+    <!-- neck -->
+    <use xlink:href="#cube" x="100" y="146"/>
+    <use xlink:href="#cube" x="142" y="146"/>
+    <use xlink:href="#cube" x="121" y="152"/>
+
+    <!-- 1st head-layer / face -->
+    <use xlink:href="#cube" x="78" y="124"/>
+    <use xlink:href="#cube" x="100" y="130"/>
     <use xlink:href="#cube" x="121" y="136"/>
-    <!-- 2nd -->
-    <use xlink:href="#cube" x="121" y="88"/>
-    <use xlink:href="#cube" x="100" y="94"/>
-    <use xlink:href="#cube" x="142" y="94"/>
-    <use xlink:href="#cube" x="121" y="100"/>
-    <use xlink:href="#cube" x="79" y="100"/>
-    <use class="move-right" xlink:href="#cube" x="163" y="100"/>
+    <!-- 2nd head-layer / face -->
+    <use xlink:href="#cube" x="184" y="92"/>
     <use xlink:href="#cube" x="142" y="106"/>
+    <use xlink:href="#cube" x="78" y="100"/>
     <use xlink:href="#cube" x="100" y="106"/>
     <use xlink:href="#cube" x="121" y="112"/>
-    <!-- 3rd -->
+    <!-- 3rd head-layer / face -->
+    <use xlink:href="#cube" x="163" y="64"/>
+    <use xlink:href="#cube" x="184" y="70"/>
     <use xlink:href="#cube" x="121" y="64"/>
-    <use class="move-up" xlink:href="#cube" x="100" y="35"/>
+    <use xlink:href="#cube" x="78" y="76"/>
+    <use xlink:href="#cube" x="100" y="70"/>
     <use xlink:href="#cube" x="142" y="70"/>
     <use xlink:href="#cube" x="121" y="76"/>
-    <use class="move-left" xlink:href="#cube" x="79" y="76"/>
-    <use class="move-right" xlink:href="#cube" x="198" y="76"/>
+    <use xlink:href="#cube" x="163" y="76"/>
     <use xlink:href="#cube" x="142" y="82"/>
     <use xlink:href="#cube" x="100" y="82"/>
     <use xlink:href="#cube" x="121" y="88"/>
+    <!-- 1st head-layer / nose -->
+    <use xlink:href="#cube" x="184" y="130"/>
+    <use xlink:href="#cube" x="163" y="136"/>
+    <!-- 2rd head-layer / nose -->
+    <use xlink:href="#cube" x="184" y="106"/>
+    <use xlink:href="#cube" x="163" y="112"/>
+    <!-- 1.5th head-layer / nose top -->
+    <use xlink:href="#cube" x="192" y="122"/>
+    <!-- 4th head-layer / ear -->
+    <use xlink:href="#cube" x="142" y="34"/>
+    <use xlink:href="#cube" x="78" y="52"/>
+
   </svg>
 </div>
 <div id="right-cube-1" *ngIf="cube===1">
