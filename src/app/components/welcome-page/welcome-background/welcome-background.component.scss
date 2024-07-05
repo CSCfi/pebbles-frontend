@@ -5,6 +5,7 @@
     width: 21px;
     height: 24px;
   }
+
   &__upper {
     width: 21px;
     height: 21px;
@@ -24,6 +25,7 @@
   left: 0;
   top: 470px;
   opacity: 0.7;
+  z-index: 3000;
 
   svg {
     width: 210px;
@@ -67,7 +69,8 @@
   rect {
     fill-opacity: .7;
   }
-  stroke-miterlimit:0;
+
+  stroke-miterlimit: 0;
 }
 
 .cube-blue {
@@ -89,23 +92,93 @@
   --lightColor: #00EAC3;
   --darkColor: #006778;
 }
+@keyframes static {
+  100% {
+    translate: 0px 0px;
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    rotate: 0deg;
+    translate: 0px 0px;
+  }
+  12% {
+    translate: 8px -2px;
+  }
+  25% {
+    translate: 10px 0px;
+  }
+  38% {
+    translate: 8px -2px;
+  }
+  50% {
+    translate: 0px 0px;
+  }
+  62% {
+    translate: -8px 2px;
+  }
+  75% {
+    translate: -10px 5px;
+  }
+  87% {
+    translate: -8px 2px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}
+
+.wiggle {
+  animation-name: static;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
 
 @keyframes moveX {
-  to { transform: translateX(var(--translate, 35px)); }
+  to {
+    transform: translateX(var(--translate, 35px));
+  }
 }
+
 @keyframes moveY {
-  to { transform: translateY(var(--translate, -35px)); }
+  to {
+    transform: translateY(var(--translate, -35px));
+  }
 }
 
 .move-left, .move-right {
   animation: 1s moveX alternate infinite paused;
 }
+
 .move-up, .move-down {
   animation: 1s moveY alternate infinite paused;
 }
-.move-left { --translate: -10px; }
-.move-right { --translate: 10px; }
-.move-up { --translate: -20px; }
-.move-down { --translate: 20px; }
 
-svg:hover * { animation-play-state: running; }
+.move-left {
+  --translate: -10px;
+}
+
+.move-right {
+  --translate: 10px;
+}
+
+.move-up {
+  --translate: -20px;
+}
+
+.move-down {
+  --translate: 20px;
+}
+
+#right-cube-1:hover * {
+  animation-play-state: running;
+}
+
+#left-cube-0:hover * {
+  animation-play-state: running;
+  animation-name: wiggle;
+}
+
