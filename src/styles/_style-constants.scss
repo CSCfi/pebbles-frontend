@@ -27,7 +27,9 @@ $warn-color: #fc614d;
 
 // ---- Layout
 // ----------------------------------------
-$content-max-width: 1200px;
+$content-max-width: 1250px;
+$main-navigation-width: 250px;
+$main-navigation-minimized-width: 82px;
 
 $app-transparent: (
   default: rgb(255, 255, 255, 0),

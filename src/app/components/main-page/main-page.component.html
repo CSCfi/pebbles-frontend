@@ -1,35 +1,32 @@
-<mat-sidenav-container ngClass.lt-sm="mobile">
+<mat-sidenav-container>
   <!-- SideNav Area -->
-  <mat-sidenav #sidenav opened mode="side"
-               disableClose="true"
-               [ngClass]="{'minimize':!isSideNavOpen}">
-    <app-main-nav class="sidebar" (toggleSideNavEvent)="toggleSideNav()"
-                  [isSideNavOpen]="isSideNavOpen">
+  <mat-sidenav #sidenav opened mode="side" disableClose="true" [ngClass]="{'minimize':!isSideNavOpen}">
+    <app-main-nav class="sidebar" (toggleSideNavEvent)="toggleSideNav()" [isSideNavOpen]="isSideNavOpen">
     </app-main-nav>
   </mat-sidenav>
   <!-- Main Page Area -->
-  <mat-sidenav-content id="sidenav-content" [ngClass]="{'expanded':!isSideNavOpen}" [ngClass.lt-sm]="'lt-sm'">
+  <mat-sidenav-content id="sidenav-content" [ngClass]="{'expanded':!isSideNavOpen}">
     <!-- Mobile mode : Header  -->
-    <mat-toolbar color="primary">
-      <a class="logo mat-headline-2" [routerLink]="['/main/catalog']">
-        <div class="logo__mark">
-          <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
-        </div>
-        <div class="logo__type">
-          Notebooks
-        </div>
-      </a>
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <app-main-nav [isSideNavOpen]="true">
-        </app-main-nav>
-      </mat-menu>
-    </mat-toolbar>
+    <!--    <mat-toolbar>-->
+    <!--      <a class="logo" [routerLink]="['/main/catalog']">-->
+    <!--        <div class="logo__mark">-->
+    <!--          <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>-->
+    <!--        </div>-->
+    <!--        <div class="logo__type">-->
+    <!--          Notebooks-->
+    <!--        </div>-->
+    <!--      </a>-->
+    <!--      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">-->
+    <!--        <mat-icon fontSet="material-icons-outlined">menu</mat-icon>-->
+    <!--      </button>-->
+    <!--      <mat-menu #menu="matMenu">-->
+    <!--        <app-main-nav [isSideNavOpen]="true">-->
+    <!--        </app-main-nav>-->
+    <!--      </mat-menu>-->
+    <!--    </mat-toolbar>-->
     <!--//// Mobile mode : Header  -->
 
-    <div class="main-content-container" ngClass.lt-sm="mobile">
+    <div class="main-content-container">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

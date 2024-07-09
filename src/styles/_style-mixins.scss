@@ -23,7 +23,7 @@
 @mixin headline-2 {
   @include styled-font;
   font-size: 2.6rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 @mixin headline-3 {
@@ -44,7 +44,12 @@
   font-weight: 300;
 }
 
-@mixin primary-dark-dark {
+@mixin primary-main-background {
+  background-color: $primary-color;
+  color: $light-text-color ;
+}
+
+@mixin primary-dark-background {
   background-color: $primary-dark-color;
   color: $light-text-color ;
 }

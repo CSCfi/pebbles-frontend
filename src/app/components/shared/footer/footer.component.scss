@@ -1,7 +1,7 @@
 @import "src/styles/main.scss";
 
 #footer {
-  @include primary-dark-dark;
+  @include primary-dark-background;
   padding: 30px 20px 50px;
 
   .footer-wrapper {
