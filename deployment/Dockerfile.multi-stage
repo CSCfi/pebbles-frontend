@@ -1,5 +1,5 @@
 # Stage one: build
-FROM docker.io/library/node:18-bullseye as build-stage
+FROM docker.io/library/node:18 as build-stage
 ARG PB_APP_VERSION="not-set"
 
 # display app version in build logs
@@ -19,7 +19,7 @@ RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > dist/pebbles-frontend/app-ver
 #-----------------------------------------------------------------------------
 
 # Stage two: runtime
-FROM bitnami/nginx:1.23
+FROM docker.io/bitnami/nginx:1.23
 LABEL maintainer="Notebooks Team <notebooks@csc.fi>"
 
 # copy compiled application
