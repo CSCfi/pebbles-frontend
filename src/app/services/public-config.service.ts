@@ -25,7 +25,7 @@ export class PublicConfigService {
   getInstallationName(): string {
     const configName = this.publicConfig?.get('INSTALLATION_NAME');
     if (!configName) {
-      return 'Notebooks';
+      return 'Noppe';
     }
     // if we have whitespace, split there
     const spaceIndex = configName.indexOf(' ');

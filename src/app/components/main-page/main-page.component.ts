@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ServiceAnnouncementService } from '../../services/service-announcement.service';
+import { PublicConfigService } from "../../services/public-config.service";
 
 @Component({
   selector: 'app-main-page',
@@ -14,7 +15,8 @@ export class MainPageComponent implements OnInit {
   private minWorkAreaWidth = 1250;
 
   constructor(
-    private serviceAnnouncementService: ServiceAnnouncementService
+    public serviceAnnouncementService: ServiceAnnouncementService,
+    public publicConfigService: PublicConfigService
   ) {
   }
 

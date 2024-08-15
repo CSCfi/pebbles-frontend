@@ -16,7 +16,7 @@
           <mat-icon fontSet="material-icons-outlined" class="md-36">import_contacts</mat-icon>
         </div>
         <div class="logo__type">
-          Notebooks
+          {{ publicConfigService.getInstallationName() }}
         </div>
       </a>
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">

@@ -2,7 +2,7 @@
         ngClass.lt-sm="p-20 mobile">
   <div class="container grid-col">
     <dl class="info-notebook footer-column">
-      <dt>About Notebooks</dt>
+      <dt>About {{ publicConfigService.getInstallationName() }}</dt>
       <dd>
         <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Terms of use</a>
       </dd>
@@ -17,8 +17,8 @@
       </dd>
     </dl>
     <dl class="info-support footer-column">
-      <dt>Notebooks Support</dt>
-      <dd>Open Monday to Friday (9:00 - 16:00)</dd>
+      <dt>{{ publicConfigService.getInstallationName() }} Support</dt>
+      <dd>Open Monday to Friday (9:00 - 16:00 Finnish time)</dd>
       <dd class="center__v">
         <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5 no-u-line">email</mat-icon>
         <a href="mailto:{{ publicConfigService.getContactEmail() }}" rel="noopener">

@@ -57,7 +57,7 @@
       <ng-template matTabContent>
         <section class="mt-30 content-cutout info-body">
           <div>
-            <h3 class="mat-subheading-2 mb-5 mr-20">Notebooks Documentation</h3>
+            <h3 class="mat-subheading-2 mb-5 mr-20">{{ publicConfigService.getInstallationName() }} Documentation</h3>
             <p class="mat-body-1 center__v">
               <mat-icon class="mr-10">launch</mat-icon>
               <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
