@@ -118,6 +118,10 @@ export class PublicConfigService {
     return res ? res : 'Public applications are not available for the current user.';
   }
 
+  getLoginButtonText(): string {
+    return this.getPublicStructuredConfig()?.frontend?.loginButtonText;
+  }
+
   fetchPublicConfig(): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/config`;
     return this.http.get(url).pipe(
