@@ -79,8 +79,8 @@ export class WelcomePageComponent implements OnInit {
   }
 
   onTermsAgree(): void {
-    const ext_id = this.loginFormGroup.controls.ext_id.value;
-    const password = this.loginFormGroup.controls.password.value;
+    const ext_id = this.loginFormGroup.controls.ext_id.value.trim();
+    const password = this.loginFormGroup.controls.password.value.trim();
     const agreement_sign: string = 'signed';
     this.authService.login(ext_id, password, agreement_sign).pipe(
       tap(session => {
