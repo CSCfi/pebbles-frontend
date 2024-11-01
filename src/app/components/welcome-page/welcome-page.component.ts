@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { PublicConfigService } from '../../services/public-config.service';
 import { ServiceAnnouncementService } from '../../services/service-announcement.service';
@@ -17,6 +17,8 @@ export class WelcomePageComponent implements OnInit {
 
   public context: Data;
   public loginFormGroup: UntypedFormGroup;
+  public loginClicked: boolean;
+  public acceptTermsClicked: boolean;
   @ViewChild('specialLoginDialog') specialLoginDialog: TemplateRef<any>;
   @ViewChild('specialLoginDialogTerms') specialLoginDialogTerms: TemplateRef<any>;
   private dialogRef: MatDialogRef<any>;
@@ -49,6 +51,7 @@ export class WelcomePageComponent implements OnInit {
   }
 
   onLogin(): void {
+    this.loginClicked = true;
     const ext_id = this.loginFormGroup.controls.ext_id.value.trim();
     const password = this.loginFormGroup.controls.password.value.trim();
     this.authService.login(ext_id, password).pipe(
@@ -74,11 +77,15 @@ export class WelcomePageComponent implements OnInit {
           this.systemNotificationService.displayError(`Login error: ${err.error}`);
         }
         throw err;
-      })
+      }),
+      finalize(()=> {
+          this.loginClicked = false;
+      }),
     ).subscribe();
   }
 
   onTermsAgree(): void {
+    this.acceptTermsClicked = true;
     const ext_id = this.loginFormGroup.controls.ext_id.value.trim();
     const password = this.loginFormGroup.controls.password.value.trim();
     const agreement_sign: string = 'signed';
@@ -99,7 +106,10 @@ export class WelcomePageComponent implements OnInit {
           this.systemNotificationService.displayError(`Login error: ${err.error}`);
         }
         throw err;
-      })
+      }),
+      finalize(()=> {
+          this.acceptTermsClicked = false;
+      }),
     ).subscribe();
   }
 

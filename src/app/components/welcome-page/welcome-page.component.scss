@@ -50,10 +50,11 @@ app-footer {
 }
 
 .header {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   justify-content: left;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .header img {
@@ -64,7 +65,12 @@ app-footer {
 .header h1 {
   letter-spacing: 0.03em;
   margin: 5px auto;
-  position: absolute;
-  top: auto;
-  left: 47%;
 }
+
+.processing-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#agree-button { width: 100%; }

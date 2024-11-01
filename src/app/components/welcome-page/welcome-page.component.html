@@ -1,56 +1,66 @@
-<div id="welcome-page-wrapper" class="container__screen bg__primary">
-  <app-header [isNaviVisible]="true"
-              [logoMarkSize]="80" [logoTypeSize]="4" [displayMode]="'cutout'"
+<div class="container__screen bg__primary" id="welcome-page-wrapper">
+  <app-header [displayMode]="'cutout'"
+              [isNaviVisible]="true" [logoMarkSize]="80" [logoTypeSize]="4"
               class="mt-40 mb-50 app-header pl-20 pr-20">
   </app-header>
   <div class="main-content ml-20 mr-20">
     <!--  Service Announcement 'welcome'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
 
-    <div id="jumbotron" role="main" ngClass.gt-xs="mt-75" ngClass.lt-sm="mt-15">
-      <app-welcome-login [context]="context" (emitSpecialLogin)="openSpecialLoginDialog()"></app-welcome-login>
+    <div id="jumbotron" ngClass.gt-xs="mt-75" ngClass.lt-sm="mt-15" role="main">
+      <app-welcome-login (emitSpecialLogin)="openSpecialLoginDialog()" [context]="context"></app-welcome-login>
     </div>
     <div class="bg-pattern-1">
-      <img class="csc-img-1" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
+      <img alt="CSC Pattern" class="csc-img-1" src="assets/images/csc_pattern.svg">
     </div>
     <div class="bg-pattern-2">
-      <img class="csc-img-2" src="assets/images/csc_pattern.svg" alt="CSC Pattern">
+      <img alt="CSC Pattern" class="csc-img-2" src="assets/images/csc_pattern.svg">
     </div>
   </div>
   <app-footer [context]="context"></app-footer>
 </div>
 <ng-template #specialLoginDialog>
-  <form class="special-login-form grid-row" (ngSubmit)="onLogin()" [formGroup]="loginFormGroup">
+  <form (ngSubmit)="onLogin()" *ngIf="!loginClicked"
+        [formGroup]="loginFormGroup" class="special-login-form grid-row">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
-      <input matInput id="ext_id" placeholder="Email" formControlName="ext_id">
+      <input formControlName="ext_id" id="ext_id" matInput placeholder="Email">
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput id="password" placeholder="Password" formControlName="password" [type]="'password'">
+      <input [type]="'password'" formControlName="password" id="password" matInput placeholder="Password">
     </mat-form-field>
-    <button id="special-login-submit-button" class="mt-10" mat-flat-button color="primary">
+    <button [disabled]="loginClicked" class="mt-10" color="primary" id="special-login-submit-button" mat-flat-button>
       Submit
     </button>
   </form>
+  <div *ngIf="loginClicked" class="processing-login">
+    <h1>Logging in...</h1>
+    <mat-spinner mode="indeterminate"></mat-spinner>
+  </div>
 </ng-template>
 <ng-template #specialLoginDialogTerms>
-  <div class="form-container centered grid-row">
+  <div *ngIf="!acceptTermsClicked" class="form-container centered grid-row">
     <div class="header">
-      <img src="{{ publicConfigService.getAgreementLogoPath() }}" alt="logo" />
+      <img alt="logo" src="{{ publicConfigService.getAgreementLogoPath() }}"/>
       <h1>{{ publicConfigService.getAgreementTitle() }}</h1>
     </div>
-    <form class="special-login-form" (ngSubmit)="onTermsAgree()" [formGroup]="loginFormGroup">
+    <form (ngSubmit)="onTermsAgree()"
+          [formGroup]="loginFormGroup">
       <p>Before continuing, you need to agree to our
         <a href="{{ publicConfigService.getTermsOfUseUrl() }}" rel="noopener" target="_blank"> Terms of Use, </a>
-          including sections concerning use of
+        including sections concerning use of
         <a href="{{ publicConfigService.getCookiesPolicyUrl() }}" rel="noopener" target="_blank"> Cookies </a>
-          on this site and
+        on this site and
         <a href="{{ publicConfigService.getPrivacyPolicyUrl() }}" rel="noopener" target="_blank"> Privacy Policy.</a>
       </p>
-      <button mat-flat-button color="primary">
-          Agree & Continue
+      <button [disabled]="acceptTermsClicked" color="primary" mat-flat-button id="agree-button">
+        Agree & Continue
       </button>
     </form>
+  </div>
+  <div *ngIf="acceptTermsClicked" class="processing-login">
+    <h1>Accepting terms and logging in...</h1>
+    <mat-spinner mode="indeterminate"></mat-spinner>
   </div>
 </ng-template>
