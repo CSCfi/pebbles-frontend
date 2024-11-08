@@ -71,6 +71,9 @@
           <p class="mat-caption">Change only if you need a custom image. The image has to be compatible with the template.</p>
           <mat-form-field appearance="fill">
             <input matInput formControlName="imageUrl" [value]="selectedApplicationTemplateImage">
+            <mat-error *ngIf="applicationItemEditFormGroup.controls.imageUrl.errors">
+              <strong>Invalid image url. Example: docker.io/example/image:latest</strong>
+            </mat-error>
           </mat-form-field>
           <mat-checkbox class="mt-10" formControlName="isAlwaysPullImage">
             Always pull image

@@ -23,6 +23,10 @@ export interface ApplicationTemplateRow {
   memory_gib: string;
 }
 
+// Backend uses pattern ^([\w\-_]+[.:])+([\w\-_]+)(/[\w\-_]+)*(/[\w\-_@]+:[\w\-_]+)$
+// defined in pebbles.utils.validate_container_image_url()
+const IMAGE_URL_VALIDATION_RE = new RegExp(/^([\w\-_]+[.:])+([\w\-_]+)(\/[\w\-_]+)*(\/[\w\-_@]+:[\w\-_]+)$/)
+
 @Component({
   selector: 'app-main-application-item-form',
   templateUrl: './main-application-item-form.component.html',
@@ -110,7 +114,10 @@ export class MainApplicationItemFormComponent implements OnInit {
       isEnableSharedFolder: [''],
       isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
-      imageUrl: [''],
+      imageUrl: [
+        '',
+        [Validators.pattern(IMAGE_URL_VALIDATION_RE)]
+      ],
       isAlwaysPullImage: [''],
       sessionLifetimeHours: [''],
       sessionMemoryGiB: [''],
@@ -135,6 +142,8 @@ export class MainApplicationItemFormComponent implements OnInit {
       this.applicationItemEditFormGroup.controls.isEnableSharedFolder.disable();
       this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.disable();
     }
+    // activate validation reporting on imageUrl for immediate feedback
+    this.applicationItemEditFormGroup.controls.imageUrl.markAsTouched();
   }
 
   setEditForm(): void {
@@ -186,7 +195,10 @@ export class MainApplicationItemFormComponent implements OnInit {
       labels: [''],
       downloadMethod: [this.selectedDownloadMethod],
       source: [this.data.application.config.download_url],
-      imageUrl: [this.data.application.config.image_url],
+      imageUrl: [
+        this.data.application.config.image_url,
+        [Validators.pattern(IMAGE_URL_VALIDATION_RE)]
+      ],
       isAlwaysPullImage: [this.isAlwaysPullImage],
       isAutoExecution: [this.isAutoExecution],
       isEnableSharedFolder: [this.applicationService.isSharedFolderEnabled(this.data.application, this.data.isWorkspacePublic)],
@@ -207,6 +219,10 @@ export class MainApplicationItemFormComponent implements OnInit {
 
     this.selectedLabels = this.data.application.labels;
     this.availableMemoryOptions = this.getMemoryOptions();
+
+    // activate validation reporting on imageUrl for immediate feedback
+    this.applicationItemEditFormGroup.controls.imageUrl.markAsTouched();
+
   }
 
   createApplicationByPlainMode(): void {
@@ -232,8 +248,12 @@ export class MainApplicationItemFormComponent implements OnInit {
       },
       this.applicationItemEditFormGroup.controls.publish.value || false,
     ).subscribe(_ => {
-      this.dialogRef.close();
-    });
+        this.dialogRef.close();
+      },
+      error => {
+        this.createButtonClicked = false;
+      }
+    );
   }
 
   editApplicationItem(): void {
@@ -257,10 +277,13 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationService.updateApplication(
       this.data.application
     ).subscribe(_ => {
-      this.dialogRef.close();
-    });
+        this.dialogRef.close();
+      },
+      error => {
+        this.editButtonClicked = false;
+      }
+    );
   }
-
 
   onChangeApplicationTemplate(val: string): void {
     const tmpl = this.applicationTemplates.find(x => x.id === val);
