@@ -59,7 +59,7 @@ ng-build:
     # install npm packages, using cache as source. To speed things up for feature branches, use npm install to
     # make use of cached node_modules
     - |
-      if [[ ${CI_COMMIT_REF_NAME} == "master" ]]; then
+      if [[ ${CI_COMMIT_REF_NAME} == "main" ]]; then
         npm ci --cache .npm --prefer-offline --no-audit
       else
         npm install --cache .npm --prefer-offline --no-audit
