@@ -5,7 +5,7 @@
     [labels]="null">
   </app-main-content-header>
 </div>
-<section id="account-container" class="content-container">
+<section class="content-container" id="account-container">
   <div class="info-body content-cutout">
     <form role="form">
       <dl class="user-info" ngClass.gt-xs="grid">
@@ -36,17 +36,21 @@
               <p>
                 We can show desktop notifications when application sessions are started or are about to expire.
               </p>
-              <button mat-flat-button color="warn" (click)="askForDesktopNotificationPermission()">
+              <button (click)="askForDesktopNotificationPermission()" color="accent" mat-flat-button>
                 <mat-icon class="mr-5">notifications</mat-icon>
                 Initialize desktop notifications
               </button>
             </div>
             <div *ngSwitchCase="'granted'">
-              <p class="icon__notification txt__accent center__v mb-10 mat-subheading-2">Desktop notifications are active</p>
+              <p class="icon__notification txt__accent center__v mb-10 mat-subheading-2">
+                Desktop notifications are active
+              </p>
               You can control the permissions in your browser's preferences.
             </div>
             <div *ngSwitchCase="'denied'">
-              <p class="icon__notification txt__worn center__v mb-10 mat-subheading-2">Desktop notifications are blocked.</p>
+              <p class="icon__notification txt__worn center__v mb-10 mat-subheading-2">
+                Desktop notifications are blocked.
+              </p>
               You can control the permissions in your browser's preferences.
             </div>
             <div *ngSwitchCase="'asking'">
@@ -56,6 +60,29 @@
               This browser does not support desktop notifications.
             </div>
           </ng-container>
+        </dd>
+      </dl>
+      <br/>
+      <hr/>
+      <br/>
+      <dl *ngIf="user" class="delete-account" ngClass.gt-xs="grid">
+        <dt>Delete account</dt>
+        <dd *ngIf="!isAccountDeletionRequested()">
+          <p>
+            Click the button below and send a request to
+            <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.
+            We will process your request and come back to you.
+          </p>
+          <button (click)="requestAccountDeletion()" color="warn" mat-flat-button>
+            <mat-icon class="mr-5">notifications</mat-icon>
+            Request account deletion
+          </button>
+        </dd>
+        <dd *ngIf="isAccountDeletionRequested()">
+          <p>
+            Account deletion requested.
+            Send an email to <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a> to proceed.
+          </p>
         </dd>
       </dl>
     </form>

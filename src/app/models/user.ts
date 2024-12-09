@@ -12,15 +12,17 @@ export class User {
     public is_blocked?: boolean,
     public joining_ts?: number,
     public expiry_ts?: number,
-    public last_login_ts?: number
-  ) {}
+    public last_login_ts?: number,
+    public deletion_requested_date?: string,
+  ) {
+  }
 }
 
 // Replicate API response defined in pebbles.views.commons.workspace_membership_fields in the backend
 export interface WorkspaceMembership {
-    workspace_id: string;
-    user_id: string;
-    is_owner: boolean;
-    is_manager: boolean;
-    is_banned: boolean;
+  workspace_id: string;
+  user_id: string;
+  is_owner: boolean;
+  is_manager: boolean;
+  is_banned: boolean;
 }

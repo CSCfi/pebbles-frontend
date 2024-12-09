@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AccountService } from 'src/app/services/account.service';
 import { User } from 'src/app/models/user';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
+import { PublicConfigService } from "../../../services/public-config.service";
 
 @Component({
   selector: 'app-main-account',
@@ -21,6 +22,7 @@ export class MainAccountComponent implements OnInit {
     private accountService: AccountService,
     private authService: AuthService,
     private desktopNotificationService: DesktopNotificationService,
+    private publicConfigService: PublicConfigService,
   ) {
   }
 
@@ -53,8 +55,22 @@ export class MainAccountComponent implements OnInit {
       this.notificationPermissionState = permission;
       this.appRef.tick();
       DesktopNotificationService.showNotification(
-          'Notifications activated!', 'We will notify you of Application status changes.'
+        'Notifications activated!', 'We will notify you of Application status changes.'
       );
     });
+  }
+
+  requestAccountDeletion(): void {
+    this.accountService.requestAccountDeletion(this.authService.getUserId()).subscribe(resp => {
+      this.user = resp;
+    });
+  }
+
+  isAccountDeletionRequested(): boolean {
+    return this.user?.deletion_requested_date != null;
+  }
+
+  getContactEmail(): string {
+    return this.publicConfigService.getContactEmail()
   }
 }

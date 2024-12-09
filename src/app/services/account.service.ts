@@ -107,4 +107,9 @@ export class AccountService {
       tap(_ => this.eventService.userDataUpdate$.next())
     );
   }
+
+  requestAccountDeletion(userId: string): Observable<User> {
+    const url = `${buildConfiguration.apiUrl}/users/${userId}/request_deletion`;
+    return this.http.post<User>(url, {});
+  }
 }
