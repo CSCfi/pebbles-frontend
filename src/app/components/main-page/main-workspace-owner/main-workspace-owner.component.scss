@@ -1,63 +1,133 @@
 @import "src/styles/main.scss";
 
+// ---- Layout
 #workspace-owner-container {
-  grid-template-columns: 300px auto;
-  background: map-get($app-primary, 200);
+  display: flex;
+  flex-direction: row;
   height: 100vh;
   overflow: hidden;
 
-  .content-header-container {
-    #content-header {
-      display: block !important;
+  .workspace-list-container {
+    flex: 0 1 350px;
+    min-width: 300px;
+    max-width: 350px;
+    height: 100vh;
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: $gray-light-color !important;
+    @include shadow(0.1);
+
+    .mobile-workspace-list {
+      display: none;
     }
   }
 
-  .card-header {
-    display: grid;
-    grid-column-gap: 5px;
-    grid-template-columns: max-content auto max-content;
+  #workspace-owner-tab-container {
+    flex: 1 1 auto;
   }
 }
 
 // ---- Left UI
 #workspace-owner-container {
 
-  .workspaces-actions-container button {
-    width: 100%;
+  .content-header-container {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px 15px;
+
+    h3 {
+      text-align: center;
+      height: 60px;
+      @include center(both, inline);
+    }
   }
 
-  .max-quota-warning {
-    border-radius: 5px;
-    border: 2px solid map-get($app-gray, 300);
-    color: map-get($app-gray, default);
-    font-weight: bold;
+  .workspaces-actions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+
+    button {
+      @include secondary-main-background;
+
+      &.mat-mdc-button-disabled {
+        @include invalid-dark-background;
+      }
+    }
+
+    .max-quota-warning {
+      @include warn-light-background;
+      @include headline-5;
+      border-radius: 5px;
+      padding: 15px 20px;
+    }
   }
 
   .workspace-list-container {
-    overflow: auto;
+    flex-grow: 1;
 
     .workspace-list {
+      overflow: auto;
+      margin: 10px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 5px;
 
       .workspace-item {
         color: map-get($app-primary, default);
         cursor: pointer;
-        border-left: 8px solid #fff;
-        padding: 15px 8px 15px 8px !important;
+        border-radius: 3px;
+        @include styled-font;
+        font-size: 1.6rem;
+        font-weight: 600;
+
+        .card-header {
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+          padding: 15px 20px;
+
+          mat-icon {
+            color: #919cd2;
+          }
+
+          .workspace-title,
+          .workspace-icon,
+          .workspace-selected-arrow {
+            @include center(vertical, inline);
+          }
+        }
+
+        &.public {
+          mat-icon {
+            color: #6bb9bc !important;
+          }
+        }
 
         .workspace-info {
+          padding: 10px 20px 5px;
           border-top: map-get($borders, thin-dark);
 
+          .description {
+            @include headline-5;
+            margin-bottom: 15px;
+          }
+
           dl {
+            display: grid;
+            height: auto;
             grid-template-columns: 110px auto;
-
-            .open-join-code-button {
-              display: grid;
-              grid-template-columns: 30px auto;
-
-              mat-icon {
-                color: map-get($app-primary, light);
-              }
-            }
+            @include headline-5;
+            margin-bottom: 15px;
           }
         }
 
@@ -67,11 +137,16 @@
 
         &.selected {
           color: map-get($app-gray, 900);
+          border-left: 8px solid #919cd2;
+
+          &.public {
+            border-left: 8px solid #6bb9bc;
+          }
         }
 
         &.owner {
           &.selected {
-            border-left: 8px solid map-get($app-warn, default);
+            border-left: 8px solid #919cd2;;
           }
         }
 
@@ -88,12 +163,12 @@
           background-color: map-get($app-primary, 300) !important;
 
           .chip__password {
-            background: map-get($app-gray, default);
+            //background: map-get($app-gray, default);
           }
 
           .user-role-txt,
           mat-icon {
-            color: map-get($app-gray, 800);
+            color: map-get($app-gray, 800) !important;
           }
 
           .expiration-date {
@@ -101,7 +176,7 @@
           }
 
           &.selected {
-            border-left: 8px solid map-get($app-primary, 400);
+            border-left: 8px solid #6b777c;
           }
         }
       }
@@ -117,30 +192,85 @@
       }
     }
 
-    .mat-form-field {
+    .mat-mdc-form-field {
       width: 100% !important;
     }
   }
-}
 
-.mobile-workspace-list {
-
-  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
-    background: #fff;
+  .empty-status {
+    display: flex;
+    flex-direction: column;
   }
 }
 
 // ---- Right UI
 #workspace-owner-container {
-  #workspace-owner-tab-container {
-    position: relative;
-    background: #acb0e0;
-    border: 5px solid map-get($app-primary, 400);
-    height: 100vh;
-    overflow: auto;
 
-    ::ng-deep app-service-announcement {
-      background-color: #acb0e0;
+  .status-info-container {
+    height: 100%;
+    @include center(both);
+    margin-top: 0;
+    padding-bottom: 40%;
+  }
+
+  #workspace-owner-tab-container {
+    background: $primary-light-color;
+    border: 5px solid $primary-light-color;
+
+    mat-tab-group {
+      margin-top: 10px;
+      background: $light-color;
+
+      ::ng-deep.mat-mdc-tab-header {
+        //padding-right: 230px;
+        //padding-left: 150px;
+        height: 50px;
+        background: $primary-light-color;
+
+        .mat-mdc-tab {
+          background: $light-color;
+          color: #18227c;
+          height: 50px;
+          border: 1px solid #acb0e0;
+          background: #fff;
+          @include headline-3;
+          font-size: 1.5rem;
+          font-weight: 600;
+          letter-spacing: normal;
+          flex: 0 1 auto;
+          min-width: 200px;
+          border-radius: 3px;
+          padding: 0 10px;
+
+          .mdc-tab__text-label {
+            color: #18227c;
+          }
+
+          mat-icon {
+            font-size: 2.2rem;
+            margin-right: 4px;
+            width: 28px;
+          }
+
+          mat-chip-option {
+            margin-left: 6px;
+          }
+
+          .chip__circle {
+            @include center(both, inline);
+            font-weight: 600 !important;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-left: 5px;
+            line-height: 100%;
+            height: 24px !important;
+            min-width: 24px !important;
+            border-radius: 24px;
+            padding: 0 !important;
+          }
+        }
+      }
     }
 
     .course-request-wrapper {
@@ -149,14 +279,32 @@
       top: 15px;
       float: right;
       height: 0;
+      right: 10px;
 
       button.course-request {
         background: #fff;
         z-index: 1000;
-        padding: 1px 15px 3px 20px;
-        //font-size: 1.4rem;
+        padding: 5px 15px 5px 20px;
         border-radius: 50px;
-        color: map-get($app-primary, default);
+        color: $primary-color !important;
+
+        &:before {
+           font-size: 2.0rem;
+           width: auto;
+           height: auto;
+           margin-right: 5px;
+           font-family: Material Icons, serif;
+           content: "\ebcc";
+        }
+
+         &:after {
+           font-size: 2.0rem;
+           width: auto;
+           height: auto;
+           margin-left: 5px;
+           font-family: Material Icons, serif;
+           content: "\e89e";
+        }
       }
     }
 
@@ -186,76 +334,5 @@
         }
       }
     }
-
-    ::ng-deep .mat-tab-header {
-      padding-top: 15px;
-      padding-right: 180px;
-      height: 65px;
-      background-color: map-get($app-primary, 400);
-      border-bottom: none;
-      flex-basis: 65px;
-
-      .mat-tab-label {
-        padding: 0 15px;
-        min-width: 150px;
-        height: 50px;
-        background: #fff;
-        border: 1px solid map-get($app-primary, 400);
-        color: map-get($app-primary, default);
-
-        .tab-title {
-          margin-left: 5px;
-        }
-
-        .chip__m {
-          background-color: map-get($app-primary, light);
-          color: white;
-          min-height: 20px;
-        }
-      }
-    }
-
-    ::ng-deep .mat-tab-body-wrapper {
-      background: #fff;
-    }
-  }
-}
-
-.tablet#workspace-owner-container {
-  grid-template-columns: auto !important;
-  grid-template-rows: auto auto !important;
-  overflow: auto !important;
-
-  .workspace-list-container {
-    overflow: auto !important;
-  }
-
-}
-
-.mobile#workspace-owner-container {
-
-  height: 100% !important;
-
-  .content-header-container {
-    display: grid;
-    grid-template-rows: auto !important;
-    min-height: 50px !important;
-  }
-
-
-  #workspace-owner-tab-container {
-    overflow: auto !important;
-  }
-
-  .course-request-wrapper {
-    display: none !important;
-  }
-
-  ::ng-deep .mat-tab-header {
-    padding-right: 0 !important;
-  }
-
-  .table-container {
-    overflow: auto !important;
   }
 }

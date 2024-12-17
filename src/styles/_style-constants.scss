@@ -9,14 +9,54 @@ $font-families: (
 // ---- Color
 // ----------------------------------------
 
+$light-color: #ffffff;
+
+$gray-color: rgba(#a7abb6, 0.87);
+$gray-extra-light-color: #ededf8;
+$gray-light-color: rgba(#d0d1e5, 0.87);
+$gray-dark-color: rgba(#2f3538, 0.87);
+
+$primary-color: #18227c;
+$primary-extra-light-color: #ededf8;
+$primary-light-color: #919cd2;
+$primary-dark-color: #14144b;
+
+$secondary-color: #00969a;
+$secondary-extra-light-color: #c4f1f3;
+$secondary-light-color: #6bb9bc;
+$secondary-dark-color: #006365;
+
+$accent-color: #ccff65;
+$accent-light-color: #e0faad;
+
+$warn-color: #ffa494;
+$warn-light-color: #fac9c1;
+$warn-dark-color: #fc614d;
+
+$light-line: rgba(#d1d1d1, 0.87);
+$dark-line: rgba(#2f3538, 0.87);
+$light-dark-line: rgba(#c0c0d3, 0.87);
+
+$light-text-color: #ffffff;
+$gray-text-color: rgba(0, 0, 0, 0.38);
+$dark-text-color: rgb(17, 17, 17, 0.87);
+$primary-text-color: #14144b;
+$secondary-text-color: #006778;
+$accent-text-color: #ccff65;
+
+
+// ---- Layout
+// ----------------------------------------
+$content-max-width: 1250px;
+$main-navigation-width: 250px;
+$main-navigation-minimized-width: 82px;
+
 $app-transparent: (
   default: rgb(255, 255, 255, 0),
   light: rgb(255, 255, 255, .1),
   dark: rgb(0, 0, 0, .1),
 );
 
-$light-text: white;
-$dark-text: rgba(#2f3538, 0.87);
 
 $app-gray: (
   default: #9e9e9e,
@@ -30,12 +70,12 @@ $app-gray: (
   800: #6b777c,
   900: #2f3538,
   contrast: (
-    default: $dark-text,
-    100: $dark-text,
-    300: $dark-text,
-    700: $light-text,
-    800: $light-text,
-    900: $light-text
+    default: $dark-text-color,
+    100: $dark-text-color,
+    300: $dark-text-color,
+    700: $light-text-color,
+    800: $light-text-color,
+    900: $light-text-color
   )
 );
 
@@ -49,9 +89,9 @@ $app-primary: (
   400: #acb0e0,
   600: #39439a,
   contrast: (
-    default: $light-text,
-    light: $light-text,
-    dark: $light-text
+    default: $light-text-color,
+    light: $light-text-color,
+    dark: $light-text-color
   )
 );
 
@@ -64,9 +104,9 @@ $app-secondary: (
   800: #ee8600,
   900: #e75f01,
   contrast: (
-    default: $light-text,
-    light: $light-text,
-    dark: $light-text
+    default: $light-text-color,
+    light: $light-text-color,
+    dark: $light-text-color
   )
 );
 
@@ -76,9 +116,9 @@ $app-accent: (
   dark: #006778,
   100: #d0f6e9,
   contrast: (
-    default: $light-text,
-    light: $dark-text,
-    dark: $light-text
+    default: $light-text-color,
+    light: $dark-text-color,
+    dark: $light-text-color
   )
 );
 
@@ -90,9 +130,9 @@ $app-warn: (
   800: #cb1e00,
   900: #721a00,
   contrast: (
-    default: $light-text,
-    light: $dark-text,
-    dark: $light-text
+    default: $light-text-color,
+    light: $dark-text-color,
+    dark: $light-text-color
   )
 );
 
@@ -112,7 +152,7 @@ $app-warn: (
     }
   }
 
-  &.mat-button-base,
+  &.mat-mdc-button-base,
   .mat-button-base {
     color: #FFFFFF;
 

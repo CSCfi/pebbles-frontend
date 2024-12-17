@@ -1,35 +1,126 @@
-//@import "src/styles/main.scss";
+@import "src/styles/main.scss";
 
-#welcome-page-wrapper {
+.page-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  @include primary-main-background;
+
+  .app-header {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    min-height: 50px;
+    width: 100%;
+    height: 50px;
+    z-index: 1000;
+    padding: 0 20px;
+  }
 
   .main-content {
-    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 50px);
+    margin-bottom: 50px;
+    padding: 0 20px;
+    z-index: 1000;
 
     app-service-announcement {
       ::ng-deep.service-announcement-item {
         margin-top: 20px !important;
         margin-left: auto;
         margin-right: auto;
-        max-width: 1200px;
+        max-width: $content-max-width;
       }
+    }
+  }
+
+  app-footer {
+    position: relative;
+    width: 100%;
+    min-height: 180px;
+    z-index: 1000;
+  }
+}
+
+.special-login-form {
+  .mat-mdc-form-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mat-mdc-dialog-content {
+    padding-bottom: 5px !important;
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 5px 20px 30px;
+    display: flex;
+    flex-direction: column;
+    button {
+      width: 100%;
+    }
+
+    .special-login-error {
+      color: map-get($app-warn, dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 }
 
-.app-header {
-  min-height: 50px;
-  z-index: 1000;
+.special-login-dialog-terms {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .terms-logo {
+    margin-top: 15px;
+    border-radius: 5px;
+  }
+
+  a {
+    color: $primary-dark-color;
+    text-decoration: underline dotted;
+
+    &:hover {
+      color: $primary-color;
+      text-decoration: underline;
+    }
+  }
+
+  .mat-mdc-dialog-actions {
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
 }
 
-app-footer {
-  min-height: 230px;
+.special-login-dialog-processing {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.main-content {
-  flex: 1;
-  position: relative;
+// ----- LAPTOP
+@media (max-width: 600px) {
+  .background {
+    display: block;
+    position: absolute;
+    top: 0;
+  }
+}
+
+// ----- MOBILE
+@media (max-width: 599px) {
+  .background {
+    display: none;
+  }
 }
 
 .bg-pattern-1,
@@ -39,38 +130,12 @@ app-footer {
 }
 
 .bg-pattern-1 {
-  bottom: 0;
+  bottom: -170px;
   left: -20px;
 }
 
 .bg-pattern-2 {
-  top: -90px;
-  right: -20px;
+  top: 0;
+  right: 0;
   transform: scale(-1, -1);
 }
-
-.header {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.header img {
-  width: 100px;
-  height: auto;
-}
-
-.header h1 {
-  letter-spacing: 0.03em;
-  margin: 5px auto;
-}
-
-.processing-login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#agree-button { width: 100%; }

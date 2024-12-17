@@ -1,13 +1,15 @@
 @import "src/styles/main.scss";
 
 .content-header-container {
-  display: grid;
-  grid-template-columns: auto 320px;
-  grid-column-gap: 15px;
-
   .action-buttons {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-column-gap: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
   }
+}
+
+.workspace-list {
+  padding: 20px 45px;
+  //height: calc(100vh - 80px);
+  //overflow: auto;
 }

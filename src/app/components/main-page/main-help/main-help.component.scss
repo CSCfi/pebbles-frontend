@@ -11,33 +11,80 @@
 
   .mobile-nav {
     display: none;
-    //padding: 15px 15px 0 15px;
     padding: 15px 30px 0;
   }
 
-  ::ng-deep .mat-tab-header {
+  .mat-mdc-tab-group {
+    flex: 1 1 auto;
+    padding-top: 10px;
+    overflow: hidden;
+  }
+
+  ::ng-deep .mat-mdc-tab-header {
     display: flex !important;
     border-bottom: none !important;
     margin-top: 30px;
   }
 
-  ::ng-deep .mat-tab-label {
+  ::ng-deep .mdc-tab {
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 5px;
     margin-right: 10px;
-    font-weight: 600;
-    padding: 35px 20px 35px;
     min-width: 200px;
+    min-height: 75px;
+    align-items: center;
 
-    &.mat-tab-label-active {
+    .mdc-tab__content .mdc-tab__text-label {
+      .tab-icon {
+        font-weight: 600;
+      }
+
+      .tab-title {
+        padding-top: 15px;
+        font-weight: 600;
+      }
+    }
+
+    &--active {
       background: map-get($app-primary, default);
-      color: #fff;
+
+      .mdc-tab__content .mdc-tab__text-label {
+        color: white;
+      }
+    }
+
+    &-indicator {
+      display: none !important;
     }
   }
 
-  ::ng-deep .mat-ink-bar {
-    display: none !important;
+  .info-body {
+    padding: 20px 20px;
+    background: white;
+    border: 2px solid map-get($app-primary, 300);
+    border-radius: 3px !important;
+
+    h3 {
+      margin-top: 10px;
+    }
+  }
+
+  .external-link {
+    a {
+      display: flex;
+      align-items: center;
+      color: $primary-color;
+      text-decoration: underline;
+
+      &:hover {
+        color: $secondary-color;
+      }
+    }
+
+    mat-icon {
+      margin-right: 10px;
+    }
   }
 
   .balloon {
@@ -47,11 +94,12 @@
     max-width: 600px;
     height: auto;
     overflow: unset;
-    margin: 0 auto;
+    margin: 30px auto 30px auto;
     border-radius: 200px;
     background: #fff;
 
     li {
+      font-size-adjust: 0.4;
       line-height: 155%;
     }
   }
@@ -71,9 +119,26 @@
 
   .contact-info {
     text-align: center;
-    width: 300px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 36px;
+
+    .icon-96 {
+      font-size: 96px;
+      height: 96px;
+      width: 96px;
+    }
+
+    .email {
+      margin: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      dt {
+        padding-right: 36px;
+      }
+    }
   }
 }
 
@@ -86,7 +151,7 @@
     list-style: circle;
   }
 
-  ::ng-deep .mat-tab-header {
+  ::ng-deep .mat-mdc-tab-header {
     display: none !important;
   }
 
@@ -94,3 +159,4 @@
     margin-top: 15px !important;
   }
 }
+

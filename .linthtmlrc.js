@@ -10,8 +10,7 @@ module.exports = {
     "marginwidth",
     "marginheight",
     "scrolling",
-    "style",
-    "width"
+    "style"
   ],
   "indent-delta": false,
   "indent-style": "spaces",

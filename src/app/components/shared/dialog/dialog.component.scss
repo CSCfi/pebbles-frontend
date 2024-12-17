@@ -3,11 +3,17 @@
 .dialog-clipboard {
   text-align: center;
   padding: 10px;
-  color: #fff;
-  background: map-get($app-accent, default);
+  color: $dark-text-color;
+  //background: map-get($app-accent, default);
   display: grid;
   grid-template-columns: auto max-content;
   align-items: center;
+  border: 1px solid $dark-text-color;
+
+  button {
+    @include secondary-main-background;
+    @include center(both);
+  }
 }
 
 .dialog-actions {

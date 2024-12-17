@@ -1,10 +1,51 @@
 @import "src/styles/main.scss";
 
+.mat-mdc-chip-set {
+  mat-chip-row {
+    background-color: $secondary-color !important;
+    border: 1px solid $secondary-color;
+    height: 28px !important;
+
+    span {
+      font-size: 1.0rem !important;
+      padding-left: 0 !important;
+      color: $secondary-dark-color !important;
+    }
+
+    mat-icon {
+      padding: 0 !important;
+    }
+
+    .mdc-evolution-chip__text-label {
+      color: $secondary-dark-color !important;
+    }
+
+    ::ng-deep.mdc-evolution-chip__cell {
+      margin-left: 3px;
+      margin-right: 5px;
+    }
+  }
+}
+
 .candidate-label-outer {
   background: map-get($app-primary, 200);
+  padding: 5px;
+  border-radius: 5px;
 
-  .candidate-labels .label{
-    font-size: 1.1rem;
-    background: #fff;
+  .mdc-evolution-chip {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    border-radius: 16px !important;
   }
+
+}
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+::ng-deep .mdc-text-field--no-label .mat-mdc-form-field-infix {
+  --mat-form-field-container-height: auto;
+  --mat-form-field-filled-label-display: block;
+  --mat-form-field-container-vertical-padding: 8px !important;
 }

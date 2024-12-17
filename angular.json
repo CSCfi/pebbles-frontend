@@ -29,13 +29,6 @@
             ],
             "styles": [
               "./node_modules/destyle.css/destyle.css",
-              "./node_modules/@fontsource/quicksand/latin-400.css",
-              "./node_modules/@fontsource/quicksand/latin-500.css",
-              "./node_modules/@fontsource/quicksand/latin-600.css",
-              "./node_modules/@fontsource/open-sans/latin-400.css",
-              "./node_modules/@fontsource/open-sans/latin-600.css",
-              "./node_modules/material-icons/iconfont/outlined.scss",
-              "./node_modules/material-icons/iconfont/filled.scss",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -96,24 +89,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pebbles-frontend:build"
+            "buildTarget": "pebbles-frontend:build"
           },
           "configurations": {
             "mock": {
-              "browserTarget": "pebbles-frontend:build:mock"
+              "buildTarget": "pebbles-frontend:build:mock"
             },
             "local": {
-              "browserTarget": "pebbles-frontend:build:local"
+              "buildTarget": "pebbles-frontend:build:local"
             },
             "production": {
-              "browserTarget": "pebbles-frontend:build:production"
+              "buildTarget": "pebbles-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pebbles-frontend:build"
+            "buildTarget": "pebbles-frontend:build"
           }
         },
         "test": {

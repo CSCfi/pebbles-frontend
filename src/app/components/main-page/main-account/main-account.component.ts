@@ -9,6 +9,7 @@ import { PublicConfigService } from "../../../services/public-config.service";
 @Component({
   selector: 'app-main-account',
   templateUrl: './main-account.component.html',
+  styleUrls: ['./main-account.component.scss']
 })
 export class MainAccountComponent implements OnInit {
 
@@ -61,9 +62,11 @@ export class MainAccountComponent implements OnInit {
   }
 
   requestAccountDeletion(): void {
-    this.accountService.requestAccountDeletion(this.authService.getUserId()).subscribe(resp => {
-      this.user = resp;
-    });
+    if (confirm(`Are you sure you want your account "${this.user.ext_id}" deleted?`)) {
+      this.accountService.requestAccountDeletion(this.authService.getUserId()).subscribe(resp => {
+        this.user = resp;
+      });
+    }
   }
 
   isAccountDeletionRequested(): boolean {

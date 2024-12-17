@@ -1,38 +1,42 @@
-<div class="content-header-container grid-col">
-  <app-main-content-header
-    [context]="context"
-    [isSearchOn]="false"
-    [isAutocompleteDisabled]="true"
-    [labels]="null">
-  </app-main-content-header>
-  <button mat-flat-button color="warn"
-          (click)="markMessagesAsRead()"
-          [disabled]="isAllRead">
-    <mat-icon fontSet="material-icons-outlined">check</mat-icon>
-    Mark as read
-  </button>
-</div>
-<div id="message-page" class="content-container">
-  <ng-container *ngIf="getMessages().length > 0; else elseBlock">
-    <section class="content-cutout">
-      <ng-container *ngFor="let message of getMessages()">
-        <div class="message info-body" [ngClass]="{'unread':!message.is_read}">
-          <div class="title mat-title">{{ message.subject }}</div>
-          <span class="date mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
-          <p class="content">
-            <span [innerHtml]="message.message"></span>
-          </p>
-        </div>
+<div class="page-container">
+  <div class="content-header-container grid-col">
+    <app-main-content-header
+      [context]="context"
+      [isAutocompleteDisabled]="true"
+      [isSearchOn]="false"
+      [labels]="null">
+    </app-main-content-header>
+    <button (click)="markMessagesAsRead()" [disabled]="isAllRead"
+            class="secondary-btn"
+            id="mark-all-read-btn">
+      <mat-icon class="mr-5" fontSet="material-icons-outlined">check</mat-icon>
+      <div>Mark all as read</div>
+    </button>
+  </div>
+  <section class="content-container">
+    <div class="messages-list">
+      <ng-container *ngIf="getMessages().length > 0; else elseBlock">
+        <section class="message-container">
+          <ng-container *ngFor="let message of getMessages()">
+            <div [ngClass]="{'unread':!message.is_read}" class="message info-body">
+              <div class="title mat-headline-6">{{ message.subject }}</div>
+              <span class="date mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
+              <p class="content">
+                <span [innerHtml]="message.message"></span>
+              </p>
+            </div>
+          </ng-container>
+        </section>
       </ng-container>
-    </section>
-  </ng-container>
 
-  <ng-template #elseBlock>
-    <section class="status-info-container">
-      <div class="empty-status">
-        <mat-icon fontSet="material-icons-outlined" class="md-96">mail</mat-icon>
-        <span class="status-summary">No messages yet.</span>
-      </div>
-    </section>
-  </ng-template>
+      <ng-template #elseBlock>
+        <section class="status-info-container">
+          <div class="empty-status">
+            <mat-icon class="md-96" fontSet="material-icons-outlined">mail</mat-icon>
+            <div class="status-summary">No messages yet.</div>
+          </div>
+        </section>
+      </ng-template>
+    </div>
+  </section>
 </div>

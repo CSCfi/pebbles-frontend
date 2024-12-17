@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MembershipType, Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { MatCheckboxChange } from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-main-workspace-item-detail',
@@ -27,16 +28,16 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   }
 
   get isEditable(): boolean {
-    return this.workspace.membership_type !== MembershipType.Public;
-  }
-
-  get isDeletable(): boolean {
-    // System workspaces cannot be deleted
+    // System workspaces cannot be edited/deleted
     if (this.workspace.membership_type === MembershipType.Public) {
       return false;
     }
-    // only owner or admin can delete workspaces
+    // only owner or admin can edit/delete workspaces
     return this.authService.isAdmin || this.workspace.owner_ext_id === this.userName;
+  }
+
+  get isDeletable(): boolean {
+    return this.isEditable;
   }
 
   constructor(
@@ -58,6 +59,8 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       return;
     }
     this.isWorkspaceFormChanged = false;
+    this.isWorkspaceNameEditOn = false;
+    this.isWorkspaceDescriptionEditOn = false;
     this.workspaceEditForm = this.formBuilder.group({
       name: [this.workspace.name, [
         Validators.required,
@@ -81,15 +84,12 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     this.isWorkspaceFormChanged = true;
   }
 
-  onExtendExpiryDateClick(): void {
-    this.isWorkspaceFormChanged = !this.workspaceEditForm.controls.isExtendExpiryChecked.value
-      || this.isWorkspaceNameEditOn || this.isWorkspaceDescriptionEditOn;
+  onExtendExpiryDateChange(event: MatCheckboxChange): void {
+    this.isWorkspaceFormChanged = event.checked || this.isWorkspaceNameEditOn || this.isWorkspaceDescriptionEditOn;
   }
 
   cancelWorkspaceEditing(): void {
     this.initReactiveForm();
-    this.isWorkspaceNameEditOn = false;
-    this.isWorkspaceDescriptionEditOn = false;
   }
 
   updateWorkspace(): void {
@@ -107,6 +107,10 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       this.workspaceEditForm.controls.description.value,
       expiry_ts,
     ).subscribe(res => {
+      // 2024-11-29 API is missing owner_ext_id field in PUT method, remove this when fixed
+      if (!res.owner_ext_id) {
+        res.owner_ext_id = this.workspace.owner_ext_id;
+      }
       // Take the new workspace object from API response.
       // In case of name change, the join code has been regenerated as well
       this.workspace = res;

@@ -1,78 +1,81 @@
-<div class="content-header-container grid-col">
-  <app-main-content-header (emitApplyFilter)="applyFilter($event)"
-                           [context]="context"
-                           [isSearchOn]="true"
-                           [isAutocompleteDisabled]="true"
-                           [labels]="selectedCatalog ? selectedCatalog.labels : []">
-  </app-main-content-header>
-  <button mat-flat-button color="accent" id="join-workspace-button" aria-label="Join Workspace"
-          (click)="openJoinWorkspaceDialog()">
-    <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
-    Join workspace
-  </button>
-</div>
 
-<!-- Application categories -->
-<section class="applications-catalog" ngClass.lt-sm="mobile">
-  <!--  Service Announcement 'catalog'  -->
-  <app-service-announcement [context]="context"></app-service-announcement>
+<div class="page-container">
+  <div class="content-header-container">
+    <app-main-content-header (emitApplyFilter)="applyFilter($event)"
+                             [context]="context"
+                             [isSearchOn]="true"
+                             [isAutocompleteDisabled]="true"
+                             [labels]="selectedCatalog ? selectedCatalog.labels : []">
+    </app-main-content-header>
+    <button mat-flat-button
+            id="join-workspace-button"
+            class="primary-btn"
+            aria-label="Join Workspace"
+            (click)="openJoinWorkspaceDialog()">
+      <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
+      Join workspace
+    </button>
+  </div>
 
-  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" class="mb-30"
-                 (selectedTabChange)="changeCategory($event)">
-    <ng-container *ngFor="let category of getCategories()">
-      <mat-tab label="{{ category.name }}">
-        <ng-template mat-tab-label>
-          <span class="tab-title mat-subheading-2">{{ category.name }}</span>
-        </ng-template>
+  <!-- Application categories -->
+  <section class="content-container">
+    <!--  Service Announcement 'catalog'  -->
+    <app-service-announcement [context]="context"></app-service-announcement>
 
-        <div class="tab-content">
-          <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === category.name">
-            <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container">
-              <ng-container *ngFor="let application of applications">
-                <app-main-application-item [application]="application" [context]="context">
-                </app-main-application-item>
-              </ng-container>
-            </div>
-            <div *ngIf="getPublicApplicationAccessNote()" class="no-public-applications">
-              <div class="no-public-applications-divider">...</div>
-              <div class="no-public-applications-card">
-                <div class="no-public-applications-icon">
-                  <fa-icon icon="chart-column"></fa-icon>
-                  <fa-icon icon="circle-nodes"></fa-icon>
-                  <fa-icon icon="atom"></fa-icon>
-                </div>
-                <div class="no-public-applications-text" [innerHTML]="getPublicApplicationAccessNote()"></div>
+    <mat-tab-group mat-stretch-tabs="false"
+                   mat-align-tabs="center"
+                   (selectedTabChange)="changeCategory($event)">
+
+      <ng-container *ngFor="let category of getCategories()">
+        <mat-tab label="{{ category.name }}">
+          <div class="tab-content">
+            <div class="catalog-section" *ngIf="selectedCatalog && selectedCatalog.name === category.name">
+              <div *ngIf="applications?.length > 0; else noApplicationBlock" class="application-item-container">
+                <ng-container *ngFor="let application of applications">
+                  <app-main-application-item [application]="application" [context]="context">
+                  </app-main-application-item>
+                </ng-container>
               </div>
-            </div>
-            <ng-template #noApplicationBlock>
-              <section class="status-info-container">
-                <div class="empty-status" *ngIf="applications !== null">
-                  <mat-icon fontSet="material-icons-outlined" class="md-96">import_contacts</mat-icon>
-                  <span class="status-summary">
-                    No applications found. Join a workspace using the button on top to access the content.
-                  </span>
-                </div>
-                <div class="empty-status" *ngIf="applications === null">
-                  <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-                  <span class="status-summary">...Loading...</span>
+              <section *ngIf="getPublicApplicationAccessNote()" class="no-public-applications">
+                <div class="no-public-applications-divider">...</div>
+                <div class="no-public-applications-card">
+                  <div class="no-public-applications-icon">
+                    <mat-icon fontSet="material-icons-outlined">person_alert</mat-icon>
+                  </div>
+                  <h4 class="no-public-applications-text" [innerHTML]="getPublicApplicationAccessNote()"></h4>
                 </div>
               </section>
-            </ng-template>
+              <ng-template #noApplicationBlock>
+                <section class="status-info-container">
+                  <div class="empty-status" *ngIf="applications !== null">
+                    <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+                    <div class="status-summary">
+                      <div class="status-summary">No applications found</div>
+                    </div>
+                    <div>If you want to add more applications,<br> Join a workspace using the button on top to access the content.</div>
+                  </div>
+                  <div class="empty-status" *ngIf="applications === null">
+                    <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+                    <span class="status-summary">...Loading...</span>
+                  </div>
+                </section>
+              </ng-template>
+            </div>
           </div>
+          <!-- //// tab-content -->
+        </mat-tab>
+      </ng-container>
+    </mat-tab-group>
+
+    <!-- Categories have not been fetched yet -->
+    <ng-container *ngIf="getCategories().length === 0">
+      <section class="status-info-container">
+        <div class="empty-status">
+          <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+          <span class="status-summary">...Loading...</span>
         </div>
-        <!-- //// tab-content -->
-      </mat-tab>
+      </section>
     </ng-container>
-  </mat-tab-group>
 
-  <!-- Categories have not been fetched yet -->
-  <ng-container *ngIf="getCategories().length === 0">
-    <section class="status-info-container">
-      <div class="empty-status">
-        <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-        <span class="status-summary">...Loading...</span>
-      </div>
-    </section>
-  </ng-container>
-
-</section>
+  </section>
+</div>

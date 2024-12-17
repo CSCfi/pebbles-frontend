@@ -1210,7 +1210,7 @@ export let db = {
       content: [
         {
           question: 'category 1 question 1',
-          answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+          answer: 'Lorem ipsum dolor sit amet. <a href="https://en.wikipedia.org/wiki/Lorem_ipsum">Read more.</a>'
         },
         {
           question: 'category 1 question 2',
@@ -1312,6 +1312,14 @@ export let db = {
     {
       key: 'SERVICE_DOCUMENTATION_URL',
       value: 'http://link-to-service-documentation'
+    },
+    {
+      key: 'AGREEMENT_TITLE',
+      value: 'Pebbles Mock'
+    },
+    {
+      key: 'AGREEMENT_LOGO_PATH',
+      value: 'assets/images/logo/owner_logo.svg'
     },
   ],
   structured_config: {

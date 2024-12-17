@@ -1,40 +1,40 @@
-<div id="workspace-owner-container" class="grid-col"
-     ngClass.lt-sm="mobile" ngClass.lt-md="tablet">
+<div id="workspace-owner-container" class="page-container">
   <!-- Left Column : Workspace list -->
   <div class="workspace-list-container">
     <!--  Content header  -->
-    <div class="content-header-container center__vh">
-      <h1 class="mat-headline mr-15" [innerHTML]="context.title"></h1>
-    </div>
-    <!-- Workspace creation buttons -->
-    <ng-container *ngIf="workspaces">
-      <div class="workspaces-actions-container p-10">
-        <button mat-flat-button class="create-workspace-button"
-                [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
-                aria-label="create a new workspace"
-                [disabled]="!isQuotaLeft()"
-                (click)="openWorkspaceCreationDialog()">
-          <mat-icon class="mr-5">dashboard_customize</mat-icon>
-          <span>Create workspace</span>
-        </button>
-        <ng-container *ngIf="isDemoButtonShown">
-          <button mat-flat-button color="accent" class="create-demo-workspace-button"
-                  aria-label="create demo workspace" (click)="createDemoWorkspace()">
-            <mat-icon fontSet="material-icons-outlined" class="mr-10">auto_fix_high</mat-icon>
-            <span>Create demo workspace</span>
+    <div class="content-header-container">
+      <h3 [innerHTML]="context.title"></h3>
+
+      <!-- Workspace creation buttons -->
+      <ng-container *ngIf="workspaces">
+        <div class="workspaces-actions-container">
+          <button mat-flat-button class="create-workspace-button"
+                  [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
+                  aria-label="create a new workspace"
+                  [disabled]="!isQuotaLeft()"
+                  (click)="openWorkspaceCreationDialog()">
+            <mat-icon class="mr-5">dashboard_customize</mat-icon>
+            <span>Create workspace</span>
           </button>
-        </ng-container>
-        <div *ngIf="!isQuotaLeft()" class="max-quota-warning p-10 mt-10">
-          No workspace quota left.
-          If you want to create more workspaces and you cannot free up quota by deleting unused workspaces,
-          please contact us.
+          <ng-container *ngIf="isDemoButtonShown">
+            <button mat-flat-button color="accent" class="create-demo-workspace-button"
+                    aria-label="create demo workspace" (click)="createDemoWorkspace()">
+              <mat-icon fontSet="material-icons-outlined" class="mr-10">auto_fix_high</mat-icon>
+              <span>Create demo workspace</span>
+            </button>
+          </ng-container>
+          <div *ngIf="!isQuotaLeft()" class="max-quota-warning">
+            No workspace quota left.
+            If you want to create more workspaces and you cannot free up quota by deleting unused workspaces,
+            please contact us.
+          </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
     <!-- Workspace list -->
-    <div class="workspace-list pl-10 pr-10" *ngIf="workspaces">
+    <div class="workspace-list" *ngIf="workspaces">
       <ng-container *ngFor="let workspace of workspaces">
-        <mat-card class="workspace-item mb-5 {{getMembershipType(workspace)}}"
+        <mat-card class="workspace-item {{getMembershipType(workspace)}}"
                   [ngClass]="{
                     'selected': isWorkspaceSelected(workspace),
                     'new': isNewWorkspace(workspace.id),
@@ -43,7 +43,7 @@
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
           <div class="card-header">
-            <div class="workspace-icon center__v">
+            <div class="workspace-icon">
               <mat-icon class="user-role-icon"
                         [matTooltip]="getMembershipType(workspace)"
                         *ngIf="getMembershipType(workspace)!=='public'; else publicBlock">
@@ -53,30 +53,28 @@
             <ng-template #publicBlock>
               <mat-icon class="user-role-icon" [matTooltip]="getMembershipType(workspace)">public</mat-icon>
             </ng-template>
-            <div class="workspace-title mat-subheading-2">
-              <span>{{ workspace.name }}</span>
-            </div>
-            <div class="workspace-selected-arrow center__v"
+            <div class="workspace-title">{{ workspace.name }}</div>
+            <div class="workspace-selected-arrow"
                  *ngIf="isWorkspaceSelected(workspace)">
               <mat-icon>navigate_next</mat-icon>
             </div>
           </div>
           <!-- widget detail -->
-          <mat-card-content class="workspace-info mt-10 pt-10"
+          <mat-card-content class="workspace-info"
                             *ngIf="isWorkspaceSelected(workspace)">
-            <div class="description pb-10 mat-body-1">
+            <div class="description">
               {{ workspace.description || 'No description for the workspace' }}
             </div>
-            <dl class="pt-10 grid-col">
+            <dl>
               <dt>Your role</dt>
               <dd class="user-role-txt">{{ getMembershipType(workspace) }}</dd>
             </dl>
-            <dl class="join-code-info pt-10 pb-10 grid-col">
+            <dl class="join-code-info">
               <dt class="function-title">Join code</dt>
               <dd class="open-join-code-button"
                   (click)="openJoinCodeDialog(workspace)">
-                <mat-icon class="mr-5">vpn_key</mat-icon>
-                <div class="chip__password center__v"></div>
+                <mat-icon>vpn_key</mat-icon>
+                <div class="chip__password"></div>
               </dd>
             </dl>
             <dl class="expiration-date-info grid-col">
@@ -89,7 +87,7 @@
                 {{ workspace.expiry_ts | remainingDaysDisplay }}
               </dd>
             </dl>
-            <dl class="pt-10 grid-col" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
+            <dl class="grid-col" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
               <dt>Membership expiry</dt>
               <dd>{{ workspace.membership_expiry_policy.timeout_days }} days</dd>
             </dl>
@@ -98,7 +96,7 @@
       </ng-container>
     </div>
     <!-- Mobile workspace-list -->
-    <div class="mobile-workspace-list ml-10 mr-10 mb-10" *ngIf="workspaces">
+    <div class="mobile-workspace-list" *ngIf="workspaces">
       <mat-form-field appearance="fill">
         <mat-label>Select workspace</mat-label>
         <mat-select [(value)]="selectedWorkspaceId" (selectionChange)="workspaceSelectChange()">
@@ -117,7 +115,7 @@
         </span>
       </div>
       <div class="empty-status" *ngIf="workspaces === null">
-        <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+        <mat-icon fontSet="material-icons-outlined" class="md-24">hourglass_top</mat-icon>
         <span class="status-summary">...Loading...</span>
       </div>
     </div>
@@ -125,7 +123,7 @@
   <!--  //// END div.workspaces-actions-container -->
 
   <!-- Right Column : Workspace Detail -->
-  <div id="workspace-owner-tab-container">
+  <div id="workspace-owner-tab-container" class="tab-container">
 
     <!--  Service Announcement 'workspace-owner'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
@@ -134,21 +132,18 @@
       <div class="course-request-wrapper">
         <button mat-button matTooltip="Hosting a course? Please inform us by using this form."
                 class="course-request" (click)="openCourseRequest()">
-          <mat-icon class="md-18 mr-4">event</mat-icon>
           Course Request
-          <mat-icon class="md-18 ml-10">open_in_new</mat-icon>
         </button>
       </div>
-      <mat-tab-group mat-align-tabs="center" class="workspace-owner-tab"
+      <mat-tab-group class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
                      [selectedIndex]="selectedTab">
         <mat-tab label="applications">
-
           <ng-template mat-tab-label>
-            <mat-icon class="md-18">import_contacts</mat-icon>
+            <mat-icon>import_contacts</mat-icon>
             <span class="tab-title">Applications</span>
-            <mat-chip *ngIf="applicationCount > 0" class="chip__circle bg__primary-light">
+            <mat-chip *ngIf="applicationCount > 0" class="chip__circle">
               {{applicationCount}}
             </mat-chip>
           </ng-template>
@@ -160,9 +155,9 @@
         </mat-tab>
         <mat-tab label="members">
           <ng-template mat-tab-label>
-            <mat-icon class="md-18">person</mat-icon>
+            <mat-icon>person</mat-icon>
             <span class="tab-title">Members</span>
-            <mat-chip *ngIf="memberCount > 0" class="chip__circle bg__primary-light">
+            <mat-chip *ngIf="memberCount > 0" class="chip__circle">
               {{memberCount}}
             </mat-chip>
           </ng-template>
@@ -196,8 +191,8 @@
     <ng-container *ngIf="isNoWorkspace && !isWorkspaceDeleted">
       <div class="status-info-container">
         <div class="empty-status">
-          <span class="status-summary mt-80">No workspaces</span>
-          <mat-icon fontSet="material-icons-outlined" class="md-96">touch_app</mat-icon>
+          <h2 class="status-summary">No workspaces</h2>
+          <mat-icon fontSet="material-icons-outlined">touch_app</mat-icon>
           <span class="status-postscript">Start by creating a new workspace</span>
         </div>
       </div>

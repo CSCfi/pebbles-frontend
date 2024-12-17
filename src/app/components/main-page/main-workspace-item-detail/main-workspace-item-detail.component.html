@@ -1,7 +1,7 @@
 <div id="workspace-setting-container">
 
   <form [formGroup]="workspaceEditForm" novalidate *ngIf="workspaceEditForm">
-    <dl class="workspace-info grid mb-30">
+    <dl class="workspace-info">
       <dt>
         Workspace name
       </dt>
@@ -45,8 +45,8 @@
       <dd>
         <div>
           <button class="open-join-code-button" (click)="openJoinCodeDialog()">
-            <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
-            <span class="chip__password center__v"></span>
+            <mat-icon>vpn_key</mat-icon>
+            <span class="chip__password"></span>
           </button>
         </div>
       </dd>
@@ -60,7 +60,7 @@
       <dd>
         {{ workspace.expiry_ts | dateDisplay }}  ({{ workspace.expiry_ts | remainingDaysDisplay }})
         <span class="extend-checkbox" *ngIf="workspace.config?.allow_expiry_extension">
-          <mat-checkbox formControlName="isExtendExpiryChecked" (click)="onExtendExpiryDateClick()">
+          <mat-checkbox (change)="onExtendExpiryDateChange($event)" formControlName="isExtendExpiryChecked">
             Extend to 13 months from now
           </mat-checkbox>
         </span>
@@ -69,13 +69,14 @@
         Memory limit
       </dt>
       <dd>{{ workspace.memory_limit_gib }} GiB total for concurrent sessions</dd>
-      <ng-container class="pt-10 grid-col" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
+      <ng-container class="" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
         <dt>Membership expiry</dt>
         <dd>after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity</dd>
       </ng-container>
     </dl>
     <div class="action-buttons">
-      <button mat-flat-button class="workspace-update-button" color="accent"
+      <button mat-flat-button
+              class="workspace-update-button primary-btn"
               *ngIf="workspace.name!=='System.default'"
               [disabled]="!isWorkspaceFormChanged || !workspaceEditForm.valid" (click)="updateWorkspace()">
         save changes
@@ -84,9 +85,9 @@
               (click)="cancelWorkspaceEditing()">
         cancel changes
       </button>
-      <button mat-stroked-button class="workspace-delete-button" *ngIf="isDeletable"
+      <button [disabled]="!isDeletable" class="workspace-delete-button" mat-stroked-button
               (click)="deleteWorkspace()">
-        <mat-icon fontSet="material-icons-outlined" class="mr-5">delete_outline</mat-icon>
+        <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
         delete workspace
       </button>
     </div>
@@ -96,7 +97,7 @@
 <ng-template #loadingBlock>
   <section class="status-info-container">
     <div class="empty-status">
-      <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+      <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
       <span class="status-summary">...Loading...</span>
     </div>
   </section>

@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ActivatedRoute, Data } from '@angular/router';
 import { ApplicationSessionService } from '../../../services/application-session.service';
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from '../../../models/application-session';
 import { ApplicationService } from '../../../services/application.service';
 import { Utilities } from '../../../utilities';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
@@ -76,7 +76,6 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     this.applicationService.fetchApplications().subscribe(() => {
       this.applicationSessionService.fetchSessions().subscribe(() => {
         this.updateView();
-        //this.showSessionDetails(this.applicationSessionService.getSessions()[0].id);
       })
     });
     this.interval = window.setInterval(() => this.updateView(), 5000);

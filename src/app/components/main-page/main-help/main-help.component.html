@@ -1,117 +1,114 @@
-<div class="content-header-container grid-col">
-  <app-main-content-header
-    (emitApplyFilter)="applyFilter($event)"
-    [context]="context"
-    [isSearchOn]="selectedTab===0"
-    [isAutocompleteDisabled]=""
-    [labels]="null">
-  </app-main-content-header>
-</div>
+<div class="page-container">
+  <div class="content-header-container grid-col">
+    <app-main-content-header
+      (emitApplyFilter)="applyFilter($event)"
+      [context]="context"
+      [isAutocompleteDisabled]=""
+      [isSearchOn]="selectedTab===0"
+      [labels]="null">
+    </app-main-content-header>
+  </div>
 
-<div id="help-page" class="content-container" ngClass.lt-sm="mobile">
-  <ul class="mobile-nav txt__primary">
-    <li><a [routerLink]="['/main/help']" [queryParams]="{content:'faq'}">FAQ</a></li>
-    <li><a [routerLink]="['/main/help']" [queryParams]="{content:'documentation'}">Documentation</a></li>
-    <li><a [routerLink]="['/main/help']" [queryParams]="{content:'contact'}">Contact us</a></li>
-  </ul>
-  <mat-tab-group mat-align-tabs="center" animationDuration="0ms"
-                 (selectedTabChange)="handleTabChange($event)"
-                 [selectedIndex]="selectedTab">
-    <mat-tab label="faq">
-      <ng-template mat-tab-label>
-        <mat-icon fontSet="material-icons-outlined" class="tab-icon mr-10 md-36"> help_outline</mat-icon>
-        <span class="tab-title mat-subheading-2 mr-20">FAQ</span>
-      </ng-template>
-      <ng-template matTabContent>
-        <section class="mt-30 content-cutout">
-          <!--<h2 class="help-title mat-title">Frequently asked questions</h2>-->
-          <ng-container *ngIf="faqTopics?.length > 0">
-            <mat-accordion class="" *ngFor="let faq of faqTopics let pre = index" multi>
-              <h3 class="mat-title mt-40 mb-10">{{ faq.name }}</h3>
-              <ng-container *ngIf="faq.content.length>0 ;else noContent">
-                <mat-expansion-panel class="info-body mb-5 p-10" *ngFor="let content of faq.content; let sur = index"
-                                     [expanded]="indexExpanded === pre +'-'+ sur "
-                                     disabled="true"
-                                     (click)="togglePanels(pre +'-'+ sur)">
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      <span class="txt__primary" [innerHTML]="content.question"></span>
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <span class="mat-body-1" [innerHTML]="content.answer"></span>
-                </mat-expansion-panel>
-              </ng-container>
-              <ng-template #noContent>
-                No item is found.
-              </ng-template>
-            </mat-accordion>
-          </ng-container>
-        </section>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="documentation">
-      <ng-template mat-tab-label>
-        <mat-icon fontSet="material-icons-outlined" class="tab-icon mr-10 md-36">library_books</mat-icon>
-        <span class="tab-title mat-subheading-2">Documentation</span>
-      </ng-template>
-      <ng-template matTabContent>
-        <section class="mt-30 content-cutout info-body">
-          <div>
-            <h3 class="mat-subheading-2 mb-5 mr-20">{{ publicConfigService.getInstallationName() }} Documentation</h3>
-            <p class="mat-body-1 center__v">
-              <mat-icon class="mr-10">launch</mat-icon>
-              <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
-                 class="tab-title mat-subheading-2 txt__primary" rel="noopener">
+  <div class="content-container" id="help-page">
+    <ul class="mobile-nav txt__primary">
+      <li><a [queryParams]="{content:'faq'}" [routerLink]="['/main/help']">FAQ</a></li>
+      <li><a [queryParams]="{content:'documentation'}" [routerLink]="['/main/help']">Documentation</a></li>
+      <li><a [queryParams]="{content:'contact'}" [routerLink]="['/main/help']">Contact us</a></li>
+    </ul>
+    <mat-tab-group (selectedTabChange)="handleTabChange($event)" [selectedIndex]="selectedTab"
+                   animationDuration="0ms"
+                   mat-align-tabs="center">
+      <mat-tab label="faq">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon mr-10 md-36" fontSet="material-icons-outlined"> help_outline</mat-icon>
+          <div class="tab-title mat-subtitle-1 mr-20">FAQ</div>
+        </ng-template>
+        <ng-template matTabContent>
+          <section class="mt-30 content-cutout">
+            <!--<h2 class="help-title mat-title">Frequently asked questions</h2>-->
+            <ng-container *ngIf="faqTopics?.length > 0">
+              <mat-accordion *ngFor="let faq of faqTopics let pre = index" class="" multi>
+                <h3 class="mat-headline-6 mt-40 mb-10">{{ faq.name }}</h3>
+                <ng-container *ngIf="faq.content.length>0 ;else noContent">
+                  <mat-expansion-panel (click)="togglePanels(pre +'-'+ sur)"
+                                       *ngFor="let content of faq.content; let sur = index"
+                                       [expanded]="indexExpanded === pre +'-'+ sur "
+                                       class="info-body mb-5 p-10"
+                                       disabled="true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <span [innerHTML]="content.question" class="txt__primary"></span>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <span [innerHTML]="content.answer" class="mat-body-2 description"></span>
+                  </mat-expansion-panel>
+                </ng-container>
+                <ng-template #noContent>
+                  No item is found.
+                </ng-template>
+              </mat-accordion>
+            </ng-container>
+          </section>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="documentation">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon mr-10 md-36" fontSet="material-icons-outlined">library_books</mat-icon>
+          <span class="tab-title mat-subtitle-1">Documentation</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <section class="mt-30 content-cutout info-body">
+            <h3 class="mat-subtitle-1 mb-5 mr-20">{{ publicConfigService.getInstallationName() }} Documentation</h3>
+            <div class="external-link">
+              <a [href]="publicConfigService.getServiceDocumentationUrl()" rel="noopener" target="_blank">
+                <mat-icon>launch</mat-icon>
                 Open Documentation (External link)
               </a>
-            </p>
-          </div>
-          <div>
-            <h3 class="mat-subheading-2 mb-5">Pebbles source code</h3>
-            <p class="mat-body-1 center__v">
-              <mat-icon class="mr-10">launch</mat-icon>
-              <a href="https://github.com/CSCfi/pebbles" target="_blank"
-                 class="tab-title mat-subheading-2 txt__primary" rel="noopener">
+            </div>
+            <h3 class="mat-subtitle-1 mb-5">Pebbles source code</h3>
+            <div class="external-link">
+              <a href="https://github.com/CSCfi/pebbles" rel="noopener" target="_blank">
+                <mat-icon>launch</mat-icon>
                 See source code in GitHub
               </a>
-            </p>
-          </div>
+            </div>
+          </section>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="contact">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon mr-10 md-36" fontSet="material-icons-outlined">mail</mat-icon>
+          <span class="tab-title mat-subtitle-1 mr-10">Contact us</span>
+        </ng-template>
+        <ng-template matTabContent>
+          <section class="content-cutout">
+            <div class="balloon">
+              <ul class="mat-headline-5">
+                <li>Do you want to host a course?</li>
+                <li>Would you need a new kind of application template?</li>
+                <li>Is there something out of order?</li>
+              </ul>
+              <div class="mat-headline-5">Contact us!</div>
+            </div>
+            <div class="contact-info">
+              <mat-icon class="icon-96" fontSet="material-icons-outlined">business</mat-icon>
+              <div class="mat-headline-5">Service Desk</div>
 
-        </section>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="contact">
-      <ng-template mat-tab-label>
-        <mat-icon fontSet="material-icons-outlined" class="tab-icon mr-10 md-36">mail</mat-icon>
-        <span class="tab-title mat-subheading-2 mr-10">Contact us</span>
-      </ng-template>
-      <ng-template matTabContent>
-        <section class="mt-30 content-cutout">
-          <div class="balloon mt-60 mb-40 p-30">
-            <ul class="mat-headline mb-30">
-              <li>Do you want to host a course?</li>
-              <li>Would you need a new kind of application template?</li>
-              <li>Is there something out of order?</li>
-            </ul>
-            <div class="mat-display-3">Contact us!</div>
-          </div>
-          <div class="contact-info">
-            <mat-icon fontSet="material-icons-outlined" class="md-96 business-icon">business</mat-icon>
-            <div class="mb-10 mat-headline">Service Desk</div>
-            <dl class="mt-30 mb-20 mat-title grid center__v">
-              <dt class="center__v">
-                <mat-icon fontSet="material-icons-outlined" class="mr-5">mail</mat-icon>
-                <span class="mr-10">E-mail</span>
-              </dt>
-              <dd>
-                <a href="mailto:{{ publicConfigService.getContactEmail() }}" class="u-line txt__primary">
-                  {{ publicConfigService.getContactEmail() }}
-                </a>
-              </dd>
-            </dl>
-          </div>
-        </section>
-      </ng-template>
-    </mat-tab>
-  </mat-tab-group>
+              <dl class="email">
+                <dt class="center__v">
+                  <mat-icon fontSet="material-icons-outlined">mail</mat-icon>
+                  E-mail
+                </dt>
+                <dd class="external-link">
+                  <a href="mailto:{{ publicConfigService.getContactEmail() }}">
+                    {{ publicConfigService.getContactEmail() }}
+                  </a>
+                </dd>
+              </dl>
+            </div>
+          </section>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

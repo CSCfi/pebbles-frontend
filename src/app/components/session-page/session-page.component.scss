@@ -1,191 +1,171 @@
 @import "src/styles/main.scss";
 
-#session-page {
-  z-index: -2;
-}
-
-#session-container {
+.page-container {
+  max-height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-self: center;
-  align-self: center;
-  background: map-get($app-primary, dark);
-  height: 100%;
-  z-index: 1;
-  padding-bottom: 150px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  @include primary-dark-background;
 
-  .status-wrapper {
-    grid-template-rows: auto;
-    align-items: center;
 
-    .state-info {
-      color: #fff;
-      text-align: center;
-    }
-
-    .explanation-message p {
-      text-align: center;
-      height: 20px;
-    }
+  ::ng-deep app-header {
+    height: 80px;
+    width: 100%;
+    padding: 0 20px;
   }
 
-  .progress-ui {
-    max-width: 1000px;
-    margin: 20px;
-    grid-template-columns: repeat(6, max-content);
+  .session-container {
+    height: calc(100vh - 80px);
 
-    .step {
-      width: 150px;
-      height: 80px;
-      margin-bottom: 2px;
-      margin-right: 5px;
-      text-align: center;
-      color: map-get($app-primary, dark);
-      position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-      .arrow-wrapper {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        z-index: -1;
-        top: 0;
+    .status-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
 
-        &:before,
-        &:after {
-          content: "";
-          position: absolute;
-          height: 40px;
-          width: 100%;
-          left: 0;
-          z-index: -1;
-        }
-
-        &:before {
-          top: 0;
-          -webkit-transform: skew(30deg);
-          -moz-transform: skew(30deg);
-          transform: skew(30deg);
-        }
-
-        &:after {
-          top: 39px;
-          -webkit-transform: skew(-30deg);
-          -moz-transform: skew(-30deg);
-          transform: skew(-30deg);
-        }
+      .state-info {
+        @include headline-2;
+        text-align: center;
       }
 
-      .description {
-        line-height: 135%;
-        height: 100%;
-        width: 100%;
-        display: table;
-        z-index: 10;
-        padding: 5px 10px 5px 15px;
-
-        span {
-          display: table-cell;
-          vertical-align: middle;
+      .explanation-message {
+        p {
           text-align: center;
         }
       }
     }
 
-    // ---- Effect for the progress bar
-    .step {
-      // ---- Default steps
-      .arrow-wrapper:before,
-      .arrow-wrapper:after {
-        background: map-get($app-primary, light);
+    app-main-application-item {
+      width: 100%;
+    }
+  }
+}
+
+.progress-ui {
+  max-width: 1000px;
+  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(6, max-content);
+
+  .step {
+    width: 150px;
+    height: 80px;
+    margin-bottom: 2px;
+    margin-right: 5px;
+    text-align: center;
+    color: $dark-text-color;
+    z-index: 3;
+    position: relative;
+
+    .arrow-wrapper {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        height: 40px;
+        width: 100%;
+        left: 0;
+        z-index: -1;
       }
 
-      // ---- Current step
-      .arrow-wrapper.current:before,
-      .arrow-wrapper.current:after {
-        animation: blink 800ms infinite;
+      &:before {
+        top: 0;
+        -webkit-transform: skew(30deg);
+        -moz-transform: skew(30deg);
+        transform: skew(30deg);
       }
 
-      // ---- Done step
-      .arrow-wrapper.done:before,
-      .arrow-wrapper.done:after {
-        animation: color-transit 100ms forwards;
+      &:after {
+        top: 39px;
+        -webkit-transform: skew(-30deg);
+        -moz-transform: skew(-30deg);
+        transform: skew(-30deg);
       }
+    }
 
-      .arrow-wrapper.current,
-      .arrow-wrapper.done {
-        &.delay-1:before, &.delay-1:after {
-          animation-delay: 100ms;
-        }
+    .description {
+      line-height: 135%;
+      height: 100%;
+      width: 100%;
+      display: table;
+      z-index: 10;
+      padding: 5px 10px 5px 15px;
 
-        &.delay-2:before, &.delay-2:after {
-          animation-delay: 150ms;
-        }
-
-        &.delay-3:before, &.delay-3:after {
-          animation-delay: 200ms;
-        }
-
-        &.delay-4:before, &.delay-4:after {
-          animation-delay: 250ms;
-        }
-
-        &.delay-5:before, &.delay-5:after {
-          animation-delay: 300ms;
-        }
-      }
-
-      // ---- Step failed
-      .arrow-wrapper.failed:before,
-      .arrow-wrapper.failed:after {
-        background: map-get($app-warn, default) !important;
-        animation-play-state: paused;
-      }
-
-      // ---- Stopped step
-      .arrow-wrapper.stopped:before,
-      .arrow-wrapper.stopped:after {
-        background: map-get($app-gray, 300);
-        animation-play-state: paused;
+      span {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
       }
     }
   }
 
-  .application-item {
-    width: 100%;
-    max-width: 850px;
-    margin: auto;
-  }
+  // ---- Effect for the progress bar
+  .step {
+    // ---- Default steps
+    .arrow-wrapper:before,
+    .arrow-wrapper:after {
+      background: $primary-light-color;
+    }
 
-  .policy-note {
-    display: flex;
-    border-style: dashed;
-    border-width: thin;
-    border-radius: 1em;
-    border-color: white;
-    padding: 1em;
-    margin: 1em;
-    max-width: 850px;
-    width: 100%;
+    // ---- Current step
+    .arrow-wrapper.current:before,
+    .arrow-wrapper.current:after {
+      animation: blink 800ms infinite;
+    }
 
-    .policy-icon-column {
-      align-self: center;
+    // ---- Done step
+    .arrow-wrapper.done:before,
+    .arrow-wrapper.done:after {
+      animation: color-transit 100ms forwards;
+    }
 
-      mat-icon {
-        transform: scale(1.5);
-        margin-right: 1em;
-        margin-left: 0.5em;
+    .arrow-wrapper.current,
+    .arrow-wrapper.done {
+      &.delay-1:before, &.delay-1:after {
+        animation-delay: 100ms;
+      }
+
+      &.delay-2:before, &.delay-2:after {
+        animation-delay: 150ms;
+      }
+
+      &.delay-3:before, &.delay-3:after {
+        animation-delay: 200ms;
+      }
+
+      &.delay-4:before, &.delay-4:after {
+        animation-delay: 250ms;
+      }
+
+      &.delay-5:before, &.delay-5:after {
+        animation-delay: 300ms;
       }
     }
 
-    .policy-content {
-      align-self: flex-end;
+    //---- Step failed
+    .arrow-wrapper.failed:before,
+    .arrow-wrapper.failed:after {
+      background: map-get($app-warn, default) !important;
+      animation-play-state: paused;
     }
-  }
 
-  &.mobile {
-    .status-wrapper,
-    .application-info {
-      min-width: 100%;
+    //---- Stopped step
+    .arrow-wrapper.stopped:before,
+    .arrow-wrapper.stopped:after {
+      background: map-get($app-gray, 300);
+      animation-play-state: paused;
     }
   }
 }

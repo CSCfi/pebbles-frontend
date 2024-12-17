@@ -35,6 +35,7 @@ import { SessionPageComponent } from './components/session-page/session-page.com
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 // ---- Interceptors
 import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
     MaterialModule,
     SharedModule,
     MainModule,
+    NgOptimizedImage,
   ],
   providers: [
     AccountService,

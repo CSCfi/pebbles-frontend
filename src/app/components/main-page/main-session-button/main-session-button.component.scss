@@ -5,172 +5,193 @@
   width: 120px;
   height: 120px;
   overflow: hidden;
-}
 
-.background-circle-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: inherit;
-  height: inherit;
-
-  svg {
-    width: inherit;
-    height: inherit;
-
-    circle {
-      fill: white;
-      stroke: map-get($app-gray, 100);
-    }
-  }
-}
-
-.progress-spinner-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: inherit;
-  height: inherit;
-
-  ::ng-deep .application-spinner {
-    circle {
-      stroke: map-get($app-accent, default);
-      transform: scale(1, -1);
-    }
-  }
-}
-
-.actionable-circle-container {
-  width: inherit;
-  height: inherit;
-
-  .circle-button {
-    //grid-template-rows: 70px 30px;
-    justify-items: stretch;
-    justify-content: stretch;
-    align-items: start;
-    align-content: center;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    background: map-get($app-primary, default);
+  button.launch-button {
+    background: $light-color !important;
 
     .mat-icon {
-      color: white;
-    }
-
-    .time-left,
-    .state {
-      color: white;
-    }
-  }
-
-  .open-button,
-  .shutdown-button {
-    background: map-get($app-transparent, default) !important;
-    width: inherit;
-    justify-content: center;
-    line-height: 1.5rem;
-    border-radius: unset;
-  }
-
-  .close-button {
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    color: map-get($app-primary, dark);
-    //background: map-get($app-gray, default);
-  }
-
-  .stat-button {
-    padding-top: 10px;
-    text-align: center;
-  }
-
-  .state-area {
-    padding-top: 15px;
-    height: 70px;
-    text-align: center;
-  }
-
-  .open-button {
-    height: 70px;
-    padding-top: 10px;
-
-    &:hover {
-      background: map-get($app-accent, default) !important;
-    }
-  }
-
-  .shutdown-button {
-    height: 30px;
-
-    &:hover {
-      background: map-get($app-warn, dark) !important;
-    }
-  }
-
-  .shutdown-button {
-    border-top: 1px solid map-get($app-gray, 300);
-    margin: 0;
-  }
-
-  .launch-button {
-    background: white;
-
-    .mat-icon {
-      color: map-get($app-gray, 700);
+      color: $gray-color;
+      display: block;
     }
 
     &:hover {
-      background: map-get($app-primary, default);
+      @include accent-main-background;
 
       .mat-icon {
-        color: white;
+        color: $primary-color;
       }
     }
   }
 
   .launch-button-inactive {
-    background: map-get($app-gray, 200);
+    background: $gray-color !important;
 
     .mat-icon {
       color: map-get($app-gray, 50);
     }
   }
 
-  .session-page-button {
-    color: #fff;
-    font-weight: bold;
-    z-index: 2000;
+  .progress-spinner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
 
-    &.upper-button {
+    ::ng-deep .application-spinner {
+      circle {
+        stroke: $secondary-color;
+      }
+    }
+  }
+
+  .background-circle-container {
+    @include center(both);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+
+    svg {
+      width: inherit;
+      height: inherit;
+
+      circle {
+        fill: white;
+        stroke: $gray-light-color;
+      }
+    }
+  }
+
+  .actionable-circle-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    height: 100px;
+
+    .circle-button {
+      @include primary-main-background;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      overflow: hidden;
+
+      .time-left,
+      .state {
+        color: $light-color;
+      }
+    }
+
+    button.open-button,
+    button.shutdown-button {
+      @include primary-main-background;
+      width: inherit;
+      height: inherit;
+      justify-content: center;
+      line-height: 1.5rem;
+      border-radius: unset;
+
+      ::ng-deep.mdc-button__label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    button.close-button {
+      border-radius: 50%;
+      width: 100px;
+      flex: 1 0 30px;
+      overflow: hidden;
+      @include warn-dark-background;
+    }
+
+    .stat-button {
+      padding-top: 10px;
+      text-align: center;
+    }
+
+    .state-area {
+      padding-top: 15px;
       height: 70px;
+      text-align: center;
+      @include headline-6;
     }
 
-    &.lower-button {
-      height: 30px;
+    .open-button {
+      height: 70px;
+      padding-top: 10px;
+
+      &:hover {
+        @include accent-main-background;
+        * {
+          color: $dark-text-color;
+        }
+      }
     }
 
-    a {
+    .shutdown-button {
+      flex: 0 0 30px;
+      border-top: 1px solid map-get($app-gray, 300);
+      margin: 0;
+
+      &:hover {
+        background: $warn-dark-color;
+      }
+
+      .mat-icon {
+        font-size: 1.4rem;
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .session-page-button {
       color: #fff;
       font-weight: bold;
-      cursor: pointer;
+      z-index: 2000;
+
+      &.upper-button {
+        height: 170px;
+        @include center;
+      }
+
+      &.lower-button {
+        height: 30px;
+      }
+
+      a {
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+      }
     }
   }
-}
 
-.warning {
-  ::ng-deep .application-spinner {
-    circle {
-      stroke: map-get($app-gray, 200);
+  &.warning {
+    .progress-spinner-container {
+      ::ng-deep .application-spinner {
+        circle {
+          stroke: map-get($app-gray, 200);
+        }
+      }
     }
-  }
 
-  .circle-button {
-    background: map-get($app-warn, dark);
+    .circle-button {
+      @include warn-dark-background;
+      color: $light-text-color;
+
+      button {
+        background: map-get($app-warn, dark);
+      }
+    }
   }
 }
 

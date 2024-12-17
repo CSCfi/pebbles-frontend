@@ -2,10 +2,10 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogRef as MatDialogRef
-} from '@angular/material/legacy-dialog';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { Application, AttributeLimit } from 'src/app/models/application';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';

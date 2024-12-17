@@ -1,0 +1,527 @@
+@import "src/styles/main.scss";
+
+html {
+  height: 100%;
+  @include common-font;
+  font-size: 62.5%;
+  color: rgba(17, 17, 17, 0.87);
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font-size: 1.5rem;
+  line-height: 160%;
+}
+
+.bg__dark {
+  color: #ffffffff;
+  background-color: #18227cff;
+}
+
+.bg__light {
+  background: #b6beff;
+  color: #18227c;
+}
+
+button,
+.button {
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+  background: $light-color;
+  color: $dark-text-color;
+  @include styled-font;
+  font-weight: 600 !important;
+  font-size: 1.5rem !important;
+  letter-spacing: normal !important;
+  white-space: normal;
+  //border: 1px solid $light-line !important;
+
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    background-color: map-get($app-gray, 100) !important;
+    color: $dark-text-color;
+  }
+
+  &.primary-btn {
+    background-color: $primary-color !important;
+    color: $light-text-color !important;
+
+    .mat-icon {
+      color: $light-text-color !important;
+    }
+
+    &:hover:not(:disabled) {
+      filter: brightness(80%);
+    }
+
+    &:disabled,
+    &.mat-mdc-button-disabled {
+      background-color: map-get($app-gray, 100) !important;
+      color: $gray-text-color !important;
+    }
+  }
+
+  &.secondary-btn:not(:disabled) {
+    background-color: $secondary-color !important;
+    color: $light-text-color !important;
+
+    &:hover:not(:disabled) {
+      color: $accent-color !important;
+    }
+  }
+
+  &.light-btn:not(:disabled) {
+    background-color: $light-color !important;
+    color: $gray-dark-color !important;
+
+    &:hover {
+      color: $secondary-color !important;
+    }
+  }
+
+  &.plain-btn {
+    text-align: center;
+  }
+}
+
+.error-status {
+  margin: 20px auto 0;
+  color: $warn-dark-color;
+  font-weight: bold;
+}
+
+h1 {
+  @include headline-1;
+}
+
+h2 {
+  @include headline-2;
+}
+
+h3 {
+  @include headline-3;
+}
+
+h4 {
+  @include headline-4;
+}
+
+h5 {
+  @include headline-5;
+}
+
+.chips {
+  margin: 7px 0 7px 0;
+
+  .chip {
+    padding: 2px 10px 3px;
+    margin-right: 5px;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: $dark-text-color;
+    background-color: $gray-extra-light-color;
+    //border: 1px solid $gray-light-color;
+    border-radius: 2em;
+    font-size: 1.1rem;
+
+    .mdc-evolution-chip {
+      &__cell--trailing {
+        margin-left: 3px;
+        margin-top: 1px;
+      }
+
+      &__text-label {
+        --mdc-chip-label-text-size: 1.3rem;
+      }
+
+      &__action {
+        padding-left: 8px !important;
+      }
+    }
+  }
+}
+
+.chip__password {
+  @include center(both, inline);
+  color: $light-color;
+  background-color: $primary-light-color !important;
+  margin-right: 3px;
+  letter-spacing: 1px;
+  height: 24px;
+  border-radius: 24px;
+  padding: 1px 0 2px !important;
+
+  &:before {
+    margin-top: 2px;
+    font-size: 1rem;
+    font-family: Material Icons, serif;
+    content: "\e061\e061\e061\e061\e061\e061";
+    white-space: nowrap;
+  }
+}
+
+.open-join-code-button {
+  display: grid;
+  grid-template-columns: 28px 96px;
+
+  mat-icon {
+    color: map-get($app-primary, light);
+  }
+}
+
+::ng-deep.mat-mdc-dialog-panel {
+  max-height: 98vh !important;
+}
+
+.dialog-clipboard {
+  border-radius: 3px;
+  margin-top: 20px;
+  font-size: 2.0rem;
+
+  mat-icon {
+    color: $light-color;
+  }
+}
+
+.dialog-container,
+mat-dialog-container {
+  padding: 20px;
+
+  h2 {
+    z-index: 1;
+    text-align: center;
+  }
+
+  .corner-button-container {
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 1000;
+      background: none !important;
+
+      mat-icon {
+        color: $dark-text-color;
+        font-size: 1.8rem;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .mat-dialog-title {
+    text-align: center;
+  }
+
+  .mdc-dialog__content {
+    color: $dark-text-color !important;
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  form button {
+    font-size: 1.6rem !important;
+
+    .mat-icon {
+      color: $light-text-color !important;
+      font-size: 2.4rem !important;
+      width: 24px !important;
+      height: 24px !important;
+    }
+  }
+
+  .warning-message {
+    background: $warn-light-color;
+  }
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+
+  .content-header-container {
+    flex: 0 0 80px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    padding: 0 50px;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
+    app-main-content-header {
+      flex-grow: 1;
+    }
+
+    button {
+      flex-basis: auto;
+
+      mat-icon {
+        font-size: 1.6rem !important;
+        height: 1.6rem !important;
+        width: 1.6rem !important;
+      }
+    }
+
+    .mat-dialog-close {
+      background: none !important;
+    }
+  }
+
+  .content-container {
+    flex: 1 1 auto;
+    overflow: scroll;
+  }
+}
+
+.status-info-container {
+  text-align: center;
+  margin-top: 10%;
+  padding-bottom: 30px;
+  color: $gray-dark-color;
+
+  .empty-status .mat-icon {
+    height: auto;
+    width: auto;
+    font-size: 6rem;
+  }
+
+  .status-summary {
+    margin-bottom: 20px;
+    @include headline-2;
+  }
+
+  .keyword {
+    font-weight: bold;
+    font-style: normal;
+  }
+}
+
+:root {
+  --mat-table-header-container-height: 20px;
+}
+
+.mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+  --mdc-tab-indicator-active-indicator-color: #00969a;
+  --mat-tab-header-active-label-text-color: #18227c;
+  --mat-tab-header-active-ripple-color: #00969a;
+  --mat-tab-header-inactive-ripple-color: #00969a;
+  --mat-tab-header-active-focus-label-text-color: #18227c;
+  --mat-tab-header-active-hover-label-text-color: #18227c;
+  --mat-tab-header-active-focus-indicator-color: #00969a;
+  --mat-tab-header-active-hover-indicator-color: #00969a;
+  --mdc-tab-indicator-active-indicator-height: 5px;
+}
+
+.mat-mdc-checkbox {
+  --mdc-checkbox-selected-icon-color: #00969a;
+  --mdc-checkbox-selected-checkmark-color: #ffffff;
+  --mdc-checkbox-selected-focus-icon-color: #00969a;
+  --mdc-checkbox-selected-hover-icon-color: #00969a;
+  --mdc-checkbox-selected-pressed-icon-color: #00969a;
+}
+
+.mat-mdc-chip {
+  --mdc-chip-elevated-container-color: #919cd2;
+  --mdc-chip-label-text-color: #ffffff;
+  --mdc-chip-label-text-size: 13px;
+  --mdc-chip-label-text-weight: 500;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-label-text-size: 13px;
+  --mdc-chip-label-text-weight: 500;
+}
+
+.mat-mdc-radio-button.mat-accent {
+  --mdc-radio-disabled-selected-icon-color: black;
+  --mdc-radio-disabled-unselected-icon-color: black;
+  --mdc-radio-unselected-hover-icon-color: #212121;
+  --mdc-radio-unselected-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-radio-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-radio-selected-focus-icon-color: #00969a;
+  --mdc-radio-selected-hover-icon-color: #00969a;
+  --mdc-radio-selected-icon-color: #00969a;
+  --mdc-radio-selected-pressed-icon-color: #00969a;
+  --mat-radio-ripple-color: black;
+  --mat-radio-checked-ripple-color: #00969a;
+  --mat-radio-disabled-label-color: rgba(0, 0, 0, 0.38)
+}
+
+.mat-stepper-horizontal {
+  --mat-stepper-header-selected-state-icon-background-color: #00969a;
+  --mat-stepper-header-done-state-icon-background-color: #18227c;
+  --mat-stepper-header-edit-state-icon-background-color: #18227c;
+}
+
+.mat-mdc-unelevated-button.mat-primary {
+    --mdc-filled-button-container-color: #18227c;
+}
+
+table {
+  .mat-mdc-cell {
+    border: 1px solid #d1d1d1 !important;
+  }
+
+  th {
+    padding: 1px 5px !important;
+    background: #e0e0e0 !important;
+    border: 1px solid #d1d1d1 !important;
+    font-size: 1.2rem !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    text-transform: capitalize !important;
+    color: $gray-dark-color !important;
+
+    .mat-sort-header-container {
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  td {
+    padding: 5px 10px !important;
+    vertical-align: middle;
+  }
+
+  .mat-mdc-cell {
+    border: 1px solid #d1d1d1 !important;
+  }
+}
+
+.policy-note {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 20px 30px;
+
+  @include accent-main-background;
+
+  .policy-content {
+    max-width: 1000px;
+    text-align: center;
+  }
+
+  .policy-icon-column {
+    max-width: 1000px;
+    margin-bottom: 20px;
+
+    .mat-icon {
+      display: block;
+      font-size: 5.0rem;
+      width: 50px;
+      height: 50px;
+      margin: auto;
+    }
+  }
+}
+
+.instruction-body {
+  padding: 15px 5px 15px 10px;
+  margin-bottom: 30px;
+  color: map-get($app-gray, default);
+  border: 6px solid map-get($app-gray, 200);
+  border-radius: 20px;
+
+  display: grid;
+  grid-column-gap: 20px;
+  align-items: center;
+  grid-template-columns: max-content auto;
+
+  .form-help-icon .mat-icon {
+    color: map-get($app-gray, 200);
+    font-size: 8rem;
+    width: auto;
+    height: auto;
+  }
+
+  .question {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .answer {
+    font-size: 13px;
+  }
+}
+
+.description {
+  font-size: 1.3rem;
+
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+}
+
+// ----- MOBILE
+
+@media (max-width: 599px) {
+
+  mat-sidenav {
+    position: relative !important;
+
+    .mat-drawer-inner-container {
+      height: auto !important;
+
+      .mobile-main-nav {
+        .nav-toggle-label {
+          border-radius: 0 !important;
+        }
+      }
+    }
+  }
+
+  .content-header-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0 15px 10px;
+
+    app-main-content-header {
+      flex-grow: 1;
+    }
+
+    button {
+      flex-grow: 1;
+
+      mat-icon {
+        font-size: 1.6rem !important;
+        height: 1.6rem !important;
+        width: 1.6rem !important;
+      }
+    }
+  }
+}
+
+// ----- Activate for Debug
+
+//::-webkit-scrollbar {
+//  width: 10px;
+//  height: 10px;
+//}
+
+//::-webkit-scrollbar-thumb {
+//  --bg-opacity: 1;
+//  background-color: $secondary-color;
+//}

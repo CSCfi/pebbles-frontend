@@ -1,35 +1,29 @@
-<div id="join-workspace-dialog" class="mat-typography dialog-container pb-20" ngClass.lt-sm="mobile">
+<div id="join-workspace-dialog" class="dialog-container">
   <ng-container *ngIf="!newWorkspace">
     <div class="corner-button-container">
       <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <h1 class="mat-dialog-title mat-headline">Join Workspace</h1>
-    <mat-dialog-content>
-      <section class="join-code-input-form">
-        <form [formGroup]="joinWorkspaceForm">
-          <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
-          <mat-form-field appearance="fill" class="join-code-input">
-            <mat-label>Enter Join Code</mat-label>
-            <input matInput type="text" placeholder="Join code" formControlName="joinCode">
-            <mat-error *ngIf="isJoinCodeValid" [ngClass]="'error'">error</mat-error>
-          </mat-form-field>
-          <button mat-flat-button color="primary" class="join-workspace-btn center__vh" (click)="joinWorkspace()">
-            <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-          </button>
-        </form>
-        <div class="error-status" *ngIf="errorMessage">{{ errorMessage }}</div>
-      </section>
-    </mat-dialog-content>
-    <!--  <mat-dialog-actions class="mb-10">-->
-    <!--    <button mat-stroked-button mat-dialog-close (click)="closeForm()">Close</button>-->
-    <!--  </mat-dialog-actions>-->
+    <h2>Join Workspace</h2>
+    <section class="join-code-input-form">
+      <form [formGroup]="joinWorkspaceForm">
+        <mat-form-field appearance="fill" class="join-code-input">
+          <mat-label>Enter Join Code</mat-label>
+          <input matInput type="text" placeholder="Join code" formControlName="joinCode">
+          <mat-error *ngIf="isJoinCodeValid" [ngClass]="'error-status'">error</mat-error>
+        </mat-form-field>
+        <button mat-flat-button id="join-workspace-btn" class="primary-btn" (click)="joinWorkspace()">
+          <mat-icon fontSet="material-icons-outlined">add</mat-icon> Join
+        </button>
+      </form>
+      <div class="error-status" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </section>
   </ng-container>
   <ng-container *ngIf="newWorkspace">
-    <h1 class="mat-dialog-title mat-headline">Workspace "{{ newWorkspace.name }}" data policy</h1>
+    <h2>Workspace "{{ newWorkspace.name }}" data policy</h2>
     <mat-dialog-content>
-      <div>
+      <div class="state">
         You have successfully joined workspace "{{ newWorkspace.name }}".
       </div>
       <div *ngIf="newWorkspace.membership_expiry_policy?.kind==='activity_timeout'; else persistentMembership"
@@ -57,10 +51,8 @@
         </div>
       </ng-template>
     </mat-dialog-content>
-    <mat-dialog-actions class="mb-10 dialog-buttons">
-      <button mat-flat-button mat-dialog-close color="primary" (click)="closeForm()">Understood</button>
+    <mat-dialog-actions class="dialog-buttons">
+      <button class="primary-btn" mat-flat-button mat-dialog-close (click)="closeForm()">Understood</button>
     </mat-dialog-actions>
   </ng-container>
-
-
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
@@ -35,7 +35,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
-  public queryText = '';
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
   private autoSelectFirstWorkspace = true;
@@ -202,7 +201,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   openWorkspaceCreationDialog(): void {
     const dialogRef = this.dialog.open(MainWorkspaceFormComponent, {
       width: '800px',
-      height: 'auto',
+      height: '700px',
       autoFocus: false,
     });
 

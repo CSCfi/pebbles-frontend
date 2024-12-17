@@ -1,21 +1,142 @@
 @import "src/styles/main.scss";
 
 #workspace-members-container {
-  padding: 20px 20px;
+  padding: 20px;
+  width: 900px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: calc(100vh - 70px);
+  overflow: hidden;
 
   .member-header {
-    grid-template-columns: auto 65px;
-    grid-column-gap: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    mat-form-field {
+      flex: 1 0 auto;
+      margin-bottom: -20px;
+    }
 
     button {
-      height: 100%;
+      flex: 0 1 65px;
+      height: 60px;
+      @include center(both, inline);
+
+      mat-icon {
+        margin: 0;
+        font-size: 2.4rem;
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+
+  table {
+    font-size: 1.2rem;
+
+    thead {
+      height: 40px;
+      font-size: 1.2rem;
+
+      tr {
+        height: 20px;
+
+        ::ng-deep th.mat-column-menu {
+          width: 65px;
+        }
+      }
+    }
+
+    ::ng-deep tbody {
+      tr {
+        height: 40px !important;
+
+        td {
+          padding: 0 20px !important;
+          line-height: 100%;
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    ::ng-deep.mat-mdc-header-row {
+      height: 20px;
+      background: #e0e0e0;
+      color: $gray-dark-color;
+    }
+
+    ::ng-deep.mat-column-index {
+      text-align: center;
+      width: 65px;
+    }
+
+    .role-name {
+      @include center(vertical, inline);
+
+      mat-icon {
+        margin-right: 5px;
+      }
+
+      &.owner .user-role-icon {
+        color: #fc614d;
+      }
+
+      &.co-owner .user-role-icon {
+        color: #ee8600;
+      }
+    }
+
+    ::ng-deep.mat-column-menu {
+      text-align: center;
+      width: 65px;
+      padding: 0 !important;
+
+      button {
+        border-radius: 0;
+        height: 45px;
+
+        mat-icon {
+          font-size: 1.8rem;
+          height: auto;
+          width: auto;
+          margin-right: 0;
+        }
+      }
     }
   }
 
   .my-account {
     background: map-get($app-secondary, 100);
+    height: 45px!important;
   }
-  .hint-join-code {
-    font-style: italic;
+
+  .hint-content {
+    width: 650px;
+    margin: auto;
+    border: 5px solid $gray-light-color;
+    padding: 20px 30px;
+    border-radius: 20px;
+
+    h3 {
+      border-bottom: 1px solid $gray-light-color;
+      margin-bottom: 10px;
+    }
+
+    .status-postscript {
+      @include center(vertical, inline);
+
+      .hint-join-code {
+        font-weight: 600;
+        margin: 0 10px;
+      }
+
+      mat-icon {
+        margin-right: 10px;
+      }
+    }
   }
 }

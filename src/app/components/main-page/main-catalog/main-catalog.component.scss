@@ -1,100 +1,103 @@
 @import "src/styles/main.scss";
 
-.content-header-container {
-  grid-template-columns: auto 180px;
-  grid-column-gap: 20px;
-}
+ .content-container {
+    flex: 1 1 auto;
+    overflow: hidden;
+    background: $gray-light-color !important;
 
-.applications-catalog {
-  background-color: map-get($app-primary, 300);
-  margin: 0;
+    display: flex;
+    flex-direction: column;
+ }
+
+::ng-deep .mat-mdc-tab-group {
+  flex: 1 1 auto;
   padding-top: 10px;
+  overflow: hidden;
 
-  app-service-announcement {
-    position: relative;
-
-    ::ng-deep .service-announcement-item {
-      position: relative;
-      margin-left: 20px !important;
-      margin-right: 20px !important;
-    }
+  .mat-mdc-tab-header {
+    --mdc-secondary-navigation-tab-container-height: 42px;
   }
 
+  .mdc-tab {
+    background: white !important;
+    border-right: 1px solid $primary-light-color !important;
 
-  ::ng-deep .mat-tab-header {
-    border-bottom: 1px solid map-get($app-transparent, dark) !important;
-    padding-top: 5px;
-
-    .mat-ripple {
-      background: #fff;
+    &:last-child {
+      border-right: none !important;
     }
 
-    .mat-tab-label {
-      border-right: 1px solid map-get($app-primary, 200);
-
-      &:last-child {
-        border-right: none;
-      }
-
-      .tab-icon {
-        margin-right: 5px;
-        color: map-get($app-primary, default);
-      }
-
-      .tab-title {
-        color: map-get($app-primary, default);
-      }
+    &--active {
+      background: white !important;
     }
+
+    .mdc-tab__text-label {
+      color: rgba(0, 0, 0, 0.87);
+      font-weight: 500;
+      font-size: 1.4rem;
+    }
+
   }
 
-  ::ng-deep .mat-tab-body-wrapper {
-    background: map-get($app-primary, 100);
+  button.mat-mdc-tab-header-pagination {
+    background-color: $gray-extra-light-color !important;
+  }
 
-    .catalog-section {
-      padding: 15px 40px;
-      margin: auto;
-      max-width: 1200px;
-      width: 100%;
+  .mat-mdc-tab-body-wrapper {
+    border-top: 1px solid $gray-color;
+    padding: 0 30px;
+    background: $gray-extra-light-color !important;
+    height: calc(100vh - 130px);
 
-      .no-public-applications {
+    .tab-content {
+      height: 100%;
+      padding: 15px;
+
+      .catalog-section {
+        height: 100%;
         display: flex;
         flex-direction: column;
-
-        .no-public-applications-divider {
-          text-align: center;
-        }
-
-        .no-public-applications-card {
-          display: flex;
-          justify-content: center;
-
-          .no-public-applications-icon {
-            padding: 5px;
-            height: 64px;
-            min-width: 64px;
-            max-width: 64px;
-            border-color: map-get($app-primary, light);
-            text-align: center;
-
-            fa-icon {
-              padding: 2px;
-              color: map-get($app-primary, light);
-              font-size: 22px;
-            }
-          }
-
-          .no-public-applications-text {
-            padding: 1em;
-          }
-        }
+        align-items: stretch;
+        gap: 10px;
       }
     }
   }
 }
 
+.no-public-applications-divider,
+.no-public-applications-card {
+  text-align: center;
 
-.mobile.applications-catalog {
-  .catalog-section {
-    padding: 15px !important;
+  mat-icon {
+    height: 80px;
+    width: 80px;
+    font-size: 8.0rem;
+    color: $gray-dark-color;
+  }
+
+  .no-public-applications-text {
+    text-align: center !important;
+    margin-top: 5px;
+  }
+}
+
+.no-public-applications-divider {
+  margin-bottom: 30px;
+}
+
+// ----- MOBILE
+
+@media (max-width: 599px) {
+
+  .application-item-container {
+    padding: 10px;
+  }
+  ::ng-deep mat-tab-header {
+    display: none !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    border-top: none;
+    padding: 5px !important;
+    height: calc(100vh - 170px);
   }
 }

@@ -1,17 +1,37 @@
-//@import "src/styles/main.scss";
+@import "src/styles/main.scss";
+
+::ng-deep.mat-horizontal-content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+h3 {
+  @include headline-3;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.form-container {
+  margin-bottom: 2px;
+}
+
+.dialog-container form button.mat-mdc-button-disabled .mat-icon,
+.dialog-container form button.back .mat-icon,{
+  color: $gray-text-color !important;
+}
 
 .wizard-container {
-  .corner-button-container {
-    margin-top: -15px;
-    right: -30px;
-  }
 
   .plain-form-action-buttons,
   .stepper-action-buttons {
     display: grid;
     grid-template-columns: max-content auto;
     grid-column-gap: 10px;
-    margin-top: 30px !important;
+    margin-top: 10px !important;
 
     &.first {
       grid-template-columns: auto;
@@ -36,15 +56,21 @@
   }
 
   form {
-    overflow: auto;
+    overflow: hidden;
 
-    .mat-dialog-content {
-      overflow: unset;
+    .mat-mdc-dialog-content {
+      overflow: hidden;
       max-height: 100%;
     }
   }
 
   table {
+
+    .mat-column-select {
+      width: 70px;
+      text-align: center;
+    }
+
     ::ng-deep .mat-column-info {
       padding: 5px 10px !important;
       vertical-align: top;
@@ -61,6 +87,63 @@
           content: none;
         }
       }
+    }
+
+    .template-name {
+      @include headline-4;
+      text-transform: capitalize;
+      font-weight: 600;
+    }
+
+    .template-description {
+      margin-bottom: 5px;
+    }
+
+    .template-labels {
+      white-space: nowrap;
+      @include center(both, inline);
+
+      span {
+        @include headline-6;
+        @include center(both, inline);
+        margin-right: 5px;
+
+
+        mat-icon {
+          font-size: 1.6rem;
+          height: auto;
+          width: auto;
+          margin-right: 5px;
+        }
+      }
+
+      span.label:after {
+        content: '/';
+        margin-left: 2px;
+      }
+
+      span.label:last-child:after {
+        content: none;
+      }
+    }
+
+    .cell-spec {
+      min-width: 135px;
+      width: 220px;
+      @include headline-6;
+      line-height: normal;
+
+      li.template-meta {
+        @include center(both, inline);
+
+        mat-icon {
+          margin-right: 5px;
+          font-size: 16px;
+          height: 16px;
+          width: 16px;
+        }
+      }
+
     }
   }
 

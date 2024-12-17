@@ -1,59 +1,72 @@
 @import "src/styles/main.scss";
 
-::ng-deep mat-sidenav-container {
-  height: 100%;
+.mat-sidenav-container {
   min-height: 100vh;
-  padding-top: 0 !important;
-  margin-top: 0 !important;
+  max-height: 100vh;
+  overflow: hidden !important;
 
-  .mat-drawer-inner-container {
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .mat-sidenav {
-    @include shadow(0.2);
-    position: fixed;
-    border: none !important;
-    width: map-deep-get($layout-set, main, sidenav, w);
-    display: grid;
-    grid-template-rows: max-content max-content;
+  mat-sidenav {
+    height: inherit;
+    width: $main-navigation-width;
+    @include primary-main-background;
 
     &.minimize {
-      width: map-deep-get($layout-set, main, sidenav-min, w);
-    }
-
-    app-main-nav {
-      @include animation();
-      display: grid;
-      height: 100% !important;
-      grid-template-rows: auto max-content;
+      width: $main-navigation-minimized-width !important;
     }
   }
 
-  mat-sidenav-content {
-    margin-left: map-deep-get($layout-set, main, sidenav, w) !important;
+  .mat-sidenav-content {
+    margin-left: $main-navigation-width !important;
+    min-height: 100vh;
 
     &.expanded {
-      margin-left: 80px !important;
-    }
-
-    &.lt-sm {
-      margin-left: 0 !important;
-    }
-
-    .main-content-container {
-      display: block;
-      width: 100%;
-      min-height: map-deep-get($layout-set, main, content, min-h);
-      background-color: map-get($app-primary, 100);
-      overflow: hidden;
+      margin-left: $main-navigation-minimized-width !important;
     }
   }
 }
 
-.mobile {
-  &.mat-sidenav-container {
-    height: 100vh !important;
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: inherit;
+}
+
+.main-page-wrapper {
+  @include light-gray-background;
+  min-height: inherit;
+}
+
+// ----- Laptop
+
+@media (min-width: 600px) {
+
+}
+
+// ----- MOBILE
+
+@media (max-width: 599px) {
+
+  .mat-sidenav-container {
+    min-height: auto !important;
+    height: auto !important;
+
+    .mat-sidenav {
+      overflow: auto;
+      background: none;
+
+      &.minimize{
+        width: 100% !important;
+      }
+    }
+
+    .mat-sidenav-content,
+    .mat-sidenav-content.expanded {
+      margin-left: 0 !important;
+    }
+  }
+
+  .sidebar {
+    height: auto;
   }
 }

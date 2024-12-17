@@ -1,22 +1,28 @@
-<div id="workspace-applications-container" ngClass.lt-sm="mobile">
+<div id="workspace-applications-container">
   <!-- Search Box -->
-  <mat-form-field appearance="fill" class="application-header mb-10">
+  <mat-form-field appearance="fill" class="application-header">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
   <!-- Buttons -->
-  <div class="application-actions mb-10 grid-col" *ngIf="dataSource?.data !== null">
-    <div class="mat-subheading-2 center__vh txt__gray-dark">
-      <mat-icon fontSet="material-icons-outlined" class="mr-5">add</mat-icon>Create application :
+  <div class="application-actions" *ngIf="dataSource?.data !== null">
+    <div class="action-name">
+      <mat-icon fontSet="material-icons-outlined">add</mat-icon>Create application :
     </div>
-    <button mat-flat-button color="accent" class="open-application-creation-wizard-button"
-            aria-label="add new application" [disabled]="isWorkspaceExpired" (click)="openApplicationWizardDialog()">
-      <mat-icon class="mr-10">auto_fix_high</mat-icon>
+    <button mat-flat-button
+            class="open-application-creation-wizard-button primary-btn"
+            aria-label="add new application"
+            [disabled]="isWorkspaceExpired"
+            (click)="openApplicationWizardDialog()">
+      <mat-icon>auto_fix_high</mat-icon>
       <span>Wizard</span>
     </button>
-    <button mat-stroked-button class="open-application-creation-form-button txt__accent stroke__accent"
-            aria-label="create a new application" [disabled]="isWorkspaceExpired" (click)="openApplicationItemFormDialog(null)">
-      <mat-icon fontSet="material-icons-outlined" class="mr-5">edit_note</mat-icon>
+    <button mat-stroked-button
+            class="open-application-creation-form-button"
+            aria-label="create a new application"
+            [disabled]="isWorkspaceExpired"
+            (click)="openApplicationItemFormDialog(null)">
+      <mat-icon fontSet="material-icons-outlined">edit_note</mat-icon>
       <span>Advanced form</span>
     </button>
   </div>
@@ -70,20 +76,20 @@
           <th mat-header-cell class="cell-info" *matHeaderCellDef>basic information</th>
           <td class="cell-info" mat-cell *matCellDef="let element">
             <ul>
-              <li class="application-name mat-subheading-2 mb-5"> {{element.name}} </li>
-              <li class="description mat-caption" [innerHTML]="element.description"></li>
-              <li class="mat-caption">
-                <span class="center__v">
-                  <span class="mr-5">Template:</span> {{element.template}}
+              <li class="application-name"> {{element.name}} </li>
+              <li class="description" [innerHTML]="element.description"></li>
+              <li>
+                <span>
+                  <span>Template:</span> {{element.template}}
                 </span>
               </li>
-              <li class="application-labels mat-caption center__v">
-                <span class="mr-5 center__v">
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">label</mat-icon>
+              <li class="application-labels">
+                <span>
+                  <mat-icon fontSet="material-icons-outlined">label</mat-icon>
                   Labels:
                 </span>
                 <ng-container *ngFor="let label of element.labels">
-                  <span class="label mr-2">{{ label }}</span>
+                  <span class="label">{{ label }}</span>
                 </ng-container>
               </li>
             </ul>
@@ -93,43 +99,52 @@
         <ng-container matColumnDef="meta">
           <th mat-header-cell class="cell-spec" *matHeaderCellDef>spec</th>
           <td class="cell-spec" mat-cell *matCellDef="let element">
-            <ul class="mat-caption">
+            <ul>
               <li class="application-meta">
-                <span class="center__v">
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">watch_later</mat-icon>
+                <span>
+                  <mat-icon fontSet="material-icons-outlined">watch_later</mat-icon>
                   Lifetime: {{element.lifetime | lifeTimeDisplay}}
                 </span>
               </li>
               <li class="application-meta">
-                <span class="center__v">
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+                <span>
+                  <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
                   Memory: {{ element.memory || '-' }}
                 </span>
               </li>
               <li class="application-meta">
-                <span class="center__v">
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+                <span>
+                  <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
                   Max concurrent sessions: {{ element.maximumConcurrentSessions }}
                 </span>
               </li>
-              <li class="volume center__v">
+              <li class="volume">
+
                 <ng-container *ngIf="element.sharedFolderEnabled; else noSharedVolume">
-                  <mat-icon class="md-16 mr-5">folder</mat-icon>
-                  <span>shared: On</span>
+                  <span>
+                    <mat-icon fontSet="material-icons-outlined">folder</mat-icon>
+                    shared: On
+                  </span>
                 </ng-container>
                 <ng-template #noSharedVolume>
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
-                  <span>shared: Off</span>
+                  <span>
+                    <mat-icon fontSet="material-icons-outlined">folder_off</mat-icon>
+                    shared: Off
+                  </span>
                 </ng-template>
               </li>
-              <li class="volume center__v">
+              <li class="volume">
                 <ng-container *ngIf="element.workFolderEnabled; else noWorkVolume">
-                  <mat-icon class="md-16 mr-5">folder</mat-icon>
-                  <span>my-work: On</span>
+                  <span>
+                    <mat-icon fontSet="material-icons-outlined">folder</mat-icon>
+                    my-work: On
+                  </span>
                 </ng-container>
                 <ng-template #noWorkVolume>
-                  <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">folder_off</mat-icon>
-                  <span>my-work: Off</span>
+                  <span>
+                    <mat-icon fontSet="material-icons-outlined">folder_off</mat-icon>
+                    my-work: Off
+                  </span>
                 </ng-template>
               </li>
             </ul>
@@ -149,7 +164,7 @@
         </ng-container>
         <!-- Menu button column-->
         <ng-container matColumnDef="menu">
-          <th mat-header-cell *matHeaderCellDef class="icon">menu</th>
+          <th mat-header-cell *matHeaderCellDef class="cell-edit">menu</th>
           <td mat-cell *matCellDef="let element" class="cell-edit icon-cell">
             <button mat-button aria-label="edit application"
                     matTooltip="Edit" matTooltipPosition="left"
@@ -181,7 +196,7 @@
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;">button</tr>
 
         <!-- Row shown when there is no matching data. -->
@@ -199,9 +214,12 @@
     <ng-template #noApplications>
       <section class="status-info-container">
         <div class="hint" *ngIf="dataSource !== null">
-          <mat-icon fontSet="material-icons-outlined" class="md-96">import_contacts</mat-icon>
-          <span class="status-summary">No applications in this workspace yet.</span>
-          <span class="hint-content">
+          <div class="empty-status">
+            <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+          </div>
+          <div class="status-summary">No applications in this workspace yet.</div>
+          <div class="hint-content">
+            <h3>hint</h3>
             <ul>
               <li>Create an application by clicking Application wizard or Application form above</li>
               <li>Test the application and populate "shared_data" folder contents</li>
@@ -209,14 +227,14 @@
               <li>Publish the application for users</li>
             </ul>
             <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
-               class="tab-title mat-subheading-2 txt__primary center__vh" rel="noopener">
+               class="tab-title" rel="noopener">
               Open Documentation &nbsp;
-              <mat-icon class="mr-10">launch</mat-icon>
+              <mat-icon>launch</mat-icon>
             </a>
-          </span>
+          </div>
         </div>
         <div class="empty-status" *ngIf="dataSource === null">
-          <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
           <span class="status-summary">...Loading...</span>
         </div>
       </section>

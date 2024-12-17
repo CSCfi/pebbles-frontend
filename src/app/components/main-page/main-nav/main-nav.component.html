@@ -1,31 +1,32 @@
-<div class="sidenav-inner bg__primary no-u-line">
+<!-- Side navigation -->
+<div class="sidenav-inner">
   <!-- Logo -->
-  <a class="logo mat-display-3" [routerLink]="['/main/catalog']">
-    <div class="logo__mark">
+  <a class="brand" [routerLink]="['/main/catalog']">
+    <div class="site-logo">
       <div class="csc-logo">
-        <img src="assets/images/logo/csc_logo.svg" alt="csc-logo">
+        <img src="assets/images/logo/site-logo.svg" alt="site-logo" width="50">
       </div>
     </div>
-    <div class="logo__type" *ngIf="isTextVisible">
+    <h2 class="site-name" *ngIf="isTextVisible">
       {{ publicConfigService.getInstallationName() }}
-      <span class="owner mat-display-1">{{ publicConfigService.getInstallationDomain() }}</span>
-    </div>
+      <h5 class="owner-name">{{ publicConfigService.getInstallationDomain() }}</h5>
+    </h2>
   </a>
   <!-- Navigation panel toggle button -->
   <ul class="nav-items scrollable">
     <li class="nav-item">
-      <button class="action" id="nav-toggle-button"
+      <button class="action primary-btn" id="nav-toggle-button"
               [matTooltip]="isTextVisible ? 'Close navigation' : 'Open navigation'"
               matTooltipPosition="right"
               (click)="emitSideNavToggle()">
         <ng-container *ngIf="isTextVisible ; else elseBlock">
-          <span class="icon-holder center__vh">
-            <mat-icon class="md-12">chevron_left</mat-icon>
+          <span class="icon-holder">
+            <mat-icon>chevron_left</mat-icon>
           </span>
         </ng-container>
         <ng-template #elseBlock>
-          <span class="icon-holder center__vh">
-            <mat-icon class="md-12">chevron_right</mat-icon>
+          <span class="icon-holder">
+            <mat-icon>chevron_right</mat-icon>
           </span>
         </ng-template>
       </button>
@@ -39,7 +40,7 @@
               [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
         </span>
-        <span class="title mat-title" *ngIf="isTextVisible">Applications</span>
+        <span class="title" *ngIf="isTextVisible">Applications</span>
       </a>
     </li>
     <li class="nav-item" [class.active]="router.url==='/main/my-workspaces'">
@@ -48,12 +49,11 @@
               [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
         </span>
-        <div class="title mat-title" *ngIf="isTextVisible">My workspaces</div>
+        <div class="title" *ngIf="isTextVisible">My workspaces</div>
       </a>
     </li>
   </ul>
   <ng-container *ngIf="authService.isAdmin || authService.isWorkspaceManager || authService.isWorkspaceOwner">
-    <mat-divider></mat-divider>
     <ul class="nav-items workspace-owner">
       <li class="nav-item workspace-owner-item" [class.active]="router.url.startsWith('/main/workspace-owner')">
         <a [routerLink]="['/main/workspace-owner']">
@@ -63,7 +63,7 @@
               app_registration
             </mat-icon>
           </span>
-          <div class="title mat-title" *ngIf="isTextVisible">Manage workspaces</div>
+          <div class="title" *ngIf="isTextVisible">Manage workspaces</div>
         </a>
       </li>
       <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/active-sessions'">
@@ -72,43 +72,10 @@
                 [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
             <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
           </span>
-          <div class="title mat-title" *ngIf="isTextVisible">Active sessions</div>
+          <div class="title" *ngIf="isTextVisible">Active sessions</div>
         </a>
       </li>
     </ul>
-    <mat-divider></mat-divider>
-  </ng-container>
-  <ng-container *ngIf="authService.isAdmin">
-    <ul class="nav-items workspace-owner">
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/users'">
-        <a [routerLink]="['/main/users']">
-          <span class="icon-holder" matTooltip="Users"
-                [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
-            <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
-          </span>
-          <div class="title mat-title" *ngIf="isTextVisible">Manage Users</div>
-        </a>
-      </li>
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/system-status'">
-        <a [routerLink]="['/main/system-status']">
-          <span class="icon-holder" matTooltip="System status"
-                [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
-            <mat-icon fontSet="material-icons-outlined">check_circle</mat-icon>
-          </span>
-          <div class="title mat-title" *ngIf="isTextVisible">System status</div>
-        </a>
-      </li>
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/statistics'">
-        <a [routerLink]="['/main/statistics']">
-          <span class="icon-holder" matTooltip="Statistics"
-                [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
-            <mat-icon fontSet="material-icons-outlined">bar_chart</mat-icon>
-          </span>
-          <div class="title mat-title" *ngIf="isTextVisible">Statistics</div>
-        </a>
-      </li>
-    </ul>
-    <mat-divider></mat-divider>
   </ng-container>
 
   <ul class="nav-items">
@@ -125,25 +92,23 @@
             mail
           </mat-icon>
         </span>
-        <div class="title mat-title" *ngIf="isTextVisible">Messages</div>
+        <div class="title" *ngIf="isTextVisible">Messages</div>
       </a>
     </li>
-  </ul>
-  <ul class="nav-items">
     <li class="nav-item" [class.active]="router.url==='/main/help'">
       <a [routerLink]="['/main/help']">
         <span class="icon-holder" matTooltip="Help"
               [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
         </span>
-        <div class="title mat-title" *ngIf="isTextVisible">Help</div>
+        <div class="title" *ngIf="isTextVisible">Help</div>
       </a>
     </li>
   </ul>
 </div>
-<div class="sidenav-inner nav__bottom  bg__primary no-u-line">
+<div id="account-nav" class="sidenav-inner">
   <!-- Logout -->
-  <ul class="nav-items nav-partition pt-10 pb-10">
+  <ul class="nav-items">
     <li class="nav-item">
       <a id="account" [routerLink]="['/main/account']">
         <span class="icon-holder" matTooltip="Account"
@@ -154,79 +119,82 @@
       </a>
     </li>
     <li class="nav-item">
-      <button id="logout-button" class="action"
-              (click)="authService.logout()">
+      <a id="logout-button" (click)="authService.logout()">
         <span class="icon-holder" matTooltip="Logout"
               [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
-          <mat-icon>exit_to_app</mat-icon>
+          <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
         </span>
         <span class="title" *ngIf="isTextVisible">Logout</span>
-      </button>
+      </a>
     </li>
   </ul>
 </div>
 
 <!-- Mobile mode : Dropdown menu -->
-<div class="sidenav-mobile" ngClass.lt-sm="mobile">
-  <button mat-menu-item [routerLink]="['/main/catalog']">
-    <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-    Applications
-  </button>
-  <button mat-menu-item [routerLink]="['/main/my-workspaces']">
-    <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
-    My workspaces
-  </button>
-  <ng-container *ngIf="authService.isWorkspaceOwner">
-    <mat-divider class="dark"></mat-divider>
-    <button mat-menu-item [routerLink]="['/main/workspace-owner']">
-      <mat-icon fontSet="material-icons-outlined">
-        app_registration
-      </mat-icon>
-      Manage workspaces
-    </button>
-    <button mat-menu-item [routerLink]="['/main/active-sessions']">
-      <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
-      Active sessions
-    </button>
-    <mat-divider class="dark"></mat-divider>
-  </ng-container>
-  <ng-container *ngIf="authService.isAdmin">
-    <button mat-menu-item [routerLink]="['/main/users']">
-      <mat-icon fontSet="material-icons-outlined">admin_panel_settings</mat-icon>
-      Manage Users
-    </button>
-    <button mat-menu-item [routerLink]="['/main/system-status']">
-      <mat-icon fontSet="material-icons-outlined">check_circle</mat-icon>
-      System status
-    </button>
-    <button mat-menu-item [routerLink]="['/main/statistics']">
-      <mat-icon fontSet="material-icons-outlined">bar_chart</mat-icon>
-      Statistics
-    </button>
-    <mat-divider class="dark"></mat-divider>
-  </ng-container>
-  <button mat-menu-item [routerLink]="['/main/messages']">
-    <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
-    <mat-icon fontSet="material-icons-outlined"
-              [matBadgeHidden]="getUnreadMessages().length === 0"
-              [attr.aria-hidden]="getUnreadMessages().length === 0" aria-hidden="false"
-              [matBadge]="getUnreadMessages().length"
-              matBadgeColor="{{getUnreadMessages().length > 0 ? 'warn': 'normal'}}">
-      mail
-    </mat-icon>
-    Messages
-  </button>
-  <button mat-menu-item [routerLink]="['/main/help']">
-    <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
-    Help
-  </button>
-
-  <button mat-menu-item [routerLink]="['/main/account']">
-    <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
-    {{ userName }}
-  </button>
-  <button mat-menu-item (click)="authService.logout()">
-    <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
-    Logout
-  </button>
-</div>
+<nav class="mobile-main-nav">
+  <input type="checkbox" id="nav-toggle-btn" [checked]="isMobileNavInvisible" [(ngModel)]="isMobileNavInvisible">
+  <label class="nav-toggle-label button" for="nav-toggle-btn">
+    <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
+  </label>
+  <ul class="nav-wrapper">
+    <li>
+      <a [routerLink]="['/main/catalog']">
+        <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+        Applications
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/main/my-workspaces']">
+        <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
+        My workspaces
+      </a>
+    </li>
+    <ng-container *ngIf="authService.isWorkspaceOwner">
+      <hr>
+      <li>
+        <a [routerLink]="['/main/workspace-owner']">
+          <mat-icon fontSet="material-icons-outlined">app_registration</mat-icon>
+          Manage workspaces
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/main/active-sessions']">
+          <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
+          Active sessions
+        </a>
+      </li>
+      <hr>
+    </ng-container>
+    <li>
+      <a [routerLink]="['/main/messages']">
+        <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
+        <mat-icon fontSet="material-icons-outlined"
+                  [matBadgeHidden]="getUnreadMessages().length === 0"
+                  [attr.aria-hidden]="getUnreadMessages().length === 0" aria-hidden="false"
+                  [matBadge]="getUnreadMessages().length"
+                  matBadgeColor="{{getUnreadMessages().length > 0 ? 'warn': 'normal'}}">
+          mail
+        </mat-icon>
+        Messages
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/main/help']">
+        <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
+        Help
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/main/account']">
+        <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
+        {{ userName }}
+      </a>
+    </li>
+    <li>
+      <a (click)="authService.logout()">
+        <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
+        Logout
+      </a>
+    </li>
+  </ul>
+</nav>

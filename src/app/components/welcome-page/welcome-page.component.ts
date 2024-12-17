@@ -1,12 +1,12 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { PublicConfigService } from '../../services/public-config.service';
 import { ServiceAnnouncementService } from '../../services/service-announcement.service';
 import { SystemNotificationService } from '../../services/system-notification.service';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-welcome-page',
@@ -14,21 +14,26 @@ import { SystemNotificationService } from '../../services/system-notification.se
   styleUrls: ['./welcome-page.component.scss']
 })
 export class WelcomePageComponent implements OnInit {
-
   public context: Data;
-  public loginFormGroup: UntypedFormGroup;
+
+  @ViewChild('specialLoginDialogTerms') specialLoginDialogTerms: TemplateRef<any>;
+  @ViewChild('processingSpecialLogin') processingSpecialLogin: TemplateRef<any>;
+  @ViewChild('specialLoginDialog') specialLoginDialog: TemplateRef<any>;
+
   public loginClicked: boolean;
   public acceptTermsClicked: boolean;
-  @ViewChild('specialLoginDialog') specialLoginDialog: TemplateRef<any>;
-  @ViewChild('specialLoginDialogTerms') specialLoginDialogTerms: TemplateRef<any>;
-  private dialogRef: MatDialogRef<any>;
-  private dialogRefTerms: MatDialogRef<any>;
+  public loginFormGroup: UntypedFormGroup;
+
+  readonly dialog = inject(MatDialog);
+  loginError:string[] = [];
+
+  private dialogRef: MatDialogRef<any, any>;
+  private dialogRefTerms: MatDialogRef<any, any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private formBuilder: UntypedFormBuilder,
-    private dialog: MatDialog,
     private authService: AuthService,
     public publicConfigService: PublicConfigService,
     private systemNotificationService: SystemNotificationService,
@@ -73,13 +78,22 @@ export class WelcomePageComponent implements OnInit {
         this.router.navigateByUrl('/main').then();
       }),
       catchError(err => {
+        this.loginError = [];
+        // extract errors
         if (typeof err.error === 'string') {
+          // strings are simple
+          this.loginError.push(err.error);
           this.systemNotificationService.displayError(`Login error: ${err.error}`);
+        } else {
+          // the other case is 422 with a dictionary stating the errors in the form
+          for(let k of Object.keys(err.error)) {
+            this.loginError.push(`${k} ${err.error[k]}`);
+          }
         }
         throw err;
       }),
-      finalize(()=> {
-          this.loginClicked = false;
+      finalize(() => {
+        this.loginClicked = false;
       }),
     ).subscribe();
   }
@@ -102,13 +116,16 @@ export class WelcomePageComponent implements OnInit {
         this.router.navigateByUrl('/main').then();
       }),
       catchError(err => {
+        this.loginError = [];
         if (typeof err.error === 'string') {
+          this.loginError.push(err.error);
           this.systemNotificationService.displayError(`Login error: ${err.error}`);
         }
+
         throw err;
       }),
-      finalize(()=> {
-          this.acceptTermsClicked = false;
+      finalize(() => {
+        this.acceptTermsClicked = false;
       }),
     ).subscribe();
   }
@@ -117,15 +134,13 @@ export class WelcomePageComponent implements OnInit {
     this.dialogRef = this.dialog.open(this.specialLoginDialog, {
       height: 'auto',
       width: '400px',
-      autoFocus: false
     });
   }
 
   openSpecialLoginDialogTerms(): void {
     this.dialogRefTerms = this.dialog.open(this.specialLoginDialogTerms, {
       height: 'auto',
-      width: '400px',
-      autoFocus: false
+      width: '480px',
     });
   }
 }

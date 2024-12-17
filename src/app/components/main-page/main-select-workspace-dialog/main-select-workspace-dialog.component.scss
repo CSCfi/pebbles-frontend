@@ -7,7 +7,12 @@
     height: 20px;
   }
 
-  .mat-select {
+  mat-dialog-content {
+    div {
+      margin-bottom: 20px;
+    }
+  }
+  .mat-mdc-select {
     background-color: rgba(0, 0, 0, 0.04);
     padding: 10px;
     border-radius: 4px 4px 0 0;
@@ -16,5 +21,17 @@
 
   .dialog-actions {
     margin: 20px 0 !important;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    .select-workspace-btn {
+      @include primary-main-background;
+      flex: 3 0 auto;
+    }
+
+    .cancel-button {
+      flex: 1 1 auto;
+    }
   }
 }

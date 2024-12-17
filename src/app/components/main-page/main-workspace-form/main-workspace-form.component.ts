@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { MatLegacySelectChange as MatSelectChange } from "@angular/material/legacy-select";
 
 @Component({
   selector: 'app-main-workspace-form',
   templateUrl: './main-workspace-form.component.html',
+  styleUrls: ['./main-workspace-form.component.scss'],
 })
 export class MainWorkspaceFormComponent implements OnInit {
 
@@ -35,18 +35,18 @@ export class MainWorkspaceFormComponent implements OnInit {
     this.createButtonClicked = false;
     this.validityOptions = this.createValidityOptions();
     this.workspaceTypeOptions = this.createWorkspaceTypeOptions();
-    this.updateProjectedExpiryDate();
   }
 
   initReactiveForm(): void {
     this.workspaceForm = this.formBuilder.group({
-      name: ['', [
-        Validators.required,
-        Validators.maxLength(64),
-        (control: AbstractControl) => {
-          return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
-        }
-      ]],
+      name: [
+        '', [
+          Validators.required,
+          Validators.maxLength(64),
+          (control: AbstractControl) => {
+            return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
+          }
+        ]],
       description: ['', [Validators.required]],
       workspaceType: ['fixed-time-course', [Validators.required]],
       validityMonths: [null, [Validators.required]],
@@ -96,10 +96,9 @@ export class MainWorkspaceFormComponent implements OnInit {
   onWorkspaceTypeChange(): void {
     // refresh the validity options and expiry date based on selected type
     this.validityOptions = this.createValidityOptions();
-    if (this.workspaceType=='long-running-course') {
+    if (this.workspaceType == 'long-running-course') {
       this.validityMonths = 13;
-    }
-    else {
+    } else {
       this.validityMonths = 3;
     }
     this.updateProjectedExpiryDate();

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewChildren, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message } from '../../../models/message';
@@ -12,11 +12,13 @@ import { PublicConfigService } from '../../../services/public-config.service';
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss']
 })
-export class MainNavComponent {
+export class MainNavComponent implements OnInit {
 
   public isTextVisible: boolean;
 
   @ViewChildren('tooltip') tooltips: any;
+  @ViewChild('nav-toggle-btn') el: ElementRef;
+
   @Output() toggleSideNavEvent = new EventEmitter<boolean>();
 
   @Input() set isSideNavOpen(value: boolean) {
@@ -25,6 +27,7 @@ export class MainNavComponent {
 
   position = new UntypedFormControl('after');
   disabled = new UntypedFormControl(false);
+  isMobileNavInvisible = true;
 
   get userName(): string {
     return this.authService.getUserName();
@@ -38,6 +41,14 @@ export class MainNavComponent {
   ) {
     // fetch messages to update the nav bar unread messages number
     this.messageService.fetchMessages().subscribe();
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isMobileNavInvisible = true;
+      }
+    })
   }
 
   reload(link: string): void {

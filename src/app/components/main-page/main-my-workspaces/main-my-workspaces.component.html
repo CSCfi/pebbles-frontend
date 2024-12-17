@@ -1,77 +1,78 @@
-<div class="content-header-container">
-  <app-main-content-header (emitApplyFilter)="applyFilter($event)"
-                           [context]="context"
-                           [isSearchOn]="true"
-                           [isAutocompleteDisabled]="true"
-                           [labels]="[]">
-  </app-main-content-header>
-  <div class="action-buttons grid-col">
-    <button mat-flat-button id="join-workspace-button" color="accent"
-            aria-label="Join Workspace"
-            (click)="openJoinWorkspaceDialog()">
-      <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
-      Join workspace
-    </button>
-    <ng-container *ngIf="visibleWorkspaces?.length > 0">
-      <button mat-stroked-button (click)="toggleWorkspaceList()">
-        <mat-icon class="material-icons-outlined mr-5">list</mat-icon>
-        <ng-container *ngIf="isListOpen; else openButtonBlock">
-          <span>Close list</span>
-        </ng-container>
-        <ng-template #openButtonBlock>
-          <span>Open list</span>
-        </ng-template>
+<div class="page-container">
+  <div class="content-header-container">
+    <app-main-content-header (emitApplyFilter)="applyFilter($event)"
+                             [context]="context"
+                             [isSearchOn]="true"
+                             [isAutocompleteDisabled]="true"
+                             [labels]="[]">
+    </app-main-content-header>
+    <div class="action-buttons">
+      <button mat-flat-button
+              id="join-workspace-button"
+              class="primary-btn"
+              aria-label="Join Workspace"
+              (click)="openJoinWorkspaceDialog()">
+        <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
+        Join workspace
       </button>
-    </ng-container>
-  </div>
-</div>
 
-<div class="content-container" ngClass.lt-sm="mobile" *ngIf="visibleWorkspaces !== null">
-  <!--  Service Announcement 'catalog'  -->
-  <app-service-announcement [context]="context"></app-service-announcement>
-
-  <section class="workspace-list content-cutout mt-5 mb-30" *ngIf="workspaceCount > 0 ; else noMembershipBlock">
-    <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">
-      <ng-container *ngFor="let workspace of visibleWorkspaces">
-        <app-main-workspace-item
-          [id]="workspace.id"
-          [workspace]="workspace"
-          [isNew]="workspace.id === newWorkspaceId"
-          [context]="context">
-        </app-main-workspace-item>
+      <ng-container *ngIf="visibleWorkspaces?.length > 0">
+        <button mat-stroked-button
+                (click)="toggleWorkspaceList()">
+          <mat-icon class="material-icons-outlined">list</mat-icon>
+          <ng-container *ngIf="isListOpen; else openButtonBlock">
+            <span>Close list</span>
+          </ng-container>
+          <ng-template #openButtonBlock>
+            <span>Open list</span>
+          </ng-template>
+        </button>
       </ng-container>
-    </ng-container>
-    <ng-template #noWorkspaceBlock>
+    </div>
+  </div>
+
+  <div class="content-container" *ngIf="visibleWorkspaces !== null">
+    <!--  Service Announcement 'catalog'  -->
+    <app-service-announcement [context]="context"></app-service-announcement>
+
+    <section class="workspace-list" *ngIf="workspaceCount > 0 ; else noMembershipBlock">
+      <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">
+        <ng-container *ngFor="let workspace of visibleWorkspaces">
+          <app-main-workspace-item
+            [id]="workspace.id"
+            [workspace]="workspace"
+            [isNew]="workspace.id === newWorkspaceId"
+            [context]="context">
+          </app-main-workspace-item>
+        </ng-container>
+      </ng-container>
+      <ng-template #noWorkspaceBlock>
+        <div class="status-info-container">
+          <div class="empty-status">
+            <mat-icon fontSet="material-icons-outlined">search</mat-icon>
+            <div class="status-summary">No results were found by search</div>
+          </div>
+        </div>
+      </ng-template>
+    </section>
+
+    <ng-template #noMembershipBlock>
       <div class="status-info-container">
         <div class="empty-status">
-          <mat-icon fontSet="material-icons-outlined" class="md-96">search</mat-icon>
-          <span class="status-summary">No results were found by search</span>
+          <mat-icon fontSet="material-icons-outlined">group</mat-icon>
+          <div class="status-summary">You are currently not a member of any workspace</div>
+          <div class="status-postscript">When you participate in courses or collaborations, you will get a
+            <em class="keyword">Join code</em> to become a workspace member.
+          </div>
         </div>
       </div>
     </ng-template>
-  </section>
+  </div>
 
-  <ng-template #noMembershipBlock>
-    <div class="status-info-container">
-      <div class="empty-status">
-        <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
-        <span class="status-summary">
-          You are currently not a member of any workspace
-        </span>
-        <span class="status-postscript">
-          When you participate in courses or collaborations, you will get a
-          <span class="hint-join-code">Join code</span>
-          <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
-          to become a workspace member.
-        </span>
-      </div>
+  <div class="status-info-container" *ngIf="visibleWorkspaces === null">
+    <div class="empty-status">
+      <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+      <span class="status-summary">...Loading...</span>
     </div>
-  </ng-template>
-</div>
-
-<div class="status-info-container" *ngIf="visibleWorkspaces === null">
-  <div class="empty-status">
-    <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
-    <span class="status-summary">...Loading...</span>
   </div>
 </div>

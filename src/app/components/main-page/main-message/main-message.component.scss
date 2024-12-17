@@ -1,49 +1,64 @@
 @import "src/styles/main.scss";
 
-.content-header-container {
-  grid-template-columns: auto 160px;
-  grid-column-gap: 20px;
+#mark-all-read-btn {
+  display: flex;
+  align-items: center;
 }
 
-#message-page {
-  .message {
-    position: relative;
-    padding: 15px 20px 25px;
-    background: #fff;
+.content-container {
+  position: relative;
+  padding: 15px 40px;
+  min-height: calc(100vh - 80px);
+  background: map-get($app-primary, 100);
 
-    .title {
-      border-bottom: 1px solid #ccc;
-      padding: 7px 5px 2px 5px;
-    }
+  .messages-list {
+    padding: 15px 40px;
+    background: map-get($app-primary, 100);
 
-    .date {
-      position: absolute;
-      right: 0px;
-      top: 0;
-      padding: 5px 10px;
-      background: map-get($app-primary, 300);
-    }
-
-    .content {
-      padding: 10px 5px 0;
-      margin: 0;
-    }
-
-    &.unread {
-      .title:before {
-        content: "Unread";
+    .message-container {
+      .message {
         position: relative;
-        top: -2px;
-        font-size: 1.1rem;
-        background: map-get($app-warn, light);
-        padding: 2px 8px;
-        margin-left: -5px;
-        margin-right: 5px;
-        border-radius: 8px;
-      }
+        padding: 15px 20px 25px;
+        background: #fff;
+        border: 2px solid map-get($app-primary, 300);
+        border-radius: 3px;
+        margin-bottom: 10px;
 
-      .date {
-        background: map-get($app-warn, light);
+        .title {
+          border-bottom: 1px solid #ccc;
+          padding: 7px 5px 2px 5px;
+        }
+
+        .date {
+          position: absolute;
+          right: 0;
+          top: 0;
+          padding: 5px 10px;
+          background: map-get($app-primary, 300);
+        }
+
+        .content {
+          padding: 10px 5px 0;
+          margin: 0;
+        }
+
+        &.unread {
+          .title:before {
+            content: "Unread";
+            position: relative;
+            top: -2px;
+            font-size: 1.1rem;
+            background: map-get($app-warn, light);
+            padding: 2px 8px;
+            margin-left: -5px;
+            margin-right: 5px;
+            border-radius: 8px;
+          }
+
+          .date {
+            background: map-get($app-warn, light);
+          }
+        }
       }
     }
   }

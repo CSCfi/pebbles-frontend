@@ -1,3 +1,153 @@
+
+@mixin styled-font {
+  font-family: "Quicksand", sans-serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+  line-height: 140%;
+}
+
+@mixin common-font {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%;
+}
+
+@mixin headline-1 {
+  @include styled-font;
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+@mixin headline-2 {
+  @include styled-font;
+  font-size: 2.6rem;
+  font-weight: 500;
+}
+
+@mixin headline-3 {
+  @include styled-font;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+@mixin headline-4 {
+  @include common-font;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+@mixin headline-5 {
+  @include common-font;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+@mixin headline-6 {
+  @include common-font;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+h1 {
+  @include headline-1;
+}
+h2 {
+  @include headline-2;
+}
+h3 {
+  @include headline-3;
+}
+h4 {
+  @include headline-4;
+}
+h5 {
+  @include headline-5;
+
+  mat-icon {
+    font-size: 1.6rem;
+    height: 16px;
+    width: 20px;
+  }
+}
+
+h6 {
+  @include headline-6;
+
+  mat-icon {
+    font-size: 1.4rem;
+    height: 14px;
+    width: 16px;
+  }
+}
+
+// -------------------- Background
+
+@mixin primary-main-background {
+  background-color: $primary-color;
+  color: $light-text-color;
+}
+
+@mixin primary-light-background {
+  background-color: $primary-light-color;
+  color: $light-text-color ;
+}
+
+@mixin primary-dark-background {
+  background-color: $primary-dark-color;
+  color: $light-text-color ;
+}
+
+@mixin primary-main-button {
+  background-color: $primary-color;
+  color: $light-text-color;
+
+  &:hover {
+    filter: brightness(80%);
+  }
+}
+
+@mixin secondary-main-background {
+  background-color: $secondary-color;
+  color: $light-text-color;
+}
+
+@mixin secondary-main-background-light {
+  background-color: $secondary-light-color;
+  color: $light-text-color ;
+}
+
+@mixin accent-main-background {
+  background-color: $accent-color !important;
+  color: $dark-text-color !important;
+}
+
+@mixin accent-light-background {
+  background-color: $accent-light-color !important;
+  color: $dark-text-color !important;
+}
+
+@mixin warn-light-background {
+  background-color: $warn-light-color !important;
+  color: $dark-text-color !important;
+}
+
+@mixin warn-dark-background {
+  background-color: $warn-dark-color !important;
+  color: $light-text-color !important;
+}
+
+@mixin light-gray-background {
+  background-color: $gray-extra-light-color !important;
+  color: $dark-text-color !important;
+}
+
+@mixin invalid-dark-background {
+  background-color: $gray-color !important;
+  color: $light-text-color !important;
+}
+
 // -------------------- Multiple layer map
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
@@ -79,7 +229,7 @@ $sides: (
 // --------------------
 @mixin bg-dark {
   background: map-get($app-primary, dark);
-  color: $light-text;
+  color: $light-text-color;
 }
 
 .bg {
@@ -219,7 +369,6 @@ $sides: (
 }
 
 .icon {
-
   &__notification:before {
     font-family: "Material Icons";
     content: "\e7f7";

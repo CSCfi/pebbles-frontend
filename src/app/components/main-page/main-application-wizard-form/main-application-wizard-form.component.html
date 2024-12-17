@@ -1,22 +1,23 @@
-<div class="mat-typography dialog-container wizard-container" ngClass.lt-sm="mobile">
+<div class="dialog-container wizard-container">
   <div class="corner-button-container">
     <button mat-icon-button mat-dialog-close="true" class="corner-button">
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <mat-horizontal-stepper linear="true" class="mat-typography">
+  <mat-horizontal-stepper linear="true">
     <!-- 1 Env Templates-->
     <mat-step [stepControl]="wizardApplicationTemplateFormGroup">
       <form [formGroup]="wizardApplicationTemplateFormGroup">
         <mat-dialog-content>
           <ng-template matStepLabel>Application Template</ng-template>
-          <section class="instruction-body center__v">
-            <div class="form-help-icon center__v">
-              <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+          <h3>Select a template for your new application.*</h3>
+          <section class="instruction-body">
+            <div class="form-help-icon">
+              <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
             </div>
             <div class="instruction-text">
               <h1 class="question">What is application template?</h1>
-              <div class="answer mat-body-1">
+              <div class="answer">
                 Application defines the content that users access by starting a browser based isolated session.
                 As workspace owner/co-owner, you can create your own customized applications from templates below.
               </div>
@@ -24,7 +25,7 @@
           </section>
 
           <section class="form-container">
-            <h2 class="mat-title mb-10">Select a template for your new application.*</h2>
+
             <table mat-table [dataSource]="wizardApplicationTemplateDataSource">
               <!-- Radio button column -->
               <ng-container matColumnDef="select">
@@ -40,14 +41,14 @@
                 <th mat-header-cell class="cell-info" *matHeaderCellDef>Template information</th>
                 <td mat-cell class="cell-info" *matCellDef="let element">
                   <ul>
-                    <li class="template-name mat-subheading-2 mb-5"> {{element.name}} </li>
-                    <li class="description mat-caption" [innerHTML]="element.description"></li>
-                    <li class="template-labels mat-caption center__v">
-                      <span class="mr-5 center__v">
-                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-2">label</mat-icon>Labels:
+                    <li class="template-name"> {{element.name}} </li>
+                    <li class="template-description" [innerHTML]="element.description"></li>
+                    <li class="template-labels">
+                      <span>
+                        <mat-icon fontSet="material-icons-outlined">label</mat-icon>Labels:
                       </span>
                       <ng-container *ngFor="let label of element.labels">
-                        <span class="label mr-2">{{ label }}</span>
+                        <span class="label">{{ label }}</span>
                       </ng-container>
                     </li>
                   </ul>
@@ -57,20 +58,20 @@
               <ng-container matColumnDef="spec">
                 <th mat-header-cell class="cell-spec" *matHeaderCellDef>Template spec</th>
                 <td class="cell-spec" mat-cell *matCellDef="let element">
-                  <ul class="mat-caption">
-                    <li class="center__v">
-                      <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">apps</mat-icon>
+                  <ul>
+                    <li class="template-meta">
+                      <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
                       Application type: {{element.application_type}}
                     </li>
                     <li class="template-meta">
-                      <span class="center__v">
-                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">watch_later</mat-icon>
+                      <span>
+                        <mat-icon fontSet="material-icons-outlined">watch_later</mat-icon>
                         Lifetime: {{ element.lifetime | lifeTimeDisplay }}
                       </span>
                     </li>
                     <li class="template-meta">
-                      <span class="center__v">
-                        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5">memory</mat-icon>
+                      <span>
+                        <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
                         Memory: {{ element.memory_gib || '-' }}GiB
                       </span>
                     </li>
@@ -92,7 +93,7 @@
           <!-- Image hidden by default in wizard. TODO: enabled based on selected template -->
           <section class="form-container">
             <div [hidden]="true">
-              <h2 class="mat-title mb-10">Container image</h2>
+              <h3>Container image</h3>
               Change only if you need a custom image. The image has to be compatible with the template.
               <mat-form-field appearance="fill">
                 <input matInput formControlName="imageUrl" [value]="selectedWizardApplicationTemplateImage">
@@ -101,7 +102,7 @@
           </section>
         </mat-dialog-content>
         <div class="stepper-action-buttons first">
-          <button mat-flat-button class="next" color="primary"
+          <button mat-flat-button class="next primary-btn"
                   [disabled]="selectedWizardApplicationTemplateImage===null" matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
@@ -115,13 +116,14 @@
       <form [formGroup]="wizardProfileFormGroup">
         <mat-dialog-content>
           <ng-template matStepLabel>Application Profile</ng-template>
-          <section class="instruction-body center__v">
-            <div class="form-help-icon center__v">
-              <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+          <h3>Fill your application information</h3>
+          <section class="instruction-body">
+            <div class="form-help-icon">
+              <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
             </div>
             <div class="instruction-text">
               <h1 class="question">How new application is seen by members?</h1>
-              <div class="answer mat-body-1">
+              <div class="answer">
                 Members of your workspace can find your application in the applications page.
                 Carefully consider names, descriptions and labels to let them identify and find the content.
               </div>
@@ -129,10 +131,9 @@
           </section>
 
           <!-- 2-1 Name -->
-          <h2 class="mat-title">Fill your application information</h2>
-          <section class="form-container mt-10">
+          <section class="form-container">
             <mat-form-field appearance="fill">
-              <mat-label class="mat-subheading-2">Application name</mat-label>
+              <mat-label>Application name</mat-label>
               <input matInput formControlName="name" placeholder="Ex. Data Analysis Course 2020" required>
               <mat-error *ngIf="wizardProfileFormGroup.controls.name.hasError('required')">
                 <strong>Name is required</strong>
@@ -143,9 +144,9 @@
             </mat-form-field>
           </section>
           <!-- 2-2 Description -->
-          <section class="form-container mt-10">
+          <section class="form-container">
             <mat-form-field appearance="fill">
-              <mat-label class="mat-subheading-2">Description (can contain HTML formatting)</mat-label>
+              <mat-label>Description (can contain HTML formatting)</mat-label>
               <input matInput formControlName="description" placeholder="Ex. Data Analysis Course 2020" required>
               <mat-error *ngIf="!wizardProfileFormGroup.controls.description.valid">
                 <strong>Description is required</strong>
@@ -153,16 +154,16 @@
             </mat-form-field>
           </section>
           <!-- 2-3 Label search component -->
-          <section class="form-container mt-10">
+          <section class="form-container">
             <app-main-search-box [labels]="selectedLabels"></app-main-search-box>
           </section>
         </mat-dialog-content>
         <div class="stepper-action-buttons">
           <button mat-stroked-button class="back" matStepperPrevious>
-            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
+            <mat-icon fontSet="material-icons-outlined">arrow_backward</mat-icon>
             <span>Back</span>
           </button>
-          <button mat-flat-button class="next" color="primary" [disabled]="wizardProfileFormGroup.invalid"
+          <button mat-flat-button class="next primary-btn" [disabled]="wizardProfileFormGroup.invalid"
                   matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
@@ -175,14 +176,15 @@
     <mat-step [stepControl]="wizardOptionFormGroup">
       <form [formGroup]="wizardOptionFormGroup">
         <mat-dialog-content>
+          <h3>Configure application options</h3>
           <ng-template matStepLabel>Optional functions</ng-template>
-          <section class="instruction-body center__v">
-            <div class="form-help-icon center__v">
-              <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
+          <section class="instruction-body">
+            <div class="form-help-icon">
+              <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
             </div>
             <div class="instruction-text">
               <h1 class="question">How you can customize application?</h1>
-              <div class="answer mat-body-1">
+              <div class="answer">
                 <p>Customize settings according to what you want to do.</p>
                 <ul>
                   <li>
@@ -196,13 +198,11 @@
               </div>
             </div>
           </section>
-
-          <h2 class="mat-title mb-10">Configure application options</h2>
           <!-- 3.1 Include External files -->
           <section class="form-container ">
-            <mat-label class="mat-subheading-2">Download Method</mat-label>
+            <mat-label>Download Method</mat-label>
             <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
-              <ul class="mt-5 mb-10">
+              <ul>
                 <li>
                   <mat-radio-button [value]="'none'">None</mat-radio-button>
                 </li>
@@ -218,12 +218,12 @@
           <!-- 3.2 Source -->
           <ng-container [ngSwitch]="selectedDownloadMethod">
             <section class="form-container" *ngSwitchCase="'local'">
-              <button mat-flat-button color="primary">Upload file</button>
+              <button mat-flat-button class="primary-btn">Upload file</button>
             </section>
-            <section class="form-container "
+            <section class="form-container"
                      *ngSwitchCase=" ['http-get','git-clone'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
               <mat-form-field appearance="fill">
-                <mat-label class="mat-subheading-2">Source(URL)</mat-label>
+                <mat-label>Source(URL)</mat-label>
                 <input matInput formControlName="source" placeholder="">
               </mat-form-field>
             </section>
@@ -231,24 +231,24 @@
           <!-- 3.3 Auto Execution -->
           <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
           <section class="form-container ">
-            <mat-label class="mat-subheading-2">Auto Execution (TODO)</mat-label>
+            <mat-label>Auto Execution (TODO)</mat-label>
             <br>
-            <mat-checkbox formControlName="isAutoExecution" class="mt-5">
+            <mat-checkbox formControlName="isAutoExecution">
               Execute or unpack downloaded file when the application is launched.
             </mat-checkbox>
           </section>
           <!-- 3.4 Enable share folder / user work folder -->
-          <section class="form-container ">
-            <mat-label class="mat-subheading-2">Shared folder</mat-label>
+          <section class="form-container">
+            <mat-label>Shared folder</mat-label>
             <br>
-            <mat-checkbox formControlName="isEnableSharedFolder" class="mt-5">
-              Enable 'shared' folder within workspace users. <span class="mat-caption ml-10">(It's workspace specific and read-only for users.)</span>
+            <mat-checkbox formControlName="isEnableSharedFolder">
+              Enable 'shared' folder within workspace users. <span>(It's workspace specific and read-only for users.)</span>
             </mat-checkbox>
           </section>
           <section class="form-container ">
-            <mat-label class="mat-subheading-2">Work folder per user</mat-label>
+            <mat-label>Work folder per user</mat-label>
             <br>
-            <mat-checkbox formControlName="isEnableUserWorkFolder" (change)="onChangeUserWorkFolder($event.checked)" class="mt-5">
+            <mat-checkbox formControlName="isEnableUserWorkFolder" (change)="onChangeUserWorkFolder($event.checked)">
               Enable personal persistent 'work' folder for users. <span class="mat-caption ml-10">(It's workspace specific.)</span>
             </mat-checkbox>
           </section>
@@ -256,10 +256,10 @@
         <!-- Stepper -->
         <div class="stepper-action-buttons">
           <button mat-stroked-button class="back" matStepperPrevious>
-            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
+            <mat-icon fontSet="material-icons-outlined">arrow_backward</mat-icon>
             <span>Back</span>
           </button>
-          <button mat-flat-button class="next" color="primary" matStepperNext>
+          <button mat-flat-button class="next primary-btn" matStepperNext>
             Next
             <mat-icon fontSet="material-icons-outlined">arrow_forward</mat-icon>
           </button>
@@ -271,16 +271,20 @@
       <form [formGroup]="wizardPublishFormGroup">
         <mat-dialog-content>
           <ng-template matStepLabel>Save</ng-template>
-          <div class="form-items mt-20 mb-50">
-            <h2 class="mat-headline mb-20">Congratulations! Your new application is almost ready :)</h2>
-            <div class="center__vi">
-              <mat-icon fontSet="material-icons-outlined" class="mr-5">lightbulb</mat-icon>
-              There are more options available through <span class="mr-5 ml-5 hint__menu">Edit application</span> in the application menu.
-            </div>
-            <section class="form-container mt-15">
-              <mat-label class="mat-subheading-2">Visibility</mat-label>
+          <div class="form-items">
+            <h3>Congratulations! Your new application is almost ready :)</h3>
+            <section class="instruction-body">
+              <div class="form-help-icon">
+                <mat-icon fontSet="material-icons-outlined">lightbulb</mat-icon>
+              </div>
+              <div class="instruction-text">
+                There are more options available through <span class="hint__menu">Edit application</span> in the application menu.
+              </div>
+            </section>
+            <section class="form-container">
+              <mat-label>Visibility</mat-label>
               <mat-radio-group formControlName="isActive">
-                <ul class="mt-10">
+                <ul>
                   <li>
                     <mat-radio-button [value]="true">Publish immediately</mat-radio-button>
                   </li>
@@ -295,7 +299,7 @@
         </mat-dialog-content>
         <div class="stepper-action-buttons end">
           <button mat-stroked-button class="back" matStepperPrevious>
-            <mat-icon fontSet="material-icons-outlined" class="mr-5">arrow_backward</mat-icon>
+            <mat-icon fontSet="material-icons-outlined">arrow_backward</mat-icon>
             <span>Back</span>
           </button>
           <button  mat-stroked-button matStepperNext
@@ -303,7 +307,7 @@
                   (click)="createApplicationByWizardMode(true)">
                   Save & Open in Advanced form
           </button>
-          <button mat-flat-button color="primary" matStepperNext
+          <button mat-flat-button class="primary-btn" matStepperNext
                   [disabled]="createButtonClicked"
                   (click)="createApplicationByWizardMode(false)">
             Save

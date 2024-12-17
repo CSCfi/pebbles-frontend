@@ -1,16 +1,17 @@
-<div class="workspace-item mb-10 {{ membershipType }}" [ngClass]="{'expired': workspaceService.hasExpired(workspace)}"
+<div class="workspace-item {{ membershipType }}"
+     [ngClass]="{'expired': workspaceService.hasExpired(workspace)}"
      *ngIf="workspace">
-  <mat-card class="card pl-20 pr-20">
+  <mat-card>
     <mat-card-header>
-      <mat-card-title class="mat-title mb-0 center__v">
+      <mat-card-title>
         <ng-container *ngIf="membershipType!=='public'; else publicBlock">
-          <mat-icon class="mr-8 user-role-icon" [matTooltip]="workspace.membership_type">apps</mat-icon>
+          <mat-icon class="user-role-icon" [matTooltip]="workspace.membership_type">apps</mat-icon>
         </ng-container>
         <ng-template #publicBlock>
-          <mat-icon class="mr-8 user-role-icon" matTooltip="public">public</mat-icon>
+          <mat-icon class="user-role-icon" matTooltip="public">public</mat-icon>
         </ng-template>
         <span [innerHTML]="workspace.name"></span>
-        <mat-chip class="chip__sm ml-5" color="accent" selected *ngIf="isNew">New</mat-chip>
+        <mat-chip class="chip" *ngIf="isNew">New</mat-chip>
       </mat-card-title>
       <button mat-button class="workspace-item-menu" [matMenuTriggerFor]="menu" aria-label="open menu">
         <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
@@ -30,41 +31,45 @@
       </mat-menu>
     </mat-card-header>
     <!-- //// workspace-info -->
-    <mat-card-content>
-      <div class="expiry-date mt-5 mb-5">
-        Valid till {{ workspace.expiry_ts | dateDisplay }}
-        <span class="expiry-warning mat-caption ml-5" [ngClass]="{'txt__warn-dark': isExpiredSoon }">
-        ({{ workspace.expiry_ts | remainingDaysDisplay }}).
-        </span>
-        <span *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
-          Membership expires after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity.
-        </span>
-      </div>
-      <div class="description mb-5" [innerHTML]="workspace.description">
-      </div>
-      <div class="application-list" *ngIf="applications !== null" [ngClass]="{'active': applications?.length > 0}">
-        <div class="toggle-button center__v" (click)="toggleApplicationList()">
-          <mat-icon class="material-icons-outlined">list</mat-icon>
+    <mat-card-content class="workspace-info">
+      <div class="application-list"
+           *ngIf="applications !== null" [ngClass]="{'active': applications?.length > 0}">
+        <div class="toggle-button" (click)="toggleApplicationList()">
+          <!--          <mat-icon class="material-icons-outlined">list</mat-icon>-->
           <ng-container *ngIf="applications.length > 0">
-            <mat-icon fontSet="material-icons-outlined" *ngIf="!panelOpenState ; else openedPanelBlock">arrow_right
+            <mat-icon fontSet="material-icons-outlined"
+                      *ngIf="!panelOpenState ; else openedPanelBlock">arrow_right
             </mat-icon>
             <ng-template #openedPanelBlock>
-              <mat-icon fontSet="material-icons-outlined" *ngIf="panelOpenState">arrow_drop_down</mat-icon>
+              <mat-icon fontSet="material-icons-outlined"
+                        *ngIf="panelOpenState">arrow_drop_down</mat-icon>
             </ng-template>
           </ng-container>
-          <span class="ml-5">{{ applications.length }} Applications</span>
+          <span>{{ applications.length }} Applications</span>
         </div>
       </div>
       <!-- workspaces visible, but applications have not been loaded yet -->
       <div *ngIf="applications === null">
         <span class="ml-10">...Loading...</span>
       </div>
+      <div class="workspace-meta">
+        <div class="expiry-date">Valid till {{ workspace.expiry_ts | dateDisplay }}
+          <span class="expiry-warning" [ngClass]="{'txt__warn-dark': isExpiredSoon }">
+            ({{ workspace.expiry_ts | remainingDaysDisplay }})
+          </span>
+          <span class="expiry-warning" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
+            Membership expires after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity.
+          </span>
+        </div>
+        <div class="description" [innerHTML]="workspace.description">
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 
   <mat-accordion *ngIf="applications?.length > 0" multi>
     <mat-expansion-panel [expanded]="panelOpenState">
-      <div class="application-item pl-15 pt-5" *ngFor="let application of applications">
+      <div class="application-item" *ngFor="let application of applications">
         <div class="tree"></div>
         <app-main-application-item [application]="application" [context]="context">
         </app-main-application-item>

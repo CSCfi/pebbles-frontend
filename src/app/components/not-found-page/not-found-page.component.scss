@@ -3,9 +3,16 @@
 #not-found-container {
   .face {
     text-align: center;
+    transform: scale(4);
+    padding: 30px;
   }
 
   div {
     text-align: center;
   }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
 }

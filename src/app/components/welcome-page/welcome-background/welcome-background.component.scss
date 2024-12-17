@@ -17,13 +17,13 @@
 #mini-cube-2,
 #mini-cube-3 {
   position: absolute;
-  z-index: 2000;
+  z-index: 100;
 }
 
 #left-cube-0 {
   width: 250px;
-  left: 0;
-  top: 470px;
+  left: -410px;
+  top: 400px;
   opacity: 0.7;
   z-index: 3000;
 
@@ -36,14 +36,14 @@
 #right-cube-1 {
   width: 350px;
   height: 350px;
-  right: -50px;
-  top: 620px;
+  left: 450px;
+  top: 550px;
   opacity: 0.8;
 }
 
 #mini-cube-2 {
   width: 100px;
-  left: -70px;
+  left: -610px;
   top: 350px;
   opacity: 0.5;
 
@@ -55,8 +55,8 @@
 
 #mini-cube-3 {
   width: 100px;
-  right: -120px;
-  top: -70px;
+  left: 200px;
+  top: -90px;
   opacity: 0.5;
 
   svg {

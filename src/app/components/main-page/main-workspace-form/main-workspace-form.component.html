@@ -1,97 +1,97 @@
-<div class="mat-typography dialog-container">
+<div class="dialog-container" ngClass.lt-sm="mobile">
   <div class="corner-button-container">
-    <button mat-icon-button mat-dialog-close class="corner-button">
+    <button class="corner-button" mat-dialog-close mat-icon-button>
       <mat-icon>close</mat-icon>
     </button>
   </div>
   <form [formGroup]="workspaceForm" novalidate>
-    <h1 class="mat-dialog-title mat-headline">Create new workspace</h1>
-    <mat-dialog-content>
-      <section class="instruction-body">
-        <div class="form-help-icon center__v">
-          <mat-icon fontSet="material-icons-outlined" class="md-96">help_outline</mat-icon>
-        </div>
-        <div class="instruction-text">
-          <h1 class="question">What is Workspace?</h1>
-          <div class="answer mat-body-1">
-            "Workspace" is the virtual space where you can share customized applications and materials with
-            students or collaborators. There are folders for storing shared and user's data.
-            Users join your Workspace using shared "Join Code".
+    <h1 class="mat-dialog-title">Create new workspace</h1>
+    <div class="form-inner">
+      <mat-dialog-content class="plain-form-container">
+        <section class="instruction-body">
+          <div class="form-help-icon center__v">
+            <mat-icon class="md-96" fontSet="material-icons-outlined">help_outline</mat-icon>
           </div>
-        </div>
-      </section>
-      <section class="form-container">
-        <!-- Name -->
-        <mat-form-field appearance="fill">
-          <mat-label>Workspace name</mat-label>
-          <input matInput formControlName="name" placeholder="Workspace name">
-          <mat-error *ngIf="workspaceForm.controls.name.hasError('required')">
-            You must provide a <strong>workspace name</strong>
-          </mat-error>
-          <mat-error *ngIf="workspaceForm.controls.name.hasError('maxlength')">
-            <strong>Max length (64 characters) exceeded</strong>
-          </mat-error>
-          <mat-error *ngIf="workspaceForm.controls.name.hasError('forbiddenValue')">
-            <strong>Workspace name cannot start with "system"</strong>
-          </mat-error>
-        </mat-form-field>
-      </section>
-      <section class="form-container">
-        <!-- Description -->
-        <mat-form-field appearance="fill">
-          <mat-label>Workspace description</mat-label>
-          <textarea matInput formControlName="description" placeholder="Workspace description"></textarea>
-          <!-- error -->
-          <mat-error *ngIf="errorHandling('description', 'required')">
-            You must provide a <strong>description about the workspace</strong>
-          </mat-error>
-          <!-- <mat-hint>Ex) </mat-hint> -->
-        </mat-form-field>
-      </section>
-      <section class="form-container">
-        <!-- workspace type -->
-        <mat-form-field appearance="fill">
-          <mat-label>Workspace type</mat-label>
-          <mat-select formControlName="workspaceType" placeholder="Choose workspace type"
-                      [(value)]="workspaceType"
-                      (selectionChange)="onWorkspaceTypeChange()">
-            <mat-option *ngFor="let opt of workspaceTypeOptions" [value]="opt.value">
-              {{ opt.viewValue }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
-      <section class="form-container">
-        <!-- Validity -->
-        <mat-form-field appearance="fill">
-          <mat-label>Valid for</mat-label>
-          <mat-select formControlName="validityMonths" placeholder="Valid for"
-                      [(value)]="validityMonths"
-                      (selectionChange)="updateProjectedExpiryDate()">
-            <mat-option *ngFor="let opt of validityOptions" [value]="opt.value">
-              {{ opt.viewValue }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="workspaceType==='fixed-time-course'" class="warning mat-body-2 mt-20" >
-          <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
-          Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
-        </div>
-        <div *ngIf="workspaceType==='long-running-course'" class="warning mat-body-2 mt-20" >
-          <!-- <mat-icon fontSet="material-icons-outlined">announcement</mat-icon> -->
-          Workspace members are automatically removed after 90 days of inactivity.
-          Workspace will expire at {{ projectedExpiryTs | dateDisplay }}. You can extend the validity
-          on the Workspace Info tab 13 months at a time.
-        </div>
-      </section>
-    </mat-dialog-content>
-    <div class="dialog-actions">
-      <button mat-flat-button color="primary"
-              [disabled]="!workspaceForm.valid || createButtonClicked"
-              (click)="createWorkspace()">
-        Create
-      </button>
-      <button mat-button mat-dialog-close class="button-link button-sm">Cancel</button>
+          <div class="instruction-text">
+            <h1 class="question">What is Workspace?</h1>
+            <div class="answer">
+              "Workspace" is the virtual space where you can share customized applications and materials with
+              students or collaborators. There are folders for storing shared and user's data.
+              Users join your Workspace using shared "Join Code".
+            </div>
+          </div>
+        </section>
+        <section class="form-container">
+          <!-- Name -->
+          <mat-form-field appearance="fill">
+            <mat-label>Workspace name</mat-label>
+            <input formControlName="name" matInput placeholder="Workspace name">
+            <mat-error *ngIf="workspaceForm.controls.name.hasError('required')">
+              You must provide a <strong>workspace name</strong>
+            </mat-error>
+            <mat-error *ngIf="workspaceForm.controls.name.hasError('maxlength')">
+              <strong>Max length (64 characters) exceeded</strong>
+            </mat-error>
+            <mat-error *ngIf="workspaceForm.controls.name.hasError('forbiddenValue')">
+              <strong>Workspace name cannot start with "system"</strong>
+            </mat-error>
+          </mat-form-field>
+        </section>
+        <section class="form-container">
+          <!-- Description -->
+          <mat-form-field appearance="fill">
+            <mat-label>Workspace description</mat-label>
+            <textarea formControlName="description" matInput placeholder="Workspace description"></textarea>
+            <!-- error -->
+            <mat-error *ngIf="errorHandling('description', 'required')">
+              You must provide a <strong>description about the workspace</strong>
+            </mat-error>
+            <!-- <mat-hint>Ex) </mat-hint> -->
+          </mat-form-field>
+        </section>
+        <section class="form-container">
+          <!-- workspace type -->
+          <mat-form-field appearance="fill">
+            <mat-label>Workspace type</mat-label>
+            <mat-select (selectionChange)="onWorkspaceTypeChange()" [(value)]="workspaceType"
+                        formControlName="workspaceType"
+                        placeholder="Choose workspace type">
+              <mat-option *ngFor="let opt of workspaceTypeOptions" [value]="opt.value">
+                {{ opt.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section class="form-container">
+          <!-- Validity -->
+          <mat-form-field appearance="fill">
+            <mat-label>Valid for</mat-label>
+            <mat-select (selectionChange)="updateProjectedExpiryDate()" [(value)]="validityMonths"
+                        formControlName="validityMonths"
+                        placeholder="Valid for">
+              <mat-option *ngFor="let opt of validityOptions" [value]="opt.value">
+                {{ opt.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="workspaceType==='fixed-time-course' && projectedExpiryTs">
+            Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
+          </div>
+          <div *ngIf="workspaceType==='long-running-course' && projectedExpiryTs">
+            Workspace members are automatically removed after 90 days of inactivity.
+            Workspace will expire at {{ projectedExpiryTs | dateDisplay }}. You can extend the validity
+            on the Workspace Info tab 13 months at a time.
+          </div>
+        </section>
+      </mat-dialog-content>
+      <div class="dialog-actions">
+        <button (click)="createWorkspace()" [disabled]="!workspaceForm.valid || createButtonClicked"
+                class="primary-btn submit-button"
+                mat-flat-button>
+          Create
+        </button>
+        <button class="cancel-button" mat-button mat-dialog-close>Cancel</button>
+      </div>
     </div>
   </form>
 </div>

@@ -1,0 +1,47 @@
+@import "src/styles/main.scss";
+
+.content-container {
+  position: relative;
+  padding: 15px 40px;
+  min-height: calc(100vh - 80px);
+  background: map-get($app-primary, 100);
+
+  .info-body {
+    padding: 20px 20px;
+    background: white;
+    border: 2px solid map-get($app-primary, 300);
+    border-radius: 3px !important;
+
+    dd {
+      margin-bottom: 10px;
+    }
+
+    #initialize-desktop-notifications-btn {
+      margin-top: 10px;
+      display: flex;
+    }
+
+    .dl-section {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top-style: groove;
+      border-top-width: thin;
+    }
+
+    #request-account-deletion-btn {
+      margin-top: 10px;
+      display: flex;
+      background-color: $warn-color !important;
+    }
+  }
+
+  a {
+    color: $primary-dark-color;
+    text-decoration: underline dotted;
+
+    &:hover {
+      color: $primary-color;
+      text-decoration: underline;
+    }
+  }
+}

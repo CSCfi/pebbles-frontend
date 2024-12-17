@@ -1,34 +1,103 @@
 @import "src/styles/main.scss";
 
 .workspace-item {
+  padding-bottom: 10px;
+  max-width: 1250px;
+  margin: auto;
+
+  .expiry-warning {
+    margin-left: 10px;
+  }
 
   &.expired{
-    .card {
-      background: map-get($app-primary, 200);
-      border: 1px solid map-get($app-gray, 300);
+
+    .mat-mdc-card {
+      background: $gray-light-color !important;
+
+      .mdc-button {
+        background: $gray-light-color !important;
+      }
     }
 
     .expiry-warning {
-      color: map-deep-get($app-warn, dark);
+      color: map-deep-get($app-warn, dark) !important;
     }
   }
 
-  mat-card-header {
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+
+  .mat-mdc-card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $light-dark-line;
+    padding: 0;
+    min-height: 50px;
+
+    ::ng-deep.mat-mdc-card-header-text {
+      flex: 1 0 auto;
+
+      .mat-mdc-card-title {
+        @include center(vertical);
+        gap: 10px;
+        padding: 0 16px;
+      }
+    }
+
+    .expiry-date {
+      @include headline-5;
+      text-align: center;
+      border-right: 1px solid $light-dark-line;
+      border-left: 1px solid $light-dark-line;
+      align-self: stretch;
+      display: inline-flex;
+      align-items: center;
+      padding: 10px;
+      flex: 0 0 240px;
+    }
+
     .workspace-item-menu {
-      margin-top: -4px;
-      margin-right: -16px;
+      flex: 0 0 80px;
+      .mat-icon {
+        font-size: 1.8rem;
+        width: auto;
+        height: auto;
+        margin: 0;
+      }
     }
   }
 
-  .application-list {
-    .toggle-button {
-      @include hover();
+  ::ng-deep.mat-mdc-card-content.workspace-info {
+
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding-top: 10px;
+
+    .workspace-meta {
+      .expiry-date {
+        @include headline-5;
+      }
+
+      .description {
+        @include headline-4;
+      }
     }
 
-    color: map-get($app-gray, 300);
+    .application-list {
+      flex: 0 0 155px;
+      color: map-get($app-gray, 300);
 
-    &.active {
-      color: map-get($app-primary, default);
+      .toggle-button {
+        display: flex;
+        align-items: center;
+        @include hover();
+      }
+
+      &.active {
+        color: map-get($app-primary, default);
+      }
     }
   }
 
@@ -36,6 +105,7 @@
     box-shadow: none !important;
     background: none;
     border-radius: 0;
+    padding-top: 10px;
 
     .mat-expansion-panel-body {
       border-radius: 0;
@@ -47,7 +117,7 @@
     position: absolute;
     min-height: 140px;
     height: 110%;
-    width: 15px;
+    width: 50%;
     top: -55%;
     left: 0;
     border-bottom: 3px solid #bbb;
@@ -56,5 +126,6 @@
 
   .application-item {
     position: relative;
+    padding-left: 15px;
   }
 }

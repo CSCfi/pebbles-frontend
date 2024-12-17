@@ -16,9 +16,6 @@ import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
 import { MainActiveSessionsComponent } from './main-active-sessions/main-active-sessions.component';
-import { MainUsersComponent } from './main-users/main-users.component';
-import { MainSystemStatusComponent } from './main-system-status/main-system-status.component';
-import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
 import { MainMessageComponent } from './main-message/main-message.component';
 import { MainHelpComponent } from './main-help/main-help.component';
 import { MainAccountComponent } from './main-account/main-account.component';
@@ -41,7 +38,6 @@ import { MainWorkspaceFormComponent } from './main-workspace-form/main-workspace
 import { MainWorkspaceApplicationsComponent } from './main-workspace-applications/main-workspace-applications.component';
 import { MainWorkspaceItemComponent } from './main-workspace-item/main-workspace-item.component';
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
-import { MainWorkspaceQuotaFormComponent } from './main-workspace-quota-form/main-workspace-quota-form.component';
 import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dialog/main-select-workspace-dialog.component';
 
 @NgModule({
@@ -54,7 +50,6 @@ import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dial
     MainMyWorkspacesComponent,
     MainWorkspaceOwnerComponent,
     MainActiveSessionsComponent,
-    MainStatisticsComponent,
     MainHelpComponent,
     MainAccountComponent,
     MainMessageComponent,
@@ -69,9 +64,6 @@ import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dial
     MainSessionButtonComponent,
     MainContentStateComponent,
     MainJoinWorkspaceDialogComponent,
-    MainUsersComponent,
-    MainWorkspaceQuotaFormComponent,
-    MainSystemStatusComponent,
     DateDisplayPipe,
     LifeTimeDisplayPipe,
     RemainingDaysDisplayPipe,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
@@ -142,11 +142,13 @@ export class MainCatalogComponent implements OnInit {
   }
 
   getNumPublicApplications(): number {
-    return this.applications?.filter(x => x.workspace_name.startsWith('System.')).length;
+    return this.applicationService.getApplications()?.filter(x => x.workspace_name.startsWith('System.')).length;
   }
 
-  getPublicApplicationAccessNote(): string|null {
-    if (this.applications !== null && !this.getNumPublicApplications()) {
+  getPublicApplicationAccessNote(): string | null {
+    if (this.applications !== null
+      && !this.getNumPublicApplications()
+    ) {
       return this.publicConfigService.getPublicApplicationAccessNote();
     }
     return null;

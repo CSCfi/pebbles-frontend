@@ -1,6 +1,6 @@
 <div id="workspace-members-container">
   <!-- Search Box -->
-  <div class="member-header grid-col mb-10">
+  <div class="member-header">
     <mat-form-field appearance="fill">
       <mat-icon matPrefix>search</mat-icon>
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
@@ -39,7 +39,7 @@
       -->
       <!-- Index Column -->
       <ng-container matColumnDef="index">
-        <th mat-header-cell mat-sort-header class="icon-cell" *matHeaderCellDef>index</th>
+        <th mat-header-cell mat-sort-header class="icon-cell cell-index" *matHeaderCellDef>index</th>
         <td mat-cell class="center icon-cell" *matCellDef="let element">
           {{element.index}}
         </td>
@@ -49,17 +49,17 @@
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Role</th>
         <td mat-cell class="cell-role" *matCellDef="let element">
           <ng-container [ngSwitch]="element.role">
-            <div [ngClass]="element.role" class="center__v mat-caption">
-              <mat-icon fontSet="material-icons-outlined" class="user-role-icon mr-5" *ngSwitchCase="'owner'">
+            <div class="role-name" [ngClass]="element.role">
+              <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'owner'">
                 manage_accounts
               </mat-icon>
-              <mat-icon fontSet="material-icons-outlined" class="user-role-icon mr-5" *ngSwitchCase="'manager'">
+              <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'manager'">
                 manage_accounts
               </mat-icon>
-              <mat-icon fontSet="material-icons-outlined" class="user-role-icon mr-5" *ngSwitchCase="'banned'">
+              <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'banned'">
                 person_off
               </mat-icon>
-              <mat-icon fontSet="material-icons-outlined" class="user-role-icon mr-5" *ngSwitchDefault> person
+              <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchDefault> person
               </mat-icon>
               <span [innerHTML]="displayMembershipType(element.displayRole)"></span>
             </div>
@@ -70,7 +70,7 @@
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>email</th>
         <td mat-cell *matCellDef="let element">
-          <span class="center__v" [innerHtml]="element.email"></span>
+          <span [innerHtml]="element.email"></span>
         </td>
       </ng-container>
       <!-- menu column -->
@@ -132,13 +132,18 @@
   <ng-container *ngIf="isInviteHintEnabled">
     <div class="status-info-container">
       <div class="hint">
-        <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
-        <span class="status-postscript">
-          Tip: Share workspace
-          <span class="hint-join-code">Join code </span>
-          <mat-icon class="mr-5 txt__primary-light">vpn_key</mat-icon>
-          to invite members to this workspace.
-        </span>
+        <div class="empty-status">
+          <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
+        </div>
+        <div class="status-summary">No members in this workspace yet.</div>
+        <div class="hint-content">
+          <h3>Tip</h3>
+          <span class="status-postscript">
+            Share workspace
+            <span class="hint-join-code">Join code</span>
+            <mat-icon>vpn_key</mat-icon>to invite members to this workspace.
+          </span>
+        </div>
       </div>
     </div>
   </ng-container>
@@ -147,13 +152,13 @@
   <ng-template #noMember>
     <div class="status-info-container">
       <div class="empty-status" *ngIf="memberList !== null">
-        <mat-icon fontSet="material-icons-outlined" class="md-96">group</mat-icon>
+        <mat-icon fontSet="material-icons-outlined">group</mat-icon>
         <span class="status-summary">
           No members in this workspace.
         </span>
       </div>
       <div class="empty-status" *ngIf="memberList === null">
-        <mat-icon fontSet="material-icons-outlined" class="md-96">hourglass_top</mat-icon>
+        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
         <span class="status-summary">...Loading...</span>
       </div>
     </div>

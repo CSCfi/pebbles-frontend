@@ -1,174 +1,194 @@
 @import "src/styles/main.scss";
 
-.card {
-  grid-column-gap: 20px;
-  grid-template-columns: 125px auto 130px;
+.mat-mdc-card {
+  max-width: 1200px;
+  margin: 0 auto 10px;
 
-   &.expired {
-     background: map-get($app-primary, 200);
-     border: 1px solid map-get($app-gray, 300);
-
-     .expiry-warning {
-        color: map-deep-get($app-warn, dark);
-      }
-   }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 3px;
+  overflow: hidden;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0, rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+  color: $dark-text-color;
 
   .card-media-container {
-    column-gap: 8px;
-    border-radius: 3px;
+    flex: 0 1 125px;
     min-height: 125px;
+    @include secondary-main-background-light;
+    @include center(both);
 
-    .thumbnail fa-icon {
+    .thumbnail {
       text-align: center;
-      margin: auto;
-      display: block;
     }
   }
 
+  &.joined-ws .card-media-container {
+    @include primary-light-background;
+  }
+
+  &.expired-ws .card-media-container {
+    background-color: $gray-dark-color !important;
+  }
+
   .card-info-container {
-    grid-row-gap: 10px;
-    //min-width: 484px;
+    flex: 1 0 250px;
 
-    .mat-card-header {
-      .mat-card-title {
-        padding-top: 5px;
-        border-bottom: 1px solid #c7c7c7 !important;
-        padding-bottom: 2px;
+    .mat-mdc-card-header {
+      padding-top: 12px;
+      padding-left: 20px;
+      padding-bottom: 5px;
+      border-bottom: 1px #DDD solid;
+      margin-bottom: 5px;
+      min-height: 45px;
+
+      .application-name h3{
+        font-size: 1.8rem !important;
+        font-weight: 600;
+        text-transform: capitalize;
       }
+    }
 
-      .mat-card-subtitle {
-        margin: 0 !important;
-        color: map-get($app-gray, 800);
-        display: grid;
-        grid-template-columns: max-content max-content;
-        grid-gap: 20px;
-        justify-content: space-between;
+    .mat-mdc-card-content {
+      padding-left: 21px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-        .workspace-info {
-          flex-wrap: wrap;
-
-          & > div {
-            margin-right: 20px;
-          }
-
-          .expiry-date {
-            display: grid;
-            grid-template-columns: 18px max-content max-content;
-            grid-column-gap: 5px;
-            align-items: center;
-          }
-        }
-
-        .application-meta {
-          flex-wrap: wrap;
-
-          .volume {
-            color: map-get($app-gray, 300);
-
-            &.active {
-              color: map-get($app-gray, 800);
-
-              .mat-icon {
-                color: map-get($app-accent, light);
-              }
-            }
-          }
-        }
+      .description {
+        font-size: 1.3rem;
       }
     }
   }
 
-  .mat-card-content {
-    min-height: 60px;
-    grid-row-gap: 20px;
-    align-content: space-between;
+  .application-meta {
+    border-left: 1px solid $gray-light-color;
+    flex: 0 1 270px;
+    display: flex;
+    flex-direction: column;
+    justify-items: stretch;
+    align-items: stretch;
+    padding-top: 6px;
 
-    a {
-      text-decoration: underline !important;
+    div {
+      padding: 2px 5px;
     }
 
-    .self-learning {
-      background-color: map-get($app-secondary, light);
+    h5 {
+      @include center(both, inline);
+      padding: 2px 10px;
+      justify-content: flex-start;
+      font-size: 1.2rem;
+      letter-spacing: normal;
+      text-transform: capitalize;
+      flex-wrap: wrap;
+
+      .mat-icon {
+        width: 22px;
+      }
+    }
+
+    .state {
+      padding-bottom: 5px;
+      border-bottom: 1px solid #dddddd;
+
+        h5.workspace-name {
+          display: inline-grid;
+          grid-gap: 5px;
+          grid-template-columns: 18px auto;
+          align-items: center;
+          justify-items: start;
+          line-height: 1.7rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: $secondary-color;
+          min-height: 31px;
+
+          .user-role-icon {
+            font-size: 1.6rem;
+          }
+        }
+
+        h5.expiry-date {
+          margin-top: 4px;
+
+          .expiry-warning {
+            color: $warn-dark-color;
+            font-weight: bold;
+            margin-left: 10px;
+          }
+        }
+    };
+
+    .volumes {
+      border-bottom: 1px solid #dddddd;
+    };
+
+  }
+
+  &.joined-ws {
+    .workspace-name {
+      color: $primary-color !important;
     }
   }
 
-  .card-info-container {
-    .description {
-      min-height: 20px;
-      max-height: 100px;
-      overflow: auto;
+  &.expired-ws {
+    .workspace-name {
+      color: $gray-dark-color !important;
     }
+
+    background: $gray-light-color !important;
+
   }
 
-  .card-action-container {
-    padding: 0;
-    margin: -2px;
-    position: relative;
+  .mat-mdc-card-actions {
+    border-left: 1px solid $gray-light-color;
+    flex: 0 1 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mdc-card__actions {
+    padding: 8px;
   }
 }
 
-.tablet.card {
-  grid-template-columns: 80px auto 130px !important;
-  grid-column-gap: 5px !important;
 
-  .card-media-container {
-    margin-right: 15px !important;
-  }
 
-  .thumbnail{
-    .md-48 {
-      font-size: 30px !important;
-      height: 30px;
-    }
+// ----- MOBILE
 
-    span {
-      font-size: 1.3rem !important;
+@media (max-width: 599px) {
+  ::ng-deep .mat-mdc-card {
+    display: flex !important;
+    flex-direction: column !important;
+
+    .card-media-container,
+    .card-info-container,
+    .application-meta,
+    .mat-mdc-card-actions {
+      flex: none !important;
     }
   }
 
-  .mat-card-subtitle {
-    display: grid;
-    grid-template-columns: 100% !important;
-    grid-template-rows: auto auto !important;
-    grid-gap: 5px !important;
-
-    .workspace-info {
-      flex-wrap: wrap !important;
-    }
-
-    .application-meta {
-      flex-wrap: wrap !important;
-    }
-  }
-}
-
-.mobile.card {
-  grid-template-columns: 100% !important;
-  grid-template-rows: auto auto auto;
-  grid-gap: 15px !important;
-
-  .card-media-container {
-    min-height: auto !important;
-    padding: 10px;
+  .mat-mdc-card-header {
+    padding: 15px !important;
   }
 
-  .card-info-container {
-    grid-gap: 10px !important;
-    padding: 0 10px;
-    margin: 0 !important;
+  .mat-mdc-card-content {
+    display: flex;
+    padding: 15px !important;
+  }
 
-    .mat-card-content {
+  .application-meta {
+    border: none;
+    border-top: 1px solid $gray-light-color;
+
+    .lifetime {
       margin-bottom: 0 !important;
-      grid-gap: 15px !important;
-      min-height: auto !important;
     }
   }
-
-  .mat-card-subtitle {
-    display: grid;
-    grid-template-columns: 100% !important;
-    grid-template-rows: auto auto;
-    grid-gap: 5px !important;
-  }
-
 }
+

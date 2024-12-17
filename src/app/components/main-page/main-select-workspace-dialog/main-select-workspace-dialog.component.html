@@ -1,15 +1,15 @@
-<div id="select-workspace-dialog" class="mat-typography dialog-container pb-20" ngClass.lt-sm="mobile">
+<div id="select-workspace-dialog" class="dialog-container">
   <div class="corner-button-container">
-    <button mat-icon-button class="corner-button" (click)="closeForm()">
+    <button mat-icon-button class="corner-button" (click)="closeForm()" tabindex="-1">
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <h1 class="mat-dialog-title mat-headline">{{ heading }}</h1>
+  <h3 class="mat-dialog-title">{{ heading }}</h3>
   <mat-dialog-content>
-    <div class="mb-20">{{ textContent }}</div>
+    <div>{{ textContent }}</div>
     <section class="workspace-input-form">
       <form [formGroup]="selectWorkspaceForm">
-        <mat-select formControlName="selectedWorkspaceId" class="select-workspace">
+        <mat-select formControlName="selectedWorkspaceId" class="select-workspace" autofocus>
           <mat-option *ngFor="let opt of availableWorkspaceOptions" [value]="opt.value">
             {{opt.viewValue}}
           </mat-option>
@@ -18,13 +18,13 @@
         <!-- Submit -->
         <div class="dialog-actions">
 
-          <button mat-flat-button color="primary"
+          <button mat-flat-button
                   class="select-workspace-btn"
                   (click)="selectWorkspace()"
                   [disabled]="!isFormReady()">
             Select
           </button>
-          <button mat-button class="button-link button-sm" (click)="closeForm()">
+          <button mat-stroked-button class="cancel-button" (click)="closeForm()">
             Cancel
           </button>
         </div>

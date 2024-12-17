@@ -2,75 +2,56 @@
 
 .dialog-container {
   height: 100%;
+  overflow: hidden;
 
-  .corner-button-container {
-    height: 20px;
+  .mat-dialog-title {
+    padding: 0;
+    margin: 0 0 10px;
   }
 
   form {
     height: 100%;
-
-    .mat-dialog-title {
-      border-bottom: none;
-      margin-top: 0 !important;
-      margin-bottom: 10px !important;
-    }
+    padding: 0;
 
     .form-inner {
-      max-height: 90%;
+      max-height: 95%;
       overflow-y: scroll;
       border: 2px solid map-get($app-gray, 200);
-      padding: 10px 20px;
+      padding: 0 20px 20px;
       border-radius: 5px;
 
-      .mat-dialog-content {
-        max-height: 100% !important;
+      mat-dialog-content {
+        padding: 5px;
 
-        .env-var-example {
-          background-color: rgba(0, 0, 0, 0.04);
+        section.form-container {
+          margin-bottom: 25px;
+
+          p {
+            @include headline-5;
+          }
         }
       }
-    }
 
-    ::ng-deep .mat-form-field-infix {
-      border-top: none !important;
-    }
+      h3 {
+        margin-top: 20px;
+        margin-bottom: 5px;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
 
-    ::ng-deep .mat-select-arrow-wrapper {
-      transform: translateY(0%);
-    }
+      .mat-mdc-table {
+        border: 2px solid map-get($app-gray, 100);
 
-    .session-memory .mat-select,
-    .session-lifetime .mat-select{
-      background-color: rgba(0, 0, 0, 0.04);
-      padding: 10px;
-      border-radius: 4px 4px 0 0;
-      border-bottom: 1px solid  map-get($app-gray, light);
-    }
-  }
+        .mat-mdc-header-row {
+          height: 20px;
+          background: map-get($app-gray, 100);
+        }
+      }
 
-  // ---- MEMO:
-  // ---- To avoid displaying "All" as the last one in the options
-  .mat-option {
-    &:last-child:before {
-      content: none;
-    }
-  }
-
-  .mat-title {
-    margin-bottom: 4px !important;
-  }
-
-  .mat-radio-group,
-  .checkbox-group {
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  table {
-    ::ng-deep .mat-column-info {
-      padding: 5px 10px !important;
-      vertical-align: top;
+      .template-name {
+        white-space: nowrap;
+        font-weight: bold;
+      }
 
       .template-labels {
         white-space: nowrap;
@@ -84,12 +65,53 @@
           content: none;
         }
       }
-    }
 
-    ::ng-deep .mat-column-spec {
-      min-width: 135px;
-      vertical-align: middle;
+      ::ng-deep mat-form-field {
+        width: 100%;
+
+        .mat-mdc-text-field-wrapper {
+          padding-left: 10px;
+          min-height: 40px;
+
+          .mat-mdc-form-field-infix {
+            padding: 5px;
+          }
+        }
+      }
+
+      .session-memory .mat-mdc-select,
+      .session-lifetime .mat-mdc-select {
+        background-color: rgba(0, 0, 0, 0.04);
+        padding: 10px;
+        border-radius: 4px 4px 0 0;
+        border-bottom: 1px solid map-get($app-gray, light);
+      }
+
+      .mat-mdc-dialog-content {
+        max-height: 100% !important;
+
+        .env-var-example {
+          background-color: rgba(0, 0, 0, 0.04);
+        }
+      }
+
+      .dialog-actions {
+        margin-top: 20px;
+      }
+
+      button {
+        &:disabled {
+          background-color: map-get($app-gray, 100) !important;
+          color: $dark-text-color;
+        }
+        &.submit-button {
+          width: 80% !important;
+        }
+
+        &.cancel-button {
+          width: 20%;
+        }
+      }
     }
   }
-
 }

@@ -8,9 +8,6 @@ import { MainCatalogComponent } from './main-catalog/main-catalog.component';
 import { MainHelpComponent } from './main-help/main-help.component';
 import { MainMyWorkspacesComponent } from './main-my-workspaces/main-my-workspaces.component';
 import { MainPageComponent } from './main-page.component';
-import { MainStatisticsComponent } from './main-statistics/main-statistics.component';
-import { MainSystemStatusComponent } from './main-system-status/main-system-status.component';
-import { MainUsersComponent } from './main-users/main-users.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner/main-workspace-owner.component';
 
 export const routes: Routes = [
@@ -68,37 +65,12 @@ export const routes: Routes = [
           breadcrumbs: ['home', 'workspace-owner']
         }
       },
-
       {
         path: 'active-sessions', component: MainActiveSessionsComponent,
         data: {
           title: 'Active sessions',
           identifier: 'active-session',
           breadcrumbs: ['home', 'active-session']
-        }
-      },
-      {
-        path: 'users', component: MainUsersComponent,
-        data: {
-          title: 'Users',
-          identifier: 'users',
-          breadcrumbs: ['home', 'users']
-        }
-      },
-      {
-        path: 'system-status', component: MainSystemStatusComponent,
-        data: {
-          title: 'System status',
-          identifier: 'system-status',
-          breadcrumbs: ['home', 'system-status']
-        }
-      },
-      {
-        path: 'statistics', component: MainStatisticsComponent,
-        data: {
-          title: 'Statistics',
-          identifier: 'statistics',
-          breadcrumbs: ['home', 'statistics']
         }
       },
       {
