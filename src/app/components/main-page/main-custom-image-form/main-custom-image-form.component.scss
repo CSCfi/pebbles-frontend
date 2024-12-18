@@ -1,0 +1,36 @@
+.custom-image-form {
+  display: flex;
+  flex-direction: column;
+
+  .custom-image-form-header {
+  display: flex;
+  flex-direction: row;
+
+  }
+
+  .custom-image-form-content {
+    display: flex;
+    flex-direction: row;
+
+    .custom-image-form-left {
+      width: 50%;
+
+      mat-form-field {
+        width: 100%;
+        padding-right: 20px;
+        padding-bottom: 5px;
+      }
+    }
+
+    .custom-image-form-right {
+      width: 50%;
+
+      .custom-image-form-generated-dockerfile {
+        background: #d0f6e9;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+  }
+}

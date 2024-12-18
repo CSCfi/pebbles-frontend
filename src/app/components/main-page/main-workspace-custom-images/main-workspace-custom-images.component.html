@@ -1,0 +1,75 @@
+<div id="workspace-custom-images">
+  <div class="actions">
+    <button (click)="buildImage(null)" aria-label="Create custom image"
+            color="accent" mat-flat-button>
+      <mat-icon class="mr-10">album</mat-icon>
+      <span>Create custom image</span>
+    </button>
+  </div>
+  <ng-container *ngFor="let item of getCustomImages()">
+
+    <div class="custom-image">
+
+      <div class="custom-image-header">
+        <div class="custom-image-header-icon">
+          <mat-icon class="md-36">album</mat-icon>
+        </div>
+        <div class="custom-image-title">
+          <div class="custom-image-title-text">
+            {{ item.name }}
+          </div>
+          <div class="custom-image-title-bottom">
+            <div class="custom-image-state">
+              State:
+              <code [ngClass]="item.state">{{ item.to_be_deleted ? 'deleting' : item.state }}</code>
+            </div>
+            <div *ngIf="item.tag" class="custom-image-tag"> tag {{ item.tag }}</div>
+          </div>
+        </div>
+        <div class="custom-image-header-actions">
+          <button (click)="buildImage(item)"
+                  aria-label="Create new version"
+                  mat-button
+          >
+            <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+          </button>
+          <button (click)="deleteCustomImage(item.id)"
+                  [disabled]="item.to_be_deleted"
+                  aria-label="Delete custom image"
+                  mat-button
+          >
+            <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="item.to_be_deleted || !['completed','failed'].includes(item.state)"
+           class="custom-image-state-building">
+        <mat-progress-spinner
+          diameter="30" mode="indeterminate"
+          strokeWidth="2"
+        ></mat-progress-spinner>
+      </div>
+
+      <div *ngIf="item.state === 'completed'" class="custom-image-url">URL: <code>{{ item.url }}</code></div>
+
+      <div class="custom-image-output">
+        <ng-container *ngFor="let line of item.build_system_output?.split('\n'); index as i">
+          <div class="custom-image-output-line">
+            <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="custom-image-dockerfile">
+        <label for="{{item.id}}">Dockerfile</label>
+        <textarea [name]="item.id" id="{{item.id}}"
+                  readonly
+                  rows="{{item.dockerfile?.split('\n').length + 1}}"
+        >{{ item.dockerfile }}
+        </textarea>
+      </div>
+    </div>
+
+  </ng-container>
+</div>

@@ -19,7 +19,7 @@ export class ApplicationTemplateService {
     return this.applicationTemplates;
   }
 
-  private fetchApplicationTemplates(): Observable<ApplicationTemplate[]> {
+  fetchApplicationTemplates(): Observable<ApplicationTemplate[]> {
     const url = `${buildConfiguration.apiUrl}/application_templates`;
     return this.http.get<ApplicationTemplate[]>(url).pipe(
       map((resp) => {

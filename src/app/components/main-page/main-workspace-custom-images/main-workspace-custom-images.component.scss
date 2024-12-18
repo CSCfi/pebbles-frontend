@@ -1,0 +1,96 @@
+@import "src/styles/main.scss";
+
+#workspace-custom-images {
+  padding: 5px;
+  overflow: auto;
+  height: 95vh;
+  font-size-adjust: 0.45;
+
+  .custom-image {
+    background: white;
+    padding: 5px;
+    border: thin solid #cccccc;
+    border-radius: 5px;
+    margin: 5px 5px 5px 5px;
+
+    .custom-image-header {
+      border-bottom: solid thin lightgray;
+      display: flex;
+      flex-direction: row;
+      height: 50px;
+      .custom-image-header-icon {
+        margin-right: .5em;
+        color: map-get($app-primary, light);
+      }
+
+      .custom-image-title {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+
+        .custom-image-title-text {
+          font-weight: bold;
+          font-size: 1.5em;
+        }
+
+        .custom-image-title-bottom {
+          display: flex;
+          flex-direction: row;
+
+          .custom-image-state {
+            font-weight: bold;
+            margin-right: 1em;
+            .failed {
+              background: map-get($app-warn, light);
+            }
+            .completed {
+              background: map-get($app-accent, 100);
+            }
+          }
+          .custom-image-tag {
+            font-weight: bold;
+          }
+        }
+      }
+      .custom-image-header-actions {
+        width: 50%;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    .custom-image-url {
+      code {
+        //background: map-get($app-primary, 200);
+        font-weight: bold;
+      }
+    }
+
+    .custom-image-output-line {
+      .message {
+        font-weight: bold;
+      }
+    }
+
+    .custom-image-dockerfile {
+      margin-top: 10px;
+
+      textarea {
+        border: thin solid #cccccc;
+        font-family: monospace;
+        width: 100%;
+        padding: 5px;
+      }
+    }
+  }
+
+  .actions {
+    padding: 5px;
+  }
+
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+  }
+}

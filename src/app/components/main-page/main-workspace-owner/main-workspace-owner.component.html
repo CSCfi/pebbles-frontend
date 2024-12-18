@@ -173,6 +173,14 @@
                                           (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
           </app-main-workspace-item-detail>
         </mat-tab>
+        <mat-tab label="images">
+          <ng-template mat-tab-label>
+            <mat-icon class="md-18">album</mat-icon>
+            <span class="tab-title">Images</span>
+          </ng-template>
+          <app-main-workspace-custom-images [workspaceId]="selectedWorkspaceId">
+          </app-main-workspace-custom-images>
+        </mat-tab>
       </mat-tab-group>
     </ng-container>
 

@@ -22,7 +22,9 @@ import { MainAccountComponent } from './main-account/main-account.component';
 // ---- Application parts component
 import { MainApplicationItemComponent } from './main-application-item/main-application-item.component';
 import { MainApplicationItemFormComponent } from './main-application-item-form/main-application-item-form.component';
-import { MainApplicationWizardFormComponent } from './main-application-wizard-form/main-application-wizard-form.component';
+import {
+  MainApplicationWizardFormComponent
+} from './main-application-wizard-form/main-application-wizard-form.component';
 import { MainSessionButtonComponent } from './main-session-button/main-session-button.component';
 // ---- Structural components
 import { MainPageComponent } from './main-page.component';
@@ -35,10 +37,18 @@ import { MainContentStateComponent } from './main-content-state/main-content-sta
 import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail/main-workspace-item-detail.component';
 import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog/main-join-workspace-dialog.component';
 import { MainWorkspaceFormComponent } from './main-workspace-form/main-workspace-form.component';
-import { MainWorkspaceApplicationsComponent } from './main-workspace-applications/main-workspace-applications.component';
+import {
+  MainWorkspaceApplicationsComponent
+} from './main-workspace-applications/main-workspace-applications.component';
 import { MainWorkspaceItemComponent } from './main-workspace-item/main-workspace-item.component';
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
-import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dialog/main-select-workspace-dialog.component';
+import {
+  MainSelectWorkspaceDialogComponent
+} from './main-select-workspace-dialog/main-select-workspace-dialog.component';
+import {
+  MainWorkspaceCustomImagesComponent
+} from "./main-workspace-custom-images/main-workspace-custom-images.component";
+import { MainCustomImageFormComponent } from "./main-custom-image-form/main-custom-image-form.component";
 
 @NgModule({
   declarations: [
@@ -58,6 +68,7 @@ import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dial
     MainWorkspaceItemDetailComponent,
     MainWorkspaceMembersComponent,
     MainWorkspaceApplicationsComponent,
+    MainWorkspaceCustomImagesComponent,
     MainApplicationItemComponent,
     MainApplicationItemFormComponent,
     MainApplicationWizardFormComponent,
@@ -67,7 +78,8 @@ import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dial
     DateDisplayPipe,
     LifeTimeDisplayPipe,
     RemainingDaysDisplayPipe,
-    MainSelectWorkspaceDialogComponent
+    MainSelectWorkspaceDialogComponent,
+    MainCustomImageFormComponent,
   ],
   imports: [
     CommonModule,
