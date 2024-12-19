@@ -274,6 +274,9 @@ export class MainApplicationItemFormComponent implements OnInit {
     if (this.applicationItemEditFormGroup.controls.environmentVars.value) {
       this.data.application.config.environment_vars = this.applicationItemEditFormGroup.controls.environmentVars.value.trim();
     }
+    else {
+      this.data.application.config.environment_vars = "";
+    }
     this.applicationService.updateApplication(
       this.data.application
     ).subscribe(_ => {
