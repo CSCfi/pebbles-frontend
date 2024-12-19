@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CustomImageService } from './custom-image.service';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from "src/environments/environment";
 
-describe('CustomImageServiceService', () => {
+describe('CustomImageService', () => {
   let service: CustomImageService;
 
   beforeEach(() => {
