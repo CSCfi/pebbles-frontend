@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CustomImage, ImageContent, ImageDefinition } from "../models/custom-image";
+import { CustomImage, ImageDefinition } from "../models/custom-image";
 import { Observable, throwError } from "rxjs";
 import { buildConfiguration } from "../../environments/environment";
 import { catchError, map, tap } from "rxjs/operators";

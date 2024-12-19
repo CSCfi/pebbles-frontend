@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainWorkspaceCustomImagesComponent } from './main-workspace-custom-images.component';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MaterialModule } from "../../../material.module";
 
 describe('MainWorkspaceCustomImagesComponent', () => {
   let component: MainWorkspaceCustomImagesComponent;
@@ -8,7 +11,14 @@ describe('MainWorkspaceCustomImagesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MainWorkspaceCustomImagesComponent]
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MaterialModule,
+      ],
+      declarations: [MainWorkspaceCustomImagesComponent],
+
     });
     fixture = TestBed.createComponent(MainWorkspaceCustomImagesComponent);
     component = fixture.componentInstance;

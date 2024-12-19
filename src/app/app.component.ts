@@ -8,7 +8,6 @@ import { ApplicationService } from './services/application.service';
 import { AuthService } from './services/auth.service';
 import { EventService, LoginStatusChange } from './services/event.service';
 import { PublicConfigService } from './services/public-config.service';
-import { ServiceAnnouncementService } from './services/service-announcement.service';
 import { WorkspaceService } from './services/workspace.service';
 
 @Component({
@@ -35,7 +34,6 @@ export class AppComponent implements OnInit {
     private publicConfigService: PublicConfigService,
     private titleService: Title,
     private accountService: AccountService,
-    private serviceAnnouncementService: ServiceAnnouncementService,
   ) {
   }
 

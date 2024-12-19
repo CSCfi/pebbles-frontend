@@ -25,6 +25,7 @@ import { SearchService } from './services/search.service';
 import { ServiceAnnouncementService } from './services/service-announcement.service';
 import { SystemNotificationService } from './services/system-notification.service';
 import { WorkspaceService } from './services/workspace.service';
+import { CustomImageService} from "./services/custom-image.service";
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 // ---- Components
 import { AppComponent } from './app.component';
@@ -65,6 +66,7 @@ import {NgOptimizedImage} from "@angular/common";
     ApplicationSessionService,
     ApplicationTemplateService,
     AuthService,
+    CustomImageService,
     DesktopNotificationService,
     EventService,
     FaqService,
