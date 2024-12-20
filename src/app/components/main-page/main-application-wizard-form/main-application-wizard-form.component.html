@@ -186,15 +186,10 @@
               <h1 class="question">How you can customize application?</h1>
               <div class="answer">
                 <p>Customize settings according to what you want to do.</p>
-                <ul>
-                  <li>
-                    You can fetch files, datasets or other material from a public Git repository, object storage or any
-                    public web site
-                  </li>
-                  <li>
-                    You can install custom libraries etc by using a script that is executed during startup. (TODO)
-                  </li>
-                </ul>
+                <p>
+                  You can fetch files, datasets or other material from a public Git repository, object storage or any
+                  public web site
+                </p>
               </div>
             </div>
           </section>
@@ -228,21 +223,12 @@
               </mat-form-field>
             </section>
           </ng-container>
-          <!-- 3.3 Auto Execution -->
-          <!-- <div *ngIf="selectedDownloadMethod !== 'none'"> -->
-          <section class="form-container ">
-            <mat-label>Auto Execution (TODO)</mat-label>
-            <br>
-            <mat-checkbox formControlName="isAutoExecution">
-              Execute or unpack downloaded file when the application is launched.
-            </mat-checkbox>
-          </section>
-          <!-- 3.4 Enable share folder / user work folder -->
+          <!-- 3.3 Enable share folder / user work folder -->
           <section class="form-container">
             <mat-label>Shared folder</mat-label>
             <br>
             <mat-checkbox formControlName="isEnableSharedFolder">
-              Enable 'shared' folder within workspace users. <span>(It's workspace specific and read-only for users.)</span>
+              Enable 'shared' folder within workspace users. <span class="mat-caption ml-10">(It's workspace specific and read-only for users.)</span>
             </mat-checkbox>
           </section>
           <section class="form-container ">
