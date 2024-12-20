@@ -27,6 +27,7 @@
         .title {
           border-bottom: 1px solid #ccc;
           padding: 7px 5px 2px 5px;
+          font-weight: bold;
         }
 
         .date {
@@ -37,6 +38,7 @@
           background: map-get($app-primary, 300);
         }
 
+        // see also global style .message .content applied to innerHtml in _shared.scss
         .content {
           padding: 10px 5px 0;
           margin: 0;

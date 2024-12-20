@@ -19,7 +19,7 @@
         <section class="message-container">
           <ng-container *ngFor="let message of getMessages()">
             <div [ngClass]="{'unread':!message.is_read}" class="message info-body">
-              <div class="title mat-headline-6">{{ message.subject }}</div>
+              <div class="title">{{ message.subject }}</div>
               <span class="date mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
               <p class="content">
                 <span [innerHtml]="message.message"></span>
