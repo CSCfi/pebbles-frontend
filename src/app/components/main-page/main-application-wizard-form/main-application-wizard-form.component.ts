@@ -85,7 +85,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
     this.wizardOptionFormGroup = this.formBuilder.group({
       downloadMethod: [''],
       source: [''],
-      isAutoExecution: [''],
       isEnableSharedFolder: [''],
       isEnableUserWorkFolder: [''],
     });
@@ -94,8 +93,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
     });
     // ---- Set default value
     this.wizardOptionFormGroup.controls.downloadMethod.setValue('none');
-    this.wizardOptionFormGroup.controls.isAutoExecution.setValue(false);
-    this.wizardOptionFormGroup.controls.isAutoExecution.disable();
     this.wizardOptionFormGroup.controls.isEnableSharedFolder.setValue(!this.data.isWorkspacePublic);
     this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.setValue(!this.data.isWorkspacePublic);
     this.wizardPublishFormGroup.controls.isActive.setValue(false);
@@ -141,7 +138,6 @@ export class MainApplicationWizardFormComponent implements OnInit {
       {
         download_method: this.wizardOptionFormGroup.controls.downloadMethod.value,
         download_url: this.wizardOptionFormGroup.controls.source.value,
-        auto_execution: this.wizardOptionFormGroup.controls.isAutoExecution.value,
         enable_shared_folder: this.data.isWorkspacePublic ? false : this.wizardOptionFormGroup.controls.isEnableSharedFolder.value,
         enable_user_work_folder: this.wizardOptionFormGroup.controls.isEnableUserWorkFolder.value,
         image_url: this.wizardApplicationTemplateFormGroup.controls.imageUrl.value,

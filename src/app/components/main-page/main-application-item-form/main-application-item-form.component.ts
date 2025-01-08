@@ -36,7 +36,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   applicationItemEditFormGroup: UntypedFormGroup;
 
-  isAutoExecution: boolean;
   isAlwaysPullImage: boolean;
   applicationType: ApplicationType;
   sessionLifetimeHours: number;
@@ -110,7 +109,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       labels: [''],
       downloadMethod: [''],
       source: [''],
-      isAutoExecution: [''],
       isEnableSharedFolder: [''],
       isEnableUserWorkFolder: [''],
       publish: ['', [Validators.required]],
@@ -127,9 +125,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     // ---- Set default value
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
     this.applicationItemEditFormGroup.controls.downloadMethod.setValue('none');
-    this.applicationItemEditFormGroup.controls.isAutoExecution.setValue(false);
     this.applicationItemEditFormGroup.controls.isAlwaysPullImage.setValue(false);
-    this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
     this.applicationItemEditFormGroup.controls.isEnableSharedFolder.setValue(!this.data.isWorkspacePublic);
     this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(!this.data.isWorkspacePublic);
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
@@ -147,13 +143,7 @@ export class MainApplicationItemFormComponent implements OnInit {
   }
 
   setEditForm(): void {
-    // ---- If 'selectedDownloadMethod'==='none' => reset 'auto execution'.
     this.selectedDownloadMethod = this.data.application.config.download_method;
-    if (this.selectedDownloadMethod !== 'none') {
-      this.isAutoExecution = this.data.application.config.auto_execution;
-    } else {
-      this.isAutoExecution = false;
-    }
     this.applicationType = this.applicationTemplateService.getApplicationTemplates().find(
       x => x.id === this.data.application.template_id
     ).application_type;
@@ -200,7 +190,6 @@ export class MainApplicationItemFormComponent implements OnInit {
         [Validators.pattern(IMAGE_URL_VALIDATION_RE)]
       ],
       isAlwaysPullImage: [this.isAlwaysPullImage],
-      isAutoExecution: [this.isAutoExecution],
       isEnableSharedFolder: [this.applicationService.isSharedFolderEnabled(this.data.application, this.data.isWorkspacePublic)],
       isEnableUserWorkFolder: [coerceBooleanProperty(this.data.application.config.enable_user_work_folder)],
       publish: [this.data.application.is_enabled, [Validators.required]],
@@ -214,8 +203,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       this.applicationItemEditFormGroup.controls.isEnableSharedFolder.disable();
       this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.disable();
     }
-
-    this.applicationItemEditFormGroup.controls.isAutoExecution.disable();
 
     this.selectedLabels = this.data.application.labels;
     this.availableMemoryOptions = this.getMemoryOptions();
@@ -237,7 +224,6 @@ export class MainApplicationItemFormComponent implements OnInit {
       {
         download_method: this.applicationItemEditFormGroup.controls.downloadMethod.value,
         download_url: this.applicationItemEditFormGroup.controls.source.value,
-        auto_execution: this.applicationItemEditFormGroup.controls.isAutoExecution.value,
         enable_shared_folder: this.applicationItemEditFormGroup.controls.isEnableSharedFolder.value,
         enable_user_work_folder: this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value,
         image_url: this.applicationItemEditFormGroup.controls.imageUrl.value.trim(),
@@ -263,7 +249,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.data.application.labels = this.selectedLabels;
     this.data.application.config.download_method = this.applicationItemEditFormGroup.controls.downloadMethod.value;
     this.data.application.config.download_url = this.applicationItemEditFormGroup.controls.source.value;
-    this.data.application.config.auto_execution = this.applicationItemEditFormGroup.controls.isAutoExecution.value;
     this.data.application.config.enable_shared_folder = this.applicationItemEditFormGroup.controls.isEnableSharedFolder.value;
     this.data.application.config.enable_user_work_folder = this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.value;
     this.data.application.config.image_url = this.applicationItemEditFormGroup.controls.imageUrl.value.trim();
