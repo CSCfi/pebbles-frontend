@@ -1,10 +1,14 @@
 @import "src/styles/main.scss";
 
 #workspace-setting-container {
-  padding: 30px;
+  padding: 40px;
+
+  .open-join-code-button {
+    padding: 10px 0 !important;
+  }
 
   dd {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 
   .preview {
@@ -29,7 +33,7 @@
   }
 
   .action-buttons {
-    margin-top: 30px;
+    margin-top: 80px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;

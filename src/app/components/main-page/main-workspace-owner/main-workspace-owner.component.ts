@@ -89,7 +89,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.eventService.userDataUpdate$.subscribe(_ => {
       this.refreshView();
     }));
-
     this.user = this.accountService.get(this.authService.getUserId());
     // check if we need to populate account service
     if (!this.user) {
@@ -289,6 +288,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   handleTabChange($event: MatTabChangeEvent) {
+
     this.selectedTab = $event.index;
 
     // save the workspace selection in url parameters to restore navigation state after a reload

@@ -106,7 +106,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- status info space -->
+    <!-- status info -->
     <div class="status-info-container" *ngIf="!workspaces">
       <div class="empty-status" *ngIf="workspaces !== null">
         <mat-icon fontSet="material-icons-outlined" class="md-96">memory</mat-icon>
@@ -138,6 +138,7 @@
       <mat-tab-group class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
+                     mat-align-tabs="left"
                      [selectedIndex]="selectedTab">
         <mat-tab label="applications">
           <ng-template mat-tab-label>
@@ -164,22 +165,21 @@
           <app-main-workspace-members [workspace]="selectedWorkspace">
           </app-main-workspace-members>
         </mat-tab>
+        <mat-tab label="custom-images">
+          <ng-template mat-tab-label>
+            <mat-icon class="md-18">album</mat-icon>
+            <span class="tab-title">Custom Images</span>
+          </ng-template>
+          <app-main-workspace-custom-images [workspaceId]="selectedWorkspaceId">
+          </app-main-workspace-custom-images>
+        </mat-tab>
         <mat-tab label="info">
           <ng-template mat-tab-label>
             <mat-icon class="md-18">settings</mat-icon>
-            <span class="tab-title">Info</span>
           </ng-template>
           <app-main-workspace-item-detail [workspaceId]="selectedWorkspaceId"
                                           (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
           </app-main-workspace-item-detail>
-        </mat-tab>
-        <mat-tab label="images">
-          <ng-template mat-tab-label>
-            <mat-icon class="md-18">album</mat-icon>
-            <span class="tab-title">Images</span>
-          </ng-template>
-          <app-main-workspace-custom-images [workspaceId]="selectedWorkspaceId">
-          </app-main-workspace-custom-images>
         </mat-tab>
       </mat-tab-group>
     </ng-container>

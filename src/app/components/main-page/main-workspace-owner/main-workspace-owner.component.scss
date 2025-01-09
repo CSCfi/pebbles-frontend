@@ -67,7 +67,7 @@
       @include warn-light-background;
       @include headline-5;
       border-radius: 5px;
-      padding: 15px 20px;
+      padding: 15px 10px;
     }
   }
 
@@ -213,12 +213,46 @@
     padding-bottom: 40%;
   }
 
+  .course-request-wrapper {
+    position: absolute;
+    background: #acb0e0;
+    top: 16px;
+    right: 10px;
+
+    button.course-request {
+      background: #fff;
+      z-index: 1000;
+      padding: 5px 15px 5px 20px;
+      border-radius: 50px;
+      color: $primary-color;
+
+      &:before {
+        font-size: 1.8rem;
+        width: auto;
+        height: auto;
+        margin-right: 4px;
+        font-family: Material Icons, serif;
+        content: "\ebcc";
+      }
+
+      &:after {
+        font-size: 1.4rem;
+        width: auto;
+        height: auto;
+        margin-left: 4px;
+        font-family: Material Icons, serif;
+        content: "\e89e";
+      }
+    }
+  }
+
   #workspace-owner-tab-container {
     background: $primary-light-color;
     border: 5px solid $primary-light-color;
+    border-top: 10px solid $primary-light-color;
 
     mat-tab-group {
-      margin-top: 10px;
+      height: 100vh;
       background: $light-color;
 
       ::ng-deep.mat-mdc-tab-header {
@@ -238,18 +272,23 @@
           font-weight: 600;
           letter-spacing: normal;
           flex: 0 1 auto;
-          min-width: 200px;
+          min-width: 100px;
           border-radius: 3px;
-          padding: 0 10px;
+          padding: 0 15px;
 
           .mdc-tab__text-label {
             color: #18227c;
           }
 
           mat-icon {
-            font-size: 2.2rem;
+            font-size: 2.0rem;
             margin-right: 4px;
-            width: 28px;
+            width: auto;
+            height: auto;
+          }
+
+          mat-chip {
+            display: none !important;
           }
 
           mat-chip-option {
@@ -269,41 +308,21 @@
             border-radius: 24px;
             padding: 0 !important;
           }
-        }
-      }
-    }
 
-    .course-request-wrapper {
-      position: relative;
-      background: #acb0e0;
-      top: 15px;
-      float: right;
-      height: 0;
-      right: 10px;
+          .mdc-tab__text-label {
+            @include center(both);
+          }
 
-      button.course-request {
-        background: #fff;
-        z-index: 1000;
-        padding: 5px 15px 5px 20px;
-        border-radius: 50px;
-        color: $primary-color !important;
+          // ---- For info tab
+          &#mat-tab-label-0-3 {
+            min-width: 60px;
+            width: 60px !important;
+            padding: 0 10px;
 
-        &:before {
-           font-size: 2.0rem;
-           width: auto;
-           height: auto;
-           margin-right: 5px;
-           font-family: Material Icons, serif;
-           content: "\ebcc";
-        }
-
-         &:after {
-           font-size: 2.0rem;
-           width: auto;
-           height: auto;
-           margin-left: 5px;
-           font-family: Material Icons, serif;
-           content: "\e89e";
+            mat-icon {
+              margin: 0;
+            }
+          }
         }
       }
     }
@@ -334,5 +353,46 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 1250px) {
+
+  #workspace-owner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+
+    .workspace-list-container {
+      max-width: 100%;
+      width: 100%;
+      flex: 0 0 auto;
+      height: auto;
+      box-shadow: none !important;
+    }
+
+    #workspace-owner-tab-container {
+      width: 100% !important;
+      padding: 0 20px;
+      border: none;
+    }
+  }
+
+  .workspace-list {
+    display: none !important;
+  }
+
+  .mobile-workspace-list {
+    display: block !important;
+    padding: 15px 20px 0;
+    background: $primary-light-color;
+  }
+
+  button.course-request {
+    background: $primary-color !important;
+    color: #ffffff !important;
+    top: 10px;
+    right: 15px;
   }
 }
