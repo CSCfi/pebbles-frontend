@@ -36,6 +36,11 @@
 
   table {
     font-size: 1.2rem;
+    margin-top: 10px;
+
+    tr {
+      border: 2px solid $mid-dark-line;
+    }
 
     thead {
       height: 40px;

@@ -17,6 +17,8 @@ export class EventService {
   public workspaceMemberDataUpdate$: Subject<string> = new Subject();
   // subject for changes in application data. event content is 'all'
   public applicationDataUpdate$: Subject<string> = new Subject();
+  // subject for changes in custom image data. event content is 'all'
+  public customImageDataUpdate$: Subject<string> = new Subject();
   // subject for changes in user-list data. event content is 'all'
   public userDataUpdate$: Subject<string> = new Subject();
   // subject for tapping to login/logout events

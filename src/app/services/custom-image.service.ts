@@ -1,9 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { CustomImage, ImageDefinition } from "../models/custom-image";
-import { Observable, throwError } from "rxjs";
-import { buildConfiguration } from "../../environments/environment";
-import { catchError, map, tap } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
+import {Injectable, OnDestroy} from '@angular/core';
+import {BuildState, CustomImage, ImageDefinition} from "../models/custom-image";
+import {Observable, throwError} from "rxjs";
+import {buildConfiguration} from "../../environments/environment";
+import {catchError, map, tap} from "rxjs/operators";
+import {HttpClient} from "@angular/common/http";
+import {EventService} from "./event.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class CustomImageService implements OnDestroy {
 
   constructor(
     private http: HttpClient,
+    private eventService: EventService
   ) {
     this.setPollingInterval(60);
   }
@@ -22,12 +24,23 @@ export class CustomImageService implements OnDestroy {
     this.clearPollingInterval();
   }
 
-  getCustomImages(): CustomImage[] {
-    return this.customImages;
-  }
-
   get(id: string): CustomImage {
     return this.customImages.find(ci => ci.id === id);
+  }
+
+  getCustomImagesByWorkspaceId(workspaceId: string): CustomImage[] {
+    if (this.customImages) {
+      const cis = this.customImages.filter(ci => ci.workspace_id === workspaceId);
+
+      // return cis.sort((a, b) =>  b.tag - a.tag);
+      return cis.sort((a, b) => {
+        if (a.tag === null) {
+          return -1;
+        }
+        return b.tag - a.tag;
+      });
+    }
+    return [];
   }
 
   fetchCustomImages(): Observable<CustomImage[]> {
@@ -36,11 +49,17 @@ export class CustomImageService implements OnDestroy {
     return this.http.get<CustomImage[]>(url).pipe(
       map((resp) => {
         this.customImages = resp;
-        if (this.customImages.find((value) => ['new', 'building'].includes(value.state))) {
+        const hasUpdatingState=  this.customImages.some(
+          item =>
+            [BuildState.New, BuildState.Building, BuildState.Deleting].includes(item.state) ||
+            item.to_be_deleted === true
+        )
+        if (hasUpdatingState) {
           this.setPollingInterval(5);
         } else {
           this.setPollingInterval(60);
         }
+        this.eventService.customImageDataUpdate$.next('all');
         return this.customImages;
       }),
       catchError(err => {

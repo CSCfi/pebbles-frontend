@@ -170,7 +170,9 @@
             <mat-icon class="md-18">album</mat-icon>
             <span class="tab-title">Custom Images</span>
           </ng-template>
-          <app-main-workspace-custom-images [workspaceId]="selectedWorkspaceId">
+          <app-main-workspace-custom-images
+            [workspaceId]="selectedWorkspaceId"
+            [isWorkspaceExpired]="workspaceService.hasExpired(selectedWorkspace)">
           </app-main-workspace-custom-images>
         </mat-tab>
         <mat-tab label="info">

@@ -35,6 +35,9 @@
 .main-page-wrapper {
   @include light-gray-background;
   min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 // ----- Laptop

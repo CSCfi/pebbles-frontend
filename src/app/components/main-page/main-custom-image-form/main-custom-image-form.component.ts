@@ -29,7 +29,6 @@ export class MainCustomImageFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
     this.setCreationForm();
     this.updateDockerfile();
   }

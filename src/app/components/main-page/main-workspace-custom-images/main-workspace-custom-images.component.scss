@@ -1,96 +1,209 @@
 @import "src/styles/main.scss";
 
 #workspace-custom-images {
-  padding: 5px;
-  overflow: auto;
-  height: 95vh;
-  font-size-adjust: 0.45;
-
-  .custom-image {
-    background: white;
-    padding: 5px;
-    border: thin solid #cccccc;
-    border-radius: 5px;
-    margin: 5px 5px 5px 5px;
-
-    .custom-image-header {
-      border-bottom: solid thin lightgray;
-      display: flex;
-      flex-direction: row;
-      height: 50px;
-      .custom-image-header-icon {
-        margin-right: .5em;
-        color: map-get($app-primary, light);
-      }
-
-      .custom-image-title {
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-
-        .custom-image-title-text {
-          font-weight: bold;
-          font-size: 1.5em;
-        }
-
-        .custom-image-title-bottom {
-          display: flex;
-          flex-direction: row;
-
-          .custom-image-state {
-            font-weight: bold;
-            margin-right: 1em;
-            .failed {
-              background: map-get($app-warn, light);
-            }
-            .completed {
-              background: map-get($app-accent, 100);
-            }
-          }
-          .custom-image-tag {
-            font-weight: bold;
-          }
-        }
-      }
-      .custom-image-header-actions {
-        width: 50%;
-        display: flex;
-        justify-content: flex-end;
-      }
-    }
-
-    .custom-image-url {
-      code {
-        //background: map-get($app-primary, 200);
-        font-weight: bold;
-      }
-    }
-
-    .custom-image-output-line {
-      .message {
-        font-weight: bold;
-      }
-    }
-
-    .custom-image-dockerfile {
-      margin-top: 10px;
-
-      textarea {
-        border: thin solid #cccccc;
-        font-family: monospace;
-        width: 100%;
-        padding: 5px;
-      }
-    }
-  }
+  padding: 30px;
 
   .actions {
-    padding: 5px;
+    margin-bottom: 10px;
+    text-align: right;
+
+    button {
+      margin-bottom: 5px;
+    }
+
+    .max-quota-warning {
+      text-align: center;
+    }
   }
 
-  mat-icon {
-    font-size: 48px;
-    height: 48px;
-    width: 48px;
+  table {
+    font-size: 1.2rem !important;
+
+    tr {
+      border: 2px solid $mid-dark-line;
+    }
+
+    .mat-mdc-cell {
+      word-wrap: break-word !important;
+      white-space: unset !important;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+    }
+
+    .mat-column-index,
+    .mat-column-action {
+      flex: 0 0 40px !important;
+      width: 40px !important;
+      padding: 0 !important;
+      text-align: center;
+
+      button {
+        padding: 0;
+      }
+    }
+
+    .mat-column-name {
+      min-width: 150px;
+    }
+
+    .mat-column-tag {
+      flex: 1 1 70px !important;
+      width: 70px !important;
+    }
+
+    .mat-column-meta {
+      padding: 0 !important;
+      vertical-align: baseline;
+
+      .custom-image-dockerfile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 1.1rem;
+        letter-spacing: normal;
+        word-spacing: normal;
+
+        fa-icon {
+          flex: 0 0 26px;
+          font-size: 16px;
+          margin-right: 4px;
+        }
+
+        code {
+          background: $gray-extra-light-color;
+          padding: 5px 20px;
+          width: 100%;
+        }
+      }
+
+      .custom-image-tag {
+        @include center(vertical);
+        border-bottom: 1px solid $gray-light-color;
+        padding: 10px;
+        width: 100%;
+
+        mat-icon {
+          flex: 0 0 26px;
+          font-size: 18px;
+          width: 20px !important;
+          margin-right: 5px;
+          height: auto;
+        }
+      }
+
+      .custom-image-state {
+        @include center(vertical);
+        border-bottom: 1px solid $gray-light-color;
+        width: 100%;
+
+        .toggle-log-button {
+          font-size: 1.3rem !important;
+          text-decoration: underline;
+          height: 10px;
+
+          mat-icon {
+            font-size: 2.0rem;
+            width: auto;
+            height: auto;
+          }
+        }
+
+        .custom-image-url {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 10px;
+
+          mat-icon {
+            flex: 0 0 28px;
+            font-size: 1.8rem;
+            height: auto;
+            width: 28px !important;
+            overflow: auto;
+          }
+
+          button {
+            padding: 3px;
+            height: 25px;
+            text-align: center;
+          }
+        }
+
+        .custom-image-fail-message {
+          @include center(vertical);
+          background: $warn-light-color;
+          width: 100%;
+          padding: 10px;
+          justify-content: space-between;
+
+          .fail-state {
+            @include center(vertical);
+
+            mat-icon {
+              font-size: 2.2rem;
+              flex: 0 0 34px;
+            }
+
+            span {
+              flex: 1 0 auto;
+              flex-wrap: nowrap;
+            }
+          }
+        }
+
+        .custom-image-state-building {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 10px;
+          gap: 10px;
+          color: $secondary-color;
+          font-weight: 600;
+        }
+      }
+
+      .custom-image-output {
+        background: #000000;
+        position: relative;
+        padding: 15px 40px 15px 45px;
+
+        .output-label {
+          position: absolute;
+          top: 4px;
+          right: 8px;
+          color: #00EAC3;
+        }
+
+        .custom-image-output-line {
+          color: $light-text-color;
+          font-size: 1.2rem;
+        }
+      }
+
+      .custom-image-dockerfile {
+        padding: 10px;
+
+        .dockerfile-toggle-button {
+          @include center(both);
+          width: 120px;
+          flex-wrap: nowrap;
+          margin-top: -40px;
+          margin-left: -11px;
+          padding: 5px 10px;
+          font-size: 1.2rem !important;
+          background: $gray-dark-color;
+          color: $light-text-color;
+          border-radius: 0 0 5px 0;
+        }
+      }
+
+      .mat-expansion-panel:not([class*=mat-elevation-z]) {
+        box-shadow: none;
+      }
+    }
   }
 }
+
+
+

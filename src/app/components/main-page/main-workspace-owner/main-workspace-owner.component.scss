@@ -28,6 +28,8 @@
 
   #workspace-owner-tab-container {
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
   }
 }
 
@@ -254,12 +256,20 @@
     mat-tab-group {
       height: 100vh;
       background: $light-color;
+      width: 100%;
 
       ::ng-deep.mat-mdc-tab-header {
-        //padding-right: 230px;
-        //padding-left: 150px;
         height: 50px;
         background: $primary-light-color;
+
+        &-pagination {
+          border-radius: 0;
+
+          &-before,
+          &-after {
+            background: $primary-extra-light-color !important;
+          }
+        }
 
         .mat-mdc-tab {
           background: $light-color;
@@ -325,31 +335,31 @@
           }
         }
       }
-    }
 
-    .gray-out-container {
-      position: absolute;
-      z-index: 10000;
-      height: 100%;
-      width: 100%;
-
-      .gray-out-panel {
+      .gray-out-container {
         position: absolute;
+        z-index: 10000;
         height: 100%;
         width: 100%;
-        background: map-get($app-gray, 900);
-        opacity: 0.8;
-        top: 0;
-        z-index: 1;
-      }
 
-      .status-info-container {
-        height: 100%;
+        .gray-out-panel {
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          background: map-get($app-gray, 900);
+          opacity: 0.8;
+          top: 0;
+          z-index: 1;
+        }
 
-        .success-status {
-          position: relative;
-          z-index: 1000;
-          color: white;
+        .status-info-container {
+          height: 100%;
+
+          .success-status {
+            position: relative;
+            z-index: 1000;
+            color: white;
+          }
         }
       }
     }
@@ -374,8 +384,14 @@
 
     #workspace-owner-tab-container {
       width: 100% !important;
-      padding: 0 20px;
+      overflow: hidden;
+      flex: 1 1 auto;
+      padding: 0 20px 20px;
       border: none;
+
+      mat-tab-group {
+        height: auto;
+      }
     }
   }
 
@@ -396,3 +412,4 @@
     right: 15px;
   }
 }
+

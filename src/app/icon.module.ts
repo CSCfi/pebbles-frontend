@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faJs, faPython, faRProject } from '@fortawesome/free-brands-svg-icons';
+import { faJs, faPython, faRProject, faDocker} from '@fortawesome/free-brands-svg-icons';
 import {
   faAtom,
   faBook,
@@ -34,7 +34,8 @@ export class IconModule {
       faDna,
       faLanguage,
       faChartColumn,
-      faCircleNodes
+      faCircleNodes,
+      faDocker
     );
   }
 }
