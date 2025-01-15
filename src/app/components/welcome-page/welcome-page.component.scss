@@ -105,6 +105,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  mat-spinner {
+    margin: 30px;
+  }
 }
 
 // ----- LAPTOP

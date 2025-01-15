@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {  MAT_DIALOG_DATA,  MatDialogRef} from "@angular/material/dialog";
+import { MAT_DIALOG_DATA,  MatDialogRef } from "@angular/material/dialog";
 import { FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { CustomImage, ImageContent } from "../../../models/custom-image";
 
@@ -11,19 +11,19 @@ import { CustomImage, ImageContent } from "../../../models/custom-image";
 export class MainCustomImageFormComponent implements OnInit {
   customImageFormGroup: FormGroup;
   createButtonClicked: boolean;
-  baseImages: string[];
   generatedDockerfile: string;
   imageContent: ImageContent[] = [];
+  formTitle = 'Create Custom Image';
+
 
   constructor(
     public dialogRef: MatDialogRef<MainCustomImageFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      baseImages: string[],
+      baseImages: any[],
       previousVersion: CustomImage,
     },
     private formBuilder: UntypedFormBuilder,
   ) {
-    this.baseImages = data.baseImages;
     this.imageContent.push({kind: 'aptPackages', data: ''})
     this.imageContent.push({kind: 'pipPackages', data: ''})
   }
@@ -42,11 +42,14 @@ export class MainCustomImageFormComponent implements OnInit {
     formConfig['pipPackages'] = [''];
     this.customImageFormGroup = this.formBuilder.group(formConfig);
     if (this.data.previousVersion) {
-      const def = this.data.previousVersion.definition;
+      this.formTitle = 'Create a new image based on '+ this.data.previousVersion.name;
       this.customImageFormGroup.controls.name.setValue(this.data.previousVersion.name);
-      this.customImageFormGroup.controls.baseImage.setValue(def.base_image);
-      for (const ic of def.image_content) {
-        this.customImageFormGroup.controls[ic.kind].setValue(ic.data);
+      const def = this.data.previousVersion.definition;
+      if (def) {
+        this.customImageFormGroup.controls.baseImage.setValue(def.base_image);
+        for (const ic of def.image_content) {
+          this.customImageFormGroup.controls[ic.kind].setValue(ic.data);
+        }
       }
     }
     this.updateExtraContent();

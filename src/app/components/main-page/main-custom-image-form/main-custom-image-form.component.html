@@ -1,21 +1,19 @@
-<div class="custom-image-form">
-  <div class="custom-image-form-header">
-    <div class="corner-button-container">
-      <button class="corner-button" mat-dialog-close="true" mat-icon-button>
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <h1 class="mat-dialog-title mat-headline">Create Custom Image</h1>
+<div class="dialog-container custom-image-form">
+  <div class="corner-button-container">
+    <button class="corner-button" mat-dialog-close="true" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
+  <h2 class="mat-dialog-title">{{ formTitle }}</h2>
+  <form [formGroup]="customImageFormGroup" id="dialog">
+    <div class="custom-image-form-content">
+      <div class="custom-image-form-left">
 
-  <div class="custom-image-form-content">
-    <div class="custom-image-form-left">
-      <form [formGroup]="customImageFormGroup" id="dialog">
         <div class="form-inner">
-          <mat-dialog-content class="plain-form-container">
+          <div class="plain-form-container">
             <!-- 1 Name-->
             <section class="form-container">
-              <div>Image name *</div>
+              <h3 class="mat-title">Name *</h3>
               <mat-form-field appearance="fill">
                 <input formControlName="name" matInput>
                 <mat-error *ngIf="customImageFormGroup.controls.name.hasError('required')">
@@ -35,8 +33,8 @@
                   <mat-select (selectionChange)="updateDockerfile()"
                               formControlName="baseImage"
                               placeholder="Choose the base image to customize">
-                    <mat-option *ngFor="let image of baseImages" value="{{ image }}">
-                      {{ image }}
+                    <mat-option *ngFor="let image of data.baseImages" [value]="image.base_config.image">
+                      {{ image.base_image_name }}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="customImageFormGroup.controls.baseImage.hasError('required')">
@@ -55,26 +53,27 @@
                 </mat-form-field>
               </ng-container>
             </section>
-
-            <!-- Submit -->
-            <div class="dialog-actions">
-              <button (click)="closeForm()"
-                      [disabled]="customImageFormGroup.invalid || createButtonClicked"
-                      color="primary"
-                      mat-flat-button>
-                Build
-              </button>
-              <button class="button-link button-sm" mat-button mat-dialog-close="true">
-                Cancel
-              </button>
-            </div>
-          </mat-dialog-content>
+          </div>
         </div>
-      </form>
+      </div>
+      <div class="custom-image-form-right">
+        <div class="custom-image-form-generated-dockerfile">
+          <h5>Generated dockerfile</h5>
+          <ng-container *ngFor="let line of generatedDockerfile.split('\n'); index as i">
+            <div class="line">{{ line }}</div>
+          </ng-container>
+        </div>
+      </div>
     </div>
-    <div class="custom-image-form-right">
-      <span>Generated dockerfile</span>
-      <textarea class="custom-image-form-generated-dockerfile" readonly>{{ generatedDockerfile }}</textarea>
+    <!-- Submit -->
+    <div class="dialog-actions">
+      <button (click)="closeForm()"
+              [disabled]="customImageFormGroup.invalid || createButtonClicked"
+              color="primary"
+              mat-flat-button>Build</button>
+      <button class="button-link cancel-button" mat-button mat-dialog-close="true">
+        Cancel
+      </button>
     </div>
-  </div>
+  </form>
 </div>

@@ -12,6 +12,7 @@ import {EventService} from "./event.service";
 export class CustomImageService implements OnDestroy {
   private customImages: CustomImage[] = null;
   private interval = 0;
+  private prefix: string = 'image-registry.apps.2.rahti.csc.fi/';
 
   constructor(
     private http: HttpClient,
@@ -45,10 +46,15 @@ export class CustomImageService implements OnDestroy {
 
   fetchCustomImages(): Observable<CustomImage[]> {
     const url = `${buildConfiguration.apiUrl}/custom_images`;
-
     return this.http.get<CustomImage[]>(url).pipe(
-      map((resp) => {
-        this.customImages = resp;
+      map(resp => {
+        this.customImages = resp.map( item => {
+          if (item.definition.base_image.startsWith(this.prefix)) {
+            const updatedName = item.definition.base_image.replace(this.prefix, '').trim();
+            return { ...item, base_image_name: updatedName + '*' };
+          }
+          return { ...item, base_image_name: item.definition.base_image};
+        });
         const hasUpdatingState=  this.customImages.some(
           item =>
             [BuildState.New, BuildState.Building, BuildState.Deleting].includes(item.state) ||

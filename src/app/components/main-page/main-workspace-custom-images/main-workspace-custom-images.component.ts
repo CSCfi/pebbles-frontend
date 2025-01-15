@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CustomImageService } from "../../../services/custom-image.service";
 import { CustomImage, BuildState } from "../../../models/custom-image";
@@ -8,6 +8,7 @@ import { ApplicationTemplateService } from "../../../services/application-templa
 import { PublicConfigService } from "../../../services/public-config.service";
 import { AuthService } from "../../../services/auth.service";
 import { EventService } from "../../../services/event.service";
+import { ApplicationTemplate } from "../../../models/application-template";
 
 export interface CustomImageRow {
   index: number;
@@ -17,33 +18,35 @@ export interface CustomImageRow {
   url: string;
 }
 
+interface ExtendedApplicationTemplate extends ApplicationTemplate {
+  base_image_name: string;
+}
+
 @Component({
   selector: 'app-main-workspace-custom-images',
   templateUrl: './main-workspace-custom-images.component.html',
-  styleUrls: ['./main-workspace-custom-images.component.scss'],
+  styleUrls: ['./main-workspace-custom-images.component.scss']
 })
 export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, OnDestroy {
+  // store subscriptions here for unsubscribing at destroy time
+  private subscriptions: Subscription[] = [];
+
   @Input() workspaceId: string = null;
   @Input() isWorkspaceExpired = false;
 
-  baseImages: string[];
   protected readonly BuildState = BuildState;
-
   public displayedColumns: string[] = ['name','meta','action'];
   public customImageList: CustomImageRow[] =[];
   public customImageDataSource: CustomImageRow[] = [];
 
-  // store subscriptions here for unsubscribing at destroy time
-  private subscriptions: Subscription[] = [];
+  baseImages: any[];
+  private prefix = 'image-registry.apps.2.rahti.csc.fi/noppe-public-images/';
 
   isQuotaLeft() {
     return this.getCustomImages().length < 10 || this.authService.isAdmin;
   }
 
   isLogVisible: boolean = false;
-  toggleLog() {
-    this.isLogVisible = !this.isLogVisible;
-  }
 
   constructor(
     public dialog: MatDialog,
@@ -64,12 +67,19 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
 
     this.customImageService.fetchCustomImages().subscribe( ()=> {
       this.applicationTemplateService.fetchApplicationTemplates().subscribe(() => {
-          this.baseImages = Array.from(
-            this.applicationTemplateService.getApplicationTemplates(), (x) => x.base_config.image
-          );
-          this.rebuildDataSource();
-        }
-      )
+        const applicationTemplates = this.applicationTemplateService.getApplicationTemplates();
+        this.baseImages = [];
+        applicationTemplates.forEach(tmpl => {
+          if (tmpl.application_type !== 'rstudio'
+            && tmpl.base_config.image.startsWith(this.prefix)) {
+            const extendedTmpl: ExtendedApplicationTemplate = {
+              ...tmpl, base_image_name: tmpl.base_config.image.replace(this.prefix, '').trim()
+            };
+            this.baseImages.push(extendedTmpl);
+          }
+        });
+        this.rebuildDataSource();
+      })
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -144,5 +154,9 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     });
 
     return rows;
+  }
+
+  toggleLog() {
+    this.isLogVisible = !this.isLogVisible;
   }
 }
