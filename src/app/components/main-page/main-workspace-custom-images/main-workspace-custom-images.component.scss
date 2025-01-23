@@ -44,7 +44,21 @@
     }
 
     .mat-column-name {
-      min-width: 150px;
+      min-width: 155px;
+
+      .custom-image-name {
+        font-size: small;
+      }
+
+      .custom-image-tag {
+        padding-top: 10px;
+        display: flex;
+        align-items: center;
+
+        .tag-text {
+          padding: 3px;
+        }
+      }
     }
 
     .mat-column-tag {

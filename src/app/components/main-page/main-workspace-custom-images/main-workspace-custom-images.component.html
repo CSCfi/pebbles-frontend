@@ -22,17 +22,19 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef class="col-name"> name </th>
-        <td mat-cell *matCellDef="let element" class="col-name"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element" class="col-name" [ngSwitch]="element.state">
+          <div class="custom-image-name"> {{element.name}} </div>
+          <div class="custom-image-tag" *ngSwitchCase="BuildState.Completed">
+            <mat-icon class="material-icons-outlined">sell</mat-icon>
+            <span class="tag-text"> {{ element.tag }} </span>
+          </div>
+        </td>
       </ng-container>
 
       <!-- Custom image META -->
       <ng-container matColumnDef="meta">
         <th mat-header-cell *matHeaderCellDef> Custom Image Info </th>
         <td mat-cell *matCellDef="let element">
-          <div class="custom-image-tag">
-            <mat-icon class="material-icons-outlined">sell</mat-icon>
-            {{ element.tag }}
-          </div>
           <div class="custom-image-state" [ngSwitch]="element.state">
             <!-- Custom image state COMPLETED -->
             <div *ngSwitchCase="BuildState.Completed" class="custom-image-url">
@@ -147,14 +149,15 @@
         <div class="empty-status">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
         </div>
-        <div class="status-summary">No images in this workspace yet.</div>
+        <div class="status-summary">No custom images in this workspace yet.</div>
         <div class="hint-content">
           <h3>Hint</h3>
           <ul>
-            <li>Workspace owner can build and store own custom images.</li>
-            <li>Click the 'Create new' to customize your image based on our base images.</li>
-            <li>Building process finished, you will get a URL of your customized image.</li>
-            <li>Copy and paste the URL in the application form.</li>
+            <li>Workspace owner can build and store their own custom images</li>
+            <li>Click 'Create new' to customize your image based on one of our base images</li>
+            <li>Once the building process is finished, you will get a URL for your customized image</li>
+            <li>Copy and paste the URL in the application form to use the image in your application</li>
+            <li>Custom images are tied to the workspace: when the workspace expires, the images are deleted</li>
           </ul>
           <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
              class="tab-title" rel="noopener">

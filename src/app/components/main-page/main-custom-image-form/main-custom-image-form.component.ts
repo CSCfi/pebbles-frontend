@@ -35,7 +35,7 @@ export class MainCustomImageFormComponent implements OnInit {
 
   setCreationForm(): void {
     const formConfig = {
-      name: ['', [Validators.required, Validators.maxLength(128)]],
+      name: ['', [Validators.required, Validators.maxLength(64)]],
       baseImage: ['foo.example.org/bar:latest', [Validators.required, Validators.maxLength(128)]],
     };
     formConfig['aptPackages'] = [''];
