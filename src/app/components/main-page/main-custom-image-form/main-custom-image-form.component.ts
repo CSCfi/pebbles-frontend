@@ -43,7 +43,7 @@ export class MainCustomImageFormComponent implements OnInit {
     this.customImageFormGroup = this.formBuilder.group(formConfig);
     if (this.data.previousVersion) {
       const image_name = this.data.previousVersion.name;
-      this.formTitle = 'Create a new image based on '+ image_name;
+      this.formTitle = 'Create a new image based on "'+ image_name + '"';
 
       // check if the name of the previous version has a version number
       const re = /^.*\s-\sv(\d+)$/

@@ -145,7 +145,8 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
         state: image.to_be_deleted ? BuildState.Deleting : image.state ? image.state : '-',
         url: image.url ? image.url : '-',
         dockerfile: image.dockerfile,
-        log: image.build_system_output
+        log: image.build_system_output,
+        definition: image.definition,
       })
     })
 
