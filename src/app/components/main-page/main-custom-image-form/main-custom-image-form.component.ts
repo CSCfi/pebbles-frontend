@@ -42,8 +42,20 @@ export class MainCustomImageFormComponent implements OnInit {
     formConfig['pipPackages'] = [''];
     this.customImageFormGroup = this.formBuilder.group(formConfig);
     if (this.data.previousVersion) {
-      this.formTitle = 'Create a new image based on '+ this.data.previousVersion.name;
-      this.customImageFormGroup.controls.name.setValue(this.data.previousVersion.name);
+      const image_name = this.data.previousVersion.name;
+      this.formTitle = 'Create a new image based on '+ image_name;
+
+      // check if the name of the previous version has a version number
+      const re = /^.*\s-\sv(\d+)$/
+      const match = image_name.match(re)
+      if (match) {
+        const incremented_image_name = image_name.replace(/\s-\sv(\d+)$/, " - v" + String(Number(match[1]) + 1))
+        this.customImageFormGroup.controls.name.setValue(incremented_image_name);
+      // if no version number, add 'v2' suffix as a suggestion
+      } else {
+        this.customImageFormGroup.controls.name.setValue(this.data.previousVersion.name + " - v2");
+      }
+
       const def = this.data.previousVersion.definition;
       if (def) {
         this.customImageFormGroup.controls.baseImage.setValue(def.base_image);
