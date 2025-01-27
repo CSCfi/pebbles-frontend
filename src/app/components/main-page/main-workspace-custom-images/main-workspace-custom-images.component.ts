@@ -75,7 +75,9 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
             const extendedTmpl: ExtendedApplicationTemplate = {
               ...tmpl, base_image_name: tmpl.base_config.image.replace(this.prefix, '').trim()
             };
-            this.baseImages.push(extendedTmpl);
+            if (!this.baseImages.some(tmpl => tmpl.base_image_name == extendedTmpl.base_image_name)) {
+              this.baseImages.push(extendedTmpl);
+            }
           }
         });
         this.rebuildDataSource();
