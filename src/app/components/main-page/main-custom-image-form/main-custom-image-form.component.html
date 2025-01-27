@@ -27,7 +27,13 @@
 
             <!-- 2 base image -->
             <section class="form-container">
-              <h3 class="mat-title">Base image *</h3>
+              <div class="base-image-source-wrapper">
+                <h3 class="mat-title">Base image *</h3>
+                <a mat-button matTooltip="Base image sources in GitHub" target='_blank' rel="noopener"
+                   class="base-image-source" href="https://github.com/CSCfi/noppe-public-images">
+                  Base image sources
+                </a>
+              </div>
               <ng-container>
                 <mat-form-field appearance="fill">
                   <mat-select (selectionChange)="updateDockerfile()"

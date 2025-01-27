@@ -77,4 +77,28 @@
       flex: 0 0 200px;
     }
   }
+
+  .base-image-source-wrapper {
+    background: #fff;
+    align-items: center;
+    display: flex;
+
+    a.base-image-source {
+      background: #fff;
+      z-index: 1000;
+      padding: 5px 15px 5px 20px;
+      border-radius: 50px;
+      color: $secondary-color;
+      margin-left: auto;
+
+      &:after {
+        font-size: 1.4rem;
+        width: auto;
+        height: auto;
+        margin-left: 4px;
+        font-family: Material Icons, serif;
+        content: "\e89e";
+      }
+    }
+  }
 }
