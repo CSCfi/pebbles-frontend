@@ -20,6 +20,10 @@
     .custom-image-form-left {
       flex: 1 1 50%;
 
+      .package-instructions {
+        font-weight: bold;
+      }
+
       h3 {
         font-size: 1.6rem;
         margin-bottom: 5px;

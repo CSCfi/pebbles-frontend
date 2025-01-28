@@ -51,8 +51,11 @@
             </section>
 
             <section class="form-container">
+              <h3 class="package-instructions">
+                Customize your image by adding apt or pip packages as a space separated list
+              </h3>
               <ng-container *ngFor="let content of imageContent">
-                <h3 class="mat-title">{{ content.kind }}</h3>
+                <h3 class="mat-title">{{ getContentDescription(content.kind) }}</h3>
                 <mat-form-field appearance="fill">
                   <input (input)="updateExtraContent()" formControlName="{{content.kind}}" matInput
                          value="content.data">

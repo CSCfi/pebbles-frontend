@@ -97,6 +97,16 @@ export class MainCustomImageFormComponent implements OnInit {
     });
   }
 
+  getContentDescription(kind: string) {
+    if (kind == "aptPackages") {
+      return "apt packages"
+    } else if (kind == "pipPackages") {
+      return "pip packages"
+    } else {
+      return kind
+    }
+  }
+
   generateDockerInstructions(ic: ImageContent) {
     switch (ic.kind) {
       case 'aptPackages':
@@ -104,7 +114,7 @@ export class MainCustomImageFormComponent implements OnInit {
           return '';
         }
         return [
-          '# aptPackages',
+          '# apt packages',
           'USER root',
           `RUN apt-get update && apt-get install -y ${ic.data} && apt-get clean`,
           'USER jovyan',
@@ -115,7 +125,7 @@ export class MainCustomImageFormComponent implements OnInit {
           return '';
         }
         return [
-          '# pipPackages',
+          '# pip packages',
           `RUN pip --no-cache-dir install --upgrade ${ic.data}`,
           ''
         ].join('\n');
