@@ -36,7 +36,7 @@ export class MainCustomImageFormComponent implements OnInit {
   setCreationForm(): void {
     const formConfig = {
       name: ['', [Validators.required, Validators.maxLength(64)]],
-      baseImage: ['foo.example.org/bar:latest', [Validators.required, Validators.maxLength(128)]],
+      baseImage: ['', [Validators.required, Validators.maxLength(128)]],
     };
     formConfig['aptPackages'] = [''];
     formConfig['pipPackages'] = [''];
@@ -86,7 +86,11 @@ export class MainCustomImageFormComponent implements OnInit {
   }
 
   updateDockerfile(): void {
-    this.generatedDockerfile = `FROM ${this.customImageFormGroup.controls.baseImage.value}\n`;
+    if (this.customImageFormGroup.controls.baseImage.value) {
+      this.generatedDockerfile = `FROM ${this.customImageFormGroup.controls.baseImage.value}\n`;
+    } else {
+      this.generatedDockerfile = '';
+    }
     this.imageContent.map((c) => {
       this.generatedDockerfile += '\n';
       this.generatedDockerfile += this.generateDockerInstructions(c);
