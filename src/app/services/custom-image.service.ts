@@ -30,18 +30,7 @@ export class CustomImageService implements OnDestroy {
   }
 
   getCustomImagesByWorkspaceId(workspaceId: string): CustomImage[] {
-    if (this.customImages) {
-      const cis = this.customImages.filter(ci => ci.workspace_id === workspaceId);
-
-      // return cis.sort((a, b) =>  b.tag - a.tag);
-      return cis.sort((a, b) => {
-        if (a.tag === null) {
-          return -1;
-        }
-        return b.tag - a.tag;
-      });
-    }
-    return [];
+    return this.customImages ? this.customImages.filter(ci => ci.workspace_id === workspaceId): []
   }
 
   fetchCustomImages(): Observable<CustomImage[]> {
@@ -109,7 +98,7 @@ export class CustomImageService implements OnDestroy {
       {name: name, workspace_id: workspaceId, definition: definition}
     ).pipe(
       tap(newImage => {
-        // push the new session directly to state and trigger a full refresh later
+        // push the new image directly to state and trigger a full refresh later
         this.customImages.push(newImage);
         this.fetchCustomImages().subscribe();
       }));

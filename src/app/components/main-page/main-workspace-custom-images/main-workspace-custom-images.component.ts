@@ -114,7 +114,10 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
       if (customImage.name) {
         return this.customImageService.createCustomImage(
           customImage.name, this.workspaceId, customImage.definition
-        ).subscribe();
+        ).subscribe(() => {
+            this.rebuildDataSource();
+          }
+        );
       }
     });
   }
@@ -123,7 +126,10 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     if (!confirm(`Are you sure you want to delete custom image "${this.customImageService.get(id).name}"?`)) {
       return;
     }
-    this.customImageService.deleteCustomImage(id).subscribe();
+    this.customImageService.deleteCustomImage(id).subscribe(() => {
+        this.rebuildDataSource();
+      }
+    );
   }
 
   private rebuildDataSource() {
@@ -150,8 +156,20 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
         log: image.build_system_output,
         definition: image.definition,
       })
-    })
-
+    });
+    // Sort in descending order by tag. New images without tag are first.
+    rows.sort((a, b) => {
+      if (a.tag === null) {
+        return -1;
+      }
+      if (b.tag === null) {
+        return 1;
+      }
+      if (a.tag === b.tag) {
+        return 0;
+      }
+      return a.tag > b.tag ? -1 : 1;
+    });
     rows.map((row, index) => {
       row.index = index + 1;
     });
