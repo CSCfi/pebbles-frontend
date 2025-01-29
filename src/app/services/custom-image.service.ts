@@ -1,10 +1,10 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {BuildState, CustomImage, ImageDefinition} from "../models/custom-image";
-import {Observable, throwError} from "rxjs";
-import {buildConfiguration} from "../../environments/environment";
-import {catchError, map, tap} from "rxjs/operators";
-import {HttpClient} from "@angular/common/http";
-import {EventService} from "./event.service";
+import { Injectable, OnDestroy } from '@angular/core';
+import { BuildState, CustomImage, ImageDefinition } from "../models/custom-image";
+import { Observable, throwError } from "rxjs";
+import { buildConfiguration } from "../../environments/environment";
+import { catchError, map, tap } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
+import { EventService } from "./event.service";
 
 @Injectable({
   providedIn: 'root'
@@ -37,14 +37,8 @@ export class CustomImageService implements OnDestroy {
     const url = `${buildConfiguration.apiUrl}/custom_images`;
     return this.http.get<CustomImage[]>(url).pipe(
       map(resp => {
-        this.customImages = resp.map( item => {
-          if (item.definition.base_image.startsWith(this.prefix)) {
-            const updatedName = item.definition.base_image.replace(this.prefix, '').trim();
-            return { ...item, base_image_name: updatedName + '*' };
-          }
-          return { ...item, base_image_name: item.definition.base_image};
-        });
-        const hasUpdatingState=  this.customImages.some(
+        this.customImages = resp;
+        const hasUpdatingState = this.customImages.some(
           item =>
             [BuildState.New, BuildState.Building, BuildState.Deleting].includes(item.state) ||
             item.to_be_deleted === true

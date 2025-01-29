@@ -19,8 +19,9 @@ export class MainCustomImageFormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<MainCustomImageFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      baseImages: any[],
+      baseImages: string[],
       previousVersion: CustomImage,
+      commonImagePrefix: string,
     },
     private formBuilder: UntypedFormBuilder,
   ) {
@@ -131,5 +132,9 @@ export class MainCustomImageFormComponent implements OnInit {
         ].join('\n');
     }
     return "";
+  }
+
+  extractBaseImageName(baseImage: string): string {
+    return baseImage.replace(this.data.commonImagePrefix, '').trim();
   }
 }

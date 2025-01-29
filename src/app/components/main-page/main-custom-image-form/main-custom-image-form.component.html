@@ -39,8 +39,8 @@
                   <mat-select (selectionChange)="updateDockerfile()"
                               formControlName="baseImage"
                               placeholder="Choose the base image to customize">
-                    <mat-option *ngFor="let image of data.baseImages" [value]="image.base_config.image">
-                      {{ image.base_image_name }}
+                    <mat-option *ngFor="let baseImage of data.baseImages" [value]="baseImage">
+                      {{ extractBaseImageName(baseImage) }}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="customImageFormGroup.controls.baseImage.hasError('required')">

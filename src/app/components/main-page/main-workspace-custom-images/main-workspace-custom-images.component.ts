@@ -1,14 +1,13 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CustomImageService } from "../../../services/custom-image.service";
-import { CustomImage, BuildState } from "../../../models/custom-image";
+import { BuildState, CustomImage } from "../../../models/custom-image";
 import { MatDialog as MatDialog } from "@angular/material/dialog";
 import { MainCustomImageFormComponent } from "../main-custom-image-form/main-custom-image-form.component";
 import { ApplicationTemplateService } from "../../../services/application-template.service";
 import { PublicConfigService } from "../../../services/public-config.service";
 import { AuthService } from "../../../services/auth.service";
 import { EventService } from "../../../services/event.service";
-import { ApplicationTemplate } from "../../../models/application-template";
 
 export interface CustomImageRow {
   index: number;
@@ -16,10 +15,6 @@ export interface CustomImageRow {
   tag: string;
   state: BuildState;
   url: string;
-}
-
-interface ExtendedApplicationTemplate extends ApplicationTemplate {
-  base_image_name: string;
 }
 
 @Component({
@@ -39,7 +34,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   public customImageList: CustomImageRow[] =[];
   public customImageDataSource: CustomImageRow[] = [];
 
-  baseImages: any[];
+  baseImages: string[];
   private prefix = 'image-registry.apps.2.rahti.csc.fi/noppe-public-images/';
 
   isQuotaLeft() {
@@ -65,25 +60,21 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
       })
     );
 
-    this.customImageService.fetchCustomImages().subscribe( ()=> {
-      this.applicationTemplateService.fetchApplicationTemplates().subscribe(() => {
-        const applicationTemplates = this.applicationTemplateService.getApplicationTemplates();
+    this.customImageService.fetchCustomImages().subscribe(() => {
+      this.applicationTemplateService.fetchApplicationTemplates().subscribe((ats) => {
         this.baseImages = [];
-        applicationTemplates.forEach(tmpl => {
-          if (tmpl.application_type !== 'rstudio'
-            && tmpl.base_config.image.startsWith(this.prefix)) {
-            const extendedTmpl: ExtendedApplicationTemplate = {
-              ...tmpl, base_image_name: tmpl.base_config.image.replace(this.prefix, '').trim()
-            };
-            if (!this.baseImages.some(tmpl => tmpl.base_image_name == extendedTmpl.base_image_name)) {
-              this.baseImages.push(extendedTmpl);
+        ats.forEach(tmpl => {
+          if (tmpl.application_type === 'jupyter' && tmpl.base_config.image.startsWith(this.prefix)) {
+            if (!this.baseImages.includes(tmpl.base_config.image)) {
+              this.baseImages.push(tmpl.base_config.image);
             }
           }
         });
-        this.rebuildDataSource();
-      })
+      });
+      this.rebuildDataSource();
     });
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     // selected workspace changed, clear old data and rebuild data source
     this.customImageDataSource = null;
@@ -109,6 +100,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
       data: {
         baseImages: this.baseImages,
         previousVersion,
+        commonImagePrefix: this.prefix,
       }
     }).afterClosed().subscribe(customImage => {
       if (customImage.name) {
