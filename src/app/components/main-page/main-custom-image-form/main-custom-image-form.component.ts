@@ -46,11 +46,11 @@ export class MainCustomImageFormComponent implements OnInit {
       const image_name = this.data.previousVersion.name;
       this.formTitle = 'Create a new image based on "'+ image_name + '"';
 
-      // check if the name of the previous version has a version number
+      // check if the name of the previous version has a generated version number
       const re = /^.*\s-\sv(\d+)$/
       const match = image_name.match(re)
       if (match) {
-        const incremented_image_name = image_name.replace(/\s-\sv(\d+)$/, " - v" + String(Number(match[1]) + 1))
+        const incremented_image_name = image_name.replace(/\s-\sv(\d+)$/, " - v" + String(Number(match[1]) + 1));
         this.customImageFormGroup.controls.name.setValue(incremented_image_name);
       // if no version number, add 'v2' suffix as a suggestion
       } else {

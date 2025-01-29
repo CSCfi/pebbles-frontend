@@ -9,12 +9,8 @@ import { PublicConfigService } from "../../../services/public-config.service";
 import { AuthService } from "../../../services/auth.service";
 import { EventService } from "../../../services/event.service";
 
-export interface CustomImageRow {
+export interface CustomImageRow extends CustomImage {
   index: number;
-  name: string;
-  tag: string;
-  state: BuildState;
-  url: string;
 }
 
 @Component({
@@ -31,8 +27,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
 
   protected readonly BuildState = BuildState;
   public displayedColumns: string[] = ['name', 'meta', 'action'];
-  public customImageList: CustomImageRow[] = [];
-  public customImageDataSource: CustomImageRow[] = [];
+  public dataSource: CustomImageRow[] = [];
 
   baseImages: string[];
   private prefix = 'image-registry.apps.2.rahti.csc.fi/noppe-public-images/';
@@ -79,7 +74,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
 
   ngOnChanges(changes: SimpleChanges): void {
     // selected workspace changed, clear old data and rebuild data source
-    this.customImageDataSource = null;
+    this.dataSource = null;
     this.rebuildDataSource();
   }
 
@@ -89,12 +84,10 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   }
 
   getCustomImages(): CustomImage[] {
-    const cis = this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId).sort(
-      (a, b) => Number(b.started_at) - Number(a.started_at))
-    return cis ? Object.assign([], cis).reverse() : [];
+    return this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId);
   }
 
-  buildImage(previousVersion: CustomImage): void {
+  buildImageDialog(previousVersion: CustomImage): void {
     this.dialog.open(MainCustomImageFormComponent, {
       height: 'auto',
       width: '1280px',
@@ -116,7 +109,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     });
   }
 
-  deleteCustomImage(id: string) {
+  deleteCustomImage(id: string): void {
     if (!confirm(`Are you sure you want to delete custom image "${this.customImageService.get(id).name}"?`)) {
       return;
     }
@@ -155,31 +148,20 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     return '';
   }
 
-  private rebuildDataSource() {
+  private rebuildDataSource(): void {
     const images = this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId);
     if (!images) {
       return;
     }
-    this.customImageList = this.composeDataSource(images);
-    this.customImageDataSource = this.customImageList;
+    this.dataSource = this.composeDataSource(images);
   }
 
-  private composeDataSource(cis: CustomImage[]) {
+  private composeDataSource(cis: CustomImage[]): CustomImageRow[] {
     if (!cis) return [];
 
-    const rows = [];
+    const rows: CustomImageRow[] = [];
     cis.forEach(image => {
-      rows.push({
-        id: image.id,
-        name: image.name,
-        tag: image.tag ? image.tag : null,
-        state: image.to_be_deleted ? BuildState.Deleting : image.state ? image.state : '-',
-        url: image.url ? image.url : '-',
-        dockerfile: image.dockerfile,
-        log: image.build_system_output,
-        definition: image.definition,
-        started_at: image.started_at,
-      })
+      rows.push({...image, index: -1});
     });
     // Sort in descending order by tag. New images without tag are first.
     rows.sort((a, b) => {
@@ -197,7 +179,6 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     rows.map((row, index) => {
       row.index = index + 1;
     });
-
     return rows;
   }
 }

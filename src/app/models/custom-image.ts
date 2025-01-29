@@ -9,13 +9,15 @@ export interface ImageDefinition {
   image_content: ImageContent[];
 }
 
+// states defined in pebbles.models.CustomImage
 export enum BuildState {
-  Deleting = 'deleting',
-  Deleted = 'deleted',
   New = 'new',
   Building = 'building',
   Failed = 'failed',
-  Completed = 'completed'
+  Completed = 'completed',
+  Deleted = 'deleted',
+  // Deleting state is frontend only, made for simplifying rendering logic. It is set when to_be_deleted is set.
+  Deleting = 'deleting'
 }
 
 export interface CustomImage {

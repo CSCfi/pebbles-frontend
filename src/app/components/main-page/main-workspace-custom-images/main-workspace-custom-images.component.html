@@ -1,6 +1,6 @@
 <div id="workspace-custom-images">
   <div class="actions">
-    <button (click)="buildImage(null)"
+    <button (click)="buildImageDialog(null)"
             [disabled]="!isQuotaLeft() || isWorkspaceExpired"
             aria-label="Create custom image"
             mat-flat-button
@@ -13,17 +13,17 @@
     </div>
   </div>
 
-  <ng-container *ngIf="customImageList?.length > 0; else noImage">
-    <table mat-table class="custom-image-table" [dataSource]="customImageList">
+  <ng-container *ngIf="dataSource?.length > 0; else noImage">
+    <table [dataSource]="dataSource" class="custom-image-table" mat-table>
       <!--      <ng-container matColumnDef="index">-->
       <!--        <th mat-header-cell *matHeaderCellDef class="col-no"> No. </th>-->
       <!--        <td mat-cell *matCellDef="let element" class="col-no"> {{element.index}} </td>-->
       <!--      </ng-container>-->
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef class="col-name"> name </th>
+        <th *matHeaderCellDef class="col-name" mat-header-cell> name</th>
         <td mat-cell *matCellDef="let element" class="col-name" [ngSwitch]="element.state">
-          <div class="custom-image-name"> {{element.name}} </div>
+          <div class="custom-image-name"> {{ element.name }}</div>
           <div class="custom-image-tag" *ngSwitchCase="BuildState.Completed">
             <mat-icon class="material-icons-outlined">sell</mat-icon>
             <span class="tag-text"> {{ element.tag }} </span>
@@ -33,7 +33,7 @@
 
       <!-- Custom image META -->
       <ng-container matColumnDef="meta">
-        <th mat-header-cell *matHeaderCellDef> Custom Image Info </th>
+        <th *matHeaderCellDef mat-header-cell> Custom Image Info</th>
         <td mat-cell *matCellDef="let element">
           <div class="custom-image-state" [ngSwitch]="element.state">
             <!-- Custom image state COMPLETED -->
@@ -48,7 +48,7 @@
                 <mat-icon fontSet="material-icons-outlined" class="md-24">content_copy</mat-icon>
               </button>
             </div>
-            <!-- Custom image state FAIL -->
+            <!-- Custom image state FAILED -->
             <div *ngSwitchCase="BuildState.Failed"
                  class="custom-image-fail-message">
               <span class="fail-state">
@@ -56,7 +56,7 @@
                 <span>Failed</span>
               </span>
               <button (click)="toggleLog(element.id)"
-                      *ngIf="element.log"
+                      *ngIf="element.build_system_output"
                       class="toggle-log-button"
                       mat-button
                       matTooltip="Toggle log screen">
@@ -84,11 +84,11 @@
           </div>
 
           <!-- Build log for failed images -->
-          <div *ngIf="isLogVisible(element.id) && element.log" class="custom-image-output">
+          <div *ngIf="isLogVisible(element.id) && element.build_system_output" class="custom-image-output">
             <div class="output-label">
               <mat-icon class="material-icons-outlined">terminal</mat-icon>
             </div>
-            <ng-container *ngFor="let line of element.log.split('\n'); index as i">
+            <ng-container *ngFor="let line of element.build_system_output.split('\n'); index as i">
               <div class="custom-image-output-line">
                 <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>
               </div>
@@ -112,9 +112,9 @@
 
       <!-- Action button -->
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="col-actions"> action </th>
+        <th *matHeaderCellDef class="col-actions" mat-header-cell> action</th>
         <td mat-cell *matCellDef="let element" class="col-actions">
-          <button (click)="buildImage(element)"
+          <button (click)="buildImageDialog(element)"
                   aria-label="Create new version"
                   matTooltip="Create new version"
                   mat-icon-button>
@@ -143,12 +143,12 @@
       <!--  Row shown when there is no matching data. -->
       <tr mat-header-row
           *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns:displayedColumns"> Haha </tr>
+      <tr *matRowDef="let row; columns:displayedColumns" mat-row> No match</tr>
     </table>
   </ng-container>
   <ng-template #noImage>
     <section class="status-info-container">
-      <div class="hint" *ngIf="customImageList !== null">
+      <div *ngIf="dataSource !== null" class="hint">
         <div class="empty-status">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
         </div>
@@ -169,7 +169,7 @@
           </a>
         </div>
       </div>
-      <div class="empty-status" *ngIf="customImageList === null">
+      <div *ngIf="dataSource === null" class="empty-status">
         <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
         <span class="status-summary">...Loading...</span>
       </div>

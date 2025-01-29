@@ -12,7 +12,6 @@ import { EventService } from "./event.service";
 export class CustomImageService implements OnDestroy {
   private customImages: CustomImage[] = null;
   private interval = 0;
-  private prefix: string = 'image-registry.apps.2.rahti.csc.fi/';
 
   constructor(
     private http: HttpClient,
@@ -30,24 +29,25 @@ export class CustomImageService implements OnDestroy {
   }
 
   getCustomImagesByWorkspaceId(workspaceId: string): CustomImage[] {
-    return this.customImages ? this.customImages.filter(ci => ci.workspace_id === workspaceId): []
+    return this.customImages ? this.customImages.filter(ci => ci.workspace_id === workspaceId) : [];
   }
 
   fetchCustomImages(): Observable<CustomImage[]> {
     const url = `${buildConfiguration.apiUrl}/custom_images`;
     return this.http.get<CustomImage[]>(url).pipe(
-      map(resp => {
-        this.customImages = resp;
-        const hasUpdatingState = this.customImages.some(
-          item =>
-            [BuildState.New, BuildState.Building, BuildState.Deleting].includes(item.state) ||
-            item.to_be_deleted === true
-        )
+      map(cis => {
+        cis.forEach((ci) => {
+          if (ci.to_be_deleted) ci.state = BuildState.Deleting;
+        });
+        const hasUpdatingState = cis.some((item) => {
+          [BuildState.New, BuildState.Building, BuildState.Deleting].includes(item.state)
+        });
         if (hasUpdatingState) {
           this.setPollingInterval(5);
         } else {
           this.setPollingInterval(60);
         }
+        this.customImages = cis;
         this.eventService.customImageDataUpdate$.next('all');
         return this.customImages;
       }),
