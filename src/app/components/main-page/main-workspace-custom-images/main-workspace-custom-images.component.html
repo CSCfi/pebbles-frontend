@@ -55,13 +55,15 @@
                 <mat-icon class="material-icons-outlined warning-message">sentiment_very_dissatisfied</mat-icon>
                 <span>Failed</span>
               </span>
-              <button  mat-button
-                       matTooltip="Toggle log screen"
-                       class="toggle-log-button"
-                       *ngIf="element.log"
-                       (click)="toggleLog()">
+              <button (click)="toggleLog(element.id)"
+                      *ngIf="element.log"
+                      class="toggle-log-button"
+                      mat-button
+                      matTooltip="Toggle log screen">
                 <mat-icon class="material-icons-outlined">terminal</mat-icon>
-                <span *ngIf="!isLogVisible">Open</span><span *ngIf="isLogVisible">Close</span>  log
+                <span *ngIf="!isLogVisible(element.id); then openLog else closeLog"></span>
+                <ng-template #openLog>Open log</ng-template>
+                <ng-template #closeLog>Close log</ng-template>
               </button>
             </div>
 
@@ -78,17 +80,11 @@
               <span class="custom-image-state-description">
                 {{ getStateExplanation(element) }}
               </span>
-              <button (click)="toggleLog()"
-                      *ngIf="element.log"
-                      class="toggle-log-button"
-                      mat-button
-                      matTooltip="Toggle log screen">
-                <mat-icon class="material-icons-outlined">terminal</mat-icon>
-                <span *ngIf="!isLogVisible">Open</span><span *ngIf="isLogVisible">Close</span>  log
-              </button>
             </div>
           </div>
-          <div class="custom-image-output" *ngIf="isLogVisible && element.log">
+
+          <!-- Build log for failed images -->
+          <div *ngIf="isLogVisible(element.id) && element.log" class="custom-image-output">
             <div class="output-label">
               <mat-icon class="material-icons-outlined">terminal</mat-icon>
             </div>
@@ -98,6 +94,8 @@
               </div>
             </ng-container>
           </div>
+
+          <!-- Dockerfile -->
           <div class="custom-image-dockerfile">
             <fa-icon [icon]="['fab','docker']"></fa-icon>
             <code>

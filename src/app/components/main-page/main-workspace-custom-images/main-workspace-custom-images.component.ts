@@ -41,7 +41,9 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     return this.getCustomImages().length < 10 || this.authService.isAdmin;
   }
 
-  isLogVisible: boolean = false;
+  // store log visibility selection in a map outside the custom image data to make it easier to persist it
+  // when custom images are fetched and data source regenerated
+  private logVisibleMap = new Map<string, boolean>();
 
   constructor(
     public dialog: MatDialog,
@@ -124,6 +126,14 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     );
   }
 
+  toggleLog(id: string): void {
+    this.logVisibleMap.set(id, !this.isLogVisible(id));
+  }
+
+  isLogVisible(id: string): boolean {
+    return this.logVisibleMap.has(id) && this.logVisibleMap.get(id);
+  }
+
   getHumanReadableStateString(ci: CustomImage): string {
     if (ci.state === BuildState.New) {
       return 'Queuing';
@@ -189,9 +199,5 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     });
 
     return rows;
-  }
-
-  toggleLog() {
-    this.isLogVisible = !this.isLogVisible;
   }
 }
