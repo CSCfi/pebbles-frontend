@@ -3,7 +3,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
-  MatDialogRef
+  MatDialogRef,
+  MatDialog
 } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Application, AttributeLimit } from 'src/app/models/application';
@@ -12,6 +13,11 @@ import { ApplicationTemplateService } from 'src/app/services/application-templat
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from '../../../services/workspace.service';
+import { BuildState, CustomImage } from "../../../models/custom-image";
+import { CustomImageService } from "../../../services/custom-image.service";
+import {
+  MainSelectCustomImageDialogComponent
+} from '../main-select-custom-image-dialog/main-select-custom-image-dialog.component';
 
 export interface ApplicationTemplateRow {
   name: string;
@@ -25,7 +31,7 @@ export interface ApplicationTemplateRow {
 
 // Backend uses pattern ^([\w\-_]+[.:])+([\w\-_]+)(/[\w\-_]+)*(/[\w\-_@]+:[\w\-_.]+)$
 // defined in pebbles.utils.validate_container_image_url()
-const IMAGE_URL_VALIDATION_RE = new RegExp(/^([\w\-_]+[.:])+([\w\-_]+)(\/[\w\-_]+)*(\/[\w\-_@]+:[\w\-_.]+)$/)
+const IMAGE_URL_VALIDATION_RE = new RegExp(/^([\w\-_]+[.:])+([\w\-_]+)(\/[\w\-_]+)*(\/[\w\-_@]+:[\w\-_.]+)$/);
 
 @Component({
   selector: 'app-main-application-item-form',
@@ -61,13 +67,26 @@ export class MainApplicationItemFormComponent implements OnInit {
     return !this.data.application;
   }
 
+  get customImages(): CustomImage[] {
+    const cis = this.customImageService.getCustomImagesByWorkspaceId(this.data.workspaceId).sort(
+      (a,b) => Number(b.started_at) - Number(a.started_at));
+
+    const completedCis = cis.filter(x => x.state === BuildState.Completed);
+    return completedCis ? Object.assign([], completedCis).reverse() : [];
+  }
+
   get applicationTemplates(): ApplicationTemplate[] {
     return this.applicationTemplateService.getApplicationTemplates();
   }
 
   get selectedApplicationTemplate(): ApplicationTemplate {
-    return this.applicationTemplateService.getApplicationTemplates().find(
+    const selectedTemplate = this.applicationTemplateService.getApplicationTemplates().find(
       x => x.id === this.applicationItemEditFormGroup.controls.applicationTemplateId.value);
+    if (selectedTemplate == undefined) {
+      return null;
+    } else {
+      return selectedTemplate;
+    }
   }
 
   constructor(
@@ -80,8 +99,10 @@ export class MainApplicationItemFormComponent implements OnInit {
     public authService: AuthService,
     private formBuilder: UntypedFormBuilder,
     private applicationService: ApplicationService,
+    private customImageService: CustomImageService,
     private applicationTemplateService: ApplicationTemplateService,
     private workspaceService: WorkspaceService,
+    private dialog: MatDialog,
   ) {
     // TODO: Needed in case application is not available (e.g test case)
     // if (this.data.application) {
@@ -329,7 +350,7 @@ export class MainApplicationItemFormComponent implements OnInit {
     // and add the currently set memory if not present
     let allMemoryOptions =
       [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256];
-    let memoryOptions = allMemoryOptions.filter((option) => option <= this.sessionMemoryMaxGiB)
+    let memoryOptions = allMemoryOptions.filter((option) => option <= this.sessionMemoryMaxGiB);
     if (this.sessionMemoryGiB && !memoryOptions.includes(this.sessionMemoryGiB)) {
       memoryOptions.push(this.sessionMemoryGiB);
     }
@@ -348,5 +369,23 @@ export class MainApplicationItemFormComponent implements OnInit {
       );
     }
     return res;
+  }
+
+  customImagesPopup() {
+    this.dialog.open(MainSelectCustomImageDialogComponent, {
+      width: '800px',
+      height: 'auto',
+      maxHeight: '95vh',
+      data: {
+        heading: `Choose a custom image from this workspace`,
+        text: 'Use a custom image that is compatible with the chosen application template.\n' +
+              'Only Jupyter custom images are supported currently.',
+        workspaceId: this.data.workspaceId,
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.applicationItemEditFormGroup.controls.imageUrl.setValue(res);
+      }
+    });
   }
 }

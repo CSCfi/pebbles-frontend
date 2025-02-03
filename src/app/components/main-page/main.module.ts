@@ -49,6 +49,9 @@ import {
   MainWorkspaceCustomImagesComponent
 } from "./main-workspace-custom-images/main-workspace-custom-images.component";
 import { MainCustomImageFormComponent } from "./main-custom-image-form/main-custom-image-form.component";
+import {
+  MainSelectCustomImageDialogComponent
+} from "./main-select-custom-image-dialog/main-select-custom-image-dialog.component";
 
 @NgModule({
   declarations: [
@@ -79,6 +82,7 @@ import { MainCustomImageFormComponent } from "./main-custom-image-form/main-cust
     LifeTimeDisplayPipe,
     RemainingDaysDisplayPipe,
     MainSelectWorkspaceDialogComponent,
+    MainSelectCustomImageDialogComponent,
     MainCustomImageFormComponent,
   ],
   imports: [

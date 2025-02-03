@@ -1,0 +1,33 @@
+<div id="select-custom-image-dialog" class="dialog-container">
+  <div class="corner-button-container">
+    <button mat-icon-button class="corner-button" (click)="closeForm()" tabindex="-1">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <h3 class="mat-dialog-title">{{ heading }}</h3>
+  <mat-dialog-content>
+    <div>{{ textContent }}</div>
+    <section class="custom-image-input-form">
+      <form [formGroup]="selectCustomImageForm">
+        <mat-select formControlName="selectedCustomImageUrl" autofocus>
+          <mat-option *ngFor="let ci of customImageOptions" [value]="ci.value">
+            {{ ci.viewValue }}
+          </mat-option>
+        </mat-select>
+
+        <!-- Submit -->
+        <div class="dialog-actions">
+          <button mat-flat-button
+                  class="select-custom-image-btn"
+                  (click)="selectCustomImage()"
+                  [disabled]="!isFormReady()">
+            Select
+          </button>
+          <button mat-stroked-button class="cancel-button" (click)="closeForm()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </section>
+  </mat-dialog-content>
+</div>

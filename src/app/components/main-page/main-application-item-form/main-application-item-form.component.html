@@ -67,14 +67,29 @@
 
         <!-- 1-2 Container Image -->
         <section class="form-container">
-          <h3>Container Image</h3>
-          <p class="mat-caption">Change only if you need a custom image. The image has to be compatible with the template.</p>
+          <h3>Container image</h3>
+          <section class="form-container" *ngIf="customImages.length > 0">
+            <span matTooltip="Select a template first"
+                  [matTooltipDisabled]="selectedApplicationTemplate !== null">
+              <span matTooltip="Only Jupyter custom images are supported currently"
+                    [matTooltipDisabled]="!(selectedApplicationTemplate !== null && selectedApplicationTemplate.application_type !== 'jupyter')">
+                <button mat-button on-click="customImagesPopup()" class="pop-up-button"
+                        [disabled]="selectedApplicationTemplate === null ||  selectedApplicationTemplate.application_type !== 'jupyter'">
+                  <mat-icon>album</mat-icon> Choose a custom image
+                </button>
+              </span>
+            </span>
+          </section>
           <mat-form-field appearance="fill">
             <input matInput formControlName="imageUrl" [value]="selectedApplicationTemplateImage">
             <mat-error *ngIf="applicationItemEditFormGroup.controls.imageUrl.errors">
               <strong>Invalid image url. Example: docker.io/example/image:latest</strong>
             </mat-error>
           </mat-form-field>
+          <p class="mat-caption">
+            (Manually change the URL only if you need a custom image not built in Noppe.
+            The image has to be compatible with the chosen template.)
+          </p>
           <mat-checkbox formControlName="isAlwaysPullImage">
             Always pull image
           </mat-checkbox>
