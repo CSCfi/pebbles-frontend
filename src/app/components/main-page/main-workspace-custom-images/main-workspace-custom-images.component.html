@@ -64,21 +64,25 @@
                 <span *ngIf="!isLogVisible">Open</span><span *ngIf="isLogVisible">Close</span>  log
               </button>
             </div>
-            <!-- Custom image state BUILDING / DELETING -->
-            <div class="custom-image-state-building" *ngSwitchDefault>
+
+            <!-- Custom image state NEW / BUILDING / DELETING -->
+            <div *ngSwitchDefault class="custom-image-state-in-progress">
               <mat-progress-spinner
                 diameter="30"
                 mode="indeterminate"
                 strokeWidth="2">
               </mat-progress-spinner>
-              <span>
-                {{ element.state }}
+              <span class="custom-image-state-name">
+                {{ getHumanReadableStateString(element) }}
               </span>
-              <button  mat-button
-                       matTooltip="Toggle log screen"
-                       class="toggle-log-button"
-                       *ngIf="element.log"
-                       (click)="toggleLog()">
+              <span class="custom-image-state-description">
+                {{ getStateExplanation(element) }}
+              </span>
+              <button (click)="toggleLog()"
+                      *ngIf="element.log"
+                      class="toggle-log-button"
+                      mat-button
+                      matTooltip="Toggle log screen">
                 <mat-icon class="material-icons-outlined">terminal</mat-icon>
                 <span *ngIf="!isLogVisible">Open</span><span *ngIf="isLogVisible">Close</span>  log
               </button>

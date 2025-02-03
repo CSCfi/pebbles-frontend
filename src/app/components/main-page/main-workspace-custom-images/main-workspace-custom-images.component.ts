@@ -30,8 +30,8 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   @Input() isWorkspaceExpired = false;
 
   protected readonly BuildState = BuildState;
-  public displayedColumns: string[] = ['name','meta','action'];
-  public customImageList: CustomImageRow[] =[];
+  public displayedColumns: string[] = ['name', 'meta', 'action'];
+  public customImageList: CustomImageRow[] = [];
   public customImageDataSource: CustomImageRow[] = [];
 
   baseImages: string[];
@@ -88,7 +88,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
 
   getCustomImages(): CustomImage[] {
     const cis = this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId).sort(
-      (a,b) => Number(b.started_at) - Number(a.started_at))
+      (a, b) => Number(b.started_at) - Number(a.started_at))
     return cis ? Object.assign([], cis).reverse() : [];
   }
 
@@ -124,6 +124,27 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     );
   }
 
+  getHumanReadableStateString(ci: CustomImage): string {
+    if (ci.state === BuildState.New) {
+      return 'Queuing';
+    }
+    const state = ci.state.substring(0, 1).toUpperCase() + ci.state.substring(1);
+    return state;
+  }
+
+  getStateExplanation(ci: CustomImage): string {
+    switch (ci.state) {
+      case BuildState.New:
+        return 'Waiting for the build system to pick this up';
+      case BuildState.Building:
+        const elapsedMinutes = Math.round((Date.now() - Date.parse(ci.started_at + 'Z')) / 1000 / 60);
+        const minuteString = elapsedMinutes === 1 ?
+          elapsedMinutes + ' minute ago' : elapsedMinutes + ' minutes ago';
+        return 'This will take a while, please be patient. Build started ' + minuteString + '.';
+    }
+    return '';
+  }
+
   private rebuildDataSource() {
     const images = this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId);
     if (!images) {
@@ -134,7 +155,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   }
 
   private composeDataSource(cis: CustomImage[]) {
-    if(!cis) return [];
+    if (!cis) return [];
 
     const rows = [];
     cis.forEach(image => {
@@ -147,6 +168,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
         dockerfile: image.dockerfile,
         log: image.build_system_output,
         definition: image.definition,
+        started_at: image.started_at,
       })
     });
     // Sort in descending order by tag. New images without tag are first.

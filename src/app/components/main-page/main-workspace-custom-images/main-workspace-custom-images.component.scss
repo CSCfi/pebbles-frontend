@@ -166,14 +166,21 @@
           }
         }
 
-        .custom-image-state-building {
+        .custom-image-state-in-progress {
           display: flex;
           flex-direction: row;
           align-items: center;
           padding: 10px;
           gap: 10px;
           color: $secondary-color;
-          font-weight: 600;
+
+          .custom-image-state-name {
+            font-weight: 600;
+          }
+
+          .custom-image-state-description {
+            color: gray;
+          }
         }
       }
 
