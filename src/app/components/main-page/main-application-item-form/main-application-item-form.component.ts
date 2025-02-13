@@ -43,7 +43,6 @@ export class MainApplicationItemFormComponent implements OnInit {
   applicationItemEditFormGroup: UntypedFormGroup;
 
   isAlwaysPullImage: boolean;
-  applicationType: ApplicationType;
   sessionLifetimeHours: number;
   sessionMemoryGiB: number;
   sessionMemoryMaxGiB: number;
@@ -150,7 +149,6 @@ export class MainApplicationItemFormComponent implements OnInit {
     this.applicationItemEditFormGroup.controls.isEnableSharedFolder.setValue(!this.data.isWorkspacePublic);
     this.applicationItemEditFormGroup.controls.isEnableUserWorkFolder.setValue(!this.data.isWorkspacePublic);
     this.applicationItemEditFormGroup.controls.publish.setValue(false);
-    this.applicationType = ApplicationType.Generic;
     this.applicationItemEditFormGroup.controls.sessionLifetimeHours.setValue(4);
     this.applicationItemEditFormGroup.controls.sessionMemoryGiB.setValue(1);
 
@@ -165,10 +163,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   setEditForm(): void {
     this.selectedDownloadMethod = this.data.application.config.download_method;
-    this.applicationType = this.applicationTemplateService.getApplicationTemplates().find(
-      x => x.id === this.data.application.template_id
-    ).application_type;
-
     this.isAlwaysPullImage = coerceBooleanProperty(this.data.application.config.always_pull_image);
 
     // if custom image is not set, populate config.image_url with info.base_config_image
@@ -296,7 +290,6 @@ export class MainApplicationItemFormComponent implements OnInit {
 
   onChangeApplicationTemplate(val: string): void {
     const tmpl = this.applicationTemplates.find(x => x.id === val);
-    this.applicationType = tmpl.application_type;
     // take the default label values from the template
     if (tmpl.base_config.labels) {
       this.selectedLabels = tmpl.base_config.labels.slice();
