@@ -21,7 +21,7 @@
       <!--      </ng-container>-->
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th *matHeaderCellDef class="col-name" mat-header-cell> name</th>
+        <th *matHeaderCellDef class="col-name" mat-header-cell> Name / Tag</th>
         <td mat-cell *matCellDef="let element" class="col-name" [ngSwitch]="element.state">
           <div class="custom-image-name"> {{ element.name }}</div>
           <div class="custom-image-tag" *ngSwitchCase="BuildState.Completed">
@@ -38,10 +38,10 @@
           <div class="custom-image-state" [ngSwitch]="element.state">
             <!-- Custom image state COMPLETED -->
             <div *ngSwitchCase="BuildState.Completed" class="custom-image-url">
-              <mat-icon class="material-icons-outlined">link</mat-icon>
+              <mat-icon class="material-icons-outlined" matTooltip="Custom image URL">link</mat-icon>
               <code>{{ element.url }}</code>
               <button mat-button
-                      matTooltip="Copy"
+                      matTooltip="Copy URL"
                       cdkFocusInitial
                       autofocus
                       [cdkCopyToClipboard]="element.url">
@@ -97,7 +97,7 @@
 
           <!-- Dockerfile -->
           <div class="custom-image-dockerfile">
-            <fa-icon [icon]="['fab','docker']"></fa-icon>
+            <fa-icon [icon]="['fab','docker']" matTooltip="Dockerfile"></fa-icon>
             <code>
               <div class="long">
                 <ng-container *ngFor="let line of element.dockerfile.split('\n'); index as i">
@@ -112,7 +112,7 @@
 
       <!-- Action button -->
       <ng-container matColumnDef="action">
-        <th *matHeaderCellDef class="col-actions" mat-header-cell> action</th>
+        <th *matHeaderCellDef class="col-actions" mat-header-cell>actions</th>
         <td mat-cell *matCellDef="let element" class="col-actions">
           <button (click)="buildImageDialog(element)"
                   aria-label="Create new version"

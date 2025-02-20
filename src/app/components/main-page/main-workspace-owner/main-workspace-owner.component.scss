@@ -259,8 +259,6 @@
       width: 100%;
 
       ::ng-deep.mat-mdc-tab-header {
-        //padding-right: 230px;
-        //padding-left: 150px;
         height: 50px;
         background: $primary-light-color;
 
@@ -275,8 +273,7 @@
           font-weight: 600;
           letter-spacing: normal;
           flex: 0 1 auto;
-          min-width: 100px;
-          border-radius: 3px;
+          border-radius: 3px 3px 0 0;
           padding: 0 15px;
 
           .mdc-tab__text-label {
@@ -318,7 +315,7 @@
 
           // ---- For info tab
           &#mat-tab-label-0-3 {
-            min-width: 60px;
+            min-width: 60px !important;
             width: 60px !important;
             padding: 0 10px;
 

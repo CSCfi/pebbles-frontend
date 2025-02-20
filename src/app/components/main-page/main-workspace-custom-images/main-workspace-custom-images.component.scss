@@ -141,6 +141,10 @@
             padding: 3px;
             height: 25px;
             text-align: center;
+
+            mat-icon {
+              margin-right: 0 !important;
+            }
           }
         }
 

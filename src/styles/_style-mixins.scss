@@ -376,6 +376,20 @@ $sides: (
     font-size: 24px;
   }
 
+  &__library:before {
+    font-family: "Material Icons Outlined";
+    content: "\e02e";
+    margin-right: 5px;
+    font-size: 24px;
+  }
+
+  &__hint:before {
+    font-family: "Material Icons Outlined";
+    content: "\e0f0";
+    margin-right: 10px;
+    font-size: 24px;
+  }
+
   &__workspace:before {
     font-family: "Material Icons";
     content: "\e7ef";

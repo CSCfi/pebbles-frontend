@@ -227,6 +227,7 @@ mat-dialog-container {
 
   form button {
     font-size: 1.6rem !important;
+    min-height: 40px;
 
     .mat-icon {
       color: $light-text-color !important;

@@ -20,18 +20,26 @@
     .custom-image-form-left {
       flex: 1 1 50%;
 
-      .package-instructions {
-        font-weight: bold;
-      }
-
       h3 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         margin-bottom: 5px;
       }
 
       mat-form-field {
         width: 100%;
         margin: 5px 0;
+      }
+
+      .package-form-wrapper {
+        .package-instructions {
+          @include headline-5();
+          margin-bottom: 20px;
+        }
+
+        .mat-subtitle {
+          @include center(vertical);
+          font-size: 1.4rem;
+        }
       }
     }
 
@@ -92,7 +100,7 @@
       z-index: 1000;
       padding: 5px 15px 5px 20px;
       border-radius: 50px;
-      color: $secondary-color;
+      color: $primary-color;
       margin-left: auto;
 
       &:after {

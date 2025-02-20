@@ -50,21 +50,26 @@
               </ng-container>
             </section>
 
+            <!-- 3 custom package -->
             <section class="form-container">
-              <h3 class="package-instructions">
-                Customize your image by adding apt or pip packages as a space separated list
-              </h3>
-              <ng-container *ngFor="let content of imageContent">
-                <h3 class="mat-title">{{ getContentDescription(content.kind) }}</h3>
-                <mat-form-field appearance="fill">
-                  <input (input)="updateExtraContent()" formControlName="{{content.kind}}" matInput
-                         value="content.data">
-                </mat-form-field>
-              </ng-container>
+              <div class="package-form-wrapper">
+                <h3 class="mat-title">Packages</h3>
+                <div class="package-instructions">
+                  <span >Customize your image by adding apt or pip packages as a space separated list</span>
+                </div>
+                <ng-container *ngFor="let content of imageContent">
+                  <h4 class="mat-subtitle icon__library">{{ getContentDescription(content.kind) }}</h4>
+                  <mat-form-field appearance="fill">
+                    <input (input)="updateExtraContent()" formControlName="{{content.kind}}" matInput
+                           value="content.data">
+                  </mat-form-field>
+                </ng-container>
+              </div>
             </section>
           </div>
         </div>
       </div>
+
       <div class="custom-image-form-right">
         <div class="custom-image-form-generated-dockerfile">
           <h5>Generated dockerfile</h5>
