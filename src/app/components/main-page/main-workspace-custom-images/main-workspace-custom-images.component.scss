@@ -239,5 +239,11 @@
         box-shadow: none;
       }
     }
+
+    .mat-column-action {
+      button.mat-mdc-button-disabled {
+        background: none !important;
+      }
+    }
   }
 }
