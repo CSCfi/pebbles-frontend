@@ -141,4 +141,26 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   extendValidity(): void {
 
   }
+
+  openRegenerateJoinCodeDialog(): void {
+    this.dialog.open(DialogComponent, {
+      width: '600px',
+      autoFocus: false,
+      data: {
+        dialogTitle: 'Generate a new workspace join code',
+        dialogContent: `<p>Are you sure you want to generate a new join code for <b>"${this.workspace.name}"?</b></p>` +
+          `<p>Existing join code will not work after this, and new workspace members will need to use`+
+          ` the new one to join.</p>`,
+        dialogActions: ['cancel', 'confirm']
+      }
+    }).afterClosed().subscribe((result) => {
+      if (result) {
+        this.workspaceService.regenerateJoinCode(this.workspace.id).subscribe((res) => {
+          // assign the updated workspace
+          this.workspace = res;
+          this.openJoinCodeDialog();
+        });
+      }
+    });
+  }
 }

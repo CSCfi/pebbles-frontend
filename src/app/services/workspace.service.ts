@@ -219,4 +219,13 @@ export class WorkspaceService {
       })
     );
   }
+
+  regenerateJoinCode(workspaceId: string): Observable<Workspace> {
+    const url = `${buildConfiguration.apiUrl}/workspaces/${workspaceId}/regenerate_join_code`;
+    return this.http.post<Workspace>(url, {}).pipe(
+      tap(_ => {
+        this.fetchWorkspaces().subscribe();
+      })
+    );
+  }
 }
