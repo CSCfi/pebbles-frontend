@@ -1,18 +1,14 @@
 @import "src/styles/main.scss";
 
 #workspace-applications-container {
-  padding: 20px 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  height: calc(100vh - 70px);
-  overflow: hidden;
+  gap: 10px;
 
-  .application-header {
-    width: 100%;
-  }
+  padding: 20px 40px 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 
   .application-actions {
     display: flex;
@@ -39,16 +35,25 @@
     }
   }
 
+  .application-header {
+    width: 100%;
+  }
+
   ::ng-deep.mat-mdc-form-field-subscript-wrapper {
     margin-bottom: -15px;
   }
 
   .table-container {
+    min-height: 180px;
+    max-height: calc(100vh - 240px);
     overflow: auto;
   }
 
-  table {
+  .paginator-wrapper {
+    height: 60px;
+  }
 
+  table {
     tr {
       border: 2px solid $mid-dark-line;
     }

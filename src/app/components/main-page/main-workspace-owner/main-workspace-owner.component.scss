@@ -9,7 +9,7 @@
 
   .workspace-list-container {
     flex: 0 1 350px;
-    min-width: 300px;
+    min-width: 350px;
     max-width: 350px;
     height: 100vh;
 
@@ -74,7 +74,6 @@
   }
 
   .workspace-list-container {
-    flex-grow: 1;
 
     .workspace-list {
       overflow: auto;
@@ -252,6 +251,7 @@
     background: $primary-light-color;
     border: 5px solid $primary-light-color;
     border-top: 10px solid $primary-light-color;
+    border-bottom: 0;
 
     mat-tab-group {
       height: 100vh;

@@ -1,16 +1,17 @@
 @import "src/styles/main.scss";
 
 #workspace-members-container {
-  padding: 20px 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  height: calc(100vh - 70px);
-  overflow: hidden;
+  gap: 10px;
+
+  padding: 20px 40px 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 
   .member-header {
+    flex: 0 0 60px;
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -34,9 +35,23 @@
     }
   }
 
+  .table-container {
+    flex: 1 0 auto;
+    height: 72px;
+    overflow: auto;
+  }
+
+  .status-info-container {
+    flex-grow: 5;
+    margin-top: 0 !important;
+  }
+
+  .paginator-wrapper {
+    flex: 0 0 60px;
+  }
+
   table {
     font-size: 1.2rem;
-    margin-top: 10px;
 
     tr {
       border: 2px solid $mid-dark-line;

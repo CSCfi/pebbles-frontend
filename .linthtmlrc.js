@@ -38,7 +38,6 @@ module.exports = {
   "attr-new-line": false,
   "attr-validate": true,
   "id-no-dup": true,
-  "id-class-no-ad": true,
   "id-class-style": false,
   "class-no-dup": true,
   "class-style": false,

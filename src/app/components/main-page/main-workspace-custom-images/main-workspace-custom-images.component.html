@@ -1,4 +1,5 @@
-<div id="workspace-custom-images">
+<div id="workspace-custom-images-container">
+
   <div class="actions">
     <button (click)="buildImageDialog(null)"
             [disabled]="!isQuotaLeft() || isWorkspaceExpired"
@@ -14,133 +15,135 @@
   </div>
 
   <ng-container *ngIf="dataSource?.length > 0; else noImage">
-    <table [dataSource]="dataSource" class="custom-image-table" mat-table>
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th *matHeaderCellDef class="col-name" mat-header-cell> Name / Tag</th>
-        <td mat-cell *matCellDef="let element" class="col-name" [ngSwitch]="element.state">
-          <div class="custom-image-name"> {{ element.name }}</div>
-          <div class="custom-image-tag" *ngSwitchCase="BuildState.Completed">
-            <mat-icon class="material-icons-outlined">sell</mat-icon>
-            <span class="tag-text"> {{ element.tag }} </span>
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- Custom image META -->
-      <ng-container matColumnDef="meta">
-        <th *matHeaderCellDef mat-header-cell> Custom Image Info</th>
-        <td mat-cell *matCellDef="let element">
-          <div class="custom-image-state" [ngSwitch]="element.state">
-            <!-- Custom image state COMPLETED -->
-            <div *ngSwitchCase="BuildState.Completed" class="custom-image-url">
-              <mat-icon class="material-icons-outlined" matTooltip="Custom image URL">link</mat-icon>
-              <code>{{ element.url }}</code>
-              <button mat-button
-                      matTooltip="Copy URL"
-                      cdkFocusInitial
-                      autofocus
-                      [cdkCopyToClipboard]="element.url">
-                <mat-icon fontSet="material-icons-outlined" class="md-24">content_copy</mat-icon>
-              </button>
+    <div class="table-container">
+      <table [dataSource]="dataSource" class="custom-image-table" mat-table>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef class="col-name" mat-header-cell> Name / Tag</th>
+          <td mat-cell *matCellDef="let element" class="col-name" [ngSwitch]="element.state">
+            <div class="custom-image-name"> {{ element.name }}</div>
+            <div class="custom-image-tag" *ngSwitchCase="BuildState.Completed">
+              <mat-icon class="material-icons-outlined">sell</mat-icon>
+              <span class="tag-text"> {{ element.tag }} </span>
             </div>
-            <!-- Custom image state FAILED -->
-            <div *ngSwitchCase="BuildState.Failed"
-                 class="custom-image-fail-message">
-              <span class="fail-state">
-                <mat-icon class="material-icons-outlined warning-message">sentiment_very_dissatisfied</mat-icon>
-                <span>Failed</span>
-              </span>
-              <button (click)="toggleLog(element.id)"
-                      *ngIf="element.build_system_output"
-                      class="toggle-log-button"
-                      mat-button
-                      matTooltip="Toggle log screen">
+          </td>
+        </ng-container>
+
+        <!-- Custom image META -->
+        <ng-container matColumnDef="meta">
+          <th *matHeaderCellDef mat-header-cell> Custom Image Info</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="custom-image-state" [ngSwitch]="element.state">
+              <!-- Custom image state COMPLETED -->
+              <div *ngSwitchCase="BuildState.Completed" class="custom-image-url">
+                <mat-icon class="material-icons-outlined" matTooltip="Custom image URL">link</mat-icon>
+                <code>{{ element.url }}</code>
+                <button mat-button
+                        matTooltip="Copy URL"
+                        cdkFocusInitial
+                        autofocus
+                        [cdkCopyToClipboard]="element.url">
+                  <mat-icon fontSet="material-icons-outlined" class="md-24">content_copy</mat-icon>
+                </button>
+              </div>
+              <!-- Custom image state FAILED -->
+              <div *ngSwitchCase="BuildState.Failed"
+                   class="custom-image-fail-message">
+                <span class="fail-state">
+                  <mat-icon class="material-icons-outlined warning-message">sentiment_very_dissatisfied</mat-icon>
+                  <span>Failed</span>
+                </span>
+                <button (click)="toggleLog(element.id)"
+                        *ngIf="element.build_system_output"
+                        class="toggle-log-button"
+                        mat-button
+                        matTooltip="Toggle log screen">
+                  <mat-icon class="material-icons-outlined">terminal</mat-icon>
+                  <span *ngIf="!isLogVisible(element.id); then openLog else closeLog"></span>
+                  <ng-template #openLog>Open log</ng-template>
+                  <ng-template #closeLog>Close log</ng-template>
+                </button>
+              </div>
+
+              <!-- Custom image state NEW / BUILDING / DELETING -->
+              <div *ngSwitchDefault class="custom-image-state-in-progress">
+                <mat-progress-spinner
+                  diameter="30"
+                  mode="indeterminate"
+                  strokeWidth="2">
+                </mat-progress-spinner>
+                <span class="custom-image-state-name">
+                  {{ getHumanReadableStateString(element) }}
+                </span>
+                <span class="custom-image-state-description">
+                  {{ getStateExplanation(element) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Build log for failed images -->
+            <div *ngIf="isLogVisible(element.id) && element.build_system_output" class="custom-image-output">
+              <div class="output-label">
                 <mat-icon class="material-icons-outlined">terminal</mat-icon>
-                <span *ngIf="!isLogVisible(element.id); then openLog else closeLog"></span>
-                <ng-template #openLog>Open log</ng-template>
-                <ng-template #closeLog>Close log</ng-template>
+              </div>
+              <ng-container *ngFor="let line of element.build_system_output.split('\n'); index as i">
+                <div class="custom-image-output-line">
+                  <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Dockerfile -->
+            <div class="custom-image-dockerfile">
+              <fa-icon [icon]="['fab','docker']" matTooltip="Dockerfile"></fa-icon>
+              <code>
+                <div class="long">
+                  <ng-container *ngFor="let line of element.dockerfile.split('\n'); index as i">
+                    <div>{{ line }}</div>
+                  </ng-container>
+                </div>
+              </code>
+            </div>
+          </td>
+        </ng-container>
+        <!-- // Custom image META -->
+
+        <!-- Action button -->
+        <ng-container matColumnDef="action">
+          <th *matHeaderCellDef class="col-actions" mat-header-cell>actions</th>
+          <td mat-cell *matCellDef="let element" class="col-actions">
+            <button (click)="buildImageDialog(element)"
+                    aria-label="Create new version"
+                    matTooltip="Create new version"
+                    mat-icon-button>
+              <mat-icon fontSet="material-icons-outlined">post_add</mat-icon>
+            </button>
+            <button mat-icon-button
+                    matTooltip="Other actions"
+                    matTooltipPosition="left"
+                    [matMenuTriggerFor]="menu"
+                    aria-label="open application menu">
+              <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item disabled>
+                <mat-icon fontSet="material-icons-outlined">ios_share</mat-icon>
+                <span>copy custom image</span>
               </button>
-            </div>
+              <button mat-menu-item (click)="deleteCustomImage(element.id)">
+                <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
+                <span>delete custom image</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
 
-            <!-- Custom image state NEW / BUILDING / DELETING -->
-            <div *ngSwitchDefault class="custom-image-state-in-progress">
-              <mat-progress-spinner
-                diameter="30"
-                mode="indeterminate"
-                strokeWidth="2">
-              </mat-progress-spinner>
-              <span class="custom-image-state-name">
-                {{ getHumanReadableStateString(element) }}
-              </span>
-              <span class="custom-image-state-description">
-                {{ getStateExplanation(element) }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Build log for failed images -->
-          <div *ngIf="isLogVisible(element.id) && element.build_system_output" class="custom-image-output">
-            <div class="output-label">
-              <mat-icon class="material-icons-outlined">terminal</mat-icon>
-            </div>
-            <ng-container *ngFor="let line of element.build_system_output.split('\n'); index as i">
-              <div class="custom-image-output-line">
-                <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>
-              </div>
-            </ng-container>
-          </div>
-
-          <!-- Dockerfile -->
-          <div class="custom-image-dockerfile">
-            <fa-icon [icon]="['fab','docker']" matTooltip="Dockerfile"></fa-icon>
-            <code>
-              <div class="long">
-                <ng-container *ngFor="let line of element.dockerfile.split('\n'); index as i">
-                  <div>{{ line }}</div>
-                </ng-container>
-              </div>
-            </code>
-          </div>
-        </td>
-      </ng-container>
-      <!-- // Custom image META -->
-
-      <!-- Action button -->
-      <ng-container matColumnDef="action">
-        <th *matHeaderCellDef class="col-actions" mat-header-cell>actions</th>
-        <td mat-cell *matCellDef="let element" class="col-actions">
-          <button (click)="buildImageDialog(element)"
-                  aria-label="Create new version"
-                  matTooltip="Create new version"
-                  mat-icon-button>
-            <mat-icon fontSet="material-icons-outlined">post_add</mat-icon>
-          </button>
-          <button mat-icon-button
-                  matTooltip="Other actions"
-                  matTooltipPosition="left"
-                  [matMenuTriggerFor]="menu"
-                  aria-label="open application menu">
-            <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item disabled>
-              <mat-icon fontSet="material-icons-outlined">ios_share</mat-icon>
-              <span>copy custom image</span>
-            </button>
-            <button mat-menu-item (click)="deleteCustomImage(element.id)">
-              <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
-              <span>delete custom image</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-
-      <!--  Row shown when there is no matching data. -->
-      <tr mat-header-row
-          *matHeaderRowDef="displayedColumns"></tr>
-      <tr *matRowDef="let row; columns:displayedColumns" mat-row> No match</tr>
-    </table>
+        <!--  Row shown when there is no matching data. -->
+        <tr mat-header-row
+            *matHeaderRowDef="displayedColumns"></tr>
+        <tr *matRowDef="let row; columns:displayedColumns" mat-row> No match</tr>
+      </table>
+    </div>
   </ng-container>
   <ng-template #noImage>
     <section class="status-info-container">

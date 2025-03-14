@@ -1,10 +1,16 @@
 @import "src/styles/main.scss";
 
-#workspace-custom-images {
-  padding: 30px;
+#workspace-custom-images-container {
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 20px 40px 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 
   .actions {
-    margin-bottom: 10px;
     text-align: right;
 
     button {
@@ -14,6 +20,12 @@
     .max-quota-warning {
       text-align: center;
     }
+  }
+
+  .table-container {
+    flex: 1 0 auto;
+    height: 100px;
+    overflow: auto;
   }
 
   table {

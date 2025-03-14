@@ -27,20 +27,20 @@
     </button>
   </div>
 
-  <!-- table -->
-  <!--
-    - Thumbnail column
-    - Info column
-        - name
-        - lifetime
-        - application template
-        - state
-        - description
-    - test launch button column
-    - menu button column
-   -->
-  <div class="table-container">
-    <ng-container *ngIf="dataSource?.data.length > 0; else noApplications">
+  <ng-container *ngIf="dataSource?.data.length > 0; else noApplications">
+    <!-- table -->
+    <!--
+      - Thumbnail column
+      - Info column
+          - name
+          - lifetime
+          - application template
+          - state
+          - description
+      - test launch button column
+      - menu button column
+     -->
+    <div class="table-container">
       <table mat-table [dataSource]="dataSource" [ngClass]="{'expired': isWorkspaceExpired}">
         <!-- checkbox column -->
         <!--
@@ -196,7 +196,7 @@
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;">button</tr>
 
         <!-- Row shown when there is no matching data. -->
@@ -208,43 +208,43 @@
           </td>
         </tr>
       </table>
-    </ng-container>
-
-    <!-- No Application -->
-    <ng-template #noApplications>
-      <section class="status-info-container">
-        <div class="hint" *ngIf="dataSource !== null">
-          <div class="empty-status">
-            <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-          </div>
-          <div class="status-summary">No applications in this workspace yet.</div>
-          <div class="hint-content">
-            <h3>Hint</h3>
-            <ul>
-              <li>Create an application by clicking Application wizard or Application form above</li>
-              <li>Test the application and populate "shared_data" folder contents</li>
-              <li>Invite members using workspace join code</li>
-              <li>Publish the application for users</li>
-            </ul>
-            <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
-               class="tab-title" rel="noopener">
-              Open Documentation &nbsp;
-              <mat-icon>launch</mat-icon>
-            </a>
-          </div>
-        </div>
-        <div class="empty-status" *ngIf="dataSource === null">
-          <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-          <span class="status-summary">...Loading...</span>
-        </div>
-      </section>
-    </ng-template>
-
-    <!-- Paginator -->
-    <div [hidden]="!isPaginatorVisible">
-      <mat-paginator
-        [pageSizeOptions]="pageSizeOptions">
-      </mat-paginator>
     </div>
+  </ng-container>
+
+  <!-- No Application -->
+  <ng-template #noApplications>
+    <section class="status-info-container">
+      <div class="hint" *ngIf="dataSource !== null">
+        <div class="empty-status">
+          <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+        </div>
+        <div class="status-summary">No applications in this workspace yet.</div>
+        <div class="hint-content">
+          <h3>Hint</h3>
+          <ul>
+            <li>Create an application by clicking Application wizard or Application form above</li>
+            <li>Test the application and populate "shared_data" folder contents</li>
+            <li>Invite members using workspace join code</li>
+            <li>Publish the application for users</li>
+          </ul>
+          <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
+             class="tab-title" rel="noopener">
+            Open Documentation &nbsp;
+            <mat-icon>launch</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="empty-status" *ngIf="dataSource === null">
+        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
+        <span class="status-summary">...Loading...</span>
+      </div>
+    </section>
+  </ng-template>
+
+  <!-- Paginator -->
+  <div [hidden]="!isPaginatorVisible">
+    <mat-paginator
+      [pageSizeOptions]="pageSizeOptions">
+    </mat-paginator>
   </div>
 </div>
