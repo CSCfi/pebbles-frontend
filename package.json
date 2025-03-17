@@ -52,7 +52,7 @@
     "@angular/cli": "^17.3.8",
     "@angular/compiler-cli": "^17.3.11",
     "@angular/language-service": "^17.3.11",
-    "@linthtml/linthtml": "^0.9.5",
+    "@linthtml/linthtml": "^0.10.1",
     "@types/jasmine": "~5.1.4",
     "@types/jasminewd2": "~2.0.13",
     "@types/node": "^18.19.3",
