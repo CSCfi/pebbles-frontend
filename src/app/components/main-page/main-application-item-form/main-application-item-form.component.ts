@@ -18,6 +18,7 @@ import { CustomImageService } from "../../../services/custom-image.service";
 import {
   MainSelectCustomImageDialogComponent
 } from '../main-select-custom-image-dialog/main-select-custom-image-dialog.component';
+import { PublicConfigService } from "../../../services/public-config.service";
 
 export interface ApplicationTemplateRow {
   name: string;
@@ -102,12 +103,17 @@ export class MainApplicationItemFormComponent implements OnInit {
     private applicationTemplateService: ApplicationTemplateService,
     private workspaceService: WorkspaceService,
     private dialog: MatDialog,
+    private publicConfigService: PublicConfigService,
   ) {
     // TODO: Needed in case application is not available (e.g test case)
     // if (this.data.application) {
     //   this.selectedLabels = this.data.application.labels;
     // }
     this.selectedLabels = [];
+  }
+
+  get isCustomImageButtonVisible(): boolean {
+    return this.customImages.length > 0 && this.publicConfigService.isFeatureEnabled('customImages');
   }
 
   ngOnInit(): void {

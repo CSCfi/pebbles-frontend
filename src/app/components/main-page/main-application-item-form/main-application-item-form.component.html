@@ -68,7 +68,7 @@
         <!-- 1-2 Container Image -->
         <section class="form-container">
           <h3>Container image</h3>
-          <section class="form-container" *ngIf="customImages.length > 0">
+          <section *ngIf="isCustomImageButtonVisible" class="form-container">
             <span matTooltip="Select a template first"
                   [matTooltipDisabled]="selectedApplicationTemplate !== null">
               <span matTooltip="Only Jupyter custom images are supported currently"

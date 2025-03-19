@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
+import { coerceBooleanProperty } from "@angular/cdk/coercion";
 
 @Injectable({
   providedIn: 'root'
@@ -122,6 +123,15 @@ export class PublicConfigService {
     return this.getPublicStructuredConfig()?.frontend?.loginButtonText;
   }
 
+  isFeatureEnabled(featureName: string) {
+    // local override in the browser for feature testing
+    if (coerceBooleanProperty(localStorage.getItem(`features.${featureName}`))) {
+      return true;
+    }
+    const features = this.getPublicStructuredConfig()?.frontend?.features;
+    return features ? features[featureName] : false;
+  }
+
   fetchPublicConfig(): Observable<any> {
     const url = `${buildConfiguration.apiUrl}/config`;
     return this.http.get(url).pipe(
@@ -142,5 +152,4 @@ export class PublicConfigService {
       })
     );
   }
-
 }

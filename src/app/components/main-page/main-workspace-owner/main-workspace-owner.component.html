@@ -165,7 +165,7 @@
           <app-main-workspace-members [workspace]="selectedWorkspace">
           </app-main-workspace-members>
         </mat-tab>
-        <mat-tab label="custom-images">
+        <mat-tab *ngIf="isCustomImagesFeatureEnabled" label="custom-images">
           <ng-template mat-tab-label>
             <mat-icon class="md-18">album</mat-icon>
             <span class="tab-title">Custom Images</span>

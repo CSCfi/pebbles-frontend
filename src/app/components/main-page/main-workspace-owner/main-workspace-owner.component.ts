@@ -53,6 +53,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     return this.workspaces?.length === 0;
   }
 
+  get isCustomImagesFeatureEnabled(): boolean {
+    return this.publicConfigService.isFeatureEnabled('customImages');
+  }
+
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
