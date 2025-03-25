@@ -60,6 +60,11 @@ button,
     &.mat-mdc-button-disabled {
       background-color: map-get($app-gray, 100) !important;
       color: $gray-text-color !important;
+      border: 1px solid var(--mdc-outlined-button-disabled-outline-color);
+
+      mat-icon {
+        color: $gray-text-color !important;
+      }
     }
   }
 
@@ -74,7 +79,7 @@ button,
 
   &.light-btn:not(:disabled) {
     background-color: $light-color !important;
-    color: $gray-dark-color !important;
+    color: $gray-extra-dark-color !important;
 
     &:hover {
       color: $secondary-color !important;
@@ -301,12 +306,19 @@ mat-dialog-container {
   text-align: center;
   margin-top: 10%;
   padding-bottom: 30px;
-  color: $gray-dark-color;
+  color: $gray-extra-dark-color;
 
   .empty-status .mat-icon {
+    margin: 10px 0;
     height: auto;
     width: auto;
     font-size: 6rem;
+  }
+
+  .status-headline {
+    @include headline-1;
+    font-size: 3rem;
+    margin-bottom: 10px;
   }
 
   .status-summary {
@@ -396,7 +408,7 @@ table {
     vertical-align: middle !important;
     text-align: center !important;
     text-transform: capitalize !important;
-    color: $gray-dark-color !important;
+    color: $gray-extra-dark-color !important;
 
     .mat-sort-header-container {
       align-items: center;
@@ -538,6 +550,37 @@ table {
     }
   }
 }
+
+
+.new-item {
+  .new-badge:after {
+    content: "New";
+    font-size: 1.1rem;
+    background: map-get($app-accent, default);
+    color: #fff;
+    padding: 2px 10px;
+    margin-left: 8px;
+    border-radius: 20px;
+  }
+}
+
+.soon-expiry-item {
+  .expiry-date {
+    padding: 2px 10px;
+    background: $warn-extra-light-color;
+  }
+
+  .warning-badge:after {
+    content: "Soon Expired";
+    font-size: 1.1rem;
+    background: $warn-dark-color;
+    color: #fff;
+    padding: 2px 10px;
+    margin-left: 8px;
+    border-radius: 20px;
+  }
+}
+
 
 // ----- MOBILE
 

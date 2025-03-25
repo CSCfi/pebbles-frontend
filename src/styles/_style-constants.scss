@@ -14,7 +14,8 @@ $light-color: #ffffff;
 $gray-color: rgba(#a7abb6, 0.87);
 $gray-extra-light-color: #ededf8;
 $gray-light-color: rgba(#d0d1e5, 0.87);
-$gray-dark-color: rgba(#2f3538, 0.87);
+$gray-extra-dark-color: rgba(#5b686e, 0.87);
+$gray-extra-dark-color: rgba(#2f3538, 0.87);
 
 $primary-color: #18227c;
 $primary-extra-light-color: #ededf8;
@@ -28,10 +29,13 @@ $secondary-dark-color: #006365;
 
 $accent-color: #ccff65;
 $accent-light-color: #e0faad;
+$accent-dark-color: #95c13c;
 
 $warn-color: #ffa494;
+$warn-extra-light-color: #ffebe8;
 $warn-light-color: #fac9c1;
 $warn-dark-color: #fc614d;
+$warn-extra-dark-color: #c33927;
 
 $light-line: rgba(#d1d1d1, 0.87);
 $dark-line: rgba(#2f3538, 0.87);

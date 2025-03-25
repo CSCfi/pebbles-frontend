@@ -29,7 +29,7 @@
   }
 
   &.expired-ws .card-media-container {
-    background-color: $gray-dark-color !important;
+    background-color: $gray-extra-dark-color !important;
   }
 
   .card-info-container {
@@ -133,7 +133,7 @@
 
   &.expired-ws {
     .workspace-name {
-      color: $gray-dark-color !important;
+      color: $gray-extra-dark-color !important;
     }
 
     background: $gray-light-color !important;

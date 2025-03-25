@@ -189,7 +189,7 @@
     <ng-container *ngIf="isWorkspaceDeleted">
       <section class="status-info-container">
         <div class="success-status">
-          <span class="status-summary mt-80">Workspace successfully deleted</span>
+          <span class="status-summary">Workspace successfully deleted</span>
           <mat-icon fontSet="material-icons-outlined" class="md-96">delete</mat-icon>
           <p class="status-postscript">
             Please select another workspace from the left column.
@@ -201,7 +201,7 @@
     <ng-container *ngIf="isNoWorkspace && !isWorkspaceDeleted">
       <div class="status-info-container">
         <div class="empty-status">
-          <h2 class="status-summary">No workspaces</h2>
+          <h2 class="status-headline">No workspaces</h2>
           <mat-icon fontSet="material-icons-outlined">touch_app</mat-icon>
           <span class="status-postscript">Start by creating a new workspace</span>
         </div>
