@@ -27,12 +27,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   public context: Data;
   public workspaces: Workspace[] = null;
   public selectedWorkspaceId: string;
-  public selectedWorkspace: Workspace;
-  public selectedTab = 0;
-  public newWorkspace: Workspace;
+  public selectedTab: number = 0;
+
   public user: User;
-  public applicationCount = 0;
-  public memberCount = 0;
   public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
   // store subscriptions here for unsubscribing destroy time
@@ -57,11 +54,19 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     return this.publicConfigService.isFeatureEnabled('customImages');
   }
 
+  get isWorkspaceExpired(): boolean {
+    return this.workspaceService.hasExpired(this.selectedWorkspace);
+  }
+
+  get selectedWorkspace(): Workspace {
+    return this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
+  }
+
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public workspaceService: WorkspaceService,
+    private workspaceService: WorkspaceService,
     private authService: AuthService,
     private accountService: AccountService,
     private applicationService: ApplicationService,
@@ -137,24 +142,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     }
     this.workspaces = Workspace.sortWorkspaces(this.workspaces, ['expiry', 'role', 'create_ts']);
 
-    // if no workspace selected and we have workspaces to select from, pick the first
+    // if no workspace selected, and we have workspaces to select from, pick the first
     if (this.autoSelectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
       this.selectWorkspace(this.workspaces[0].id);
       this.autoSelectFirstWorkspace = false;
-    }
-
-    // if there is a selection, update that
-    if (this.selectedWorkspaceId) {
-      this.selectedWorkspace = this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
-    }
-    // if there is a selected workspace, refresh the member counts
-    if (this.selectedWorkspace) {
-      this.memberCount = this.workspaceService.getWorkspaceMemberCount(this.selectedWorkspaceId);
-      this.applicationCount = this.applicationService.getApplicationsByWorkspaceId(this.selectedWorkspaceId)?.length;
-      if (!this.memberCount) {
-        // service has not been populated, trigger fetching of members
-        this.workspaceService.refreshWorkspaceMemberCount(this.selectedWorkspaceId);
-      }
     }
   }
 
@@ -168,7 +159,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     // save the workspace selection in url parameters to restore navigation state after a reload
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams: {id: workspaceId},
+      queryParams: {id: this.selectedWorkspaceId},
       queryParamsHandling: 'merge'
     }).then();
 
@@ -194,12 +185,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
   // ---- workspace creation
   // ----------------------------------------
-  isNewWorkspace(id: string): boolean {
-    if (this.newWorkspace) {
-      return this.newWorkspace.id === id;
-    }
-    return false;
-  }
 
   openWorkspaceCreationDialog(): void {
     const dialogRef = this.dialog.open(MainWorkspaceFormComponent, {
@@ -210,7 +195,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        this.newWorkspace = resp;
         this.selectWorkspace(resp.id);
       }
     });
@@ -267,21 +251,20 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   openDeleteWorkspaceDialog(): void {
+    let ws = this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
       autoFocus: false,
       data: {
         dialogTitle: 'Delete Workspace',
-        dialogContent: `<p>Are you sure to delete the workspace "${this.selectedWorkspace.name}"?</p>`,
+        dialogContent: `<p>Are you sure to delete the workspace "${ws.name}"?</p>`,
         dialogActions: ['confirm', 'cancel']
       }
     });
     dialogRef.afterClosed().subscribe(params => {
       if (params) {
-        this.workspaceService.deleteWorkspace(this.selectedWorkspace.id).subscribe(_ => {
+        this.workspaceService.deleteWorkspace(ws.id).subscribe(() => {
           this.isWorkspaceDeleted = true;
-          this.selectedWorkspace = null;
-          this.selectedWorkspaceId = null;
         });
       }
     });
@@ -305,7 +288,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
 
   focusTab(idx: number): void {
     if (!this.tabGroup) {
-      setTimeout(_ => this.focusTab(idx), 0);
+      setTimeout(() => this.focusTab(idx), 0);
       return;
     }
     this.tabGroup.selectedIndex = idx;
@@ -318,4 +301,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   openCourseRequest() {
     window.open(this.publicConfigService.getCourseRequestFormUrl(), '_blank');
   }
+
+  getItemLifecycleNote(workspace: Workspace) : string {
+    return this.workspaceService.getLifecycleStage(workspace);
+  }
+
 }
+

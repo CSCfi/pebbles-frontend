@@ -37,9 +37,11 @@
         <mat-card class="workspace-item {{getMembershipType(workspace)}}"
                   [ngClass]="{
                     'selected': isWorkspaceSelected(workspace),
-                    'new': isNewWorkspace(workspace.id),
-                    'archived': workspaceService.hasExpired(workspace)
-                    }"
+                    'new-item': getItemLifecycleNote(workspace) === 'new-item',
+                    'expiry-notice': getItemLifecycleNote(workspace) === 'expiry-in-20days',
+                    'expiry-warning': getItemLifecycleNote(workspace) === 'expiry-in-10days',
+                    'expired-item': getItemLifecycleNote(workspace) === 'expired-item'
+                  }"
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
           <div class="card-header">
@@ -53,7 +55,7 @@
             <ng-template #publicBlock>
               <mat-icon class="user-role-icon" [matTooltip]="getMembershipType(workspace)">public</mat-icon>
             </ng-template>
-            <div class="workspace-title">{{ workspace.name }}</div>
+            <div class="workspace-title state-banner">{{ workspace.name }}</div>
             <div class="workspace-selected-arrow"
                  *ngIf="isWorkspaceSelected(workspace)">
               <mat-icon>navigate_next</mat-icon>
@@ -144,23 +146,17 @@
           <ng-template mat-tab-label>
             <mat-icon>import_contacts</mat-icon>
             <span class="tab-title">Applications</span>
-            <mat-chip *ngIf="applicationCount > 0" class="chip__circle">
-              {{applicationCount}}
-            </mat-chip>
           </ng-template>
           <app-main-workspace-applications
             [workspaceId]="selectedWorkspaceId"
             [context]="context"
-            [isWorkspaceExpired]="workspaceService.hasExpired(selectedWorkspace)">
+            [isWorkspaceExpired]="isWorkspaceExpired">
           </app-main-workspace-applications>
         </mat-tab>
         <mat-tab label="members">
           <ng-template mat-tab-label>
             <mat-icon>person</mat-icon>
             <span class="tab-title">Members</span>
-            <mat-chip *ngIf="memberCount > 0" class="chip__circle">
-              {{memberCount}}
-            </mat-chip>
           </ng-template>
           <app-main-workspace-members [workspace]="selectedWorkspace">
           </app-main-workspace-members>
@@ -172,7 +168,7 @@
           </ng-template>
           <app-main-workspace-custom-images
             [workspaceId]="selectedWorkspaceId"
-            [isWorkspaceExpired]="workspaceService.hasExpired(selectedWorkspace)">
+            [isWorkspaceExpired]="isWorkspaceExpired">
           </app-main-workspace-custom-images>
         </mat-tab>
         <mat-tab label="info">
@@ -189,8 +185,8 @@
     <ng-container *ngIf="isWorkspaceDeleted">
       <section class="status-info-container">
         <div class="success-status">
-          <span class="status-summary">Workspace successfully deleted</span>
-          <mat-icon fontSet="material-icons-outlined" class="md-96">delete</mat-icon>
+          <h2 class="status-headline">Workspace successfully deleted</h2>
+          <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
           <p class="status-postscript">
             Please select another workspace from the left column.
           </p>

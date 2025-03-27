@@ -8,6 +8,7 @@ import { buildConfiguration } from '../../environments/environment';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 import { EventService } from './event.service';
+import { Utilities } from "../utilities";
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,27 @@ export class WorkspaceService {
 
   hasExpired(workspace: Workspace): boolean {
     return Workspace.hasExpired(workspace);
+  }
+
+  getLifecycleStage(ws: Workspace): string {
+
+    // ---- Check time gap since created
+    if ( Math.abs(Utilities.getTimeGap(ws.create_ts * 1000, 'minute')) < 10) {
+      return 'new-item';
+    }
+
+    if (this.hasExpired(ws)) {
+      return 'expired-item';
+    }
+
+    let daysLeft = Utilities.getTimeGap( new Date(ws.expiry_ts * 1000).getTime(), 'day');
+    if (daysLeft <= 10) {
+      return 'expiry-in-10days';
+    } else if (daysLeft <= 20) {
+      return 'expiry-in-20days';
+    }
+
+    return '';
   }
 
   joinWorkspace(joinCode: string): Observable<Workspace | string> {
@@ -151,7 +173,7 @@ export class WorkspaceService {
       expiry_ts = Math.floor(Date.now() / 1000 + 86400 * 30 * 3);
     }
     return this.http.post<Workspace>(url, {name, description, expiry_ts, workspace_type}).pipe(
-      tap((resp) => {
+      tap(()=> {
         this.fetchWorkspaces().subscribe();
         this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
       }),

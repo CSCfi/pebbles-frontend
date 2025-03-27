@@ -308,6 +308,7 @@ mat-dialog-container {
   padding-bottom: 30px;
   color: $gray-extra-dark-color;
 
+  .success-status .mat-icon,
   .empty-status .mat-icon {
     margin: 10px 0;
     height: auto;
