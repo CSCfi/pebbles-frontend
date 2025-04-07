@@ -8,6 +8,14 @@ export enum MembershipType {
   Member = 'member'
 }
 
+export enum LifeCycleNote {
+  New = 'new-item',
+  Expiring = 'expiring-item',
+  ExpiringSoon = 'expiring-soon-item',
+  Expired = 'expired-item',
+  Deleted = 'deleted-item'
+}
+
 // API ref: pebbles.models.Workspace
 export enum MembershipExpiryPolicyKind {
   MEP_PERSISTENT = 'persistent',
@@ -46,9 +54,7 @@ export class Workspace {
   }
 
   public static hasExpired(ws): boolean {
-    if (ws.expiry_ts) {
-      return Utilities.isExpiredTimestamp(ws.expiry_ts);
-    }
+    return ws?.expiry_ts ? Utilities.isExpiredTimestamp(ws.expiry_ts) : false;
   }
 
   public static equals(ws1: Workspace, ws2: Workspace): boolean {

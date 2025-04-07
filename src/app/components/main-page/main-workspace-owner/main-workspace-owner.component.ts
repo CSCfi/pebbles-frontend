@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, UntypedFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
-import { MembershipType, Workspace } from 'src/app/models/workspace';
+import {LifeCycleNote, MembershipType, Workspace} from 'src/app/models/workspace';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -35,8 +35,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
   private autoSelectFirstWorkspace = true;
-  private options: UntypedFormGroup;
-  private workspaceIdControl = new UntypedFormControl();
+  workspaceIdControl = new FormControl<string>('');
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
@@ -73,12 +72,8 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     private applicationTemplateService: ApplicationTemplateService,
     private eventService: EventService,
     private publicConfigService: PublicConfigService,
-    private fb: UntypedFormBuilder
   ) {
     this.createDemoWorkspaceClickTs = 0;
-    this.options = fb.group({
-      workspaceId: this.workspaceIdControl
-    });
   }
 
   ngOnInit(): void {
@@ -141,6 +136,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       });
     }
     this.workspaces = Workspace.sortWorkspaces(this.workspaces, ['expiry', 'role', 'create_ts']);
+    this.workspaceIdControl = new FormControl<string>(this.selectedWorkspaceId);
 
     // if no workspace selected, and we have workspaces to select from, pick the first
     if (this.autoSelectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
@@ -274,7 +270,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     return workspace.membership_type === 'manager' ? 'co-owner' : workspace.membership_type;
   }
 
-  handleTabChange($event: MatTabChangeEvent) {
+  handleTabChange($event: MatTabChangeEvent): void {
 
     this.selectedTab = $event.index;
 
@@ -294,17 +290,29 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     this.tabGroup.selectedIndex = idx;
   }
 
-  workspaceSelectChange() {
-    this.selectWorkspace(this.selectedWorkspaceId);
+  workspaceSelectChange(workspaceId: string): void {
+    this.isWorkspaceDeleted = false;
+    this.selectWorkspace(workspaceId);
   }
 
-  openCourseRequest() {
+  openCourseRequest(): void {
     window.open(this.publicConfigService.getCourseRequestFormUrl(), '_blank');
   }
 
-  getItemLifecycleNote(workspace: Workspace) : string {
-    return this.workspaceService.getLifecycleStage(workspace);
+  getWorkspaceById(id: string) : Workspace {
+    return this.workspaceService.getWorkspaceById(id);
   }
 
+  getItemLifecycleNote(workspace: Workspace) : LifeCycleNote | null {
+    return this.workspaceService.getLifecycleNote(workspace);
+  }
+
+  getWorkspaceClasses(workspace: Workspace) {
+    return {
+      'selected': this.isWorkspaceSelected(workspace),
+      [this.getItemLifecycleNote(workspace)]: true,
+      [this.getMembershipType(workspace)]: true
+    };
+  }
 }
 

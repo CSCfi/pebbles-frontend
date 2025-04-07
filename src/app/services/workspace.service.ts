@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
-import { Workspace, WorkspaceMember } from 'src/app/models/workspace';
+import { LifeCycleNote, Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
@@ -70,25 +70,27 @@ export class WorkspaceService {
     return Workspace.hasExpired(workspace);
   }
 
-  getLifecycleStage(ws: Workspace): string {
-
+  getLifecycleNote(ws: Workspace): LifeCycleNote | null {
+    if (!ws) {
+      return null;
+    }
     // ---- Check time gap since created
     if ( Math.abs(Utilities.getTimeGap(ws.create_ts * 1000, 'minute')) < 10) {
-      return 'new-item';
+      return LifeCycleNote.New;
     }
 
     if (this.hasExpired(ws)) {
-      return 'expired-item';
+      return LifeCycleNote.Expired;
     }
 
     let daysLeft = Utilities.getTimeGap( new Date(ws.expiry_ts * 1000).getTime(), 'day');
     if (daysLeft <= 10) {
-      return 'expiry-in-10days';
+      return LifeCycleNote.ExpiringSoon;
     } else if (daysLeft <= 20) {
-      return 'expiry-in-20days';
+      return LifeCycleNote.Expiring;
     }
 
-    return '';
+    return null;
   }
 
   joinWorkspace(joinCode: string): Observable<Workspace | string> {

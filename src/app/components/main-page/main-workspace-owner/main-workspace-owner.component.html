@@ -34,14 +34,8 @@
     <!-- Workspace list -->
     <div class="workspace-list" *ngIf="workspaces">
       <ng-container *ngFor="let workspace of workspaces">
-        <mat-card class="workspace-item {{getMembershipType(workspace)}}"
-                  [ngClass]="{
-                    'selected': isWorkspaceSelected(workspace),
-                    'new-item': getItemLifecycleNote(workspace) === 'new-item',
-                    'expiry-notice': getItemLifecycleNote(workspace) === 'expiry-in-20days',
-                    'expiry-warning': getItemLifecycleNote(workspace) === 'expiry-in-10days',
-                    'expired-item': getItemLifecycleNote(workspace) === 'expired-item'
-                  }"
+        <mat-card class="workspace-item"
+                  [ngClass]="getWorkspaceClasses(workspace)"
                   (click)="selectWorkspace(workspace.id)">
           <!-- widget header -->
           <div class="card-header">
@@ -55,7 +49,7 @@
             <ng-template #publicBlock>
               <mat-icon class="user-role-icon" [matTooltip]="getMembershipType(workspace)">public</mat-icon>
             </ng-template>
-            <div class="workspace-title state-banner">{{ workspace.name }}</div>
+            <div class="workspace-title lifecycle-corner-banner">{{ workspace.name }}</div>
             <div class="workspace-selected-arrow"
                  *ngIf="isWorkspaceSelected(workspace)">
               <mat-icon>navigate_next</mat-icon>
@@ -101,9 +95,22 @@
     <div class="mobile-workspace-list" *ngIf="workspaces">
       <mat-form-field appearance="fill">
         <mat-label>Select workspace</mat-label>
-        <mat-select [(value)]="selectedWorkspaceId" (selectionChange)="workspaceSelectChange()">
+        <mat-select [formControl]="workspaceIdControl"
+                    (selectionChange)="workspaceSelectChange(workspaceIdControl.value)">
+          <mat-select-trigger>
+            <span *ngIf="workspaceIdControl.value && getWorkspaceById(workspaceIdControl.value)">
+              <span class="lifecycle-badge"
+                    [ngClass]="getItemLifecycleNote(getWorkspaceById(workspaceIdControl.value))">
+                {{ getWorkspaceById(workspaceIdControl.value).name }}
+              </span>
+            </span>
+          </mat-select-trigger>
           <ng-container *ngFor="let workspace of workspaces">
-            <mat-option [value]="workspace.id">{{workspace.name}}</mat-option>
+            <mat-option
+              [value]="workspace.id"
+              class="workspace-selection">
+              <span class="lifecycle-badge" [ngClass]="getItemLifecycleNote(workspace)">{{workspace.name}}</span>
+            </mat-option>
           </ng-container>
         </mat-select>
       </mat-form-field>
