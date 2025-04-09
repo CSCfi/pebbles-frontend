@@ -53,7 +53,7 @@
         <span class="ml-10">...Loading...</span>
       </div>
       <div class="workspace-meta">
-        <div class="expiry-date">Valid till {{ workspace.expiry_ts | dateDisplay }}
+        <div class="expiry-date">Expires {{ workspace.expiry_ts | dateDisplay }}
           <span class="expiry-warning" [ngClass]="{'txt__warn-dark': isExpiredSoon }">
             ({{ workspace.expiry_ts | remainingDaysDisplay }})
           </span>

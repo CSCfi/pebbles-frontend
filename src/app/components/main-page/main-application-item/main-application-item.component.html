@@ -51,7 +51,7 @@
           <h5 class="expiry-date" [ngClass]="membershipType">
             <mat-icon matTooltip="Expires">event_available</mat-icon>
             <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='persistent'">
-              Expired by {{ application.info.workspace_expiry_ts | dateDisplay }}
+              Expires {{ application.info.workspace_expiry_ts | dateDisplay }}
             </ng-container>
             <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='activity_timeout'">
               Expires after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity
