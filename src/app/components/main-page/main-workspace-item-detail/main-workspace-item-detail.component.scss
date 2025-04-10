@@ -20,11 +20,12 @@
 
   .mat-mdc-form-field {
     width: 100%;
+    margin-top: 10px;
   }
 
   dl.workspace-info dd div.preview {
     display: grid;
-    grid-template-columns: max-content max-content;
+    grid-template-columns: auto 50px;
     grid-column-gap: 10px;
   }
 

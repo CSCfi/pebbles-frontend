@@ -16,11 +16,11 @@ export class MainWorkspaceFormComponent implements OnInit {
   workspaceTypeOptions: any[];
   workspaceType = 'fixed-time-course';
   validityMonths = 0;
+  descriptionMaxLength = 500;
   projectedExpiryTs: number;
 
-
-  errorHandling = (control: string, error: string) => {
-    return this.workspaceForm.controls[control].hasError(error);
+  get descriptionInput() {
+    return this.workspaceForm.get('description');
   }
 
   constructor(
@@ -47,7 +47,11 @@ export class MainWorkspaceFormComponent implements OnInit {
             return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
           }
         ]],
-      description: ['', [Validators.required]],
+      description: [
+        '', [
+          Validators.required,
+          Validators.maxLength(this.descriptionMaxLength)
+      ]],
       workspaceType: ['fixed-time-course', [Validators.required]],
       validityMonths: [null, [Validators.required]],
     });

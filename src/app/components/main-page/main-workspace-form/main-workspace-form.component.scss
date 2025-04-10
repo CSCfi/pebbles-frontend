@@ -57,6 +57,29 @@
   .mat-mdc-form-field {
     width: 100%;
   }
+
+  .workspace-description-form {
+    .mat-mdc-form-field {
+      padding-bottom: 15px;
+    }
+  }
+
+  .warning-message,
+  .direction-message {
+    padding: 10px 10px 10px 15px;
+    font-size: 1.4rem;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  .direction-message {
+    background: $secondary-extra-light-color;
+  }
+
+  .warning-message {
+    background: $warn-light-color;
+  }
+
 }
 
 // Could these be global?

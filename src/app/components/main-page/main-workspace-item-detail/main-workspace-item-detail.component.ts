@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MembershipType, Workspace } from 'src/app/models/workspace';
@@ -16,6 +16,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   public workspace: Workspace;
   public workspaceEditForm: UntypedFormGroup;
+  public descriptionMaxLength = 500;
   public isWorkspaceFormChanged = false;
   public isWorkspaceNameEditOn = false;
   public isWorkspaceDescriptionEditOn = false;
@@ -40,6 +41,10 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     return this.isEditable;
   }
 
+  get descriptionInput() {
+    return this.workspaceEditForm.get('description');
+  }
+
   constructor(
     public dialog: MatDialog,
     private formBuilder: UntypedFormBuilder,
@@ -48,7 +53,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   ) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.workspace = this.workspaceService.getWorkspaceById(this.workspaceId);
     this.initReactiveForm();
   }
@@ -69,7 +74,10 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
           return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
         }
       ]],
-      description: [this.workspace.description, [Validators.required]],
+      description: [this.workspace.description, [
+          Validators.required,
+          Validators.maxLength(this.descriptionMaxLength)
+      ]],
       isExtendExpiryChecked: [false],
     });
   }
@@ -136,10 +144,6 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       }
     });
     dialogRef.afterClosed().subscribe();
-  }
-
-  extendValidity(): void {
-
   }
 
   openRegenerateJoinCodeDialog(): void {

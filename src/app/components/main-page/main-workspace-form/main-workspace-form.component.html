@@ -1,4 +1,4 @@
-<div class="dialog-container" ngClass.lt-sm="mobile">
+<div class="dialog-container">
   <div class="corner-button-container">
     <button class="corner-button" mat-dialog-close mat-icon-button>
       <mat-icon>close</mat-icon>
@@ -37,16 +37,20 @@
             </mat-error>
           </mat-form-field>
         </section>
-        <section class="form-container">
+        <section class="form-container workspace-description-form">
           <!-- Description -->
           <mat-form-field appearance="fill">
             <mat-label>Workspace description</mat-label>
-            <textarea formControlName="description" matInput placeholder="Workspace description"></textarea>
+            <textarea formControlName="description" matInput
+                      placeholder="Workspace description"></textarea>
+            <mat-hint align="end">{{ descriptionInput?.value?.length || 0 }} / {{ descriptionMaxLength }}</mat-hint>
             <!-- error -->
-            <mat-error *ngIf="errorHandling('description', 'required')">
+            <mat-error *ngIf="workspaceForm.controls.description.hasError('required')">
               You must provide a <strong>description about the workspace</strong>
             </mat-error>
-            <!-- <mat-hint>Ex) </mat-hint> -->
+            <mat-error *ngIf="workspaceForm.controls.description.hasError('maxlength')">
+              Currently you have {{descriptionInput?.value?.length}} characters. Max length ({{ descriptionMaxLength }}) exceeded.
+            </mat-error>
           </mat-form-field>
         </section>
         <section class="form-container">
@@ -74,10 +78,10 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div *ngIf="workspaceType==='fixed-time-course' && projectedExpiryTs">
+          <div *ngIf="workspaceType==='fixed-time-course' && projectedExpiryTs" class="direction-message">
             Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
           </div>
-          <div *ngIf="workspaceType==='long-running-course' && projectedExpiryTs">
+          <div *ngIf="workspaceType==='long-running-course' && projectedExpiryTs" class="warning-message">
             Workspace members are automatically removed after 90 days of inactivity.
             Workspace will expire at {{ projectedExpiryTs | dateDisplay }}. You can extend the validity
             on the Workspace Info tab 13 months at a time.
