@@ -196,7 +196,8 @@ export class ApplicationService implements OnDestroy {
       return ['fab', 'js'];
     } else if (labels.includes('markup') || labels.includes('html')) {
       return ['fas', 'code'];
-    } else if (labels.includes('linux') || labels.includes('command line')) {
+    } else if (labels.includes('linux') || labels.includes('command') || labels.includes('terminal')
+        || labels.includes('cli')) {
       return ['fab', 'linux'];
     } else if (labels.includes('ai') || labels.includes('deep learning')) {
       return ['fas', 'brain'];

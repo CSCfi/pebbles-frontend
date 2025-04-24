@@ -7,7 +7,14 @@
     <div class="card-media-container"
          [ngClass]="application?.application_type">
       <div class="thumbnail">
-        <h1><fa-icon [icon]="applicationIcon"></fa-icon></h1>
+        <h1>
+          <ng-container *ngIf="isCustomLinuxIconAvailable; else elseBlock">
+            <app-custom-linux-icon></app-custom-linux-icon>
+          </ng-container>
+          <ng-template #elseBlock>
+            <fa-icon [icon]="applicationIcon" [ngClass]="applicationIcon"></fa-icon>
+          </ng-template>
+        </h1>
         <h4>{{ applicationTypeName }}</h4>
       </div>
     </div>

@@ -1,20 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faJs, faPython, faRProject, faDocker} from '@fortawesome/free-brands-svg-icons';
-import {
-  faAtom,
-  faBook,
-  faBrain,
-  faChartColumn,
-  faCircleNodes,
-  faCode,
-  faDna,
-  faLanguage
+import { faJs, faPython, faRProject, faDocker, faLinux
+} from '@fortawesome/free-brands-svg-icons';
+import { faAtom, faBook, faBrain, faChartColumn, faCircleNodes, faCode, faDna, faLanguage
 } from '@fortawesome/free-solid-svg-icons';
+import { CustomLinuxIconComponent } from "./components/shared/icons/custom-linux-icon.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CustomLinuxIconComponent
+  ],
+  exports: [
+    CustomLinuxIconComponent
+  ],
   imports: [
     CommonModule,
     FontAwesomeModule
@@ -35,7 +34,8 @@ export class IconModule {
       faLanguage,
       faChartColumn,
       faCircleNodes,
-      faDocker
+      faDocker,
+      faLinux
     );
   }
 }

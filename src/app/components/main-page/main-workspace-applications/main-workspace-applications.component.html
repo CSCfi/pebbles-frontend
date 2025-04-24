@@ -64,7 +64,7 @@
               [ngClass]="{'published': element.isEnabled, 'draft': !element.isEnabled}">
             <div class="thumbnail-placeholder">
               <div class="thumbnail">
-                <fa-icon [icon]="getApplicationIcon(element.labels)" class="md-24"></fa-icon>
+                <fa-icon [icon]="getApplicationIcon(element.labels)" [ngClass]="getApplicationIcon(element.labels)"></fa-icon>
                 <span>{{ getApplicationTypeName(element.type) }}</span>
               </div>
             </div>

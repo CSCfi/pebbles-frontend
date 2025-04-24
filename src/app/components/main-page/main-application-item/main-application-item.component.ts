@@ -18,6 +18,9 @@ export class MainApplicationItemComponent {
   @Input() context: Data;
   @Input() isSessionDeleted = false;
 
+  get isCustomLinuxIconAvailable(){
+    return this.applicationService.getApplicationIcon(this.application.labels)[1] === 'linux';
+  };
 
   get expirationDateGap(): number {
     if (!this.application.info.workspace_expiry_ts) {
