@@ -67,7 +67,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
-    // setup a timer to check the session state/progress
+    // set up a timer to check the session state/progress
     this.interval = window.setInterval(() => {
       this.checkSessionStatus();
     }, 1000);
@@ -104,7 +104,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
         index: 2,
         logEntry: 'waiting for volumes',
         message: 'Preparing folders',
-        longDurationMessage: 'We are processing folders for you application session.',
+        longDurationMessage: 'We are processing folders for your application session.',
       },
       {
         index: 3,
