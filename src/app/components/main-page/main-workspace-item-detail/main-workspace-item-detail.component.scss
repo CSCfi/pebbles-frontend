@@ -1,43 +1,122 @@
 @import "src/styles/main.scss";
 
 #workspace-setting-container {
-  padding: 40px;
+  padding: 30px 40px;
 
-  .open-join-code-button {
-    padding: 10px 0 !important;
+  mat-icon {
+    font-size: 2.4rem;
+    height: auto;
+    width: auto;
   }
 
-  dd {
-    margin-bottom: 30px;
-  }
+  form {
+    position: relative;
 
-  .preview {
-    button {
-      color: map-get($app-primary, light);
-      margin-top: -10px;
+    button.mat-mdc-icon-button {
+      color: $primary-light-color;
+
+      &:hover {
+        color: #FFFFFF;
+        background: $primary-light-color;
+      }
+    }
+
+    dl.workspace-info {
+      display: grid;
+      grid-template-columns: 200px auto;
+
+      dt {
+        min-height: 55px;
+        padding: 5px 10px;
+        @include center(vertical);
+
+        &:hover {
+          background-color: $primary-extra-light-color;
+        }
+
+        &:hover + dd {
+          background-color: $primary-extra-light-color;
+        }
+
+        &:has(+ dd:hover) {
+          background-color: $primary-extra-light-color;
+        }
+
+        &.no-hover-bg:hover,
+        &.no-hover-bg:hover + dd,
+        &.no-hover-bg:has(+ dd:hover){
+          background: none;
+        }
+      }
+
+      dd {
+        min-height: 55px;
+        padding: 5px 10px;
+
+
+        &:hover {
+           background-color: $primary-extra-light-color;
+        }
+
+        &.no-hover-bg:hover,
+        &.no-hover-bg:hover + dd,
+        &.no-hover-bg:has(+ dd:hover){
+          background: none;
+        }
+
+        div.preview,
+        div.join-code,
+        div.expiry-date {
+          min-height: 55px;
+          display: flex;
+          gap: 10px;
+          justify-content: space-between;
+          align-items: center;
+
+          p {
+            overflow-wrap: break-word;
+          }
+
+          .action-wrapper {
+            flex: 0 0 50px;
+          }
+        }
+      }
+    }
+
+    dd.delete-action {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+
+    button.workspace-delete-button {
+      margin-bottom: 2px;
+      width: 100%;
+      height: 45px;
+      max-width: 300px;
+      padding: 18px;
+      border: solid 3px $warn-color;
+      background: $warn-extra-light-color;
+      @include shadow(0.1);
+    }
+
+    .mat-mdc-form-field {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .open-join-code-button {
+      padding: 10px 0 !important;
+      background: none !important;
     }
   }
 
-  .mat-mdc-form-field {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  dl.workspace-info dd div.preview {
-    display: grid;
-    grid-template-columns: auto 50px;
-    grid-column-gap: 10px;
-  }
-
-  .extend-checkbox {
-    padding-left: 2em;
-  }
-
   .action-buttons {
-    margin-top: 30px;
+    margin-top: 0;
+    margin-bottom: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
     grid-gap: 10px;
 
     .workspace-update-button {
@@ -49,10 +128,18 @@
       grid-column: 3 / 4;
       grid-row: 1 / 2;
     }
+  }
 
-    .workspace-delete-button {
-      grid-column: 1 / 4;
-      grid-row: 2 / 3;
-    }
+}
+
+.expired-item,
+.expiring-soon-item,
+.expiring-item {
+
+  .expiry-date {
+    padding: 5px 10px;
+    background: $warn-extra-light-color;
+    font-weight: 600;
+    color: $warn-extra-dark-color;
   }
 }

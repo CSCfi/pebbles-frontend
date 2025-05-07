@@ -1,13 +1,15 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CustomImageService } from "../../../services/custom-image.service";
-import { BuildState, CustomImage } from "../../../models/custom-image";
 import { MatDialog as MatDialog } from "@angular/material/dialog";
+import { BuildState, CustomImage } from "src/app/models/custom-image";
+import { Workspace } from "src/app/models/workspace";
+import { CustomImageService } from "src/app/services/custom-image.service";
+import { ApplicationTemplateService } from "src/app/services/application-template.service";
+import { PublicConfigService } from "src/app/services/public-config.service";
+import { AuthService } from "src/app/services/auth.service";
+import { EventService } from "src/app/services/event.service";
 import { MainCustomImageFormComponent } from "../main-custom-image-form/main-custom-image-form.component";
-import { ApplicationTemplateService } from "../../../services/application-template.service";
-import { PublicConfigService } from "../../../services/public-config.service";
-import { AuthService } from "../../../services/auth.service";
-import { EventService } from "../../../services/event.service";
+
 
 export interface CustomImageRow extends CustomImage {
   index: number;
@@ -22,7 +24,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
-  @Input() workspaceId: string = null;
+  @Input() workspace: Workspace;
   @Input() isWorkspaceExpired = false;
 
   protected readonly BuildState = BuildState;
@@ -72,7 +74,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     // selected workspace changed, clear old data and rebuild data source
     this.dataSource = null;
     this.rebuildDataSource();
@@ -84,7 +86,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   }
 
   getCustomImages(): CustomImage[] {
-    return this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId);
+    return this.customImageService.getCustomImagesByWorkspaceId(this.workspace.id);
   }
 
   buildImageDialog(previousVersion: CustomImage): void {
@@ -100,7 +102,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     }).afterClosed().subscribe(customImage => {
       if (customImage.name) {
         return this.customImageService.createCustomImage(
-          customImage.name, this.workspaceId, customImage.definition
+          customImage.name, this.workspace.id, customImage.definition
         ).subscribe(() => {
             this.rebuildDataSource();
           }
@@ -131,8 +133,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     if (ci.state === BuildState.New) {
       return 'Queuing';
     }
-    const state = ci.state.substring(0, 1).toUpperCase() + ci.state.substring(1);
-    return state;
+    return ci.state.substring(0, 1).toUpperCase() + ci.state.substring(1);
   }
 
   getStateExplanation(ci: CustomImage): string {
@@ -149,7 +150,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   }
 
   private rebuildDataSource(): void {
-    const images = this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId);
+    const images = this.customImageService.getCustomImagesByWorkspaceId(this.workspace.id);
     if (!images) {
       return;
     }

@@ -1,19 +1,20 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Data } from '@angular/router';
+import { Data } from '@angular/router';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
+import { Workspace } from "src/app/models/workspace";
+import { ApplicationType } from 'src/app/models/application-template';
 import { ApplicationService } from 'src/app/services/application.service';
-import { ApplicationType } from '../../../models/application-template';
-import { EventService } from '../../../services/event.service';
-import { PublicConfigService } from '../../../services/public-config.service';
-import { SystemNotificationService } from '../../../services/system-notification.service';
-import { WorkspaceService } from '../../../services/workspace.service';
-import { Utilities } from '../../../utilities';
+import { EventService } from 'src/app/services/event.service';
+import { PublicConfigService } from 'src/app/services/public-config.service';
+import { SystemNotificationService } from 'src/app/services/system-notification.service';
+import { WorkspaceService } from 'src/app/services/workspace.service';
+import { Utilities } from 'src/app/utilities';
 import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
 import {
   MainApplicationWizardFormComponent
@@ -21,6 +22,7 @@ import {
 import {
   MainSelectWorkspaceDialogComponent
 } from '../main-select-workspace-dialog/main-select-workspace-dialog.component';
+
 
 export interface ApplicationRow {
   select: boolean;
@@ -61,11 +63,10 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() context: Data;
-  @Input() workspaceId: string = null;
+  @Input() workspace: Workspace;
   @Input() isWorkspaceExpired = false;
 
   constructor(
-    private route: ActivatedRoute,
     private applicationService: ApplicationService,
     private dialog: MatDialog,
     private eventService: EventService,
@@ -81,7 +82,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     }));
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     // selected workspace changed, clear old data and rebuild data source
     this.dataSource = null;
     this.rebuildDataSource();
@@ -102,7 +103,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       setTimeout(() => this.rebuildDataSource(), 0);
       return;
     }
-    const applications = this.applicationService.getApplicationsByWorkspaceId(this.workspaceId).sort(
+    const applications = this.applicationService.getApplicationsByWorkspaceId(this.workspace.id).sort(
       (a, b) => Number(b.is_enabled) - Number(a.is_enabled));
     this.dataSource = this.composeDataSource(applications);
     this.pageSizeOptions = Utilities.getPageSizeOptions(this.dataSource, this.minUnitNumber);
@@ -112,7 +113,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   }
 
   composeDataSource(applications: Application[]): MatTableDataSource<ApplicationRow> {
-    const workspace = this.workspaceService.getWorkspaceById(this.workspaceId);
+    const workspace = this.workspaceService.getWorkspaceById(this.workspace.id);
     return new MatTableDataSource(
       applications.map((app, i) => {
         return {
@@ -217,9 +218,9 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       height: '95vh',
       autoFocus: false,
       data: {
-        workspaceId: this.workspaceId,
+        workspaceId: this.workspace.id,
         application: applicationId ? this.getTargetApplication(applicationId) : null,
-        isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspaceId).name.startsWith('System.')
+        isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspace.id).name.startsWith('System.')
       }
     }).afterClosed().subscribe(_ => {
     });
@@ -232,18 +233,18 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       maxHeight: '95vh',
       autoFocus: false,
       data: {
-        workspaceId: this.workspaceId,
-        isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspaceId).name.startsWith('System.')
+        workspaceId: this.workspace.id,
+        isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspace.id).name.startsWith('System.')
       }
     }).afterClosed().subscribe(_ => {
     });
   }
 
-  getApplicationIcon(labels): IconProp {
+  getApplicationIcon(labels: string[]): IconProp {
     return this.applicationService.getApplicationIcon(labels);
   }
 
-  getApplicationTypeName(type): string {
+  getApplicationTypeName(type: ApplicationType): string {
     return this.applicationService.applicationTypeName(type);
   }
 }

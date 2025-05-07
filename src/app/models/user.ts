@@ -26,3 +26,10 @@ export interface WorkspaceMembership {
   is_manager: boolean;
   is_banned: boolean;
 }
+
+export enum UserRole {
+  Owner = 'owner',
+  Manager =  'manager',
+  Member = 'member',
+  Banned = 'banned'
+}

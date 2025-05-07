@@ -82,6 +82,8 @@
 
       .description {
         @include headline-4;
+        margin-top: 10px;
+        overflow-wrap: break-word;
       }
     }
 

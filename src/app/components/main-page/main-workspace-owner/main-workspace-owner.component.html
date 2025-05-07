@@ -58,9 +58,7 @@
           <!-- widget detail -->
           <mat-card-content class="workspace-info"
                             *ngIf="isWorkspaceSelected(workspace)">
-            <div class="description">
-              {{ workspace.description || 'No description for the workspace' }}
-            </div>
+            <div class="description" [innerHTML]="workspace.description"></div>
             <dl>
               <dt>Your role</dt>
               <dd class="user-role-txt">{{ getMembershipType(workspace) }}</dd>
@@ -155,9 +153,9 @@
             <span class="tab-title">Applications</span>
           </ng-template>
           <app-main-workspace-applications
-            [workspaceId]="selectedWorkspaceId"
-            [context]="context"
-            [isWorkspaceExpired]="isWorkspaceExpired">
+                [workspace]="selectedWorkspace"
+                [context]="context"
+                [isWorkspaceExpired]="isWorkspaceExpired">
           </app-main-workspace-applications>
         </mat-tab>
         <mat-tab label="members">
@@ -165,7 +163,8 @@
             <mat-icon>person</mat-icon>
             <span class="tab-title">Members</span>
           </ng-template>
-          <app-main-workspace-members [workspace]="selectedWorkspace">
+          <app-main-workspace-members
+                  [workspace]="selectedWorkspace">
           </app-main-workspace-members>
         </mat-tab>
         <mat-tab *ngIf="isCustomImagesFeatureEnabled" label="custom-images">
@@ -174,15 +173,15 @@
             <span class="tab-title">Custom Images</span>
           </ng-template>
           <app-main-workspace-custom-images
-            [workspaceId]="selectedWorkspaceId"
-            [isWorkspaceExpired]="isWorkspaceExpired">
+                [workspace]="selectedWorkspace"
+                [isWorkspaceExpired]="isWorkspaceExpired">
           </app-main-workspace-custom-images>
         </mat-tab>
-        <mat-tab label="info">
+        <mat-tab label="config">
           <ng-template mat-tab-label>
-            <mat-icon class="md-18">settings</mat-icon>
+            <mat-icon class="md-18" matTooltip="Settings...">settings</mat-icon>
           </ng-template>
-          <app-main-workspace-item-detail [workspaceId]="selectedWorkspaceId"
+          <app-main-workspace-item-detail [workspace]="selectedWorkspace"
                                           (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
           </app-main-workspace-item-detail>
         </mat-tab>

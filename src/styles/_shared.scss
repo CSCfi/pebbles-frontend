@@ -351,6 +351,10 @@ mat-dialog-container {
   --mdc-tab-indicator-active-indicator-height: 5px;
 }
 
+.mdc-tab {
+  min-width: 60px !important;
+}
+
 .mat-mdc-checkbox {
   --mdc-checkbox-selected-icon-color: #00969a;
   --mdc-checkbox-selected-checkmark-color: #ffffff;

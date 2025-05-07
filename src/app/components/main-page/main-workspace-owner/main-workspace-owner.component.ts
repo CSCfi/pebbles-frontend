@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, UntypedFormBuilder } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
-import {LifeCycleNote, MembershipType, Workspace} from 'src/app/models/workspace';
+import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
+import { User } from 'src/app/models/user';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { User } from '../../../models/user';
-import { AccountService } from '../../../services/account.service';
-import { EventService } from '../../../services/event.service';
-import { PublicConfigService } from '../../../services/public-config.service';
+import { AccountService } from 'src/app/services/account.service';
+import { EventService } from 'src/app/services/event.service';
+import { PublicConfigService } from 'src/app/services/public-config.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
 
@@ -308,6 +308,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   getWorkspaceClasses(workspace: Workspace) {
+    if (!workspace) {
+      return {};
+    }
+
     return {
       'selected': this.isWorkspaceSelected(workspace),
       [this.getItemLifecycleNote(workspace)]: true,

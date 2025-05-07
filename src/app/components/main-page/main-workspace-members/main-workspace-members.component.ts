@@ -1,19 +1,18 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from '../../../models/user';
-import { MembershipType, Workspace, WorkspaceMember } from '../../../models/workspace';
-import { AccountService } from '../../../services/account.service';
-import { AuthService } from '../../../services/auth.service';
-import { EventService } from '../../../services/event.service';
-import { SearchService } from '../../../services/search.service';
-import { WorkspaceService } from '../../../services/workspace.service';
-import { Utilities } from '../../../utilities';
+import { User, UserRole } from 'src/app/models/user';
+import { MembershipType, Workspace, WorkspaceMember } from 'src/app/models/workspace';
+import { AccountService } from 'src/app/services/account.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { EventService } from 'src/app/services/event.service';
+import { SearchService } from 'src/app/services/search.service';
+import { WorkspaceService } from 'src/app/services/workspace.service';
+import { Utilities } from 'src/app/utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 export interface MemberRow {
@@ -31,6 +30,9 @@ export interface MemberRow {
   styleUrls: ['./main-workspace-members.component.scss']
 })
 export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestroy {
+
+  @Input() workspace: Workspace;
+
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
@@ -55,13 +57,11 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     direction: 'asc',
     active: 'index'
   };
-  private roleOrder = ['owner', 'manager', 'member', 'banned'];
+  private roleOrder: UserRole[] = [
+      UserRole.Owner, UserRole.Manager, UserRole.Member, UserRole.Banned];
   @ViewChild(MatSort) sort: MatSort;
 
-  @Input() workspace: Workspace;
-
   constructor(
-    private route: ActivatedRoute,
     private dialog: MatDialog,
     private authService: AuthService,
     private accountService: AccountService,
@@ -78,7 +78,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     }));
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     // Whenever @Input workspace changes -> rebuild table data source
     if (this.workspaceService.getWorkspaceMembers(this.workspace.id)) {
       this.rebuildDataSource();
@@ -109,7 +109,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     }
     // wait for paginator to be initialized by Angular, otherwise defer to next tick
     if (!this.paginator) {
-      setTimeout(_ => this.rebuildDataSource(), 0);
+      setTimeout(() => this.rebuildDataSource(), 0);
       return;
     }
     this.memberList = this.composeDataSource(this.workspaceService.getWorkspaceMembers(this.workspace.id));
@@ -132,13 +132,14 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     const rows = [];
     // ---- to locate your account in the top of the list before indexing
     members.forEach(member => {
-      let role = 'member';
+      let role = UserRole.Member;
+
       if (member.is_banned) {
-        role = 'banned';
+        role = UserRole.Banned;
       } else if (member.is_owner) {
-        role = 'owner';
+        role = UserRole.Owner;
       } else if (member.is_manager) {
-        role = 'manager';
+        role = UserRole.Manager;
       }
       rows.push({
         userId: member.user_id,
@@ -176,12 +177,12 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     this.rebuildDataSource()
   }
 
-  displayMembershipType(role): string {
+  displayMembershipType(role: string): string {
     return role === MembershipType.Manager ? 'co-owner' : role;
   }
 
   isTransferOwnerActive(): boolean {
-    return (this.user?.is_admin || this.workspace.membership_type === 'owner');
+    return (this.user?.is_admin || this.workspace.membership_type === MembershipType.Owner);
   }
 
   transferOwnership(userId: string, email: string): void {
@@ -201,16 +202,16 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     });
   }
 
-  isPromoteCoOwnerActive(role): boolean {
-    return role === 'member' && this.workspace.membership_type !== 'public';
+  isPromoteCoOwnerActive(role: string): boolean {
+    return role === UserRole.Member && this.workspace.membership_type !== MembershipType.Public;
   }
 
   promoteMember(userId: string): void {
     this.workspaceService.promoteMember(this.workspace.id, userId).subscribe();
   }
 
-  isDemoteCoOwnerActive(role): boolean {
-    return role === 'manager';
+  isDemoteCoOwnerActive(role: string): boolean {
+    return role === UserRole.Manager;
   }
 
   demoteManager(userId: string): void {
@@ -251,7 +252,7 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
             return Utilities.compare(a.index, b.index, isAsc);
           case 'role':
             if (a.role === b.role) return b.index - a.index;
-            return (this.roleOrder.indexOf(a.role) - this.roleOrder.indexOf(b.role)) * (isAsc ? 1 : -1);
+            return (this.roleOrder.indexOf(<UserRole>a.role) - this.roleOrder.indexOf(<UserRole>b.role)) * (isAsc ? 1 : -1);
           default:
             return 0;
         }

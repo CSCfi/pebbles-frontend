@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MembershipType, Workspace } from 'src/app/models/workspace';
+import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
-import { MatCheckboxChange } from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-main-workspace-item-detail',
@@ -14,14 +13,12 @@ import { MatCheckboxChange } from "@angular/material/checkbox";
 })
 export class MainWorkspaceItemDetailComponent implements OnChanges {
 
-  public workspace: Workspace;
   public workspaceEditForm: UntypedFormGroup;
   public descriptionMaxLength = 500;
-  public isWorkspaceFormChanged = false;
   public isWorkspaceNameEditOn = false;
   public isWorkspaceDescriptionEditOn = false;
 
-  @Input() workspaceId: string = null;
+  @Input() workspace: Workspace;
   @Output() workspaceDeletedEvent = new EventEmitter<string>();
 
   get userName(): string {
@@ -46,26 +43,34 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
   }
 
   constructor(
-    public dialog: MatDialog,
-    private formBuilder: UntypedFormBuilder,
-    private workspaceService: WorkspaceService,
-    private authService: AuthService,
+      public dialog: MatDialog,
+      private formBuilder: UntypedFormBuilder,
+      private workspaceService: WorkspaceService,
+      private authService: AuthService,
   ) {
   }
 
   ngOnChanges(): void {
-    this.workspace = this.workspaceService.getWorkspaceById(this.workspaceId);
-    this.initReactiveForm();
+    this.workspace = this.workspaceService.getWorkspaceById(this.workspace.id);
+    this.initReactiveForm(null);
   }
 
-  initReactiveForm(): void {
+  initReactiveForm(target: string | null): void {
     // we need workspace to initialize
     if (!this.workspace) {
       return;
     }
-    this.isWorkspaceFormChanged = false;
-    this.isWorkspaceNameEditOn = false;
-    this.isWorkspaceDescriptionEditOn = false;
+
+    switch (target) {
+      case 'name':
+        this.isWorkspaceNameEditOn = false;
+        break;
+      case 'description':
+        this.isWorkspaceDescriptionEditOn = false;
+        break;
+    }
+
+    // this.isWorkspaceDescriptionEditOn = false;
     this.workspaceEditForm = this.formBuilder.group({
       name: [this.workspace.name, [
         Validators.required,
@@ -75,8 +80,8 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
         }
       ]],
       description: [this.workspace.description, [
-          Validators.required,
-          Validators.maxLength(this.descriptionMaxLength)
+        Validators.required,
+        Validators.maxLength(this.descriptionMaxLength)
       ]],
       isExtendExpiryChecked: [false],
     });
@@ -84,36 +89,26 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   editWorkspaceName(): void {
     this.isWorkspaceNameEditOn = true;
-    this.isWorkspaceFormChanged = true;
+    // this.isWorkspaceFormChanged = true;
   }
 
   editWorkspaceDescription(): void {
     this.isWorkspaceDescriptionEditOn = true;
-    this.isWorkspaceFormChanged = true;
+    // this.isWorkspaceFormChanged = true;
   }
 
-  onExtendExpiryDateChange(event: MatCheckboxChange): void {
-    this.isWorkspaceFormChanged = event.checked || this.isWorkspaceNameEditOn || this.isWorkspaceDescriptionEditOn;
+  cancelWorkspaceEditing(target:string): void {
+    this.initReactiveForm(target);
   }
 
-  cancelWorkspaceEditing(): void {
-    this.initReactiveForm();
-  }
-
-  updateWorkspace(): void {
+  updateWorkspace(target: string): void {
     let expiry_ts = 0;
 
-    if (this.workspaceEditForm.controls.isExtendExpiryChecked.value){
-      const ed = new Date();
-      ed.setMonth(ed.getMonth()+13);
-      expiry_ts = Math.floor(ed.valueOf()/1000);
-    }
-
     this.workspaceService.updateWorkspace(
-      this.workspaceId,
-      this.workspaceEditForm.controls.name.value,
-      this.workspaceEditForm.controls.description.value,
-      expiry_ts,
+        this.workspace.id,
+        target === 'name' ? this.workspaceEditForm.controls.name.value: this.workspace.name,
+        target === 'description' ? this.workspaceEditForm.controls.description.value: this.workspace.description,
+        expiry_ts,
     ).subscribe(res => {
       // 2024-11-29 API is missing owner_ext_id field in PUT method, remove this when fixed
       if (!res.owner_ext_id) {
@@ -122,19 +117,57 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       // Take the new workspace object from API response.
       // In case of name change, the join code has been regenerated as well
       this.workspace = res;
-      this.initReactiveForm();
-      this.isWorkspaceNameEditOn = false;
-      this.isWorkspaceDescriptionEditOn = false;
+      // this.initReactiveForm();
+      switch (target) {
+        case 'name':
+          this.isWorkspaceNameEditOn = false;
+          break;
+        case 'description':
+          this.isWorkspaceDescriptionEditOn = false;
+          break;
+      }
+    });
+  }
+
+  openExpiryDateExtensionDialog(): void {
+
+    // ---- Add 13 more months from now
+    const ed = new Date();
+    ed.setMonth(ed.getMonth()+13);
+    let expiry_ts = Math.floor(ed.valueOf()/1000);
+    const yyyy = ed.getFullYear();
+    const mm = String(ed.getMonth() + 1).padStart(2, '0');
+    const dd = String(ed.getDate()).padStart(2, '0');
+
+    this.dialog.open(DialogComponent, {
+      width: '650px',
+      autoFocus: false,
+      restoreFocus: false,
+      data: {
+        dialogTitle: 'Extend expiry date to 13 months from now',
+        dialogContent:
+            `<p>The renewed expiry date will be <b>${yyyy}-${mm}-${dd}</b>.</p>`,
+        dialogActions: ['cancel', 'confirm']
+      }
+    }).afterClosed().subscribe((result) => {
+      if (result) {
+
+        this.workspaceService.updateWorkspace(
+            this.workspace.id, this.workspace.name, this.workspace.description, expiry_ts
+        ).subscribe(res => {
+          this.workspace = res;
+        });
+      }
     });
   }
 
   deleteWorkspace(): void {
-    this.workspaceDeletedEvent.emit(this.workspaceId);
+    this.workspaceDeletedEvent.emit(this.workspace.id);
   }
 
   openJoinCodeDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '500px',
+      width: '550px',
       autoFocus: false,
       data: {
         dialogTitle: 'Workspace join code',
@@ -148,13 +181,13 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   openRegenerateJoinCodeDialog(): void {
     this.dialog.open(DialogComponent, {
-      width: '600px',
+      width: '650px',
       autoFocus: false,
       data: {
         dialogTitle: 'Generate a new workspace join code',
         dialogContent: `<p>Are you sure you want to generate a new join code for <b>"${this.workspace.name}"?</b></p>` +
-          `<p>Existing join code will not work after this, and new workspace members will need to use`+
-          ` the new one to join.</p>`,
+            `<br><p>Existing join code will not work after this, and new workspace members will need to use`+
+            ` the new one to join.</p>`,
         dialogActions: ['cancel', 'confirm']
       }
     }).afterClosed().subscribe((result) => {
@@ -166,5 +199,9 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
         });
       }
     });
+  }
+
+  getItemLifecycleNote() : LifeCycleNote | null {
+    return this.workspaceService.getLifecycleNote(this.workspace);
   }
 }
