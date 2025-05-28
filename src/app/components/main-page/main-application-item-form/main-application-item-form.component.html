@@ -8,7 +8,33 @@
   <form id="dialog" [formGroup]="applicationItemEditFormGroup">
     <div class="form-inner">
       <mat-dialog-content class="plain-form-container">
-        <!-- 1 Env Templates-->
+
+        <!-- 1 Name-->
+        <section class="form-container name-form">
+          <h3>Application name *</h3>
+          <mat-form-field appearance="fill">
+            <input matInput formControlName="name">
+            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('required')">
+              <strong>Name is required</strong>
+            </mat-error>
+            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('maxlength')">
+              <strong>Max length (128 characters) exceeded</strong>
+            </mat-error>
+          </mat-form-field>
+        </section>
+
+        <!-- 2 Description-->
+        <section class="form-container description-form">
+          <h3>Description *</h3>
+          <mat-form-field appearance="fill">
+            <textarea matInput formControlName="description"></textarea>
+            <mat-error *ngIf="!applicationItemEditFormGroup.controls.description.valid">
+              <strong>Description is required</strong>
+            </mat-error>
+          </mat-form-field>
+        </section>
+
+        <!-- 3 Env Templates-->
         <section class="form-container">
           <h3>Application template *</h3>
           <ng-container *ngIf="isCreationMode; else templateNameBlock">
@@ -94,31 +120,6 @@
             Always pull image
           </mat-checkbox>
           <p>(Check if you have to reuse a tag for different image versions.)</p>
-        </section>
-
-        <!-- 2 Name-->
-        <section class="form-container">
-          <h3>Application name *</h3>
-          <mat-form-field appearance="fill">
-            <input matInput formControlName="name">
-            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('required')">
-              <strong>Name is required</strong>
-            </mat-error>
-            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('maxlength')">
-              <strong>Max length (128 characters) exceeded</strong>
-            </mat-error>
-          </mat-form-field>
-        </section>
-
-        <!-- 3 Description-->
-        <section class="form-container">
-          <h3>Description *</h3>
-          <mat-form-field appearance="fill">
-            <textarea matInput formControlName="description"></textarea>
-            <mat-error *ngIf="!applicationItemEditFormGroup.controls.description.valid">
-              <strong>Description is required</strong>
-            </mat-error>
-          </mat-form-field>
         </section>
 
         <!-- 4 Category labels -->
