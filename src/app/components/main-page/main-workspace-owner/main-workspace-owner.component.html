@@ -169,8 +169,9 @@
         </mat-tab>
         <mat-tab *ngIf="isCustomImagesFeatureEnabled" label="custom-images">
           <ng-template mat-tab-label>
-            <mat-icon class="md-18">album</mat-icon>
+            <mat-icon>album</mat-icon>
             <span class="tab-title">Custom Images</span>
+            <span class="label">Preview</span>
           </ng-template>
           <app-main-workspace-custom-images
                 [workspace]="selectedWorkspace"
@@ -179,7 +180,7 @@
         </mat-tab>
         <mat-tab label="config">
           <ng-template mat-tab-label>
-            <mat-icon class="md-18" matTooltip="Settings...">settings</mat-icon>
+            <mat-icon matTooltip="Settings...">settings</mat-icon>
           </ng-template>
           <app-main-workspace-item-detail [workspace]="selectedWorkspace"
                                           (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">

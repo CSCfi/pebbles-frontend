@@ -276,6 +276,22 @@
 }
 
 // ---- Right UI
+
+::ng-deep .mat-mdc-tab-label-container,
+::ng-deep .mat-mdc-tab-header {
+  overflow: visible !important;
+}
+
+::ng-deep .mat-mdc-tab {
+  z-index: 1 !important;
+}
+
+::ng-deep .mat-mdc-tab:nth-child(3) {
+  z-index: 1000 !important;
+}
+
+
+
 #workspace-owner-container {
 
   .status-info-container {
@@ -346,6 +362,21 @@
           flex: 0 1 auto;
           border-radius: 3px 3px 0 0;
           padding: 0 15px;
+
+          .label {
+            position: absolute;
+            display: inline-block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 4px 5px;
+            border-radius: 3px;
+            border: 2px solid $primary-light-color;
+            background-color: $accent-color;
+            color: $secondary-dark-color;
+            text-transform: uppercase;
+            top: -8px;
+            right: -20px;
+          }
 
           .mdc-tab__text-label {
             color: #18227c;
