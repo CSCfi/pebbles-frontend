@@ -40,7 +40,7 @@ export class CustomImageService implements OnDestroy {
           if (ci.to_be_deleted) ci.state = BuildState.Deleting;
         });
         const hasUpdatingState = cis.some((item) => {
-          [BuildState.New, BuildState.Building, BuildState.Deleting].includes(item.state)
+          return [BuildState.New, BuildState.Building, BuildState.Deleting].includes(item.state);
         });
         if (hasUpdatingState) {
           this.setPollingInterval(5);
