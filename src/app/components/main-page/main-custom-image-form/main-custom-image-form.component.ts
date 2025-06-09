@@ -74,7 +74,7 @@ export class MainCustomImageFormComponent implements OnInit {
       definition: {
         base_image: this.customImageFormGroup.controls.baseImage.value,
         user: 'jovyan',
-        image_content: this.imageContent,
+        image_content: this.imageContent.filter(ic => ic.data),
       },
     });
   }
