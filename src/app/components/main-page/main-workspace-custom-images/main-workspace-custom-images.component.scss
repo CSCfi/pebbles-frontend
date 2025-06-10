@@ -61,21 +61,6 @@
       .custom-image-name {
         font-size: small;
       }
-
-      .custom-image-tag {
-        padding-top: 10px;
-        display: flex;
-        align-items: center;
-
-        .tag-text {
-          padding: 3px;
-        }
-      }
-    }
-
-    .mat-column-tag {
-      flex: 1 1 70px !important;
-      width: 70px !important;
     }
 
     .mat-column-meta {
@@ -103,25 +88,27 @@
         }
       }
 
-      .custom-image-tag {
-        @include center(vertical);
-        border-bottom: 1px solid $gray-light-color;
-        padding: 10px;
-        width: 100%;
-
-        mat-icon {
-          flex: 0 0 26px;
-          font-size: 18px;
-          width: 20px !important;
-          margin-right: 5px;
-          height: auto;
-        }
-      }
-
       .custom-image-state {
         @include center(vertical);
         border-bottom: 1px solid $gray-light-color;
         width: 100%;
+
+        .custom-image-completed {
+          display: flex;
+          flex-direction: column;
+
+          .custom-image-tag {
+            @include center(vertical);
+            padding: 5px 10px;
+            .tag-text {
+              padding: 0px 10px;
+            }
+          }
+
+          .referencing-applications-text {
+            padding: 5px 10px;
+          }
+        }
 
         .toggle-log-button {
           font-size: 1.3rem !important;
@@ -133,30 +120,13 @@
             width: auto;
             height: auto;
           }
-        }
-
-        .custom-image-url {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 10px;
 
           mat-icon {
-            flex: 0 0 28px;
-            font-size: 1.8rem;
+            flex: 0 0 26px;
+            font-size: 18px;
+            width: 20px !important;
+            margin-right: 5px;
             height: auto;
-            width: 28px !important;
-            overflow: auto;
-          }
-
-          button {
-            padding: 3px;
-            height: 25px;
-            text-align: center;
-
-            mat-icon {
-              margin-right: 0 !important;
-            }
           }
         }
 

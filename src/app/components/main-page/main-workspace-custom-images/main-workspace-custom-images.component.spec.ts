@@ -3,7 +3,6 @@ import { MainWorkspaceCustomImagesComponent } from './main-workspace-custom-imag
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "../../../material.module";
-import {MembershipExpiryPolicy, MembershipType, WorkspaceConfig} from "../../../models/workspace";
 
 describe('MainWorkspaceCustomImagesComponent', () => {
   let component: MainWorkspaceCustomImagesComponent;

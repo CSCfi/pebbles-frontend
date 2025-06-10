@@ -19,13 +19,9 @@
       <table [dataSource]="dataSource" class="custom-image-table" mat-table>
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th *matHeaderCellDef class="col-name" mat-header-cell> Name / Tag</th>
+          <th *matHeaderCellDef class="col-name" mat-header-cell> Name</th>
           <td mat-cell *matCellDef="let element" class="col-name" [ngSwitch]="element.state">
             <div class="custom-image-name"> {{ element.name }}</div>
-            <div class="custom-image-tag" *ngSwitchCase="BuildState.Completed">
-              <mat-icon class="material-icons-outlined">sell</mat-icon>
-              <span class="tag-text"> {{ element.tag }} </span>
-            </div>
           </td>
         </ng-container>
 
@@ -35,16 +31,16 @@
           <td mat-cell *matCellDef="let element">
             <div class="custom-image-state" [ngSwitch]="element.state">
               <!-- Custom image state COMPLETED -->
-              <div *ngSwitchCase="BuildState.Completed" class="custom-image-url">
-                <mat-icon class="material-icons-outlined" matTooltip="Custom image URL">link</mat-icon>
-                <code>{{ element.url }}</code>
-                <button mat-button
-                        matTooltip="Copy URL"
-                        cdkFocusInitial
-                        autofocus
-                        [cdkCopyToClipboard]="element.url">
-                  <mat-icon fontSet="material-icons-outlined" class="md-24">content_copy</mat-icon>
-                </button>
+              <div *ngSwitchCase="BuildState.Completed" class="custom-image-completed">
+                <div class="custom-image-tag">
+                  <mat-icon class="material-icons-outlined">sell</mat-icon>
+                  <span class="tag-text"> {{ element.tag }} </span>
+                </div>
+                <div class="middle-filler"></div>
+                <div *ngIf="element.applicationReferences?.length" [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')"
+                     class="referencing-applications-text">
+                  Used by {{ element.applicationReferences.length }} applications.
+                </div>
               </div>
               <!-- Custom image state FAILED -->
               <div *ngSwitchCase="BuildState.Failed"

@@ -9,10 +9,13 @@ import { PublicConfigService } from "src/app/services/public-config.service";
 import { AuthService } from "src/app/services/auth.service";
 import { EventService } from "src/app/services/event.service";
 import { MainCustomImageFormComponent } from "../main-custom-image-form/main-custom-image-form.component";
+import { ApplicationService } from "../../../services/application.service";
+import { Application } from "../../../models/application";
 
 
 export interface CustomImageRow extends CustomImage {
   index: number;
+  applicationReferences: Application[];
 }
 
 @Component({
@@ -48,7 +51,8 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     private applicationTemplateService: ApplicationTemplateService,
     private eventService: EventService,
     private authService: AuthService,
-    public publicConfigService: PublicConfigService
+    public publicConfigService: PublicConfigService,
+    private applicationService: ApplicationService,
   ) {
   }
 
@@ -89,6 +93,14 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     return this.customImageService.getCustomImagesByWorkspaceId(this.workspace.id);
   }
 
+  getReferencingApplications(image: CustomImage): Application[] {
+    return this.applicationService.getApplications().filter((x) => x.config.image_url === image.url);
+  }
+
+  extractApplicationNames(apps: Application[]): string[] {
+      return apps ? apps.map(a => '"' + a.name + '"') : [];
+  }
+
   buildImageDialog(previousVersion: CustomImage): void {
     this.dialog.open(MainCustomImageFormComponent, {
       height: 'auto',
@@ -112,8 +124,20 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   }
 
   deleteCustomImage(id: string): void {
-    if (!confirm(`Are you sure you want to delete custom image "${this.customImageService.get(id).name}"?`)) {
-      return;
+    const customImage = this.customImageService.get(id);
+    const refAppNames = this.extractApplicationNames(this.getReferencingApplications(customImage));
+    if (refAppNames.length > 0) {
+      if (!confirm(`The following applications are still using this image and will stop working:`+
+        `\n${refAppNames.join('\n')}`+
+        `\n\n`+
+        `Are you sure you want to delete custom image\n"${customImage.name}"?`)) {
+        return;
+      }
+    }
+    else {
+      if (!confirm(`Are you sure you want to delete custom image\n"${customImage.name}"?`)) {
+        return;
+      }
     }
     this.customImageService.deleteCustomImage(id).subscribe(() => {
         this.rebuildDataSource();
@@ -162,7 +186,9 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
 
     const rows: CustomImageRow[] = [];
     cis.forEach(image => {
-      rows.push({...image, index: -1});
+      // count the number of applications that have a reference to this custom image
+      const appRefs = this.getReferencingApplications(image);
+      rows.push({...image, index: -1, applicationReferences: appRefs});
     });
     // Sort in descending order by created_at
     rows.sort((a, b) => {
