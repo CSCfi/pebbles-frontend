@@ -82,6 +82,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     this.subscriptions.push(this.eventService.applicationDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
     }));
+    // this.openApplicationItemFormDialog(null);
   }
 
   ngOnChanges(): void {
@@ -216,7 +217,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
 
   openApplicationItemFormDialog(applicationId: string | null): void {
     // ---- Remove the line below once the dialog UI is discontinued.
-    this.appCreationFormBtn._elementRef.nativeElement.blur();
+    this.appCreationFormBtn?._elementRef.nativeElement.blur();
 
     this.dialog.open(MainApplicationItemFormComponent, {
       width: '800px',

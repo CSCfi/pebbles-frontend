@@ -202,14 +202,19 @@ mat-dialog-container {
 
   .corner-button-container {
 
+    .mat-mdc-icon-button.mat-mdc-button-base {
+      --mdc-icon-button-state-layer-size: 42px;
+    }
+
     button {
       position: absolute;
-      right: 0;
-      top: 0;
+      right: 4px;
+      top: 4px;
       z-index: 1000;
       background: none !important;
 
       mat-icon {
+        @include center(both);
         color: $dark-text-color;
         font-size: 1.8rem;
         width: 18px;
@@ -228,6 +233,18 @@ mat-dialog-container {
 
   .mat-mdc-form-field {
     width: 100%;
+
+    &:has(textarea[matInput]) .mat-mdc-text-field-wrapper {
+      padding-right: 0 !important;
+    }
+
+    .mdc-text-field:hover {
+      background-color: $accent-extra-light-color !important;
+    }
+
+    .mdc-text-field--focused {
+      background-color: $accent-extra-light-color !important;
+    }
   }
 
   form button {
@@ -337,6 +354,8 @@ mat-dialog-container {
   --mat-table-header-container-height: 20px;
   --mat-table-row-item-label-text-size: 12px;
   --mdc-circular-progress-active-indicator-color: #00969a;
+  --mat-legacy-button-toggle-height: 150%;
+  --mat-standard-button-toggle-heigh: 20px;
 }
 
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {

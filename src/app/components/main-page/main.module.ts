@@ -49,9 +49,7 @@ import {
   MainWorkspaceCustomImagesComponent
 } from "./main-workspace-custom-images/main-workspace-custom-images.component";
 import { MainCustomImageFormComponent } from "./main-custom-image-form/main-custom-image-form.component";
-import {
-  MainSelectCustomImageDialogComponent
-} from "./main-select-custom-image-dialog/main-select-custom-image-dialog.component";
+import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -82,7 +80,6 @@ import {
     LifeTimeDisplayPipe,
     RemainingDaysDisplayPipe,
     MainSelectWorkspaceDialogComponent,
-    MainSelectCustomImageDialogComponent,
     MainCustomImageFormComponent,
   ],
   imports: [
@@ -94,7 +91,9 @@ import {
     MaterialModule,
     SharedModule,
     FontAwesomeModule,
-    IconModule
+    IconModule,
+    MatButtonToggleGroup,
+    MatButtonToggle
   ],
   providers: [DateDisplayPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -15,6 +15,7 @@
     flex-direction: row;
     justify-content: flex-end;
     gap: 10px;
+    margin-bottom: 25px;
 
     .action-name {
       @include center(vertical, inline);
