@@ -20,6 +20,7 @@ export enum BuildState {
   Deleting = 'deleting'
 }
 
+// API response defined in pebbles.views.custom_images.custom_image_fields in the backend
 export interface CustomImage {
   id: string;
   workspace_id: string;
@@ -27,6 +28,7 @@ export interface CustomImage {
   tag: number;
   definition: ImageDefinition;
   dockerfile: string;
+  created_at: string;
   started_at: string;
   completed_at: string;
   state: BuildState;

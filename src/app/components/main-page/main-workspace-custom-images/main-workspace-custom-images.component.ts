@@ -164,18 +164,18 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     cis.forEach(image => {
       rows.push({...image, index: -1});
     });
-    // Sort in descending order by tag. New images without tag are first.
+    // Sort in descending order by created_at
     rows.sort((a, b) => {
-      if (a.tag === null) {
+      if (a.created_at === null) {
         return -1;
       }
-      if (b.tag === null) {
+      if (b.created_at === null) {
         return 1;
       }
-      if (a.tag === b.tag) {
+      if (a.created_at === b.created_at) {
         return 0;
       }
-      return a.tag > b.tag ? -1 : 1;
+      return a.created_at > b.created_at ? -1 : 1;
     });
     rows.map((row, index) => {
       row.index = index + 1;
