@@ -363,6 +363,10 @@
           border-radius: 3px 3px 0 0;
           padding: 0 15px;
 
+          &:last-child {
+            z-index: 2000 !important;
+          }
+
           .label {
             position: absolute;
             display: inline-block;
@@ -374,12 +378,14 @@
             background-color: $accent-color;
             color: $secondary-dark-color;
             text-transform: uppercase;
-            top: -8px;
-            right: -20px;
+            top: -10px;
+            right: -5px;
           }
 
           .mdc-tab__text-label {
             color: #18227c;
+            text-wrap: auto;
+            word-wrap: break-word;
           }
 
           mat-icon {
@@ -470,6 +476,10 @@
     align-items: center;
     justify-content: stretch;
 
+    .course-request-wrapper {
+      background: none;
+    }
+
     .workspace-list-container {
       max-width: 100%;
       width: 100%;
@@ -479,15 +489,16 @@
     }
 
     #workspace-owner-tab-container {
+      z-index: 1000;
       width: 100% !important;
-      height: calc( 100vh - 255px);
+      height: calc( 100vh - 300px);
       padding: 0 20px 20px;
       border: none;
-      overflow: hidden;
+      overflow: visible;
     }
 
     mat-tab-group {
-      height: calc( 100vh - 255px) !important;
+      height: calc( 100vh - 250px) !important;
     }
   }
 
@@ -510,6 +521,18 @@
     color: #ffffff !important;
     top: 10px;
     right: 15px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  ::ng-deep.mat-mdc-tab {
+    .tab-title {
+      display: none;
+    }
+
+    span.label {
+      display: none !important;
+    }
   }
 }
 
