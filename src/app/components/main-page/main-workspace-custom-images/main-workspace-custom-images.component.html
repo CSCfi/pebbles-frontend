@@ -37,9 +37,12 @@
                   <span class="tag-text"> {{ element.tag }} </span>
                 </div>
                 <div class="middle-filler"></div>
-                <div *ngIf="element.applicationReferences?.length" [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')"
+                <div *ngIf="element.applicationReferences?.length"
+                     [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')"
                      class="referencing-applications-text">
-                  Used by {{ element.applicationReferences.length }} applications.
+                  Used by {{ element.applicationReferences.length + ' ' +
+                    (element.applicationReferences.length === 1 ? 'application' : 'applications')
+                  }}
                 </div>
               </div>
               <!-- Custom image state FAILED -->

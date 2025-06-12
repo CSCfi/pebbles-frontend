@@ -57,8 +57,15 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   }
 
   ngOnInit(): void {
+    // listen on changes of custom images
     this.subscriptions.push(
       this.eventService.customImageDataUpdate$.subscribe(_ => {
+        this.rebuildDataSource();
+      })
+    );
+    // listen on changes of applications, to keep the reference counts updated
+    this.subscriptions.push(
+      this.eventService.applicationDataUpdate$.subscribe(_ => {
         this.rebuildDataSource();
       })
     );
