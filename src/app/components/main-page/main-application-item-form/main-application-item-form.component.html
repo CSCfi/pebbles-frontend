@@ -99,8 +99,11 @@
                   [matTooltipDisabled]="selectedApplicationTemplate !== null">
               <span matTooltip="Only Jupyter custom images are supported currently"
                     [matTooltipDisabled]="!(selectedApplicationTemplate !== null && selectedApplicationTemplate.application_type !== 'jupyter')">
-                <button mat-button on-click="customImagesPopup()" class="pop-up-button"
-                        [disabled]="selectedApplicationTemplate === null ||  selectedApplicationTemplate.application_type !== 'jupyter'">
+                <button mat-flat-button
+                        type="button"
+                        on-click="customImagesPopup()"
+                        class="pop-up-button"
+                        [disabled]="selectedApplicationTemplate === null || selectedApplicationTemplate.application_type !== 'jupyter'">
                   <mat-icon>album</mat-icon> Choose a custom image
                 </button>
               </span>
@@ -233,13 +236,17 @@
 
       <!-- Submit -->
       <div class="dialog-actions">
-        <button class="primary-btn submit-button" mat-flat-button
+        <button class="primary-btn submit-button"
+                mat-flat-button
+                type="submit"
                 *ngIf="isCreationMode"
                 [disabled]="applicationItemEditFormGroup.invalid || createButtonClicked"
                 (click)="createApplicationByPlainMode()">
           Add new
         </button>
-        <button class="primary-btn submit-button" mat-flat-button
+        <button class="primary-btn submit-button"
+                mat-flat-button
+                type="submit"
                 *ngIf="!isCreationMode"
                 [disabled]="applicationItemEditFormGroup.invalid || editButtonClicked"
                 (click)="editApplicationItem()">
