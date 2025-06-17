@@ -21,6 +21,7 @@ export class MainSelectCustomImageDialogComponent implements OnInit {
       heading: string;
       text: string;
       workspaceId: string;
+      currentImageUrl: string;
     },
     private customImageService: CustomImageService,
     private dialogRef: MatDialogRef<MainSelectCustomImageDialogComponent>,
@@ -45,7 +46,7 @@ export class MainSelectCustomImageDialogComponent implements OnInit {
       );
     }
     this.selectCustomImageForm = this.formBuilder.group({
-      selectedCustomImageUrl: [''],
+      selectedCustomImageUrl: this.data.currentImageUrl ? this.data.currentImageUrl : '',
     });
 
     if (this.data.heading) {
@@ -66,6 +67,8 @@ export class MainSelectCustomImageDialogComponent implements OnInit {
   }
 
   isFormReady(): boolean {
-    return this.selectCustomImageForm.controls.selectedCustomImageUrl.value;
+    return this.customImageOptions.findIndex((cio) => {
+      return cio.value === this.selectCustomImageForm.controls.selectedCustomImageUrl.value;
+    }) >=0;
   }
 }

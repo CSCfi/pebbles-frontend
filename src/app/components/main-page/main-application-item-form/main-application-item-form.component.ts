@@ -380,6 +380,7 @@ export class MainApplicationItemFormComponent implements OnInit {
         text: 'Use a custom image that is compatible with the chosen application template.\n' +
               'Only Jupyter custom images are supported currently.',
         workspaceId: this.data.workspaceId,
+        currentImageUrl: this.data.application.config.image_url,
       }
     }).afterClosed().subscribe(res => {
       if (res) {
