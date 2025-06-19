@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA,  MatDialogRef } from "@angular/material/dialog";
-import { FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { FormControl, FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { CustomImage, ImageContent } from "../../../models/custom-image";
 
 @Component({
@@ -25,26 +25,18 @@ export class MainCustomImageFormComponent implements OnInit {
     },
     private formBuilder: UntypedFormBuilder,
   ) {
-    this.imageContent.push({kind: 'aptPackages', data: ''});
-    this.imageContent.push({kind: 'pipPackages', data: ''})
   }
 
   ngOnInit(): void {
-    this.setCreationForm();
-    this.updateDockerfile();
-  }
-
-  setCreationForm(): void {
     const formConfig = {
       name: ['', [Validators.required, Validators.maxLength(64)]],
       baseImage: ['', [Validators.required, Validators.maxLength(128)]],
     };
-    formConfig['aptPackages'] = [''];
-    formConfig['pipPackages'] = [''];
     this.customImageFormGroup = this.formBuilder.group(formConfig);
+
     if (this.data.previousVersion) {
       const image_name = this.data.previousVersion.name;
-      this.formTitle = 'Create a new image based on "'+ image_name + '"';
+      this.formTitle = 'Create a new image based on "' + image_name + '"';
 
       // check if the name of the previous version has a generated version number
       const re = /^.*\s-\sv(\d+)$/;
@@ -52,7 +44,7 @@ export class MainCustomImageFormComponent implements OnInit {
       if (match) {
         const incremented_image_name = image_name.replace(/\s-\sv(\d+)$/, " - v" + String(Number(match[1]) + 1));
         this.customImageFormGroup.controls.name.setValue(incremented_image_name);
-      // if no version number, add 'v2' suffix as a suggestion
+        // if no version number, add 'v2' suffix as a suggestion
       } else {
         this.customImageFormGroup.controls.name.setValue(this.data.previousVersion.name + " - v2");
       }
@@ -60,12 +52,26 @@ export class MainCustomImageFormComponent implements OnInit {
       const def = this.data.previousVersion.definition;
       if (def) {
         this.customImageFormGroup.controls.baseImage.setValue(def.base_image);
-        for (const ic of def.image_content) {
-          this.customImageFormGroup.controls[ic.kind].setValue(ic.data);
+        if (def.image_content?.length > 0) {
+          this.imageContent = def.image_content;
         }
       }
     }
-    this.updateExtraContent();
+    this.updateDynamicFields();
+    this.updateDockerfile();
+  }
+
+  updateDynamicFields() {
+    // create a new control for each imagecontent item for the html form element to refer to
+    for (let i = 0; i < this.imageContent?.length; i++) {
+      const ic = this.imageContent[i];
+      const fc = new FormControl(`ic-${i}`);
+      fc.setValue(ic.data);
+      this.customImageFormGroup.addControl(
+        `ic-${i}`,
+        fc
+      );
+    }
   }
 
   closeForm() {
@@ -80,8 +86,9 @@ export class MainCustomImageFormComponent implements OnInit {
   }
 
   updateExtraContent(): void {
-    for (const ic of this.imageContent) {
-      ic.data = this.customImageFormGroup.controls[ic.kind].value;
+    // update model from form
+    for (let i = 0; i < this.imageContent?.length; i++) {
+      this.imageContent[i].data = this.customImageFormGroup.controls[`ic-${i}`].value;
     }
     this.updateDockerfile();
   }
@@ -132,6 +139,22 @@ export class MainCustomImageFormComponent implements OnInit {
         ].join('\n');
     }
     return "";
+  }
+
+  // add a new content field of given type
+  addImageContent(icType: string): void {
+    this.imageContent.push({
+      kind: icType,
+      data: ''
+    });
+    this.updateDynamicFields();
+  }
+
+  // remove a content field
+  removeImageContent(index: number): void {
+    this.imageContent.splice(index, 1);
+    this.customImageFormGroup.removeControl(`ic-${index}`);
+    this.updateDockerfile();
   }
 
   extractBaseImageName(baseImage: string): string {

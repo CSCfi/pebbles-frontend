@@ -55,15 +55,30 @@
               <div class="package-form-wrapper">
                 <h3 class="mat-title">Packages</h3>
                 <div class="package-instructions">
-                  <span >Customize your image by adding apt or pip packages as a space separated list</span>
+                  <span>Customize your image by adding apt or pip packages as a space separated list</span>
                 </div>
-                <ng-container *ngFor="let content of imageContent">
-                  <h4 class="mat-subtitle icon__library">{{ getContentDescription(content.kind) }}</h4>
+                <ng-container *ngFor="let content of imageContent; let i=index">
+                  <div class="image-content-header">
+                    <h4 class="mat-subtitle icon__library">{{ getContentDescription(content.kind) }} </h4>
+                    <button (click)="removeImageContent(i)" class="delete-button">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
                   <mat-form-field appearance="fill">
-                    <input (input)="updateExtraContent()" formControlName="{{content.kind}}" matInput
+                    <input (input)="updateExtraContent()" formControlName="ic-{{ i }}" matInput
                            value="content.data">
                   </mat-form-field>
                 </ng-container>
+                <div class="add-content">
+                  <button (click)="addImageContent('aptPackages')" class="secondary-btn" mat-button>
+                    <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+                    apt
+                  </button>
+                  <button (click)="addImageContent('pipPackages')" class="secondary-btn" mat-button>
+                    <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+                    pip
+                  </button>
+                </div>
               </div>
             </section>
           </div>
@@ -84,7 +99,8 @@
       <button (click)="closeForm()"
               [disabled]="customImageFormGroup.invalid || createButtonClicked"
               color="primary"
-              mat-flat-button>Build</button>
+              mat-flat-button>Build
+      </button>
       <button class="button-link cancel-button" mat-button mat-dialog-close="true">
         Cancel
       </button>

@@ -16,6 +16,9 @@
     flex-direction: row;
     align-items: stretch;
     gap: 20px;
+    max-height: 75vh;
+    overflow-y: auto;
+    margin-bottom: 20px;
 
     .custom-image-form-left {
       flex: 1 1 50%;
@@ -39,6 +42,31 @@
         .mat-subtitle {
           @include center(vertical);
           font-size: 1.4rem;
+        }
+
+        .image-content-header {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          button.delete-button {
+            display: flex;
+            align-items: center;
+            padding: 2px;
+            background: $warn-extra-light-color;
+            @include shadow(0.1);
+            mat-icon {
+              color: black !important;
+              padding: 0;
+              margin: 0;
+            }
+          }
+        }
+
+        .add-content {
+          button {
+            margin: 5px;
+          }
         }
       }
     }
