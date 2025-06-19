@@ -3,6 +3,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatButton } from "@angular/material/button";
 import { Data } from '@angular/router';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Subscription } from 'rxjs';
@@ -22,7 +23,6 @@ import {
 import {
   MainSelectWorkspaceDialogComponent
 } from '../main-select-workspace-dialog/main-select-workspace-dialog.component';
-
 
 export interface ApplicationRow {
   select: boolean;
@@ -65,6 +65,8 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   @Input() context: Data;
   @Input() workspace: Workspace;
   @Input() isWorkspaceExpired = false;
+  // ---- Remove the line below once the dialog UI is discontinued.
+  @ViewChild('openApplicationCreationForm',{ read: MatButton }) appCreationFormBtn!: MatButton;
 
   constructor(
     private applicationService: ApplicationService,
@@ -213,6 +215,9 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   }
 
   openApplicationItemFormDialog(applicationId: string | null): void {
+    // ---- Remove the line below once the dialog UI is discontinued.
+    this.appCreationFormBtn._elementRef.nativeElement.blur();
+
     this.dialog.open(MainApplicationItemFormComponent, {
       width: '800px',
       height: '95vh',
