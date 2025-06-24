@@ -60,23 +60,24 @@
                 <ng-container *ngFor="let content of imageContent; let i=index">
                   <div class="image-content-header">
                     <h4 class="mat-subtitle icon__library">{{ getContentDescription(content.kind) }} </h4>
-                    <button (click)="removeImageContent(i)" class="delete-button">
-                      <mat-icon>remove</mat-icon>
-                    </button>
                   </div>
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="image-content-form-field">
                     <input (input)="updateExtraContent()" formControlName="ic-{{ i }}" matInput
                            value="content.data">
+                    <button matSuffix matIconButton aria-label="Remove"
+                            class="delete-button" (click)="removeImageContent(i)">
+                      <mat-icon>remove</mat-icon>
+                    </button>
                   </mat-form-field>
                 </ng-container>
                 <div class="add-content">
                   <button (click)="addImageContent('aptPackages')" class="secondary-btn" mat-button>
                     <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-                    apt
+                    <span>apt</span>
                   </button>
                   <button (click)="addImageContent('pipPackages')" class="secondary-btn" mat-button>
                     <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-                    pip
+                    <span>pip</span>
                   </button>
                 </div>
               </div>

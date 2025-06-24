@@ -18,7 +18,7 @@
     gap: 20px;
     max-height: 75vh;
     overflow-y: auto;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
     .custom-image-form-left {
       flex: 1 1 50%;
@@ -30,13 +30,13 @@
 
       mat-form-field {
         width: 100%;
-        margin: 5px 0;
+        margin: 2px 0 10px 0
       }
 
       .package-form-wrapper {
         .package-instructions {
           @include headline-5();
-          margin-bottom: 20px;
+          margin-bottom: 10px;
         }
 
         .mat-subtitle {
@@ -48,31 +48,64 @@
           width: 100%;
           display: flex;
           justify-content: space-between;
+        }
 
-          button.delete-button {
-            display: flex;
-            align-items: center;
-            padding: 2px;
-            background: $warn-extra-light-color;
-            @include shadow(0.1);
+        .image-content-form-field {
+          margin-bottom: -10px;
+
+        }
+
+         button.delete-button {
+           display: flex;
+           align-items: center;
+           padding: 2px;
+           background: $gray-dark-color;
+           min-height: 20px;
+           height: 20px;
+           width: 20px;
+           margin-right: 10px;
+           border-radius: 10px;
+
+           &:hover {
+             background-color: $warn-dark-color;
+           }
+
             mat-icon {
-              color: black !important;
+              @include center(both);
+              color: #FFFFFF !important;
+              font-size: 1.4rem !important;
+              width: 16px !important;
+              height: 16px !important;
               padding: 0;
               margin: 0;
             }
-          }
-        }
+         }
 
         .add-content {
+          display: flex;
+          gap: 5px;
+
           button {
-            margin: 5px;
+            min-height: 28px;
+            height: 28px !important;
+            font-size: 1.4rem !important;
+            flex-grow: 1;
+
+            .mat-icon {
+              font-size: 1.8rem !important;
+              width: auto !important;
+              height: 18px !important;
+            }
+
+            span {
+              margin-right: 5px;
+            }
           }
         }
       }
     }
 
     .custom-image-form-right {
-      margin-bottom: 25px;
       flex: 1 1 50%;
       display: flex;
       flex-direction: column;
