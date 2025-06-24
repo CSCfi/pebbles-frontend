@@ -110,17 +110,19 @@ export class MainCustomImageFormComponent implements OnInit {
       return "apt packages"
     } else if (kind == "pipPackages") {
       return "pip packages"
+    } else if (kind == "condaForgePackages") {
+      return "conda-forge packages"
     } else {
       return kind
     }
   }
 
   generateDockerInstructions(ic: ImageContent) {
+    if (!ic.data) {
+      return '';
+    }
     switch (ic.kind) {
       case 'aptPackages':
-        if (!ic.data) {
-          return '';
-        }
         return [
           '# apt packages',
           'USER root',
@@ -129,13 +131,15 @@ export class MainCustomImageFormComponent implements OnInit {
           ''
         ].join('\n');
       case 'pipPackages':
-        if (!ic.data) {
-          return '';
-        }
         return [
           '# pip packages',
           `RUN pip --no-cache-dir install --upgrade ${ic.data}`,
           ''
+        ].join('\n');
+      case 'condaForgePackages':
+        return [
+          '# conda packages',
+          `RUN conda install -c conda-forge --yes ${ic.data}`
         ].join('\n');
     }
     return "";
