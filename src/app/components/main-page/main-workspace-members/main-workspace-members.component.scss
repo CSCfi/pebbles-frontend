@@ -1,13 +1,14 @@
 @import "src/styles/main.scss";
 
 #workspace-members-container {
-  height: calc(100vh - 60px);
+  flex: 1 0 800px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  padding: 20px 40px 30px;
-  max-width: 1200px;
+  padding: 20px 30px 30px;
+  width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 
   .member-header {

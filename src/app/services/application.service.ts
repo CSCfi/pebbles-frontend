@@ -130,7 +130,6 @@ export class ApplicationService implements OnDestroy {
     return this.http.post<Application>(url,
       {workspace_id, name, description, labels, template_id, maximum_lifetime, config, is_enabled}).pipe(
       map((resp) => {
-        this.fetchApplications().subscribe();
         return resp;
       })
     );

@@ -62,9 +62,9 @@ export class WorkspaceService {
     return this.workspaceMemberMap.get(workspaceId);
   }
 
-  getWorkspaceMemberCount(workspaceId: string): number {
-    return this.workspaceMemberCountMap.get(workspaceId);
-  }
+  // getWorkspaceMemberCount(workspaceId: string): number {
+  //   return this.workspaceMemberCountMap.get(workspaceId);
+  // }
 
   hasExpired(workspace: Workspace): boolean {
     return Workspace.hasExpired(workspace);
@@ -251,5 +251,10 @@ export class WorkspaceService {
         this.fetchWorkspaces().subscribe();
       })
     );
+  }
+
+  isWorkspacePublic(workspaceId: string): boolean {
+    const ws = this.getWorkspaceById(workspaceId);
+    return ws.name.startsWith('System.');
   }
 }

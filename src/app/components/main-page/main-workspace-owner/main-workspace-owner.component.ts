@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -22,7 +22,7 @@ import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspac
   templateUrl: './main-workspace-owner.component.html',
   styleUrls: ['./main-workspace-owner.component.scss']
 })
-export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
+export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public context: Data;
   public workspaces: Workspace[] = null;
@@ -38,6 +38,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   workspaceIdControl = new FormControl<string>('');
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild('customImagesTabLabel', {read: ElementRef}) customImagesTabLabel!: ElementRef;
+  isAppFormOpen: boolean;
+  selectedApplicationId: string;
 
   get isDemoButtonShown(): boolean {
     // check that we know about our workspaces and that there is more than 2 seconds since the last click
@@ -108,17 +111,42 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     // restore workspace/tab selection from queryParams if available
     this.activatedRoute.queryParamMap.subscribe(paramMap => {
       if (paramMap.get('id')) {
-        this.selectWorkspace(paramMap.get('id'));
+        this.selectedWorkspaceId = paramMap.get('id');
       }
       if (paramMap.get('tab')) {
         this.selectedTab = +paramMap.get('tab');
       }
+      if (paramMap.get('edit')) {
+        this.isAppFormOpen = true;
+        if (paramMap.get('edit') !== 'new') {
+          this.selectedApplicationId = paramMap.get('edit');
+        } else {
+          this.selectedApplicationId = 'new' ;
+        }
+      } else {
+        this.isAppFormOpen = false;
+      }
+
+      this.refreshView();
+    });
+  }
+
+  ngAfterViewInit() {
+    this.eventService.uiEffect$.subscribe((isStarting) => {
+      this.triggerShake(isStarting);
     });
   }
 
   ngOnDestroy(): void {
     // unsubscribe from Subjects
     this.subscriptions.map(x => x.unsubscribe());
+  }
+
+  isManageableWorkspace(ws: Workspace): boolean {
+    return (
+      ws.membership_type === MembershipType.Owner ||
+      ws.membership_type === MembershipType.Manager
+    );
   }
 
   refreshView(): void {
@@ -131,9 +159,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       this.workspaces = this.workspaceService.getWorkspaces();
     } else {
       // list manageable workspaces
-      this.workspaces = this.workspaceService.getWorkspaces().filter(ws => {
-        return [MembershipType.Owner, MembershipType.Manager].includes(ws.membership_type);
-      });
+      this.workspaces = this.workspaceService.getWorkspaces().filter(this.isManageableWorkspace);
     }
     this.workspaces = Workspace.sortWorkspaces(this.workspaces, ['expiry', 'role', 'create_ts']);
     this.workspaceIdControl = new FormControl<string>(this.selectedWorkspaceId);
@@ -146,20 +172,17 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
   }
 
   selectWorkspace(workspaceId: string): void {
-    if (this.selectedWorkspaceId === workspaceId) {
-      return;
-    }
-    this.selectedWorkspaceId = workspaceId;
-    this.isWorkspaceDeleted = false;
 
     // save the workspace selection in url parameters to restore navigation state after a reload
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams: {id: this.selectedWorkspaceId},
-      queryParamsHandling: 'merge'
-    }).then();
-
-    this.refreshView();
+      queryParams: {
+        id: workspaceId,
+        edit: null
+      },
+      queryParamsHandling: "merge"
+    }).then(() => {
+    });
   }
 
   isOwner(workspace: Workspace): boolean {
@@ -277,7 +300,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     // save the workspace selection in url parameters to restore navigation state after a reload
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams: {tab: this.selectedTab},
+      queryParams: {
+        tab: this.selectedTab,
+        edit: null
+      },
       queryParamsHandling: 'merge'
     }).then();
   }
@@ -299,11 +325,11 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
     window.open(this.publicConfigService.getCourseRequestFormUrl(), '_blank');
   }
 
-  getWorkspaceById(id: string) : Workspace {
+  getWorkspaceById(id: string): Workspace {
     return this.workspaceService.getWorkspaceById(id);
   }
 
-  getItemLifecycleNote(workspace: Workspace) : LifeCycleNote | null {
+  getItemLifecycleNote(workspace: Workspace): LifeCycleNote | null {
     return this.workspaceService.getLifecycleNote(workspace);
   }
 
@@ -317,6 +343,24 @@ export class MainWorkspaceOwnerComponent implements OnInit, OnDestroy {
       [this.getItemLifecycleNote(workspace)]: true,
       [this.getMembershipType(workspace)]: true
     };
+  }
+
+  closeForm() {
+    this.isAppFormOpen = false;
+  }
+
+  triggerShake(isStarting: boolean): void {
+    if (!this.customImagesTabLabel) {
+      return;
+    }
+    const el = this.customImagesTabLabel.nativeElement;
+    const label = el.querySelector('#mat-tab-label-0-2') || el;
+
+    if (isStarting) {
+      label.classList.add('shake-vertical');
+    } else {
+      setTimeout(() => label.classList.remove('shake-vertical'), 400);
+    }
   }
 }
 

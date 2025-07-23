@@ -1,21 +1,78 @@
 @import "src/styles/main.scss";
 
 #workspace-applications-container {
-  height: calc(100vh - 60px);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex: 1;
 
-  padding: 20px 40px 30px;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  position: relative;
+
+  .main-view {
+    margin: 30px auto 20px auto;
+    padding: 0 30px;
+    overflow: hidden;
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 1100px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .form-view {
+    margin: 0;
+    padding: 0;
+    flex: 1 0 auto;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 10;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+
+    transition: right 0.3s ease-in-out;
+
+    app-main-application-advanced-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      overflow: hidden;
+    }
+  }
+}
+
+
+#workspace-applications-container {
+  .application-header {
+    width: 100%;
+    flex: 0 0 50px;
+
+    &::ng-deep.mat-mdc-form-field-subscript-wrapper {
+      height: 0;
+      display: block;
+    }
+  }
 
   .application-actions {
     display: flex;
+    flex-basis: 35px;
     flex-direction: row;
     justify-content: flex-end;
     gap: 10px;
-    margin-bottom: 25px;
 
     .action-name {
       @include center(vertical, inline);
@@ -36,18 +93,16 @@
     }
   }
 
-  .application-header {
-    width: 100%;
+  .max-quota-warning {
+    flex-basis: 50px;
   }
 
-  ::ng-deep.mat-mdc-form-field-subscript-wrapper {
-    margin-bottom: -15px;
-  }
 
   .table-container {
+    flex: 1;
     min-height: 180px;
-    max-height: calc(100vh - 240px);
     overflow: auto;
+    margin-bottom: 10px;
   }
 
   .paginator-wrapper {
@@ -55,11 +110,15 @@
   }
 
   table {
+    table-layout: fixed;
+    width: 100%;
+
     tr {
       border: 2px solid $mid-dark-line;
     }
 
-    .cell-thumbnail {
+    // ---- COLUM Thumbnail
+    .mat-column-thumbnail {
       text-align: center;
       width: 100px;
       color: $gray-color;
@@ -70,7 +129,6 @@
         text-align: center;
         margin: auto;
         display: block;
-        width: 90px;
 
         &.linux {
           font-size: 3.4rem;
@@ -104,10 +162,12 @@
       }
     }
 
-    .cell-info {
+    // ---- COLUM Info
+    .mat-column-info {
+      width: auto;
+      min-width: 300px;
       padding: 5px 10px !important;
       letter-spacing: normal;
-      width: 350px;
 
       li {
         margin-bottom: 5px;
@@ -147,8 +207,8 @@
       }
     }
 
-    .cell-spec {
-      min-width: 135px;
+    // ---- COLUM Meta
+    .mat-column-meta {
       width: 220px;
       @include headline-6;
       line-height: normal;
@@ -163,26 +223,27 @@
           width: 16px;
         }
       }
-
     }
 
-    th.cell-launch{
-      width: 140px !important;
+    // ---- COLUM Launch Button
+    .mat-column-launch {
+      width: 140px;
+
+      app-main-session-button {
+        display: block;
+        width: 120px !important;
+      }
     }
 
-    th.cell-edit {
-      width: 20px;
-    }
-
-    td.cell-edit {
+    // ---- COLUM Menu
+    .mat-column-menu {
+      width: 65px !important;
       padding: 0 !important;
-      align-items: center;
-      vertical-align: top;
 
       button {
         position: relative;
         border-radius: 0;
-        width: 100%;
+        width: 65px;
         min-height: 65px;
 
         mat-icon {
@@ -201,7 +262,7 @@
   }
 
   table.expired {
-    .cell-thumbnail {
+    .mat-column-thumbnail {
       color: map-get($app-gray, light);
 
       .chip__m {

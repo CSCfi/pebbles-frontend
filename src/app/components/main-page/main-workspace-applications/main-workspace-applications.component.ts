@@ -3,8 +3,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatButton } from "@angular/material/button";
-import { Data } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
@@ -16,13 +15,15 @@ import { PublicConfigService } from 'src/app/services/public-config.service';
 import { SystemNotificationService } from 'src/app/services/system-notification.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
-import { MainApplicationItemFormComponent } from '../main-application-item-form/main-application-item-form.component';
 import {
   MainApplicationWizardFormComponent
 } from '../main-application-wizard-form/main-application-wizard-form.component';
 import {
   MainSelectWorkspaceDialogComponent
 } from '../main-select-workspace-dialog/main-select-workspace-dialog.component';
+import {
+  MainApplicationAdvancedFormComponent
+} from "../main-application-advanced-form/main-application-advanced-form.component";
 
 export interface ApplicationRow {
   select: boolean;
@@ -65,12 +66,15 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   @Input() context: Data;
   @Input() workspace: Workspace;
   @Input() isWorkspaceExpired = false;
-  // ---- Remove the line below once the dialog UI is discontinued.
-  @ViewChild('openApplicationCreationForm',{ read: MatButton }) appCreationFormBtn!: MatButton;
+  @Input() isFormOpen = false;
+  @Input() selectedApplicationId: string | null;
+
+  @ViewChild(MainApplicationAdvancedFormComponent) advancedFormComponent!: MainApplicationAdvancedFormComponent;
 
   constructor(
-    private applicationService: ApplicationService,
+    private router: Router,
     private dialog: MatDialog,
+    private applicationService: ApplicationService,
     private eventService: EventService,
     private workspaceService: WorkspaceService,
     private systemNotificationService: SystemNotificationService,
@@ -82,7 +86,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     this.subscriptions.push(this.eventService.applicationDataUpdate$.subscribe(_ => {
       this.rebuildDataSource();
     }));
-    // this.openApplicationItemFormDialog(null);
   }
 
   ngOnChanges(): void {
@@ -215,23 +218,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     this.applicationService.deleteApplication(application).subscribe();
   }
 
-  openApplicationItemFormDialog(applicationId: string | null): void {
-    // ---- Remove the line below once the dialog UI is discontinued.
-    this.appCreationFormBtn?._elementRef.nativeElement.blur();
-
-    this.dialog.open(MainApplicationItemFormComponent, {
-      width: '800px',
-      height: '95vh',
-      autoFocus: false,
-      data: {
-        workspaceId: this.workspace.id,
-        application: applicationId ? this.getTargetApplication(applicationId) : null,
-        isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspace.id).name.startsWith('System.')
-      }
-    }).afterClosed().subscribe(_ => {
-    });
-  }
-
   openApplicationWizardDialog(): void {
     this.dialog.open(MainApplicationWizardFormComponent, {
       width: '1000px',
@@ -242,7 +228,10 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
         workspaceId: this.workspace.id,
         isWorkspacePublic: this.workspaceService.getWorkspaceById(this.workspace.id).name.startsWith('System.')
       }
-    }).afterClosed().subscribe(_ => {
+    }).afterClosed().subscribe(applicationId => {
+      if (applicationId) {
+        this.openAdvancedForm(applicationId)
+      }
     });
   }
 
@@ -252,5 +241,18 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
 
   getApplicationTypeName(type: ApplicationType): string {
     return this.applicationService.applicationTypeName(type);
+  }
+
+  openAdvancedForm(applicationId: string | null): void {
+    this.router.navigate([], {
+      queryParams: {
+        edit: applicationId,
+      }, queryParamsHandling: 'merge'
+    }).then(r => {
+        setTimeout(() => {
+          this.advancedFormComponent?.focusFirstInput();
+        }, 100);
+      }
+    );
   }
 }

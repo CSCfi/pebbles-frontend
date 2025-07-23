@@ -23,6 +23,8 @@ export class EventService {
   public userDataUpdate$: Subject<string> = new Subject();
   // subject for tapping to login/logout events
   public loginStatus$: Subject<LoginStatusChange> = new Subject();
+  // subject for shake events
+  public uiEffect$: Subject<boolean> = new Subject();
 
   constructor() {
   }

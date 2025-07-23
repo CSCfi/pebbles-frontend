@@ -21,7 +21,6 @@ import { MainHelpComponent } from './main-help/main-help.component';
 import { MainAccountComponent } from './main-account/main-account.component';
 // ---- Application parts component
 import { MainApplicationItemComponent } from './main-application-item/main-application-item.component';
-import { MainApplicationItemFormComponent } from './main-application-item-form/main-application-item-form.component';
 import {
   MainApplicationWizardFormComponent
 } from './main-application-wizard-form/main-application-wizard-form.component';
@@ -49,7 +48,9 @@ import {
   MainWorkspaceCustomImagesComponent
 } from "./main-workspace-custom-images/main-workspace-custom-images.component";
 import { MainCustomImageFormComponent } from "./main-custom-image-form/main-custom-image-form.component";
-import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {
+  MainApplicationAdvancedFormComponent
+} from "./main-application-advanced-form/main-application-advanced-form.component";
 
 @NgModule({
   declarations: [
@@ -71,8 +72,8 @@ import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-to
     MainWorkspaceApplicationsComponent,
     MainWorkspaceCustomImagesComponent,
     MainApplicationItemComponent,
-    MainApplicationItemFormComponent,
     MainApplicationWizardFormComponent,
+    MainApplicationAdvancedFormComponent,
     MainSessionButtonComponent,
     MainContentStateComponent,
     MainJoinWorkspaceDialogComponent,
@@ -92,8 +93,6 @@ import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-to
     SharedModule,
     FontAwesomeModule,
     IconModule,
-    MatButtonToggleGroup,
-    MatButtonToggle
   ],
   providers: [DateDisplayPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

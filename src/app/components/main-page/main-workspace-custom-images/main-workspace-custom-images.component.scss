@@ -1,17 +1,18 @@
 @import "src/styles/main.scss";
 
 #workspace-custom-images-container {
-  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  padding: 20px 40px 30px;
-  max-width: 1200px;
+  padding: 20px 30px 30px;
+  width: 1100px;
+  max-width: 1100px;
   margin: 0 auto;
 
   .actions {
     text-align: right;
+    flex: 0 0 40px;
 
     button {
       margin-bottom: 5px;
@@ -23,8 +24,7 @@
   }
 
   .table-container {
-    flex: 1 0 auto;
-    height: 100px;
+    flex: 1 1 auto;
     overflow: auto;
   }
 

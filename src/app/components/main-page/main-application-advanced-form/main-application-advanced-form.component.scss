@@ -1,0 +1,413 @@
+@import "src/styles/main.scss";
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  overflow: hidden;
+}
+
+.form-header {
+  flex-basis: 65px;
+  flex-shrink: 0;
+  max-height: 65px;
+
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  border-bottom: 1px solid $gray-color;
+  background: #FFFFFF;
+
+  .cancel-button {
+    padding: 10px 20px;
+    height: 100%;
+    text-align: left;
+    background: $gray-extra-light-color;
+    border-radius: 0;
+
+    .mat-icon {
+      font-size: 1.6rem;
+      height: auto;
+      width: auto;
+    }
+  }
+
+  .form-title {
+    flex: 1;
+    @include center(both);
+    text-align: center;
+    height: 100%;
+    padding-left: 30px;
+  }
+
+  div.spacer {
+    width: 120px;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 20px 30px;
+  background: $gray-extra-light-color;
+  position: relative;
+
+
+  .form-actions {
+    flex-shrink: 0;
+    flex-basis: 40px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
+    align-items: flex-start;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-start;
+
+    button {
+      height: 40px;
+
+      &:disabled {
+        background-color: map-get($app-gray, 100) !important;
+      }
+
+      &.submit-button {
+        flex: 0 0 200px;
+      }
+
+      &.submit-draft-button {
+        flex: 0 0 200px;
+      }
+
+      &.submit-draft-button:not(.mat-mdc-button-disabled) {
+        border: solid 2px $primary-color;
+        color: $primary-color;
+      }
+
+      &.clear-button {
+        flex: 0 1 auto;
+        margin-left: auto;
+        text-decoration: underline;
+
+        mat-icon {
+          font-size: 2.4rem;
+          width: auto;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  .form-content {
+    position: relative;
+    margin: 0 auto 5px;
+    width: 100%;
+    max-width: 900px;
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+
+  mat-button-toggle-group {
+    min-height: 50px;
+  }
+
+  ::ng-deep mat-form-field {
+    width: 100%;
+
+    .mat-mdc-text-field-wrapper {
+      padding-left: 10px;
+      min-height: 40px;
+
+      .mat-mdc-form-field-infix {
+        padding: 5px;
+      }
+    }
+  }
+}
+
+section {
+  position: relative;
+  padding: 55px 35px 20px 30px;
+  background: #FFFFFF;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &.session-section {
+    margin-bottom: 10px;
+  }
+
+  h3.section-title {
+    position: absolute;
+    font-size: 1.3rem;
+    background: $gray-dark-color;
+    color: #FFFFFF;
+    padding: 3px 15px;
+    margin-top: -55px;
+    margin-left: -30px;
+  }
+
+  .form-container {
+
+    &.application-template-form {
+      margin-bottom: 50px;
+    }
+
+    &.application-type-form,
+    &.image-source-form {
+      margin-bottom: 40px;
+    }
+
+    &.custom-image-form,
+    &.session-lifetime-form,
+    &.session-memory-form,
+    &.download-method-form,
+    &.download-source-form,
+    &.storage-form {
+      margin-bottom: 35px;
+    }
+
+    &.storage-form {
+      .checkbox-group {
+        margin-bottom: 10px;
+
+        ::ng-deep .mdc-form-field {
+          display: flex;
+          align-items: flex-start;
+
+          .mdc-checkbox {
+            margin-top: -6px;
+          }
+        }
+      }
+    }
+
+    &.image-url-form {
+      margin-bottom: 55px;
+    }
+
+    h3.form-title {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 1.6rem !important;
+      font-weight: 600;
+
+      .hint {
+        display: inline;
+        margin-left: 5px;
+        font-weight: normal;
+        font-size: 1.3rem;
+      }
+    }
+
+    .key {
+      display: inline;
+      border: solid 1px $gray-color;
+      background: $gray-light-color;
+      text-transform: capitalize;
+      margin: 0 3px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    p {
+      margin-bottom: 5px !important;
+      @include headline-5;
+    }
+
+    ::ng-deep.toggle-button-group {
+      display: flex;
+      align-items: stretch;
+      box-shadow: none !important;
+      border: 1px $gray-dark-color solid !important;
+      overflow: visible;
+
+      .mat-button-toggle {
+        flex: 1;
+        align-items: stretch;
+        border-left: 1px $gray-dark-color solid;
+
+        .mat-button-toggle-button {
+          font-size: 1.4rem !important;
+        }
+
+        &:first-child {
+          border-left: none;
+        }
+
+        .mat-button-toggle-label-content {
+          display: flex;
+          overflow: visible;
+          align-items: stretch;
+          padding: 10px 20px !important;
+          line-height: 120%;
+          color: $primary-dark-color;
+        }
+      }
+
+      .mat-button-toggle-checked {
+        background-color: $secondary-color;
+        color: white;
+
+        .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+          color: #FFFFFF !important;
+          display: block;
+        }
+
+        .mat-button-toggle-label-content {
+          color: #FFFFFF !important;
+        }
+      }
+    }
+
+    &.application-template-form {
+      ::ng-deep.mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+    }
+
+    .mat-mdc-table {
+      border: 2px solid map-get($app-gray, 100);
+
+      .mat-mdc-header-row {
+        height: 20px;
+        background: map-get($app-gray, 100);
+      }
+
+      .template-name {
+        white-space: nowrap;
+        font-weight: bold;
+      }
+
+      .template-labels {
+        white-space: nowrap;
+
+        span.label:after {
+          content: '/';
+          margin-left: 2px;
+        }
+
+        span.label:last-child:after {
+          content: none;
+        }
+      }
+    }
+
+    .env-var-example {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .form-value {
+    text-transform: capitalize;
+    font-size: 1.5rem !important;
+  }
+  .warning {
+    color: $warn-color;
+  }
+}
+
+.custom-image-form {
+
+  .custom-image-selection-form {
+    margin-top: 10px;
+  }
+
+  mat-list-item {
+    @include center('vertical');
+    --mdc-list-list-item-label-text-size: 12px;
+    --mdc-list-list-item-label-text-line-height: 12px;
+    --mdc-list-list-item-one-line-container-height: 30px;
+    padding: 0;
+
+    ::ng-deep.mdc-list-item__primary-text {
+      @include center('vertical', 'inline');
+    }
+
+    span.done-flag {
+      @include center('vertical', 'inline');
+      border: 1px solid $secondary-color;
+      border-radius: 20px;
+      color: $secondary-color;
+      padding: 2px 10px 2px 5px;
+      margin-right: 10px;
+      height: 26px;
+      width: 85px;
+
+      .mat-icon.done-icon {
+        font-size: 2.0rem;
+        height: 20px;
+        color: $secondary-color;
+      }
+    }
+
+    span.incomplete-flag {
+      @include center('vertical', 'inline');
+      border: 1px solid $gray-color;
+      border-radius: 20px;
+      color: $gray-color;
+      padding: 2px 10px 2px 10px;
+      margin-right: 10px;
+      height: 26px;
+      width: 85px;
+    }
+
+    .link {
+      @include center(both, inline);
+      gap: 3px;
+      color: $primary-color !important;
+      font-size: 1.3rem !important;
+      text-decoration: underline;
+
+      mat-icon {
+        font-size: 1.8rem !important;
+        color: $primary-color !important;
+        height: 16px !important;
+        width: 18px !important;
+      }
+    }
+
+    span.key:hover {
+      cursor: pointer;
+      background: $accent-color;
+    }
+  }
+
+  ::ng-deep.mdc-list-item__primary-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .meta {
+    margin-left: auto;
+    font-size: 0.8em;
+    color: gray;
+  }
+}
+
+
+.session-memory-form .mat-mdc-select,
+.session-lifetime-form .mat-mdc-select {
+  background-color: rgba(0, 0, 0, 0.04);
+  padding: 10px;
+  border-radius: 4px 4px 0 0;
+  border-bottom: 1px solid map-get($app-gray, light);
+}
+
+::ng-deep mat-mdc-form-field-error-wrapper {
+  position: relative !important;
+
+  mat-error {
+    position: relative !important;
+  }
+}

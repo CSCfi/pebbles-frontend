@@ -4,11 +4,10 @@
 #workspace-owner-container {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  align-items: stretch;
   overflow: hidden;
 
   .workspace-list-container {
-    flex: 0 1 350px;
     min-width: 350px;
     max-width: 350px;
     height: 100vh;
@@ -27,14 +26,34 @@
   }
 
   #workspace-owner-tab-container {
-    flex: 1 1 auto;
+    flex: 1;
+    overflow: auto;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+
+    app-service-announcement {
+      flex-shrink: 0;
+    }
+
+    app-main-workspace-applications,
+    app-main-workspace-members,
+    app-main-workspace-custom-images,
+    app-main-workspace-item-detail {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+    }
   }
 }
 
 // ---- Left UI
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+  flex: 1;
+}
+
 #workspace-owner-container {
 
   .content-header-container {
@@ -104,7 +123,7 @@
         .card-header {
           display: flex;
           flex-direction: row;
-          gap: 5px;
+          gap: 10px;
           padding: 25px 20px;
 
           mat-icon {
@@ -157,6 +176,14 @@
 
           &.public {
             border-left: 8px solid #6bb9bc;
+          }
+
+          .card-header {
+            padding: 25px 20px 20px 10px;
+          }
+
+          .workspace-info {
+            padding: 10px 20px 5px 15px;
           }
         }
 
@@ -282,6 +309,10 @@
   overflow: visible !important;
 }
 
+::ng-deep .mat-mdc-tab-label-container {
+  padding-top: 7px;
+}
+
 ::ng-deep .mat-mdc-tab {
   z-index: 1 !important;
 }
@@ -289,7 +320,6 @@
 ::ng-deep .mat-mdc-tab:nth-child(3) {
   z-index: 1000 !important;
 }
-
 
 
 #workspace-owner-container {
@@ -301,52 +331,18 @@
     padding-bottom: 40%;
   }
 
-  .course-request-wrapper {
-    position: absolute;
-    background: #acb0e0;
-    top: 16px;
-    right: 10px;
-
-    button.course-request {
-      background: #fff;
-      z-index: 1000;
-      padding: 5px 15px 5px 20px;
-      border-radius: 50px;
-      color: $primary-color;
-
-      &:before {
-        font-size: 1.8rem;
-        width: auto;
-        height: auto;
-        margin-right: 4px;
-        font-family: Material Icons, serif;
-        content: "\ebcc";
-      }
-
-      &:after {
-        font-size: 1.4rem;
-        width: auto;
-        height: auto;
-        margin-left: 4px;
-        font-family: Material Icons, serif;
-        content: "\e89e";
-      }
-    }
-  }
-
   #workspace-owner-tab-container {
     background: $primary-light-color;
-    border: 5px solid $primary-light-color;
-    border-top: 10px solid $primary-light-color;
-    border-bottom: 0;
 
     mat-tab-group {
-      height: 100vh;
+      flex: 1;
+      overflow: auto;
+
       background: $light-color;
       width: 100%;
 
       ::ng-deep.mat-mdc-tab-header {
-        height: 50px;
+        flex-basis: 50px;
         background: $primary-light-color;
 
         .mat-mdc-tab {
@@ -386,6 +382,10 @@
             color: #18227c;
             text-wrap: auto;
             word-wrap: break-word;
+
+            span {
+              @include center(both);
+            }
           }
 
           mat-icon {
@@ -395,7 +395,7 @@
             height: auto;
           }
 
-          mat-icon+span {
+          mat-icon + span {
             margin-left: 4px;
           }
 
@@ -468,6 +468,46 @@
   }
 }
 
+.tab-group-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .course-request-wrapper {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    button.course-request {
+      background: #fff;
+      z-index: 1000;
+      padding: 5px 15px 5px 20px;
+      border-radius: 50px;
+      color: $primary-color;
+
+      &:before {
+        font-size: 1.8rem;
+        width: auto;
+        height: auto;
+        margin-right: 4px;
+        font-family: Material Icons, serif;
+        content: "\ebcc";
+      }
+
+      &:after {
+        font-size: 1.4rem;
+        width: auto;
+        height: auto;
+        margin-left: 4px;
+        font-family: Material Icons, serif;
+        content: "\e89e";
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1250px) {
 
   #workspace-owner-container {
@@ -475,6 +515,46 @@
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
+
+    .workspace-list-container,
+    .tab-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-header-container {
+      flex-basis: 60px;
+      gap: 0;
+
+      .create-workspace-button {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+    }
+
+    .mobile-workspace-list {
+      flex-basis: 55px;
+
+      ::ng-deep.mat-mdc-form-field-bottom-align {
+        display: none !important;
+      }
+    }
+
+    .workspace-owner-tab-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .tab-group-wrapper {
+        flex: 1;
+
+        .mat-mdc-tab-header, .mat-mdc-tab-body-wrapper {
+          flex: 1;
+        }
+      }
+    }
 
     .course-request-wrapper {
       background: none;
@@ -491,14 +571,12 @@
     #workspace-owner-tab-container {
       z-index: 1000;
       width: 100% !important;
-      height: calc( 100vh - 300px);
       padding: 0 20px 20px;
       border: none;
-      overflow: visible;
     }
 
     mat-tab-group {
-      height: calc( 100vh - 250px) !important;
+      height: calc(100vh - 250px) !important;
     }
   }
 
@@ -508,19 +586,26 @@
 
   .mobile-workspace-list {
     display: block !important;
-    padding: 15px 20px 0;
-    background: $primary-light-color;
+    padding: 0;
+    background: #ffffff;
+
+    box-shadow: 0 -2px 2px 0.5px rgba(0, 0, 50, 0.1) !important;
 
     ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
       --mdc-filled-text-field-container-color: #f4ffdb !important;
     }
   }
 
-  button.course-request {
-    background: $primary-color !important;
-    color: #ffffff !important;
-    top: 10px;
-    right: 15px;
+  .course-request-wrapper {
+    top: 10px !important;
+    right: 0 !important;
+
+    button.course-request {
+      background: $primary-color !important;
+      color: #ffffff !important;
+      top: 0;
+      right: 0;
+    }
   }
 }
 
@@ -575,4 +660,10 @@
       background: $gray-dark-color;
     }
   }
+}
+
+::ng-deep.mat-mdc-tab-body-content {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
 }

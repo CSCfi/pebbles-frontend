@@ -25,8 +25,7 @@
           </ng-container>
           <div *ngIf="!isQuotaLeft()" class="max-quota-warning">
             No workspace quota left.
-            If you want to create more workspaces and you cannot free up quota by deleting unused workspaces,
-            please contact us.
+            Please delete unused workspaces or contact us to create more.
           </div>
         </div>
       </ng-container>
@@ -105,9 +104,9 @@
           </mat-select-trigger>
           <ng-container *ngFor="let workspace of workspaces">
             <mat-option
-              [value]="workspace.id"
-              class="workspace-selection">
-              <span class="lifecycle-badge" [ngClass]="getItemLifecycleNote(workspace)">{{workspace.name}}</span>
+                [value]="workspace.id"
+                class="workspace-selection">
+              <span class="lifecycle-badge" [ngClass]="getItemLifecycleNote(workspace)">{{ workspace.name }}</span>
             </mat-option>
           </ng-container>
         </mat-select>
@@ -135,27 +134,35 @@
     <!--  Service Announcement 'workspace-owner'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
 
-    <ng-container *ngIf="selectedWorkspace">
+    <div class="tab-group-wrapper" *ngIf="selectedWorkspace">
+
       <div class="course-request-wrapper">
         <button mat-button matTooltip="Hosting a course? Please inform us by using this form."
                 class="course-request" (click)="openCourseRequest()">
           Course Request
         </button>
       </div>
+
       <mat-tab-group class="workspace-owner-tab"
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
                      mat-align-tabs="left"
                      [selectedIndex]="selectedTab">
+
         <mat-tab label="applications">
           <ng-template mat-tab-label>
-            <mat-icon>import_contacts</mat-icon>
-            <span class="tab-title">Applications</span>
+            <span (click)="closeForm()">
+              <mat-icon>import_contacts</mat-icon>
+              <span class="tab-title">Applications</span>
+            </span>
           </ng-template>
           <app-main-workspace-applications
-                [workspace]="selectedWorkspace"
-                [context]="context"
-                [isWorkspaceExpired]="isWorkspaceExpired">
+              *ngIf="selectedTab===0"
+              [workspace]="selectedWorkspace"
+              [context]="context"
+              [isWorkspaceExpired]="isWorkspaceExpired"
+              [isFormOpen]="isAppFormOpen"
+              [selectedApplicationId]="selectedApplicationId">
           </app-main-workspace-applications>
         </mat-tab>
         <mat-tab label="members">
@@ -164,30 +171,34 @@
             <span class="tab-title">Members</span>
           </ng-template>
           <app-main-workspace-members
-                  [workspace]="selectedWorkspace">
+              *ngIf="selectedTab===1"
+              [workspace]="selectedWorkspace">
           </app-main-workspace-members>
         </mat-tab>
         <mat-tab *ngIf="isCustomImagesFeatureEnabled" label="custom-images">
           <ng-template mat-tab-label>
             <mat-icon>album</mat-icon>
             <span class="tab-title">Custom Images</span>
-            <span class="label">Preview</span>
+            <span class="label" #customImagesTabLabel>Preview</span>
           </ng-template>
           <app-main-workspace-custom-images
-                [workspace]="selectedWorkspace"
-                [isWorkspaceExpired]="isWorkspaceExpired">
+              *ngIf="selectedTab===2"
+              [workspace]="selectedWorkspace"
+              [isWorkspaceExpired]="isWorkspaceExpired">
           </app-main-workspace-custom-images>
         </mat-tab>
         <mat-tab label="config">
           <ng-template mat-tab-label>
             <mat-icon matTooltip="Settings...">settings</mat-icon>
           </ng-template>
-          <app-main-workspace-item-detail [workspace]="selectedWorkspace"
-                                          (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
+          <app-main-workspace-item-detail
+              *ngIf="selectedTab===3"
+              [workspace]="selectedWorkspace"
+              (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
           </app-main-workspace-item-detail>
         </mat-tab>
       </mat-tab-group>
-    </ng-container>
+    </div>
 
     <ng-container *ngIf="isWorkspaceDeleted">
       <section class="status-info-container">

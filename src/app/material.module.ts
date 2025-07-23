@@ -21,7 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonToggle, MatButtonToggleGroup, MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -58,6 +58,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatTabsModule,
     MatExpansionModule,
     MatButtonToggleModule,
+    MatButtonToggleGroup,
+    MatButtonToggle,
     MatChipsModule,
     MatIconModule,
     MatProgressSpinnerModule,

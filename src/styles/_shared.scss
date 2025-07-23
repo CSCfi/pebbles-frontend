@@ -117,6 +117,16 @@ h5 {
   @include headline-5;
 }
 
+@keyframes shake-vertical {
+  0%, 100% { transform: translateY(0); }
+  20%, 60%  { transform: translateX(-2px); }
+  40%, 80%  { transform: translateX(2px); }
+}
+
+.shake-vertical {
+  animation: shake-vertical 0.2s ease-in-out infinite;
+}
+
 .chips {
   margin: 7px 0 7px 0;
 
