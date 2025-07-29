@@ -7,28 +7,31 @@
   margin: auto;
   overflow: hidden;
 
-  button.launch-button {
-    background: $light-color !important;
-
-    .mat-icon {
-      color: $gray-color;
-      display: block;
-    }
-
-    &:hover {
-      @include accent-main-background;
+  button {
+    &.launch-button {
+      background: $light-color !important;
 
       .mat-icon {
-        color: $primary-color;
+        color: $gray-color;
+        display: block;
+      }
+
+      &:hover {
+        @include accent-main-background;
+
+        .mat-icon {
+          color: $primary-color;
+        }
       }
     }
-  }
 
-  .launch-button-inactive {
-    background: $gray-color !important;
+    &.launch-button-inactive {
+      background: $gray-color !important;
 
-    .mat-icon {
-      color: map-get($app-gray, 50);
+      .mat-icon {
+        color: map-get($app-gray, 50);
+        display: block;
+      }
     }
   }
 
@@ -132,6 +135,7 @@
 
       &:hover {
         @include accent-main-background;
+
         * {
           color: $dark-text-color;
         }
@@ -160,6 +164,7 @@
       z-index: 2000;
 
       &.upper-button {
+        padding-top: 20px;
         height: 170px;
         @include center;
       }
