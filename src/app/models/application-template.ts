@@ -5,12 +5,6 @@ export enum ApplicationType {
   Generic = 'generic'
 }
 
-export enum ImageSourceType {
-  Template = 'template',
-  Customized = 'customized',
-  Original = 'original'
-}
-
 export class ApplicationTemplate {
   public static EXAMPLE_TEMPLATE_NAME = 'Example';
 

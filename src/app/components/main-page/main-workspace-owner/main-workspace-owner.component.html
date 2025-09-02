@@ -24,8 +24,9 @@
             </button>
           </ng-container>
           <div *ngIf="!isQuotaLeft()" class="max-quota-warning">
-            No workspace quota left.
-            Please delete unused workspaces or contact us to create more.
+            Maximum number of workspaces reached.
+            Please delete unused workspaces, or contact
+            <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a> for more quota.
           </div>
         </div>
       </ng-container>

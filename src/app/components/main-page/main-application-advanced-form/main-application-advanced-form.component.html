@@ -17,7 +17,7 @@
               *ngIf="isCreationMode;else updatePublicButton"
               [disabled]="applicationItemEditFormGroup.invalid"
               (click)="createApplicationByPlainMode(true)">
-        Save as Public
+        Save and publish
       </button>
       <ng-template #updatePublicButton>
         <button class="submit-button primary-btn"
@@ -25,7 +25,7 @@
                 type="button"
                 [disabled]="applicationItemEditFormGroup.invalid"
                 (click)="editApplicationItem(true)">
-          Update as Public
+          Save {{ application?.is_enabled ? '' : 'and publish' }}
         </button>
       </ng-template>
       <button mat-flat-button
@@ -33,7 +33,7 @@
               *ngIf="isCreationMode;else updateDraftButton"
               [disabled]="applicationItemEditFormGroup.invalid"
               (click)="createApplicationByPlainMode(false)">
-        Save as Draft
+        Save and make draft
       </button>
       <ng-template #updateDraftButton>
         <button mat-flat-button
@@ -41,21 +41,20 @@
                 type="button"
                 [disabled]="applicationItemEditFormGroup.invalid"
                 (click)="editApplicationItem(false)">
-          Update as Draft
+          Save {{ application?.is_enabled ? 'and make draft' : 'and keep draft' }}
         </button>
       </ng-template>
       <button
-          *ngIf="isCreationMode"
-          class="clear-button" mat-button mat-dialog-close
-          (click)="setCreationForm()">
+        (click)="setCreationForm()"
+        *ngIf="isCreationMode" class="clear-button" mat-button>
         <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
         Clear
       </button>
     </div>
     <div class="form-content">
-      <!-- Base application information -->
+      <!-- Basic information -->
       <section class="base-section">
-        <h3 class="section-title">Application information</h3>
+        <h3 class="section-title">Basic information</h3>
         <div class="form-container name-form">
           <h3 class="form-title">Application name *</h3>
           <mat-form-field appearance="fill">
@@ -80,57 +79,31 @@
           </mat-form-field>
         </div>
       </section>
-      <!--// Base application information -->
+      <!--// Basic information -->
+
       <!-- Image information -->
       <section class="image-section">
-        <h3 class="section-title">Image information</h3>
+        <h3 class="section-title">Configuration</h3>
 
-        <div class="form-container application-type-form">
-          <h3 class="form-title">Application type *</h3>
-          <ng-container *ngIf="isCreationMode;else applicationTypeDisplay">
+        <ng-container *ngIf="isCreationMode;else editModeTypeAndTemplate">
+          <div class="form-container application-type-form">
+            <h3 class="form-title">Type *</h3>
             <mat-button-toggle-group
-                (change)="onApplicationTypeChange()"
-                formControlName="applicationType"
-                class="toggle-button-group">
+              (change)="onChangeApplicationType()"
+              class="toggle-button-group"
+              formControlName="applicationType"
+              hideSingleSelectionIndicator="true"
+            >
               <mat-button-toggle value="jupyter">Jupyter</mat-button-toggle>
               <mat-button-toggle value="rstudio">RStudio</mat-button-toggle>
             </mat-button-toggle-group>
-          </ng-container>
-          <ng-template #applicationTypeDisplay>
-            <p class="form-value">{{ application?.application_type }}</p>
-            <p class="warning">Application type is not editable</p>
-          </ng-template>
-        </div>
+          </div>
 
-        <div class="form-container image-source-form">
-          <h3 class="form-title">Image source</h3>
-          <p>Select the source of your built image</p>
-          <mat-button-toggle-group
-              (change)="onChangeImageSource($event.value)"
-              formControlName="imageSourceOption"
-              class="toggle-button-group"
-              appearance="legacy">
-            <mat-button-toggle [value]="ImageSourceType.Template">
-              Noppe pre-build Image template
-            </mat-button-toggle>
-            <mat-button-toggle [value]="ImageSourceType.Customized"
-                               *ngIf="isCustomImageVisible">
-              Custom image in this workspace
-            </mat-button-toggle>
-            <mat-button-toggle [value]="ImageSourceType.Original">
-              External image
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-
-        <div class="form-container application-template-form"
-             *ngIf="applicationItemEditFormGroup.controls.imageSourceOption?.value===ImageSourceType.Template">
-
-          <h3 class="form-title">Image template</h3>
-          <ng-container *ngIf="isCreationMode;else applicationTemplateDisplay">
+          <div class="form-container application-template-form">
+            <h3 class="form-title">Template</h3>
             <mat-form-field appearance="fill">
-              <mat-select formControlName="applicationTemplateId"
-                          (selectionChange)="onChangeApplicationTemplate($event.source.value)"
+              <mat-select (selectionChange)="onChangeApplicationTemplate($event.source.value)"
+                          formControlName="applicationTemplateId"
                           placeholder="Choose your application template from the list">
                 <mat-option *ngFor="let tmpl of applicationTemplates" value="{{ tmpl.id }}">
                   <ng-container *ngIf="!tmpl.is_enabled">[disabled]</ng-container>
@@ -141,31 +114,53 @@
                 <strong>Application template should be selected.</strong>
               </mat-error>
             </mat-form-field>
-          </ng-container>
-          <ng-template #applicationTemplateDisplay>
-            <p class="form-value">{{ application?.template_name }}</p>
-            <p class="warning">Application template is not editable</p>
-          </ng-template>
+            <div *ngIf="selectedApplicationTemplate" [innerHTML]="selectedApplicationTemplate.description">
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #editModeTypeAndTemplate>
+          <div class="form-container type-and-template-info">
+            <h3 class="form-title">Type and template</h3>
+            <p>Type: {{ application?.application_type }}</p>
+            <p>Template: {{ application?.template_name }}</p>
+          </div>
+        </ng-template>
 
-          <table mat-table [dataSource]="applicationTemplateDataSource"
-                 *ngIf="selectedApplicationTemplate">
-            <ng-container matColumnDef="info">
-              <th mat-header-cell *matHeaderCellDef>Template information</th>
-              <td mat-cell *matCellDef="let element">
-                <ul>
-                  <li class="template-name"> {{ element.name }}</li>
-                  <li class="description mat-caption" [innerHTML]="element.description"></li>
-                </ul>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="applicationTemplateColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: applicationTemplateColumns;"></tr>
-          </table>
+        <div class="form-container image-source-form">
+          <h3 class="form-title">Container image</h3>
+          <mat-button-toggle-group
+            (change)="onChangeImageSource($event.value)"
+            appearance="legacy"
+            formControlName="imageSourceOption"
+            class="toggle-button-group"
+            hideSingleSelectionIndicator="true"
+          >
+            <mat-button-toggle [disabled]="!isImageSourceOptionEnabled(ImageSourceType.Template)"
+                               [value]="ImageSourceType.Template"
+            >
+              Default image defined in the template
+            </mat-button-toggle>
+            <mat-button-toggle [value]="ImageSourceType.Customized"
+                               *ngIf="isCustomImageVisible"
+                               [disabled]="!isImageSourceOptionEnabled(ImageSourceType.Customized)"
+            >
+              Custom image in this workspace
+            </mat-button-toggle>
+            <mat-button-toggle [disabled]="!isImageSourceOptionEnabled(ImageSourceType.External)"
+                               [value]="ImageSourceType.External"
+
+            >
+              External image
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <p *ngIf="selectedImageSource===ImageSourceType.Template">
+            {{ selectedApplicationTemplate?.base_config.image }}
+          </p>
         </div>
 
         <div class="form-container custom-image-form"
-             *ngIf="applicationItemEditFormGroup.controls.imageSourceOption?.value===ImageSourceType.Customized &&
-                      applicationItemEditFormGroup.controls.applicationType?.value!=='rstudio'">
+             *ngIf="selectedImageSource===ImageSourceType.Customized">
           <h3 class="form-title">Custom image</h3>
           <mat-list>
             <mat-list-item [class.done]="customImageList.length > 0">
@@ -203,7 +198,6 @@
           </mat-list>
           <mat-form-field appearance="fill" class="custom-image-selection-form">
             <mat-select formControlName="customImageUrl"
-                        (selectionChange)="onChangeCustomImage($event.value)"
                         placeholder="Choose your custom image from the list">
               <mat-option *ngFor="let ci of customImageList" [value]="ci.url">
                 {{ ci.name }}
@@ -216,7 +210,7 @@
         </div>
 
         <div class="form-container image-url-form"
-             *ngIf="applicationItemEditFormGroup.controls.imageSourceOption?.value===ImageSourceType.Original">
+             *ngIf="selectedImageSource===ImageSourceType.External">
           <h3 class="form-title">Image URL</h3>
           <p class="mat-caption">
             Manually enter the URL for the external image.
@@ -253,7 +247,7 @@
       <!--// Image information -->
       <!-- Session configuration -->
       <section class="session-section">
-        <h3 class="section-title">Session information</h3>
+        <h3 class="section-title">Session configuration</h3>
 
         <div class="form-container session-lifetime-form">
           <h3 class="form-title">Session lifetime</h3>
@@ -265,7 +259,7 @@
         </div>
 
         <div class="form-container session-memory-form">
-          <h3 class="form-title">Session memory</h3>
+          <h3 class="form-title">Session memory (RAM)</h3>
           <mat-select formControlName="sessionMemoryGiB">
             <mat-option *ngFor="let opt of availableMemoryOptions" [value]="opt.value">
               {{ opt.viewValue }}
@@ -296,7 +290,7 @@
               <button mat-flat-button class="primary-btn">Upload file</button>
             </div>
             <div
-                *ngSwitchCase=" ['git-clone','http-get'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
+              *ngSwitchCase=" ['git-clone','http-get'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
               <h3 class="form-title">Source URL</h3>
               <mat-form-field appearance="fill">
                 <input matInput formControlName="downloadSourceUrl">

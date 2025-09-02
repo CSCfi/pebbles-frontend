@@ -9,10 +9,17 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 import { CustomImageService } from "src/app/services/custom-image.service";
 import { PublicConfigService } from "src/app/services/public-config.service";
 import { Application, AttributeLimit } from 'src/app/models/application';
-import { ApplicationTemplate, ApplicationType, ImageSourceType } from 'src/app/models/application-template';
+import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { BuildState, CustomImage } from "src/app/models/custom-image";
 import { EventService } from "../../../services/event.service";
 import { HttpErrorResponse } from "@angular/common/http";
+import { forkJoin } from "rxjs";
+
+export enum ImageSourceType {
+  Template = 'template',
+  Customized = 'customized',
+  External = 'external'
+}
 
 // --- For table
 export interface ApplicationTemplateRow {
@@ -45,14 +52,12 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
 
   //---- Form
   applicationItemEditFormGroup: FormGroup;
-  // sessionMemoryGiB: number;
-  // sessionMemoryMaxGiB: number;
-  customImageList: any[];
+  customImageList: any[] = [];
+
   // ---- Values for Radio Input
   selectedLabels: string[];
   selectedDownloadMethod: string = null;
 
-  applicationTemplateColumns: string[] = ['info'];
   applicationTemplateDataSource: MatTableDataSource<ApplicationTemplateRow> = null;
 
   // isCheckedUserWorkFolder = true;
@@ -61,9 +66,20 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
 
   availableLifetimeOptions: any[];
   availableMemoryOptions: any[];
-
-  private prefix = 'image-registry.apps.2.rahti.csc.fi/noppe-public-images/';
   protected readonly ImageSourceType = ImageSourceType;
+  protected selectedImageSource: ImageSourceType;
+
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private applicationService: ApplicationService,
+    private customImageService: CustomImageService,
+    private applicationTemplateService: ApplicationTemplateService,
+    private workspaceService: WorkspaceService,
+    private publicConfigService: PublicConfigService,
+    private eventService: EventService,
+  ) {
+  }
 
   get isWorkspacePublic(): boolean {
     return this.workspaceService.isWorkspacePublic(this.workspaceId);
@@ -71,31 +87,6 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
 
   get isCreationMode(): boolean {
     return !this.application;
-  }
-
-  get customImage(): CustomImage {
-    const ci = this.customImages.find(
-      ci => ci.url === this.application.config.image_url);
-    return ci ? ci : null;
-  }
-
-  get applicationTemplate(): ApplicationTemplate {
-    const tmpl = this.applicationTemplates.find(
-      tmpl => tmpl.base_config.image === this.application.config.image_url);
-    return tmpl ? tmpl : null;
-  }
-
-  get imageSourceOption(): ImageSourceType {
-
-    if (this.application.config.image_url.indexOf(this.prefix) && this.customImage) {
-      return ImageSourceType.Customized;
-    }
-
-    if (this.application.config.image_url && this.applicationTemplate) {
-      return ImageSourceType.Template;
-    }
-
-    return ImageSourceType.Original;
   }
 
   get customImages(): CustomImage[] {
@@ -129,14 +120,49 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
     }
   }
 
-  get imageUrl(): string {
+  get isCustomImageVisible(): boolean {
+    return this.publicConfigService.isFeatureEnabled('customImages');
+  }
+
+  get isJupyterSelected(): boolean {
+    return this.applicationItemEditFormGroup.controls.applicationType?.value === ApplicationType.Jupyter
+      || this.application?.application_type === ApplicationType.Jupyter;
+  }
+
+
+  findMatchingCustomImage(): CustomImage {
+    const ci = this.customImages.find(
+      ci => ci.url === this.application.config.image_url);
+    return ci ? ci : null;
+  }
+
+  findMatchingApplicationTemplate(): ApplicationTemplate {
+    const tmpl = this.applicationTemplates.find(
+      tmpl => tmpl.base_config.image === this.application.config.image_url);
+    return tmpl ? tmpl : null;
+  }
+
+  inferImageSourceOptionFromApp(): ImageSourceType {
+    if (this.findMatchingCustomImage()) {
+      return ImageSourceType.Customized;
+    }
+
+    if (this.application?.config.image_url && this.findMatchingApplicationTemplate()) {
+      return ImageSourceType.Template;
+    }
+
+    return ImageSourceType.External;
+  }
+
+  inferImageUrl(): string {
     let url = '';
     const form = this.applicationItemEditFormGroup.controls;
+    // figure out the right place to get imageUrl from
     switch (form.imageSourceOption.value) {
       case ImageSourceType.Template:
-        const tmpl = this.applicationTemplates.find(
-          x => x.id === form.applicationTemplateId.value);
-        url = tmpl.base_config.image_url;
+        const tmpl = this.applicationTemplates.find(x => x.id === form.applicationTemplateId.value);
+        // template could be disabled when editing, so fall back to already configured image
+        url = tmpl ? tmpl.base_config.image : this.application.config.image_url;
         break;
       case ImageSourceType.Customized:
         url = form.customImageUrl.value;
@@ -145,33 +171,28 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
     return url ? url : form.imageUrl.value.trim();
   }
 
-  get isCustomImageVisible(): boolean {
-    return this.publicConfigService.isFeatureEnabled('customImages') &&
-      (this.applicationItemEditFormGroup.controls.applicationType?.value === ApplicationType.Jupyter ||
-        this.application?.application_type === ApplicationType.Jupyter);
-  }
-
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private applicationService: ApplicationService,
-    private customImageService: CustomImageService,
-    private applicationTemplateService: ApplicationTemplateService,
-    private workspaceService: WorkspaceService,
-    private publicConfigService: PublicConfigService,
-    private eventService: EventService,
-  ) {
-    // TODO: Needed in case application is not available (e.g test case)
-    // if (this.application) {
-    //   this.selectedLabels = this.application.labels;
-    // }
+  isImageSourceOptionEnabled(opt: ImageSourceType): boolean {
+    if (this.isCreationMode) {
+      return this.isJupyterSelected ? true : opt !== ImageSourceType.Customized;
+    } else {
+      return opt === this.selectedImageSource;
+    }
   }
 
   ngOnInit(): void {
-    this.editButtonClicked = this.createButtonClicked = false;
+    if (!this.applicationId) {
+      // error
+      this.closeAdvancedForm(false);
+    }
     this.rebuildForm();
 
-    if (this.applicationId) {
+    // make sure we have supporting data loaded
+    forkJoin([
+      this.customImageService.fetchCustomImages(),
+      this.applicationService.fetchApplications(),
+      this.applicationTemplateService.fetchApplicationTemplates(),
+    ]).subscribe(_ => {
+      this.editButtonClicked = this.createButtonClicked = false;
       if (this.applicationId === 'new') {
         this.setCreationForm();
       } else {
@@ -179,20 +200,11 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
         if (this.application) {
           this.setEditForm(this.application);
         } else {
-          this.applicationService.fetchApplications().subscribe(() => {
-            this.application = this.applicationService.getApplicationById(this.applicationId);
-            if (this.application) {
-              this.setEditForm(this.application);
-            } else {
-              alert('FAIL: Application not found');
-              this.closeAdvancedForm(false);
-            }
-          })
+          alert('ERROR: Application not found');
+          this.closeAdvancedForm(false);
         }
       }
-    } else {
-      this.closeAdvancedForm(false);
-    }
+    });
   }
 
   rebuildForm(): void {
@@ -220,21 +232,22 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
       isEnableSharedFolder: [''],
       isEnableUserWorkFolder: [''],
       environmentVars: '',
-      publish: ['', [Validators.required]],
     });
   }
 
   setCreationForm(): void {
     const formControls = this.applicationItemEditFormGroup.controls;
+    // ---- Basic information
+    formControls.name.setValue('');
+    formControls.description.setValue('');
 
     // ---- Image information
     formControls.applicationType.setValue(ApplicationType.Jupyter);
     formControls.imageSourceOption.setValue('template');
     formControls.isAlwaysPullImage.setValue(false);
-    this.onApplicationTypeChange();
-    if (this.customImages.length === 0) {
-      formControls.customImageUrl.disable();
-    }
+    formControls.imageUrl.setValue('');
+    this.onChangeApplicationType();
+    this.setCustomImageList();
 
     // ---- Session information
     formControls.sessionLifetimeHours.setValue(4);
@@ -242,7 +255,6 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
     formControls.downloadMethod.setValue('none');
     formControls.isEnableSharedFolder.setValue(!this.isWorkspacePublic);
     formControls.isEnableUserWorkFolder.setValue(!this.isWorkspacePublic);
-    formControls.publish.setValue(false);
 
     // public workspaces cannot have persistent folders ATM
     if (this.isWorkspacePublic) {
@@ -259,26 +271,26 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
     const formControls = this.applicationItemEditFormGroup.controls;
     const appConfig = this.application.config;
 
+    // Make sure the current application memory is present in memory options
+    this.availableMemoryOptions = this.getMemoryOptions();
+
     // ---- Application information
     formControls.name.setValue(application.name);
     formControls.description.setValue(application.description);
 
     // ---- Image information
     formControls.applicationType.setValue(application.application_type);
-    formControls.applicationTemplateId.setValue({
-      value: this.application.template_id,
-      disabled: false
-    });
+    formControls.applicationTemplateId.setValue(this.application.template_id);
     // if custom image is not set, populate config.image_url with info.base_config_image
     appConfig.image_url = appConfig.image_url || this.application.info.base_config_image;
-    formControls.imageSourceOption.setValue(this.imageSourceOption);
-    switch (this.imageSourceOption) {
+    this.selectedImageSource = this.inferImageSourceOptionFromApp();
+    formControls.imageSourceOption.setValue(this.selectedImageSource);
+    switch (this.selectedImageSource) {
       case ImageSourceType.Template:
         this.onChangeApplicationTemplate(this.application.template_id);
         break;
       case ImageSourceType.Customized:
-        this.setCustomImageList(ImageSourceType.Customized);
-        this.onChangeCustomImage(this.customImage.url);
+        this.setCustomImageList();
         formControls.customImageUrl.setValue(appConfig.image_url);
         break;
       default:
@@ -316,7 +328,6 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
         coerceBooleanProperty(appConfig.enable_user_work_folder));
     }
     formControls.environmentVars.setValue(appConfig.environment_vars);
-    formControls.publish.setValue(this.application.is_enabled);
   }
 
   focusFirstInput() {
@@ -341,7 +352,7 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
         download_url: formControls.downloadSourceUrl.value,
         enable_shared_folder: formControls.isEnableSharedFolder.value,
         enable_user_work_folder: formControls.isEnableUserWorkFolder.value,
-        image_url: this.imageUrl,
+        image_url: this.inferImageUrl(),
         always_pull_image: formControls.isAlwaysPullImage.value,
         maximum_lifetime: formControls.sessionLifetimeHours.value * 3600,
         memory_gib: formControls.sessionMemoryGiB.value,
@@ -372,7 +383,7 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
 
     this.application.name = formControls.name.value;
     this.application.description = formControls.description.value;
-    this.application.config.image_url = this.imageUrl;
+    this.application.config.image_url = this.inferImageUrl();
     this.application.config.download_method = formControls.downloadMethod.value;
     this.application.config.download_url = formControls.downloadSourceUrl.value;
     this.application.config.enable_shared_folder = formControls.isEnableSharedFolder.value;
@@ -388,7 +399,6 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
       this.application
     ).subscribe({
       next: (response) => {
-        console.log('Application updated successfully:', response);
         this.createButtonClicked = false;
         this.closeAdvancedForm(false);
       },
@@ -406,13 +416,19 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
   }
 
   onChangeApplicationTemplate(id: string): void {
+    const formControls = this.applicationItemEditFormGroup.controls;
     const tmpl = this.applicationTemplates.find(x => x.id === id);
+    if (!tmpl) {
+      // the template this application was based on has been disabled
+      return;
+    }
     // take the default label values from the template
     if (tmpl.base_config.labels) {
       this.selectedLabels = tmpl.base_config.labels.slice();
     }
-    this.applicationItemEditFormGroup.controls.imageUrl.setValue(tmpl.base_config.image);
-    this.applicationItemEditFormGroup.controls.applicationTemplateId.setValue(id);
+    formControls.sessionMemoryGiB.setValue(tmpl.base_config.memory_gib);
+    // formControls.imageUrl.setValue(tmpl.base_config.image);
+    formControls.applicationTemplateId.setValue(id);
     this.applicationTemplateDataSource = this.composeApplicationTemplateDataSource(this.selectedApplicationTemplate);
   }
 
@@ -427,12 +443,9 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
           lifetime: tmpl.base_config?.maximum_lifetime,
           application_type: tmpl.application_type,
           is_enabled: tmpl.is_enabled,
-        }]
+        },
+      ]
     );
-  }
-
-  onChangeCustomImage(value: string): void {
-    this.applicationItemEditFormGroup.controls.customImageUrl.setValue(value);
   }
 
   onChangeDownloadMethod(val: string): void {
@@ -448,7 +461,6 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
     }
 
     this.selectedDownloadMethod = val;
-    formControls.downloadMethod.setValue(val);
   }
 
   // onChangeUserWorkFolder(val: boolean): void {
@@ -477,10 +489,12 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
     let allMemoryOptions =
       [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256];
     let memoryOptions = allMemoryOptions.filter((option) => option <= sessionMemoryMaxGiB);
-    // ---- Do we need this below?
-    // if (this.sessionMemoryGiB && !memoryOptions.includes(this.sessionMemoryGiB)) {
-    //   memoryOptions.push(this.sessionMemoryGiB);
-    // }
+    // make sure any existing non-standard memory option is present
+    if (!this.isCreationMode) {
+      if (this.application.config.memory_gib && !memoryOptions.includes(this.application.config.memory_gib)) {
+        memoryOptions.push(this.application.config.memory_gib);
+      }
+    }
     if (!memoryOptions.includes(sessionMemoryMaxGiB)) {
       memoryOptions.push(sessionMemoryMaxGiB);
     }
@@ -491,7 +505,7 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
         {
           value: memOption,
           viewValue: memOption + " GiB "
-            + "(" + Math.floor(workspaceMemGiB / memOption) + " concurrent sessions in workspace)",
+            + "(" + Math.floor(workspaceMemGiB / memOption) + " max concurrent sessions in workspace)",
         }
       );
     }
@@ -500,7 +514,7 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
 
   onChangeImageSource(value: ImageSourceType): void {
     const formControls = this.applicationItemEditFormGroup.controls;
-
+    this.selectedImageSource = value;
     formControls.applicationTemplateId.clearValidators();
     formControls.customImageUrl.clearValidators();
     formControls.imageUrl.clearValidators();
@@ -509,42 +523,43 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
     formControls.customImageUrl.updateValueAndValidity();
     formControls.imageUrl.updateValueAndValidity();
 
-
-    if (value === ImageSourceType.Template) {
-      formControls.applicationTemplateId.setValidators([Validators.required])
-      formControls.applicationTemplateId.updateValueAndValidity();
-    } else if (value === ImageSourceType.Customized) {
-      this.setCustomImageList(value);
-      formControls.customImageUrl.setValidators([Validators.required]);
-      formControls.customImageUrl.updateValueAndValidity();
-    } else if (value === ImageSourceType.Original) {
-      formControls.imageUrl.setValidators([Validators.required]);
-      formControls.imageUrl.updateValueAndValidity();
+    switch (value) {
+      case ImageSourceType.Template:
+        formControls.applicationTemplateId.setValidators([Validators.required])
+        formControls.applicationTemplateId.updateValueAndValidity();
+        break;
+      case ImageSourceType.Customized:
+        formControls.customImageUrl.setValidators([Validators.required]);
+        formControls.customImageUrl.updateValueAndValidity();
+        break;
+      case ImageSourceType.External:
+        formControls.imageUrl.setValidators([Validators.required, Validators.pattern(IMAGE_URL_VALIDATION_RE)]);
+        formControls.imageUrl.updateValueAndValidity();
+        break;
     }
   }
 
-  setCustomImageList(value: ImageSourceType): void {
-    if (value === ImageSourceType.Customized) {
-      const cis = this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId);
-      const customImages = cis.filter(x => x.state === BuildState.Completed)
-        .sort((a, b) => new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime());
+  setCustomImageList(): void {
+    const cis = this.customImageService.getCustomImagesByWorkspaceId(this.workspaceId);
+    const customImages = cis.filter(x => x.state === BuildState.Completed)
+      .sort((a, b) => new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime());
 
-      this.customImageList = [];
-      for (let ci of customImages) {
-        this.customImageList.push(
-          {
-            url: ci.url,
-            name: `${ci.name}`,
-            meta: `${this.getDaysAgo(ci.completed_at)}`,
-          }
-        );
-      }
+    this.customImageList = [];
+    for (let ci of customImages) {
+      this.customImageList.push(
+        {
+          url: ci.url,
+          name: `${ci.name}`,
+          meta: `${this.getDaysAgo(ci.completed_at)}`,
+        }
+      );
     }
   }
 
-  onApplicationTypeChange() {
+  onChangeApplicationType() {
     if (this.applicationTemplates!.length > 0) {
       this.applicationItemEditFormGroup.controls.imageSourceOption.setValue(ImageSourceType.Template);
+      this.onChangeImageSource(ImageSourceType.Template);
       this.applicationItemEditFormGroup.controls.applicationTemplateId.setValue(this.applicationTemplates[0].id);
       this.onChangeApplicationTemplate(this.applicationTemplates[0].id);
     }
@@ -594,7 +609,7 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
         },
         queryParamsHandling: 'merge'
       }
-    ).then( ()=> {
+    ).then(() => {
       if (onRefresh) {
         window.location.reload();
         return;

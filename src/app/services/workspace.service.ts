@@ -62,10 +62,6 @@ export class WorkspaceService {
     return this.workspaceMemberMap.get(workspaceId);
   }
 
-  // getWorkspaceMemberCount(workspaceId: string): number {
-  //   return this.workspaceMemberCountMap.get(workspaceId);
-  // }
-
   hasExpired(workspace: Workspace): boolean {
     return Workspace.hasExpired(workspace);
   }

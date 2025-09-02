@@ -32,15 +32,29 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   public user: User;
   public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
-  // store subscriptions here for unsubscribing destroy time
-  private subscriptions: Subscription[] = [];
-  private autoSelectFirstWorkspace = true;
   workspaceIdControl = new FormControl<string>('');
-
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('customImagesTabLabel', {read: ElementRef}) customImagesTabLabel!: ElementRef;
   isAppFormOpen: boolean;
   selectedApplicationId: string;
+  // store subscriptions here for unsubscribing destroy time
+  private subscriptions: Subscription[] = [];
+  private autoSelectFirstWorkspace = true;
+
+  constructor(
+    public dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private workspaceService: WorkspaceService,
+    private authService: AuthService,
+    private accountService: AccountService,
+    private applicationService: ApplicationService,
+    private applicationTemplateService: ApplicationTemplateService,
+    private eventService: EventService,
+    private publicConfigService: PublicConfigService,
+  ) {
+    this.createDemoWorkspaceClickTs = 0;
+  }
 
   get isDemoButtonShown(): boolean {
     // check that we know about our workspaces and that there is more than 2 seconds since the last click
@@ -62,21 +76,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
   get selectedWorkspace(): Workspace {
     return this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
-  }
-
-  constructor(
-    public dialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private workspaceService: WorkspaceService,
-    private authService: AuthService,
-    private accountService: AccountService,
-    private applicationService: ApplicationService,
-    private applicationTemplateService: ApplicationTemplateService,
-    private eventService: EventService,
-    private publicConfigService: PublicConfigService,
-  ) {
-    this.createDemoWorkspaceClickTs = 0;
   }
 
   ngOnInit(): void {
@@ -121,7 +120,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
         if (paramMap.get('edit') !== 'new') {
           this.selectedApplicationId = paramMap.get('edit');
         } else {
-          this.selectedApplicationId = 'new' ;
+          this.selectedApplicationId = 'new';
         }
       } else {
         this.isAppFormOpen = false;
@@ -133,7 +132,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
   ngAfterViewInit() {
     this.eventService.uiEffect$.subscribe((isStarting) => {
-      this.triggerShake(isStarting);
+      this.triggerCustomImageTabLabelShake(isStarting);
     });
   }
 
@@ -180,7 +179,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
         id: workspaceId,
         edit: null
       },
-      queryParamsHandling: "merge"
+      queryParamsHandling: 'merge'
     }).then(() => {
     });
   }
@@ -349,7 +348,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     this.isAppFormOpen = false;
   }
 
-  triggerShake(isStarting: boolean): void {
+  triggerCustomImageTabLabelShake(isStarting: boolean): void {
     if (!this.customImagesTabLabel) {
       return;
     }
@@ -361,6 +360,10 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     } else {
       setTimeout(() => label.classList.remove('shake-vertical'), 400);
     }
+  }
+
+  getContactEmail(): string {
+    return this.publicConfigService.getContactEmail();
   }
 }
 
