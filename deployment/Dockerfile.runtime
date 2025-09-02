@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/nginx:1.23
+FROM docker.io/bitnamilegacy/nginx:1.23
 LABEL maintainer="Noppe Team <notebooks@csc.fi>"
 ARG PB_APP_VERSION="not-set"
 

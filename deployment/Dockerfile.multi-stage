@@ -19,7 +19,7 @@ RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > dist/pebbles-frontend/app-ver
 #-----------------------------------------------------------------------------
 
 # Stage two: runtime
-FROM docker.io/bitnami/nginx:1.23
+FROM docker.io/bitnamilegacy/nginx:1.23
 LABEL maintainer="Noppe Team <notebooks@csc.fi>"
 
 # copy compiled application

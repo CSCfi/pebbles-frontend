@@ -1,7 +1,7 @@
 # Building container image
 
 We have two options to build the container image, namely single stage and multi-stage ways. Both produce an 
-bitnami/nginx -based runtime image as the end result. Bitnami NGINX image runs without root privileges and does not need
+bitnamilegacy/nginx -based runtime image as the end result. Bitnami NGINX image runs without root privileges and does not need
 any additional configuration.
 
 # Single stage build
