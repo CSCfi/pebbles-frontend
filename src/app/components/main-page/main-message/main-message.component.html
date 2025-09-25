@@ -21,7 +21,7 @@
             <div [ngClass]="{'unread':!message.is_read}" class="message info-body">
               <div class="title">{{ message.subject }}</div>
               <span class="date mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
-              <p class="content">
+              <p class="content render-hyperlinks">
                 <span [innerHtml]="message.message"></span>
               </p>
             </div>

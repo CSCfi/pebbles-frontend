@@ -42,7 +42,7 @@
                 <td mat-cell class="cell-info" *matCellDef="let element">
                   <ul>
                     <li class="template-name"> {{element.name}} </li>
-                    <li class="template-description" [innerHTML]="element.description"></li>
+                    <li [innerHTML]="element.description" class="template-description render-hyperlinks"></li>
                     <li class="template-labels">
                       <span>
                         <mat-icon fontSet="material-icons-outlined">label</mat-icon>Labels:

@@ -114,7 +114,9 @@
                 <strong>Application template should be selected.</strong>
               </mat-error>
             </mat-form-field>
-            <div *ngIf="selectedApplicationTemplate" [innerHTML]="selectedApplicationTemplate.description">
+            <div *ngIf="selectedApplicationTemplate"
+                 [innerHTML]="selectedApplicationTemplate.description"
+                 class="render-hyperlinks">
             </div>
           </div>
         </ng-container>

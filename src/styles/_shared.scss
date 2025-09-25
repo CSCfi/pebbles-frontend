@@ -615,6 +615,27 @@ table {
   }
 }
 
+.render-hyperlinks {
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+}
+
+.render-hyperlinks-dark-bg {
+  a {
+    color: $primary-light-color;
+    text-decoration: underline;
+
+    &:hover {
+      color: $secondary-light-color;
+    }
+  }
+}
 
 // ----- MOBILE
 
