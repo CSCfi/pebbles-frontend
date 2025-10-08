@@ -27,7 +27,8 @@ export interface MemberRow {
 @Component({
   selector: 'app-main-workspace-members',
   templateUrl: './main-workspace-members.component.html',
-  styleUrls: ['./main-workspace-members.component.scss']
+  styleUrls: ['./main-workspace-members.component.scss'],
+  standalone: false
 })
 export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestroy {
 

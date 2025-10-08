@@ -26,7 +26,8 @@ export class SessionProgressStep {
 @Component({
   selector: 'app-session-page',
   templateUrl: './session-page.component.html',
-  styleUrls: ['./session-page.component.scss']
+  styleUrls: ['./session-page.component.scss'],
+  standalone: false
 })
 export class SessionPageComponent implements OnInit, OnDestroy {
 

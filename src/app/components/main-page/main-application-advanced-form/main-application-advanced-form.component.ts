@@ -39,7 +39,8 @@ const IMAGE_URL_VALIDATION_RE = new RegExp(/^([\w\-_]+[.:])+([\w\-_]+)(\/[\w\-_]
 @Component({
   selector: 'app-main-application-advanced-form',
   templateUrl: './main-application-advanced-form.component.html',
-  styleUrl: './main-application-advanced-form.component.scss'
+  styleUrl: './main-application-advanced-form.component.scss',
+  standalone: false
 })
 export class MainApplicationAdvancedFormComponent implements OnInit {
 

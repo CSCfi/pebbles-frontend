@@ -46,7 +46,8 @@ export interface ApplicationRow {
 @Component({
   selector: 'app-main-workspace-applications',
   templateUrl: './main-workspace-applications.component.html',
-  styleUrls: ['./main-workspace-applications.component.scss']
+  styleUrls: ['./main-workspace-applications.component.scss'],
+  standalone: false
 })
 export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, OnChanges {
 

@@ -6,7 +6,8 @@ import { PublicConfigService } from "../../services/public-config.service";
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss']
+  styleUrls: ['./main-page.component.scss'],
+  standalone: false
 })
 export class MainPageComponent implements OnInit {
 

@@ -2,10 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { WelcomeLoginComponent } from './welcome-login.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('WelcomeLoginComponent', () => {
   let component: WelcomeLoginComponent;
@@ -13,20 +14,18 @@ describe('WelcomeLoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [WelcomeLoginComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        HttpClientTestingModule,
         RouterTestingModule,
         MaterialModule,
         FormsModule,
-        ReactiveFormsModule,
-      ],
-      declarations: [WelcomeLoginComponent],
+        ReactiveFormsModule],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

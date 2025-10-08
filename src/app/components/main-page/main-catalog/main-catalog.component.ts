@@ -17,7 +17,8 @@ import { PublicConfigService } from "../../../services/public-config.service";
 @Component({
   selector: 'app-main-catalog',
   templateUrl: './main-catalog.component.html',
-  styleUrls: ['./main-catalog.component.scss']
+  styleUrls: ['./main-catalog.component.scss'],
+  standalone: false
 })
 export class MainCatalogComponent implements OnInit {
 

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -7,6 +7,7 @@ import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 
 import { MainAccountComponent } from './main-account.component';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MainAccountComponent', () => {
   let component: MainAccountComponent;
@@ -14,19 +15,20 @@ describe('MainAccountComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        MaterialModule,
-        RouterTestingModule
-      ],
       declarations: [
         MainAccountComponent,
         MainContentHeaderComponent
       ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        MaterialModule,
+        RouterTestingModule
+      ],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

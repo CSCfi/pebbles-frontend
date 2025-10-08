@@ -1,11 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { MainSearchBoxComponent } from '../main-search-box/main-search-box.component';
 import { MainApplicationWizardFormComponent } from './main-application-wizard-form.component';
-import {RouterTestingModule} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MainApplicationWizardFormComponent', () => {
   let component: MainApplicationWizardFormComponent;
@@ -13,18 +14,16 @@ describe('MainApplicationWizardFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [
+        MainApplicationWizardFormComponent,
+        MainSearchBoxComponent
+      ],
       imports: [
-        HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
         MaterialModule,
         MatDialogModule,
-        RouterTestingModule
-      ],
-      declarations: [
-        MainApplicationWizardFormComponent,
-        MainSearchBoxComponent
-       ],
+        RouterTestingModule],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -33,10 +32,12 @@ describe('MainApplicationWizardFormComponent', () => {
         {
           provide: MatDialogRef,
           useValue: {}
-        }
-     ],
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

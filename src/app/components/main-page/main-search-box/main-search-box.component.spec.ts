@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { MainSearchBoxComponent } from './main-search-box.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ApplicationCategoryService } from "../../../services/application-category.service";
+import { ENVIRONMENT_SPECIFIC_PROVIDERS } from "../../../../environments/environment";
 
 describe('MainSearchBoxComponent', () => {
   let component: MainSearchBoxComponent;
@@ -11,15 +13,16 @@ describe('MainSearchBoxComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [MainSearchBoxComponent],
       imports: [
-        HttpClientTestingModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
-      ],
-      declarations: [ MainSearchBoxComponent ]
+        MaterialModule],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

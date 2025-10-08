@@ -1,5 +1,5 @@
 ---
-image: docker.io/library/node:18
+image: docker.io/library/node:22
 
 variables:
   KUBERNETES_MEMORY_REQUEST: "1Gi"
@@ -71,7 +71,7 @@ ng-build:
 ng-test:
   tags: ['new-runner']
   stage: test
-  image: docker.io/trion/ng-cli-karma:16.2.9
+  image: docker.io/trion/ng-cli-karma:19.2.3
   needs: ['ng-build']
   cache:
     # inherit all global cache settings
@@ -91,7 +91,7 @@ build-image:
   stage: docker build
   needs: ['ng-build']
   image:
-    name: gcr.io/kaniko-project/executor:v1.21.1-debug
+    name: gcr.io/kaniko-project/executor:v1.24.0-debug
     entrypoint: [""]
   cache:
     # inherit all global cache settings

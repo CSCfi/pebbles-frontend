@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MainWorkspaceCustomImagesComponent } from './main-workspace-custom-images.component';
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "../../../material.module";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_PROVIDERS } from "../../../../environments/environment";
 
 describe('MainWorkspaceCustomImagesComponent', () => {
   let component: MainWorkspaceCustomImagesComponent;
@@ -10,14 +12,14 @@ describe('MainWorkspaceCustomImagesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [MainWorkspaceCustomImagesComponent],
       imports: [
-        HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
-        MaterialModule,
-      ],
-      declarations: [MainWorkspaceCustomImagesComponent],
-
+        MaterialModule],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     });
     fixture = TestBed.createComponent(MainWorkspaceCustomImagesComponent);
     component = fixture.componentInstance;

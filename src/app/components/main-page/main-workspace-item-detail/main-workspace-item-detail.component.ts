@@ -9,7 +9,8 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 @Component({
   selector: 'app-main-workspace-item-detail',
   templateUrl: './main-workspace-item-detail.component.html',
-  styleUrls: ['./main-workspace-item-detail.component.scss']
+  styleUrls: ['./main-workspace-item-detail.component.scss'],
+  standalone: false
 })
 export class MainWorkspaceItemDetailComponent implements OnChanges {
 

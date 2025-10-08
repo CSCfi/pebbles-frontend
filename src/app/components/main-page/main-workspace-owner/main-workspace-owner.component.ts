@@ -20,7 +20,8 @@ import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspac
 @Component({
   selector: 'app-main-workspace-owner',
   templateUrl: './main-workspace-owner.component.html',
-  styleUrls: ['./main-workspace-owner.component.scss']
+  styleUrls: ['./main-workspace-owner.component.scss'],
+  standalone: false
 })
 export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDestroy {
 

@@ -9,7 +9,8 @@ import { PublicConfigService } from "../../../services/public-config.service";
 @Component({
   selector: 'app-main-account',
   templateUrl: './main-account.component.html',
-  styleUrls: ['./main-account.component.scss']
+  styleUrls: ['./main-account.component.scss'],
+  standalone: false
 })
 export class MainAccountComponent implements OnInit {
 

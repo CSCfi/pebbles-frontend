@@ -36,7 +36,12 @@
       <div class="control-button circle-button"
            [ngSwitch]="state">
         <!-- A: Session [Shutdown] -->
-        <ng-container *ngSwitchCase="'deleting'||'deleted'">
+        <ng-container *ngSwitchCase="'deleting'">
+          <div class="state">
+            <div>{{ state }}</div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'deleted'">
           <div class="state">
             <div>{{ state }}</div>
           </div>

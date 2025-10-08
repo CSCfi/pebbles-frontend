@@ -7,7 +7,8 @@ import { WorkspaceService } from '../../../services/workspace.service';
 @Component({
   selector: 'app-main-select-workspace-dialog',
   templateUrl: './main-select-workspace-dialog.component.html',
-  styleUrls: ['./main-select-workspace-dialog.component.scss']
+  styleUrls: ['./main-select-workspace-dialog.component.scss'],
+  standalone: false
 })
 export class MainSelectWorkspaceDialogComponent implements OnInit {
 

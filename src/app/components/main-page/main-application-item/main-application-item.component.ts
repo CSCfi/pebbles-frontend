@@ -10,7 +10,8 @@ import { Utilities } from '../../../utilities';
 @Component({
   selector: 'app-main-application-item',
   templateUrl: './main-application-item.component.html',
-  styleUrls: ['./main-application-item.component.scss']
+  styleUrls: ['./main-application-item.component.scss'],
+  standalone: false
 })
 export class MainApplicationItemComponent {
 

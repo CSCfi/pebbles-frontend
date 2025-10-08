@@ -1,28 +1,29 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceApplicationsComponent } from './main-workspace-applications.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MainWorkspaceApplicationsComponent', () => {
   let component: MainWorkspaceApplicationsComponent;
   let fixture: ComponentFixture<MainWorkspaceApplicationsComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ MainWorkspaceApplicationsComponent ],
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MainWorkspaceApplicationsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        HttpClientTestingModule,
         RouterTestingModule,
-        MaterialModule
-      ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        MaterialModule],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
-  });
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MainWorkspaceApplicationsComponent);

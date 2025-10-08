@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WelcomeBackgroundComponent } from './welcome-background.component';
 
@@ -6,12 +6,12 @@ describe('WelcomeBackgroundComponent', () => {
   let component: WelcomeBackgroundComponent;
   let fixture: ComponentFixture<WelcomeBackgroundComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ WelcomeBackgroundComponent ]
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [WelcomeBackgroundComponent]
     })
-    .compileComponents();
-  });
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WelcomeBackgroundComponent);

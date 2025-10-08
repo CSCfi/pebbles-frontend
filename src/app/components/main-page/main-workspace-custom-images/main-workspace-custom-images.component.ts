@@ -21,7 +21,8 @@ export interface CustomImageRow extends CustomImage {
 @Component({
   selector: 'app-main-workspace-custom-images',
   templateUrl: './main-workspace-custom-images.component.html',
-  styleUrls: ['./main-workspace-custom-images.component.scss']
+  styleUrls: ['./main-workspace-custom-images.component.scss'],
+  standalone: false
 })
 export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, OnDestroy {
   // store subscriptions here for unsubscribing at destroy time

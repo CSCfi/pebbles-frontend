@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MaterialModule } from 'src/app/material.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MainContentHeaderComponent } from './main-content-header.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ApplicationCategoryService } from "../../../services/application-category.service";
+import { MaterialModule } from "../../../material.module";
 
 describe('MainContentHeaderComponent', () => {
   let component: MainContentHeaderComponent;
@@ -12,17 +14,19 @@ describe('MainContentHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MaterialModule
+      declarations: [
+        MainContentHeaderComponent,
       ],
-      declarations: [ MainContentHeaderComponent ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        ReactiveFormsModule,
+        MaterialModule,
+      ],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

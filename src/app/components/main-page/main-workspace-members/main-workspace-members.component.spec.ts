@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceMembersComponent } from './main-workspace-members.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MainWorkspaceMembersComponent', () => {
   let component: MainWorkspaceMembersComponent;
@@ -11,17 +12,15 @@ describe('MainWorkspaceMembersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MainWorkspaceMembersComponent ],
+      declarations: [MainWorkspaceMembersComponent],
       imports: [
-        HttpClientTestingModule,
         RouterTestingModule,
-        MaterialModule
-      ],
+        MaterialModule],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

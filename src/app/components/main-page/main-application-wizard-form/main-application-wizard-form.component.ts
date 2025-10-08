@@ -20,7 +20,8 @@ export interface WizardApplicationTemplateRow {
 @Component({
   selector: 'app-main-application-wizard-form',
   templateUrl: './main-application-wizard-form.component.html',
-  styleUrls: ['./main-application-wizard-form.component.scss']
+  styleUrls: ['./main-application-wizard-form.component.scss'],
+  standalone: false
 })
 export class MainApplicationWizardFormComponent implements OnInit {
 

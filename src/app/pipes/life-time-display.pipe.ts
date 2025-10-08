@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'lifeTimeDisplay'
+  name: 'lifeTimeDisplay',
+  standalone: false
 })
 export class LifeTimeDisplayPipe implements PipeTransform {
 

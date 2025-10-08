@@ -15,12 +15,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/pebbles-frontend",
+            "outputPath": {
+              "base": "dist/pebbles-frontend"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets/favicon.svg",
@@ -32,12 +35,22 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "src/main.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "."
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import",
+                  "global-builtin"
+                ]
+              }
+            }
           },
           "configurations": {
             "mock": {
@@ -68,8 +81,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",

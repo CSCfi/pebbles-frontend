@@ -27,7 +27,8 @@ export interface SessionTableRow {
 @Component({
   selector: 'app-main-active-sessions',
   templateUrl: './main-active-sessions.component.html',
-  styleUrls: ['./main-active-sessions.component.scss']
+  styleUrls: ['./main-active-sessions.component.scss'],
+  standalone: false
 })
 export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 

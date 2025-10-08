@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
@@ -9,6 +9,7 @@ import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MainCatalogComponent } from './main-catalog.component';
 import { MainSearchBoxComponent } from '../main-search-box/main-search-box.component';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 describe('MainCatalogComponent', () => {
@@ -17,22 +18,22 @@ describe('MainCatalogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MaterialModule
-      ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       declarations: [
         MainCatalogComponent,
         MainSearchBoxComponent,
         MainContentHeaderComponent
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MaterialModule],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

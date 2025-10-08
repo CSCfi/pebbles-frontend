@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceFormComponent } from './main-workspace-form.component';
 import { DateDisplayPipe } from "../../../pipes/date-display.pipe";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MainWorkspaceFormComponent', () => {
   let component: MainWorkspaceFormComponent;
@@ -12,27 +13,26 @@ describe('MainWorkspaceFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        ReactiveFormsModule,
+    declarations: [MainWorkspaceFormComponent, DateDisplayPipe],
+    imports: [ReactiveFormsModule,
         FormsModule,
         MaterialModule,
-        MatDialogModule,
-      ],
-      declarations: [ MainWorkspaceFormComponent, DateDisplayPipe ],
-      providers: [
+        MatDialogModule],
+    providers: [
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: {
-            isCreationMode: true
-          }
+            provide: MAT_DIALOG_DATA,
+            useValue: {
+                isCreationMode: true
+            }
         },
         {
-          provide: MatDialogRef,
-          useValue: {}
+            provide: MatDialogRef,
+            useValue: {}
         },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
   }));
 

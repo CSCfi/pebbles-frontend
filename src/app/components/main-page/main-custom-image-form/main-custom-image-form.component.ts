@@ -6,7 +6,8 @@ import { CustomImage, ImageContent } from "../../../models/custom-image";
 @Component({
   selector: 'app-main-custom-image-form',
   templateUrl: './main-custom-image-form.component.html',
-  styleUrls: ['./main-custom-image-form.component.scss']
+  styleUrls: ['./main-custom-image-form.component.scss'],
+  standalone: false
 })
 export class MainCustomImageFormComponent implements OnInit {
   customImageFormGroup: FormGroup;

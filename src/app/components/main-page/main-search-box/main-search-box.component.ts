@@ -9,7 +9,8 @@ import { ApplicationCategoryService } from 'src/app/services/application-categor
 @Component({
   selector: 'app-main-search-box',
   templateUrl: './main-search-box.component.html',
-  styleUrls: ['./main-search-box.component.scss']
+  styleUrls: ['./main-search-box.component.scss'],
+  standalone: false
 })
 export class MainSearchBoxComponent {
 

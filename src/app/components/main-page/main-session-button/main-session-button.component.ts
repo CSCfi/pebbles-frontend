@@ -14,7 +14,8 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 @Component({
   selector: 'app-main-session-button',
   templateUrl: './main-session-button.component.html',
-  styleUrls: ['./main-session-button.component.scss']
+  styleUrls: ['./main-session-button.component.scss'],
+  standalone: false
 })
 export class MainSessionButtonComponent {
 

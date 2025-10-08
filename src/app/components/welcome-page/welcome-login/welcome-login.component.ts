@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Data } from '@angular/router';
 import { PublicConfigService } from '../../../services/public-config.service';
 
@@ -22,7 +22,8 @@ export const heroShotsAnimation = trigger('openClose', [
   selector: 'app-welcome-login',
   templateUrl: './welcome-login.component.html',
   styleUrls: ['./welcome-login.component.scss'],
-  animations: [heroShotsAnimation]
+  animations: [heroShotsAnimation],
+  standalone: false
 })
 export class WelcomeLoginComponent implements OnInit {
 

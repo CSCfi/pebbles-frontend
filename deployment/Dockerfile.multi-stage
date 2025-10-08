@@ -1,29 +1,34 @@
 # Stage one: build
-FROM docker.io/library/node:18 as build-stage
+FROM docker.io/library/node:22 as build-stage
 ARG PB_APP_VERSION="not-set"
 
 # display app version in build logs
 RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
 
 WORKDIR /usr/src/app
-COPY . .
+
+# copy selected bits
+COPY src src
+COPY angular.json package.json package-lock.json tsconfig.json tsconfig.app.json .
+
+# run package installation and build
 RUN npm ci
 RUN npm run-script build:prod
 
 # copy extra content
-RUN if [ -d extra_content ]; then cp -rv extra_content/* dist/pebbles-frontend/; fi
+RUN if [ -d extra_content ]; then cp -rv extra_content/* dist/pebbles-frontend/browser/; fi
 
 # stamp with given application version
-RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > dist/pebbles-frontend/app-version.json
+RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > dist/pebbles-frontend/browser/app-version.json
 
 #-----------------------------------------------------------------------------
 
 # Stage two: runtime
 FROM docker.io/bitnamilegacy/nginx:1.23
-LABEL maintainer="Noppe Team <notebooks@csc.fi>"
+LABEL maintainer="Noppe Team <noppe@csc.fi>"
 
 # copy compiled application
-COPY --from=build-stage /usr/src/app/dist/pebbles-frontend /app
+COPY --from=build-stage /usr/src/app/dist/pebbles-frontend/browser /app
 
 # set up redirection to /index.html for Angular routing
 COPY deployment/nginx_angular.conf /opt/bitnami/nginx/conf/bitnami/nginx_angular.conf

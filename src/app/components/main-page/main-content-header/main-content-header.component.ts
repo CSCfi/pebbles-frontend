@@ -8,7 +8,8 @@ import { ApplicationCategoryService } from 'src/app/services/application-categor
 @Component({
   selector: 'app-main-content-header',
   templateUrl: './main-content-header.component.html',
-  styleUrls: ['./main-content-header.component.scss']
+  styleUrls: ['./main-content-header.component.scss'],
+  standalone: false
 })
 export class MainContentHeaderComponent {
 

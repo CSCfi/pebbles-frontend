@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 
 import { SessionPageComponent } from './session-page.component';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('SessionPageComponent', () => {
   let component: SessionPageComponent;
@@ -13,16 +14,16 @@ describe('SessionPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterModule.forRoot([], {}),
-        MaterialModule
-      ],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
       declarations: [SessionPageComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        RouterModule.forRoot([], {}),
+        MaterialModule],
+      providers: [
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

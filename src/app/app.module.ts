@@ -1,7 +1,7 @@
 // ---- Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // ---- Custom Modules
 import { MaterialModule } from './material.module';
@@ -37,54 +37,51 @@ import { NotFoundPageComponent } from './components/not-found-page/not-found-pag
 // ---- Interceptors
 import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
 import { NgOptimizedImage } from "@angular/common";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NotFoundPageComponent,
-    WelcomePageComponent,
-    WelcomeLoginComponent,
-    SessionPageComponent,
-    WelcomeBackgroundComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MaterialModule,
-    SharedModule,
-    MainModule,
-    NgOptimizedImage,
-  ],
-  providers: [
-    AccountService,
-    AlertService,
-    ApplicationService,
-    ApplicationCategoryService,
-    ApplicationSessionService,
-    ApplicationTemplateService,
-    AuthService,
-    CustomImageService,
-    DesktopNotificationService,
-    EventService,
-    FaqService,
-    MessageService,
-    PublicConfigService,
-    SearchService,
-    ServiceAnnouncementService,
-    SystemNotificationService,
-    WorkspaceService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-    ENVIRONMENT_SPECIFIC_PROVIDERS,
-  ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  bootstrap: [ AppComponent ]
-})
+        AppComponent,
+        NotFoundPageComponent,
+        WelcomePageComponent,
+        WelcomeLoginComponent,
+        SessionPageComponent,
+        WelcomeBackgroundComponent,
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        MaterialModule,
+        SharedModule,
+        MainModule,
+        NgOptimizedImage,
+        FontAwesomeModule], providers: [
+        AccountService,
+        AlertService,
+        ApplicationService,
+        ApplicationCategoryService,
+        ApplicationSessionService,
+        ApplicationTemplateService,
+        AuthService,
+        CustomImageService,
+        DesktopNotificationService,
+        EventService,
+        FaqService,
+        MessageService,
+        PublicConfigService,
+        SearchService,
+        ServiceAnnouncementService,
+        SystemNotificationService,
+        WorkspaceService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        ENVIRONMENT_SPECIFIC_PROVIDERS,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
 }

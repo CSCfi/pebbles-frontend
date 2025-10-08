@@ -1,26 +1,25 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from '../../../material.module';
 
 import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dialog.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MainSelectWorkspaceDialogComponent', () => {
   let component: MainSelectWorkspaceDialogComponent;
   let fixture: ComponentFixture<MainSelectWorkspaceDialogComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MainSelectWorkspaceDialogComponent],
       imports: [
-        HttpClientTestingModule,
         ReactiveFormsModule,
         FormsModule,
         MaterialModule,
-        RouterTestingModule,
-      ],
-      declarations: [MainSelectWorkspaceDialogComponent],
+        RouterTestingModule],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -32,11 +31,13 @@ describe('MainSelectWorkspaceDialogComponent', () => {
         {
           provide: MatDialogRef,
           useValue: {}
-        }
-      ],
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+      ]
     })
       .compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MainSelectWorkspaceDialogComponent);

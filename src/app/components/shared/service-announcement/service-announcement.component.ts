@@ -7,7 +7,8 @@ import { ServiceAnnouncementService } from '../../../services/service-announceme
 @Component({
   selector: 'app-service-announcement',
   templateUrl: './service-announcement.component.html',
-  styleUrls: ['./service-announcement.component.scss']
+  styleUrls: ['./service-announcement.component.scss'],
+  standalone: false
 })
 export class ServiceAnnouncementComponent {
 

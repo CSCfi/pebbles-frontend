@@ -1,12 +1,12 @@
 FROM docker.io/bitnamilegacy/nginx:1.23
-LABEL maintainer="Noppe Team <notebooks@csc.fi>"
+LABEL maintainer="Noppe Team <noppe@csc.fi>"
 ARG PB_APP_VERSION="not-set"
 
 # display app version in build logs
 RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
 
 # copy compiled application
-COPY dist/pebbles-frontend /app
+COPY dist/pebbles-frontend/browser /app
 
 # set up redirection to /index.html for Angular routing
 COPY deployment/nginx_angular.conf /opt/bitnami/nginx/conf/bitnami/nginx_angular.conf

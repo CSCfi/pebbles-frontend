@@ -10,7 +10,8 @@ import { Utilities } from '../../../utilities';
 @Component({
   selector: 'app-main-workspace-item',
   templateUrl: './main-workspace-item.component.html',
-  styleUrls: ['./main-workspace-item.component.scss']
+  styleUrls: ['./main-workspace-item.component.scss'],
+  standalone: false
 })
 export class MainWorkspaceItemComponent implements OnInit {
 

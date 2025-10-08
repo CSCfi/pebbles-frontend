@@ -7,7 +7,8 @@ import { Utilities } from '../../../utilities';
 @Component({
   selector: 'app-main-message',
   templateUrl: './main-message.component.html',
-  styleUrls: ['./main-message.component.scss']
+  styleUrls: ['./main-message.component.scss'],
+  standalone: false
 })
 export class MainMessageComponent implements OnInit {
 

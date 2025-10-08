@@ -1,5 +1,5 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewChildren, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message } from '../../../models/message';
@@ -10,7 +10,8 @@ import { PublicConfigService } from '../../../services/public-config.service';
 @Component({
   selector: 'app-main-nav',
   templateUrl: './main-nav.component.html',
-  styleUrls: ['./main-nav.component.scss']
+  styleUrls: ['./main-nav.component.scss'],
+  standalone: false
 })
 export class MainNavComponent implements OnInit {
 

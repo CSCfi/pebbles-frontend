@@ -1,21 +1,19 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
 import { ApplicationService } from './application.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ApplicationService', () => {
   let service: ApplicationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
       declarations: [],
+      imports: [RouterTestingModule],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS
+        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
       ]
     });
     service = TestBed.inject(ApplicationService);

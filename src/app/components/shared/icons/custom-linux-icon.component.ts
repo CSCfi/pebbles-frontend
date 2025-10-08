@@ -70,7 +70,8 @@ import { Component } from '@angular/core';
             height: 60px;
             fill: currentColor;
         }
-    `]
+    `],
+    standalone: false
 })
 export class CustomLinuxIconComponent {
 }
