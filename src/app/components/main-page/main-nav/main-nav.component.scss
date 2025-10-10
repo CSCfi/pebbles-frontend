@@ -60,6 +60,11 @@
           padding-right: 10px;
         }
 
+        &#account {
+          .email {
+            word-break: break-all;
+          }
+        }
       }
     }
   }
