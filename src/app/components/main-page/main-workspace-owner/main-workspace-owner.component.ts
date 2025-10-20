@@ -34,15 +34,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
   public context: Data;
   public workspaces: Workspace[] = null;
-  public selectedWorkspaceId: string;
-  public selectedTabType: TabType = TabType.Applications;
-
-  public user: User;
-  public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
+  public selectedTabType: TabType = TabType.Applications;
   public workspaceIdControl = new FormControl<string>('');
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  @ViewChild('customImagesTabLabel', {read: ElementRef}) customImagesTabLabel!: ElementRef;
   public isAppFormOpen: boolean;
   public selectedApplicationId: string;
 
@@ -51,7 +45,12 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
   private autoSelectFirstWorkspace = true;
+  private selectedWorkspaceId: string;
+  private user: User;
+  private createDemoWorkspaceClickTs: number;
 
+  @ViewChild(MatTabGroup) private tabGroup: MatTabGroup;
+  @ViewChild('customImagesTabLabel', {read: ElementRef}) private customImagesTabLabel!: ElementRef;
 
   constructor(
     public dialog: MatDialog,
@@ -271,7 +270,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
         {},
         true,
       ).subscribe(_ => {
-        this.selectWorkspace(ws.id, TabType.Applications);
+        this.applicationService.fetchApplications().subscribe(_ => {
+          this.selectWorkspace(ws.id, TabType.Applications);
+        });
       });
     });
   }
