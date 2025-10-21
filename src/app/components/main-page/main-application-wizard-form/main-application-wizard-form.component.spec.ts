@@ -5,8 +5,9 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MaterialModule } from 'src/app/material.module';
 import { MainSearchBoxComponent } from '../main-search-box/main-search-box.component';
 import { MainApplicationWizardFormComponent } from './main-application-wizard-form.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainApplicationWizardFormComponent', () => {
   let component: MainApplicationWizardFormComponent;
@@ -16,14 +17,15 @@ describe('MainApplicationWizardFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MainApplicationWizardFormComponent,
-        MainSearchBoxComponent
+        MainSearchBoxComponent,
       ],
       imports: [
         ReactiveFormsModule,
         FormsModule,
         MaterialModule,
         MatDialogModule,
-        RouterTestingModule],
+        RouterModule.forRoot([])
+      ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -33,8 +35,8 @@ describe('MainApplicationWizardFormComponent', () => {
           provide: MatDialogRef,
           useValue: {}
         },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

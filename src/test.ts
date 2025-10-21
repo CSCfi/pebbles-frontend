@@ -6,7 +6,7 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
-import { MockInterceptor } from './app/interceptors/mock.interceptor';
+import { MockInterceptorOptions } from './app/interceptors/mock.interceptor';
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
@@ -15,4 +15,4 @@ getTestBed().initTestEnvironment(
 );
 
 // turn authentication off in the mock backend for unit tests
-MockInterceptor.AUTHENTICATION_ENABLED = false;
+MockInterceptorOptions.AUTHENTICATION_ENABLED = false;

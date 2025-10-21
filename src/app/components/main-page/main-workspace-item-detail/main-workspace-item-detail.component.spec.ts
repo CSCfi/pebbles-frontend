@@ -1,11 +1,11 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceItemDetailComponent } from './main-workspace-item-detail.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from "../../../../environments/environment";
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainWorkspaceItemDetailComponent', () => {
   let component: MainWorkspaceItemDetailComponent;
@@ -15,11 +15,13 @@ describe('MainWorkspaceItemDetailComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MainWorkspaceItemDetailComponent],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         MaterialModule,
-        ReactiveFormsModule],
+        ReactiveFormsModule,
+      ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

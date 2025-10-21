@@ -1,8 +1,8 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../environments/environment';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from '../../environments/environment';
 import { AlertService } from './alert.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 describe('AlertService', () => {
   let service: AlertService;
@@ -11,7 +11,8 @@ describe('AlertService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     });
     service = TestBed.inject(AlertService);

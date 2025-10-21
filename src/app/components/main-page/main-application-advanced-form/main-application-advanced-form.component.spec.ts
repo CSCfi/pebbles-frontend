@@ -2,10 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainApplicationAdvancedFormComponent } from './main-application-advanced-form.component';
 import { provideHttpClientTesting } from "@angular/common/http/testing";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MaterialModule } from "../../../material.module";
 import { MainSearchBoxComponent } from "../main-search-box/main-search-box.component";
 import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainApplicationAdvancedFormComponent', () => {
   let component: MainApplicationAdvancedFormComponent;
@@ -14,7 +15,8 @@ describe('MainApplicationAdvancedFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MainApplicationAdvancedFormComponent, MainSearchBoxComponent
+        MainApplicationAdvancedFormComponent,
+        MainSearchBoxComponent,
       ],
       imports: [
         MaterialModule,
@@ -22,7 +24,8 @@ describe('MainApplicationAdvancedFormComponent', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(),
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
         FormBuilder
       ],
     })

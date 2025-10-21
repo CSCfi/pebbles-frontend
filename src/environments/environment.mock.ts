@@ -2,8 +2,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MockInterceptor } from '../app/interceptors/mock.interceptor';
+import { mockInterceptor } from "../app/interceptors/mock.interceptor";
+import { authInterceptor } from "../app/interceptors/auth.interceptor";
 
 export const buildConfiguration = {
   production: false,
@@ -11,8 +11,9 @@ export const buildConfiguration = {
   apiUrl: 'http://mock-service/api/v1'
 };
 
-export const ENVIRONMENT_SPECIFIC_PROVIDERS = [
-  {provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true},
+export const ENVIRONMENT_SPECIFIC_INTERCEPTORS = [
+  authInterceptor,
+  mockInterceptor,
 ];
 
 /*

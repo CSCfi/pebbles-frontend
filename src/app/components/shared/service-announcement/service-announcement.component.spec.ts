@@ -1,10 +1,10 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../../../environments/environment';
+import { RouterModule } from '@angular/router';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from '../../../../environments/environment';
 import { MaterialModule } from '../../../material.module';
 import { ServiceAnnouncementComponent } from './service-announcement.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 describe('ServiceAnnouncementComponent', () => {
   let component: ServiceAnnouncementComponent;
@@ -14,10 +14,12 @@ describe('ServiceAnnouncementComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ServiceAnnouncementComponent],
       imports: [
-        RouterTestingModule,
-        MaterialModule],
+        RouterModule.forRoot([]),
+        MaterialModule,
+      ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

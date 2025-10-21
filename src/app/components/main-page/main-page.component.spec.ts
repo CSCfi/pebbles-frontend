@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 
 import { MainPageComponent } from './main-page.component';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from 'src/environments/environment';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 describe('MainPageComponent', () => {
   let component: MainPageComponent;
@@ -17,10 +17,12 @@ describe('MainPageComponent', () => {
       declarations: [MainPageComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        RouterTestingModule,
-        MaterialModule],
+        RouterModule.forRoot([]),
+        MaterialModule,
+      ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

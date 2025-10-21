@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
 import { MainActiveSessionsComponent } from './main-active-sessions.component';
 import { MaterialModule } from 'src/app/material.module';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ReactiveFormsModule } from "@angular/forms";
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from "../../../../environments/environment";
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainActiveSessionsComponent', () => {
   let component: MainActiveSessionsComponent;
@@ -17,15 +17,16 @@ describe('MainActiveSessionsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MainActiveSessionsComponent,
-        MainContentHeaderComponent
+        MainContentHeaderComponent,
       ],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         MaterialModule,
         ReactiveFormsModule,
       ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

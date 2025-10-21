@@ -2,11 +2,12 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 
 import { MainJoinWorkspaceDialogComponent } from './main-join-workspace-dialog.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainJoinWorkspaceDialogComponent', () => {
   let component: MainJoinWorkspaceDialogComponent;
@@ -15,13 +16,14 @@ describe('MainJoinWorkspaceDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MainJoinWorkspaceDialogComponent
+        MainJoinWorkspaceDialogComponent,
       ],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule],
+        MaterialModule,
+      ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -35,8 +37,8 @@ describe('MainJoinWorkspaceDialogComponent', () => {
           provide: MatDialogRef,
           useValue: {}
         },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

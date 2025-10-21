@@ -4,9 +4,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 
 import { SessionPageComponent } from './session-page.component';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 describe('SessionPageComponent', () => {
   let component: SessionPageComponent;
@@ -18,9 +18,11 @@ describe('SessionPageComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterModule.forRoot([], {}),
-        MaterialModule],
+        MaterialModule,
+      ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

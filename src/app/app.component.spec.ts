@@ -1,10 +1,10 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from 'src/environments/environment';
 import { AppComponent } from './app.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
@@ -13,10 +13,12 @@ describe('AppComponent', () => {
         AppComponent,
       ],
       imports: [
+        RouterModule.forRoot([]),
         MaterialModule,
-        RouterTestingModule.withRoutes([])],
+      ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     }).compileComponents();
   }));

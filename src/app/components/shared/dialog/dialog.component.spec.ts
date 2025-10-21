@@ -13,7 +13,7 @@ describe('DialogComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
-        ClipboardModule
+        ClipboardModule,
       ],
       declarations: [ DialogComponent ],
       providers: [

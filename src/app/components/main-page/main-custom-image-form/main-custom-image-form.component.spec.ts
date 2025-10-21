@@ -5,7 +5,8 @@ import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "../../../material.module";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainCustomImageFormComponent', () => {
   let component: MainCustomImageFormComponent;
@@ -17,7 +18,8 @@ describe('MainCustomImageFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         FormsModule,
-        MaterialModule],
+        MaterialModule,
+      ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -30,8 +32,8 @@ describe('MainCustomImageFormComponent', () => {
           provide: MatDialogRef,
           useValue: {}
         },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     });
     fixture = TestBed.createComponent(MainCustomImageFormComponent);

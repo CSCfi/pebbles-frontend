@@ -10,7 +10,7 @@ describe('MainContentStateComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule
+        MaterialModule,
       ],
       declarations: [ MainContentStateComponent ]
     })

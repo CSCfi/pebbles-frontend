@@ -2,13 +2,18 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { HttpInterceptorFn } from "@angular/common/http";
+import { authInterceptor } from "../app/interceptors/auth.interceptor";
+
 export const buildConfiguration = {
   production: false,
   // api at localhost for development
   apiUrl: 'http://localhost/api/v1'
 };
 
-export const ENVIRONMENT_SPECIFIC_PROVIDERS = [];
+export const ENVIRONMENT_SPECIFIC_INTERCEPTORS: HttpInterceptorFn[] = [
+  authInterceptor
+];
 
 /*
  * For easier debugging in development mode, you can import the following file

@@ -1,7 +1,7 @@
 // ---- Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // ---- Custom Modules
 import { MaterialModule } from './material.module';
@@ -25,8 +25,8 @@ import { SearchService } from './services/search.service';
 import { ServiceAnnouncementService } from './services/service-announcement.service';
 import { SystemNotificationService } from './services/system-notification.service';
 import { WorkspaceService } from './services/workspace.service';
-import { CustomImageService} from "./services/custom-image.service";
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { CustomImageService } from "./services/custom-image.service";
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from 'src/environments/environment';
 // ---- Components
 import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
@@ -34,54 +34,52 @@ import { WelcomeLoginComponent } from './components/welcome-page/welcome-login/w
 import { WelcomeBackgroundComponent } from './components/welcome-page/welcome-background/welcome-background.component';
 import { SessionPageComponent } from './components/session-page/session-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
-// ---- Interceptors
-import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
+
 import { NgOptimizedImage } from "@angular/common";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
-        AppComponent,
-        NotFoundPageComponent,
-        WelcomePageComponent,
-        WelcomeLoginComponent,
-        SessionPageComponent,
-        WelcomeBackgroundComponent,
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-        MaterialModule,
-        SharedModule,
-        MainModule,
-        NgOptimizedImage,
-        FontAwesomeModule], providers: [
-        AccountService,
-        AlertService,
-        ApplicationService,
-        ApplicationCategoryService,
-        ApplicationSessionService,
-        ApplicationTemplateService,
-        AuthService,
-        CustomImageService,
-        DesktopNotificationService,
-        EventService,
-        FaqService,
-        MessageService,
-        PublicConfigService,
-        SearchService,
-        ServiceAnnouncementService,
-        SystemNotificationService,
-        WorkspaceService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
-            multi: true
-        },
-        ENVIRONMENT_SPECIFIC_PROVIDERS,
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
+    AppComponent,
+    NotFoundPageComponent,
+    WelcomePageComponent,
+    WelcomeLoginComponent,
+    SessionPageComponent,
+    WelcomeBackgroundComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    MaterialModule,
+    SharedModule,
+    MainModule,
+    NgOptimizedImage,
+    FontAwesomeModule,
+  ],
+  providers: [
+    AccountService,
+    AlertService,
+    ApplicationService,
+    ApplicationCategoryService,
+    ApplicationSessionService,
+    ApplicationTemplateService,
+    AuthService,
+    CustomImageService,
+    DesktopNotificationService,
+    EventService,
+    FaqService,
+    MessageService,
+    PublicConfigService,
+    SearchService,
+    ServiceAnnouncementService,
+    SystemNotificationService,
+    WorkspaceService,
+    provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+  ]
+})
 export class AppModule {
 }

@@ -2,11 +2,12 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 
 import { MainSelectWorkspaceDialogComponent } from './main-select-workspace-dialog.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainSelectWorkspaceDialogComponent', () => {
   let component: MainSelectWorkspaceDialogComponent;
@@ -19,7 +20,8 @@ describe('MainSelectWorkspaceDialogComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         MaterialModule,
-        RouterTestingModule],
+        RouterModule.forRoot([])
+      ],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -32,8 +34,8 @@ describe('MainSelectWorkspaceDialogComponent', () => {
           provide: MatDialogRef,
           useValue: {}
         },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

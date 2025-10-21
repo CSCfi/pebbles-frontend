@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MainNavComponent } from './main-nav.component';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from 'src/environments/environment';
 import { MaterialModule } from 'src/app/material.module';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { FormsModule } from "@angular/forms";
 import { ApplicationCategoryService } from "../../../services/application-category.service";
 
@@ -18,13 +18,13 @@ describe('MainNavComponent', () => {
       declarations: [MainNavComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         FormsModule,
-        MaterialModule
+        MaterialModule,
       ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS,
-        provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(),
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
         ApplicationCategoryService,
       ]
     })

@@ -1,11 +1,12 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/material.module';
 import { MainWorkspaceFormComponent } from './main-workspace-form.component';
 import { DateDisplayPipe } from "../../../pipes/date-display.pipe";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainWorkspaceFormComponent', () => {
   let component: MainWorkspaceFormComponent;
@@ -13,27 +14,29 @@ describe('MainWorkspaceFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [MainWorkspaceFormComponent, DateDisplayPipe],
-    imports: [ReactiveFormsModule,
+      declarations: [MainWorkspaceFormComponent, DateDisplayPipe],
+      imports: [
+        ReactiveFormsModule,
         FormsModule,
         MaterialModule,
-        MatDialogModule],
-    providers: [
+        MatDialogModule,
+      ],
+      providers: [
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: {
-                isCreationMode: true
-            }
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            isCreationMode: true
+          }
         },
         {
-            provide: MatDialogRef,
-            useValue: {}
+          provide: MatDialogRef,
+          useValue: {}
         },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
         provideHttpClientTesting(),
-    ]
-})
-    .compileComponents();
+      ]
+    })
+      .compileComponents();
   }));
 
   beforeEach(() => {

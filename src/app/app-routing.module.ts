@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
@@ -36,8 +36,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    onSameUrlNavigation: 'reload'
-}),
+      onSameUrlNavigation: 'reload'
+    }),
     MainRoutingModule,
   ],
   exports: [RouterModule]

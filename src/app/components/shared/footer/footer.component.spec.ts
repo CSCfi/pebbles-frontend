@@ -1,9 +1,9 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from '../../../../environments/environment';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from '../../../../environments/environment';
 
 import { FooterComponent } from './footer.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MaterialModule } from "../../../material.module";
 
 describe('FooterComponent', () => {
@@ -15,7 +15,8 @@ describe('FooterComponent', () => {
       declarations: [FooterComponent],
       imports: [MaterialModule],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     }).compileComponents();
   }));

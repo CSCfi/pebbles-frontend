@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MaterialModule } from 'src/app/material.module';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NotFoundPageComponent } from './not-found-page.component';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from 'src/environments/environment';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from 'src/environments/environment';
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 describe('NotFoundPageComponent', () => {
   let component: NotFoundPageComponent;
@@ -12,10 +14,13 @@ describe('NotFoundPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MaterialModule,
-        RouterTestingModule
+        RouterModule.forRoot([]),
       ],
       declarations: [NotFoundPageComponent],
-      providers: [ENVIRONMENT_SPECIFIC_PROVIDERS],
+      providers: [
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
+      ],
     })
       .compileComponents();
   }));

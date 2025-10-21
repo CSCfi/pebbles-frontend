@@ -1,11 +1,11 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 
 import { MainSessionButtonComponent } from './main-session-button.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from "../../../../environments/environment";
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainSessionButtonComponent', () => {
   let component: MainSessionButtonComponent;
@@ -15,10 +15,12 @@ describe('MainSessionButtonComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MainSessionButtonComponent],
       imports: [
-        RouterTestingModule,
-        MaterialModule],
+        RouterModule.forRoot([]),
+        MaterialModule,
+      ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();

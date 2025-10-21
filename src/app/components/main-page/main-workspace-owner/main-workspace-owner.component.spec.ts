@@ -1,13 +1,13 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { MainContentHeaderComponent } from '../main-content-header/main-content-header.component';
 import { MainWorkspaceOwnerComponent } from './main-workspace-owner.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ServiceAnnouncementComponent } from "../../shared/service-announcement/service-announcement.component";
-import { ENVIRONMENT_SPECIFIC_PROVIDERS } from "../../../../environments/environment";
+import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../../environments/environment";
 
 describe('MainWorkspaceOwnerComponent', () => {
   let component: MainWorkspaceOwnerComponent;
@@ -18,15 +18,16 @@ describe('MainWorkspaceOwnerComponent', () => {
       declarations: [
         MainWorkspaceOwnerComponent,
         MainContentHeaderComponent,
-        ServiceAnnouncementComponent
+        ServiceAnnouncementComponent,
       ],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         MaterialModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
       ],
       providers: [
-        ENVIRONMENT_SPECIFIC_PROVIDERS, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()
+        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();
