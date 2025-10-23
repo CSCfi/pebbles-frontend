@@ -123,6 +123,10 @@ export class PublicConfigService {
     return this.getPublicStructuredConfig()?.frontend?.loginButtonText;
   }
 
+  getDemoApplicationDefinitions(): any[] | undefined {
+    return this.getPublicStructuredConfig()?.frontend?.demoApplications;
+  }
+
   isFeatureEnabled(featureName: string) {
     // local override in the browser for feature testing
     if (coerceBooleanProperty(localStorage.getItem(`features.${featureName}`))) {

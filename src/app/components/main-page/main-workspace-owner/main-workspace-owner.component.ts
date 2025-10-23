@@ -3,17 +3,18 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 import { ApplicationTemplate } from 'src/app/models/application-template';
-import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
 import { User } from 'src/app/models/user';
+import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
+import { AccountService } from 'src/app/services/account.service';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { WorkspaceService } from 'src/app/services/workspace.service';
-import { AccountService } from 'src/app/services/account.service';
 import { EventService } from 'src/app/services/event.service';
 import { PublicConfigService } from 'src/app/services/public-config.service';
+import { WorkspaceService } from 'src/app/services/workspace.service';
+import { Application } from "../../../models/application";
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
 
@@ -262,37 +263,55 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  createDemoWorkspace(): void {
+  createDemoWorkspaces(): void {
     this.createDemoWorkspaceClickTs = Date.now();
     if (this.workspaceService.getOwnedWorkspaces(this.user).length > 0) {
       // user already has workspaces, refusing to create demo workspace
       return;
     }
-
-    const envTemplate = this.applicationTemplateService.getApplicationTemplates().find((x) => {
-      return x.name === ApplicationTemplate.EXAMPLE_TEMPLATE_NAME ? x : null;
-    });
-    if (!envTemplate) {
-      window.alert(`Error: no template "${ApplicationTemplate.EXAMPLE_TEMPLATE_NAME}" for example application found`);
+    let demoAppDefinitions = this.publicConfigService.getDemoApplicationDefinitions();
+    if (!demoAppDefinitions) {
+      window.alert('Error: no demo application definitions found');
       return;
     }
 
-    // create demo workspace
+    // create demo workspace with 30 days of lifetime
     this.workspaceService.createWorkspace(
       Workspace.DEMO_WORKSPACE_NAME,
-      'Demo workspace for ' + this.authService.getUserName()
+      `Demo workspace for ${this.authService.getUserName()}.
+       <br>
+       Use the demo workspace exclusively for testing or demonstrations.
+       Set up separate workspaces for all other activities.`,
+      Math.floor((Date.now() / 1000) + (86400 * 30)),
+      'fixed-time-course',
     ).subscribe((ws) => {
-      // create example application that is originally enabled
-      this.applicationService.createApplication(
-        ws.id,
-        'Demo application',
-        'Demo application created by "Create Demo Workspace"',
-        envTemplate.id,
-        envTemplate.base_config.labels,
-        envTemplate.base_config.maximum_lifetime,
-        {download_method: 'none', memory_gib: 1.0},
-        true,
-      ).subscribe(_ => {
+      // create example applications
+      const appPostObservables: Observable<Application>[] = [];
+
+      for (let demoAppDef of demoAppDefinitions) {
+        const exampleTemplateName = demoAppDef.templateName ?? ApplicationTemplate.EXAMPLE_TEMPLATE_NAME;
+
+        const appTemplate = this.applicationTemplateService.getApplicationTemplates().find((x) => {
+          return x.name === exampleTemplateName;
+        });
+
+        appPostObservables.push(this.applicationService.createApplication(
+          ws.id,
+          demoAppDef.name,
+          demoAppDef.description,
+          appTemplate.id,
+          appTemplate.base_config.labels,
+          appTemplate.base_config.maximum_lifetime,
+          {
+            download_method: 'none',
+            memory_gib: 1.0,
+            enable_shared_folder: true,
+            enable_user_work_folder: true,
+          },
+          demoAppDef.isEnabled ?? false,
+        ));
+      }
+      forkJoin(appPostObservables).subscribe(_ => {
         this.applicationService.fetchApplications().subscribe(_ => {
           this.selectWorkspace(ws.id, TabType.Applications);
         });
