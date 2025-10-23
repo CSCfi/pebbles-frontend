@@ -17,6 +17,13 @@ import { PublicConfigService } from 'src/app/services/public-config.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { MainWorkspaceFormComponent } from '../main-workspace-form/main-workspace-form.component';
 
+export enum TabType {
+  Applications,
+  Members,
+  CustomImages,
+  Config,
+}
+
 @Component({
   selector: 'app-main-workspace-owner',
   templateUrl: './main-workspace-owner.component.html',
@@ -28,19 +35,23 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   public context: Data;
   public workspaces: Workspace[] = null;
   public selectedWorkspaceId: string;
-  public selectedTab: number = 0;
+  public selectedTabType: TabType = TabType.Applications;
 
   public user: User;
   public createDemoWorkspaceClickTs: number;
   public isWorkspaceDeleted = false;
-  workspaceIdControl = new FormControl<string>('');
+  public workspaceIdControl = new FormControl<string>('');
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('customImagesTabLabel', {read: ElementRef}) customImagesTabLabel!: ElementRef;
-  isAppFormOpen: boolean;
-  selectedApplicationId: string;
+  public isAppFormOpen: boolean;
+  public selectedApplicationId: string;
+
+  protected readonly TabType = TabType;
+
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
   private autoSelectFirstWorkspace = true;
+
 
   constructor(
     public dialog: MatDialog,
@@ -114,7 +125,13 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
         this.selectedWorkspaceId = paramMap.get('id');
       }
       if (paramMap.get('tab')) {
-        this.selectedTab = +paramMap.get('tab');
+        if (paramMap.get('tab') === 'undefined') {
+          this.selectedTabType = TabType.Applications;
+        } else {
+          this.selectedTabType = +paramMap.get('tab');
+        }
+      } else {
+        this.selectedTabType = TabType.Applications;
       }
       if (paramMap.get('edit')) {
         this.isAppFormOpen = true;
@@ -166,18 +183,22 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
     // if no workspace selected, and we have workspaces to select from, pick the first
     if (this.autoSelectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
-      this.selectWorkspace(this.workspaces[0].id);
+      this.selectWorkspace(this.workspaces[0].id, TabType.Applications);
       this.autoSelectFirstWorkspace = false;
     }
   }
 
-  selectWorkspace(workspaceId: string): void {
-
+  selectWorkspace(workspaceId: string, tabType: TabType | undefined): void {
+    if (this.isWorkspaceDeleted) {
+      tabType = TabType.Applications;
+    }
+    this.isWorkspaceDeleted = false;
     // save the workspace selection in url parameters to restore navigation state after a reload
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: {
         id: workspaceId,
+        tab: tabType,
         edit: null
       },
       queryParamsHandling: 'merge'
@@ -214,7 +235,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
     dialogRef.afterClosed().subscribe(resp => {
       if (resp) {
-        this.selectWorkspace(resp.id);
+        this.selectWorkspace(resp.id, TabType.Applications);
       }
     });
   }
@@ -250,7 +271,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
         {},
         true,
       ).subscribe(_ => {
-        this.selectWorkspace(ws.id);
+        this.selectWorkspace(ws.id, TabType.Applications);
       });
     });
   }
@@ -295,13 +316,13 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
   handleTabChange($event: MatTabChangeEvent): void {
 
-    this.selectedTab = $event.index;
+    this.selectedTabType = $event.index;
 
     // save the workspace selection in url parameters to restore navigation state after a reload
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: {
-        tab: this.selectedTab,
+        tab: this.selectedTabType,
         edit: null
       },
       queryParamsHandling: 'merge'
@@ -314,11 +335,6 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
       return;
     }
     this.tabGroup.selectedIndex = idx;
-  }
-
-  workspaceSelectChange(workspaceId: string): void {
-    this.isWorkspaceDeleted = false;
-    this.selectWorkspace(workspaceId);
   }
 
   openCourseRequest(): void {

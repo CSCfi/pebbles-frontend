@@ -17,8 +17,10 @@
             <span>Create workspace</span>
           </button>
           <ng-container *ngIf="isDemoButtonShown">
-            <button mat-flat-button color="accent" class="create-demo-workspace-button"
-                    aria-label="create demo workspace" (click)="createDemoWorkspace()">
+            <button mat-flat-button color="accent"
+                    class="create-demo-workspace-button"
+                    aria-label="create demo workspace"
+                    (click)="createDemoWorkspace()">
               <mat-icon fontSet="material-icons-outlined" class="mr-10">auto_fix_high</mat-icon>
               <span>Create demo workspace</span>
             </button>
@@ -36,7 +38,7 @@
       <ng-container *ngFor="let workspace of workspaces">
         <mat-card class="workspace-item"
                   [ngClass]="getWorkspaceClasses(workspace)"
-                  (click)="selectWorkspace(workspace.id)">
+                  (click)="selectWorkspace(workspace.id, selectedTabType)">
           <!-- widget header -->
           <div class="card-header">
             <div class="workspace-icon">
@@ -94,7 +96,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Select workspace</mat-label>
         <mat-select [formControl]="workspaceIdControl"
-                    (selectionChange)="workspaceSelectChange(workspaceIdControl.value)">
+                    (selectionChange)="selectWorkspace(workspaceIdControl.value, selectedTabType)">
           <mat-select-trigger>
             <span *ngIf="workspaceIdControl.value && getWorkspaceById(workspaceIdControl.value)">
               <span class="lifecycle-badge"
@@ -148,9 +150,9 @@
                      (selectedTabChange)="handleTabChange($event)"
                      animationDuration="100ms"
                      mat-align-tabs="left"
-                     [selectedIndex]="selectedTab">
+                     [selectedIndex]="selectedTabType">
 
-        <mat-tab label="applications">
+        <mat-tab>
           <ng-template mat-tab-label>
             <span (click)="closeForm()">
               <mat-icon>import_contacts</mat-icon>
@@ -158,7 +160,7 @@
             </span>
           </ng-template>
           <app-main-workspace-applications
-              *ngIf="selectedTab===0"
+              *ngIf="selectedTabType===TabType.Applications"
               [workspace]="selectedWorkspace"
               [context]="context"
               [isWorkspaceExpired]="isWorkspaceExpired"
@@ -166,34 +168,34 @@
               [selectedApplicationId]="selectedApplicationId">
           </app-main-workspace-applications>
         </mat-tab>
-        <mat-tab label="members">
+        <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>person</mat-icon>
             <span class="tab-title">Members</span>
           </ng-template>
           <app-main-workspace-members
-              *ngIf="selectedTab===1"
+              *ngIf="selectedTabType===TabType.Members"
               [workspace]="selectedWorkspace">
           </app-main-workspace-members>
         </mat-tab>
-        <mat-tab *ngIf="isCustomImagesFeatureEnabled" label="custom-images">
+        <mat-tab *ngIf="isCustomImagesFeatureEnabled">
           <ng-template mat-tab-label>
             <mat-icon>album</mat-icon>
             <span class="tab-title">Custom Images</span>
             <span class="label" #customImagesTabLabel>Preview</span>
           </ng-template>
           <app-main-workspace-custom-images
-              *ngIf="selectedTab===2"
+              *ngIf="selectedTabType===TabType.CustomImages"
               [workspace]="selectedWorkspace"
               [isWorkspaceExpired]="isWorkspaceExpired">
           </app-main-workspace-custom-images>
         </mat-tab>
-        <mat-tab label="config">
+        <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon matTooltip="Settings...">settings</mat-icon>
           </ng-template>
           <app-main-workspace-item-detail
-              *ngIf="selectedTab===3"
+              *ngIf="selectedTabType===TabType.Config"
               [workspace]="selectedWorkspace"
               (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
           </app-main-workspace-item-detail>
