@@ -267,7 +267,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
         envTemplate.id,
         envTemplate.base_config.labels,
         envTemplate.base_config.maximum_lifetime,
-        {},
+        {download_method: 'none', memory_gib: 1.0},
         true,
       ).subscribe(_ => {
         this.applicationService.fetchApplications().subscribe(_ => {
