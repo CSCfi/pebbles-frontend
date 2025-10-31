@@ -113,7 +113,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     this.dialog.open(MainCustomImageFormComponent, {
       height: 'auto',
       width: '1280px',
-      autoFocus: false,
+      autoFocus: '#name-input',
       data: {
         baseImages: this.baseImages,
         previousVersion,

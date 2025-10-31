@@ -5,7 +5,8 @@
     </button>
   </div>
   <h2 class="mat-dialog-title">{{ formTitle }}</h2>
-  <form [formGroup]="customImageFormGroup" id="dialog">
+  <form [formGroup]="customImageFormGroup"
+        (ngSubmit)="preventSubmit($event)" id="dialog">
     <div class="custom-image-form-content">
       <div class="custom-image-form-left">
 
@@ -15,7 +16,10 @@
             <section class="form-container">
               <h3 class="mat-title">Name *</h3>
               <mat-form-field appearance="fill">
-                <input formControlName="name" matInput>
+                <input (keyup.enter)="focusNextElement($event)"
+                       id="name-input"
+                       formControlName="name"
+                       matInput>
                 <mat-error *ngIf="customImageFormGroup.controls.name.hasError('required')">
                   <strong>Name is required</strong>
                 </mat-error>
@@ -36,11 +40,13 @@
               </div>
               <ng-container>
                 <mat-form-field appearance="fill">
-                  <mat-select (selectionChange)="updateDockerfile()"
+                  <mat-select #dropdownSelect
+                              (selectionChange)="updateDockerfile()"
                               formControlName="baseImage"
                               placeholder="Choose the base image to customize">
-                    <mat-option *ngFor="let baseImage of data.baseImages" [value]="baseImage">
-                      {{ extractBaseImageName(baseImage) }}
+                    <mat-option *ngFor="let baseImage of data.baseImages"
+                                [value]="baseImage">
+                      {{ extractBaseImageName(baseImage)}}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="customImageFormGroup.controls.baseImage.hasError('required')">
@@ -62,8 +68,14 @@
                     <h4 class="mat-subtitle icon__library">{{ getContentDescription(content.kind) }} </h4>
                   </div>
                   <mat-form-field appearance="fill" class="image-content-form-field">
-                    <input (input)="updateExtraContent()" formControlName="ic-{{ i }}" matInput
-                           value="content.data">
+                    <input #dynamicInput
+                           (input)="updateExtraContent()"
+                           (keydown.enter)="focusNextElement($event)"
+                           formControlName="ic-{{ i }}"
+                           matInput
+                           value="content.data"
+                           id="package-input"
+                           class="package-input-form">
                     <button matSuffix matIconButton aria-label="Remove"
                             class="delete-button" (click)="removeImageContent(i)">
                       <mat-icon>remove</mat-icon>
@@ -71,15 +83,25 @@
                   </mat-form-field>
                 </ng-container>
                 <div class="add-content">
-                  <button (click)="addImageContent('aptPackages')" class="secondary-btn" mat-button>
+                  <button #addAptButton
+                          (click)="addImageContent('aptPackages')"
+                          class="secondary-btn"
+                          type="button"
+                          mat-button>
                     <mat-icon fontSet="material-icons-outlined">add</mat-icon>
                     <span>apt</span>
                   </button>
-                  <button (click)="addImageContent('pipPackages')" class="secondary-btn" mat-button>
+                  <button (click)="addImageContent('pipPackages')"
+                          class="secondary-btn"
+                          type="button"
+                          mat-button>
                     <mat-icon fontSet="material-icons-outlined">add</mat-icon>
                     <span>pip</span>
                   </button>
-                  <button (click)="addImageContent('condaForgePackages')" class="secondary-btn" mat-button>
+                  <button (click)="addImageContent('condaForgePackages')"
+                          class="secondary-btn"
+                          type="button"
+                          mat-button>
                     <mat-icon fontSet="material-icons-outlined">add</mat-icon>
                     conda-forge
                   </button>
@@ -104,7 +126,9 @@
       <button (click)="closeForm()"
               [disabled]="customImageFormGroup.invalid || createButtonClicked"
               color="primary"
-              mat-flat-button>Build
+              type="submit"
+              mat-flat-button>
+        Build
       </button>
       <button class="button-link cancel-button" mat-button mat-dialog-close="true">
         Cancel

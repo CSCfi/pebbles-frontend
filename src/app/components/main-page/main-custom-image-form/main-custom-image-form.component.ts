@@ -1,7 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren}
+  from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MatButton } from '@angular/material/button';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { CustomImage, ImageContent } from "../../../models/custom-image";
+import { MatSelect } from "@angular/material/select";
 
 @Component({
   selector: 'app-main-custom-image-form',
@@ -9,12 +12,15 @@ import { CustomImage, ImageContent } from "../../../models/custom-image";
   styleUrls: ['./main-custom-image-form.component.scss'],
   standalone: false
 })
-export class MainCustomImageFormComponent implements OnInit {
+export class MainCustomImageFormComponent implements OnInit, AfterViewInit {
   customImageFormGroup: FormGroup;
   createButtonClicked: boolean;
   generatedDockerfile: string;
   imageContent: ImageContent[] = [];
   formTitle = 'Create Custom Image';
+  @ViewChild('dropdownSelect') dropdownSelect!: MatSelect;
+  @ViewChildren('dynamicInput') packageInputFields!: QueryList<ElementRef>;
+  @ViewChild('addAptButton', { read: MatButton }) addAptButtonRef!: MatButton;
 
 
   constructor(
@@ -60,6 +66,16 @@ export class MainCustomImageFormComponent implements OnInit {
     }
     this.updateDynamicFields();
     this.updateDockerfile();
+  }
+
+  ngAfterViewInit(): void {
+    this.packageInputFields.changes.subscribe((list: QueryList<ElementRef>) => {
+      if (list.length > 0) {
+        setTimeout(() => {
+          list.last.nativeElement.focus();
+        });
+      }
+    });
   }
 
   updateDynamicFields() {
@@ -164,5 +180,27 @@ export class MainCustomImageFormComponent implements OnInit {
 
   extractBaseImageName(baseImage: string): string {
     return baseImage.replace(this.data.commonImagePrefix, '').trim();
+  }
+
+  //---- Preventing from the input filed removal by Enter key
+  preventSubmit(event: Event): void {
+    event.preventDefault();
+  }
+
+  focusNextElement(event: any): void {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+
+    const targetElement = keyboardEvent.target as HTMLElement;
+    const currentElementId = targetElement.id
+
+    switch (currentElementId) {
+      case 'name-input':
+        this.dropdownSelect.focus();
+        break;
+      case 'package-input':
+        this.addAptButtonRef.focus();
+        break;
+    }
   }
 }
