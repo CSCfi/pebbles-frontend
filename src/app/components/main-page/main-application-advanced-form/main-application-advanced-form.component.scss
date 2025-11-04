@@ -227,50 +227,50 @@ section {
       @include headline-5;
     }
 
-    ::ng-deep.toggle-button-group {
-      display: flex;
+    ::ng-deep.toggle-button-group,
+    ::ng-deep.toggle-button-group .mat-button-toggle,
+    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-label-content,
+    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-button,
+    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-button span {
+      flex: 1;
       align-items: stretch;
+      display: flex;
+    }
+
+    ::ng-deep.toggle-button-group {
       box-shadow: none !important;
-      border: 1px $gray-dark-color solid !important;
-      overflow: visible;
 
-      .mat-button-toggle {
-        flex: 1;
-        align-items: stretch;
-        border-left: 1px $gray-dark-color solid;
-
-        .mat-button-toggle-button {
-          font-size: 1.4rem !important;
-        }
-
-        &:first-child {
-          border-left: none;
-        }
-
-        .mat-button-toggle-label-content {
-          display: flex;
-          overflow: visible;
-          align-items: stretch;
-          padding: 10px 20px !important;
-          line-height: 120%;
+      .mat-button-toggle .mat-button-toggle-button {
+          border-top: 1px $gray-dark-color solid !important;
+          border-bottom: 1px $gray-dark-color solid !important;
+          border-left: 1px $gray-dark-color solid !important;
+          border-radius: unset;
           color: $primary-dark-color;
-        }
+          font-size: 1.4rem !important;
       }
 
-      .mat-button-toggle-checked {
+      .mat-button-toggle:last-child .mat-button-toggle-button {
+        border-right: 1px $gray-dark-color solid !important;
+      }
+
+      .mat-button-toggle .mat-button-toggle-label-content {
+        padding: 10px 20px !important;
+        line-height: 120%;
+      }
+
+      .mat-button-toggle.mat-button-toggle-checked {
         background-color: $secondary-color;
-        color: white;
+      }
 
-        .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
-          color: #FFFFFF !important;
-          display: block;
-        }
+      .mat-button-toggle.mat-button-toggle-checked .mat-button-toggle-label-content {
+        color: #FFFFFF !important;
+      }
 
-        .mat-button-toggle-label-content {
-          color: #FFFFFF !important;
-        }
+      .mat-button-toggle.mat-button-toggle-disabled .mat-button-toggle-label-content {
+        color: #999 !important;
       }
     }
+    // ---- END (toggle-button-group)
 
     &.application-template-form {
       ::ng-deep.mat-mdc-form-field-subscript-wrapper {
