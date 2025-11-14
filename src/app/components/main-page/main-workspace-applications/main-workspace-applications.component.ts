@@ -146,11 +146,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     );
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
   // getLifetime(number): string {
   //   const hours = Number(this.application.maximum_lifetime) / 3600;
   //   const mins = Number(this.application.maximum_lifetime) % 3600;
