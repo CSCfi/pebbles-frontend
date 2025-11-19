@@ -36,6 +36,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@material-symbols/font-500": "^0.39.4",
     "destyle.css": "^4.0.1",
     "material-icons": "^1.13.14",
     "minimist": "^1.2.8",
