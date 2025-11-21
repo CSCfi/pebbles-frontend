@@ -82,10 +82,16 @@
 
 @media (max-width: 599px) {
 
+  .content-header-container h3 {
+    margin-left: 35px;
+    flex-basis: 30px !important;
+    height: 30px !important;
+  }
+
   .mobile-main-nav {
     display: block;
-    position: relative;
-    width: 100%;
+    position: fixed;
+    width: 65px;
     top: 0;
     left: 0;
   }

@@ -228,7 +228,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   openWorkspaceCreationDialog(): void {
     const dialogRef = this.dialog.open(MainWorkspaceFormComponent, {
       width: '800px',
-      height: '700px',
+      height: '850px',
       autoFocus: false,
     });
 

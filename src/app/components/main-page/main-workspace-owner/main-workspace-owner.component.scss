@@ -327,7 +327,7 @@
   .status-info-container {
     height: 100%;
     @include center(both);
-    margin-top: 0;
+    margin-top: 30px;
     padding-bottom: 40%;
   }
 
@@ -508,6 +508,15 @@
   }
 }
 
+::ng-deep.mat-mdc-tab-body-content {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+/* -------------------------------------- */
+/* Mobile */
+/* -------------------------------------- */
 @media screen and (max-width: 1250px) {
 
   #workspace-owner-container {
@@ -523,15 +532,9 @@
       flex-direction: column;
     }
 
-    .content-header-container {
-      flex-basis: 60px;
+    .content-header-container h3{
+      flex-basis: 30px;
       gap: 0;
-
-      .create-workspace-button {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-      }
     }
 
     .mobile-workspace-list {
@@ -607,6 +610,10 @@
       right: 0;
     }
   }
+
+  ::ng-deep.mat-mdc-dialog-panel {
+    height: 95% !important;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -618,6 +625,10 @@
     span.label {
       display: none !important;
     }
+  }
+
+  ::ng-deep.mat-mdc-dialog-container{
+    padding: 0 !important;
   }
 }
 
@@ -660,10 +671,4 @@
       background: $gray-dark-color;
     }
   }
-}
-
-::ng-deep.mat-mdc-tab-body-content {
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
 }

@@ -6,21 +6,22 @@
   </div>
   <form [formGroup]="workspaceForm" novalidate>
     <h1 class="mat-dialog-title">Create new workspace</h1>
+
     <div class="form-inner">
+      <section class="instruction-body">
+        <div class="form-help-icon center__v">
+          <mat-icon class="md-96" fontSet="material-icons-outlined">help_outline</mat-icon>
+        </div>
+        <div class="instruction-text">
+          <h1 class="question">What is Workspace?</h1>
+          <div class="answer">
+            "Workspace" is the virtual space where you can share customized applications and materials with
+            students or collaborators. There are folders for storing shared and user's data.
+            Users join your Workspace using shared "Join Code".
+          </div>
+        </div>
+      </section>
       <mat-dialog-content class="plain-form-container">
-        <section class="instruction-body">
-          <div class="form-help-icon center__v">
-            <mat-icon class="md-96" fontSet="material-icons-outlined">help_outline</mat-icon>
-          </div>
-          <div class="instruction-text">
-            <h1 class="question">What is Workspace?</h1>
-            <div class="answer">
-              "Workspace" is the virtual space where you can share customized applications and materials with
-              students or collaborators. There are folders for storing shared and user's data.
-              Users join your Workspace using shared "Join Code".
-            </div>
-          </div>
-        </section>
         <section class="form-container">
           <!-- Name -->
           <mat-form-field appearance="fill">
@@ -49,7 +50,8 @@
               You must provide a <strong>description about the workspace</strong>
             </mat-error>
             <mat-error *ngIf="workspaceForm.controls.description.hasError('maxlength')">
-              Currently you have {{descriptionInput?.value?.length}} characters. Max length ({{ descriptionMaxLength }}) exceeded.
+              Currently you have {{ descriptionInput?.value?.length }} characters. Max length
+              ({{ descriptionMaxLength }}) exceeded.
             </mat-error>
           </mat-form-field>
         </section>

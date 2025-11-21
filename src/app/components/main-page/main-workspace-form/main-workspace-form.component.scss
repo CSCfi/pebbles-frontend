@@ -39,13 +39,18 @@
   form {
     height: 100%;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 
     .form-inner {
-      max-height: 95%;
-      overflow-y: auto;
+      flex-grow: 1;
+      overflow-y: hidden;
       padding: 10px 20px 20px;
-      border: 2px solid map-get($app-gray, 200);
       border-radius: 5px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
   }
 
@@ -128,17 +133,54 @@
   }
 }
 
-button {
-  &:disabled {
-    background-color: map-get($app-gray, 100) !important;
-    color: $dark-text-color;
+.dialog-actions {
+  flex-basis: 40px;
+  display: flex;
+  flex-direction: row;
+
+  button {
+    &:disabled {
+      background-color: map-get($app-gray, 100) !important;
+      color: $dark-text-color;
+    }
+
+    &.submit-button {
+      flex: 2;
+    }
+
+    &.cancel-button {
+      flex: 1;
+    }
+  }
+}
+
+
+/* -------------------------------------- */
+/* Mobile */
+/* -------------------------------------- */
+@media screen and (max-width: 1250px) {
+
+  .instruction-body {
+    flex-shrink: 1;
+    display: block !important;
+    height: auto;
+
+    .form-help-icon {
+      display: none !important;
+    }
   }
 
-  &.submit-button {
-    width: 80% !important;
+  .form-inner {
+    padding: 0 !important;
+  }
+}
+
+@media screen and (max-height: 850px) {
+  .dialog-container {
+    padding: 10px !important;
   }
 
-  &.cancel-button {
-    width: 20%;
+  .instruction-body {
+    display: none !important;
   }
 }
