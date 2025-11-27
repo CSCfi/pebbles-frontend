@@ -84,7 +84,7 @@ export class MainCustomImageFormComponent implements OnInit, AfterViewInit {
       const ic = this.imageContent[i];
       const fc = new FormControl(`ic-${i}`);
       fc.setValue(ic.data);
-      this.customImageFormGroup.addControl(
+      this.customImageFormGroup.setControl(
         `ic-${i}`,
         fc
       );
