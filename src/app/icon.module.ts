@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faJs, faPython, faRProject, faDocker, faLinux
 } from '@fortawesome/free-brands-svg-icons';
-import { faAtom, faBook, faBrain, faChartColumn, faCircleNodes, faCode, faDna, faLanguage
+import { faAtom, faBook, faBrain, faChartColumn, faCircleNodes, faCode, faDna, faLanguage, faMapLocationDot
 } from '@fortawesome/free-solid-svg-icons';
 import { CustomLinuxIconComponent } from "./components/shared/icons/custom-linux-icon.component";
 
@@ -35,7 +35,8 @@ export class IconModule {
       faChartColumn,
       faCircleNodes,
       faDocker,
-      faLinux
+      faLinux,
+      faMapLocationDot
     );
   }
 }

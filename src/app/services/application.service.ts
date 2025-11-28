@@ -200,6 +200,8 @@ export class ApplicationService implements OnDestroy {
       return ['fab', 'linux'];
     } else if (labels.includes('ai') || labels.includes('deep learning')) {
       return ['fas', 'brain'];
+    } else if (labels.includes('gis') || labels.includes('geo') || labels.includes('geospatial')) {
+      return ['fas', 'map-location-dot'];
     } else if (labels.includes('machine learning')) {
       return ['fas', 'circle-nodes'];
     } else if (labels.includes('quantum computing')) {
