@@ -38,6 +38,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   public selectedTabType: TabType = TabType.Applications;
   public workspaceIdControl = new FormControl<string>('');
   public isAppFormOpen: boolean;
+  public isWorkspaceFormOpen: boolean = false;
   public selectedApplicationId: string;
 
   protected readonly TabType = TabType;
@@ -52,6 +53,26 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   @ViewChild(MatTabGroup) private tabGroup: MatTabGroup;
   @ViewChild('customImagesTabLabel', {read: ElementRef}) private customImagesTabLabel!: ElementRef;
 
+  public tourSteps = [
+    {
+      id: 1,
+      icon: 'import_contacts',
+      content: 'Launch and host applications',
+
+    },
+    {
+      id: 2,
+      icon: 'groups_3',
+      content: 'Invite users to share applications and data with students or team members',
+
+    },
+    {
+      id: 3,
+      icon: 'app_registration',
+      content: 'Customize applications by adding data and libraries',
+    },
+  ];
+
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -62,7 +83,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     private applicationService: ApplicationService,
     private applicationTemplateService: ApplicationTemplateService,
     private eventService: EventService,
-    private publicConfigService: PublicConfigService,
+    public publicConfigService: PublicConfigService,
   ) {
     this.createDemoWorkspaceClickTs = 0;
   }
@@ -226,6 +247,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   // ----------------------------------------
 
   openWorkspaceCreationDialog(): void {
+    this.isWorkspaceFormOpen = true;
     const dialogRef = this.dialog.open(MainWorkspaceFormComponent, {
       width: '800px',
       height: '850px',
@@ -236,6 +258,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
       if (resp) {
         this.selectWorkspace(resp.id, TabType.Applications);
       }
+      this.isWorkspaceFormOpen = false;
     });
   }
 

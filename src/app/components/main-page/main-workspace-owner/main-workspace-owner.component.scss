@@ -26,10 +26,12 @@
   }
 
   #workspace-owner-tab-container {
+    position: relative;
     flex: 1;
     overflow: auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 5px;
 
     app-service-announcement {
@@ -48,7 +50,9 @@
   }
 }
 
-// ---- Left UI
+/* -------------------------------------- */
+/* Left UI */
+/* -------------------------------------- */
 
 ::ng-deep .mat-mdc-tab-body-wrapper {
   flex: 1;
@@ -57,7 +61,7 @@
 #workspace-owner-container {
 
   .content-header-container {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -106,9 +110,9 @@
 
     .workspace-list {
       overflow: auto;
-      margin: 10px 15px;
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
       align-items: stretch;
       gap: 5px;
 
@@ -119,6 +123,7 @@
         @include styled-font;
         font-size: 1.6rem;
         font-weight: 600;
+        margin: 10px 15px 0;
 
         .card-header {
           display: flex;
@@ -242,7 +247,7 @@
   }
 }
 
-// ---- For Lifecycle-note
+// ---- For Lifecycle-corner-banner
 .workspace-item {
 
   .lifecycle-corner-banner:before {
@@ -302,7 +307,9 @@
   }
 }
 
-// ---- Right UI
+/* -------------------------------------- */
+/* Right UI */
+/* -------------------------------------- */
 
 ::ng-deep .mat-mdc-tab-label-container,
 ::ng-deep .mat-mdc-tab-header {
@@ -324,13 +331,6 @@
 
 #workspace-owner-container {
 
-  .status-info-container {
-    height: 100%;
-    @include center(both);
-    margin-top: 30px;
-    padding-bottom: 40%;
-  }
-
   #workspace-owner-tab-container {
     background: $primary-light-color;
 
@@ -344,6 +344,8 @@
       ::ng-deep.mat-mdc-tab-header {
         flex-basis: 50px;
         background: $primary-light-color;
+        padding-left: 30px;
+        padding-right: 30px;
 
         .mat-mdc-tab {
           background: $light-color;
@@ -438,35 +440,43 @@
         }
       }
     }
-
-    .gray-out-container {
-      position: absolute;
-      z-index: 10000;
-      height: 100%;
-      width: 100%;
-
-      .gray-out-panel {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        background: map-get($app-gray, 900);
-        opacity: 0.8;
-        top: 0;
-        z-index: 1;
-      }
-
-      .status-info-container {
-        height: 100%;
-
-        .success-status {
-          position: relative;
-          z-index: 1000;
-          color: white;
-        }
-      }
-    }
   }
 }
+
+// ---- status-info
+
+.status-info-container {
+  height: 100%;
+  @include center(both);
+  margin-top: 30px;
+  padding-bottom: 300px;
+
+  .empty-status h3 {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  h4 {
+    font-weight: bold;
+    font-size: 2.2rem;
+  }
+}
+
+.workspace-list-container .status-info-container {
+  color: #879197;
+}
+
+#workspace-owner-tab-container .status-info-container {
+  width: 500px;
+  margin: 300px auto 0 auto;
+
+  .success-status {
+    position: relative;
+    z-index: 1000;
+  }
+}
+
+// ---- END (status-info)
 
 .tab-group-wrapper {
   flex: 1;
@@ -474,6 +484,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .course-request-wrapper {
     position: absolute;
@@ -532,7 +543,7 @@
       flex-direction: column;
     }
 
-    .content-header-container h3{
+    .content-header-container h3 {
       flex-basis: 30px;
       gap: 0;
     }
@@ -627,7 +638,7 @@
     }
   }
 
-  ::ng-deep.mat-mdc-dialog-container{
+  ::ng-deep.mat-mdc-dialog-container {
     padding: 0 !important;
   }
 }

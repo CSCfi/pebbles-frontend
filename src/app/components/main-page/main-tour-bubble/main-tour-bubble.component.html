@@ -1,0 +1,40 @@
+<div class="tour-bubble">
+
+  <div class="arrow-left">
+    <div class="arrow-line"></div>
+  </div>
+  <div class="arrow-up">
+    <div class="arrow-line"></div>
+  </div>
+
+  <div class="tour-bubble-box">
+    <h2>Try a demo workspace with example applications!</h2>
+    <h3>What can you do in workspaces?</h3>
+
+    <div class="bubble-steps-container">
+      @for (step of tourSteps; track step.id) {
+      <div class="step-item"
+           [attr.data-step]="step.id"
+           *ngIf="step.id===currentStepNumber || !isTourStepOn">
+        <mat-icon fontSet="material-icons-outlined" *ngIf="step.icon">{{ step.icon }}</mat-icon>
+        <h4 [innerHTML]="step.title" *ngIf="step.title"></h4>
+        <p *ngIf="step.content" [innerHTML]="step.content"></p>
+      </div>
+      }
+    </div>
+
+    <div class="bubble-footer" *ngIf="isTourStepOn">
+      <button class="prev-button"
+              (click)="previousStep()">
+        <mat-icon fontSet="material-icons-outlined">keyboard_arrow_left</mat-icon>
+      </button>
+      <div class="step-indicator">{{ currentStepNumber }}/{{ totalSteps }}</div>
+      <button class="next-button"
+              (click)="nextStep()">
+        <mat-icon fontSet="material-icons-outlined">keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+
+  </div>
+
+</div>

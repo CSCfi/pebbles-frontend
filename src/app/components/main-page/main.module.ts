@@ -51,6 +51,7 @@ import { MainCustomImageFormComponent } from "./main-custom-image-form/main-cust
 import {
   MainApplicationAdvancedFormComponent
 } from "./main-application-advanced-form/main-application-advanced-form.component";
+import { MainTourBubbleComponent } from "./main-tour-bubble/main-tour-bubble.component";
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import {
     RemainingDaysDisplayPipe,
     MainSelectWorkspaceDialogComponent,
     MainCustomImageFormComponent,
+    MainTourBubbleComponent
   ],
   imports: [
     CommonModule,

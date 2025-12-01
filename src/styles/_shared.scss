@@ -677,6 +677,27 @@ table {
   }
 }
 
+/* -------------------------------------- */
+/* Black semi-transparent layer */
+/* -------------------------------------- */
+
+.gray-out-container {
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+
+  .gray-out-panel {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: map-get($app-gray, 900);
+    opacity: 0.8;
+    top: 0;
+    z-index: 1;
+  }
+}
+
 // ----- Activate for Debug
 
 //::-webkit-scrollbar {

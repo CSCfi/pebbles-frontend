@@ -8,14 +8,7 @@
       <!-- Workspace creation buttons -->
       <ng-container *ngIf="workspaces">
         <div class="workspaces-actions-container">
-          <button mat-flat-button class="create-workspace-button"
-                  [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
-                  aria-label="create a new workspace"
-                  [disabled]="!isQuotaLeft()"
-                  (click)="openWorkspaceCreationDialog()">
-            <mat-icon class="mr-5">dashboard_customize</mat-icon>
-            <span>Create workspace</span>
-          </button>
+
           <ng-container *ngIf="isDemoButtonShown">
             <button mat-flat-button color="accent"
                     class="create-demo-workspace-button"
@@ -25,6 +18,14 @@
               <span>Create demo workspace</span>
             </button>
           </ng-container>
+          <button mat-flat-button class="create-workspace-button"
+                  [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
+                  aria-label="create a new workspace"
+                  [disabled]="!isQuotaLeft()"
+                  (click)="openWorkspaceCreationDialog()">
+            <mat-icon class="mr-5">dashboard_customize</mat-icon>
+            <span>Create workspace</span>
+          </button>
           <div *ngIf="!isQuotaLeft()" class="max-quota-warning">
             Maximum number of workspaces reached.
             Please delete unused workspaces, or contact
@@ -34,11 +35,12 @@
       </ng-container>
     </div>
     <!-- Workspace list -->
-    <div class="workspace-list" *ngIf="workspaces">
-      <ng-container *ngFor="let workspace of workspaces">
+    <div class="workspace-list">
+      <ng-container *ngIf="!isNoWorkspace; else noWorkspace">
         <mat-card class="workspace-item"
                   [ngClass]="getWorkspaceClasses(workspace)"
-                  (click)="selectWorkspace(workspace.id, selectedTabType)">
+                  (click)="selectWorkspace(workspace.id, selectedTabType)"
+                  *ngFor="let workspace of workspaces">
           <!-- widget header -->
           <div class="card-header">
             <div class="workspace-icon">
@@ -90,7 +92,22 @@
           </mat-card-content>
         </mat-card>
       </ng-container>
+      <ng-template #noWorkspace>
+        <div class="gray-out-container" *ngIf="!isWorkspaceDeleted">
+          <div class="gray-out-panel">
+          </div>
+        </div>
+        <div class="status-info-container">
+          <div class="empty-status">
+            <h2 class="status-headline">No workspaces</h2>
+            <div class="status-content">
+              Start by creating a new workspace
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </div>
+
     <!-- Mobile workspace-list -->
     <div class="mobile-workspace-list" *ngIf="workspaces">
       <mat-form-field appearance="fill">
@@ -215,14 +232,14 @@
       </section>
     </ng-container>
 
-    <ng-container *ngIf="isNoWorkspace && !isWorkspaceDeleted">
-      <div class="status-info-container">
-        <div class="empty-status">
-          <h2 class="status-headline">No workspaces</h2>
-          <mat-icon fontSet="material-icons-outlined">touch_app</mat-icon>
-          <span class="status-postscript">Start by creating a new workspace</span>
+    <ng-container *ngIf="isNoWorkspace && !isWorkspaceDeleted && !isWorkspaceFormOpen">
+      <div class="gray-out-container">
+        <div class="gray-out-panel">
         </div>
       </div>
+      <app-main-tour-bubble
+          [isTourStepOn]="false"
+          [tourSteps]="tourSteps"></app-main-tour-bubble>
     </ng-container>
 
   </div>
