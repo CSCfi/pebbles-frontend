@@ -106,6 +106,7 @@
           <div class="action-wrapper">
             <button mat-icon-button
                     matTooltip="Regenerate Join code"
+                    [disabled]="hasExpired"
                     (click)="openRegenerateJoinCodeDialog()">
               <mat-icon>refresh</mat-icon>
             </button>

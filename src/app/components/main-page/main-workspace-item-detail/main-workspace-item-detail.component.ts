@@ -5,6 +5,7 @@ import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspa
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { Utilities } from "../../../utilities";
 
 @Component({
   selector: 'app-main-workspace-item-detail',
@@ -41,6 +42,10 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   get descriptionInput() {
     return this.workspaceEditForm.get('description');
+  }
+
+  get hasExpired(): boolean {
+    return Utilities.isExpiredTimestamp(this.workspace.expiry_ts);
   }
 
   constructor(
