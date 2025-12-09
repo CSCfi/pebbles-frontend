@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .mat-sidenav-container {
   min-height: 100vh;
@@ -7,20 +7,20 @@
 
   mat-sidenav {
     height: inherit;
-    width: $main-navigation-width;
-    @include primary-main-background;
+    width: main.$main-navigation-width;
+    @include main.primary-main-background;
 
     &.minimize {
-      width: $main-navigation-minimized-width !important;
+      width: main.$main-navigation-minimized-width !important;
     }
   }
 
   .mat-sidenav-content {
-    margin-left: $main-navigation-width !important;
+    margin-left: main.$main-navigation-width !important;
     min-height: 100vh;
 
     &.expanded {
-      margin-left: $main-navigation-minimized-width !important;
+      margin-left: main.$main-navigation-minimized-width !important;
     }
   }
 }
@@ -33,7 +33,7 @@
 }
 
 .main-page-wrapper {
-  @include light-gray-background;
+  @include main.light-gray-background;
   min-height: inherit;
   display: flex;
   flex-direction: column;

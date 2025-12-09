@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .form-wrapper {
   display: flex;
@@ -16,14 +16,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  border-bottom: 1px solid $gray-color;
+  border-bottom: 1px solid main.$gray-color;
   background: #FFFFFF;
 
   .cancel-button {
     padding: 10px 20px;
     height: 100%;
     text-align: left;
-    background: $gray-extra-light-color;
+    background: main.$gray-extra-light-color;
     border-radius: 0;
 
     .mat-icon {
@@ -35,7 +35,7 @@
 
   .form-title {
     flex: 1;
-    @include center(both);
+    @include main.center(both);
     text-align: center;
     height: 100%;
     padding-left: 30px;
@@ -54,7 +54,7 @@ form {
   align-items: stretch;
   overflow: hidden;
   padding: 20px 30px;
-  background: $gray-extra-light-color;
+  background: main.$gray-extra-light-color;
   position: relative;
 
 
@@ -75,7 +75,7 @@ form {
       height: 40px;
 
       &:disabled {
-        background-color: map-get($app-gray, 100) !important;
+        background-color: map-get(main.$app-gray, 100) !important;
       }
 
       &.submit-button {
@@ -87,8 +87,8 @@ form {
       }
 
       &.submit-draft-button:not(.mat-mdc-button-disabled) {
-        border: solid 2px $primary-color;
-        color: $primary-color;
+        border: solid 2px main.$primary-color;
+        color: main.$primary-color;
       }
 
       &.clear-button {
@@ -148,7 +148,7 @@ section {
   h3.section-title {
     position: absolute;
     font-size: 1.3rem;
-    background: $gray-dark-color;
+    background: main.$gray-dark-color;
     color: #FFFFFF;
     padding: 3px 15px;
     margin-top: -55px;
@@ -213,8 +213,8 @@ section {
 
     .key {
       display: inline;
-      border: solid 1px $gray-color;
-      background: $gray-light-color;
+      border: solid 1px main.$gray-color;
+      background: main.$gray-light-color;
       text-transform: capitalize;
       margin: 0 3px;
       font-weight: bold;
@@ -224,7 +224,7 @@ section {
 
     p {
       margin-bottom: 5px !important;
-      @include headline-5;
+      @include main.headline-5;
     }
 
     ::ng-deep.toggle-button-group,
@@ -241,16 +241,16 @@ section {
       box-shadow: none !important;
 
       .mat-button-toggle .mat-button-toggle-button {
-          border-top: 1px $gray-dark-color solid !important;
-          border-bottom: 1px $gray-dark-color solid !important;
-          border-left: 1px $gray-dark-color solid !important;
+          border-top: 1px main.$gray-dark-color solid !important;
+          border-bottom: 1px main.$gray-dark-color solid !important;
+          border-left: 1px main.$gray-dark-color solid !important;
           border-radius: unset;
-          color: $primary-dark-color;
+          color: main.$primary-dark-color;
           font-size: 1.4rem !important;
       }
 
       .mat-button-toggle:last-child .mat-button-toggle-button {
-        border-right: 1px $gray-dark-color solid !important;
+        border-right: 1px main.$gray-dark-color solid !important;
       }
 
       .mat-button-toggle .mat-button-toggle-label-content {
@@ -259,7 +259,7 @@ section {
       }
 
       .mat-button-toggle.mat-button-toggle-checked {
-        background-color: $secondary-color;
+        background-color: main.$secondary-color;
       }
 
       .mat-button-toggle.mat-button-toggle-checked .mat-button-toggle-label-content {
@@ -279,11 +279,11 @@ section {
     }
 
     .mat-mdc-table {
-      border: 2px solid map-get($app-gray, 100);
+      border: 2px solid map-get(main.$app-gray, 100);
 
       .mat-mdc-header-row {
         height: 20px;
-        background: map-get($app-gray, 100);
+        background: map-get(main.$app-gray, 100);
       }
 
       .template-name {
@@ -315,7 +315,7 @@ section {
     font-size: 1.5rem !important;
   }
   .warning {
-    color: $warn-color;
+    color: main.$warn-color;
   }
 }
 
@@ -326,21 +326,21 @@ section {
   }
 
   mat-list-item {
-    @include center('vertical');
+    @include main.center('vertical');
     --mdc-list-list-item-label-text-size: 12px;
     --mdc-list-list-item-label-text-line-height: 12px;
     --mdc-list-list-item-one-line-container-height: 30px;
     padding: 0;
 
     ::ng-deep.mdc-list-item__primary-text {
-      @include center('vertical', 'inline');
+      @include main.center('vertical', 'inline');
     }
 
     span.done-flag {
-      @include center('vertical', 'inline');
-      border: 1px solid $secondary-color;
+      @include main.center('vertical', 'inline');
+      border: 1px solid main.$secondary-color;
       border-radius: 20px;
-      color: $secondary-color;
+      color: main.$secondary-color;
       padding: 2px 10px 2px 5px;
       margin-right: 10px;
       height: 26px;
@@ -349,15 +349,15 @@ section {
       .mat-icon.done-icon {
         font-size: 2.0rem;
         height: 20px;
-        color: $secondary-color;
+        color: main.$secondary-color;
       }
     }
 
     span.incomplete-flag {
-      @include center('vertical', 'inline');
-      border: 1px solid $gray-color;
+      @include main.center('vertical', 'inline');
+      border: 1px solid main.$gray-color;
       border-radius: 20px;
-      color: $gray-color;
+      color: main.$gray-color;
       padding: 2px 10px 2px 10px;
       margin-right: 10px;
       height: 26px;
@@ -365,15 +365,15 @@ section {
     }
 
     .link {
-      @include center(both, inline);
+      @include main.center(both, inline);
       gap: 3px;
-      color: $primary-color !important;
+      color: main.$primary-color !important;
       font-size: 1.3rem !important;
       text-decoration: underline;
 
       mat-icon {
         font-size: 1.8rem !important;
-        color: $primary-color !important;
+        color: main.$primary-color !important;
         height: 16px !important;
         width: 18px !important;
       }
@@ -381,7 +381,7 @@ section {
 
     span.key:hover {
       cursor: pointer;
-      background: $accent-color;
+      background: main.$accent-color;
     }
   }
 
@@ -404,7 +404,7 @@ section {
   background-color: rgba(0, 0, 0, 0.04);
   padding: 10px;
   border-radius: 4px 4px 0 0;
-  border-bottom: 1px solid map-get($app-gray, light);
+  border-bottom: 1px solid map-get(main.$app-gray, light);
 }
 
 ::ng-deep mat-mdc-form-field-error-wrapper {

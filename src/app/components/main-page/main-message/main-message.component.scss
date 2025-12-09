@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 #mark-all-read-btn {
   display: flex;
@@ -9,18 +9,18 @@
   position: relative;
   padding: 15px 40px;
   min-height: calc(100vh - 80px);
-  background: map-get($app-primary, 100);
+  background: map-get(main.$app-primary, 100);
 
   .messages-list {
     padding: 15px 40px;
-    background: map-get($app-primary, 100);
+    background: map-get(main.$app-primary, 100);
 
     .message-container {
       .message {
         position: relative;
         padding: 15px 20px 25px;
         background: #fff;
-        border: 2px solid map-get($app-primary, 300);
+        border: 2px solid map-get(main.$app-primary, 300);
         border-radius: 3px;
         margin-bottom: 10px;
 
@@ -35,7 +35,7 @@
           right: 0;
           top: 0;
           padding: 5px 10px;
-          background: map-get($app-primary, 300);
+          background: map-get(main.$app-primary, 300);
         }
 
         // see also global style .message .content applied to innerHtml in _shared.scss
@@ -50,7 +50,7 @@
             position: relative;
             top: -2px;
             font-size: 1.1rem;
-            background: map-get($app-warn, light);
+            background: map-get(main.$app-warn, light);
             padding: 2px 8px;
             margin-left: -5px;
             margin-right: 5px;
@@ -58,7 +58,7 @@
           }
 
           .date {
-            background: map-get($app-warn, light);
+            background: map-get(main.$app-warn, light);
           }
         }
       }

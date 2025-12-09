@@ -1,9 +1,9 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
  .content-container {
     flex: 1 1 auto;
     overflow: hidden;
-    background: $gray-light-color !important;
+    background: main.$gray-light-color !important;
 
     display: flex;
     flex-direction: column;
@@ -20,7 +20,7 @@
 
   .mdc-tab {
     background: white !important;
-    border-right: 1px solid $primary-light-color !important;
+    border-right: 1px solid main.$primary-light-color !important;
 
     &:last-child {
       border-right: none !important;
@@ -39,13 +39,13 @@
   }
 
   button.mat-mdc-tab-header-pagination {
-    background-color: $gray-extra-light-color !important;
+    background-color: main.$gray-extra-light-color !important;
   }
 
   .mat-mdc-tab-body-wrapper {
-    border-top: 1px solid $gray-color;
+    border-top: 1px solid main.$gray-color;
     padding: 0 30px;
-    background: $gray-extra-light-color !important;
+    background: main.$gray-extra-light-color !important;
     height: calc(100vh - 130px);
 
     .tab-content {
@@ -72,7 +72,7 @@
     height: 80px;
     width: 80px;
     font-size: 8.0rem;
-    color: $gray-extra-dark-color;
+    color: main.$gray-extra-dark-color;
   }
 
   .no-public-applications-text {

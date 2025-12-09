@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .content-header-container {
   grid-template-columns: auto;
@@ -47,7 +47,7 @@
     }
 
     &--active {
-      background: map-get($app-primary, default);
+      background: map-get(main.$app-primary, default);
 
       .mdc-tab__content .mdc-tab__text-label {
         color: white;
@@ -62,7 +62,7 @@
   .info-body {
     padding: 20px 20px;
     background: white;
-    border: 2px solid map-get($app-primary, 300);
+    border: 2px solid map-get(main.$app-primary, 300);
     border-radius: 3px !important;
 
     h3 {
@@ -74,11 +74,11 @@
     a {
       display: flex;
       align-items: center;
-      color: $primary-color;
+      color: main.$primary-color;
       text-decoration: underline;
 
       &:hover {
-        color: $secondary-color;
+        color: main.$secondary-color;
       }
     }
 
@@ -113,7 +113,7 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0px 20px 20px 20px;
+    border-width: 0 20px 20px 20px;
     border-color: transparent transparent transparent #fff;
   }
 

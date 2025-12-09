@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 #workspace-custom-images-container {
   display: flex;
@@ -32,7 +32,7 @@
     font-size: 1.2rem !important;
 
     tr {
-      border: 2px solid $mid-dark-line;
+      border: 2px solid main.$mid-dark-line;
     }
 
     .mat-mdc-cell {
@@ -82,15 +82,15 @@
         }
 
         code {
-          background: $gray-extra-light-color;
+          background: main.$gray-extra-light-color;
           padding: 5px 20px;
           width: 100%;
         }
       }
 
       .custom-image-state {
-        @include center(vertical);
-        border-bottom: 1px solid $gray-light-color;
+        @include main.center(vertical);
+        border-bottom: 1px solid main.$gray-light-color;
         width: 100%;
 
         .custom-image-completed {
@@ -98,10 +98,10 @@
           flex-direction: column;
 
           .custom-image-tag {
-            @include center(vertical);
+            @include main.center(vertical);
             padding: 5px 10px;
             .tag-text {
-              padding: 0px 10px;
+              padding: 0 10px;
             }
           }
 
@@ -131,14 +131,14 @@
         }
 
         .custom-image-fail-message {
-          @include center(vertical);
-          background: $warn-light-color;
+          @include main.center(vertical);
+          background: main.$warn-light-color;
           width: 100%;
           padding: 10px;
           justify-content: space-between;
 
           .fail-state {
-            @include center(vertical);
+            @include main.center(vertical);
 
             mat-icon {
               font-size: 2.2rem;
@@ -158,7 +158,7 @@
           align-items: center;
           padding: 10px;
           gap: 10px;
-          color: $secondary-color;
+          color: main.$secondary-color;
 
           .custom-image-state-name {
             font-weight: 600;
@@ -183,7 +183,7 @@
         }
 
         .custom-image-output-line {
-          color: $light-text-color;
+          color: main.$light-text-color;
           font-size: 1.2rem;
         }
       }
@@ -192,15 +192,15 @@
         padding: 10px;
 
         .dockerfile-toggle-button {
-          @include center(both);
+          @include main.center(both);
           width: 120px;
           flex-wrap: nowrap;
           margin-top: -40px;
           margin-left: -11px;
           padding: 5px 10px;
           font-size: 1.2rem !important;
-          background: $gray-extra-dark-color;
-          color: $light-text-color;
+          background: main.$gray-extra-dark-color;
+          color: main.$light-text-color;
           border-radius: 0 0 5px 0;
         }
       }

@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .background-images {
   position: absolute;
@@ -19,7 +19,7 @@
   gap: 30px;
   justify-content: space-between;
   align-items: flex-start;
-  max-width: $content-max-width;
+  max-width: main.$content-max-width;
   margin: 20px auto;
 }
 
@@ -64,8 +64,8 @@ app-service-announcement {
 
   #special-login-button {
     width: 100%;
-    @include headline-5;
-    @include center(both);
+    @include main.headline-5;
+    @include main.center(both);
   }
 }
 
@@ -75,7 +75,7 @@ app-service-announcement {
   .hero-video {
     video {
       width: 100%;
-      border: 1px solid map-get($app-primary, 600);
+      border: 1px solid map-get(main.$app-primary, 600);
       box-shadow: 5px 6px 5px rgba(20, 20, 75, .8);
       border-radius: 12px;
     }

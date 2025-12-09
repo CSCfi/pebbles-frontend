@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .mat-mdc-card {
   max-width: 1200px;
@@ -11,13 +11,13 @@
   overflow: hidden;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0, rgba(0, 0, 0, 0.06) 0 1px 2px 0;
-  color: $dark-text-color;
+  color: main.$dark-text-color;
 
   .card-media-container {
     flex: 0 1 125px;
     min-height: 125px;
-    @include secondary-main-background-light;
-    @include center(both);
+    @include main.secondary-main-background-light;
+    @include main.center(both);
 
     .thumbnail {
       text-align: center;
@@ -26,17 +26,17 @@
     .thumbnail fa-icon {
       &.linux {
         font-size: 5.2rem;
-        color: $primary-color;
+        color: main.$primary-color;
       }
     }
   }
 
   &.joined-ws .card-media-container {
-    @include primary-light-background;
+    @include main.primary-light-background;
   }
 
   &.expired-ws .card-media-container {
-    background-color: $gray-extra-dark-color !important;
+    background-color: main.$gray-extra-dark-color !important;
   }
 
   .card-info-container {
@@ -69,7 +69,7 @@
   }
 
   .application-meta {
-    border-left: 1px solid $gray-light-color;
+    border-left: 1px solid main.$gray-light-color;
     flex: 0 1 270px;
     display: flex;
     flex-direction: column;
@@ -82,7 +82,7 @@
     }
 
     h5 {
-      @include center(both, inline);
+      @include main.center(both, inline);
       padding: 2px 10px;
       justify-content: flex-start;
       font-size: 1.2rem;
@@ -107,7 +107,7 @@
           line-height: 1.7rem;
           font-size: 1.3rem;
           font-weight: 600;
-          color: $secondary-color;
+          color: main.$secondary-color;
           min-height: 31px;
 
           .user-role-icon {
@@ -119,7 +119,7 @@
           margin-top: 4px;
 
           .expiry-warning {
-            color: $warn-dark-color;
+            color: main.$warn-dark-color;
             font-weight: bold;
             margin-left: 10px;
           }
@@ -134,21 +134,21 @@
 
   &.joined-ws {
     .workspace-name {
-      color: $primary-color !important;
+      color: main.$primary-color !important;
     }
   }
 
   &.expired-ws {
     .workspace-name {
-      color: $gray-extra-dark-color !important;
+      color: main.$gray-extra-dark-color !important;
     }
 
-    background: $gray-light-color !important;
+    background: main.$gray-light-color !important;
 
   }
 
   .mat-mdc-card-actions {
-    border-left: 1px solid $gray-light-color;
+    border-left: 1px solid main.$gray-light-color;
     flex: 0 1 140px;
     display: flex;
     flex-direction: column;
@@ -189,7 +189,7 @@
 
   .application-meta {
     border: none;
-    border-top: 1px solid $gray-light-color;
+    border-top: 1px solid main.$gray-light-color;
 
     .lifetime {
       margin-bottom: 0 !important;

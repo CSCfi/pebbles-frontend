@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .service-announcement-item {
   position: relative;
@@ -15,21 +15,21 @@
   }
 
   &.general {
-    color: map-get($app-primary, dark);
-    background-color: map-get($app-primary, 400);
+    color: map-get(main.$app-primary, dark);
+    background-color: map-get(main.$app-primary, 400);
   }
 
   &.important {
-    color: map-get($app-accent, dark);
-    background-color: map-get($app-accent, 100);
-    border: 3px solid map-get($app-accent, default);
+    color: map-get(main.$app-accent, dark);
+    background-color: map-get(main.$app-accent, 100);
+    border: 3px solid map-get(main.$app-accent, default);
     font-weight: bold;
   }
 
   &.critical {
-    color: map-get($app-warn, 900);
-    background-color: map-get($app-warn, light);
-    border: 3px solid map-get($app-warn, 600);
+    color: map-get(main.$app-warn, 900);
+    background-color: map-get(main.$app-warn, light);
+    border: 3px solid map-get(main.$app-warn, 600);
     font-weight: bold;
   }
 

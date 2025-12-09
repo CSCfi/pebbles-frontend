@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .content-header-container {
   .reload-button {
@@ -48,25 +48,25 @@
 
     .mat-mdc-header-row {
       height: 20px;
-      background: map-get($app-gray, 100);
+      background: map-get(main.$app-gray, 100);
       text-transform: capitalize;
 
       th {
         padding: 5px 15px !important;
         vertical-align: middle;
-        border: 1px solid map-get($app-gray, 200);
+        border: 1px solid map-get(main.$app-gray, 200);
         line-height: 140%;
       }
 
       th.mat-sort-header {
-        color: map-get($app-primary, default);
+        color: map-get(main.$app-primary, default);
         font-weight: bold;
       }
     }
 
     td {
       padding: 5px 15px !important;
-      border: 1px solid map-get($app-gray, 200);
+      border: 1px solid map-get(main.$app-gray, 200);
       vertical-align: middle;
 
       li {
@@ -80,7 +80,7 @@
     }
 
     ::ng-deep .mat-sort-header-sorted .mat-sort-header-arrow {
-      color: map-get($app-primary, default);
+      color: map-get(main.$app-primary, default);
       opacity: 1 !important;
     }
   }
@@ -117,7 +117,7 @@
         grid-area: info-box;
 
         dl {
-          grid-gap: 0px 20px;
+          grid-gap: 0 20px;
 
           dt {
             margin-bottom: 0.8rem !important;
@@ -151,7 +151,7 @@
         grid-area: event-box;
 
         dl {
-          grid-gap: 0px 20px;
+          grid-gap: 0 20px;
         }
 
         .mat-headline-6 {

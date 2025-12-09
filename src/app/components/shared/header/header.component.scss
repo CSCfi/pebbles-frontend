@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .site-header {
   height: inherit;
@@ -7,7 +7,7 @@
 .site-header-wrapper {
   position: relative;
   height: inherit;
-  max-width: $content-max-width;
+  max-width: main.$content-max-width;
   margin: 0 auto;
   display: flex;
   gap: 20px;

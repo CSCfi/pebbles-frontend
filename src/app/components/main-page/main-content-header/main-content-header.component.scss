@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 #content-header {
   display: flex;
@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between;
   flex-grow: 1;
-  background: $light-color;
+  background: main.$light-color;
 
   h3 {
     flex-grow: 0;
@@ -26,7 +26,7 @@
 
       .mat-mdc-text-field-wrapper {
         padding-left: 10px;
-        background-color: map-get($app-primary, 100);
+        background-color: map-get(main.$app-primary, 100);
 
         .mat-mdc-form-field-infix {
           padding: 0;
@@ -43,13 +43,13 @@
 
   .mat-mdc-chip-set {
     mat-chip-row {
-      background-color: $secondary-color !important;
-      border: 1px solid $secondary-color;
+      background-color: main.$secondary-color !important;
+      border: 1px solid main.$secondary-color;
 
       span {
         font-size: 1.2rem !important;
         padding-left: 0 !important;
-        color: $secondary-dark-color !important;
+        color: main.$secondary-dark-color !important;
       }
 
       mat-icon {
@@ -57,7 +57,7 @@
       }
 
       .mdc-evolution-chip__text-label {
-        color: $secondary-dark-color !important;
+        color: main.$secondary-dark-color !important;
       }
     }
   }

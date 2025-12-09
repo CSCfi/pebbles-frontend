@@ -1,3 +1,4 @@
+@use 'style-constants' as c;
 
 @mixin styled-font {
   font-family: "Quicksand", sans-serif !important;
@@ -85,23 +86,23 @@ h6 {
 // -------------------- Background
 
 @mixin primary-main-background {
-  background-color: $primary-color;
-  color: $light-text-color;
+  background-color: c.$primary-color;
+  color: c.$light-text-color;
 }
 
 @mixin primary-light-background {
-  background-color: $primary-light-color;
-  color: $light-text-color ;
+  background-color: c.$primary-light-color;
+  color: c.$light-text-color ;
 }
 
 @mixin primary-dark-background {
-  background-color: $primary-dark-color;
-  color: $light-text-color ;
+  background-color: c.$primary-dark-color;
+  color: c.$light-text-color ;
 }
 
 @mixin primary-main-button {
-  background-color: $primary-color;
-  color: $light-text-color;
+  background-color: c.$primary-color;
+  color: c.$light-text-color;
 
   &:hover {
     filter: brightness(80%);
@@ -109,43 +110,43 @@ h6 {
 }
 
 @mixin secondary-main-background {
-  background-color: $secondary-color;
-  color: $light-text-color;
+  background-color: c.$secondary-color;
+  color: c.$light-text-color;
 }
 
 @mixin secondary-main-background-light {
-  background-color: $secondary-light-color;
-  color: $light-text-color ;
+  background-color: c.$secondary-light-color;
+  color: c.$light-text-color ;
 }
 
 @mixin accent-main-background {
-  background-color: $accent-color !important;
-  color: $dark-text-color !important;
+  background-color: c.$accent-color !important;
+  color: c.$dark-text-color !important;
 }
 
 @mixin accent-light-background {
-  background-color: $accent-light-color !important;
-  color: $dark-text-color !important;
+  background-color: c.$accent-light-color !important;
+  color: c.$dark-text-color !important;
 }
 
 @mixin warn-light-background {
-  background-color: $warn-light-color !important;
-  color: $dark-text-color !important;
+  background-color: c.$warn-light-color !important;
+  color: c.$dark-text-color !important;
 }
 
 @mixin warn-dark-background {
-  background-color: $warn-dark-color !important;
-  color: $light-text-color !important;
+  background-color: c.$warn-dark-color !important;
+  color: c.$light-text-color !important;
 }
 
 @mixin light-gray-background {
-  background-color: $gray-extra-light-color !important;
-  color: $dark-text-color !important;
+  background-color: c.$gray-extra-light-color !important;
+  color: c.$dark-text-color !important;
 }
 
 @mixin invalid-dark-background {
-  background-color: $gray-color !important;
-  color: $light-text-color !important;
+  background-color: c.$gray-color !important;
+  color: c.$light-text-color !important;
 }
 
 // -------------------- Multiple layer map
@@ -228,13 +229,13 @@ $sides: (
 
 // --------------------
 @mixin bg-dark {
-  background: map-get($app-primary, dark);
-  color: $light-text-color;
+  background: map-get(c.$app-primary, dark);
+  color: c.$light-text-color;
 }
 
 .bg {
   &__primary {
-    background: map-get($app-primary, default);
+    background: map-get(c.$app-primary, default);
     color: #fff;
 
     &a,
@@ -243,17 +244,17 @@ $sides: (
     }
 
     &-100 {
-      background: map-get($app-primary, 100);
+      background: map-get(c.$app-primary, 100);
     }
 
     &-light {
       color: #fff;
-      background: map-get($app-primary, light);
+      background: map-get(c.$app-primary, light);
     }
 
     &-dark {
       color: #fff;
-      background: map-get($app-primary, dark);
+      background: map-get(c.$app-primary, dark);
 
       &a,
       & a{
@@ -263,35 +264,35 @@ $sides: (
   }
 
   &__secondary {
-    background: map-get($app-secondary, default);
+    background: map-get(c.$app-secondary, default);
   }
 
   &__accent {
-    background: map-get($app-accent, default);
+    background: map-get(c.$app-accent, default);
     color: #fff;
 
     &-light {
-      color: map-get($app-gray, 900);
-      background: map-get($app-accent, light);
+      color: map-get(c.$app-gray, 900);
+      background: map-get(c.$app-accent, light);
     }
 
     &-dark {
       color: #fff;
-      background: map-get($app-accent, dark);
+      background: map-get(c.$app-accent, dark);
     }
   }
 
   &__gray {
-    background: map-get($app-gray, 800);
+    background: map-get(c.$app-gray, 800);
 
     &-light {
       color: #fff;
-      background: map-get($app-gray, 700);
+      background: map-get(c.$app-gray, 700);
     }
 
     &-dark {
       color: #fff;
-      background: map-get($app-gray, 900);
+      background: map-get(c.$app-gray, 900);
     }
   }
 }
@@ -302,50 +303,50 @@ $sides: (
   }
 
   &__primary {
-    color: map-get($app-primary, default);
+    color: map-get(c.$app-primary, default);
 
     &-light {
-      color: map-get($app-primary, light);
+      color: map-get(c.$app-primary, light);
     }
 
     &-dark {
-      color: map-get($app-primary, dark);
+      color: map-get(c.$app-primary, dark);
     }
   }
 
   &__secondary {
-    color: map-get($app-secondary, default);
+    color: map-get(c.$app-secondary, default);
   }
 
   &__accent {
-    color: map-get($app-accent, default);
+    color: map-get(c.$app-accent, default);
 
     &-light {
-      color: map-get($app-accent, light);
+      color: map-get(c.$app-accent, light);
     }
   }
 
   &__warn {
-    color: map-get($app-warn, default);
+    color: map-get(c.$app-warn, default);
 
     &-light {
-      color: map-get($app-warn, light);
+      color: map-get(c.$app-warn, light);
     }
 
     &-dark {
-      color: map-get($app-warn, dark);
+      color: map-get(c.$app-warn, dark);
     }
   }
 
   &__gray {
-    color: map-get($app-gray, default);
+    color: map-get(c.$app-gray, default);
 
     &-light {
-      color: map-get($app-gray, 300);
+      color: map-get(c.$app-gray, 300);
     }
 
     &-dark {
-      color: map-get($app-gray, 900);
+      color: map-get(c.$app-gray, 900);
     }
   }
 
@@ -360,38 +361,38 @@ $sides: (
 
 .stroke {
   &__accent {
-    border-color: map-get($app-accent, default);
+    border-color: map-get(c.$app-accent, default);
 
     &-light {
-      border-color: map-get($app-accent, light);
+      border-color: map-get(c.$app-accent, light);
     }
   }
 }
 
 .icon {
   &__notification:before {
-    font-family: "Material Icons";
+    font-family: "Material Icons", sans-serif;
     content: "\e7f7";
     margin-right: 5px;
     font-size: 24px;
   }
 
   &__library:before {
-    font-family: "Material Icons Outlined";
+    font-family: "Material Icons Outlined", sans-serif;
     content: "\e02e";
     margin-right: 5px;
     font-size: 24px;
   }
 
   &__hint:before {
-    font-family: "Material Icons Outlined";
+    font-family: "Material Icons Outlined", sans-serif;
     content: "\e0f0";
     margin-right: 10px;
     font-size: 24px;
   }
 
   &__workspace:before {
-    font-family: "Material Icons";
+    font-family: "Material Icons", sans-serif;
     content: "\e7ef";
     margin-right: 5px;
     font-size: 24px;

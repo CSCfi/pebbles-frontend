@@ -1,15 +1,15 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .content-container {
   position: relative;
   padding: 15px 40px;
   min-height: calc(100vh - 80px);
-  background: map-get($app-primary, 100);
+  background: map-get(main.$app-primary, 100);
 
   .info-body {
     padding: 20px 20px;
     background: white;
-    border: 2px solid map-get($app-primary, 300);
+    border: 2px solid map-get(main.$app-primary, 300);
     border-radius: 3px !important;
 
     dd {
@@ -31,16 +31,16 @@
     #request-account-deletion-btn {
       margin-top: 10px;
       display: flex;
-      background-color: $warn-color !important;
+      background-color: main.$warn-color !important;
     }
   }
 
   a {
-    color: $primary-dark-color;
+    color: main.$primary-dark-color;
     text-decoration: underline dotted;
 
     &:hover {
-      color: $primary-color;
+      color: main.$primary-color;
       text-decoration: underline;
     }
   }

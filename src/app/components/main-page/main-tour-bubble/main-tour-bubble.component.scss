@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 :host {
   position: absolute;
@@ -29,7 +29,7 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
-    border: 10px solid $primary-light-color;
+    border: 10px solid main.$primary-light-color;
 
     background-color: #fff;
     border-radius: 8px;
@@ -45,7 +45,7 @@
     h2 {
       padding-top: 5px;
       padding-bottom: 10px;
-      background: $primary-light-color;
+      background: main.$primary-light-color;
       color: #FFFFFF;
       margin-bottom: 30px;
       font-size: 2rem;
@@ -73,7 +73,7 @@
         }
 
         mat-icon {
-          color: $primary-light-color;
+          color: main.$primary-light-color;
           display: block;
           text-align: center;
           flex: 0 0 90px;
@@ -83,7 +83,7 @@
 
         p {
           font-size: 1.5rem;
-          color: $dark-text-color;
+          color: main.$dark-text-color;
           line-height: 1.5;
           text-align: center;
         }
@@ -105,7 +105,7 @@
   margin-left: 40px;
 
   .arrow-line {
-    background: $primary-light-color;
+    background: main.$primary-light-color;
     height: 20px;
     margin-top: 50px;
   }
@@ -120,7 +120,7 @@
     /* CSS Triangle Trick */
     border-style: solid;
     border-width: 20px 32px 20px 0;
-    border-color: transparent $primary-light-color transparent transparent;
+    border-color: transparent main.$primary-light-color transparent transparent;
 
     filter: drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.1));
   }
@@ -167,7 +167,7 @@
 
     &.prev-button,
     &.next-button {
-      color: $primary-color;
+      color: main.$primary-color;
 
       &:disabled {
         background-color: gray;
@@ -204,7 +204,7 @@
 
       .arrow-line {
         height: 30px;
-        background: $primary-light-color;
+        background: main.$primary-light-color;
         width: 20px;
       }
 
@@ -218,7 +218,7 @@
         /* CSS Triangle Trick */
         border-style: solid;
         border-width: 0 20px 32px 20px;
-        border-color: transparent transparent $primary-light-color transparent;
+        border-color: transparent transparent main.$primary-light-color transparent;
 
         filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
       }
@@ -242,7 +242,7 @@
       flex-direction: row;
 
       h4 {
-        @include center(vertical);
+        @include main.center(vertical);
         text-align: left;
       }
 

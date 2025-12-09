@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 #workspace-members-container {
   flex: 1 0 800px;
@@ -25,7 +25,7 @@
     button {
       flex: 0 1 65px;
       height: 60px;
-      @include center(both, inline);
+      @include main.center(both, inline);
 
       mat-icon {
         margin: 0;
@@ -55,7 +55,7 @@
     font-size: 1.2rem;
 
     tr {
-      border: 2px solid $mid-dark-line;
+      border: 2px solid main.$mid-dark-line;
     }
 
     thead {
@@ -86,7 +86,7 @@
     ::ng-deep.mat-mdc-header-row {
       height: 20px;
       background: #e0e0e0;
-      color: $gray-extra-dark-color;
+      color: main.$gray-extra-dark-color;
     }
 
     ::ng-deep.mat-column-index {
@@ -95,7 +95,7 @@
     }
 
     .role-name {
-      @include center(vertical, inline);
+      @include main.center(vertical, inline);
 
       mat-icon {
         margin-right: 5px;
@@ -130,24 +130,24 @@
   }
 
   .my-account {
-    background: map-get($app-secondary, 100);
+    background: map-get(main.$app-secondary, 100);
     height: 45px!important;
   }
 
   .hint-content {
     width: 650px;
     margin: auto;
-    border: 5px solid $gray-light-color;
+    border: 5px solid main.$gray-light-color;
     padding: 20px 30px;
     border-radius: 20px;
 
     h3 {
-      border-bottom: 1px solid $gray-light-color;
+      border-bottom: 1px solid main.$gray-light-color;
       margin-bottom: 10px;
     }
 
     .status-postscript {
-      @include center(vertical, inline);
+      @include main.center(vertical, inline);
 
       .hint-join-code {
         font-weight: 600;

@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 // ---- Layout
 #workspace-owner-container {
@@ -17,8 +17,8 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    background: $gray-light-color !important;
-    @include shadow(0.1);
+    background: main.$gray-light-color !important;
+    @include main.shadow(0.1);
 
     .mobile-workspace-list {
       display: none;
@@ -71,7 +71,7 @@
     h3 {
       text-align: center;
       height: 60px;
-      @include center(both, inline);
+      @include main.center(both, inline);
     }
   }
 
@@ -82,7 +82,7 @@
     gap: 5px;
 
     button {
-      @include secondary-main-background;
+      @include main.secondary-main-background;
       height: 50px;
       font-size: 1.6rem !important;
 
@@ -94,13 +94,13 @@
 
 
       &.mat-mdc-button-disabled {
-        @include invalid-dark-background;
+        @include main.invalid-dark-background;
       }
     }
 
     .max-quota-warning {
-      @include warn-light-background;
-      @include headline-5;
+      @include main.warn-light-background;
+      @include main.headline-5;
       border-radius: 5px;
       padding: 15px 10px;
     }
@@ -117,10 +117,10 @@
       gap: 5px;
 
       .workspace-item {
-        color: map-get($app-primary, default);
+        color: map-get(main.$app-primary, default);
         cursor: pointer;
         border-radius: 3px;
-        @include styled-font;
+        @include main.styled-font;
         font-size: 1.6rem;
         font-weight: 600;
         margin: 10px 15px 0;
@@ -137,11 +137,11 @@
 
           .workspace-icon,
           .workspace-selected-arrow {
-            @include center(vertical, inline);
+            @include main.center(vertical, inline);
           }
 
           .workspace-title {
-            @include center(vertical, inline);
+            @include main.center(vertical, inline);
             flex-wrap: wrap;
           }
         }
@@ -154,10 +154,10 @@
 
         .workspace-info {
           padding: 10px 20px 5px;
-          border-top: map-get($borders, thin-dark);
+          border-top: map-get(main.$borders, thin-dark);
 
           .description {
-            @include headline-5;
+            @include main.headline-5;
             margin-bottom: 15px;
             overflow-wrap: break-word;
           }
@@ -166,17 +166,17 @@
             display: grid;
             height: auto;
             grid-template-columns: 110px auto;
-            @include headline-5;
+            @include main.headline-5;
             margin-bottom: 15px;
           }
         }
 
         &.deleted {
-          background-color: map-get($app-gray, 100);
+          background-color: map-get(main.$app-gray, 100);
         }
 
         &.selected {
-          color: map-get($app-gray, 900);
+          color: map-get(main.$app-gray, 900);
           border-left: 8px solid #919cd2;
 
           &.public {
@@ -201,21 +201,21 @@
         &.co-owner,
         &.manager {
           &.selected {
-            border-left: 8px solid map-get($app-secondary, 800);
+            border-left: 8px solid map-get(main.$app-secondary, 800);
           }
         }
 
         &.expired-item {
-          border: 1px solid map-get($app-primary, 400);
-          background-color: $gray-extra-light-color !important;
+          border: 1px solid map-get(main.$app-primary, 400);
+          background-color: main.$gray-extra-light-color !important;
 
           .user-role-txt,
           mat-icon {
-            color: map-get($app-gray, 800) !important;
+            color: map-get(main.$app-gray, 800) !important;
           }
 
           .expiration-date {
-            color: $warn-extra-dark-color;
+            color: main.$warn-extra-dark-color;
             font-weight: bold;
           }
 
@@ -228,7 +228,7 @@
       &.new .workspace-title span:after {
         content: "New";
         font-size: 1.1rem;
-        background: map-get($app-accent, default);
+        background: map-get(main.$app-accent, default);
         color: #fff;
         padding: 2px 8px;
         margin-left: 5px;
@@ -263,46 +263,46 @@
   &.new-item {
     .lifecycle-corner-banner:before {
       content: "New";
-      background: map-get($app-accent, default);
+      background: map-get(main.$app-accent, default);
     }
   }
 
   &.deleted-item {
     .lifecycle-corner-banner:before {
       content: "Deleted";
-      background: $gray-dark-color;
+      background: main.$gray-dark-color;
     }
   }
 
   &.expired-item {
     .lifecycle-corner-banner:before {
       content: "Expired";
-      color: $gray-extra-dark-color;
-      background: $gray-color;
+      color: main.$gray-extra-dark-color;
+      background: main.$gray-color;
     }
   }
 
   &.expiring-item {
     .lifecycle-corner-banner:before {
       content: "Expiring";
-      background: $primary-light-color;
+      background: main.$primary-light-color;
     }
 
     .expiration-date {
       padding: 2px 10px;
-      background: $primary-extra-light-color;
+      background: main.$primary-extra-light-color;
     }
   }
 
   &.expiring-soon-item {
     .lifecycle-corner-banner:before {
       content: "Expiring soon";
-      background: $warn-dark-color;
+      background: main.$warn-dark-color;
     }
 
     .expiration-date {
       padding: 2px 10px;
-      background: $warn-extra-light-color;
+      background: main.$warn-extra-light-color;
     }
   }
 }
@@ -332,28 +332,28 @@
 #workspace-owner-container {
 
   #workspace-owner-tab-container {
-    background: $primary-light-color;
+    background: main.$primary-light-color;
 
     mat-tab-group {
       flex: 1;
       overflow: auto;
 
-      background: $light-color;
+      background: main.$light-color;
       width: 100%;
 
       ::ng-deep.mat-mdc-tab-header {
         flex-basis: 50px;
-        background: $primary-light-color;
+        background: main.$primary-light-color;
         padding-left: 30px;
         padding-right: 30px;
 
         .mat-mdc-tab {
-          background: $light-color;
+          background: main.$light-color;
           color: #18227c;
           height: 50px;
           border: 1px solid #acb0e0;
           background: #fff;
-          @include headline-3;
+          @include main.headline-3;
           font-size: 1.5rem;
           font-weight: 600;
           letter-spacing: normal;
@@ -372,9 +372,9 @@
             font-weight: 700;
             padding: 4px 5px;
             border-radius: 3px;
-            border: 2px solid $primary-light-color;
-            background-color: $accent-color;
-            color: $secondary-dark-color;
+            border: 2px solid main.$primary-light-color;
+            background-color: main.$accent-color;
+            color: main.$secondary-dark-color;
             text-transform: uppercase;
             top: -10px;
             right: -5px;
@@ -386,7 +386,7 @@
             word-wrap: break-word;
 
             span {
-              @include center(both);
+              @include main.center(both);
             }
           }
 
@@ -410,7 +410,7 @@
           }
 
           .chip__circle {
-            @include center(both, inline);
+            @include main.center(both, inline);
             font-weight: 600 !important;
             white-space: nowrap;
             text-align: center;
@@ -424,7 +424,7 @@
           }
 
           .mdc-tab__text-label {
-            @include center(both);
+            @include main.center(both);
           }
 
           // ---- For info tab
@@ -447,7 +447,7 @@
 
 .status-info-container {
   height: 100%;
-  @include center(both);
+  @include main.center(both);
   margin-top: 30px;
   padding-bottom: 300px;
 
@@ -496,7 +496,7 @@
       z-index: 1000;
       padding: 5px 15px 5px 20px;
       border-radius: 50px;
-      color: $primary-color;
+      color: main.$primary-color;
 
       &:before {
         font-size: 1.8rem;
@@ -615,7 +615,7 @@
     right: 0 !important;
 
     button.course-request {
-      background: $primary-color !important;
+      background: main.$primary-color !important;
       color: #ffffff !important;
       top: 0;
       right: 0;
@@ -648,7 +648,7 @@
 .workspace-selection {
   .lifecycle-badge:after {
     font-size: 1.2rem;
-    background: $gray-color;
+    background: main.$gray-color;
     color: #fff;
     padding: 3px 10px;
     margin-left: 8px;
@@ -658,28 +658,28 @@
   .new-item {
     &.lifecycle-badge:after {
       content: "New";
-      background: $secondary-color;
+      background: main.$secondary-color;
     }
   }
 
   .expiring-item {
     &.lifecycle-badge:after {
       content: "Expiring";
-      background: $primary-light-color;
+      background: main.$primary-light-color;
     }
   }
 
   .expiring-soon-item {
     &.lifecycle-badge:after {
       content: "Expiring soon";
-      background: $warn-dark-color;
+      background: main.$warn-dark-color;
     }
   }
 
   .expired-item {
     &.lifecycle-badge:after {
       content: "Expired";
-      background: $gray-dark-color;
+      background: main.$gray-dark-color;
     }
   }
 }

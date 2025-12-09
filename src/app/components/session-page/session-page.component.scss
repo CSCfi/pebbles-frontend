@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .page-container {
   max-height: 100vh;
@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 50px;
-  @include primary-dark-background;
+  @include main.primary-dark-background;
 
 
   ::ng-deep app-header {
@@ -31,7 +31,7 @@
       gap: 20px;
 
       .state-info {
-        @include headline-2;
+        @include main.headline-2;
         text-align: center;
       }
 
@@ -60,7 +60,7 @@
     margin-bottom: 2px;
     margin-right: 5px;
     text-align: center;
-    color: $dark-text-color;
+    color: main.$dark-text-color;
     z-index: 3;
     position: relative;
 
@@ -116,7 +116,7 @@
     // ---- Default steps
     .arrow-wrapper:before,
     .arrow-wrapper:after {
-      background: $primary-light-color;
+      background: main.$primary-light-color;
     }
 
     // ---- Current step
@@ -157,14 +157,14 @@
     //---- Step failed
     .arrow-wrapper.failed:before,
     .arrow-wrapper.failed:after {
-      background: map-get($app-warn, default) !important;
+      background: map-get(main.$app-warn, default) !important;
       animation-play-state: paused;
     }
 
     //---- Stopped step
     .arrow-wrapper.stopped:before,
     .arrow-wrapper.stopped:after {
-      background: map-get($app-gray, 300);
+      background: map-get(main.$app-gray, 300);
       animation-play-state: paused;
     }
   }
@@ -172,21 +172,21 @@
 
 @keyframes blink {
   0% {
-    background: map-get($app-primary, light);
+    background: map-get(main.$app-primary, light);
   }
   50% {
-    background: map-get($app-accent, light);
+    background: map-get(main.$app-accent, light);
   }
   100% {
-    background: map-get($app-primary, light);
+    background: map-get(main.$app-primary, light);
   }
 }
 
 @keyframes color-transit {
   0% {
-    background-color: map-get($app-primary, light);
+    background-color: map-get(main.$app-primary, light);
   }
   100% {
-    background-color: map-get($app-accent, light);
+    background-color: map-get(main.$app-accent, light);
   }
 }

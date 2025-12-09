@@ -1,11 +1,11 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .page-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  @include primary-main-background;
+  @include main.primary-main-background;
 
   .app-header {
     position: relative;
@@ -30,7 +30,7 @@
         margin-top: 20px !important;
         margin-left: auto;
         margin-right: auto;
-        max-width: $content-max-width;
+        max-width: main.$content-max-width;
       }
     }
   }
@@ -62,7 +62,7 @@
     }
 
     .special-login-error {
-      color: map-get($app-warn, dark);
+      color: map-get(main.$app-warn, dark);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -82,11 +82,11 @@
   }
 
   a {
-    color: $primary-dark-color;
+    color: main.$primary-dark-color;
     text-decoration: underline dotted;
 
     &:hover {
-      color: $primary-color;
+      color: main.$primary-color;
       text-decoration: underline;
     }
   }

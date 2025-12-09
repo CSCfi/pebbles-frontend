@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 #workspace-setting-container {
   padding: 30px 30px;
@@ -16,11 +16,11 @@
     position: relative;
 
     button.mat-mdc-icon-button {
-      color: $primary-light-color;
+      color: main.$primary-light-color;
 
       &:hover {
         color: #FFFFFF;
-        background: $primary-light-color;
+        background: main.$primary-light-color;
       }
     }
 
@@ -31,18 +31,18 @@
       dt {
         min-height: 55px;
         padding: 5px 10px;
-        @include center(vertical);
+        @include main.center(vertical);
 
         &:hover {
-          background-color: $primary-extra-light-color;
+          background-color: main.$primary-extra-light-color;
         }
 
         &:hover + dd {
-          background-color: $primary-extra-light-color;
+          background-color: main.$primary-extra-light-color;
         }
 
         &:has(+ dd:hover) {
-          background-color: $primary-extra-light-color;
+          background-color: main.$primary-extra-light-color;
         }
 
         &.no-hover-bg:hover,
@@ -58,7 +58,7 @@
 
 
         &:hover {
-           background-color: $primary-extra-light-color;
+           background-color: main.$primary-extra-light-color;
         }
 
         &.no-hover-bg:hover,
@@ -99,9 +99,9 @@
       height: 45px;
       max-width: 300px;
       padding: 18px;
-      border: solid 3px $warn-color;
-      background: $warn-extra-light-color;
-      @include shadow(0.1);
+      border: solid 3px main.$warn-color;
+      background: main.$warn-extra-light-color;
+      @include main.shadow(0.1);
     }
 
     .mat-mdc-form-field {
@@ -141,8 +141,8 @@
 
   .expiry-date {
     padding: 5px 10px;
-    background: $warn-extra-light-color;
+    background: main.$warn-extra-light-color;
     font-weight: 600;
-    color: $warn-extra-dark-color;
+    color: main.$warn-extra-dark-color;
   }
 }

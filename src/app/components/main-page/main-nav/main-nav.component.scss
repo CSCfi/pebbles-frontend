@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+ @use "main" as main;
 
 .sidenav-inner {
   position: relative;
@@ -23,7 +23,7 @@
   }
 
   #nav-toggle-button {
-    @include primary-main-background;
+    @include main.primary-main-background;
     text-align: center;
     width: 70px;
     padding: 5px;
