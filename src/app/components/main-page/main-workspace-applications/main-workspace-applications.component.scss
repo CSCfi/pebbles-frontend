@@ -1,48 +1,48 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 #workspace-applications-container {
-  flex: 1;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: stretch;
-  align-items: stretch;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  transition: transform 0.3s ease-in-out;
   position: relative;
 
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+
   .main-view {
-    margin: 30px auto 20px auto;
-    padding: 0 30px;
-    overflow: hidden;
-    flex: 1 0 auto;
-    width: 100%;
-    max-width: 1100px;
 
     display: flex;
+    flex: 1 0 auto;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 30px;
+    margin: 30px auto 20px;
+    overflow: hidden;
     transition: transform 0.3s ease-in-out;
   }
 
   .form-view {
-    margin: 0;
-    padding: 0;
-    flex: 1 0 auto;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    background-color: white;
     z-index: 10;
-    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
 
     display: flex;
+    flex: 1 0 auto;
     flex-direction: column;
-    justify-content: stretch;
     align-items: stretch;
+    justify-content: stretch;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: -4px 0 8px rgb(0, 0, 0, 0.1);
 
     transition: right 0.3s ease-in-out;
 
@@ -53,17 +53,14 @@
       overflow: hidden;
     }
   }
-}
 
-
-#workspace-applications-container {
   .application-header {
-    width: 100%;
     flex: 0 0 50px;
+    width: 100%;
 
     &::ng-deep.mat-mdc-form-field-subscript-wrapper {
-      height: 0;
       display: block;
+      height: 0;
     }
   }
 
@@ -71,24 +68,24 @@
     display: flex;
     flex-basis: 35px;
     flex-direction: row;
-    justify-content: flex-end;
     gap: 10px;
+    justify-content: flex-end;
 
     .action-name {
-      @include center(vertical, inline);
+      @include main.center(vertical, inline);
     }
 
     button {
+      width: 200px;
       height: auto;
       padding: 5px 20px;
-      white-space: normal;
       line-height: 100%;
-      width: 200px;
+      white-space: normal;
 
       mat-icon {
-        font-size: 2.0rem;
         width: auto;
         height: auto;
+        font-size: 2.0rem;
       }
     }
   }
@@ -101,8 +98,8 @@
   .table-container {
     flex: 1;
     min-height: 180px;
-    overflow: auto;
     margin-bottom: 10px;
+    overflow: auto;
   }
 
   .paginator-wrapper {
@@ -110,25 +107,25 @@
   }
 
   table {
-    table-layout: fixed;
     width: 100%;
+    table-layout: fixed;
 
     tr {
-      border: 2px solid $mid-dark-line;
+      border: 2px solid main.$mid-dark-line;
     }
 
     // ---- COLUMN Thumbnail
     .mat-column-thumbnail {
-      text-align: center;
       width: 100px;
-      color: $gray-color;
+      color: main.$gray-color;
+      text-align: center;
 
       .thumbnail fa-icon {
-        font-size: 2.6rem;
-        color: $gray-color;
-        text-align: center;
-        margin: auto;
         display: block;
+        margin: auto;
+        font-size: 2.6rem;
+        color: main.$gray-color;
+        text-align: center;
 
         &.linux {
           font-size: 3.4rem;
@@ -136,28 +133,28 @@
       }
 
       .chip__m {
-        background: $gray-color;
-        color: $light-color;
-        border-radius: 20px;
         padding: 2px;
         font-size: small;
+        color: main.$light-color;
         text-transform: capitalize;
+        background: main.$gray-color;
+        border-radius: 20px;
       }
 
       &.published {
-        color: map-get($app-primary, light);
+        color: map-get(main.$app-primary, light);
 
         .chip__m {
-          background: map-get($app-primary, light);
-          color: $light-color;
-          border-radius: 20px;
           padding: 2px;
           font-size: small;
+          color: main.$light-color;
           text-transform: capitalize;
+          background: map-get(main.$app-primary, light);
+          border-radius: 20px;
         }
 
         .thumbnail fa-icon {
-          color: map-get($app-primary, light);
+          color: map-get(main.$app-primary, light);
         }
       }
     }
@@ -174,34 +171,35 @@
       }
 
       .application-name {
-        @include headline-4;
+        @include main.headline-4;
         font-weight: 600;
       }
 
       .application-labels {
         white-space: nowrap;
-        @include center(both, inline);
+
+        @include main.center(both, inline);
 
         span {
-          @include headline-6;
-          @include center(both, inline);
+          @include main.headline-6;
+          @include main.center(both, inline);
           margin-right: 5px;
 
 
           mat-icon {
-            font-size: 1.6rem;
-            height: auto;
             width: auto;
+            height: auto;
             margin-right: 5px;
+            font-size: 1.6rem;
           }
         }
 
-        span.label:after {
-          content: '/';
+        span.label::after {
           margin-left: 2px;
+          content: '/';
         }
 
-        span.label:last-child:after {
+        span.label:last-child::after {
           content: none;
         }
       }
@@ -210,17 +208,18 @@
     // ---- COLUMN Meta
     .mat-column-meta {
       width: 220px;
-      @include headline-6;
+
+      @include main.headline-6;
       line-height: normal;
 
       li span {
-        @include center(both, inline);
+        @include main.center(both, inline);
 
         mat-icon {
+          width: 16px;
+          height: 16px;
           margin-right: 5px;
           font-size: 16px;
-          height: 16px;
-          width: 16px;
         }
       }
     }
@@ -242,20 +241,20 @@
 
       button {
         position: relative;
-        border-radius: 0;
         width: 65px;
         min-height: 65px;
+        border-radius: 0;
 
         mat-icon {
-          font-size: 2.0rem;
           width: auto;
           height: auto;
-          text-align: center;
           margin: 0;
+          font-size: 2.0rem;
+          text-align: center;
         }
 
         &:first-child {
-          border-bottom: 1px solid map-get($app-gray, light);
+          border-bottom: 1px solid map-get(main.$app-gray, light);
         }
       }
     }
@@ -263,10 +262,10 @@
 
   table.expired {
     .mat-column-thumbnail {
-      color: map-get($app-gray, light);
+      color: map-get(main.$app-gray, light);
 
       .chip__m {
-        background: map-get($app-gray, light);
+        background: map-get(main.$app-gray, light);
       }
     }
   }
@@ -295,37 +294,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  margin-top: 30px;
   padding-bottom: 30px;
-  color: rgba(47, 53, 56, 0.87);
-
-  .hint-content {
-    width: 650px;
-    border: 5px solid $gray-light-color;
-    padding: 20px 30px;
-    border-radius: 20px;
-
-    h3 {
-      border-bottom: 1px solid $gray-light-color;
-      margin-bottom: 20px;
-    }
-
-    ul {
-      text-align: left;
-      list-style: disc;
-      margin-bottom: 20px;
-      padding-left: 20px;
-
-      li {
-        margin-bottom: 5px;
-      }
-    }
-
-    a {
-      @include center(vertical, inline);
-      text-decoration: underline;
-      color: $primary-color;
-    }
-  }
+  margin-top: 30px;
+  color: rgb(47, 53, 56, 0.87);
+  text-align: center;
 }

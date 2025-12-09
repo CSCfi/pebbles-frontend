@@ -1,19 +1,17 @@
-<div class="page-container__screen grid-center-vh">
-  <div id="not-found-container">
-    <div class="face">
-      <mat-icon fontSet="material-icons-outlined" class="md-96">sentiment_dissatisfied</mat-icon>
-    </div>
-    <div class="mb-40">
-      <h1 class="mat-headline-1">Oh, no!</h1>
-      <h2 class="mat-headline-3">Page not found</h2>
-    </div>
+<div class="page-container">
+  <div class="content-container">
+    <section class="status-info-container">
+      <div class="error-status">
+        <h1 class="emphasis">Oh, no!</h1>
+        <p class="status-summary">
+          404<br>
+          Page not found
+        </p>
+      </div>
+    </section>
     <div class="links">
-      <p>
-        <button mat-stroked-button (click)="goBack()">Back to previous page</button>
-      </p>
-      <p class="mt-10">
-        <a [routerLink]="['/main']" class="u-line txt__primary">Go to home</a>
-      </p>
+      <button (click)="goBack()" mat-stroked-button>Back to previous page</button>
+      <button [routerLink]="['/main']">Go to home</button>
     </div>
   </div>
 </div>

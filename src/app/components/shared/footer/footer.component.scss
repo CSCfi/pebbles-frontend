@@ -1,14 +1,14 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 #footer {
-  @include primary-dark-background;
+  @include main.primary-dark-background;
   padding: 30px 20px 50px;
 
   .footer-wrapper {
-    min-height: inherit;
     display: flex;
-    max-width: $content-max-width;
     gap: 20px;
+    max-width: main.$content-max-width;
+    min-height: inherit;
     margin: 10px auto 0;
 
     dl {
@@ -19,6 +19,7 @@
         margin-bottom: 10px;
         font-size: 1.4rem;
       }
+
       dd {
         font-size: 1.2rem;
         font-weight: 300;
@@ -27,29 +28,28 @@
 
     .owner-logo {
       display: grid;
-      grid-column-gap: 10px;
-      grid-row-gap: 10px;
+      gap: 10px;
     }
   }
 
   // ----- Laptop
-  @media (min-width: 600px) {
+  @media (width >= 600px) {
     .footer-wrapper {
       flex-direction: row;
     }
   }
 
   // ----- MOBILE
-  @media (max-width: 599px) {
+  @media (width <= 599px) {
     .footer-wrapper {
       flex-direction: column;
     }
   }
 
   .owner-logo {
-    margin: 10px 0;
     grid-template-columns: repeat(2, max-content);
     align-items: center;
+    margin: 10px 0;
 
     img {
       width: 60px;
@@ -58,13 +58,13 @@
 }
 
 .mobile#footer .container {
-  grid-template-columns: auto !important;
   grid-template-rows: auto auto auto !important;
-  grid-row-gap: 25px;
+  grid-template-columns: auto !important;
+  row-gap: 25px;
   justify-content: space-between;
 
   dl dd {
-    margin-left: 15px;
     justify-content: start;
+    margin-left: 15px;
   }
 }

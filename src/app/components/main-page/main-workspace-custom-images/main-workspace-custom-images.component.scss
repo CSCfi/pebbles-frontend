@@ -1,18 +1,18 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 #workspace-custom-images-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
-
-  padding: 20px 30px 30px;
   width: 1100px;
   max-width: 1100px;
+
+  padding: 20px 30px 30px;
   margin: 0 auto;
 
   .actions {
-    text-align: right;
     flex: 0 0 40px;
+    text-align: right;
 
     button {
       margin-bottom: 5px;
@@ -32,15 +32,13 @@
     font-size: 1.2rem !important;
 
     tr {
-      border: 2px solid $mid-dark-line;
+      border: 2px solid main.$mid-dark-line;
     }
 
     .mat-mdc-cell {
-      word-wrap: break-word !important;
-      white-space: unset !important;
-      overflow-wrap: break-word;
-      word-break: break-word;
       hyphens: auto;
+      overflow-wrap: break-word !important;
+      white-space: unset !important;
     }
 
     .mat-column-index,
@@ -68,40 +66,57 @@
       vertical-align: baseline;
 
       .custom-image-dockerfile {
+
+
         display: flex;
         flex-direction: row;
         align-items: center;
+        padding: 10px;
         font-size: 1.1rem;
-        letter-spacing: normal;
         word-spacing: normal;
+        letter-spacing: normal;
 
         fa-icon {
           flex: 0 0 26px;
-          font-size: 16px;
           margin-right: 4px;
+          font-size: 16px;
         }
 
         code {
-          background: $gray-extra-light-color;
-          padding: 5px 20px;
           width: 100%;
+          padding: 5px 20px;
+          background: main.$gray-extra-light-color;
+        }
+
+        .dockerfile-toggle-button {
+          @include main.center(both);
+          flex-wrap: nowrap;
+          width: 120px;
+          padding: 5px 10px;
+          margin-top: -40px;
+          margin-left: -11px;
+          font-size: 1.2rem !important;
+          color: main.$light-text-color;
+          background: main.$gray-extra-dark-color;
+          border-radius: 0 0 5px;
         }
       }
 
       .custom-image-state {
-        @include center(vertical);
-        border-bottom: 1px solid $gray-light-color;
+        @include main.center(vertical);
         width: 100%;
+        border-bottom: 1px solid main.$gray-light-color;
 
         .custom-image-completed {
           display: flex;
           flex-direction: column;
 
           .custom-image-tag {
-            @include center(vertical);
+            @include main.center(vertical);
             padding: 5px 10px;
+
             .tag-text {
-              padding: 0px 10px;
+              padding: 0 10px;
             }
           }
 
@@ -111,38 +126,33 @@
         }
 
         .toggle-log-button {
+          height: 10px;
           font-size: 1.3rem !important;
           text-decoration: underline;
-          height: 10px;
 
           mat-icon {
-            font-size: 2.0rem;
-            width: auto;
-            height: auto;
-          }
 
-          mat-icon {
             flex: 0 0 26px;
-            font-size: 18px;
             width: 20px !important;
-            margin-right: 5px;
             height: auto;
+            margin-right: 5px;
+            font-size: 1.8rem;
           }
         }
 
         .custom-image-fail-message {
-          @include center(vertical);
-          background: $warn-light-color;
+          @include main.center(vertical);
+          justify-content: space-between;
           width: 100%;
           padding: 10px;
-          justify-content: space-between;
+          background: main.$warn-light-color;
 
           .fail-state {
-            @include center(vertical);
+            @include main.center(vertical);
 
             mat-icon {
-              font-size: 2.2rem;
               flex: 0 0 34px;
+              font-size: 2.2rem;
             }
 
             span {
@@ -155,10 +165,10 @@
         .custom-image-state-in-progress {
           display: flex;
           flex-direction: row;
+          gap: 10px;
           align-items: center;
           padding: 10px;
-          gap: 10px;
-          color: $secondary-color;
+          color: main.$secondary-color;
 
           .custom-image-state-name {
             font-weight: 600;
@@ -171,9 +181,9 @@
       }
 
       .custom-image-output {
-        background: #000000;
         position: relative;
         padding: 15px 40px 15px 45px;
+        background: #000;
 
         .output-label {
           position: absolute;
@@ -183,29 +193,12 @@
         }
 
         .custom-image-output-line {
-          color: $light-text-color;
           font-size: 1.2rem;
+          color: main.$light-text-color;
         }
       }
 
-      .custom-image-dockerfile {
-        padding: 10px;
-
-        .dockerfile-toggle-button {
-          @include center(both);
-          width: 120px;
-          flex-wrap: nowrap;
-          margin-top: -40px;
-          margin-left: -11px;
-          padding: 5px 10px;
-          font-size: 1.2rem !important;
-          background: $gray-extra-dark-color;
-          color: $light-text-color;
-          border-radius: 0 0 5px 0;
-        }
-      }
-
-      .mat-expansion-panel:not([class*=mat-elevation-z]) {
+      .mat-expansion-panel:not([class*='mat-elevation-z']) {
         box-shadow: none;
       }
     }

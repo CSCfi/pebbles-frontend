@@ -1,15 +1,15 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .mat-mdc-chip-set {
   mat-chip-row {
-    background-color: $secondary-color !important;
-    border: 1px solid $secondary-color;
     height: 28px !important;
+    background-color: main.$secondary-color !important;
+    border: 1px solid main.$secondary-color;
 
     span {
-      font-size: 1.0rem !important;
       padding-left: 0 !important;
-      color: $secondary-dark-color !important;
+      font-size: 1.0rem !important;
+      color: main.$secondary-dark-color !important;
     }
 
     mat-icon {
@@ -17,33 +17,33 @@
     }
 
     .mdc-evolution-chip__text-label {
-      color: $secondary-dark-color !important;
+      color: main.$secondary-dark-color !important;
     }
 
     ::ng-deep.mdc-evolution-chip__cell {
-      margin-left: 3px;
       margin-right: 5px;
+      margin-left: 3px;
     }
   }
 }
 
 .candidate-label-outer {
-  background: $gray-light-color;
-  border: 2px solid $gray-light-color;
   padding: 5px 10px;
-  border-radius: 5px;
   margin-bottom: 20px;
+  background: main.$gray-light-color;
+  border: 2px solid main.$gray-light-color;
+  border-radius: 5px;
 
   .mdc-evolution-chip {
-    padding-left: 8px !important;
     padding-right: 8px !important;
+    padding-left: 8px !important;
     border-radius: 16px !important;
   }
 
 }
 
 .mat-mdc-form-field {
-    width: 100%;
+  width: 100%;
 }
 
 ::ng-deep .mdc-text-field--no-label .mat-mdc-form-field-infix {

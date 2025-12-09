@@ -1,42 +1,35 @@
 <div class="page-container">
-  <div class="content-header-container grid-col">
+  <div class="content-header-container">
     <app-main-content-header
-      [context]="context"
-      [isAutocompleteDisabled]="true"
-      [isSearchOn]="false"
-      [labels]="null">
+        [context]="context"
+        [isAutocompleteDisabled]="true"
+        [isSearchOn]="false"
+        [labels]="null">
     </app-main-content-header>
     <button (click)="markMessagesAsRead()" [disabled]="isAllRead"
-            class="secondary-btn"
+            class="header-action-btn"
             id="mark-all-read-btn">
-      <mat-icon class="mr-5" fontSet="material-icons-outlined">check</mat-icon>
       <div>Mark all as read</div>
     </button>
   </div>
-  <section class="content-container">
-    <div class="messages-list">
-      <ng-container *ngIf="getMessages().length > 0; else elseBlock">
-        <section class="message-container">
-          <ng-container *ngFor="let message of getMessages()">
-            <div [ngClass]="{'unread':!message.is_read}" class="message info-body">
-              <div class="title">{{ message.subject }}</div>
-              <span class="date mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
-              <p class="content render-hyperlinks">
-                <span [innerHtml]="message.message"></span>
-              </p>
-            </div>
-          </ng-container>
-        </section>
-      </ng-container>
-
-      <ng-template #elseBlock>
-        <section class="status-info-container">
-          <div class="empty-status">
-            <mat-icon class="md-96" fontSet="material-icons-outlined">mail</mat-icon>
-            <div class="status-summary">No messages yet.</div>
+  <div class="content-container">
+    <div *ngIf="getMessages().length > 0; else elseBlock" class="items">
+      <ng-container *ngFor="let message of getMessages()">
+        <div [ngClass]="{'unread':!message.is_read}" class="item">
+          <div class="title">{{ message.subject }}</div>
+          <span class="label">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
+          <div [innerHtml]="message.message"
+               class="description render-hyperlinks">
           </div>
-        </section>
-      </ng-template>
+        </div>
+      </ng-container>
     </div>
-  </section>
+    <ng-template #elseBlock>
+      <section class="status-info-container">
+        <div class="empty-status">
+          <div class="status-summary">No messages yet.</div>
+        </div>
+      </section>
+    </ng-template>
+  </div>
 </div>

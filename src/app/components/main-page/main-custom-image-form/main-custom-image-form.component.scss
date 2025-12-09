@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .custom-image-form {
   display: flex;
@@ -6,48 +6,48 @@
   padding: 30px;
 
   h2 {
-    border-bottom: 1px solid $light-line;
     padding: 10px;
     margin-bottom: 20px;
+    border-bottom: 1px solid main.$light-line;
   }
 
   .custom-image-form-content {
     display: flex;
     flex-direction: row;
-    align-items: stretch;
     gap: 20px;
+    align-items: stretch;
     max-height: 75vh;
-    overflow-y: auto;
     margin-bottom: 30px;
+    overflow-y: auto;
 
     .custom-image-form-left {
       flex: 1 1 50%;
 
       h3 {
-        font-size: 1.8rem;
         margin-bottom: 5px;
+        font-size: 1.8rem;
       }
 
       mat-form-field {
         width: 100%;
-        margin: 2px 0 10px 0
+        margin: 2px 0 10px
       }
 
       .package-form-wrapper {
         .package-instructions {
-          @include headline-5();
+          @include main.headline-5;
           margin-bottom: 10px;
         }
 
         .mat-subtitle {
-          @include center(vertical);
+          @include main.center(vertical);
           font-size: 1.4rem;
         }
 
         .image-content-header {
-          width: 100%;
           display: flex;
           justify-content: space-between;
+          width: 100%;
         }
 
         .image-content-form-field {
@@ -55,46 +55,46 @@
 
         }
 
-         button.delete-button {
-           display: flex;
-           align-items: center;
-           padding: 2px;
-           background: $gray-dark-color;
-           min-height: 20px;
-           height: 20px;
-           width: 20px;
-           margin-right: 10px;
-           border-radius: 10px;
+        button.delete-button {
+          display: flex;
+          align-items: center;
+          width: 20px;
+          height: 20px;
+          min-height: 20px;
+          padding: 2px;
+          margin-right: 10px;
+          background: main.$gray-dark-color;
+          border-radius: 10px;
 
-           &:hover {
-             background-color: $warn-dark-color;
-           }
+          &:hover {
+            background-color: main.$warn-dark-color;
+          }
 
-            mat-icon {
-              @include center(both);
-              color: #FFFFFF !important;
-              font-size: 1.4rem !important;
-              width: 16px !important;
-              height: 16px !important;
-              padding: 0;
-              margin: 0;
-            }
-         }
+          mat-icon {
+            @include main.center(both);
+            width: 16px !important;
+            height: 16px !important;
+            padding: 0;
+            margin: 0;
+            font-size: 1.4rem !important;
+            color: #FFF !important;
+          }
+        }
 
         .add-content {
           display: flex;
           gap: 5px;
 
           button {
-            min-height: 28px;
-            height: 28px !important;
-            font-size: 1.4rem !important;
             flex-grow: 1;
+            height: 28px !important;
+            min-height: 28px;
+            font-size: 1.4rem !important;
 
             .mat-icon {
-              font-size: 1.8rem !important;
               width: auto !important;
               height: 18px !important;
+              font-size: 1.8rem !important;
             }
 
             span {
@@ -106,28 +106,28 @@
     }
 
     .custom-image-form-right {
-      flex: 1 1 50%;
       display: flex;
+      flex: 1 1 50%;
       flex-direction: column;
 
       .custom-image-form-generated-dockerfile {
         position: relative;
-        background: #d0f6e9;
-        color: $secondary-dark-color;
         flex: 1 0 auto;
-        border-radius: 8px;
         padding: 40px 20px 20px;
         overflow: hidden;
         font-size: 1.4rem;
+        color: main.$secondary-dark-color;
+        background: #d0f6e9;
+        border-radius: 8px;
 
         h5 {
-          @include headline-5;
+          @include main.headline-5;
           position: absolute;
           top: 0;
           left: 0;
           padding: 5px 10px;
-          background: $secondary-color;
-          color: $light-text-color;
+          color: main.$light-text-color;
+          background: main.$secondary-color;
         }
 
         .line {
@@ -152,25 +152,25 @@
   }
 
   .base-image-source-wrapper {
-    background: #fff;
-    align-items: center;
     display: flex;
+    align-items: center;
+    background: #fff;
 
     a.base-image-source {
-      background: #fff;
       z-index: 1000;
       padding: 5px 15px 5px 20px;
-      border-radius: 50px;
-      color: $primary-color;
       margin-left: auto;
+      color: main.$primary-color;
+      background: #fff;
+      border-radius: 50px;
 
-      &:after {
-        font-size: 1.4rem;
+      &::after {
         width: auto;
         height: auto;
         margin-left: 4px;
-        font-family: Material Icons, serif;
-        content: "\e89e";
+        font-family: 'Material Icons', serif;
+        font-size: 1.4rem;
+        content: '\e89e';
       }
     }
   }

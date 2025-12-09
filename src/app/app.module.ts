@@ -34,9 +34,10 @@ import { WelcomeLoginComponent } from './components/welcome-page/welcome-login/w
 import { WelcomeBackgroundComponent } from './components/welcome-page/welcome-background/welcome-background.component';
 import { SessionPageComponent } from './components/session-page/session-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
-
+import { ShowcaseComponent } from "./showcase/showcase.component";
 import { NgOptimizedImage } from "@angular/common";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CdkCopyToClipboard } from "@angular/cdk/clipboard";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     WelcomeLoginComponent,
     SessionPageComponent,
     WelcomeBackgroundComponent,
+    ShowcaseComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
@@ -59,6 +61,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MainModule,
     NgOptimizedImage,
     FontAwesomeModule,
+    CdkCopyToClipboard,
   ],
   providers: [
     AccountService,

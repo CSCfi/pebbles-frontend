@@ -1,37 +1,38 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .page-container {
-  max-height: 100vh;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: 50px;
   align-items: center;
   justify-content: space-between;
-  gap: 50px;
-  @include primary-dark-background;
+  max-height: 100vh;
+  overflow: hidden;
+
+  @include main.primary-dark-background;
 
 
   ::ng-deep app-header {
-    height: 80px;
     width: 100%;
+    height: 80px;
     padding: 0 20px;
   }
 
   .session-container {
-    height: calc(100vh - 80px);
 
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: calc(100vh - 80px);
 
     .status-wrapper {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 20px;
+      align-items: center;
 
       .state-info {
-        @include headline-2;
+        @include main.headline-2;
         text-align: center;
       }
 
@@ -49,59 +50,56 @@
 }
 
 .progress-ui {
-  max-width: 1000px;
-  margin: 20px;
   display: grid;
   grid-template-columns: repeat(6, max-content);
+  max-width: 1000px;
+  margin: 20px;
 
   .step {
+    position: relative;
+    z-index: 3;
     width: 150px;
     height: 80px;
-    margin-bottom: 2px;
     margin-right: 5px;
+    margin-bottom: 2px;
+    color: main.$dark-text-color;
     text-align: center;
-    color: $dark-text-color;
-    z-index: 3;
-    position: relative;
 
     .arrow-wrapper {
       position: absolute;
-      height: 100%;
-      width: 100%;
       top: 0;
+      width: 100%;
+      height: 100%;
 
-      &:before,
-      &:after {
-        content: "";
+      &::before,
+      &::after {
         position: absolute;
-        height: 40px;
-        width: 100%;
         left: 0;
         z-index: -1;
+        width: 100%;
+        height: 40px;
+        content: '';
+        background: main.$primary-light-color;
       }
 
-      &:before {
+      &::before {
         top: 0;
-        -webkit-transform: skew(30deg);
-        -moz-transform: skew(30deg);
         transform: skew(30deg);
       }
 
-      &:after {
+      &::after {
         top: 39px;
-        -webkit-transform: skew(-30deg);
-        -moz-transform: skew(-30deg);
         transform: skew(-30deg);
       }
     }
 
     .description {
-      line-height: 135%;
-      height: 100%;
-      width: 100%;
-      display: table;
       z-index: 10;
+      display: table;
+      width: 100%;
+      height: 100%;
       padding: 5px 10px 5px 15px;
+      line-height: 135%;
 
       span {
         display: table-cell;
@@ -109,62 +107,56 @@
         text-align: center;
       }
     }
-  }
 
-  // ---- Effect for the progress bar
-  .step {
+    // ---- Effect for the progress bar
     // ---- Default steps
-    .arrow-wrapper:before,
-    .arrow-wrapper:after {
-      background: $primary-light-color;
-    }
 
     // ---- Current step
-    .arrow-wrapper.current:before,
-    .arrow-wrapper.current:after {
+    .arrow-wrapper.current::before,
+    .arrow-wrapper.current::after {
       animation: blink 800ms infinite;
     }
 
     // ---- Done step
-    .arrow-wrapper.done:before,
-    .arrow-wrapper.done:after {
+    .arrow-wrapper.done::before,
+    .arrow-wrapper.done::after {
       animation: color-transit 100ms forwards;
     }
 
     .arrow-wrapper.current,
     .arrow-wrapper.done {
-      &.delay-1:before, &.delay-1:after {
+      &.delay-1::before, &.delay-1::after {
         animation-delay: 100ms;
       }
 
-      &.delay-2:before, &.delay-2:after {
+      &.delay-2::before, &.delay-2::after {
         animation-delay: 150ms;
       }
 
-      &.delay-3:before, &.delay-3:after {
+      &.delay-3::before, &.delay-3::after {
         animation-delay: 200ms;
       }
 
-      &.delay-4:before, &.delay-4:after {
+      &.delay-4::before, &.delay-4::after {
         animation-delay: 250ms;
       }
 
-      &.delay-5:before, &.delay-5:after {
+      &.delay-5::before, &.delay-5::after {
         animation-delay: 300ms;
       }
     }
 
-    //---- Step failed
-    .arrow-wrapper.failed:before,
-    .arrow-wrapper.failed:after {
-      background: map-get($app-warn, default) !important;
+    // ---- Step failed
+    .arrow-wrapper.failed::before,
+    .arrow-wrapper.failed::after {
+      background: map-get(main.$app-warn, default) !important;
       animation-play-state: paused;
     }
 
-    //---- Stopped step
-    .arrow-wrapper.stopped:before,
-    .arrow-wrapper.stopped:after {
-      background: map-get($app-gray, 300);
+    // ---- Stopped step
+    .arrow-wrapper.stopped::before,
+    .arrow-wrapper.stopped::after {
+      background: map-get(main.$app-gray, 300);
       animation-play-state: paused;
     }
   }
@@ -172,21 +164,21 @@
 
 @keyframes blink {
   0% {
-    background: map-get($app-primary, light);
+    background: map-get(main.$app-primary, light);
   }
   50% {
-    background: map-get($app-accent, light);
+    background: map-get(main.$app-accent, light);
   }
   100% {
-    background: map-get($app-primary, light);
+    background: map-get(main.$app-primary, light);
   }
 }
 
 @keyframes color-transit {
   0% {
-    background-color: map-get($app-primary, light);
+    background-color: map-get(main.$app-primary, light);
   }
   100% {
-    background-color: map-get($app-accent, light);
+    background-color: map-get(main.$app-accent, light);
   }
 }

@@ -1,18 +1,22 @@
+@use 'style-constants' as c;
 
+// base-style
 @mixin styled-font {
-  font-family: "Quicksand", sans-serif !important;
-  font-optical-sizing: auto;
+  font-family: Quicksand, sans-serif !important;
   font-style: normal;
+  font-optical-sizing: auto;
   line-height: 140%;
 }
 
+// base-style
 @mixin common-font {
-  font-family: "Open Sans", sans-serif;
-  font-optical-sizing: auto;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
+  font-optical-sizing: auto;
   line-height: 160%;
 }
+
 
 @mixin headline-1 {
   @include styled-font;
@@ -22,20 +26,20 @@
 
 @mixin headline-2 {
   @include styled-font;
-  font-size: 2.6rem;
+  font-size: 3rem;
   font-weight: 500;
 }
 
 @mixin headline-3 {
   @include styled-font;
-  font-size: 2rem;
-  font-weight: 500;
+  font-size: 2.4rem !important;
+  font-weight: 600 !important;
 }
 
 @mixin headline-4 {
-  @include common-font;
-  font-size: 1.6rem;
-  font-weight: 400;
+  @include styled-font;
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
 }
 
 @mixin headline-5 {
@@ -50,58 +54,62 @@
   font-weight: 400;
 }
 
-h1 {
+h1, .headline-1 {
   @include headline-1;
 }
-h2 {
+
+h2, .headline-2 {
   @include headline-2;
 }
-h3 {
+
+h3, .headline-3 {
   @include headline-3;
 }
-h4 {
+
+h4, headline-4 {
   @include headline-4;
 }
-h5 {
+
+h5, headline-5 {
   @include headline-5;
 
   mat-icon {
-    font-size: 1.6rem;
-    height: 16px;
     width: 20px;
+    height: 16px;
+    font-size: 1.6rem;
   }
 }
 
-h6 {
+h6, headline-6 {
   @include headline-6;
 
   mat-icon {
-    font-size: 1.4rem;
-    height: 14px;
     width: 16px;
+    height: 14px;
+    font-size: 1.4rem;
   }
 }
 
 // -------------------- Background
 
 @mixin primary-main-background {
-  background-color: $primary-color;
-  color: $light-text-color;
+  color: c.$light-text-color;
+  background-color: c.$primary-color;
 }
 
 @mixin primary-light-background {
-  background-color: $primary-light-color;
-  color: $light-text-color ;
+  color: c.$light-text-color;
+  background-color: c.$primary-light-color;
 }
 
 @mixin primary-dark-background {
-  background-color: $primary-dark-color;
-  color: $light-text-color ;
+  color: c.$light-text-color;
+  background-color: c.$primary-dark-color;
 }
 
 @mixin primary-main-button {
-  background-color: $primary-color;
-  color: $light-text-color;
+  color: c.$light-text-color;
+  background-color: c.$primary-color;
 
   &:hover {
     filter: brightness(80%);
@@ -109,43 +117,43 @@ h6 {
 }
 
 @mixin secondary-main-background {
-  background-color: $secondary-color;
-  color: $light-text-color;
+  color: c.$light-text-color;
+  background-color: c.$secondary-color;
 }
 
 @mixin secondary-main-background-light {
-  background-color: $secondary-light-color;
-  color: $light-text-color ;
+  color: c.$light-text-color;
+  background-color: c.$secondary-light-color;
 }
 
 @mixin accent-main-background {
-  background-color: $accent-color !important;
-  color: $dark-text-color !important;
+  color: c.$dark-text-color !important;
+  background-color: c.$accent-color !important;
 }
 
 @mixin accent-light-background {
-  background-color: $accent-light-color !important;
-  color: $dark-text-color !important;
+  color: c.$dark-text-color !important;
+  background-color: c.$accent-light-color !important;
 }
 
 @mixin warn-light-background {
-  background-color: $warn-light-color !important;
-  color: $dark-text-color !important;
+  color: c.$dark-text-color !important;
+  background-color: c.$warn-light-color !important;
 }
 
 @mixin warn-dark-background {
-  background-color: $warn-dark-color !important;
-  color: $light-text-color !important;
+  color: c.$light-text-color !important;
+  background-color: c.$warn-dark-color !important;
 }
 
 @mixin light-gray-background {
-  background-color: $gray-extra-light-color !important;
-  color: $dark-text-color !important;
+  color: c.$dark-text-color !important;
+  background-color: c.$gray-extra-light-color !important;
 }
 
 @mixin invalid-dark-background {
-  background-color: $gray-color !important;
-  color: $light-text-color !important;
+  color: c.$light-text-color !important;
+  background-color: c.$gray-color !important;
 }
 
 // -------------------- Multiple layer map
@@ -154,20 +162,23 @@ h6 {
     @if not map-has-key($map, $key) {
       @return null;
     }
+
     $map: map-get($map, $key);
   }
+
   @return $map;
 }
 
 // -------------------- Margin & padding
 $space-amounts: (0, 2, 4, 5, 8, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100, 150, 200);
 $sides: (
-  "": "all",
-  "t": "top",
-  "b": "bottom",
-  "l": "left",
-  "r": "right",
+        '': 'all',
+        't': 'top',
+        'b': 'bottom',
+        'l': 'left',
+        'r': 'right',
 );
+
 @each $space in $space-amounts {
   @each $prefix, $value in $sides {
     $property: if($prefix == '', '', -#{$value});
@@ -182,7 +193,7 @@ $sides: (
 
 // -------------------- Element centering
 @mixin center($pos:both, $type:none) {
-  @if ($type==inline) {
+  @if $type == inline {
     display: inline-flex;
   } @else {
     display: flex;
@@ -190,13 +201,13 @@ $sides: (
 
   flex-direction: row;
 
-  @if ($pos==vertical) {
+  @if $pos == vertical {
     align-items: center;
-  } @else if ($pos==horizontal) {
+  } @else if $pos == horizontal {
     justify-content: center;
-  } @else if ($pos==both) {
-    justify-content: center;
+  } @else if $pos == both {
     align-items: center;
+    justify-content: center;
   }
 }
 
@@ -228,70 +239,70 @@ $sides: (
 
 // --------------------
 @mixin bg-dark {
-  background: map-get($app-primary, dark);
-  color: $light-text-color;
+  color: c.$light-text-color;
+  background: map-get(c.$app-primary, dark);
 }
 
 .bg {
   &__primary {
-    background: map-get($app-primary, default);
     color: #fff;
+    background: map-get(c.$app-primary, default);
 
     &a,
-    & a{
+    & a {
       color: #fff;
     }
 
     &-100 {
-      background: map-get($app-primary, 100);
+      background: map-get(c.$app-primary, 100);
     }
 
     &-light {
       color: #fff;
-      background: map-get($app-primary, light);
+      background: map-get(c.$app-primary, light);
     }
 
     &-dark {
       color: #fff;
-      background: map-get($app-primary, dark);
+      background: map-get(c.$app-primary, dark);
 
       &a,
-      & a{
+      & a {
         color: #fff;
       }
     }
   }
 
   &__secondary {
-    background: map-get($app-secondary, default);
+    background: map-get(c.$app-secondary, default);
   }
 
   &__accent {
-    background: map-get($app-accent, default);
     color: #fff;
+    background: map-get(c.$app-accent, default);
 
     &-light {
-      color: map-get($app-gray, 900);
-      background: map-get($app-accent, light);
+      color: map-get(c.$app-gray, 900);
+      background: map-get(c.$app-accent, light);
     }
 
     &-dark {
       color: #fff;
-      background: map-get($app-accent, dark);
+      background: map-get(c.$app-accent, dark);
     }
   }
 
   &__gray {
-    background: map-get($app-gray, 800);
+    background: map-get(c.$app-gray, 800);
 
     &-light {
       color: #fff;
-      background: map-get($app-gray, 700);
+      background: map-get(c.$app-gray, 700);
     }
 
     &-dark {
       color: #fff;
-      background: map-get($app-gray, 900);
+      background: map-get(c.$app-gray, 900);
     }
   }
 }
@@ -302,50 +313,50 @@ $sides: (
   }
 
   &__primary {
-    color: map-get($app-primary, default);
+    color: map-get(c.$app-primary, default);
 
     &-light {
-      color: map-get($app-primary, light);
+      color: map-get(c.$app-primary, light);
     }
 
     &-dark {
-      color: map-get($app-primary, dark);
+      color: map-get(c.$app-primary, dark);
     }
   }
 
   &__secondary {
-    color: map-get($app-secondary, default);
+    color: map-get(c.$app-secondary, default);
   }
 
   &__accent {
-    color: map-get($app-accent, default);
+    color: map-get(c.$app-accent, default);
 
     &-light {
-      color: map-get($app-accent, light);
+      color: map-get(c.$app-accent, light);
     }
   }
 
   &__warn {
-    color: map-get($app-warn, default);
+    color: map-get(c.$app-warn, default);
 
     &-light {
-      color: map-get($app-warn, light);
+      color: map-get(c.$app-warn, light);
     }
 
     &-dark {
-      color: map-get($app-warn, dark);
+      color: map-get(c.$app-warn, dark);
     }
   }
 
   &__gray {
-    color: map-get($app-gray, default);
+    color: map-get(c.$app-gray, default);
 
     &-light {
-      color: map-get($app-gray, 300);
+      color: map-get(c.$app-gray, 300);
     }
 
     &-dark {
-      color: map-get($app-gray, 900);
+      color: map-get(c.$app-gray, 900);
     }
   }
 
@@ -360,49 +371,50 @@ $sides: (
 
 .stroke {
   &__accent {
-    border-color: map-get($app-accent, default);
+    border-color: map-get(c.$app-accent, default);
 
     &-light {
-      border-color: map-get($app-accent, light);
+      border-color: map-get(c.$app-accent, light);
     }
   }
 }
 
 .icon {
-  &__notification:before {
-    font-family: "Material Icons";
-    content: "\e7f7";
+  &__notification::before {
     margin-right: 5px;
+    font-family: 'Material Icons', sans-serif;
     font-size: 24px;
+    content: '\e7f7';
   }
 
-  &__library:before {
-    font-family: "Material Icons Outlined";
-    content: "\e02e";
+  &__library::before {
     margin-right: 5px;
+    font-family: 'Material Icons Outlined', sans-serif;
     font-size: 24px;
+    content: '\e02e';
   }
 
-  &__hint:before {
-    font-family: "Material Icons Outlined";
-    content: "\e0f0";
+  &__hint::before {
     margin-right: 10px;
+    font-family: 'Material Icons Outlined', sans-serif;
     font-size: 24px;
+    content: '\e0f0';
   }
 
-  &__workspace:before {
-    font-family: "Material Icons";
-    content: "\e7ef";
+  &__workspace::before {
     margin-right: 5px;
+    font-family: 'Material Icons', sans-serif;
     font-size: 24px;
+    content: '\e7ef';
   }
 }
 
 @mixin shadow($value: .44) {
-  @if ($value > 0) {
-    box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 50, $value) !important;
+  @if $value > 0 {
     position: relative;
     z-index: 1000;
+    box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 50, $value) !important;
+
   } @else {
     box-shadow: none !important;
   }

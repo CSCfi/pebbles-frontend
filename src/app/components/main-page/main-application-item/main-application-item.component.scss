@@ -1,23 +1,24 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .mat-mdc-card {
-  max-width: 1200px;
-  margin: 0 auto 10px;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-radius: 3px;
+  max-width: 1200px;
+  margin: 0 auto 10px;
   overflow: hidden;
+  color: main.$dark-text-color;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0, rgba(0, 0, 0, 0.06) 0 1px 2px 0;
-  color: $dark-text-color;
+  border-radius: 3px;
+  box-shadow: rgb(0, 0, 0, 0.1) 0 1px 3px 0, rgb(0, 0, 0, 0.06) 0 1px 2px 0;
 
   .card-media-container {
     flex: 0 1 125px;
     min-height: 125px;
-    @include secondary-main-background-light;
-    @include center(both);
+
+    @include main.secondary-main-background-light;
+    @include main.center(both);
 
     .thumbnail {
       text-align: center;
@@ -26,29 +27,29 @@
     .thumbnail fa-icon {
       &.linux {
         font-size: 5.2rem;
-        color: $primary-color;
+        color: main.$primary-color;
       }
     }
   }
 
   &.joined-ws .card-media-container {
-    @include primary-light-background;
+    @include main.primary-light-background;
   }
 
   &.expired-ws .card-media-container {
-    background-color: $gray-extra-dark-color !important;
+    background-color: main.$gray-extra-dark-color !important;
   }
 
   .card-info-container {
     flex: 1 0 250px;
 
     .mat-mdc-card-header {
-      padding-top: 12px;
-      padding-left: 20px;
-      padding-bottom: 5px;
-      border-bottom: 1px #DDD solid;
-      margin-bottom: 5px;
       min-height: 45px;
+      padding-top: 12px;
+      padding-bottom: 5px;
+      padding-left: 20px;
+      margin-bottom: 5px;
+      border-bottom: 1px #DDD solid;
 
       .application-name h3 {
         font-size: 1.8rem !important;
@@ -57,10 +58,10 @@
     }
 
     .mat-mdc-card-content {
-      padding-left: 21px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      padding-left: 21px;
 
       .description {
         font-size: 1.3rem;
@@ -69,25 +70,24 @@
   }
 
   .application-meta {
-    border-left: 1px solid $gray-light-color;
-    flex: 0 1 270px;
     display: flex;
+    flex: 0 1 270px;
     flex-direction: column;
-    justify-items: stretch;
-    align-items: stretch;
+    place-items: stretch stretch;
     padding-top: 6px;
+    border-left: 1px solid main.$gray-light-color;
 
     div {
       padding: 2px 5px;
     }
 
     h5 {
-      @include center(both, inline);
-      padding: 2px 10px;
+      @include main.center(both, inline);
+      flex-wrap: wrap;
       justify-content: flex-start;
+      padding: 2px 10px;
       font-size: 1.2rem;
       letter-spacing: normal;
-      flex-wrap: wrap;
 
       .mat-icon {
         width: 22px;
@@ -96,64 +96,65 @@
 
     .state {
       padding-bottom: 5px;
-      border-bottom: 1px solid #dddddd;
+      border-bottom: 1px solid #ddd;
 
-        h5.workspace-name {
-          display: inline-grid;
-          grid-gap: 5px;
-          grid-template-columns: 18px auto;
-          align-items: center;
-          justify-items: start;
-          line-height: 1.7rem;
-          font-size: 1.3rem;
-          font-weight: 600;
-          color: $secondary-color;
-          min-height: 31px;
+      h5.workspace-name {
+        display: inline-grid;
+        grid-template-columns: 18px auto;
+        gap: 5px;
+        place-items: center start;
+        min-height: 31px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        line-height: 1.7rem;
+        color: main.$secondary-color;
 
-          .user-role-icon {
-            font-size: 1.6rem;
-          }
+        .user-role-icon {
+          font-size: 1.6rem;
         }
+      }
 
-        h5.expiry-date {
-          margin-top: 4px;
+      h5.expiry-date {
+        margin-top: 4px;
 
-          .expiry-warning {
-            color: $warn-dark-color;
-            font-weight: bold;
-            margin-left: 10px;
-          }
+        .expiry-warning {
+          margin-left: 10px;
+          font-weight: bold;
+          color: main.$warn-dark-color;
         }
-    };
+      }
+    }
+  ;
 
     .volumes {
-      border-bottom: 1px solid #dddddd;
-    };
+      border-bottom: 1px solid #ddd;
+    }
+  ;
 
   }
 
   &.joined-ws {
     .workspace-name {
-      color: $primary-color !important;
+      color: main.$primary-color !important;
     }
   }
 
   &.expired-ws {
     .workspace-name {
-      color: $gray-extra-dark-color !important;
+      color: main.$gray-extra-dark-color !important;
     }
 
-    background: $gray-light-color !important;
+    background: main.$gray-light-color !important;
 
   }
 
   .mat-mdc-card-actions {
-    border-left: 1px solid $gray-light-color;
-    flex: 0 1 140px;
     display: flex;
+    flex: 0 1 140px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-left: 1px solid main.$gray-light-color;
   }
 
   .mdc-card__actions {
@@ -162,10 +163,9 @@
 }
 
 
-
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
   ::ng-deep .mat-mdc-card {
     display: flex !important;
     flex-direction: column !important;
@@ -189,7 +189,7 @@
 
   .application-meta {
     border: none;
-    border-top: 1px solid $gray-light-color;
+    border-top: 1px solid main.$gray-light-color;
 
     .lifetime {
       margin-bottom: 0 !important;

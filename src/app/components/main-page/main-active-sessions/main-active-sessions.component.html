@@ -1,45 +1,51 @@
 <div class="page-container">
   <ng-container *ngIf="!selectedDetailSession; else sessionDetails">
-    <div class="content-header-container grid-col">
+    <div class="content-header-container">
       <app-main-content-header
-        (emitApplyFilter)="applyFilter($event)"
-        [context]="context"
-        [isAutocompleteDisabled]="true"
-        [isSearchOn]="true"
-        [labels]="[]">
+          (emitApplyFilter)="applyFilter($event)"
+          [context]="context"
+          [isAutocompleteDisabled]="true"
+          [isSearchOn]="true"
+          [labels]="[]">
       </app-main-content-header>
-      <button (click)="refreshSessionContent()" class="reload-button" mat-stroked-button>
-        <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
-      </button>
+      <button (click)="refreshSessionContent()" class="refresh-btn">Reload</button>
     </div>
-    <section class="content-container" id="active-sessions-container">
+    <div class="content-container">
       <ng-container *ngIf="tableRowData.length > 0; else noSessions">
-        <div class="action-row">
-          <button (click)="openStopSessionDialog(this.selection.selected)"
-                  [disabled]="selection.isEmpty()"
-                  mat-flat-button>
-            Delete selected sessions
-          </button>
-          <div class="total-sessions mat-headline-6">Total active sessions: {{ activeSessionNumber }}</div>
-        </div>
-
+        <section class="dashboard">
+          <div class="panel sessions">
+            <mat-card class="total-sessions">
+              <mat-card-title>Total active sessions: {{ activeSessionNumber }}</mat-card-title>
+              <mat-card-content>
+                <h5>Session state:</h5>
+                <ul class="states">
+                  <li>Starting</li>
+                  <li>Running</li>
+                  <li>Deleting</li>
+                  <li>Error</li>
+                </ul>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="panel">
+            <button (click)="openStopSessionDialog(this.selection.selected)" [disabled]="selection.isEmpty()"
+                    class="delete-session-btn"
+                    mat-flat-button>
+              Delete selected sessions
+            </button>
+          </div>
+        </section>
         <!-- active sessions list -->
-        <div class="table-wrapper">
+        <section class="table-container">
           <table (matSortChange)="changeSortCondition($event)" [dataSource]="dataSource"
                  [matSortActive]="sortCondition.active" [matSortDirection]="sortCondition.direction"
                  mat-table matSort>
-            <!-- Index Column -->
-            <ng-container matColumnDef="index">
-              <th *matHeaderCellDef class="icon-cell" mat-header-cell mat-sort-header></th>
-              <td *matCellDef="let row" class="cell-index icon-cell" mat-cell> {{ row.index }}</td>
-            </ng-container>
-            <!-- checkbox column -->
             <ng-container matColumnDef="isSelected">
-              <th *matHeaderCellDef class="square-cell" mat-header-cell>
+              <th *matHeaderCellDef mat-header-cell>
                 <mat-checkbox
-                  (change)="$event ? masterToggle() : null" [aria-label]="checkboxLabel()"
-                  [checked]="selection.hasValue() && isAllSelected()"
-                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    (change)="$event ? masterToggle() : null" [aria-label]="checkboxLabel()"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
                 </mat-checkbox>
               </th>
               <td *matCellDef="let row" mat-cell>
@@ -48,64 +54,66 @@
                 </mat-checkbox>
               </td>
             </ng-container>
+            <!-- state -->
+            <ng-container matColumnDef="state">
+              <th *matHeaderCellDef mat-header-cell mat-sort-header>State</th>
+              <td *matCellDef="let element" mat-cell>
+                <mat-icon *ngIf="['queueing','provisioning','starting'].includes(element.state)"
+                          [matTooltip]="element.state" class="starting">
+                  circle
+                </mat-icon>
+                <mat-icon *ngIf="element.state === SessionStates.Running"
+                          [matTooltip]="element.state" class="running">
+                  circle
+                </mat-icon>
+                <mat-icon *ngIf="['deleting','deleted'].includes(element.state)"
+                          [matTooltip]="element.state" class="deleting">
+                  circle
+                </mat-icon>
+                <mat-icon *ngIf="element.state === SessionStates.Failed"
+                          [matTooltip]="element.state" class="error">
+                  error
+                </mat-icon>
+              </td>
+            </ng-container>
             <!-- sessionName -->
             <ng-container matColumnDef="sessionName">
               <th *matHeaderCellDef mat-header-cell>Session</th>
-              <td *matCellDef="let element" class="cell-session-name" mat-cell>
+              <td *matCellDef="let element" mat-cell>
                 {{ element.sessionName }}
               </td>
             </ng-container>
-            <!-- workspaceName -->
-            <ng-container matColumnDef="workspaceName">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header="workspaceName">Workspace</th>
-              <td *matCellDef="let element" mat-cell>{{ element.workspaceName }}</td>
-            </ng-container>
-            <!-- applicationName -->
             <ng-container matColumnDef="applicationName">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header="applicationName">Application</th>
-              <td *matCellDef="let element" mat-cell>{{ element.applicationName }}</td>
+              <th *matHeaderCellDef mat-header-cell mat-sort-header="applicationName">Application / Workspace</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.applicationName }}<br>
+                {{ element.workspaceName }}
+              </td>
             </ng-container>
             <!-- username -->
             <ng-container matColumnDef="username">
               <th *matHeaderCellDef mat-header-cell mat-sort-header="username">Username</th>
               <td *matCellDef="let element" mat-cell>{{ element.username }}</td>
             </ng-container>
-            <!-- state -->
-            <ng-container matColumnDef="state">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header>State</th>
-              <td *matCellDef="let element" class="cell-state" mat-cell>
-                <div class="center__v">
-                  <mat-icon *ngIf="['queueing','provisioning','starting'].includes(element.state)"
-                            class="mr-5 txt__secondary md-18">circle
-                  </mat-icon>
-                  <mat-icon *ngIf="element.state === SessionStates.Running" class="mr-5 txt__accent-light md-18">
-                    circle
-                  </mat-icon>
-                  <mat-icon *ngIf="['deleting','deleted'].includes(element.state)" class="mr-5 txt__warn md-18">delete
-                  </mat-icon>
-                  <mat-icon *ngIf="element.state === SessionStates.Failed" class="mr-5 txt__warn-dark md-18">
-                    error
-                  </mat-icon>
-                  {{ element.state }}
-                </div>
-              </td>
-            </ng-container>
             <!-- lifetimeLeft -->
             <ng-container matColumnDef="lifetimeLeft">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by time">Lifetime</th>
-              <td *matCellDef="let element" class="cell-lifetime-left" mat-cell>{{ element.lifetimeLeft }}</td>
+              <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by time">
+                Life<br>time
+              </th>
+              <td *matCellDef="let element" mat-cell>{{ element.lifetimeLeft }}</td>
             </ng-container>
             <!-- startup -->
             <ng-container matColumnDef="startUpTime">
-              <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by time">Startup time
+              <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by time">
+                Startup<br>time
               </th>
-              <td *matCellDef="let element" class="cell-start-time" mat-cell>{{ element.startUpTime }}</td>
+              <td *matCellDef="let element" mat-cell>{{ element.startUpTime }}</td>
             </ng-container>
             <!-- sessionDetails -->
             <ng-container matColumnDef="sessionDetails">
-              <th *matHeaderCellDef mat-header-cell>Show details</th>
-              <td *matCellDef="let element" class="square-cell" mat-cell>
-                <button (click)="showSessionDetails(element.sessionId)" class="txt__primary"
+              <th *matHeaderCellDef mat-header-cell>Show<br>details</th>
+              <td *matCellDef="let element" mat-cell>
+                <button (click)="showSessionDetails(element.sessionId)"
                         mat-icon-button>
                   <mat-icon>info</mat-icon>
                 </button>
@@ -113,10 +121,10 @@
             </ng-container>
             <!-- sessionLink -->
             <ng-container matColumnDef="sessionLink">
-              <th *matHeaderCellDef mat-header-cell>Open session</th>
-              <td *matCellDef="let element" class="square-cell" mat-cell>
-                <button (click)="openEnterSessionDialog(element)" *ngIf="element.sessionUrl"
-                        class="txt__primary"
+              <th *matHeaderCellDef mat-header-cell>Open<br>session</th>
+              <td *matCellDef="let element" mat-cell>
+                <button (click)="openEnterSessionDialog(element)"
+                        [disabled]="!element.sessionUrl"
                         mat-icon-button>
                   <mat-icon>launch</mat-icon>
                 </button>
@@ -125,11 +133,11 @@
             <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
             <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
           </table>
-        </div>
+        </section>
       </ng-container>
       <!-- Loading and No sessions -->
       <ng-template #noSessions>
-        <section class="status-info-container">
+        <div class="status-info-container">
           <div *ngIf="lastUpdateTs === 0" class="empty-status">
             <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
             <div class="status-summary">...Loading...</div>
@@ -138,64 +146,77 @@
             <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
             <div class="status-summary">No active sessions</div>
           </div>
-        </section>
+        </div>
       </ng-template>
-    </section>
+    </div>
   </ng-container>
   <ng-template #sessionDetails>
-    <section class="content-container">
-      <div id="active-session-details-container">
-        <div class="back-button">
-          <button (click)="closeSessionDetails()" mat-button>
-            < Back to session list
-          </button>
-        </div>
-        <div class="content">
-          <div class="info-box">
-            <h3 class="mat-headline-6">Info</h3>
-            <dl class="grid">
-              <dt class="">Name</dt>
-              <dd>{{ selectedDetailSession.name }}</dd>
-              <dt class="">User</dt>
-              <dd>{{ selectedDetailSession.username }}</dd>
-              <dt class="">State</dt>
-              <dd>{{ selectedDetailSession.state }}</dd>
-              <dt class="">Created</dt>
-              <dd>{{ selectedDetailSession.created_at + '+0000' | date:'yyyy-MM-dd HH:mm:ss z' }}</dd>
-              <dt class="">Provisioned</dt>
-              <dd *ngIf="selectedDetailSession.provisioned_at">
-                {{ selectedDetailSession.provisioned_at + '+0000' | date:'yyyy-MM-dd HH:mm:ss z' }}
-              </dd>
-              <dt class="">Container image</dt>
-              <dd>{{ selectedDetailSession.info.container_image }}</dd>
-            </dl>
-          </div>
-          <div class="event-box">
-            <h3 class="mat-headline-6">Events</h3>
-            <ng-container *ngFor="let logLine of getSelectedSessionEvents()">
-              <dl class="grid status bg__warn-light">
-                <dt>
-                  {{ logLine.timestamp * 1000 | date:'HH:mm:ss' }}
-                </dt>
-                <dd>{{ logLine.log_level | uppercase }} {{ logLine.message }}</dd>
-              </dl>
-            </ng-container>
-          </div>
+    <div class="content-container active-session-details">
+      <button (click)="closeSessionDetails()" class="back-btn" mat-button>
+        Back to active session list
+      </button>
 
-          <div *ngIf="selectedDetailSession.state === SessionStates.Running" class="log-box">
-            <h3 class="output-headline mat-headline-6">Session output</h3>
-            <div class="terminal" id="terminal">
-              <p *ngFor="let rll of getSelectedSessionOutputLines()">{{ rll }}</p>
-            </div>
-            <button (click)="requestLogFetch(selectedDetailSession.id)" [disabled]="logRefreshPending"
-                    class="secondary-btn"
+      <section class="info-box">
+        <h3>Session Info</h3>
+        <dl>
+          <dt>Name</dt>
+          <dd>{{ selectedDetailSession.name }}</dd>
+          <dt>User</dt>
+          <dd>{{ selectedDetailSession.username }}</dd>
+          <dt>State</dt>
+          <dd>{{ selectedDetailSession.state }}</dd>
+          <dt>Created</dt>
+          <dd>{{ selectedDetailSession.created_at + '+0000' | date:'yyyy-MM-dd HH:mm:ss z' }}</dd>
+          <dt>Provisioned</dt>
+          <dd *ngIf="selectedDetailSession.provisioned_at">
+            {{ selectedDetailSession.provisioned_at + '+0000' | date:'yyyy-MM-dd HH:mm:ss z' }}
+          </dd>
+          <dt>Container image</dt>
+          <dd>{{ selectedDetailSession.info.container_image }}</dd>
+        </dl>
+      </section>
+      <section class="event-box">
+        <h3>Events</h3>
+        <dl>
+          <ng-container *ngFor="let logLine of getSelectedSessionEvents()">
+            <dt>{{ logLine.timestamp * 1000 | date:'HH:mm:ss' }}</dt>
+            <dd>{{ logLine.log_level | uppercase }} {{ logLine.message }}</dd>
+          </ng-container>
+        </dl>
+      </section>
+
+      <section class="log-box">
+        <div class="terminal-container">
+          <div class="terminal-header">
+            <div class="terminal-title">Session output</div>
+            <button (click)="requestLogFetch(selectedDetailSession.id)"
+                    [disabled]="logRefreshPending || selectedDetailSession.state !== SessionStates.Running"
                     mat-flat-button>
               <ng-container *ngIf="!logRefreshPending; else refreshing">Fetch logs</ng-container>
               <ng-template #refreshing>Fetching</ng-template>
             </button>
           </div>
+          <div class="terminal-body">
+            <ng-container
+                *ngIf="logRefreshPending && getSelectedSessionOutputLines().length === 0">
+              <p class="prompt">
+                Fetching logs...<span class="cursor">_</span>
+              </p>
+            </ng-container>
+            <ng-container
+                *ngIf="selectedDetailSession.state !== SessionStates.Running">
+              <p class="prompt">
+                Session output log is available only for running sessions.
+              </p>
+            </ng-container>
+            <ng-container *ngIf="!logRefreshPending  && selectedDetailSession.state === SessionStates.Running &&
+            getSelectedSessionOutputLines().length === 0">
+              <p class="prompt">Click the button to fetch logs.<span class="cursor">_</span></p>
+            </ng-container>
+            <p *ngFor="let rll of getSelectedSessionOutputLines()">{{ rll }}</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </ng-template>
 </div>

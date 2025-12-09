@@ -1,0 +1,505 @@
+// ---- _ui-elements.css
+@use 'utilities' as util;
+@use 'base-styles' as base;
+@use 'main';
+
+@mixin page-elm {
+  .page-container {
+    @include util.flex-col-block(stretch);
+    flex-grow: 1;
+    min-width: 0;
+    min-height: 100vh;
+    background: var(--neut-clr-1);
+  }
+}
+
+@mixin header-elm {
+  .content-header-container {
+    @include util.flex-row-block($type: center, $gap: 10px);
+    position: sticky !important;
+    top: 0;
+    z-index: 10;
+    flex: 0 0 var(--header-height);
+    width: 100%;
+    padding: 0 50px;
+    background: white;
+    border-bottom: 1px solid var(--neut-clr-2);
+
+    ::ng-deep app-main-content-header {
+      flex-grow: 1;
+    }
+
+    @media (max-width: #{base.$tablet-width}) {
+      flex: 0 0 var(--header-height-s) !important;
+      justify-content: end;
+      padding: 0 10px;
+    }
+
+    .header-functions {
+      @include util.flex-row-block($type: center, $gap: 0);
+    }
+
+    .mat-dialog-close {
+      background: none !important;
+    }
+  }
+}
+
+@mixin content-elm($type: center, $gap: 40px) {
+  .content-container {
+    @include util.flex-col-block($gap: $gap);
+    flex-grow: 1;
+    align-items: $type;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    min-height: auto;
+    padding: 25px 50px 40px;
+    margin: 0 auto;
+    overflow: visible;
+    background: transparent;
+
+    @media (max-width: #{base.$tablet-width}) {
+      min-height: var(--contents-height-s);
+      padding: 15px;
+    }
+
+    section {
+      width: 100%;
+      max-width: var(--container-width);
+      margin: 0 auto;
+
+      .title {
+        @include base.headline-3;
+        padding-left: 5px;
+        margin-bottom: 5px;
+        font-size: 1.6rem;
+        color: var(--gray-clr-6);
+      }
+    }
+
+    .items {
+      @include util.flex-col-block($gap: 10px);
+      width: 100%;
+      max-width: var(--container-width);
+
+      .item {
+        @include info-item;
+      }
+    }
+
+    .info-body {
+      @include info-item;
+    }
+  }
+}
+
+@mixin status-block {
+  .status-info-container {
+    @include base.centering(xy);
+    height: 60%;
+    color: var(--neut-clr-8);
+    text-align: center;
+
+    .success-status .mat-icon,
+    .empty-status .mat-icon {
+      @include base.centering(xy);
+      width: auto;
+      height: auto;
+      padding: 10px 0;
+      font-size: 6rem;
+    }
+
+    .status-headline {
+      @include base.headline-1;
+      margin-bottom: 10px;
+      font-size: 3rem;
+    }
+
+    .status-summary {
+      margin-bottom: 20px;
+
+      @include base.headline-2;
+    }
+
+    .keyword {
+      font-style: normal;
+      font-weight: bold;
+    }
+  }
+}
+
+@mixin table() {
+  overflow: auto;
+
+  table {
+    width: 100%;
+    overflow: visible;
+    table-layout: fixed;
+    background: transparent;
+
+    .mat-mdc-header-row {
+      height: 45px;
+      background: transparent;
+
+      .mat-mdc-header-cell {
+        padding: 0 4px;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 130%;
+        vertical-align: middle;
+        color: var(--neut-clr-4);
+        text-transform: uppercase;
+        border-bottom: none;
+      }
+    }
+
+    .mat-mdc-row {
+      background: white;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      .mat-mdc-cell {
+        width: 50px;
+        padding: 8px 6px;
+        font-size: 1.2rem;
+        line-height: 140%;
+        vertical-align: middle;
+        color: #333;
+        border-bottom: 1px solid #f0f0f0;
+      }
+    }
+  }
+}
+
+@mixin table-width-fix($width: auto, $align: left, $vertical-align: middle) {
+  width: $width !important;
+  min-width: $width;
+  max-width: $width;
+  padding: 2px !important;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: $vertical-align;
+  text-align: $align;
+  white-space: nowrap;
+}
+
+@mixin button($role: 'prim', $font-size: 1.5rem, $style: 'flat', $width: 'auto', $icon: '\ebcc', $icon-size: 2.2rem, $icon-weight: 300) {
+  @include base.styled-font;
+  @include base.centering(xy);
+  width: #{$width};
+  padding: 6px 15px;
+  font-size: $font-size !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  white-space: normal;
+  cursor: pointer;
+  border-radius: 5px;
+
+  @if $style == 'flat' {
+    background-color: var(--#{$role}-clr-6);
+  } @else if $style == 'none' {
+    color: var(--#{$role}-clr-6) !important;
+    background: transparent !important;
+    border: 1px solid var(--neut-clr-2);
+  } @else if $style == 'stroked' {
+    color: var(--#{$role}-clr-5) !important;
+    background: var(--#{$role}-clr-0) !important;
+    border: 3px solid var(--#{$role}-clr-5);
+  }
+
+
+  &:hover:not(:disabled) {
+    filter: brightness(80%);
+  }
+
+  &:not(:disabled) {
+    color: white;
+    background-color: var(--#{$role}-clr-5);
+  }
+
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    color: var(--gray-clr-4) !important;
+    cursor: not-allowed !important;
+    background-color: var(--gray-clr-2) !important;
+    border: none;
+  }
+
+  @if $icon {
+    @include base.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight);
+  }
+}
+
+@mixin deco-text(
+  $color: var(--gray-clr-7), $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start,
+  $icon: '\ebcc', $icon-family: 'Outlined', $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
+) {
+  @include base.styled-font;
+  @include base.centering(y);
+  position: relative;
+  justify-content: $text-align;
+  font-size: $font-size;
+  font-weight: 600;
+  color: #{$color};
+
+  @if $icon {
+    @include base.icon(
+            $icon: $icon, $family: $icon-family, $color: $icon-color, $size: $icon-size, $weight: $icon-weight,
+            $pos: left, $gap: $gap);
+  }
+
+  @if $highlight != none {
+    padding: 2px 10px;
+    isolation: isolate;
+
+    &::after {
+      position: absolute;
+      bottom: 15%;
+      left: -2px;
+      z-index: -1;
+      width: 100%;
+      height: 40%;
+      content: '';
+      background-color: $highlight;
+      border-radius: 150px 15px 110px / 15px 150px;
+      opacity: 0.8;
+    }
+  }
+}
+
+@mixin crowned-text(
+  $color: var(--gray-clr-6),
+  $icon: 'ebcc', $icon-size: 9.6rem, $icon-weight: 300, $icon-family: 'Outlined') {
+  @include base.styled-font;
+  @include base.centering(xy);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  font-weight: 600 !important;
+  color: #{$color} !important;
+  text-align: center;
+
+  .emphasis {
+    font-size: 8rem;
+    font-weight: 500;
+  }
+
+  @if $icon {
+    @include base.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $family: $icon-family, $pos: up);
+  }
+}
+
+@mixin info-item($bg-color: white, $border: 2px solid var(--neut-clr-2) ) {
+  @include util.flex-col-block($gap: 30px);
+  @include common-link;
+
+  padding: 20px 25px;
+  background: $bg-color;
+  border: $border;
+  border-radius: 3px;
+  box-shadow: none;
+
+  .unread {
+    .title::before {
+      @include badge-item('Unread', 'warn');
+    }
+  }
+
+  .title {
+    padding: 7px 5px 2px;
+    font-weight: 600;
+    color: var(--neut-clr-7);
+    border-bottom: 1px solid var(--neut-clr-2);
+  }
+
+  .label {
+    @include label-item;
+  }
+
+  .description {
+    padding-left: 10px;
+    font-size: 1.3rem;
+
+    ::ng-deep {
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 10px;
+        font-weight: 600;
+      }
+
+      a {
+        color: var(--prim-clr-6);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--sec-clr-6);
+        }
+      }
+
+      ul, ol {
+        padding-left: 40px;
+        margin-top: 10px;
+      }
+
+      ul {
+        list-style: disc;
+      }
+
+      ol {
+        list-style: decimal;
+      }
+    }
+  }
+}
+
+@mixin balloon {
+  @include util.flex-col-block($gap: 15px);
+  max-width: 600px;
+  height: auto;
+  padding: 30px 50px;
+  margin: 20px auto;
+  overflow: visible;
+  text-align: center;
+  background: white;
+  border-radius: 200px;
+
+  &::before {
+    position: absolute;
+    bottom: -20px;
+    left: 55%;
+    display: block;
+    width: 0;
+    height: 0;
+    content: '';
+    border-color: transparent transparent transparent #fff;
+    border-style: solid;
+    border-width: 0 20px 20px;
+  }
+
+  li {
+    font-size-adjust: 0.4;
+    line-height: 150%;
+  }
+}
+
+
+@mixin badge-item($text: '', $role: neut) {
+  position: relative;
+  top: -2px;
+  padding: 2px 8px;
+  margin-right: 8px;
+  margin-left: -5px;
+  font-size: 1.1rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+  border-radius: 8px;
+}
+
+@mixin label-item($text: '', $role: neut) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px 8px;
+  font-size: 1.2rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+}
+
+@mixin common-link {
+  ::ng-deep a {
+    color: var(--prim-clr-6) !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
+
+    &:visited {
+      color: var(--sec-clr-6) !important;
+    }
+
+    &:hover {
+      color: var(--sec-clr-6);
+    }
+  }
+}
+
+@mixin external-link {
+  @include deco-text($color: var(--prim-clr-6), $icon: 'launch', $icon-size: 2.4rem, $icon-weight: 100);
+}
+
+.external-link {
+  @include external-link;
+}
+
+@mixin refresh-btn {
+  @include button($role: 'neut', $style: 'none', $icon: 'refresh');
+  height: 38px;
+  margin-top: 2px;
+}
+
+.refresh-btn {
+  @include refresh-btn;
+}
+
+@mixin terminal() {
+  .terminal-container {
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--neut-clr-9);
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px rgb(0, 0, 0, 0.2);
+
+    .terminal-header {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 15px;
+      background-color: white;
+
+      .terminal-title {
+        @include base.headline-5;
+        color: var(--neut-clr-5);
+      }
+
+      button {
+        @include button($role: sec, $font-size: 1.3rem, $icon: download, $icon-size: 1.5rem);
+        height: 30px;
+      }
+    }
+
+    .terminal-body {
+      position: relative;
+      padding: 20px 40px;
+      font-size: 1.2rem;
+      line-height: 165%;
+      color: var(--sec-clr-1);
+      text-shadow: 0 0 5px rgb(0, 255, 65, 0.5);
+    }
+
+    .prompt {
+      font-weight: bold;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      animation: blink 1s infinite;
+    }
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

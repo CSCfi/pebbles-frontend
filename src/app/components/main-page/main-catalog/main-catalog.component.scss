@@ -1,13 +1,13 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
- .content-container {
-    flex: 1 1 auto;
-    overflow: hidden;
-    background: $gray-light-color !important;
+.content-container {
 
-    display: flex;
-    flex-direction: column;
- }
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: hidden;
+  background: main.$gray-light-color !important;
+}
 
 ::ng-deep .mat-mdc-tab-group {
   flex: 1 1 auto;
@@ -20,7 +20,7 @@
 
   .mdc-tab {
     background: white !important;
-    border-right: 1px solid $primary-light-color !important;
+    border-right: 1px solid main.$primary-light-color !important;
 
     &:last-child {
       border-right: none !important;
@@ -31,33 +31,33 @@
     }
 
     .mdc-tab__text-label {
-      color: rgba(0, 0, 0, 0.87);
-      font-weight: 500;
       font-size: 1.4rem;
+      font-weight: 500;
+      color: rgb(0, 0, 0, 0.87);
     }
 
   }
 
   button.mat-mdc-tab-header-pagination {
-    background-color: $gray-extra-light-color !important;
+    background-color: main.$gray-extra-light-color !important;
   }
 
   .mat-mdc-tab-body-wrapper {
-    border-top: 1px solid $gray-color;
-    padding: 0 30px;
-    background: $gray-extra-light-color !important;
     height: calc(100vh - 130px);
+    padding: 0 30px;
+    background: main.$gray-extra-light-color !important;
+    border-top: 1px solid main.$gray-color;
 
     .tab-content {
       height: 100%;
       padding: 15px;
 
       .catalog-section {
-        height: 100%;
         display: flex;
         flex-direction: column;
-        align-items: stretch;
         gap: 10px;
+        align-items: stretch;
+        height: 100%;
         padding-bottom: 50px;
       }
     }
@@ -69,15 +69,15 @@
   text-align: center;
 
   mat-icon {
-    height: 80px;
     width: 80px;
+    height: 80px;
     font-size: 8.0rem;
-    color: $gray-extra-dark-color;
+    color: main.$gray-extra-dark-color;
   }
 
   .no-public-applications-text {
-    text-align: center !important;
     margin-top: 5px;
+    text-align: center !important;
   }
 }
 
@@ -87,7 +87,7 @@
 
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
 
   .application-item-container {
     padding: 10px;
@@ -97,8 +97,8 @@
   }
 
   ::ng-deep .mat-mdc-tab-body-wrapper {
-    border-top: none;
-    padding: 5px !important;
     height: calc(100vh - 170px);
+    padding: 5px !important;
+    border-top: none;
   }
 }

@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +16,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
-// import { MatGridListModule } from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -34,7 +34,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 
 
-@NgModule( {
+@NgModule({
   imports: [
     CommonModule,
     BrowserAnimationsModule,
@@ -52,7 +52,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatBadgeModule,
     MatToolbarModule,
     MatListModule,
-    // MatGridListModule,
+    MatGridListModule,
     MatCardModule,
     MatStepperModule,
     MatTabsModule,
@@ -87,7 +87,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatBadgeModule,
     MatToolbarModule,
     MatListModule,
-    // MatGridListModule,
+    MatGridListModule,
     MatCardModule,
     MatStepperModule,
     MatTabsModule,
@@ -104,5 +104,6 @@ import { MatSortModule } from '@angular/material/sort';
     MatPaginatorModule,
     MatSortModule
   ],
-} )
-export class MaterialModule{ }
+})
+export class MaterialModule {
+}

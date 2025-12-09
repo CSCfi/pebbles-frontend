@@ -1,44 +1,44 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .service-announcement-item {
   position: relative;
-  margin: 10px 40px 5px 40px;
-  padding: 15px;
-  border-radius: 4px;
   z-index: 5000;
-  background: rgba(0, 10, 49, 0.6);
+  padding: 15px;
+  margin: 10px 40px 5px;
   color: white;
+  background: rgb(0, 10, 49, 0.6);
+  border-radius: 4px;
 
   &.default {
-    background: rgba(0, 10, 49, 0.6);
     color: white;
+    background: rgb(0, 10, 49, 0.6);
   }
 
   &.general {
-    color: map-get($app-primary, dark);
-    background-color: map-get($app-primary, 400);
+    color: map-get(main.$app-primary, dark);
+    background-color: map-get(main.$app-primary, 400);
   }
 
   &.important {
-    color: map-get($app-accent, dark);
-    background-color: map-get($app-accent, 100);
-    border: 3px solid map-get($app-accent, default);
     font-weight: bold;
+    color: map-get(main.$app-accent, dark);
+    background-color: map-get(main.$app-accent, 100);
+    border: 3px solid map-get(main.$app-accent, default);
   }
 
   &.critical {
-    color: map-get($app-warn, 900);
-    background-color: map-get($app-warn, light);
-    border: 3px solid map-get($app-warn, 600);
     font-weight: bold;
+    color: map-get(main.$app-warn, 900);
+    background-color: map-get(main.$app-warn, light);
+    border: 3px solid map-get(main.$app-warn, 600);
   }
 
   strong {
-    text-transform: uppercase;
     margin-right: 5px;
+    text-transform: uppercase;
 
     &::after {
-      content: ":";
+      content: ':';
     }
   }
 }

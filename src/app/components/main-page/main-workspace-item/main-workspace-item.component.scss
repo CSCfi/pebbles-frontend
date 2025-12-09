@@ -1,26 +1,26 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .workspace-item {
-  padding-bottom: 10px;
   max-width: 1250px;
+  padding-bottom: 10px;
   margin: auto;
 
   .expiry-warning {
     margin-left: 10px;
   }
 
-  &.expired{
+  &.expired {
 
     .mat-mdc-card {
-      background: $gray-light-color !important;
+      background: main.$gray-light-color !important;
 
       .mdc-button {
-        background: $gray-light-color !important;
+        background: main.$gray-light-color !important;
       }
     }
 
     .expiry-warning {
-      color: map-deep-get($app-warn, dark) !important;
+      color: main.map-deep-get(main.$app-warn, dark) !important;
     }
   }
 
@@ -29,41 +29,42 @@
   .mat-mdc-card-header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid $light-dark-line;
-    padding: 0;
+    justify-content: space-between;
     min-height: 50px;
+    padding: 0;
+    border-bottom: 1px solid main.$light-dark-line;
 
     ::ng-deep.mat-mdc-card-header-text {
       flex: 1 0 auto;
 
       .mat-mdc-card-title {
-        @include center(vertical);
+        @include main.center(vertical);
         gap: 10px;
         padding: 0 16px;
       }
     }
 
     .expiry-date {
-      @include headline-5;
-      text-align: center;
-      border-right: 1px solid $light-dark-line;
-      border-left: 1px solid $light-dark-line;
-      align-self: stretch;
+      @include main.headline-5;
       display: inline-flex;
-      align-items: center;
-      padding: 10px;
       flex: 0 0 240px;
+      align-items: center;
+      align-self: stretch;
+      padding: 10px;
+      text-align: center;
+      border-right: 1px solid main.$light-dark-line;
+      border-left: 1px solid main.$light-dark-line;
     }
 
     .workspace-item-menu {
       flex: 0 0 80px;
+
       .mat-icon {
-        font-size: 1.8rem;
         width: auto;
         height: auto;
         margin: 0;
+        font-size: 1.8rem;
       }
     }
   }
@@ -77,11 +78,11 @@
 
     .workspace-meta {
       .expiry-date {
-        @include headline-5;
+        @include main.headline-5;
       }
 
       .description {
-        @include headline-4;
+        @include main.headline-4;
         margin-top: 10px;
         overflow-wrap: break-word;
       }
@@ -89,39 +90,40 @@
 
     .application-list {
       flex: 0 0 155px;
-      color: map-get($app-gray, 300);
+      color: map-get(main.$app-gray, 300);
 
       .toggle-button {
         display: flex;
         align-items: center;
-        @include hover();
+
+        @include main.hover;
       }
 
       &.active {
-        color: map-get($app-primary, default);
+        color: map-get(main.$app-primary, default);
       }
     }
   }
 
   ::ng-deep .mat-expansion-panel {
-    box-shadow: none !important;
+    padding-top: 10px;
     background: none;
     border-radius: 0;
-    padding-top: 10px;
+    box-shadow: none !important;
 
     .mat-expansion-panel-body {
-      border-radius: 0;
       padding: 0 0 0 25px;
+      border-radius: 0;
     }
   }
 
   .tree {
     position: absolute;
-    min-height: 140px;
-    height: 110%;
-    width: 50%;
     top: -55%;
     left: 0;
+    width: 50%;
+    height: 110%;
+    min-height: 140px;
     border-bottom: 3px solid #bbb;
     border-left: 3px solid #bbb;
   }

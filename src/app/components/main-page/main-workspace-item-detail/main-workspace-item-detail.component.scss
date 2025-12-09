@@ -1,26 +1,26 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 #workspace-setting-container {
-  padding: 30px 30px;
-  max-width: 1100px;
-  margin: 0 auto;
   width: 1100px;
+  max-width: 1100px;
+  padding: 30px;
+  margin: 0 auto;
 
   mat-icon {
-    font-size: 2.4rem;
-    height: auto;
     width: auto;
+    height: auto;
+    font-size: 2.4rem;
   }
 
   form {
     position: relative;
 
     button.mat-mdc-icon-button {
-      color: $primary-light-color;
+      color: main.$primary-light-color;
 
       &:hover {
-        color: #FFFFFF;
-        background: $primary-light-color;
+        color: #FFF;
+        background: main.$primary-light-color;
       }
     }
 
@@ -31,23 +31,24 @@
       dt {
         min-height: 55px;
         padding: 5px 10px;
-        @include center(vertical);
+
+        @include main.center(vertical);
 
         &:hover {
-          background-color: $primary-extra-light-color;
+          background-color: main.$primary-extra-light-color;
         }
 
         &:hover + dd {
-          background-color: $primary-extra-light-color;
+          background-color: main.$primary-extra-light-color;
         }
 
         &:has(+ dd:hover) {
-          background-color: $primary-extra-light-color;
+          background-color: main.$primary-extra-light-color;
         }
 
         &.no-hover-bg:hover,
         &.no-hover-bg:hover + dd,
-        &.no-hover-bg:has(+ dd:hover){
+        &.no-hover-bg:has(+ dd:hover) {
           background: none;
         }
       }
@@ -58,23 +59,23 @@
 
 
         &:hover {
-           background-color: $primary-extra-light-color;
+          background-color: main.$primary-extra-light-color;
         }
 
         &.no-hover-bg:hover,
         &.no-hover-bg:hover + dd,
-        &.no-hover-bg:has(+ dd:hover){
+        &.no-hover-bg:has(+ dd:hover) {
           background: none;
         }
 
         div.preview,
         div.join-code,
         div.expiry-date {
-          min-height: 55px;
           display: flex;
           gap: 10px;
-          justify-content: space-between;
           align-items: center;
+          justify-content: space-between;
+          min-height: 55px;
 
           p {
             overflow-wrap: break-word;
@@ -94,14 +95,15 @@
     }
 
     button.workspace-delete-button {
-      margin-bottom: 2px;
       width: 100%;
-      height: 45px;
       max-width: 300px;
+      height: 45px;
       padding: 18px;
-      border: solid 3px $warn-color;
-      background: $warn-extra-light-color;
-      @include shadow(0.1);
+      margin-bottom: 2px;
+      background: main.$warn-extra-light-color;
+      border: solid 3px main.$warn-color;
+
+      @include main.shadow(0.1);
     }
 
     .mat-mdc-form-field {
@@ -116,20 +118,20 @@
   }
 
   .action-buttons {
-    margin-top: 0;
-    margin-bottom: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 10px;
+    gap: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
 
     .workspace-update-button {
-      grid-column: 1 / 3;
       grid-row: 1 / 2;
+      grid-column: 1 / 3;
     }
 
     .workspace-edit-cancel-button {
-      grid-column: 3 / 4;
       grid-row: 1 / 2;
+      grid-column: 3 / 4;
     }
   }
 
@@ -141,8 +143,8 @@
 
   .expiry-date {
     padding: 5px 10px;
-    background: $warn-extra-light-color;
     font-weight: 600;
-    color: $warn-extra-dark-color;
+    color: main.$warn-extra-dark-color;
+    background: main.$warn-extra-light-color;
   }
 }

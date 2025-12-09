@@ -1,18 +1,44 @@
 @charset "utf-8";
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
-@import "@fontsource/open-sans/300.css";
-@import "@fontsource/open-sans/400.css";
-@import "@fontsource/open-sans/500.css";
-@import "@fontsource/open-sans/600.css";
-@import "@fontsource/open-sans/700.css";
-@import "@fontsource/open-sans/800.css";
-@import "@fontsource/quicksand/300.css";
-@import "@fontsource/quicksand/400.css";
-@import "@fontsource/quicksand/500.css";
-@import "@fontsource/quicksand/600.css";
-@import "@fontsource/quicksand/700.css";
-@import 'material-icons/iconfont/material-icons.css';
-@import '@material-symbols/font-500/outlined.css';
+// -- Fonts & icons
+@forward '@fontsource/open-sans/400.css';
+@forward '@fontsource/open-sans/500.css';
+@forward '@fontsource/open-sans/600.css';
+@forward '@fontsource/open-sans/700.css';
+@forward '@fontsource/open-sans/800.css';
+@forward '@fontsource/quicksand/300.css';
+@forward '@fontsource/quicksand/400.css';
+@forward '@fontsource/quicksand/500.css';
+@forward '@fontsource/quicksand/600.css';
+@forward '@fontsource/quicksand/700.css';
+@forward 'material-icons/iconfont/material-icons.css';
+@forward '@material-symbols/font-500/outlined.css';
+// -- CSS reset
+@forward '../node_modules/destyle.css/destyle.css';
+// -- Angular MD theme
+@forward '@angular/material/prebuilt-themes/deeppurple-amber.css';
+// ---- Utility <- mixin
+@forward 'utilities';
+// ---- Base style <- shared
+@use 'base-styles' as base;
+// ---- Element style
+@forward 'ui-elements';
+// ---- Noppe styles
+// @forward 'shared';
+@use 'theme' as theme;
+@include theme.init;
+@include theme.color-system;
 
-// ---- Shared Sass
-@import './styles/shared';
+html {
+  height: 100%;
+
+  @include base.common-font;
+  font-size: 62.5%;
+  color: var(--prim-clr-9);
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 160%;
+}

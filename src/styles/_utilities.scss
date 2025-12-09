@@ -1,0 +1,21 @@
+// ---- _utilities.css
+@use 'base-styles' as base;
+
+@mixin flex-col-block($type: stretch, $gap: 0) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  align-items: $type;
+}
+
+@mixin flex-row-block($type: center, $gap: 20px, $wrap: true ) {
+  position: relative;
+  display: flex;
+  flex-flow: if($wrap, row wrap, row);
+  flex-direction: row;
+  gap: $gap;
+  align-items: $type;
+  justify-content: space-between;
+}
+

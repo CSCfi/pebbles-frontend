@@ -1,10 +1,10 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .sidenav-inner {
   position: relative;
 
   &#account-nav {
-    border-top: solid 1px rgba(255,255,255,.2);
+    border-top: solid 1px rgb(255, 255, 255, .2);
     border-bottom: none !important;
   }
 
@@ -12,9 +12,9 @@
     display: flex;
     flex-direction: row;
     gap: 5px;
-    width: 100%;
     align-items: center;
     justify-content: flex-start;
+    width: 100%;
     padding: 20px 10px 10px 16px;
 
     .site-name {
@@ -23,32 +23,32 @@
   }
 
   #nav-toggle-button {
-    @include primary-main-background;
-    text-align: center;
+    @include main.primary-main-background;
     width: 70px;
     padding: 5px;
+    text-align: center;
   }
 
   .nav-items {
     display: flex;
     flex-direction: column;
-    border-bottom: solid 1px rgba(255,255,255,.2);
+    border-bottom: solid 1px rgb(255, 255, 255, .2);
 
     .nav-item {
       padding-top: 5px;
       padding-right: 6px;
-      border-left: 6px solid rgba(204, 255, 100, 0);
+      border-left: 6px solid rgb(204, 255, 100, 0);
 
       &.active {
-        border-left: 6px solid #00969a;
         width: 100%;
         background-color: #ffffff1a;
+        border-left: 6px solid #00969a;
       }
 
       a {
         display: inline-flex;
         flex-direction: row;
-        padding: 5px 10px 5px 10px;
+        padding: 5px 10px;
         cursor: pointer;
 
         .icon-holder {
@@ -70,9 +70,13 @@
   }
 }
 
+.mobile-main-nav {
+  display: none;
+}
+
 // ----- Laptop
 
-@media (min-width: 600px) {
+@media (width <= 1024px) {
   .mobile-main-nav {
     display: none;
   }
@@ -80,20 +84,20 @@
 
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
 
   .content-header-container h3 {
-    margin-left: 35px;
     flex-basis: 30px !important;
     height: 30px !important;
+    margin-left: 35px;
   }
 
   .mobile-main-nav {
-    display: block;
     position: fixed;
-    width: 65px;
     top: 0;
     left: 0;
+    display: block;
+    width: 65px;
   }
 
   .sidenav-inner {
@@ -105,8 +109,8 @@
   }
 
   .nav-toggle-label {
-    visibility: visible !important;
     display: block;
+    visibility: visible !important;
   }
 
   .nav-wrapper {

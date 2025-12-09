@@ -1,18 +1,29 @@
-@import "src/styles/main.scss";
+@use 'utilities' as util;
+@use 'ui-elements' as ui;
+@include ui.page-elm;
+@include ui.content-elm;
+@include ui.status-block;
 
-#not-found-container {
-  .face {
-    text-align: center;
-    transform: scale(4);
-    padding: 30px;
+.error-status {
+  @include ui.crowned-text($color: var(--prim-clr-6), $icon: 'sentiment_dissatisfied', $icon-family: 'Filled');
+
+  .emphasis {
+    margin-bottom: 30px;
   }
+}
 
-  div {
+.links {
+  @include util.flex-col-block($gap: 10px);
+
+  button {
     text-align: center;
-  }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100vh;
+    &:first-child {
+      @include ui.button($role: prim, $icon: 'keyboard_double_arrow_left');
+    }
+
+    &:last-child {
+      @include ui.button($role: prim, $style: 'none', $icon: 'home');
+    }
+  }
 }

@@ -1,0 +1,78 @@
+:host {
+  margin: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+section {
+  margin-top: 30px;
+
+  h2 {
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--neut-clr-6);
+  }
+}
+
+.sample {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: stretch;
+  justify-content: stretch;
+  height: 320px;
+}
+
+.preview-area {
+  display: flex;
+  flex: 1 1 50%;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.code-area {
+  position: relative;
+  flex: 0 1 50%;
+  overflow: scroll;
+  background: var(--neut-clr-9);
+  border-radius: 5px;
+
+  pre {
+    position: relative;
+    margin: 0;
+    font-family: monospace;
+    font-size: 1rem;
+    color: var(--neut-clr-0);
+  }
+}
+
+::ng-deep.color-sample {
+  flex: 1 1 auto;
+
+  div {
+    min-width: 100px;
+    padding: 4px 10px;
+  }
+}
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: var(--neut-clr-0);
+  cursor: pointer;
+
+  .mat-icon {
+    font-size: 2rem;
+  }
+}
+
+.copy-btn:hover {
+  background: var(--neut-clr-4);
+}

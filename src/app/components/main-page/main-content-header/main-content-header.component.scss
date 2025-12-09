@@ -1,13 +1,19 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
+
+:host {
+  @media (width <= 1024px) {
+    display: none;
+  }
+}
 
 #content-header {
   display: flex;
+  flex-grow: 1;
   flex-direction: row;
   gap: 15px;
   align-items: center;
   justify-content: space-between;
-  flex-grow: 1;
-  background: $light-color;
+  background: main.$light-color;
 
   h3 {
     flex-grow: 0;
@@ -15,22 +21,22 @@
   }
 
   form.search-form {
-    margin-top: 15px;
-    padding: 0;
-    flex-basis: auto;
     flex-grow: 1;
+    flex-basis: auto;
+    padding: 0;
+    margin-top: 15px;
 
     ::ng-deep.mat-mdc-form-field {
-      height: 65px;
       width: 100%;
+      height: 65px;
 
       .mat-mdc-text-field-wrapper {
         padding-left: 10px;
-        background-color: map-get($app-primary, 100);
+        background-color: map-get(main.$app-primary, 100);
 
         .mat-mdc-form-field-infix {
-          padding: 0;
           display: flex;
+          padding: 0;
         }
       }
 
@@ -43,13 +49,13 @@
 
   .mat-mdc-chip-set {
     mat-chip-row {
-      background-color: $secondary-color !important;
-      border: 1px solid $secondary-color;
+      background-color: main.$secondary-color !important;
+      border: 1px solid main.$secondary-color;
 
       span {
-        font-size: 1.2rem !important;
         padding-left: 0 !important;
-        color: $secondary-dark-color !important;
+        font-size: 1.2rem !important;
+        color: main.$secondary-dark-color !important;
       }
 
       mat-icon {
@@ -57,7 +63,7 @@
       }
 
       .mdc-evolution-chip__text-label {
-        color: $secondary-dark-color !important;
+        color: main.$secondary-dark-color !important;
       }
     }
   }
@@ -65,7 +71,7 @@
 
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
   #content-header {
     h3 {
       display: none;

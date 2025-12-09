@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .site-header {
   height: inherit;
@@ -6,14 +6,14 @@
 
 .site-header-wrapper {
   position: relative;
-  height: inherit;
-  max-width: $content-max-width;
-  margin: 0 auto;
+  z-index: 10000;
   display: flex;
   gap: 20px;
-  justify-content: space-between;
   align-items: center;
-  z-index: 10000;
+  justify-content: space-between;
+  max-width: main.$content-max-width;
+  height: inherit;
+  margin: 0 auto;
 
   &.fluid {
     max-width: 100%;
@@ -22,26 +22,19 @@
   .brand {
     display: flex;
     gap: 10px;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     font-size: 2rem;
-
-    .site-name {
-      .owner-name {
-
-      }
-    }
   }
-
 }
 
 // ----- Laptop
 
-@media (min-width: 600px) {
+@media (width >= 600px) {
   .site-header-wrapper {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -54,34 +47,34 @@
   .nav-wrapper {
     display: flex;
     gap: 20px;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 }
 
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
 
   .toggle-nav-label {
     visibility: visible !important;
-    background: #b6beff;
-    color: #18227c;
     padding: 5px 10px;
+    color: #18227c;
+    background: #b6beff;
   }
 
   .nav-wrapper {
     position: absolute;
-    width: 100%;
     top: 0;
     left: 0;
+    width: 100%;
+    padding: 10px;
     margin-top: 70px;
-    padding: 10px 10px 10px 10px;
     background: #b6beff;
 
     li {
-      color: #18227c;
       margin-bottom: 10px;
+      color: #18227c;
     }
 
     li:last-child {

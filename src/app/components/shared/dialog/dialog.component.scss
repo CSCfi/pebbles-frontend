@@ -1,18 +1,18 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .dialog-clipboard {
-  text-align: center;
-  padding: 10px;
-  color: $dark-text-color;
-  //background: map-get($app-accent, default);
+  // background: map-get(main.$app-accent, default);
   display: grid;
   grid-template-columns: auto max-content;
   align-items: center;
-  border: 1px solid $dark-text-color;
+  padding: 10px;
+  color: main.$dark-text-color;
+  text-align: center;
+  border: 1px solid main.$dark-text-color;
 
   button {
-    @include secondary-main-background;
-    @include center(both);
+    @include main.secondary-main-background;
+    @include main.center(both);
   }
 }
 
@@ -26,6 +26,6 @@
 
 .mat-mdc-dialog-content {
   --mat-dialog-content-padding: 20px 5px;
-  border-top: 1px solid $gray-color;
   margin-top: 5px;
+  border-top: 1px solid main.$gray-color;
 }

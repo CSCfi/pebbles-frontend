@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 // ---- Layout
 #workspace-owner-container {
@@ -8,17 +8,17 @@
   overflow: hidden;
 
   .workspace-list-container {
-    min-width: 350px;
-    max-width: 350px;
-    height: 100vh;
-
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    background: $gray-light-color !important;
-    @include shadow(0.1);
+    min-width: 350px;
+    max-width: 350px;
+    height: 100vh;
+    overflow: hidden;
+    background: main.$gray-light-color !important;
+
+    @include main.shadow(0.1);
 
     .mobile-workspace-list {
       display: none;
@@ -27,12 +27,12 @@
 
   #workspace-owner-tab-container {
     position: relative;
-    flex: 1;
-    overflow: auto;
     display: flex;
+    flex: 1;
     flex-direction: column;
-    align-items: center;
     gap: 5px;
+    align-items: center;
+    overflow: auto;
 
     app-service-announcement {
       flex-shrink: 0;
@@ -42,8 +42,8 @@
     app-main-workspace-members,
     app-main-workspace-custom-images,
     app-main-workspace-item-detail {
-      flex: 1 1 auto;
       display: flex;
+      flex: 1 1 auto;
       flex-direction: row;
       align-items: stretch;
     }
@@ -58,251 +58,252 @@
   flex: 1;
 }
 
-#workspace-owner-container {
 
-  .content-header-container {
-    flex: 0 1 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 5px;
-    padding: 10px 15px;
+.content-header-container {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  gap: 5px;
+  align-items: stretch;
+  padding: 10px 15px;
 
-    h3 {
-      text-align: center;
-      height: 60px;
-      @include center(both, inline);
+  h3 {
+    height: 60px;
+    text-align: center;
+
+    @include main.center(both, inline);
+  }
+}
+
+.workspaces-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: stretch;
+
+  button {
+    @include main.secondary-main-background;
+    height: 50px;
+    font-size: 1.6rem !important;
+
+    mat-icon {
+      width: 24px !important;
+      height: 24px !important;
+      font-size: 2.4rem !important;
+    }
+
+
+    &.mat-mdc-button-disabled {
+      @include main.invalid-dark-background;
     }
   }
 
-  .workspaces-actions-container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 5px;
-
-    button {
-      @include secondary-main-background;
-      height: 50px;
-      font-size: 1.6rem !important;
-
-      mat-icon {
-        font-size: 2.4rem !important;
-        height: 24px !important;
-        width: 24px !important;
-      }
-
-
-      &.mat-mdc-button-disabled {
-        @include invalid-dark-background;
-      }
-    }
-
-    .max-quota-warning {
-      @include warn-light-background;
-      @include headline-5;
-      border-radius: 5px;
-      padding: 15px 10px;
-    }
+  .max-quota-warning {
+    @include main.warn-light-background;
+    @include main.headline-5;
+    padding: 15px 10px;
+    border-radius: 5px;
   }
+}
 
-  .workspace-list-container {
+.workspace-list-container {
 
-    .workspace-list {
-      overflow: auto;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      align-items: stretch;
-      gap: 5px;
+  .workspace-list {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 5px;
+    align-items: stretch;
+    overflow: auto;
 
-      .workspace-item {
-        color: map-get($app-primary, default);
-        cursor: pointer;
-        border-radius: 3px;
-        @include styled-font;
-        font-size: 1.6rem;
-        font-weight: 600;
-        margin: 10px 15px 0;
+    .workspace-item {
+      margin: 10px 15px 0;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: map-get(main.$app-primary, default);
+      cursor: pointer;
+      border-radius: 3px;
 
-        .card-header {
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
-          padding: 25px 20px;
+      @include main.styled-font;
 
-          mat-icon {
-            color: #919cd2;
-          }
+      .card-header {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 25px 20px;
 
-          .workspace-icon,
-          .workspace-selected-arrow {
-            @include center(vertical, inline);
-          }
-
-          .workspace-title {
-            @include center(vertical, inline);
-            flex-wrap: wrap;
-          }
+        mat-icon {
+          color: #919cd2;
         }
 
+        .workspace-icon,
+        .workspace-selected-arrow {
+          @include main.center(vertical, inline);
+        }
+
+        .workspace-title {
+          @include main.center(vertical, inline);
+          flex-wrap: wrap;
+        }
+      }
+
+      &.public {
+        mat-icon {
+          color: #6bb9bc !important;
+        }
+      }
+
+      .workspace-info {
+        padding: 10px 20px 5px;
+        border-top: map-get(main.$borders, thin-dark);
+
+        .description {
+          @include main.headline-5;
+          margin-bottom: 15px;
+          overflow-wrap: break-word;
+        }
+
+        dl {
+          display: grid;
+          grid-template-columns: 110px auto;
+          height: auto;
+          margin-bottom: 15px;
+
+          @include main.headline-5;
+        }
+      }
+
+      &.deleted {
+        background-color: map-get(main.$app-gray, 100);
+      }
+
+      &.selected {
+        color: map-get(main.$app-gray, 900);
+        border-left: 8px solid #919cd2;
+
         &.public {
-          mat-icon {
-            color: #6bb9bc !important;
-          }
+          border-left: 8px solid #6bb9bc;
+        }
+
+        .card-header {
+          padding: 25px 20px 20px 10px;
         }
 
         .workspace-info {
-          padding: 10px 20px 5px;
-          border-top: map-get($borders, thin-dark);
+          padding: 10px 20px 5px 15px;
+        }
+      }
 
-          .description {
-            @include headline-5;
-            margin-bottom: 15px;
-            overflow-wrap: break-word;
-          }
+      &.owner {
+        &.selected {
+          border-left: 8px solid #919cd2;;
+        }
+      }
 
-          dl {
-            display: grid;
-            height: auto;
-            grid-template-columns: 110px auto;
-            @include headline-5;
-            margin-bottom: 15px;
-          }
+      &.co-owner,
+      &.manager {
+        &.selected {
+          border-left: 8px solid map-get(main.$app-secondary, 800);
+        }
+      }
+
+      &.expired-item {
+        background-color: main.$gray-extra-light-color !important;
+        border: 1px solid map-get(main.$app-primary, 400);
+
+        .user-role-txt,
+        mat-icon {
+          color: map-get(main.$app-gray, 800) !important;
         }
 
-        &.deleted {
-          background-color: map-get($app-gray, 100);
+        .expiration-date {
+          font-weight: bold;
+          color: main.$warn-extra-dark-color;
         }
 
         &.selected {
-          color: map-get($app-gray, 900);
-          border-left: 8px solid #919cd2;
-
-          &.public {
-            border-left: 8px solid #6bb9bc;
-          }
-
-          .card-header {
-            padding: 25px 20px 20px 10px;
-          }
-
-          .workspace-info {
-            padding: 10px 20px 5px 15px;
-          }
+          border-left: 8px solid #6b777c;
         }
-
-        &.owner {
-          &.selected {
-            border-left: 8px solid #919cd2;;
-          }
-        }
-
-        &.co-owner,
-        &.manager {
-          &.selected {
-            border-left: 8px solid map-get($app-secondary, 800);
-          }
-        }
-
-        &.expired-item {
-          border: 1px solid map-get($app-primary, 400);
-          background-color: $gray-extra-light-color !important;
-
-          .user-role-txt,
-          mat-icon {
-            color: map-get($app-gray, 800) !important;
-          }
-
-          .expiration-date {
-            color: $warn-extra-dark-color;
-            font-weight: bold;
-          }
-
-          &.selected {
-            border-left: 8px solid #6b777c;
-          }
-        }
-      }
-
-      &.new .workspace-title span:after {
-        content: "New";
-        font-size: 1.1rem;
-        background: map-get($app-accent, default);
-        color: #fff;
-        padding: 2px 8px;
-        margin-left: 5px;
-        border-radius: 8px;
       }
     }
 
-    .mat-mdc-form-field {
-      width: 100% !important;
+    &.new .workspace-title span::after {
+      padding: 2px 8px;
+      margin-left: 5px;
+      font-size: 1.1rem;
+      color: #fff;
+      content: 'New';
+      background: map-get(main.$app-accent, default);
+      border-radius: 8px;
     }
   }
 
-  .empty-status {
-    display: flex;
-    flex-direction: column;
+  .mat-mdc-form-field {
+    width: 100% !important;
   }
+}
+
+.empty-status {
+  display: flex;
+  flex-direction: column;
 }
 
 // ---- For Lifecycle-corner-banner
 .workspace-item {
 
-  .lifecycle-corner-banner:before {
+  .lifecycle-corner-banner::before {
     position: absolute;
-    right: 0;
     top: 0;
+    right: 0;
+    padding: 0 10px;
     font-size: 1.1rem;
     color: #fff;
-    padding: 0 10px;
     border-top-right-radius: 3px;
   }
 
   &.new-item {
-    .lifecycle-corner-banner:before {
-      content: "New";
-      background: map-get($app-accent, default);
+    .lifecycle-corner-banner::before {
+      content: 'New';
+      background: map-get(main.$app-accent, default);
     }
   }
 
   &.deleted-item {
-    .lifecycle-corner-banner:before {
-      content: "Deleted";
-      background: $gray-dark-color;
+    .lifecycle-corner-banner::before {
+      content: 'Deleted';
+      background: main.$gray-dark-color;
     }
   }
 
   &.expired-item {
-    .lifecycle-corner-banner:before {
-      content: "Expired";
-      color: $gray-extra-dark-color;
-      background: $gray-color;
+    .lifecycle-corner-banner::before {
+      color: main.$gray-extra-dark-color;
+      content: 'Expired';
+      background: main.$gray-color;
     }
   }
 
   &.expiring-item {
-    .lifecycle-corner-banner:before {
-      content: "Expiring";
-      background: $primary-light-color;
+    .lifecycle-corner-banner::before {
+      content: 'Expiring';
+      background: main.$primary-light-color;
     }
 
     .expiration-date {
       padding: 2px 10px;
-      background: $primary-extra-light-color;
+      background: main.$primary-extra-light-color;
     }
   }
 
   &.expiring-soon-item {
-    .lifecycle-corner-banner:before {
-      content: "Expiring soon";
-      background: $warn-dark-color;
+    .lifecycle-corner-banner::before {
+      content: 'Expiring soon';
+      background: main.$warn-dark-color;
     }
 
     .expiration-date {
       padding: 2px 10px;
-      background: $warn-extra-light-color;
+      background: main.$warn-extra-light-color;
     }
   }
 }
@@ -329,113 +330,110 @@
 }
 
 
-#workspace-owner-container {
+#workspace-owner-tab-container {
+  background: main.$primary-light-color;
 
-  #workspace-owner-tab-container {
-    background: $primary-light-color;
+  mat-tab-group {
+    flex: 1;
+    width: 100%;
+    overflow: auto;
 
-    mat-tab-group {
-      flex: 1;
-      overflow: auto;
+    background: main.$light-color;
 
-      background: $light-color;
-      width: 100%;
+    ::ng-deep.mat-mdc-tab-header {
+      flex-basis: 50px;
+      padding-right: 30px;
+      padding-left: 30px;
+      background: main.$primary-light-color;
 
-      ::ng-deep.mat-mdc-tab-header {
-        flex-basis: 50px;
-        background: $primary-light-color;
-        padding-left: 30px;
-        padding-right: 30px;
+      .mat-mdc-tab {
+        flex: 0 1 auto;
+        height: 50px;
+        padding: 0 15px;
+        font-size: 1.5rem !important;
+        font-weight: 600;
+        color: #18227c;
+        letter-spacing: normal;
+        background: main.$light-color;
+        background: #fff;
+        border: 1px solid #acb0e0;
+        border-radius: 3px 3px 0 0;
 
-        .mat-mdc-tab {
-          background: $light-color;
+        @include main.headline-3;
+
+        &:last-child {
+          z-index: 2000 !important;
+        }
+
+        .label {
+          position: absolute;
+          top: -10px;
+          right: -5px;
+          display: inline-block;
+          padding: 4px 5px;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: main.$secondary-dark-color;
+          text-transform: uppercase;
+          background-color: main.$accent-color;
+          border: 2px solid main.$primary-light-color;
+          border-radius: 3px;
+        }
+
+        .mdc-tab__text-label {
           color: #18227c;
-          height: 50px;
-          border: 1px solid #acb0e0;
-          background: #fff;
-          @include headline-3;
-          font-size: 1.5rem;
-          font-weight: 600;
-          letter-spacing: normal;
-          flex: 0 1 auto;
-          border-radius: 3px 3px 0 0;
-          padding: 0 15px;
+          text-wrap: auto;
+          overflow-wrap: break-word;
 
-          &:last-child {
-            z-index: 2000 !important;
+          @include main.center(both);
+
+          span {
+            @include main.center(both);
           }
+        }
 
-          .label {
-            position: absolute;
-            display: inline-block;
-            font-size: 1.1rem;
-            font-weight: 700;
-            padding: 4px 5px;
-            border-radius: 3px;
-            border: 2px solid $primary-light-color;
-            background-color: $accent-color;
-            color: $secondary-dark-color;
-            text-transform: uppercase;
-            top: -10px;
-            right: -5px;
-          }
+        mat-icon {
+          width: auto;
+          height: auto;
+          margin-right: 0;
+          font-size: 2.0rem;
+        }
 
-          .mdc-tab__text-label {
-            color: #18227c;
-            text-wrap: auto;
-            word-wrap: break-word;
+        mat-icon + span {
+          margin-left: 4px;
+        }
 
-            span {
-              @include center(both);
-            }
-          }
+        mat-chip {
+          display: none !important;
+        }
+
+        mat-chip-option {
+          margin-left: 6px;
+        }
+
+        .chip__circle {
+          @include main.center(both, inline);
+          min-width: 24px !important;
+          height: 24px !important;
+          padding: 0 !important;
+          margin-left: 5px;
+          font-size: 1.2rem;
+          font-weight: 600 !important;
+          line-height: 100%;
+          text-align: center;
+          white-space: nowrap;
+          border-radius: 24px;
+        }
+
+
+        // ---- For info tab
+        &#mat-tab-label-0-3 {
+          width: 60px !important;
+          min-width: 60px !important;
+          padding: 0 10px;
 
           mat-icon {
-            font-size: 2.0rem;
-            margin-right: 0;
-            width: auto;
-            height: auto;
-          }
-
-          mat-icon + span {
-            margin-left: 4px;
-          }
-
-          mat-chip {
-            display: none !important;
-          }
-
-          mat-chip-option {
-            margin-left: 6px;
-          }
-
-          .chip__circle {
-            @include center(both, inline);
-            font-weight: 600 !important;
-            white-space: nowrap;
-            text-align: center;
-            font-size: 1.2rem;
-            margin-left: 5px;
-            line-height: 100%;
-            height: 24px !important;
-            min-width: 24px !important;
-            border-radius: 24px;
-            padding: 0 !important;
-          }
-
-          .mdc-tab__text-label {
-            @include center(both);
-          }
-
-          // ---- For info tab
-          &#mat-tab-label-0-3 {
-            min-width: 60px !important;
-            width: 60px !important;
-            padding: 0 10px;
-
-            mat-icon {
-              margin: 0;
-            }
+            margin: 0;
           }
         }
       }
@@ -443,13 +441,15 @@
   }
 }
 
+
 // ---- status-info
 
 .status-info-container {
   height: 100%;
-  @include center(both);
-  margin-top: 30px;
   padding-bottom: 300px;
+  margin-top: 30px;
+
+  @include main.center(both);
 
   .empty-status h3 {
     font-size: 3rem;
@@ -457,8 +457,8 @@
   }
 
   h4 {
-    font-weight: bold;
     font-size: 2.2rem;
+    font-weight: bold;
   }
 }
 
@@ -468,7 +468,7 @@
 
 #workspace-owner-tab-container .status-info-container {
   width: 500px;
-  margin: 300px auto 0 auto;
+  margin: 300px auto 0;
 
   .success-status {
     position: relative;
@@ -479,41 +479,41 @@
 // ---- END (status-info)
 
 .tab-group-wrapper {
-  flex: 1;
-  overflow-y: auto;
   position: relative;
   display: flex;
+  flex: 1;
   flex-direction: column;
   width: 100%;
+  overflow-y: auto;
 
   .course-request-wrapper {
     position: absolute;
-    right: 10px;
     top: 10px;
+    right: 10px;
 
     button.course-request {
-      background: #fff;
       z-index: 1000;
       padding: 5px 15px 5px 20px;
+      color: main.$primary-color;
+      background: #fff;
       border-radius: 50px;
-      color: $primary-color;
 
-      &:before {
-        font-size: 1.8rem;
+      &::before {
         width: auto;
         height: auto;
         margin-right: 4px;
-        font-family: Material Icons, serif;
-        content: "\ebcc";
+        font-family: 'Material Icons', serif;
+        font-size: 1.8rem;
+        content: '\ebcc';
       }
 
-      &:after {
-        font-size: 1.4rem;
+      &::after {
         width: auto;
         height: auto;
         margin-left: 4px;
-        font-family: Material Icons, serif;
-        content: "\e89e";
+        font-family: 'Material Icons', serif;
+        font-size: 1.4rem;
+        content: '\e89e';
       }
     }
   }
@@ -528,7 +528,7 @@
 /* -------------------------------------- */
 /* Mobile */
 /* -------------------------------------- */
-@media screen and (max-width: 1250px) {
+@media screen and (width <= 1250px) {
 
   #workspace-owner-container {
     display: flex;
@@ -538,8 +538,8 @@
 
     .workspace-list-container,
     .tab-container {
-      flex: 1;
       display: flex;
+      flex: 1;
       flex-direction: column;
     }
 
@@ -557,8 +557,8 @@
     }
 
     .workspace-owner-tab-container {
-      flex: 1;
       display: flex;
+      flex: 1;
       flex-direction: column;
 
       .tab-group-wrapper {
@@ -575,9 +575,9 @@
     }
 
     .workspace-list-container {
-      max-width: 100%;
-      width: 100%;
       flex: 0 0 auto;
+      width: 100%;
+      max-width: 100%;
       height: auto;
       box-shadow: none !important;
     }
@@ -601,9 +601,9 @@
   .mobile-workspace-list {
     display: block !important;
     padding: 0;
-    background: #ffffff;
+    background: #fff;
 
-    box-shadow: 0 -2px 2px 0.5px rgba(0, 0, 50, 0.1) !important;
+    box-shadow: 0 -2px 2px 0.5px rgb(0, 0, 50, 0.1) !important;
 
     ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
       --mdc-filled-text-field-container-color: #f4ffdb !important;
@@ -615,10 +615,10 @@
     right: 0 !important;
 
     button.course-request {
-      background: $primary-color !important;
-      color: #ffffff !important;
       top: 0;
       right: 0;
+      color: #fff !important;
+      background: main.$primary-color !important;
     }
   }
 
@@ -627,7 +627,7 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (width <= 550px) {
   ::ng-deep.mat-mdc-tab {
     .tab-title {
       display: none;
@@ -646,40 +646,40 @@
 // ---- For Responsive layout Lifecycle-note
 .mobile-workspace-list,
 .workspace-selection {
-  .lifecycle-badge:after {
-    font-size: 1.2rem;
-    background: $gray-color;
-    color: #fff;
+  .lifecycle-badge::after {
     padding: 3px 10px;
     margin-left: 8px;
+    font-size: 1.2rem;
+    color: #fff;
+    background: main.$gray-color;
     border-radius: 20px;
   }
 
   .new-item {
-    &.lifecycle-badge:after {
-      content: "New";
-      background: $secondary-color;
+    &.lifecycle-badge::after {
+      content: 'New';
+      background: main.$secondary-color;
     }
   }
 
   .expiring-item {
-    &.lifecycle-badge:after {
-      content: "Expiring";
-      background: $primary-light-color;
+    &.lifecycle-badge::after {
+      content: 'Expiring';
+      background: main.$primary-light-color;
     }
   }
 
   .expiring-soon-item {
-    &.lifecycle-badge:after {
-      content: "Expiring soon";
-      background: $warn-dark-color;
+    &.lifecycle-badge::after {
+      content: 'Expiring soon';
+      background: main.$warn-dark-color;
     }
   }
 
   .expired-item {
-    &.lifecycle-badge:after {
-      content: "Expired";
-      background: $gray-dark-color;
+    &.lifecycle-badge::after {
+      content: 'Expired';
+      background: main.$gray-dark-color;
     }
   }
 }

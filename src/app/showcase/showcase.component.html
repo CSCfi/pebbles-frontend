@@ -1,0 +1,39 @@
+<div class="container">
+  <h1>showcase</h1>
+  <section>
+    <h2>Color system</h2>
+    <div class="sample">
+      <div [innerHTML]="colorEx" class="preview-area"></div>
+      <div class="code-area">
+        <pre>
+          <code [innerText]="colorEx"></code>
+          <button [cdkCopyToClipboard]="colorEx"
+                  autofocus
+                  cdkFocusInitial
+                  class="copy-btn"
+                  mat-icon-button>
+            <mat-icon fontSet="material-icons-outlined">content_copy</mat-icon>
+          </button>
+        </pre>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h2>Buttons</h2>
+    <div class="sample">
+      <div [innerHTML]="buttonEx" class="preview-area"></div>
+      <div class="code-area">
+        <pre>
+          <code [innerText]="buttonEx"></code>
+          <button [cdkCopyToClipboard]="buttonEx"
+                  autofocus
+                  cdkFocusInitial
+                  class="copy-btn"
+                  mat-icon-button>
+            <mat-icon fontSet="material-icons-outlined">content_copy</mat-icon>
+          </button>
+        </pre>
+      </div>
+    </div>
+  </section>
+</div>

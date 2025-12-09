@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .background-images {
   position: absolute;
@@ -9,40 +9,40 @@
 
   .app-welcome-background {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
   }
 }
 
 .welcome-content-wrapper {
   display: flex;
   gap: 30px;
-  justify-content: space-between;
   align-items: flex-start;
-  max-width: $content-max-width;
+  justify-content: space-between;
+  max-width: main.$content-max-width;
   margin: 20px auto;
 }
 
 app-service-announcement {
   ::ng-deep.service-announcement-item {
     margin-top: 10px !important;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
   }
 }
 
 .service-announcement {
   padding: 15px 30px;
   letter-spacing: 0.1rem;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgb(0, 0, 0, 0.25);
   border-radius: 5px;
 }
 
 .left-content-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  position: relative;
   max-width: 500px;
   padding-top: 50px;
 
@@ -55,17 +55,18 @@ app-service-announcement {
   #oauth-login-button {
     width: 100%;
     height: 60px;
-    color: #ffffff;
+    padding: 5px;
+    color: #fff;
     text-align: center;
     background-color: #00969a;
     border-radius: 3px;
-    padding: 5px;
   }
 
   #special-login-button {
     width: 100%;
-    @include headline-5;
-    @include center(both);
+
+    @include main.headline-5;
+    @include main.center(both);
   }
 }
 
@@ -75,9 +76,9 @@ app-service-announcement {
   .hero-video {
     video {
       width: 100%;
-      border: 1px solid map-get($app-primary, 600);
-      box-shadow: 5px 6px 5px rgba(20, 20, 75, .8);
+      border: 1px solid map-get(main.$app-primary, 600);
       border-radius: 12px;
+      box-shadow: 5px 6px 5px rgb(20, 20, 75, .8);
     }
   }
 }
@@ -85,15 +86,15 @@ app-service-announcement {
 
 // ----- Laptop
 
-@media (min-width: 600px) {
+@media (width >= 600px) {
   .welcome-content-wrapper {
     flex-direction: row;
-    //flex-wrap: wrap;
+    // flex-wrap: wrap;
     align-items: flex-start;
   }
 
   .login-wrapper {
-    //flex-basis: 30%;
+    // flex-basis: 30%;
     flex: 1;
   }
 
@@ -102,10 +103,10 @@ app-service-announcement {
     flex-basis: auto;
     max-width: 700px;
 
-    .hero-video{
+    .hero-video {
       height: inherit;
 
-      video{
+      video {
         height: inherit;
       }
     }
@@ -118,7 +119,7 @@ app-service-announcement {
 
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
   .welcome-content-wrapper {
     flex-direction: column;
   }

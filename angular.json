@@ -30,8 +30,8 @@
               "src/assets/favicon.png",
               "src/assets"
             ],
+            "inlineStyleLanguage": "scss",
             "styles": [
-              "./node_modules/destyle.css/destyle.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -42,11 +42,10 @@
             "browser": "src/main.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "."
+                "src/styles"
               ],
               "sass": {
                 "silenceDeprecations": [
-                  "import",
                   "global-builtin"
                 ]
               }
@@ -139,11 +138,16 @@
                 "with": "src/environments/environment.mock.ts"
               }
             ],
+            "inlineStyleLanguage": "scss",
             "styles": [
-              "./node_modules/destyle.css/destyle.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            }
           }
         },
         "e2e": {

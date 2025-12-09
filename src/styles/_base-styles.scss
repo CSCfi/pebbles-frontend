@@ -1,0 +1,282 @@
+$tablet-width: 1024px;
+$mobile-width: 599px;
+
+:root {
+  --header-height: 80px;
+  --header-height-s: 50px;
+  --container-width: 1250px;
+  --contents-height: calc(100vh - var(--header-height));
+  --contents-height-s: calc(100vh - var(--header-height-s));
+  --mdc-checkbox-state-layer-size: 30px;
+  --mat-card-title-text-size: 18px;
+  --mat-expansion-container-shape: 3px;
+  --mdc-checkbox-selected-icon-color: var(--acc-clr-2);
+}
+
+.mat-expansion-panel {
+  border: 1px solid var(--neut-clr-2);
+  box-shadow: 1px 1px var(--neut-clr-3) !important;
+}
+
+@mixin styled-font {
+  font-family: Quicksand, sans-serif !important;
+  font-style: normal;
+  font-optical-sizing: auto;
+  line-height: 140%;
+}
+
+@mixin common-font {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 160%;
+}
+
+@mixin headline-1 {
+  @include styled-font;
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+@mixin headline-2 {
+  @include styled-font;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+@mixin headline-3 {
+  @include styled-font;
+  font-size: 2.4rem !important;
+  font-weight: 600;
+}
+
+@mixin headline-4 {
+  @include styled-font;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+@mixin headline-5 {
+  @include common-font;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+@mixin headline-6 {
+  @include common-font;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+h1 {
+  @include headline-1;
+}
+
+h2 {
+  @include headline-2;
+}
+
+h3 {
+  @include headline-3;
+}
+
+h4 {
+  @include headline-4;
+}
+
+h5 {
+  @include headline-5;
+
+  mat-icon {
+    width: 20px;
+    height: 16px;
+    font-size: 1.6rem;
+  }
+}
+
+h6 {
+  @include headline-6;
+
+  mat-icon {
+    width: 16px;
+    height: 14px;
+    font-size: 1.4rem;
+  }
+}
+
+@mixin icon(
+  $icon: apartments, $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: 8px) {
+  display: flex;
+  gap: $gap;
+
+  $font-family: 'Material Icons Outlined';
+
+  @if $family == 'Filled' {
+    $font-family: 'Material Icons';
+  }
+
+  @if $pos == left {
+    &::before {
+      flex: 0 0 22px;
+      width: 24px;
+      height: auto;
+      font-family: $font-family, sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      line-height: 1;
+      color: $color;
+      content: '#{$icon}';
+    }
+  }
+
+  @if $pos == right {
+    &::after {
+      width: auto;
+      height: auto;
+      margin-left: 8px;
+      font-family: $font-family, sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      color: $color;
+      content: '#{$icon}';
+    }
+  }
+
+  @if $pos == up {
+    &::before {
+      display: block;
+      width: 90px !important;
+      height: auto !important;
+      margin: 0;
+      font-family: $font-family, sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      line-height: 1;
+      vertical-align: middle;
+      color: $color;
+      content: '#{$icon}';
+    }
+  }
+}
+
+@mixin grid-list($fractions:'auto auto', $gap: 20px, $font-size: 1.3rem) {
+  dl.grid {
+    display: grid;
+    grid-template-columns: #{$fractions};
+    gap: $gap;
+    align-items: start;
+    font-size: $font-size;
+
+    dt {
+      grid-column: 1;
+      font-weight: 600;
+    }
+
+    dd {
+      grid-column: 2;
+      margin: 0;
+    }
+
+    ul.grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: $gap;
+    }
+  }
+
+  @media (max-width: #{$tablet-width}) {
+    dl.grid {
+      display: block !important;
+      margin: 5px;
+      line-height: 160%;
+
+      dt {
+        display: block;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        border-bottom: 1px var(--gray-clr-2) solid;
+      }
+
+      dt:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+
+  @media (max-width: #{$mobile-width}) {
+    ul.grid {
+      display: block !important;
+      line-height: 160%;
+
+      li {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+// -------------------- Element centering
+/// Centering elements using Flexbox
+/// $pos - Direction: x (horizontal), y (vertical), xy(both)
+/// $inline - Use inline-flex if true
+// --- Usage ---
+// .item { @include centering(x); }  // Horizontal only
+// .item { @include centering(y); }  // Vertical only
+// .item { @include centering(xy); } // Both axes
+
+@mixin centering($pos: xy, $inline: false) {
+  display: if($inline, inline-flex, flex);
+
+  // Vertical center (Y-axis)
+  @if $pos == y or $pos == xy {
+    align-items: center;
+  }
+
+  // Horizontal center (X-axis)
+  @if $pos == x or $pos == xy {
+    justify-content: center;
+  }
+}
+
+.centering {
+  &__x {
+    @include centering(x);
+  }
+
+  &__vi {
+    @include centering(x, true);
+  }
+
+  &__y {
+    @include centering(y);
+  }
+
+  &__yi {
+    @include centering(y, true);
+  }
+
+  &__xy {
+    @include centering(xy);
+  }
+
+  &__xyi {
+    @include centering(xy, true);
+  }
+}
+
+
+.mat-mdc-tab-group {
+  width: 100%;
+  max-width: var(--container-width);
+  min-height: calc(100vh - 50px - var(--header-height));
+  margin: 0 auto;
+
+  .mat-expansion-panel {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+

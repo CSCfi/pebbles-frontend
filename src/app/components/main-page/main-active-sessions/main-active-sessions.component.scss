@@ -1,183 +1,169 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
+@use 'utilities' as util;
+@use 'base-styles' as base;
+@use 'ui-elements' as ui;
+@use 'theme' as theme;
+@include ui.page-elm;
+@include ui.header-elm;
+@include ui.content-elm($type: stretch, $gap: 40px);
+@include ui.status-block;
+@include ui.terminal;
 
-.content-header-container {
-  .reload-button {
-    height: 48px;
+.dashboard {
+  @include util.flex-row-block;
 
-    .mat-icon {
-      margin: 0;
-      font-size: 24px !important;
-      height: 24px !important;
-      width: 24px !important;
+  .sessions {
+    @include util.flex-row-block($type: start, $gap: 10px);
+
+    .panel {
+      @include base.centering(y);
+    }
+
+    .total-sessions {
+      @include base.headline-4;
+    }
+
+    .mat-mdc-card {
+      padding: 10px 20px;
+
+      border-left: var(--prim-clr-5) solid 6px;
+      box-shadow: none;
+
+      .mat-mdc-card-content {
+        @include util.flex-row-block($type: center, $gap: 15px);
+
+        padding-bottom: 0 !important;
+      }
+
+      @include util.flex-row-block;
+
+      .states {
+        @include util.flex-row-block($type: center, $gap: 10px);
+
+        margin-top: 4px;
+
+        li {
+          @include base.headline-6;
+          // ---- Starting
+          &:first-child {
+            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--sec-clr-3), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+
+          // ---- Running
+          &:nth-child(2) {
+            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--prim-clr-5), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+
+          // ---- Deleting
+          &:nth-child(3) {
+            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--acc-clr-2), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+
+          // ---- Error
+          &:last-child {
+            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--warn-clr-4), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+        }
+      }
     }
   }
 }
 
-.content-container {
-  padding: 10px;
+.delete-session-btn {
+  @include ui.button($role: 'warn', $icon: power_settings_new, $style: 'stroked');
+}
 
-  .action-row {
-    display: flex;
+.table-container {
+  @include ui.table;
 
-    .total-sessions {
-      margin-left: 50px;
-    }
+  .mat-column-isSelected {
+    @include ui.table-width-fix($width: 40px);
+
+    padding-left: 10px !important;
   }
 
-  .mat-mdc-table {
-    width: 100%;
-    margin: auto;
-
-    th, td {
-      &.center {
-        text-align: center;
-      }
-
-      &.icon-cell,
-      &.square-cell {
-        width: 50px;
-        padding: 0 !important;
-        text-align: center;
-        vertical-align: middle;
-      }
-
-      .mat-mdc-radio-label {
-        width: 20px;
-      }
-    }
-
-    .mat-mdc-header-row {
-      height: 20px;
-      background: map-get($app-gray, 100);
-      text-transform: capitalize;
-
-      th {
-        padding: 5px 15px !important;
-        vertical-align: middle;
-        border: 1px solid map-get($app-gray, 200);
-        line-height: 140%;
-      }
-
-      th.mat-sort-header {
-        color: map-get($app-primary, default);
-        font-weight: bold;
-      }
-    }
-
-    td {
-      padding: 5px 15px !important;
-      border: 1px solid map-get($app-gray, 200);
-      vertical-align: middle;
-
-      li {
-        line-height: 150%;
-        margin-bottom: 5px;
-      }
-    }
-
-    ::ng-deep .mat-sort-header-arrow {
-      transform: rotate(180deg) !important;
-    }
-
-    ::ng-deep .mat-sort-header-sorted .mat-sort-header-arrow {
-      color: map-get($app-primary, default);
-      opacity: 1 !important;
-    }
+  .mat-column-sessionName,
+  .mat-column-username {
+    @include ui.table-width-fix($width: 180px, $align: left);
   }
 
-  #active-session-details-container {
-    display: grid;
-    grid-template-areas:
-      'header'
-      'content';
-    gap: 20px;
-    grid-template-rows: 30px auto;
+  .mat-column-applicationName {
+    @include ui.table-width-fix($width: 270px, $align: left);
+  }
 
-    .back-button {
-      grid-area: header;
 
-      button {
-        text-decoration: underline;
-        padding: 0;
-        border-style: none;
-        background: transparent !important;
-      }
-    }
+  .mat-column-sessionDetails {
+    @include ui.table-width-fix($width: 50px);
+  }
 
-    .content {
-      grid-area: content;
-      display: grid;
-      grid-gap: 20px 20px;
-      grid-template-areas:
-        'info-box event-box'
-        'log-box log-box';
-      grid-template-rows: 230px auto;
+  .mat-column-sessionLink {
+    @include ui.table-width-fix($width: 50px);
+  }
 
-      .info-box {
-        grid-area: info-box;
+  .mat-column-startUpTime,
+  .mat-column-lifetimeLeft {
+    @include ui.table-width-fix($width: 60px);
+  }
 
-        dl {
-          grid-gap: 0px 20px;
+  .mat-column-state {
+    @include ui.table-width-fix($width: 35px, $align: left, $vertical-align: middle);
 
-          dt {
-            margin-bottom: 0.8rem !important;
-          }
+    mat-icon {
+      width: auto;
+      height: auto;
+      margin-top: 5px;
+      margin-left: 5px;
+      font-size: 20px;
 
-          dd {
-            margin-bottom: 0.8rem !important;
-          }
-        }
-
-        dl.grid {
-          display: grid;
-          grid-template-columns: auto 1fr;
-          grid-gap: 5px;
-
-          dt {
-            grid-column-start: 1;
-          }
-
-          dd {
-            grid-column-start: 2;
-          }
-        }
-
-        .mat-headline-6 {
-          border-bottom: 1px solid #c7c7c7;
-        }
+      &.starting {
+        color: var(--sec-clr-3);
       }
 
-      .event-box {
-        grid-area: event-box;
-
-        dl {
-          grid-gap: 0px 20px;
-        }
-
-        .mat-headline-6 {
-          border-bottom: 1px solid #c7c7c7;
-        }
+      &.running {
+        color: var(--prim-clr-5);
       }
 
-      .log-box {
-        grid-area: log-box;
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: auto;
-        grid-template-rows: 20px auto 50px;
-        gap: 10px;
-        margin-top: 40px;
+      &.deleting {
+        color: var(--acc-clr-2);
+      }
 
-        .terminal {
-          max-height: calc(100vh - 480px);
-          //border: solid #fff 3px;
-          overflow: auto;
-          padding: 20px 30px;
-          background: #000;
-          color: #00EAC3;
-          border-radius: 5px;
-        }
+      &.error {
+        color: var(--warn-clr-5);
       }
     }
   }
+}
+
+.active-session-details {
+
+  .back-btn {
+    @include ui.button($role: 'sec', $icon: chevron_left, $style: 'Filled');
+    width: 300px;
+  }
+
+  h3 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--gray-clr-3);
+  }
+
+  .info-box dl {
+    font-size: 1.3rem;
+
+    @include base.grid-list($fractions: '150px auto', $gap: 1px 4px);
+  }
+
+  .event-box dl {
+    font-size: 1.3rem;
+
+    @include base.grid-list($fractions: '150px auto', $gap: 1px 4px);
+  }
+
+  section {
+    flex: 0 1 auto !important;
+  }
+
 }

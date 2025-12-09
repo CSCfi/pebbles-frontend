@@ -1,4 +1,5 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
+@use 'base-styles' as base;
 
 .mat-sidenav-container {
   min-height: 100vh;
@@ -6,21 +7,22 @@
   overflow: hidden !important;
 
   mat-sidenav {
+    width: main.$main-navigation-width;
     height: inherit;
-    width: $main-navigation-width;
-    @include primary-main-background;
+
+    @include main.primary-main-background;
 
     &.minimize {
-      width: $main-navigation-minimized-width !important;
+      width: main.$main-navigation-minimized-width !important;
     }
   }
 
   .mat-sidenav-content {
-    margin-left: $main-navigation-width !important;
     min-height: 100vh;
+    margin-left: main.$main-navigation-width !important;
 
     &.expanded {
-      margin-left: $main-navigation-minimized-width !important;
+      margin-left: main.$main-navigation-minimized-width !important;
     }
   }
 }
@@ -33,32 +35,27 @@
 }
 
 .main-page-wrapper {
-  @include light-gray-background;
-  min-height: inherit;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  height: 100vh;
+  min-height: 100vh;
 }
 
-// ----- Laptop
-
-@media (min-width: 600px) {
-
-}
 
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
 
   .mat-sidenav-container {
-    min-height: auto !important;
     height: auto !important;
+    min-height: auto !important;
 
     .mat-sidenav {
       overflow: auto;
       background: none;
 
-      &.minimize{
+      &.minimize {
         width: 100% !important;
       }
     }
@@ -71,5 +68,11 @@
 
   .sidebar {
     height: auto;
+  }
+}
+
+@media (max-width: base.$tablet-width) {
+  .mat-sidenav {
+    display: none;
   }
 }

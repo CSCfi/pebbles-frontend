@@ -1,4 +1,4 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
 
 .dialog-container {
   height: 100%;
@@ -12,21 +12,22 @@
       margin-bottom: 20px;
     }
   }
+
   .mat-mdc-select {
-    background-color: rgba(0, 0, 0, 0.04);
     padding: 10px;
+    background-color: rgb(0, 0, 0, 0.04);
+    border-bottom: 1px solid map-get(main.$app-gray, light);
     border-radius: 4px 4px 0 0;
-    border-bottom: 1px solid map-get($app-gray, light);
   }
 
   .dialog-actions {
-    margin: 20px 0 !important;
     display: flex;
     flex-direction: row;
     gap: 10px;
+    margin: 20px 0 !important;
 
     .select-workspace-btn {
-      @include primary-main-background;
+      @include main.primary-main-background;
       flex: 3 0 auto;
     }
 

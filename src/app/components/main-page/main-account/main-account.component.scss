@@ -1,47 +1,37 @@
-@import "src/styles/main.scss";
+@use 'main' as main;
+@use 'base-styles' as base;
+@use 'ui-elements' as ui;
+@include ui.page-elm;
+@include ui.header-elm;
+@include ui.content-elm;
 
-.content-container {
-  position: relative;
-  padding: 15px 40px;
-  min-height: calc(100vh - 80px);
-  background: map-get($app-primary, 100);
+.request-account-deletion-btn {
+  @include ui.button($role: 'warn', $style: 'stroked', $icon: 'delete', $width: '100%');
+}
 
-  .info-body {
-    padding: 20px 20px;
-    background: white;
-    border: 2px solid map-get($app-primary, 300);
-    border-radius: 3px !important;
+.initialize-desktop-notifications-btn {
+  @include ui.button($role: 'sec', $icon: 'notifications', $width: '100%');
+}
 
-    dd {
-      margin-bottom: 10px;
-    }
-
-    #initialize-desktop-notifications-btn {
-      margin-top: 10px;
-      display: flex;
-    }
-
-    .dl-section {
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top-style: groove;
-      border-top-width: thin;
-    }
-
-    #request-account-deletion-btn {
-      margin-top: 10px;
-      display: flex;
-      background-color: $warn-color !important;
-    }
+.desktop-notifications {
+  &-granted {
+    @include ui.deco-text($color: var(--sec-clr-7), $icon: 'notifications_active',
+    $highlight: var(--sec-clr-0), $text-align: center);
   }
 
-  a {
-    color: $primary-dark-color;
-    text-decoration: underline dotted;
+  &-blocked,
+  &-unsupported {
+    @include ui.deco-text($color: var(--warn-clr-5), $icon: 'notification_important');
+  }
 
-    &:hover {
-      color: $primary-color;
-      text-decoration: underline;
-    }
+  &-asking {
+    @include ui.deco-text($color: var(--sec-clr-5), $icon: 'local_cafe');
   }
 }
+
+.info-body {
+  @include base.grid-list('140px auto');
+}
+
+
+
