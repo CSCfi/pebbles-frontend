@@ -21,11 +21,11 @@
 }
 
 #left-cube-0 {
-  width: 250px;
-  left: -410px;
   top: 400px;
-  opacity: 0.7;
+  left: -410px;
   z-index: 3000;
+  width: 250px;
+  opacity: 0.7;
 
   svg {
     width: 210px;
@@ -34,17 +34,17 @@
 }
 
 #right-cube-1 {
+  top: 550px;
+  left: 450px;
   width: 350px;
   height: 350px;
-  left: 450px;
-  top: 550px;
   opacity: 0.8;
 }
 
 #mini-cube-2 {
-  width: 100px;
-  left: -610px;
   top: 350px;
+  left: -610px;
+  width: 100px;
   opacity: 0.5;
 
   svg {
@@ -54,9 +54,9 @@
 }
 
 #mini-cube-3 {
-  width: 100px;
-  left: 200px;
   top: -90px;
+  left: 200px;
+  width: 100px;
   opacity: 0.5;
 
   svg {
@@ -74,8 +74,8 @@
 }
 
 .cube-blue {
-  --mainColor: rgba(131, 216, 255, 0.4);
-  --strokeColor: rgba(131, 216, 255, 0.4);
+  --mainColor: rgb(131, 216, 255, 0.4);
+  --strokeColor: rgb(131, 216, 255, 0.4);
   --lightColor: #008bc7;
   --darkColor: #18227C;
 }
@@ -92,28 +92,29 @@
   --lightColor: #00EAC3;
   --darkColor: #006778;
 }
+
 @keyframes static {
   100% {
-    translate: 0px 0px;
+    translate: 0 0;
   }
 }
 
 @keyframes wiggle {
   0% {
     rotate: 0deg;
-    translate: 0px 0px;
+    translate: 0 0;
   }
   12% {
     translate: 8px -2px;
   }
   25% {
-    translate: 10px 0px;
+    translate: 10px 0;
   }
   38% {
     translate: 8px -2px;
   }
   50% {
-    translate: 0px 0px;
+    translate: 0 0;
   }
   62% {
     translate: -8px 2px;
@@ -125,7 +126,7 @@
     translate: -8px 2px;
   }
   100% {
-    translate: 0px 0px;
+    translate: 0 0;
   }
 }
 
@@ -178,7 +179,7 @@
 }
 
 #left-cube-0:hover * {
-  animation-play-state: running;
   animation-name: wiggle;
+  animation-play-state: running;
 }
 

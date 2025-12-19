@@ -1,13 +1,13 @@
- @use "main" as main;
+@use "main" as main;
 
 .content-container {
   position: relative;
-  padding: 15px 40px;
   min-height: calc(100vh - 80px);
+  padding: 15px 40px;
   background: map-get(main.$app-primary, 100);
 
   .info-body {
-    padding: 20px 20px;
+    padding: 20px;
     background: white;
     border: 2px solid map-get(main.$app-primary, 300);
     border-radius: 3px !important;
@@ -17,20 +17,20 @@
     }
 
     #initialize-desktop-notifications-btn {
-      margin-top: 10px;
       display: flex;
+      margin-top: 10px;
     }
 
     .dl-section {
-      margin-top: 30px;
       padding-top: 30px;
+      margin-top: 30px;
       border-top-style: groove;
       border-top-width: thin;
     }
 
     #request-account-deletion-btn {
-      margin-top: 10px;
       display: flex;
+      margin-top: 10px;
       background-color: main.$warn-color !important;
     }
   }

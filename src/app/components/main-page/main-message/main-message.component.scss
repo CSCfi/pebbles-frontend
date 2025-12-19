@@ -1,4 +1,4 @@
- @use "main" as main;
+@use "main" as main;
 
 #mark-all-read-btn {
   display: flex;
@@ -7,8 +7,8 @@
 
 .content-container {
   position: relative;
-  padding: 15px 40px;
   min-height: calc(100vh - 80px);
+  padding: 15px 40px;
   background: map-get(main.$app-primary, 100);
 
   .messages-list {
@@ -19,21 +19,21 @@
       .message {
         position: relative;
         padding: 15px 20px 25px;
+        margin-bottom: 10px;
         background: #fff;
         border: 2px solid map-get(main.$app-primary, 300);
         border-radius: 3px;
-        margin-bottom: 10px;
 
         .title {
-          border-bottom: 1px solid #ccc;
-          padding: 7px 5px 2px 5px;
+          padding: 7px 5px 2px;
           font-weight: bold;
+          border-bottom: 1px solid #ccc;
         }
 
         .date {
           position: absolute;
-          right: 0;
           top: 0;
+          right: 0;
           padding: 5px 10px;
           background: map-get(main.$app-primary, 300);
         }
@@ -45,15 +45,15 @@
         }
 
         &.unread {
-          .title:before {
-            content: "Unread";
+          .title::before {
             position: relative;
             top: -2px;
-            font-size: 1.1rem;
-            background: map-get(main.$app-warn, light);
             padding: 2px 8px;
-            margin-left: -5px;
             margin-right: 5px;
+            margin-left: -5px;
+            font-size: 1.1rem;
+            content: "Unread";
+            background: map-get(main.$app-warn, light);
             border-radius: 8px;
           }
 

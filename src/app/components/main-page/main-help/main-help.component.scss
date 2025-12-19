@@ -1,13 +1,13 @@
- @use "main" as main;
+@use "main" as main;
 
 .content-header-container {
   grid-template-columns: auto;
-  grid-column-gap: 20px;
+  column-gap: 20px;
 }
 
 #help-page {
 
-  padding: 0 30px 50px 30px;
+  padding: 0 30px 50px;
 
   .mobile-nav {
     display: none;
@@ -22,18 +22,18 @@
 
   ::ng-deep .mat-mdc-tab-header {
     display: flex !important;
-    border-bottom: none !important;
     margin-top: 30px;
+    border-bottom: none !important;
   }
 
   ::ng-deep .mdc-tab {
-    background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 5px;
-    margin-right: 10px;
+    align-items: center;
     min-width: 200px;
     min-height: 75px;
-    align-items: center;
+    margin-right: 10px;
+    background: #fff;
+    border: 1px solid rgb(0, 0, 0, 0.12);
+    border-radius: 5px;
 
     .mdc-tab__content .mdc-tab__text-label {
       .tab-icon {
@@ -60,7 +60,7 @@
   }
 
   .info-body {
-    padding: 20px 20px;
+    padding: 20px;
     background: white;
     border: 2px solid map-get(main.$app-primary, 300);
     border-radius: 3px !important;
@@ -88,15 +88,15 @@
   }
 
   .balloon {
-    text-align: center;
     position: relative;
-    padding: 30px 50px 20px;
     max-width: 600px;
     height: auto;
+    padding: 30px 50px 20px;
+    margin: 30px auto;
     overflow: unset;
-    margin: 30px auto 30px auto;
-    border-radius: 200px;
+    text-align: center;
     background: #fff;
+    border-radius: 200px;
 
     li {
       font-size-adjust: 0.4;
@@ -104,36 +104,36 @@
     }
   }
 
-  .balloon:before {
-    display: block;
-    content: '';
+  .balloon::before {
     position: absolute;
     bottom: -20px;
     left: 55%;
+    display: block;
     width: 0;
     height: 0;
-    border-style: solid;
-    border-width: 0 20px 20px 20px;
+    content: '';
     border-color: transparent transparent transparent #fff;
+    border-style: solid;
+    border-width: 0 20px 20px;
   }
 
   .contact-info {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 36px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 
     .icon-96 {
-      font-size: 96px;
-      height: 96px;
       width: 96px;
+      height: 96px;
+      font-size: 96px;
     }
 
     .email {
-      margin: 10px;
       display: flex;
       flex-direction: row;
       justify-content: center;
+      margin: 10px;
 
       dt {
         padding-right: 36px;

@@ -23,6 +23,10 @@
       "^.*$",
       {}
     ],
+    "custom-property-pattern": [
+      "^.*$",
+      {}
+    ],
     "keyframes-name-pattern": null,
     "scss/no-global-function-names": null,
     "scss/at-import-partial-extension": null,

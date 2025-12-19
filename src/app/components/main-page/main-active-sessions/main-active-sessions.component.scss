@@ -1,14 +1,14 @@
- @use "main" as main;
+@use "main" as main;
 
 .content-header-container {
   .reload-button {
     height: 48px;
 
     .mat-icon {
+      width: 24px !important;
+      height: 24px !important;
       margin: 0;
       font-size: 24px !important;
-      height: 24px !important;
-      width: 24px !important;
     }
   }
 }
@@ -37,8 +37,8 @@
       &.square-cell {
         width: 50px;
         padding: 0 !important;
-        text-align: center;
         vertical-align: middle;
+        text-align: center;
       }
 
       .mat-mdc-radio-label {
@@ -48,30 +48,30 @@
 
     .mat-mdc-header-row {
       height: 20px;
-      background: map-get(main.$app-gray, 100);
       text-transform: capitalize;
+      background: map-get(main.$app-gray, 100);
 
       th {
         padding: 5px 15px !important;
+        line-height: 140%;
         vertical-align: middle;
         border: 1px solid map-get(main.$app-gray, 200);
-        line-height: 140%;
       }
 
       th.mat-sort-header {
-        color: map-get(main.$app-primary, default);
         font-weight: bold;
+        color: map-get(main.$app-primary, default);
       }
     }
 
     td {
       padding: 5px 15px !important;
-      border: 1px solid map-get(main.$app-gray, 200);
       vertical-align: middle;
+      border: 1px solid map-get(main.$app-gray, 200);
 
       li {
-        line-height: 150%;
         margin-bottom: 5px;
+        line-height: 150%;
       }
     }
 
@@ -90,34 +90,34 @@
     grid-template-areas:
       'header'
       'content';
-    gap: 20px;
     grid-template-rows: 30px auto;
+    gap: 20px;
 
     .back-button {
       grid-area: header;
 
       button {
-        text-decoration: underline;
         padding: 0;
-        border-style: none;
+        text-decoration: underline;
         background: transparent !important;
+        border-style: none;
       }
     }
 
     .content {
-      grid-area: content;
       display: grid;
-      grid-gap: 20px 20px;
+      grid-area: content;
       grid-template-areas:
         'info-box event-box'
         'log-box log-box';
       grid-template-rows: 230px auto;
+      gap: 20px;
 
       .info-box {
         grid-area: info-box;
 
         dl {
-          grid-gap: 0 20px;
+          gap: 0 20px;
 
           dt {
             margin-bottom: 0.8rem !important;
@@ -131,7 +131,7 @@
         dl.grid {
           display: grid;
           grid-template-columns: auto 1fr;
-          grid-gap: 5px;
+          gap: 5px;
 
           dt {
             grid-column-start: 1;
@@ -151,7 +151,7 @@
         grid-area: event-box;
 
         dl {
-          grid-gap: 0 20px;
+          gap: 0 20px;
         }
 
         .mat-headline-6 {
@@ -160,21 +160,21 @@
       }
 
       .log-box {
-        grid-area: log-box;
-        overflow: hidden;
         display: grid;
-        grid-template-columns: auto;
+        grid-area: log-box;
         grid-template-rows: 20px auto 50px;
+        grid-template-columns: auto;
         gap: 10px;
         margin-top: 40px;
+        overflow: hidden;
 
         .terminal {
           max-height: calc(100vh - 480px);
-          //border: solid #fff 3px;
-          overflow: auto;
           padding: 20px 30px;
-          background: #000;
+          // border: solid #fff 3px;
+          overflow: auto;
           color: #00EAC3;
+          background: #000;
           border-radius: 5px;
         }
       }

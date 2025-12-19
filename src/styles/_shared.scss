@@ -2,51 +2,53 @@
 
 html {
   height: 100%;
+
   @include main.common-font;
   font-size: 62.5%;
-  color: rgba(17, 17, 17, 0.87);
+  color: rgb(17, 17, 17, 0.87);
 }
 
 body {
-  margin: 0;
   height: 100%;
+  margin: 0;
   font-size: 1.5rem;
   line-height: 160%;
 }
 
 .bg__dark {
-  color: #ffffffff;
+  color: #ffff;
   background-color: #18227cff;
 }
 
 .bg__light {
-  background: #b6beff;
   color: #18227c;
+  background: #b6beff;
 }
 
 button,
 .button {
-  border-radius: 5px;
-  cursor: pointer;
   padding: 10px 20px;
-  background: main.$light-color;
-  color: main.$dark-text-color;
-  @include main.styled-font;
-  font-weight: 600 !important;
   font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: main.$dark-text-color;
   letter-spacing: normal !important;
   white-space: normal;
-  //border: 1px solid main.$light-line !important;
+  cursor: pointer;
+  background: main.$light-color;
+  border-radius: 5px;
+
+  @include main.styled-font;
+  // border: 1px solid main.$light-line !important;
 
   &:disabled,
   &.mat-mdc-button-disabled {
-    background-color: map-get(main.$app-gray, 100) !important;
     color: main.$dark-text-color;
+    background-color: map-get(main.$app-gray, 100) !important;
   }
 
   &.primary-btn {
-    background-color: main.$primary-color !important;
     color: main.$light-text-color !important;
+    background-color: main.$primary-color !important;
 
     .mat-icon {
       color: main.$light-text-color !important;
@@ -58,8 +60,8 @@ button,
 
     &:disabled,
     &.mat-mdc-button-disabled {
-      background-color: map-get(main.$app-gray, 100) !important;
       color: main.$gray-text-color !important;
+      background-color: map-get(main.$app-gray, 100) !important;
       border: 1px solid var(--mdc-outlined-button-disabled-outline-color);
 
       mat-icon {
@@ -69,8 +71,8 @@ button,
   }
 
   &.secondary-btn:not(:disabled) {
-    background-color: main.$secondary-color !important;
     color: main.$light-text-color !important;
+    background-color: main.$secondary-color !important;
 
     &:hover:not(:disabled) {
       color: main.$accent-color !important;
@@ -78,8 +80,8 @@ button,
   }
 
   &.light-btn:not(:disabled) {
-    background-color: main.$light-color !important;
     color: main.$gray-extra-dark-color !important;
+    background-color: main.$light-color !important;
 
     &:hover {
       color: main.$secondary-color !important;
@@ -93,8 +95,8 @@ button,
 
 .error-status {
   margin: 20px auto 0;
-  color: main.$warn-dark-color;
   font-weight: bold;
+  color: main.$warn-dark-color;
 }
 
 h1 {
@@ -118,9 +120,15 @@ h5 {
 }
 
 @keyframes shake-vertical {
-  0%, 100% { transform: translateY(0); }
-  20%, 60%  { transform: translateX(-2px); }
-  40%, 80%  { transform: translateX(2px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  20%, 60% {
+    transform: translateX(-2px);
+  }
+  40%, 80% {
+    transform: translateX(2px);
+  }
 }
 
 .shake-vertical {
@@ -128,24 +136,24 @@ h5 {
 }
 
 .chips {
-  margin: 7px 0 7px 0;
+  margin: 7px 0;
 
   .chip {
     padding: 2px 10px 3px;
     margin-right: 5px;
+    font-size: 1.1rem;
     line-height: 1;
+    color: main.$dark-text-color;
     letter-spacing: 1px;
     text-decoration: none;
-    color: main.$dark-text-color;
     background-color: main.$gray-extra-light-color;
-    //border: 1px solid main.$gray-light-color;
+    // border: 1px solid main.$gray-light-color;
     border-radius: 2em;
-    font-size: 1.1rem;
 
     .mdc-evolution-chip {
       &__cell--trailing {
-        margin-left: 3px;
         margin-top: 1px;
+        margin-left: 3px;
       }
 
       &__text-label {
@@ -161,20 +169,20 @@ h5 {
 
 .chip__password {
   @include main.center(both, inline);
-  color: main.$light-color;
-  background-color: main.$primary-light-color !important;
-  margin-right: 3px;
-  letter-spacing: 1px;
   height: 24px;
-  border-radius: 24px;
   padding: 1px 0 2px !important;
+  margin-right: 3px;
+  color: main.$light-color;
+  letter-spacing: 1px;
+  background-color: main.$primary-light-color !important;
+  border-radius: 24px;
 
-  &:before {
+  &::before {
     margin-top: 2px;
+    font-family: "Material Icons", serif;
     font-size: 1rem;
-    font-family: Material Icons, serif;
-    content: "\e061\e061\e061\e061\e061\e061";
     white-space: nowrap;
+    content: "\e061\e061\e061\e061\e061\e061";
   }
 }
 
@@ -192,9 +200,9 @@ h5 {
 }
 
 .dialog-clipboard {
-  border-radius: 3px;
   margin-top: 20px;
   font-size: 2.0rem;
+  border-radius: 3px;
 
   mat-icon {
     color: main.$light-color;
@@ -218,17 +226,17 @@ mat-dialog-container {
 
     button {
       position: absolute;
-      right: 4px;
       top: 4px;
+      right: 4px;
       z-index: 1000;
       background: none !important;
 
       mat-icon {
         @include main.center(both);
-        color: main.$dark-text-color;
-        font-size: 1.8rem;
         width: 18px;
         height: 18px;
+        font-size: 1.8rem;
+        color: main.$dark-text-color;
       }
     }
   }
@@ -258,14 +266,14 @@ mat-dialog-container {
   }
 
   form button {
-    font-size: 1.6rem !important;
     min-height: 40px;
+    font-size: 1.6rem !important;
 
     .mat-icon {
-      color: main.$light-text-color !important;
-      font-size: 2.4rem !important;
       width: 24px !important;
       height: 24px !important;
+      font-size: 2.4rem !important;
+      color: main.$light-text-color !important;
     }
   }
 
@@ -277,13 +285,13 @@ mat-dialog-container {
 .max-quota-warning {
   @include main.warn-light-background;
   @include main.headline-5;
-  border-radius: 5px;
   padding: 15px 20px;
+  border-radius: 5px;
 }
 
 .page-container {
-  flex-grow: 1;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: stretch;
   height: 100vh;
@@ -291,18 +299,17 @@ mat-dialog-container {
   overflow: hidden;
 
   .content-header-container {
-    flex: 0 0 80px;
 
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex: 0 0 80px;
+    flex-flow: row wrap;
     gap: 20px;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
 
     padding: 0 50px;
     background: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0, rgba(0, 0, 0, 0.06) 0 1px 2px 0;
+    box-shadow: rgb(0, 0, 0, 0.1) 0 1px 3px 0, rgb(0, 0, 0, 0.06) 0 1px 2px 0;
 
     app-main-content-header {
       flex-grow: 1;
@@ -312,9 +319,9 @@ mat-dialog-container {
       flex-basis: auto;
 
       mat-icon {
-        font-size: 1.6rem !important;
-        height: 1.6rem !important;
         width: 1.6rem !important;
+        height: 1.6rem !important;
+        font-size: 1.6rem !important;
       }
     }
 
@@ -330,33 +337,34 @@ mat-dialog-container {
 }
 
 .status-info-container {
-  text-align: center;
-  margin-top: 10%;
   padding-bottom: 30px;
+  margin-top: 10%;
   color: main.$gray-extra-dark-color;
+  text-align: center;
 
   .success-status .mat-icon,
   .empty-status .mat-icon {
-    margin: 10px 0;
-    height: auto;
     width: auto;
+    height: auto;
+    margin: 10px 0;
     font-size: 6rem;
   }
 
   .status-headline {
     @include main.headline-1;
-    font-size: 3rem;
     margin-bottom: 10px;
+    font-size: 3rem;
   }
 
   .status-summary {
     margin-bottom: 20px;
+
     @include main.headline-2;
   }
 
   .keyword {
-    font-weight: bold;
     font-style: normal;
+    font-weight: bold;
   }
 }
 
@@ -386,7 +394,7 @@ mat-dialog-container {
 
 .mat-mdc-checkbox {
   --mdc-checkbox-selected-icon-color: #00969a;
-  --mdc-checkbox-selected-checkmark-color: #ffffff;
+  --mdc-checkbox-selected-checkmark-color: #fff;
   --mdc-checkbox-selected-focus-icon-color: #00969a;
   --mdc-checkbox-selected-hover-icon-color: #00969a;
   --mdc-checkbox-selected-pressed-icon-color: #00969a;
@@ -394,7 +402,7 @@ mat-dialog-container {
 
 .mat-mdc-chip {
   --mdc-chip-elevated-container-color: #919cd2;
-  --mdc-chip-label-text-color: #ffffff;
+  --mdc-chip-label-text-color: #fff;
   --mdc-chip-label-text-size: 13px;
   --mdc-chip-label-text-weight: 500;
 }
@@ -408,15 +416,15 @@ mat-dialog-container {
   --mdc-radio-disabled-selected-icon-color: black;
   --mdc-radio-disabled-unselected-icon-color: black;
   --mdc-radio-unselected-hover-icon-color: #212121;
-  --mdc-radio-unselected-icon-color: rgba(0, 0, 0, 0.54);
-  --mdc-radio-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-radio-unselected-icon-color: rgb(0, 0, 0, 0.54);
+  --mdc-radio-unselected-pressed-icon-color: rgb(0, 0, 0, 0.54);
   --mdc-radio-selected-focus-icon-color: #00969a;
   --mdc-radio-selected-hover-icon-color: #00969a;
   --mdc-radio-selected-icon-color: #00969a;
   --mdc-radio-selected-pressed-icon-color: #00969a;
   --mat-radio-ripple-color: black;
   --mat-radio-checked-ripple-color: #00969a;
-  --mat-radio-disabled-label-color: rgba(0, 0, 0, 0.38)
+  --mat-radio-disabled-label-color: rgb(0, 0, 0, 0.38)
 }
 
 .mat-stepper-horizontal {
@@ -436,13 +444,13 @@ table {
 
   th {
     padding: 1px 5px !important;
-    background: #e0e0e0 !important;
-    border: 1px solid #d1d1d1 !important;
     font-size: 1.2rem !important;
     vertical-align: middle !important;
+    color: main.$gray-extra-dark-color !important;
     text-align: center !important;
     text-transform: capitalize !important;
-    color: main.$gray-extra-dark-color !important;
+    background: #e0e0e0 !important;
+    border: 1px solid #d1d1d1 !important;
 
     .mat-sort-header-container {
       align-items: center;
@@ -455,16 +463,13 @@ table {
     vertical-align: middle;
   }
 
-  .mat-mdc-cell {
-    border: 1px solid #d1d1d1 !important;
-  }
 }
 
 .policy-note {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 20px 20px 30px;
 
@@ -481,31 +486,31 @@ table {
 
     .mat-icon {
       display: block;
-      font-size: 5.0rem;
       width: 50px;
       height: 50px;
       margin: auto;
+      font-size: 5.0rem;
     }
   }
 }
 
 .instruction-body {
+
+  display: grid;
+  grid-template-columns: max-content auto;
+  column-gap: 20px;
+  align-items: center;
   padding: 15px 5px 15px 10px;
   margin-bottom: 30px;
   color: map-get(main.$app-gray, default);
   border: 6px solid map-get(main.$app-gray, 200);
   border-radius: 20px;
 
-  display: grid;
-  grid-column-gap: 20px;
-  align-items: center;
-  grid-template-columns: max-content auto;
-
   .form-help-icon .mat-icon {
-    color: map-get(main.$app-gray, 200);
-    font-size: 8rem;
     width: auto;
     height: auto;
+    font-size: 8rem;
+    color: map-get(main.$app-gray, 200);
   }
 
   .question {
@@ -521,18 +526,21 @@ table {
 // message content styles need to be global
 .message .content {
   font-size: 1.3rem;
+
   p {
     margin-bottom: 10px;
   }
+
   h3 {
-    font-weight: bold;
-    font-size: 1.5rem;
     margin-top: 15px;
     margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
   }
+
   ul {
-    margin: 13px 0;
     padding-left: 40px;
+    margin: 13px 0;
     list-style: disc;
   }
 }
@@ -541,36 +549,37 @@ table {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
-  .hint-content {
-    width: 650px;
-    border: 5px solid main.$gray-light-color;
-    padding: 20px 30px;
-    border-radius: 20px;
+.hint-content {
+  width: 650px;
+  padding: 20px 30px;
+  border: 5px solid main.$gray-light-color;
+  border-radius: 20px;
 
-    h3 {
-      border-bottom: 1px solid main.$gray-light-color;
-      margin-bottom: 20px;
-    }
+  h3 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid main.$gray-light-color;
+  }
 
-    ul {
-      text-align: left;
-      list-style: disc;
-      margin-bottom: 20px;
-      padding-left: 20px;
+  ul {
+    padding-left: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    list-style: disc;
 
-      li {
-        margin-bottom: 5px;
-      }
-    }
-
-    a {
-      @include main.center(vertical, inline);
-      text-decoration: underline;
-      color: main.$primary-color;
+    li {
+      margin-bottom: 5px;
     }
   }
+
+  a {
+    @include main.center(vertical, inline);
+    color: main.$primary-color;
+    text-decoration: underline;
+  }
 }
+
 
 .description {
   font-size: 1.3rem;
@@ -587,13 +596,13 @@ table {
 
 
 .new-item {
-  .new-badge:after {
-    content: "New";
-    font-size: 1.1rem;
-    background: map-get(main.$app-accent, default);
-    color: #fff;
+  .new-badge::after {
     padding: 2px 10px;
     margin-left: 8px;
+    font-size: 1.1rem;
+    color: #fff;
+    content: "New";
+    background: map-get(main.$app-accent, default);
     border-radius: 20px;
   }
 }
@@ -604,13 +613,13 @@ table {
     background: main.$warn-extra-light-color;
   }
 
-  .warning-badge:after {
-    content: "Expiring soon";
-    font-size: 1.1rem;
-    background: main.$warn-dark-color;
-    color: #fff;
+  .warning-badge::after {
     padding: 2px 10px;
     margin-left: 8px;
+    font-size: 1.1rem;
+    color: #fff;
+    content: "Expiring soon";
+    background: main.$warn-dark-color;
     border-radius: 20px;
   }
 }
@@ -639,7 +648,7 @@ table {
 
 // ----- MOBILE
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
 
   mat-sidenav {
     position: relative !important;
@@ -657,8 +666,8 @@ table {
 
   .content-header-container {
     flex-direction: column;
-    align-items: stretch;
     gap: 0;
+    align-items: stretch;
     padding: 0 15px 10px;
 
     app-main-content-header {
@@ -669,9 +678,9 @@ table {
       flex-grow: 1;
 
       mat-icon {
-        font-size: 1.6rem !important;
-        height: 1.6rem !important;
         width: 1.6rem !important;
+        height: 1.6rem !important;
+        font-size: 1.6rem !important;
       }
     }
   }
@@ -684,28 +693,28 @@ table {
 .gray-out-container {
   position: absolute;
   z-index: 1;
-  height: 100%;
   width: 100%;
+  height: 100%;
 
   .gray-out-panel {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    background: map-get(main.$app-gray, 900);
-    opacity: 0.8;
     top: 0;
     z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: map-get(main.$app-gray, 900);
+    opacity: 0.8;
   }
 }
 
 // ----- Activate for Debug
 
-//::-webkit-scrollbar {
+// ::-webkit-scrollbar {
 //  width: 10px;
 //  height: 10px;
-//}
+// }
 
-//::-webkit-scrollbar-thumb {
+// ::-webkit-scrollbar-thumb {
 //  --bg-opacity: 1;
 //  background-color: $secondary-color;
-//}
+// }
