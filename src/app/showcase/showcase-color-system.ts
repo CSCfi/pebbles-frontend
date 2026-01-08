@@ -1,9 +1,20 @@
 export const EXAMPLE_COLOR = `
-    <!-- A. Generate Contextual Classes -->
-    <!-- Parent's theme inherits to children -->
-    <!-- defaults to "neut", if theme context is not given,  -->
-    <!-- E.g, class="warn" -> class"clr-0..." --> 
+    <!-- Generate contextual usage -->
+    <!-- Parent's color role inherits to children -->
+    <!-- defaults to "gray" and "clr-5", if color-role or lightness is not given  -->
     <div class="color-sample">
+      <div class="clr-0">gray clr-0</div>
+      <div class="clr-1">gray clr-1</div>
+      <div class="clr-2">gray clr-2</div>
+      <div class="clr-3">gray clr-3</div>
+      <div class="clr-4">gray clr-4</div>
+      <div class="clr-5">gray clr-5</div> 
+      <div class="clr-6">gray clr-6</div>
+      <div class="clr-7">gray clr-7</div>
+      <div class="clr-8">gray clr-8</div>
+      <div class="clr-9">gray clr-9</div>
+    </div>
+    <div class="color-sample neut">
       <div class="clr-0">neut clr-0</div>
       <div class="clr-1">neut clr-1</div>
       <div class="clr-2">neut clr-2</div>
@@ -39,7 +50,7 @@ export const EXAMPLE_COLOR = `
       <div class="clr-8">sec clr-8</div>
       <div class="clr-9">sec clr-9</div>
     </div>
-    <!-- Theme class is applied to own element and inherits to children --> 
+    <!-- Color-role class is applied to own element and inherits to children --> 
     <!-- E.g, class="acc clr-0..." --> 
     <div class="color-sample">
       <div class="acc clr-0">acc clr-0</div>
@@ -53,7 +64,7 @@ export const EXAMPLE_COLOR = `
       <div class="acc clr-8">acc clr-8</div>
       <div class="acc clr-9">acc clr-9</div>
     </div>
-    <!-- C. Specific Theme Classes  -->
+    <!-- Direct Usage -->
     <!-- Only applied to the own element. Do not inherit to children --> 
     <!-- E.g, class="warn-clr-0..." --> 
     <div class="color-sample">
