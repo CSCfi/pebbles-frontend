@@ -4,6 +4,7 @@
     "stylelint-config-recess-order"
   ],
   "rules": {
+    "hue-degree-notation": null,
     "selector-pseudo-element-no-unknown": [
       true,
       {

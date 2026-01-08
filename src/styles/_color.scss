@@ -1,0 +1,163 @@
+// ==========================================================================
+// -- Color System Usage Guide
+// ==========================================================================
+
+/*
+  [ How to Use ]
+
+  A. Contextual Usage
+  --------------------------------------------------
+  Apply a theme class (.prim, .warn, etc.) to a parent element.
+
+  Case A: Nested Utility
+  <div class="warn">
+    <div class="clr-0">Light Warning Color</div>
+  </div>
+
+  Case B: Hybrid (Theme + Utility)
+  <div class="clr-0 warn">Light Warning Color</div>
+
+  Case C: Default (Theme only = clr-5)
+  <div class="warn">Warning Base Color</div>
+
+  B. Direct Usage
+  --------------------------------------------------
+  Case D: Specific Class
+  <div class="warn-clr-5">Warning Base Color</div>
+*/
+
+// ==========================================================================
+// -- Color System Configuration [Customizable]
+// ==========================================================================
+
+// -- 1. Theme Color Definition
+// Keys correspond to class names and variable prefixes
+// (e.g., .prim, --prim-...)
+$theme-colors: (
+        "prim": #464fae,
+        "neut": #56566c,
+        "sec": #00797c,
+        "acc": #5d7700,
+        "warn": #b6341f
+);
+
+
+// -- 2. Lightness Level Definition
+// 'l' indicates using the original lightness of the base color.
+$lightness-levels: (
+        0: 1, // -- Lightest (Near White)
+        1: 0.94,
+        2: 0.88,
+        3: 0.76,
+        4: 0.62,
+        5: 'l', // -- ★ Base Color
+        6: 0.30,
+        7: 0.24,
+        8: 0.18,
+        9: 0.10 // -- Darkest
+);
+
+// 3. Text Color Settings
+// "base": for light backgrounds, "reverse": for dark backgrounds
+$text-color: (
+        "base": #333,
+        "reverse": #fff
+);
+
+// Threshold level to switch text color (0-9)
+// If level >= 4, use "reverse" color.
+$text-color-reverse: 4;
+
+// ==========================================================================
+// -- Generator Loop (DO NOT CHANGE)
+// ==========================================================================
+
+// --------------------------------------------------------------------------
+// 1. Global Variables Definition (:root ONLY)
+// --------------------------------------------------------------------------
+:root {
+  @each $name, $color in $theme-colors {
+    // Define Base Color Global Var (e.g., --prim-base-clr, etc.)
+    --#{$name}-base-clr: #{$color};
+
+    // Define Global Palette Vars (e.g., --prim-clr-0, etc.)
+    @each $level, $lightness in $lightness-levels {
+      --#{$name}-clr-#{$level}: oklch(from var(--#{$name}-base-clr) #{$lightness} c h);
+    }
+  }
+
+  // Default Fallback (Use 'neut' if no theme context exists)
+  // This sets global --clr-0, --clr-1... to match the 'neut' palette.
+
+  @each $level, $lightness in $lightness-levels {
+    // Note: We use the raw color value here to ensure it works globally
+    --clr-#{$level}: oklch(from var(--neut-clr-5) #{$lightness} c h);
+  }
+}
+
+// --------------------------------------------------------------------------
+// 2. Generic Utility Classes (.clr-0 ~ 9)
+// --------------------------------------------------------------------------
+// These rely on context variables (e.g., --clr-*) provided by the theme classes.
+@each $level, $lightness in $lightness-levels {
+  .clr-#{$level} {
+    // !important ensures this overrides the default theme background
+    background: var(--clr-#{$level}) !important;
+
+    // Text color logic
+    @if $level >= $text-color-reverse {
+      color: map-get($text-color, "reverse") !important;
+    } @else {
+      color: map-get($text-color, "base") !important;
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// 3. Theme Context Classes (e.g., .prim, .warn, etc.)
+// --------------------------------------------------------------------------
+@each $name, $color in $theme-colors {
+  .#{$name} {
+    // A. Define Local Variables (Scope)
+    --base-color: #{$color};
+
+    // Generate local scope variables (e.g., --clr-0 to 9) dynamically
+    // This allows .clr-0 inside .prim to use the correct color.
+    @each $level, $lightness in $lightness-levels {
+      // --clr-#{$level}: unquote("oklch(from var(--base-color) #{$lightness} c h)");
+      --clr-#{$level}: oklch(from var(--base-color) #{$lightness} c h);
+
+      .clr-#{$level} {
+        background: var(--clr-#{$level}) !important;
+      }
+    }
+
+    // B. Apply Default Styles (Level 5)
+    background: var(--clr-5);
+
+    // Default Text Color (Based on Level 5)
+    @if 5 >= $text-color-reverse {
+      color: map-get($text-color, "reverse");
+    } @else {
+      color: map-get($text-color, "base");
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// 4. Specific Theme Classes (e.g., .prim-clr-5, .warn-clr-5, etc.)
+// --------------------------------------------------------------------------
+@each $name, $color in $theme-colors {
+  @each $level, $lightness in $lightness-levels {
+    .#{$name}-clr-#{$level} {
+      background: var(--#{$name}-clr-#{$level});
+
+      // Text color logic
+      @if $level >= $text-color-reverse {
+        color: map-get($text-color, "reverse");
+      } @else {
+        color: map-get($text-color, "base");
+      }
+    }
+  }
+}
