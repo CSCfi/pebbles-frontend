@@ -1,4 +1,4 @@
-@use "main" as main;
+@use 'main' as main;
 
 .custom-image-form {
   display: flex;
@@ -168,9 +168,9 @@
         width: auto;
         height: auto;
         margin-left: 4px;
-        font-family: "Material Icons", serif;
+        font-family: 'Material Icons', serif;
         font-size: 1.4rem;
-        content: "\e89e";
+        content: '\e89e';
       }
     }
   }

@@ -1,4 +1,4 @@
-@use "main" as main;
+@use 'main' as main;
 
 #mark-all-read-btn {
   display: flex;
@@ -52,7 +52,7 @@
             margin-right: 5px;
             margin-left: -5px;
             font-size: 1.1rem;
-            content: "Unread";
+            content: 'Unread';
             background: map-get(main.$app-warn, light);
             border-radius: 8px;
           }

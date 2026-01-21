@@ -1,4 +1,4 @@
-@use "main" as main;
+@use 'main' as main;
 
 .page-container {
   display: flex;
@@ -78,7 +78,7 @@
         z-index: -1;
         width: 100%;
         height: 40px;
-        content: "";
+        content: '';
         background: main.$primary-light-color;
       }
 

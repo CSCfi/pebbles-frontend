@@ -1,4 +1,4 @@
-@use "main" as main;
+@use 'main' as main;
 
 // ---- Layout
 #workspace-owner-container {
@@ -232,7 +232,7 @@
       margin-left: 5px;
       font-size: 1.1rem;
       color: #fff;
-      content: "New";
+      content: 'New';
       background: map-get(main.$app-accent, default);
       border-radius: 8px;
     }
@@ -263,14 +263,14 @@
 
   &.new-item {
     .lifecycle-corner-banner::before {
-      content: "New";
+      content: 'New';
       background: map-get(main.$app-accent, default);
     }
   }
 
   &.deleted-item {
     .lifecycle-corner-banner::before {
-      content: "Deleted";
+      content: 'Deleted';
       background: main.$gray-dark-color;
     }
   }
@@ -278,14 +278,14 @@
   &.expired-item {
     .lifecycle-corner-banner::before {
       color: main.$gray-extra-dark-color;
-      content: "Expired";
+      content: 'Expired';
       background: main.$gray-color;
     }
   }
 
   &.expiring-item {
     .lifecycle-corner-banner::before {
-      content: "Expiring";
+      content: 'Expiring';
       background: main.$primary-light-color;
     }
 
@@ -297,7 +297,7 @@
 
   &.expiring-soon-item {
     .lifecycle-corner-banner::before {
-      content: "Expiring soon";
+      content: 'Expiring soon';
       background: main.$warn-dark-color;
     }
 
@@ -502,18 +502,18 @@
         width: auto;
         height: auto;
         margin-right: 4px;
-        font-family: "Material Icons", serif;
+        font-family: 'Material Icons', serif;
         font-size: 1.8rem;
-        content: "\ebcc";
+        content: '\ebcc';
       }
 
       &::after {
         width: auto;
         height: auto;
         margin-left: 4px;
-        font-family: "Material Icons", serif;
+        font-family: 'Material Icons', serif;
         font-size: 1.4rem;
-        content: "\e89e";
+        content: '\e89e';
       }
     }
   }
@@ -657,28 +657,28 @@
 
   .new-item {
     &.lifecycle-badge::after {
-      content: "New";
+      content: 'New';
       background: main.$secondary-color;
     }
   }
 
   .expiring-item {
     &.lifecycle-badge::after {
-      content: "Expiring";
+      content: 'Expiring';
       background: main.$primary-light-color;
     }
   }
 
   .expiring-soon-item {
     &.lifecycle-badge::after {
-      content: "Expiring soon";
+      content: 'Expiring soon';
       background: main.$warn-dark-color;
     }
   }
 
   .expired-item {
     &.lifecycle-badge::after {
-      content: "Expired";
+      content: 'Expired';
       background: main.$gray-dark-color;
     }
   }

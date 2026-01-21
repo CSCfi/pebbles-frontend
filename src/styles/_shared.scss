@@ -1,4 +1,4 @@
-@use "main" as main;
+@use 'main' as main;
 
 html {
   height: 100%;
@@ -179,10 +179,10 @@ h5 {
 
   &::before {
     margin-top: 2px;
-    font-family: "Material Icons", serif;
+    font-family: 'Material Icons', serif;
     font-size: 1rem;
     white-space: nowrap;
-    content: "\e061\e061\e061\e061\e061\e061";
+    content: '\e061\e061\e061\e061\e061\e061';
   }
 }
 
@@ -601,7 +601,7 @@ table {
     margin-left: 8px;
     font-size: 1.1rem;
     color: #fff;
-    content: "New";
+    content: 'New';
     background: map-get(main.$app-accent, default);
     border-radius: 20px;
   }
@@ -618,7 +618,7 @@ table {
     margin-left: 8px;
     font-size: 1.1rem;
     color: #fff;
-    content: "Expiring soon";
+    content: 'Expiring soon';
     background: main.$warn-dark-color;
     border-radius: 20px;
   }

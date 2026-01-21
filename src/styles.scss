@@ -1,21 +1,26 @@
 @charset "utf-8";
-@forward "../node_modules/destyle.css/destyle.css";
-@forward "@angular/material/prebuilt-themes/deeppurple-amber.css";
-@forward "@fontsource/open-sans/400.css";
-@forward "@fontsource/open-sans/500.css";
-@forward "@fontsource/open-sans/600.css";
-@forward "@fontsource/open-sans/700.css";
-@forward "@fontsource/open-sans/800.css";
-@forward "@fontsource/quicksand/300.css";
-@forward "@fontsource/quicksand/400.css";
-@forward "@fontsource/quicksand/500.css";
-@forward "@fontsource/quicksand/600.css";
-@forward "@fontsource/quicksand/700.css";
+// -- Fonts & icons
+@forward '@fontsource/open-sans/400.css';
+@forward '@fontsource/open-sans/500.css';
+@forward '@fontsource/open-sans/600.css';
+@forward '@fontsource/open-sans/700.css';
+@forward '@fontsource/open-sans/800.css';
+@forward '@fontsource/quicksand/300.css';
+@forward '@fontsource/quicksand/400.css';
+@forward '@fontsource/quicksand/500.css';
+@forward '@fontsource/quicksand/600.css';
+@forward '@fontsource/quicksand/700.css';
 @forward 'material-icons/iconfont/material-icons.css';
 @forward '@material-symbols/font-500/outlined.css';
+// -- CSS reset
+@forward '../node_modules/destyle.css/destyle.css';
+// -- Angular MD theme
+@forward '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-// ---- Shared Sass
+// ---- Noppe styles
+// -- Color
+@forward 'color';
+// -- Shared Sass
 @forward 'shared';
 
-// ---- Color
-@forward 'color';
+

@@ -46,12 +46,12 @@ $seed-color: #18227c;
 // (e.g., .prim, --prim-...)
 // Note: prim = primary, neut = neutral, sec = secondary, acc = accent
 $color-roles: (
-        "prim": $seed-color,
-        "gray": oklch(from #{$seed-color} l 0.01 h),
-        "neut": oklch(from #{$seed-color} l 0.05 h),
-        "sec": oklch(from #{$seed-color} l calc(c - 0.04) calc(h - 50)),
-        "acc": oklch(from #{$seed-color} l calc(c + 0.03) calc(h + 200)),
-        "warn": oklch(from #{$seed-color} l calc(c + 0.02) calc(h + 110))
+        'prim': $seed-color,
+        'gray': oklch(from #{$seed-color} l 0.01 h),
+        'neut': oklch(from #{$seed-color} l 0.05 h),
+        'sec': oklch(from #{$seed-color} l calc(c - 0.04) calc(h - 50)),
+        'acc': oklch(from #{$seed-color} l calc(c + 0.03) calc(h + 200)),
+        'warn': oklch(from #{$seed-color} l calc(c + 0.02) calc(h + 110))
 );
 
 // -- 2. Lightness Level Definition
@@ -85,8 +85,8 @@ $chroma-levels: (
 // 4. Text Color Settings
 // "base": for light backgrounds, "reverse": for dark backgrounds
 $text-color: (
-        "base": var(--gray-clr-9),
-        "reverse": var(--gray-clr-0),
+        'base': var(--gray-clr-9),
+        'reverse': var(--gray-clr-0),
 );
 
 // Threshold level to switch text color (0-9)
@@ -108,7 +108,7 @@ $text-color-reverse: 4;
 
     // Define Global Palette Vars (e.g., --prim-clr-0, etc.)
     @each $level, $lightness in $lightness-levels {
-      $chroma: if($name == "gray", 0, map-get($chroma-levels, $level));
+      $chroma: if($name == 'gray', 0, map-get($chroma-levels, $level));
 
       --#{$name}-clr-#{$level}: oklch(from var(--#{$name}-base-clr) #{$lightness} calc(c + #{$chroma}) h);
     }
@@ -132,9 +132,9 @@ $text-color-reverse: 4;
 
     // Text color logic
     @if $level >= $text-color-reverse {
-      color: map-get($text-color, "reverse") !important;
+      color: map-get($text-color, 'reverse') !important;
     } @else {
-      color: map-get($text-color, "base") !important;
+      color: map-get($text-color, 'base') !important;
     }
   }
 }
@@ -149,7 +149,7 @@ $text-color-reverse: 4;
 
     // Generate local scope variables (e.g., --clr-0 to 9) dynamically
     @each $level, $lightness in $lightness-levels {
-      $chroma: if($name == "gray", 0, map-get($chroma-levels, $level));
+      $chroma: if($name == 'gray', 0, map-get($chroma-levels, $level));
 
       --clr-#{$level}: oklch(from var(--base-color) #{$lightness} calc(c + #{$chroma}) h);
 
@@ -163,9 +163,9 @@ $text-color-reverse: 4;
 
     // Text color logic
     @if 5 >= $text-color-reverse {
-      color: map-get($text-color, "reverse");
+      color: map-get($text-color, 'reverse');
     } @else {
-      color: map-get($text-color, "base");
+      color: map-get($text-color, 'base');
     }
   }
 }
@@ -180,10 +180,11 @@ $text-color-reverse: 4;
 
       // Text color logic
       @if $level >= $text-color-reverse {
-        color: map-get($text-color, "reverse");
+        color: map-get($text-color, 'reverse');
       } @else {
-        color: map-get($text-color, "base");
+        color: map-get($text-color, 'base');
       }
     }
   }
 }
+

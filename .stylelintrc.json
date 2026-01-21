@@ -3,7 +3,11 @@
     "stylelint-config-standard-scss",
     "stylelint-config-recess-order"
   ],
+  "plugins": [
+    "@stylistic/stylelint-plugin"
+  ],
   "rules": {
+    "@stylistic/string-quotes": "single",
     "hue-degree-notation": null,
     "selector-pseudo-element-no-unknown": [
       true,

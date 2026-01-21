@@ -8,7 +8,7 @@
 }
 
 @mixin common-font {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-optical-sizing: auto;
@@ -169,11 +169,11 @@ h6 {
 // -------------------- Margin & padding
 $space-amounts: (0, 2, 4, 5, 8, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100, 150, 200);
 $sides: (
-        "": "all",
-        "t": "top",
-        "b": "bottom",
-        "l": "left",
-        "r": "right",
+        '': 'all',
+        't': 'top',
+        'b': 'bottom',
+        'l': 'left',
+        'r': 'right',
 );
 
 @each $space in $space-amounts {
@@ -379,30 +379,30 @@ $sides: (
 .icon {
   &__notification::before {
     margin-right: 5px;
-    font-family: "Material Icons", sans-serif;
+    font-family: 'Material Icons', sans-serif;
     font-size: 24px;
-    content: "\e7f7";
+    content: '\e7f7';
   }
 
   &__library::before {
     margin-right: 5px;
-    font-family: "Material Icons Outlined", sans-serif;
+    font-family: 'Material Icons Outlined', sans-serif;
     font-size: 24px;
-    content: "\e02e";
+    content: '\e02e';
   }
 
   &__hint::before {
     margin-right: 10px;
-    font-family: "Material Icons Outlined", sans-serif;
+    font-family: 'Material Icons Outlined', sans-serif;
     font-size: 24px;
-    content: "\e0f0";
+    content: '\e0f0';
   }
 
   &__workspace::before {
     margin-right: 5px;
-    font-family: "Material Icons", sans-serif;
+    font-family: 'Material Icons', sans-serif;
     font-size: 24px;
-    content: "\e7ef";
+    content: '\e7ef';
   }
 }
 
