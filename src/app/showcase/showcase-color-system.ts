@@ -1,8 +1,7 @@
 export const EXAMPLE_COLOR = `
     <!-- Generate contextual usage -->
     <!-- Parent's color role inherits to children -->
-    <!-- defaults to "gray" and "clr-5", if color-role or lightness is not given  -->
-    <div class="color-sample">
+    <div class="color-sample gray">
       <div class="clr-0">gray clr-0</div>
       <div class="clr-1">gray clr-1</div>
       <div class="clr-2">gray clr-2</div>
@@ -44,7 +43,7 @@ export const EXAMPLE_COLOR = `
       <div class="clr-2">sec clr-2</div>
       <div class="clr-3">sec clr-3</div>
       <div class="clr-4">sec clr-4</div>
-      <div>sec clr-5</div><!-- defaults to level 5, if lightness level is not been given -->
+      <div class="clr-5">sec clr-5</div>
       <div class="clr-6">sec clr-6</div>
       <div class="clr-7">sec clr-7</div>
       <div class="clr-8">sec clr-8</div>

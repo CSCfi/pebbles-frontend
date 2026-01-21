@@ -1,0 +1,186 @@
+@use 'sass:map';
+// ==========================================================================
+// -- Theme System Usage Guide
+// ==========================================================================
+
+/*
+  [ How to Use ]
+
+  -- Contextual Usage
+  --------------------------------------------------
+  Apply a color-role class (.prim, .warn, etc.) and
+  lightness class (,clr-9, .clr-5, etc.) to a parent/own element.
+  They are inherited to children elements.
+
+  Case A: Nested Utility
+  <div class="warn">
+    <div class="clr-0">Light Warning Color</div>
+  </div>
+
+  Case B: Hybrid (Color-role + Lightness)
+  <div class="clr-0 warn">Light Warning Color</div>
+
+  -- Direct Usage
+  --------------------------------------------------
+  Case C: works only the applied element
+  <div class="warn-clr-5">Warning Base Color</div>
+*/
+
+// ==========================================================================
+// -- Color System Configuration [Customizable]
+// ==========================================================================
+
+// -- 0. Set the Seed Color (Primary)
+// seed-color updates all other color roles
+
+@mixin init($_color: #18227c) {
+  * {
+    --seed-color: #{$_color};
+  }
+}
+
+@mixin color-system() {
+
+  // -- 1. Color-role Definition
+  // Keys correspond to class names and variable prefixes
+  // (e.g., .prim, --prim-...)
+  // Note: prim = primary, neut = neutral, sec = secondary, acc = accent
+  $color-roles: (
+          'prim': var(--seed-color),
+          'gray': oklch(from var(--seed-color) l 0.01 h),
+          'neut': oklch(from var(--seed-color) l 0.05 h),
+          'sec': oklch(from var(--seed-color) l calc(c - 0.04) calc(h - 50)),
+          'acc': oklch(from var(--seed-color) l calc(c + 0.03) calc(h + 200)),
+          'warn': oklch(from var(--seed-color) l calc(c + 0.02) calc(h + 110))
+  );
+
+  // -- 2. Lightness Level Definition
+  $lightness-levels: (
+          0: 0.99, // -- Lightest (Near White)
+          1: 0.95,
+          2: 0.86,
+          3: 0.76,
+          4: 0.65,
+          5: 0.55, // -- Base Color
+          6: 0.42,
+          7: 0.31,
+          8: 0.24,
+          9: 0.18 // -- Darkest
+  );
+
+  // -- 3. Chromas (saturation) Level Definition
+  $chroma-levels: (
+          0: -0.04,
+          1: -0.035,
+          2: -0.02,
+          3: -0.01,
+          4: 0,
+          5: 0,
+          6: 0,
+          7: 0,
+          8: 0,
+          9: 0
+  );
+
+  // 4. Text Color Settings
+  // "base": for light backgrounds, "reverse": for dark backgrounds
+  $text-color: (
+          'base': var(--gray-clr-9),
+          'reverse': var(--gray-clr-0),
+  );
+
+  // Threshold level to switch text color (0-9)
+  // If level >= 4, use "reverse" color.
+  $text-color-reverse: 4;
+
+
+  // ==========================================================================
+  // -- Generator Loop (DO NOT CHANGE)
+  // ==========================================================================
+
+  // --------------------------------------------------------------------------
+  // 1. Global Variables Definition
+  // --------------------------------------------------------------------------
+
+  * {
+    @each $name, $color in $color-roles {
+      // Define Base Color Global Var (e.g., --prim-base-clr, etc.) d
+      --#{$name}-base-clr: #{$color};
+
+      // Define Global Palette Vars (e.g., --prim-clr-0, etc.)
+      @each $level, $lightness in $lightness-levels {
+        $chroma: if($name == 'gray', 0, map-get($chroma-levels, $level));
+
+        --#{$name}-clr-#{$level}: oklch(from var(--#{$name}-base-clr) #{$lightness} calc(c + #{$chroma}) h);
+      }
+    }
+  }
+
+
+  // --------------------------------------------------------------------------
+  // 2. Generic Lightness Classes (.clr-0 ~ 9)
+  // --------------------------------------------------------------------------
+  // These rely on lightness variables (e.g., --clr-*) provided by the color-role classes.
+
+  @each $level, $lightness in $lightness-levels {
+    .clr-#{$level} {
+      // !important ensures this overrides the default color-role background
+      background: var(--clr-#{$level}) !important;
+
+      // Text color logic
+      @if $level >= $text-color-reverse {
+        color: map.get($text-color, 'reverse') !important;
+      } @else {
+        color: map.get($text-color, 'base') !important;
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 3. Color-role Classes (e.g., .prim, .warn, etc.)
+  // --------------------------------------------------------------------------
+
+  @each $name, $color in $color-roles {
+    .#{$name} {
+      // Define Local Variables (Scope)
+      --base-color: #{$color};
+
+      // Generate local scope variables (e.g., --clr-0 to 9) dynamically
+      @each $level, $lightness in $lightness-levels {
+        $chroma: if($name == 'gray', 0, map.get($chroma-levels, $level));
+
+        --clr-#{$level}: oklch(from var(--base-color) #{$lightness} calc(c + #{$chroma}) h);
+
+        .clr-#{$level} {
+          background: var(--clr-#{$level}) !important;
+        }
+      }
+
+      // Text color logic
+      @if 5 >= $text-color-reverse {
+        color: map.get($text-color, 'reverse');
+      } @else {
+        color: map.get($text-color, 'base');
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 4. Specific Color-role Classes (e.g., .prim-clr-5, .warn-clr-5, etc.)
+  // --------------------------------------------------------------------------
+
+  @each $name, $color in $color-roles {
+    @each $level, $lightness in $lightness-levels {
+      .#{$name}-clr-#{$level} {
+        background: var(--#{$name}-clr-#{$level});
+
+        // Text color logic
+        @if $level >= $text-color-reverse {
+          color: map.get($text-color, 'reverse');
+        } @else {
+          color: map.get($text-color, 'base');
+        }
+      }
+    }
+  }
+}

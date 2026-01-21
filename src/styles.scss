@@ -18,9 +18,15 @@
 @forward '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 // ---- Noppe styles
-// -- Color
-@forward 'color';
-// -- Shared Sass
 @forward 'shared';
+@use 'theme' as theme;
+
+:root {
+  @include theme.init;
+  @include theme.color-system;
+}
+
+
+
 
 
