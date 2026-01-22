@@ -1,32 +1,32 @@
 <div class="page-container">
   <div class="content-header-container grid-col">
     <app-main-content-header
-      [context]="context"
-      [isAutocompleteDisabled]="true"
-      [isSearchOn]="false"
-      [labels]="null">
+        [context]="context"
+        [isAutocompleteDisabled]="true"
+        [isSearchOn]="false"
+        [labels]="null">
     </app-main-content-header>
     <button (click)="markMessagesAsRead()" [disabled]="isAllRead"
-            class="secondary-btn"
+            class="header-btn"
             id="mark-all-read-btn">
       <mat-icon class="mr-5" fontSet="material-icons-outlined">check</mat-icon>
       <div>Mark all as read</div>
     </button>
   </div>
   <section class="content-container">
-    <div class="messages-list">
+    <div class="items">
       <ng-container *ngIf="getMessages().length > 0; else elseBlock">
-        <section class="message-container">
-          <ng-container *ngFor="let message of getMessages()">
-            <div [ngClass]="{'unread':!message.is_read}" class="message info-body">
-              <div class="title">{{ message.subject }}</div>
-              <span class="date mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
-              <p class="content render-hyperlinks">
-                <span [innerHtml]="message.message"></span>
-              </p>
+        <ng-container *ngFor="let message of getMessages()">
+
+          <div [ngClass]="{'unread':!message.is_read}" class="item">
+            <div class="title">{{ message.subject }}</div>
+            <span class="label mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
+            <div innerHtml]="message.message">
+              [class="content render-hyperlinks"
             </div>
-          </ng-container>
-        </section>
+          </div>
+
+        </ng-container>
       </ng-container>
 
       <ng-template #elseBlock>

@@ -1,67 +1,16 @@
 @use 'main' as main;
+@include main.page-component;
 
-#mark-all-read-btn {
-  display: flex;
-  align-items: center;
+.header-btn {
+  @include main.header-button('sec');
 }
 
-.content-container {
-  position: relative;
-  min-height: calc(100vh - 80px);
-  padding: 15px 40px;
-  background: map-get(main.$app-primary, 100);
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-  .messages-list {
-    padding: 15px 40px;
-    background: map-get(main.$app-primary, 100);
-
-    .message-container {
-      .message {
-        position: relative;
-        padding: 15px 20px 25px;
-        margin-bottom: 10px;
-        background: #fff;
-        border: 2px solid map-get(main.$app-primary, 300);
-        border-radius: 3px;
-
-        .title {
-          padding: 7px 5px 2px;
-          font-weight: bold;
-          border-bottom: 1px solid #ccc;
-        }
-
-        .date {
-          position: absolute;
-          top: 0;
-          right: 0;
-          padding: 5px 10px;
-          background: map-get(main.$app-primary, 300);
-        }
-
-        // see also global style .message .content applied to innerHtml in _shared.scss
-        .content {
-          padding: 10px 5px 0;
-          margin: 0;
-        }
-
-        &.unread {
-          .title::before {
-            position: relative;
-            top: -2px;
-            padding: 2px 8px;
-            margin-right: 5px;
-            margin-left: -5px;
-            font-size: 1.1rem;
-            content: 'Unread';
-            background: map-get(main.$app-warn, light);
-            border-radius: 8px;
-          }
-
-          .date {
-            background: map-get(main.$app-warn, light);
-          }
-        }
-      }
-    }
+  .item {
+    @include main.info-item;
   }
 }
