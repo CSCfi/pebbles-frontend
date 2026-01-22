@@ -1,11 +1,35 @@
 @use 'main' as main;
 
+a {
+  color: var(--prim-clr-6);
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--sec-clr-6);
+  }
+}
+
+.content-container {
+  position: relative;
+  width: 100%;
+  max-width: 1250px;
+  min-height: calc(100vh - 80px);
+  margin: 0 auto;
+}
+
+.active {
+  box-shadow: inset 0 0 0 100vmax rgb(255, 255, 255, 0.1);
+}
+
+// -- ↓ ↓ ↓ ↓ waiting refactoring ↓ ↓ ↓ ↓ == //
+
 html {
   height: 100%;
 
   @include main.common-font;
   font-size: 62.5%;
-  color: rgb(17, 17, 17, 0.87);
+  color: var(--prim-clr-9);
 }
 
 body {
@@ -520,28 +544,6 @@ table {
 
   .answer {
     font-size: 13px;
-  }
-}
-
-// message content styles need to be global
-.message .content {
-  font-size: 1.3rem;
-
-  p {
-    margin-bottom: 10px;
-  }
-
-  h3 {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
-  ul {
-    padding-left: 40px;
-    margin: 13px 0;
-    list-style: disc;
   }
 }
 
