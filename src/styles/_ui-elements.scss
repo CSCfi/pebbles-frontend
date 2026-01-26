@@ -22,7 +22,7 @@
   .content-header-container {
     @include util.flex-row-block(center);
     flex: 0 0 var(--header-height);
-    padding: 0 30px;
+    padding: 0 50px;
     background: white;
     border-bottom: 1px solid var(--neut-clr-2);
 
@@ -49,17 +49,28 @@
 
 @mixin content-elm() {
   .content-container {
-    @include util.flex-col-block(stretch, 20px);
+    @include util.flex-col-block(stretch, 40px);
     flex: 1 1 auto;
     width: 100%;
     max-width: var(--container-width);
     min-height: var(--contents-height);
-    padding: 20px;
+    padding: 25px 0;
     margin: 0 auto;
-    overflow: scroll;
+    overflow: auto;
 
     @media (max-width: #{base.$tablet-width}) {
       min-height: var(--contents-height-s);
+      padding: 15px;
+    }
+
+    section {
+      .title {
+        @include main.headline-3;
+        padding-left: 5px;
+        margin-bottom: 5px;
+        font-size: 1.6rem;
+        color: var(--gray-clr-6);
+      }
     }
 
     .items {
@@ -68,6 +79,10 @@
       .item {
         @include info-item;
       }
+    }
+
+    .info-body {
+      @include info-item;
     }
   }
 }
@@ -106,11 +121,11 @@
   }
 }
 
-@mixin button($role: 'prim', $icon: 'ebcc') {
+@mixin button($role: 'prim', $icon: 'ebcc', $width: 'auto') {
   @include base.styled-font;
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
+  @include base.centering(xy);
+  width: #{$width};
+  padding: 10px 15px;
   font-size: 1.5rem !important;
   font-weight: 600 !important;
   letter-spacing: normal !important;
@@ -134,27 +149,34 @@
   }
 
   @if $icon {
-    &::before {
-      width: auto;
-      height: auto;
-      margin-right: 8px;
-      font-family: 'Material Icons', serif;
-      font-size: 1.6rem;
-      content: unquote('\"\\#{$icon}\"');
-    }
+    @include base.icon($icon);
   }
+}
 
+@mixin deco-text($role: 'prim', $icon: 'ebcc') {
+  @include base.styled-font;
+  @include base.centering(y);
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: var(--#{$role}-clr-5);
+  letter-spacing: normal !important;
+
+  @if $icon {
+    @include base.icon($icon);
+  }
 }
 
 @mixin info-item {
-  @include util.flex-col-block($gap: 10px);
-  padding: 10px 20px 15px;
+  @include util.flex-col-block($gap: 30px);
+  @include base.common-link;
+
+  padding: 20px 25px;
   background: white;
   border: 2px solid var(--neut-clr-2);
   border-radius: 3px;
   box-shadow: none;
 
-  &.unread {
+  .unread {
     .title::before {
       @include badge-item('Unread', 'warn');
     }
@@ -191,7 +213,7 @@
         }
       }
 
-      ul, ol, dl {
+      ul, ol {
         padding-left: 40px;
         margin-top: 10px;
       }
@@ -207,7 +229,7 @@
   }
 }
 
-@mixin badge-item($text: '', $role:'neut') {
+@mixin badge-item($text: '', $role: neut) {
   position: relative;
   top: -2px;
   padding: 2px 8px;
@@ -219,7 +241,7 @@
   border-radius: 8px;
 }
 
-@mixin label-item($text: '', $role:neut) {
+@mixin label-item($text: '', $role: neut) {
   position: absolute;
   top: 0;
   right: 0;
@@ -228,3 +250,4 @@
   content: '#{$text}';
   background: var(--#{$role}-clr-1);
 }
+

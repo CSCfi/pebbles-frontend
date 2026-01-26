@@ -18,4 +18,22 @@
       </div>
     </div>
   </section>
+  <section>
+    <h2>Buttons</h2>
+    <div class="sample">
+      <div [innerHTML]="buttonEx" class="preview-area"></div>
+      <div class="code-area">
+        <pre>
+          <code [innerText]="buttonEx"></code>
+          <button [cdkCopyToClipboard]="buttonEx"
+                  autofocus
+                  cdkFocusInitial
+                  class="copy-btn"
+                  mat-icon-button>
+            <mat-icon fontSet="material-icons-outlined">content_copy</mat-icon>
+          </button>
+        </pre>
+      </div>
+    </div>
+  </section>
 </div>

@@ -1,15 +1,16 @@
 <div class="page-container">
   <div class="content-header-container">
     <app-main-content-header
-      [context]="context"
-      [isSearchOn]="false"
-      [labels]="null">
+        [context]="context"
+        [isSearchOn]="false"
+        [labels]="null">
     </app-main-content-header>
   </div>
-  <section class="content-container">
-    <div class="info-body content-cutout">
-      <form>
-        <dl class="user-info">
+  <div class="content-container">
+    <section>
+      <h3 class="title">Account information</h3>
+      <div class="info-body">
+        <dl class="user-info grid-list">
           <dt>Username</dt>
           <dd>{{ user?.ext_id }}</dd>
           <!-- TODO: replace with workspace quota display -->
@@ -31,56 +32,24 @@
             <ng-template #regular_user>Active</ng-template>
           </dd>
         </dl>
-        <dl class="dl-section">
-          <dt>Desktop notifications</dt>
-          <dd>
-            <ng-container [ngSwitch]="getDesktopNotificationPermissionState()">
-              <div *ngSwitchCase="'default'">
-                <p>
-                  We can show desktop notifications when application sessions are started or are about to expire.
-                </p>
-                <button (click)="askForDesktopNotificationPermission()" class="secondary-btn"
-                        id="initialize-desktop-notifications-btn">
-                  <mat-icon class="mr-5">notifications</mat-icon>
-                  <div>
-                    Initialize desktop notifications
-                  </div>
-                </button>
-              </div>
-              <div *ngSwitchCase="'granted'">
-                <p class="icon__notification txt__accent center__v mb-10 mat-subtitle-1">
-                  Desktop notifications are active
-                </p>
-                You can control the permissions in your browser's preferences.
-              </div>
-              <div *ngSwitchCase="'denied'">
-                <p class="icon__notification txt__worn center__v mb-10 mat-subtitle-1">
-                  Desktop notifications are blocked.
-                </p>
-                You can control the permissions in your browser's preferences.
-              </div>
-              <div *ngSwitchCase="'asking'">
-                Waiting for permission dialog.
-              </div>
-              <div *ngSwitchCase="null">
-                This browser does not support desktop notifications.
-              </div>
-            </ng-container>
-          </dd>
-        </dl>
-        <dl *ngIf="user" class="dl-section">
+        <dl *ngIf="user" class="user-info grid-list">
           <dt>Delete account</dt>
           <dd *ngIf="!isAccountDeletionRequested()">
-            <p>
-              Click the button below and send a request to
-              <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.
-              We will process your request and come back to you.
-            </p>
-            <button (click)="requestAccountDeletion()" class="secondary-btn" color="warn"
-                    id="request-account-deletion-btn">
-              <mat-icon class="mr-5">notifications</mat-icon>
-              Request account deletion
-            </button>
+            <ul class="grid-list">
+              <li>
+                <p>
+                  Click the button above and send a request to
+                  <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.<br>
+                  We will process your request and come back to you.
+                </p>
+              </li>
+              <li>
+                <button (click)="requestAccountDeletion()"
+                        class="request-account-deletion-btn">
+                  Request account deletion
+                </button>
+              </li>
+            </ul>
           </dd>
           <dd *ngIf="isAccountDeletionRequested()">
             <p>
@@ -89,7 +58,58 @@
             </p>
           </dd>
         </dl>
-      </form>
-    </div>
-  </section>
+      </div>
+
+    </section>
+    <section>
+      <h3 class="title">Setting</h3>
+      <div class="info-body">
+        <dl class="user-setting grid-list">
+          <dt>Desktop notifications</dt>
+          <dd>
+            <ng-container [ngSwitch]="getDesktopNotificationPermissionState()">
+              <ul *ngSwitchCase="'default'" class="grid-list">
+                <li>
+                  We can show desktop notifications when application sessions are started or are about to expire.
+                </li>
+                <li>
+                  <button (click)="askForDesktopNotificationPermission()"
+                          class="initialize-desktop-notifications-btn">
+                    Initialize desktop notifications
+                  </button>
+                </li>
+              </ul>
+              <ul *ngSwitchCase="'granted'" class="grid-list">
+                <li>
+                  You can control the permissions in your browser's preferences.
+                </li>
+                <li class="desktop-notifications-granted">
+                  Desktop notifications are active
+                </li>
+              </ul>
+              <ul *ngSwitchCase="'denied'" class="grid-list">
+
+                <li>
+                  You can control the permissions in your browser's preferences.
+                </li>
+                <li class="desktop-notifications-blocked">
+                  Desktop notifications are blocked
+                </li>
+              </ul>
+              <div *ngSwitchCase="'asking'">
+                <p class="desktop-notifications-asking">
+                  Waiting for permission dialog
+                </p>
+              </div>
+              <div *ngSwitchCase="null">
+                <p class="desktop-notifications-unsupported">
+                  This browser does not support desktop notifications
+                </p>
+              </div>
+            </ng-container>
+          </dd>
+        </dl>
+      </div>
+    </section>
+  </div>
 </div>

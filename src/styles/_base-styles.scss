@@ -23,3 +23,180 @@ $mobile-width: 599px;
   font-optical-sizing: auto;
   line-height: 160%;
 }
+
+@mixin headline-1 {
+  @include styled-font;
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+@mixin headline-2 {
+  @include styled-font;
+  font-size: 2.6rem;
+  font-weight: 500;
+}
+
+@mixin headline-3 {
+  @include styled-font;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+@mixin headline-4 {
+  @include common-font;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+@mixin headline-5 {
+  @include common-font;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+@mixin headline-6 {
+  @include common-font;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+h1 {
+  @include headline-1;
+}
+
+h2 {
+  @include headline-2;
+}
+
+h3 {
+  @include headline-3;
+}
+
+h4 {
+  @include headline-4;
+}
+
+h5 {
+  @include headline-5;
+
+  mat-icon {
+    width: 20px;
+    height: 16px;
+    font-size: 1.6rem;
+  }
+}
+
+h6 {
+  @include headline-6;
+
+  mat-icon {
+    width: 16px;
+    height: 14px;
+    font-size: 1.4rem;
+  }
+}
+
+@mixin common-link {
+  a {
+    color: var(--prim-clr-6) !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
+
+    &:hover {
+      color: var(--sec-clr-6);
+    }
+  }
+}
+
+@mixin icon($icon:'e5ca', $size: 'medium') {
+  &::before {
+    width: 22px;
+    height: auto;
+    margin-right: 8px;
+    font-family: 'Material Icons Outlined', sans-serif;
+    font-size: 2.2rem;
+    content: unquote('\"\\#{$icon}\"');
+  }
+}
+
+@mixin grid-list($fractions:'auto auto') {
+  display: grid;
+  grid-template-columns: #{$fractions};
+  gap: 20px;
+  align-items: start;
+
+  dt {
+    grid-column: 1;
+    font-weight: 600;
+  }
+
+  dd {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  @media (max-width: #{$tablet-width}) {
+    dl {
+      display: block;
+      margin: 5px;
+
+      dt {
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+
+      dd {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+// -------------------- Element centering
+/// Centering elements using Flexbox
+/// $pos - Direction: x (horizontal), y (vertical), xy(both)
+/// $inline - Use inline-flex if true
+// --- Usage ---
+// .item { @include centering(x); }  // Horizontal only
+// .item { @include centering(y); }  // Vertical only
+// .item { @include centering(xy); } // Both axes
+
+@mixin centering($pos: both, $inline: false) {
+  display: if($inline, inline-flex, flex);
+
+  // Vertical center (Y-axis)
+  @if $pos == y or $pos == xy {
+    align-items: center;
+  }
+
+  // Horizontal center (X-axis)
+  @if $pos == x or $pos == xy {
+    justify-content: center;
+  }
+}
+
+.centering {
+  &__x {
+    @include centering(x);
+  }
+
+  &__vi {
+    @include centering(x, true);
+  }
+
+  &__y {
+    @include centering(y);
+  }
+
+  &__yi {
+    @include centering(y, true);
+  }
+
+  &__xy {
+    @include centering(xy);
+  }
+
+  &__xyi {
+    @include centering(xy, true);
+  }
+}
