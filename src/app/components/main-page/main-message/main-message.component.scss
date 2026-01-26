@@ -1,16 +1,13 @@
+// ---- main-message.component.css
+
 @use 'main' as main;
-@include main.page-component;
+@use 'ui-elements' as ui;
+@include ui.page-elm;
+@include ui.header-elm;
+@include ui.content-elm;
+@include ui.status-block;
 
-.header-btn {
-  @include main.header-button('sec');
+.header-action-btn {
+  @include ui.button($role: 'sec', $icon: 'e5ca');
 }
 
-.items {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  .item {
-    @include main.info-item;
-  }
-}

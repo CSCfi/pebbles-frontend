@@ -1,5 +1,5 @@
 <div class="page-container">
-  <div class="content-header-container grid-col">
+  <div class="content-header-container">
     <app-main-content-header
         [context]="context"
         [isAutocompleteDisabled]="true"
@@ -7,9 +7,9 @@
         [labels]="null">
     </app-main-content-header>
     <button (click)="markMessagesAsRead()" [disabled]="isAllRead"
-            class="header-btn"
+            class="header-action-btn"
             id="mark-all-read-btn">
-      <mat-icon class="mr-5" fontSet="material-icons-outlined">check</mat-icon>
+      <!--      <mat-icon fontSet="material-icons-outlined">check</mat-icon>-->
       <div>Mark all as read</div>
     </button>
   </div>
@@ -20,9 +20,9 @@
 
           <div [ngClass]="{'unread':!message.is_read}" class="item">
             <div class="title">{{ message.subject }}</div>
-            <span class="label mat-caption">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
-            <div innerHtml]="message.message">
-              [class="content render-hyperlinks"
+            <span class="label">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
+            <div [innerHtml]="message.message"
+                 class="description render-hyperlinks">
             </div>
           </div>
 

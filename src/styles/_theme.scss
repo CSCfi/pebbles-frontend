@@ -34,7 +34,7 @@
 // seed-color updates all other color roles
 
 @mixin init($_color: #18227c) {
-  * {
+  :root {
     --seed-color: #{$_color};
   }
 }
@@ -87,7 +87,7 @@ $levels: (
   // 1. Global Variables Definition
   // --------------------------------------------------------------------------
 
-  * {
+  :root {
     @each $name, $color in $color-roles {
       // Define Base Color Global Var (e.g., --prim-base-clr, etc.) d
       --#{$name}-base-clr: #{$color};

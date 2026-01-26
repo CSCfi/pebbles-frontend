@@ -1,0 +1,25 @@
+$tablet-width: 1024px;
+$mobile-width: 599px;
+
+:root {
+  --header-height: 80px;
+  --header-height-s: 50px;
+  --container-width: 1250px;
+  --contents-height: calc(100vh - var(--header-height));
+  --contents-height-s: calc(100vh - var(--header-height-s));
+}
+
+@mixin styled-font {
+  font-family: Quicksand, sans-serif !important;
+  font-style: normal;
+  font-optical-sizing: auto;
+  line-height: 140%;
+}
+
+@mixin common-font {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 160%;
+}

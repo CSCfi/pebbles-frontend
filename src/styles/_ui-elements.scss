@@ -1,0 +1,230 @@
+// ---- _ui-elements.css
+@use 'utilities' as util;
+@use 'base-styles' as base;
+@use 'main';
+
+@mixin page-elm {
+  :host {
+    background: var(--neut-clr-1);
+
+    .page-container {
+      @include util.flex-col-block(stretch);
+      flex-grow: 1;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+    }
+  }
+}
+
+@mixin header-elm {
+
+  .content-header-container {
+    @include util.flex-row-block(center);
+    flex: 0 0 var(--header-height);
+    padding: 0 30px;
+    background: white;
+    border-bottom: 1px solid var(--neut-clr-2);
+
+    @media (max-width: #{base.$tablet-width}) {
+      flex: 0 0 var(--header-height-s) !important;
+      justify-content: end;
+      padding: 5px 10px;
+    }
+
+    app-main-content-header {
+      flex-grow: 1;
+    }
+
+    .header-action-btn {
+      @include button($role: 'sec', $icon: 'e5ca');
+      flex-basis: auto;
+    }
+
+    .mat-dialog-close {
+      background: none !important;
+    }
+  }
+}
+
+@mixin content-elm() {
+  .content-container {
+    @include util.flex-col-block(stretch, 20px);
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: var(--container-width);
+    min-height: var(--contents-height);
+    padding: 20px;
+    margin: 0 auto;
+    overflow: scroll;
+
+    @media (max-width: #{base.$tablet-width}) {
+      min-height: var(--contents-height-s);
+    }
+
+    .items {
+      @include util.flex-col-block($gap: 10px);
+
+      .item {
+        @include info-item;
+      }
+    }
+  }
+}
+
+@mixin status-block {
+  .status-info-container {
+    padding-bottom: 30px;
+    margin-top: 10%;
+    color: var(--neut-clr-8);
+    text-align: center;
+
+    .success-status .mat-icon,
+    .empty-status .mat-icon {
+      width: auto;
+      height: auto;
+      margin: 10px 0;
+      font-size: 6rem;
+    }
+
+    .status-headline {
+      @include main.headline-1;
+      margin-bottom: 10px;
+      font-size: 3rem;
+    }
+
+    .status-summary {
+      margin-bottom: 20px;
+
+      @include main.headline-2;
+    }
+
+    .keyword {
+      font-style: normal;
+      font-weight: bold;
+    }
+  }
+}
+
+@mixin button($role: 'prim', $icon: 'ebcc') {
+  @include base.styled-font;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  white-space: normal;
+  cursor: pointer;
+  background: var(--#{$role}-clr-7);
+  border-radius: 5px;
+
+  &:hover:not(:disabled) {
+    filter: brightness(80%);
+  }
+
+  &:not(:disabled) {
+    color: white;
+    background-color: var(--#{$role}-clr-5);
+  }
+
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    background-color: var(--gray-clr-2) !important;
+  }
+
+  @if $icon {
+    &::before {
+      width: auto;
+      height: auto;
+      margin-right: 8px;
+      font-family: 'Material Icons', serif;
+      font-size: 1.6rem;
+      content: unquote('\"\\#{$icon}\"');
+    }
+  }
+
+}
+
+@mixin info-item {
+  @include util.flex-col-block($gap: 10px);
+  padding: 10px 20px 15px;
+  background: white;
+  border: 2px solid var(--neut-clr-2);
+  border-radius: 3px;
+  box-shadow: none;
+
+  &.unread {
+    .title::before {
+      @include badge-item('Unread', 'warn');
+    }
+  }
+
+  .title {
+    padding: 7px 5px 2px;
+    font-weight: 600;
+    color: var(--neut-clr-7);
+    border-bottom: 1px solid var(--neut-clr-2);
+  }
+
+  .label {
+    @include label-item;
+  }
+
+  .description {
+    padding-left: 10px;
+    font-size: 1.3rem;
+
+    ::ng-deep {
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 10px;
+        font-weight: 600;
+      }
+
+      a {
+        color: var(--prim-clr-6);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--sec-clr-6);
+        }
+      }
+
+      ul, ol, dl {
+        padding-left: 40px;
+        margin-top: 10px;
+      }
+
+      ul {
+        list-style: disc;
+      }
+
+      ol {
+        list-style: decimal;
+      }
+    }
+  }
+}
+
+@mixin badge-item($text: '', $role:'neut') {
+  position: relative;
+  top: -2px;
+  padding: 2px 8px;
+  margin-right: 8px;
+  margin-left: -5px;
+  font-size: 1.1rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+  border-radius: 8px;
+}
+
+@mixin label-item($text: '', $role:neut) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px 8px;
+  font-size: 1.2rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+}

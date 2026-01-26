@@ -16,27 +16,29 @@
 @forward '../node_modules/destyle.css/destyle.css';
 // -- Angular MD theme
 @forward '@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-// ---- Noppe styles
-@forward 'shared';
-@use 'theme' as theme;
-
-:root {
-  @include theme.init;
-  @include theme.color-system;
-}
-
-
 // ---- Utility <- mixin
 @forward 'utilities';
-// ---- Color
-@forward 'color';
 // ---- Base style <- shared
-@forward 'base-styles';
+@use 'base-styles' as base;
 // ---- Element style
-@forward 'elements';
-// ---- Shared Sass
-@forward 'shared';
+@forward 'ui-elements';
+// ---- Noppe styles
+// @forward 'shared';
+@use 'theme' as theme;
+@include theme.init;
+@include theme.color-system;
 
+html {
+  height: 100%;
 
+  @include base.common-font;
+  font-size: 62.5%;
+  color: var(--prim-clr-9);
+}
 
+body {
+  height: 100%;
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 160%;
+}

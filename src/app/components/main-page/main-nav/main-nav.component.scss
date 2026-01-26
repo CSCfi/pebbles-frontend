@@ -72,7 +72,7 @@
 
 // ----- Laptop
 
-@media (width >= 600px) {
+@media (width <= 1024px) {
   .mobile-main-nav {
     display: none;
   }

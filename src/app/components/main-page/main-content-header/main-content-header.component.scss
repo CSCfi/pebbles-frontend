@@ -1,5 +1,11 @@
 @use 'main' as main;
 
+:host {
+  @media (width <= 1024px) {
+    display: none;
+  }
+}
+
 #content-header {
   display: flex;
   flex-grow: 1;
