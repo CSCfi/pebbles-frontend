@@ -13,7 +13,7 @@
       <div>Mark all as read</div>
     </button>
   </div>
-  <section class="content-container">
+  <div class="content-container">
     <div class="items">
       <ng-container *ngIf="getMessages().length > 0; else elseBlock">
         <ng-container *ngFor="let message of getMessages()">
@@ -38,5 +38,5 @@
         </section>
       </ng-template>
     </div>
-  </section>
+  </div>
 </div>

@@ -4,23 +4,22 @@
 @use 'main';
 
 @mixin page-elm {
-  :host {
+  .page-container {
+    @include util.flex-col-block(stretch);
+    flex-grow: 1;
+    min-width: 0;
+    height: auto;
+    min-height: 100vh;
     background: var(--neut-clr-1);
-
-    .page-container {
-      @include util.flex-col-block(stretch);
-      flex-grow: 1;
-      height: 100vh;
-      max-height: 100vh;
-      overflow: hidden;
-    }
   }
 }
 
 @mixin header-elm {
-
   .content-header-container {
     @include util.flex-row-block(center);
+    position: sticky !important;
+    top: 0;
+    z-index: 10;
     flex: 0 0 var(--header-height);
     padding: 0 50px;
     background: white;
@@ -30,10 +29,6 @@
       flex: 0 0 var(--header-height-s) !important;
       justify-content: end;
       padding: 5px 10px;
-    }
-
-    app-main-content-header {
-      flex-grow: 1;
     }
 
     .header-action-btn {
@@ -50,13 +45,14 @@
 @mixin content-elm() {
   .content-container {
     @include util.flex-col-block(stretch, 40px);
-    flex: 1 1 auto;
+    flex-grow: 1;
+    align-items: center;
     width: 100%;
-    max-width: var(--container-width);
-    min-height: var(--contents-height);
-    padding: 25px 0;
+    min-height: auto;
+    padding: 25px 50px 40px;
     margin: 0 auto;
-    overflow: auto;
+    overflow: visible;
+    background: transparent;
 
     @media (max-width: #{base.$tablet-width}) {
       min-height: var(--contents-height-s);
@@ -64,6 +60,9 @@
     }
 
     section {
+      width: 100%;
+      max-width: var(--container-width);
+
       .title {
         @include main.headline-3;
         padding-left: 5px;
@@ -75,6 +74,8 @@
 
     .items {
       @include util.flex-col-block($gap: 10px);
+      width: 100%;
+      max-width: var(--container-width);
 
       .item {
         @include info-item;
