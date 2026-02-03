@@ -7,6 +7,17 @@ $mobile-width: 599px;
   --container-width: 1250px;
   --contents-height: calc(100vh - var(--header-height));
   --contents-height-s: calc(100vh - var(--header-height-s));
+
+  .mat-mdc-tab-group {
+    max-width: var(--container-width);
+    margin: auto;
+  }
+
+  .mat-expansion-panel {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 @mixin styled-font {
@@ -32,20 +43,20 @@ $mobile-width: 599px;
 
 @mixin headline-2 {
   @include styled-font;
-  font-size: 2.6rem;
+  font-size: 3rem;
   font-weight: 500;
 }
 
 @mixin headline-3 {
   @include styled-font;
-  font-size: 2rem;
-  font-weight: 500;
+  font-size: 2.4rem !important;
+  font-weight: 600;
 }
 
 @mixin headline-4 {
-  @include common-font;
+  @include styled-font;
   font-size: 1.6rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 @mixin headline-5 {
@@ -96,26 +107,48 @@ h6 {
   }
 }
 
-@mixin common-link {
-  a {
-    color: var(--prim-clr-6) !important;
-    text-decoration: underline !important;
-    cursor: pointer !important;
+@mixin icon($icon: apartments, $size: 2.2rem, $weight: 300, $pos: left, $gap: 8px) {
+  display: flex;
+  gap: $gap;
 
-    &:hover {
-      color: var(--sec-clr-6);
+  @if $pos == left {
+    &::before {
+      flex: 0 0 22px;
+      width: 24px;
+      height: auto;
+      font-family: 'Material Icons Outlined', sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      line-height: 1;
+      content: '#{$icon}';
     }
   }
-}
 
-@mixin icon($icon:'e5ca', $size: 'medium') {
-  &::before {
-    width: 22px;
-    height: auto;
-    margin-right: 8px;
-    font-family: 'Material Icons Outlined', sans-serif;
-    font-size: 2.2rem;
-    content: unquote('\"\\#{$icon}\"');
+  @if $pos == right {
+    &::after {
+      width: auto;
+      height: auto;
+      margin-left: 8px;
+      font-family: 'Material Icons Outlined', sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      content: '#{$icon}';
+    }
+  }
+
+  @if $pos == up {
+    &::before {
+      display: block;
+      width: 90px !important;
+      height: auto !important;
+      margin: 0;
+      font-family: 'Material Icons Outlined', sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      line-height: 1;
+      vertical-align: middle;
+      content: '#{$icon}';
+    }
   }
 }
 
@@ -161,7 +194,7 @@ h6 {
 // .item { @include centering(y); }  // Vertical only
 // .item { @include centering(xy); } // Both axes
 
-@mixin centering($pos: both, $inline: false) {
+@mixin centering($pos: xy, $inline: false) {
   display: if($inline, inline-flex, flex);
 
   // Vertical center (Y-axis)

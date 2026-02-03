@@ -8,6 +8,5 @@
 @include ui.status-block;
 
 .header-action-btn {
-  @include ui.button($role: 'sec', $icon: 'e5ca');
+  @include ui.button($role: 'sec', $icon: '\e5ca');
 }
-

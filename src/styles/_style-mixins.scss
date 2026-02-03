@@ -26,20 +26,20 @@
 
 @mixin headline-2 {
   @include styled-font;
-  font-size: 2.6rem;
+  font-size: 3rem;
   font-weight: 500;
 }
 
 @mixin headline-3 {
   @include styled-font;
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.4rem !important;
+  font-weight: 600 !important;
 }
 
 @mixin headline-4 {
-  @include common-font;
-  font-size: 1.6rem;
-  font-weight: 400;
+  @include styled-font;
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
 }
 
 @mixin headline-5 {
@@ -54,23 +54,23 @@
   font-weight: 400;
 }
 
-h1 {
+h1, .headline-1 {
   @include headline-1;
 }
 
-h2 {
+h2, .headline-2 {
   @include headline-2;
 }
 
-h3 {
+h3, .headline-3 {
   @include headline-3;
 }
 
-h4 {
+h4, headline-4 {
   @include headline-4;
 }
 
-h5 {
+h5, headline-5 {
   @include headline-5;
 
   mat-icon {
@@ -80,7 +80,7 @@ h5 {
   }
 }
 
-h6 {
+h6, headline-6 {
   @include headline-6;
 
   mat-icon {

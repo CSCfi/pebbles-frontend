@@ -6,7 +6,7 @@
 @include ui.content-elm;
 
 .request-account-deletion-btn {
-  @include ui.button($role: 'warn', $icon: 'e872', $width: '100%');
+  @include ui.button($role: 'warn', $icon: '\e872', $width: '100%');
 }
 
 .initialize-desktop-notifications-btn {
@@ -15,16 +15,16 @@
 
 .desktop-notifications {
   &-granted {
-    @include ui.deco-text($role: 'sec', $icon: 'e7f7');
+    @include ui.deco-text($color: var(--sec-clr-7), $icon: '\e7f7');
   }
 
   &-blocked,
   &-unsupported {
-    @include ui.deco-text($role: 'warn', $icon: 'e004');
+    @include ui.deco-text($color: var(--warn-clr-7), $icon: '\e004');
   }
 
   &-asking {
-    @include ui.deco-text($role: 'sec', $icon: 'e541');
+    @include ui.deco-text($color: var(--sec-clr-7), $icon: '\e541');
   }
 }
 
