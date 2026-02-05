@@ -7,17 +7,6 @@ $mobile-width: 599px;
   --container-width: 1250px;
   --contents-height: calc(100vh - var(--header-height));
   --contents-height-s: calc(100vh - var(--header-height-s));
-
-  .mat-mdc-tab-group {
-    max-width: var(--container-width);
-    margin: auto;
-  }
-
-  .mat-expansion-panel {
-    &:hover {
-      cursor: pointer;
-    }
-  }
 }
 
 @mixin styled-font {
@@ -233,3 +222,19 @@ h6 {
     @include centering(xy, true);
   }
 }
+
+
+.mat-mdc-tab-group {
+  width: 100%;
+  max-width: var(--container-width);
+  min-height: calc(100vh - 50px - var(--header-height));
+  margin: 0 auto;
+
+  .mat-expansion-panel {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+

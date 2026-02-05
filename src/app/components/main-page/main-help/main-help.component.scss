@@ -53,10 +53,6 @@
   }
 }
 
-.external-link {
-  @include ui.deco-text($color: var(--prim-clr-6), $icon: 'launch', $icon-size: 2.4rem, $icon-weight: 100);
-}
-
 .faq {
   @include util.flex-col-block($gap: 40px);
 

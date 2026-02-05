@@ -8,8 +8,7 @@
     @include util.flex-col-block(stretch);
     flex-grow: 1;
     min-width: 0;
-    height: auto;
-    min-height: 100vh;
+    min-height: calc(100vh - var(--header-height));
     background: var(--neut-clr-1);
   }
 }
@@ -323,4 +322,8 @@
 
 @mixin external-link {
   @include deco-text($color: var(--prim-clr-6), $icon: 'launch', $icon-size: 2.4rem, $icon-weight: 100);
+}
+
+.external-link {
+  @include external-link;
 }
