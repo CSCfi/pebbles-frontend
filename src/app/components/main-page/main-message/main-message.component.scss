@@ -10,3 +10,7 @@
 .header-action-btn {
   @include ui.button($role: 'sec', $icon: '\e5ca');
 }
+
+.status-summary {
+  @include ui.crowned-text($icon: mail, $color: var(--neut-clr-6), $icon-size: 6rem);
+}

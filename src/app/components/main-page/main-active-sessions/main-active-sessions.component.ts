@@ -39,7 +39,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   queryText = '';
 
   displayedColumns: string[] = [
-    'index', 'isSelected', 'sessionName', 'workspaceName', 'applicationName', 'username', 'state', 'lifetimeLeft',
+    'isSelected', 'state', 'sessionName', 'applicationName', 'username', 'lifetimeLeft',
     'startUpTime', 'sessionDetails', 'sessionLink'
   ];
   dataSource: MatTableDataSource<SessionTableRow>;
@@ -96,8 +96,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
   updateView(force = false): void {
     if (this.selectedDetailSessionId) {
       this.updateDetailView();
-    }
-    else {
+    } else {
       this.updateRowData(force);
     }
   }
@@ -109,8 +108,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     if (!this.selectedSessionLogs.find(x => x.message === 'ready')) {
       this.selectedSessionPreviousState = this.selectedDetailSession.state;
       this.refreshApplicationSessionLogs(this.selectedDetailSessionId);
-    }
-    else if (this.logRefreshPending && !this.selectedDetailSession?.log_fetch_pending) {
+    } else if (this.logRefreshPending && !this.selectedDetailSession?.log_fetch_pending) {
       this.refreshApplicationSessionLogs(this.selectedDetailSessionId);
       this.logRefreshPending = false;
     }
@@ -128,18 +126,18 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
     // record if there are sessions without the corresponding application
     let applicationsMissing = false;
     // update existing row data entries and insert new ones
-    this.applicationSessionService.getAllSessions().map((session, index) => {
+    this.applicationSessionService.getAllSessions().map((session) => {
       // if the application for the session is not present, refresh applications
       if (!this.applicationService.get(session.application_id)) {
         applicationsMissing = true;
       }
       const existingEntry = this.tableRowData.find(r => r.sessionId === session.id);
       let startUpTime = "-"
-        if (session.provisioned_at !== null) {
-          startUpTime = `${Math.round(
-            ((new Date(session.provisioned_at)).getTime() - (new Date(session.created_at)).getTime()
-            ) / 1000).toString()}s`
-        }
+      if (session.provisioned_at !== null) {
+        startUpTime = `${Math.round(
+          ((new Date(session.provisioned_at)).getTime() - (new Date(session.created_at)).getTime()
+          ) / 1000).toString()}s`
+      }
       if (existingEntry) {
         existingEntry.lifetimeLeft = Utilities.lifetimeToString(session.lifetime_left);
         existingEntry.state = session.state;
@@ -149,8 +147,7 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
         existingEntry.sessionUrl = session.url;
         existingEntry.username = session.username;
         existingEntry.startUpTime = startUpTime;
-      }
-      else {
+      } else {
         this.tableRowData.push({
           isSelected: false,
           index: -1,
@@ -281,10 +278,10 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
       switch (sort.active) {
         case 'index':
           return Utilities.compare(a.index, b.index, isAsc);
-        case 'workspaceName':
-          return Utilities.compare(a.workspaceName, b.workspaceName, isAsc);
+        // case 'workspaceName':
+        //   return Utilities.compare(a.workspaceName, b.workspaceName, isAsc);
         case 'applicationName':
-          return Utilities.compare(a.applicationName, b.applicationName, isAsc);
+          return Utilities.compare(a.applicationName[1], b.applicationName[1], isAsc);
         case 'username':
           return Utilities.compare(a.username, b.username, isAsc);
         case 'state':

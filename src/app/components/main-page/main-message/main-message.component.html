@@ -13,29 +13,23 @@
     </button>
   </div>
   <div class="content-container">
-    <div class="items">
-      <ng-container *ngIf="getMessages().length > 0; else elseBlock">
-        <ng-container *ngFor="let message of getMessages()">
-
-          <div [ngClass]="{'unread':!message.is_read}" class="item">
-            <div class="title">{{ message.subject }}</div>
-            <span class="label">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
-            <div [innerHtml]="message.message"
-                 class="description render-hyperlinks">
-            </div>
+    <div *ngIf="getMessages().length > 0; else elseBlock" class="items">
+      <ng-container *ngFor="let message of getMessages()">
+        <div [ngClass]="{'unread':!message.is_read}" class="item">
+          <div class="title">{{ message.subject }}</div>
+          <span class="label">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
+          <div [innerHtml]="message.message"
+               class="description render-hyperlinks">
           </div>
-
-        </ng-container>
+        </div>
       </ng-container>
-
-      <ng-template #elseBlock>
-        <section class="status-info-container">
-          <div class="empty-status">
-            <mat-icon class="md-96" fontSet="material-icons-outlined">mail</mat-icon>
-            <div class="status-summary">No messages yet.</div>
-          </div>
-        </section>
-      </ng-template>
     </div>
+    <ng-template #elseBlock>
+      <section class="status-info-container">
+        <div class="empty-status">
+          <div class="status-summary">No messages yet.</div>
+        </div>
+      </section>
+    </ng-template>
   </div>
 </div>

@@ -49,16 +49,16 @@ $color-roles: (
         'neut': oklch(from var(--seed-color) l 0.05 h),
         'sec': oklch(from var(--seed-color) l calc(c - 0.04) calc(h - 50)),
         'acc': oklch(from var(--seed-color) l calc(c + 0.03) calc(h + 200)),
-        'warn': oklch(from var(--seed-color) l calc(c + 0.02) calc(h + 110))
+        'warn': oklch(from var(--seed-color) l calc(c + 0.02) calc(h + 107))
 );
 
 // -- 2. Lightness & Chromas (saturation) level
 // Level: (l: lightness, c: chroma-adjustment)
 $levels: (
-        0: (l: 0.99, c: -0.04), // -- Lightest
-        1: (l: 0.95, c: -0.035),
-        2: (l: 0.86, c: -0.02),
-        3: (l: 0.76, c: -0.01),
+        0: (l: 0.999, c: -0.06), // -- Lightest
+        1: (l: 0.96, c: -0.035),
+        2: (l: 0.90, c: -0.02),
+        3: (l: 0.80, c: -0.01),
         4: (l: 0.65, c: 0),
         5: (l: 0.55, c: 0), // -- Base Color
         6: (l: 0.42, c: 0),

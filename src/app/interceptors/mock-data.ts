@@ -67,6 +67,50 @@ export let db = {
       maximum_lifetime: '2000',
       user_id: '301',
       username: 'user-1@example.org',
+    },
+    {
+      id: '7',
+      name: 'pb-python-analysis-01',
+      application_id: '1', // Course Introduction to Python
+      state: 'running',
+      session_data: {endpoints: [{access: 'https://foo/7'}]},
+      lifetime_left: '1200',
+      maximum_lifetime: '3600',
+      user_id: '101',
+      username: 'owner-1@example.org',
+    },
+    {
+      id: '8',
+      name: 'pb-deep-learning-test',
+      application_id: '3', // Course Practical Deep Learning
+      state: 'running',
+      session_data: {endpoints: [{access: 'https://foo/8'}]},
+      lifetime_left: '18000',
+      maximum_lifetime: '36000',
+      user_id: '101',
+      username: 'owner-1@example.org',
+    },
+    {
+      id: '9',
+      name: 'pb-data-science-lab-2',
+      application_id: '11', // Data Science 2
+      state: 'provisioning',
+      session_data: {endpoints: [{access: 'https://foo/9'}]},
+      lifetime_left: '10800',
+      maximum_lifetime: '10800',
+      user_id: '101',
+      username: 'owner-1@example.org',
+    },
+    {
+      id: '10',
+      name: 'pb-rstudio-session-final',
+      application_id: '9', // RStudio Server
+      state: 'running',
+      session_data: {endpoints: [{access: 'https://foo/10'}]},
+      lifetime_left: '5000',
+      maximum_lifetime: '54000',
+      user_id: '101',
+      username: 'owner-1@example.org',
     }
   ],
   applications: [
