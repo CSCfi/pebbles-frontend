@@ -17,7 +17,7 @@
             <mat-card class="total-sessions">
               <mat-card-title>Total active sessions: {{ activeSessionNumber }}</mat-card-title>
               <mat-card-content>
-                <h5>session state:</h5>
+                <h5>Session state:</h5>
                 <ul class="states">
                   <li>Starting</li>
                   <li>Running</li>
@@ -68,7 +68,7 @@
                 </mat-icon>
                 <mat-icon *ngIf="['deleting','deleted'].includes(element.state)"
                           [matTooltip]="element.state" class="deleting">
-                  delete
+                  circle
                 </mat-icon>
                 <mat-icon *ngIf="element.state === SessionStates.Failed"
                           [matTooltip]="element.state" class="error">
@@ -200,13 +200,13 @@
             <ng-container
                 *ngIf="logRefreshPending && getSelectedSessionOutputLines().length === 0">
               <p class="prompt">
-                Please wait during fetching.<span class="cursor">_</span>
+                Fetching logs...<span class="cursor">_</span>
               </p>
             </ng-container>
             <ng-container
                 *ngIf="selectedDetailSession.state !== SessionStates.Running">
               <p class="prompt">
-                Session output log is available only during a session running.
+                Session output log is available only for running sessions.
               </p>
             </ng-container>
             <ng-container *ngIf="!logRefreshPending  && selectedDetailSession.state === SessionStates.Running &&
