@@ -1,85 +1,33 @@
 @use 'main' as main;
+@use 'utilities' as util;
+@use 'ui-elements' as ui;
+@use 'base-styles' as base;
+@include ui.search-form-elm;
+@include ui.chips($type: normal, $color: white, $background: var(--sec-clr-6));
+
 
 :host {
-  @media (width <= 1024px) {
-    display: none;
-  }
+  flex-grow: 1;
 }
 
-#content-header {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: row;
-  gap: 15px;
-  align-items: center;
-  justify-content: space-between;
-  background: main.$light-color;
+.content-header {
+  @include util.flex-row-block($type: center, $distribution: start, $gap: 30px, $wrap: false);
 
   h3 {
-    flex-grow: 0;
-    font-weight: 600;
+    flex: 1 0 auto;
+    font-size: 2.4rem !important;
+    color: var(--neut-clr-8);
   }
 
-  form.search-form {
-    flex-grow: 1;
-    flex-basis: auto;
-    padding: 0;
-    margin-top: 15px;
-
-    ::ng-deep.mat-mdc-form-field {
-      width: 100%;
-      height: 65px;
-
-      .mat-mdc-text-field-wrapper {
-        padding-left: 10px;
-        background-color: map-get(main.$app-primary, 100);
-
-        .mat-mdc-form-field-infix {
-          display: flex;
-          padding: 0;
-        }
-      }
-
-      .mat-mdc-form-field-subscript-wrapper {
-        margin-top: -10px;
-      }
-    }
+  form {
+    flex: 1 1 auto;
   }
 
-
-  .mat-mdc-chip-set {
-    mat-chip-row {
-      background-color: main.$secondary-color !important;
-      border: 1px solid main.$secondary-color;
-
-      span {
-        padding-left: 0 !important;
-        font-size: 1.2rem !important;
-        color: main.$secondary-dark-color !important;
-      }
-
-      mat-icon {
-        padding: 0 !important;
-      }
-
-      .mdc-evolution-chip__text-label {
-        color: main.$secondary-dark-color !important;
-      }
-    }
-  }
 }
 
-// ----- MOBILE
-
-@media (width <= 599px) {
-  #content-header {
-    h3 {
-      display: none;
-    }
-
-    ::ng-deep form.search-form {
-      margin-top: 5px !important;
-    }
+@media (max-width: #{base.$mobile-width}) {
+  .content-header {
+    display: block !important;
+    margin-bottom: 10px;
   }
 }
-

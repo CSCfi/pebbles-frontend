@@ -1,104 +1,92 @@
 @use 'main' as main;
+@use 'base-styles' as base;
+@use 'ui-elements' as ui;
+@use 'utilities' as util;
+@include ui.page-elm($bg-color: var(--neut-clr-2), $overflow: hidden);
+@include ui.header-elm;
+@include ui.content-elm($type: stretch, $is-widen: true, $gap: 0, $padding-top: 0);
+@include ui.status-block;
 
-.content-container {
-
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  overflow: hidden;
-  background: main.$gray-light-color !important;
+.join-workspace-button {
+  @include ui.button(
+          $role: prim, $font-size: 1.6rem, $style: 'flat',
+          $width: auto, $height: 40px,
+          $icon: 'vpn_key', $icon-family: 'Filled');
 }
 
 ::ng-deep .mat-mdc-tab-group {
-  flex: 1 1 auto;
-  padding-top: 10px;
-  overflow: hidden;
+  max-width: 100% !important;
+  min-height: auto !important;
 
   .mat-mdc-tab-header {
-    --mdc-secondary-navigation-tab-container-height: 42px;
-  }
+    --mdc-secondary-navigation-tab-container-height: 38px;
 
-  .mdc-tab {
-    background: white !important;
-    border-right: 1px solid main.$primary-light-color !important;
+    .mdc-tab {
+      @include base.styled-font;
 
-    &:last-child {
-      border-right: none !important;
-    }
-
-    &--active {
-      background: white !important;
-    }
-
-    .mdc-tab__text-label {
       font-size: 1.4rem;
-      font-weight: 500;
-      color: rgb(0, 0, 0, 0.87);
-    }
+      font-weight: 700;
+      color: var(--prim-clr-7);
+      letter-spacing: -0.01em;
+      background: white;
+      border-right: 1px solid var(--neut-clr-2);
 
-  }
+      &--active {
+        background: white !important;
+      }
 
-  button.mat-mdc-tab-header-pagination {
-    background-color: main.$gray-extra-light-color !important;
-  }
-
-  .mat-mdc-tab-body-wrapper {
-    height: calc(100vh - 130px);
-    padding: 0 30px;
-    background: main.$gray-extra-light-color !important;
-    border-top: 1px solid main.$gray-color;
-
-    .tab-content {
-      height: 100%;
-      padding: 15px;
-
-      .catalog-section {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: stretch;
-        height: 100%;
-        padding-bottom: 50px;
+      .mat-mdc-tab-label-container {
+        height: var(--tab-header-height);
       }
     }
   }
-}
 
-.no-public-applications-divider,
-.no-public-applications-card {
-  text-align: center;
+  .mat-mdc-tab-body-wrapper {
+    flex-grow: 1;
+    // height: calc(100vh - var(--tab-header-height) - var(--header-height) - 80px);
+    padding: 0;
+    background: var(--neut-clr-1);
+    border-top: 1px solid var(--neut-clr-3);
 
-  mat-icon {
-    width: 80px;
-    height: 80px;
-    font-size: 8.0rem;
-    color: main.$gray-extra-dark-color;
-  }
-
-  .no-public-applications-text {
-    margin-top: 5px;
-    text-align: center !important;
+    .tab-content {
+      height: calc(100vh - var(--tab-header-height) - var(--header-height) - 10px);
+      padding: 0 base.$page-side-padding;
+    }
   }
 }
 
-.no-public-applications-divider {
-  margin-bottom: 30px;
+.application-item-container {
+  @include util.flex-col-block($gap: 10px, $type: center);
+  padding-top: 20px;
+  padding-bottom: 100px;
 }
 
-// ----- MOBILE
-
-@media (width <= 599px) {
-
-  .application-item-container {
-    padding: 10px;
+.empty-status {
+  .status-headline {
+    @include ui.crowned-text($icon: import_contacts, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
   }
-  ::ng-deep mat-tab-header {
-    display: none !important;
+}
+
+.loading-status {
+  .status-headline {
+    @include ui.crowned-text($icon: hourglass_top, $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
+}
+
+.no-public-applications-text {
+  @include ui.crowned-text($icon: person_alert, $color: var(--neut-clr-7), $icon-size: 8rem);
+  padding: 40px;
+  margin-top: 40px;
+  border-top: 1px solid var(--neut-clr-3);
+}
+
+@media (max-width: #{base.$mobile-width}) {
+  ::ng-deep.mat-mdc-tab-labels {
+    justify-content: start !important;
   }
 
-  ::ng-deep .mat-mdc-tab-body-wrapper {
-    height: calc(100vh - 170px);
-    padding: 5px !important;
-    border-top: none;
+  .tab-content {
+    padding: 0 10px !important;
   }
 }

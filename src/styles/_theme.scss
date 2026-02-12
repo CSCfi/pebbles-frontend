@@ -47,30 +47,31 @@ $color-roles: (
         'prim': var(--seed-color),
         'gray': oklch(from var(--seed-color) l 0.01 h),
         'neut': oklch(from var(--seed-color) l 0.05 h),
-        'sec': oklch(from var(--seed-color) l calc(c - 0.04) calc(h - 50)),
-        'acc': oklch(from var(--seed-color) l calc(c + 0.03) calc(h + 200)),
-        'warn': oklch(from var(--seed-color) l calc(c + 0.02) calc(h + 107))
+        'sec': oklch(from var(--seed-color) l calc(c - 0.06) calc(h - 50)),
+        'acc': oklch(from var(--seed-color) l calc(c - 0) calc(h + 218)),
+        'warn': oklch(from var(--seed-color) l calc(c + 0.02) calc(h + 110))
 );
 
 // -- 2. Lightness & Chromas (saturation) level
 // Level: (l: lightness, c: chroma-adjustment)
+
 $levels: (
-        0: (l: 0.999, c: -0.06), // -- Lightest
+        0: (l: 0.98, c: -0.06), // -- Lightest
         1: (l: 0.96, c: -0.035),
-        2: (l: 0.90, c: -0.02),
-        3: (l: 0.80, c: -0.01),
-        4: (l: 0.65, c: 0),
-        5: (l: 0.55, c: 0), // -- Base Color
-        6: (l: 0.42, c: 0),
-        7: (l: 0.31, c: 0),
-        8: (l: 0.24, c: 0),
-        9: (l: 0.18, c: 0) // -- Darkest
+        2: (l: 0.92, c: -0.02),
+        3: (l: 0.86, c: -0.01),
+        4: (l: 0.76, c: 0),
+        5: (l: 0.66, c: 0), // -- Base Color
+        6: (l: 0.56, c: 0),
+        7: (l: 0.46, c: 0),
+        8: (l: 0.36, c: 0),
+        9: (l: 0.30, c: 0) // -- Darkest
 );
 
 // 3. Text Color Settings
 // $reverse-point (0-9) to switch text color
 @function get-text-color($level) {
-  $reverse-point: 4;
+  $reverse-point: 5;
   $light-text-color: var(--gray-clr-0);
   $dark-text-color: var(--gray-clr-9);
 

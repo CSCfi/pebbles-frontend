@@ -1,14 +1,16 @@
 <div class="page-container">
-  <div class="content-header-container">
-    <app-main-content-header
-        [context]="context"
-        [isSearchOn]="false"
-        [labels]="null">
-    </app-main-content-header>
+  <div class="content-header-wrapper">
+    <div class="content-header-container">
+      <app-main-content-header
+          [context]="context"
+          [isSearchOn]="false"
+          [labels]="null">
+      </app-main-content-header>
+    </div>
   </div>
   <div class="content-container">
     <section>
-      <h3 class="title">Account information</h3>
+      <h4 class="title">Account information</h4>
       <div class="info-body">
         <dl class="user-info grid">
           <dt>Username</dt>
@@ -42,7 +44,7 @@
                     We will process your request and come back to you.
                   </p>
                 </li>
-                <li>
+                <li class="request-account-deletion">
                   <button (click)="requestAccountDeletion()"
                           class="request-account-deletion-btn">
                     Request account deletion
@@ -62,7 +64,7 @@
 
     </section>
     <section>
-      <h3 class="title">Setting</h3>
+      <h4 class="title">Setting</h4>
       <div class="info-body">
         <dl class="user-setting grid">
           <dt>Desktop notifications</dt>

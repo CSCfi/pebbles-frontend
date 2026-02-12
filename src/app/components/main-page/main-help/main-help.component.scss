@@ -8,11 +8,12 @@
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab {
 
-  background: var(--neut-clr-0);
+  background: white;
   border: 1px solid var(--neut-clr-2);
 
   .tab-title {
     @include main.headline-4;
+    color: var(--prim-clr-7);
   }
 
   &:first-child {
@@ -62,7 +63,7 @@
 
   .question {
     @include base.headline-4;
-    @include ui.deco-text($color: var(--prim-clr-6), $icon: 'live_help', $gap: 20px);
+    @include ui.deco-text($color: var(--prim-clr-7), $icon: 'live_help', $gap: 20px);
 
     padding-top: 15px;
     padding-bottom: 15px;
@@ -86,10 +87,7 @@
 
 .documentation {
   @include ui.info-item;
-
-  dl {
-    @include base.grid-list($fractions: '200px auto');
-  }
+  @include base.grid-list($fractions: '240px auto');
 }
 
 .contact {
@@ -107,11 +105,11 @@
     @include util.flex-col-block($type: center, $gap: 20px);
 
     h3 {
-      @include ui.crowned-text($color: var(--neut-clr-6), $icon: apartments);
+      @include ui.crowned-text($color: var(--neut-clr-7), $icon: business, $icon-family: Outlined, $icon-type: Icons);
     }
 
     .email-link {
-      @include ui.deco-text($color: var(--prim-clr-6), $icon: 'email', $icon-size: 2.4rem, $icon-weight: 100);
+      @include ui.deco-text($color: var(--prim-clr-7), $icon: 'email', $icon-size: 2.4rem, $icon-weight: 100);
 
       span {
         text-indent: 10px;

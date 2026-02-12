@@ -1,12 +1,14 @@
 <div class="page-container">
-  <div class="content-header-container">
-    <app-main-content-header
-        (emitApplyFilter)="applyFilter($event)"
-        [context]="context"
-        [isAutocompleteDisabled]=""
-        [isSearchOn]="selectedTab===0"
-        [labels]="null">
-    </app-main-content-header>
+  <div class="content-header-wrapper">
+    <div class="content-header-container">
+      <app-main-content-header
+          (emitApplyFilter)="applyFilter($event)"
+          [context]="context"
+          [isAutocompleteDisabled]=""
+          [isSearchOn]="selectedTab===0"
+          [labels]="null">
+      </app-main-content-header>
+    </div>
   </div>
   <div class="content-container">
     <mat-tab-group (selectedTabChange)="handleTabChange($event)" [selectedIndex]="selectedTab"
@@ -49,7 +51,7 @@
         </ng-template>
         <ng-template matTabContent>
           <section class="documentation">
-            <dl>
+            <dl class="grid">
               <dt>{{ publicConfigService.getInstallationName() }} Documentation</dt>
               <dd class="external-link">
                 <a [href]="publicConfigService.getServiceDocumentationUrl()" rel="noopener" target="_blank">

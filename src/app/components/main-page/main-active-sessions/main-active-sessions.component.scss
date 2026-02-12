@@ -5,7 +5,7 @@
 @use 'theme' as theme;
 @include ui.page-elm;
 @include ui.header-elm;
-@include ui.content-elm($type: stretch, $gap: 40px);
+@include ui.content-elm($type: stretch, $gap: 25px);
 @include ui.status-block;
 @include ui.terminal;
 

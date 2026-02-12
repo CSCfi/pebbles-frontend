@@ -3,37 +3,38 @@
 @use 'base-styles' as base;
 @use 'main';
 
-@mixin page-elm {
+@mixin page-elm($bg-color: var(--neut-clr-1), $overflow: auto) {
   .page-container {
     @include util.flex-col-block(stretch);
     flex-grow: 1;
     min-width: 0;
     min-height: 100vh;
-    background: var(--neut-clr-1);
+    overflow: $overflow;
+    background: $bg-color;
   }
 }
 
 @mixin header-elm {
+  .content-header-wrapper {
+    @include util.flex-col-block;
+    flex: 0 0 var(--header-height);
+    padding: 5px base.$page-side-padding 0;
+
+    // ----- MOBILE
+    @media (max-width: #{base.$mobile-width}) {
+      padding: 10px 0;
+    }
+  }
+
   .content-header-container {
-    @include util.flex-row-block($type: center, $gap: 10px);
+    @include util.flex-row-block($type: center, $gap: 100px);
     position: sticky !important;
     top: 0;
     z-index: 10;
     flex: 0 0 var(--header-height);
     width: 100%;
-    padding: 0 50px;
-    background: white;
-    border-bottom: 1px solid var(--neut-clr-2);
-
-    ::ng-deep app-main-content-header {
-      flex-grow: 1;
-    }
-
-    @media (max-width: #{base.$tablet-width}) {
-      flex: 0 0 var(--header-height-s) !important;
-      justify-content: end;
-      padding: 0 10px;
-    }
+    max-width: var(--container-width);
+    margin: 0 auto;
 
     .header-functions {
       @include util.flex-row-block($type: center, $gap: 0);
@@ -42,20 +43,83 @@
     .mat-dialog-close {
       background: none !important;
     }
+
+    // ----- Tablet
+    @media (max-width: #{base.$tablet-width}) {
+      flex: 0 0 var(--header-height-s) !important;
+      justify-content: end;
+      padding: 0 10px;
+    }
+
+    // ----- MOBILE
+    @media (max-width: #{base.$mobile-width}) {
+      flex-direction: column !important;
+      gap: 0;
+      align-items: stretch;
+      padding: 0 15px 10px;
+
+      button {
+        flex-grow: 1;
+
+        mat-icon {
+          width: 1.6rem !important;
+          height: 1.6rem !important;
+          font-size: 1.6rem !important;
+        }
+      }
+    }
   }
 }
 
-@mixin content-elm($type: center, $gap: 40px) {
+@mixin search-form-elm {
+
+  form.search-form {
+    width: 100%;
+    height: 40px;
+    margin-top: 5px !important;
+
+    ::ng-deep.mat-mdc-form-field {
+      width: 100%;
+
+      .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+        border: 1px solid var(--neut-clr-3) !important;
+      }
+
+      .mdc-line-ripple::after {
+        border-bottom-color: var(--neut-clr-6) !important;
+        border-bottom-width: 2px !important;
+      }
+
+      .mat-mdc-form-field-icon-prefix {
+        margin-left: 5px;
+
+        .mat-icon {
+          color: var(--neut-clr-7);
+        }
+      }
+    }
+  }
+}
+
+@mixin content-elm($type: center, $gap: 40px, $is-widen: false, $padding-top: 25px, $isScrollOn: false) {
   .content-container {
     @include util.flex-col-block($gap: $gap);
+
+    @if $isScrollOn {
+      height: calc(100vh - var(--header-height));
+      max-height: calc(100vh - var(--header-height));
+      overflow: scroll;
+    } @else {
+      min-height: auto;
+      overflow: visible;
+    }
+
     flex-grow: 1;
     align-items: $type;
+    justify-content: start;
     width: 100%;
-    height: calc(100vh - var(--header-height));
-    min-height: auto;
-    padding: 25px 50px 40px;
+    padding: $padding-top if($is-widen, 0, base.$page-side-padding) calc($padding-top * 2);
     margin: 0 auto;
-    overflow: visible;
     background: transparent;
 
     @media (max-width: #{base.$tablet-width}) {
@@ -72,8 +136,7 @@
         @include base.headline-3;
         padding-left: 5px;
         margin-bottom: 5px;
-        font-size: 1.6rem;
-        color: var(--gray-clr-6);
+        color: var(--gray-clr-7);
       }
     }
 
@@ -94,38 +157,42 @@
 }
 
 @mixin status-block {
+
   .status-info-container {
     @include base.centering(xy);
-    height: 60%;
+    padding-top: 10%;
     color: var(--neut-clr-8);
     text-align: center;
+  }
 
-    .success-status .mat-icon,
-    .empty-status .mat-icon {
+  .success-status,
+  .empty-status {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .mat-icon {
       @include base.centering(xy);
       width: auto;
       height: auto;
       padding: 10px 0;
       font-size: 6rem;
     }
-
-    .status-headline {
-      @include base.headline-1;
-      margin-bottom: 10px;
-      font-size: 3rem;
-    }
-
-    .status-summary {
-      margin-bottom: 20px;
-
-      @include base.headline-2;
-    }
-
-    .keyword {
-      font-style: normal;
-      font-weight: bold;
-    }
   }
+
+  .status-headline {
+    @include base.headline-2;
+  }
+
+  .status-summary {
+    @include base.headline-4;
+  }
+
+  .keyword {
+    font-style: normal;
+    font-weight: bold;
+  }
+
 }
 
 @mixin table() {
@@ -186,10 +253,14 @@
   white-space: nowrap;
 }
 
-@mixin button($role: 'prim', $font-size: 1.5rem, $style: 'flat', $width: 'auto', $icon: '\ebcc', $icon-size: 2.2rem, $icon-weight: 300) {
+@mixin button(
+  $role: 'prim', $font-size: 1.5rem, $style: 'flat',
+  $width: 'auto', $height: var(--mat-filled-button-touch-target-display),
+  $icon: '\ebcc', $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined') {
   @include base.styled-font;
   @include base.centering(xy);
   width: #{$width};
+  height: #{$height};
   padding: 6px 15px;
   font-size: $font-size !important;
   font-weight: 600 !important;
@@ -199,7 +270,8 @@
   border-radius: 5px;
 
   @if $style == 'flat' {
-    background-color: var(--#{$role}-clr-6);
+    color: white !important;
+    background: var(--#{$role}-clr-7) !important;
   } @else if $style == 'none' {
     color: var(--#{$role}-clr-6) !important;
     background: transparent !important;
@@ -210,14 +282,8 @@
     border: 3px solid var(--#{$role}-clr-5);
   }
 
-
   &:hover:not(:disabled) {
     filter: brightness(80%);
-  }
-
-  &:not(:disabled) {
-    color: white;
-    background-color: var(--#{$role}-clr-5);
   }
 
   &:disabled,
@@ -229,50 +295,38 @@
   }
 
   @if $icon {
-    @include base.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight);
+    @include base.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $family: $icon-family);
   }
 }
 
 @mixin deco-text(
-  $color: var(--gray-clr-7), $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start,
-  $icon: '\ebcc', $icon-family: 'Outlined', $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
+  $color: inherit, $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start,
+  $icon: '\ebcc', $icon-type: 'Symbols', $icon-family: 'Outlined', $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
 ) {
   @include base.styled-font;
   @include base.centering(y);
   position: relative;
   justify-content: $text-align;
+  width: auto;
   font-size: $font-size;
   font-weight: 600;
   color: #{$color};
 
   @if $icon {
     @include base.icon(
-            $icon: $icon, $family: $icon-family, $color: $icon-color, $size: $icon-size, $weight: $icon-weight,
+            $icon: $icon, $type: $icon-type, $family: $icon-family, $color: $icon-color, $size: $icon-size, $weight: $icon-weight,
             $pos: left, $gap: $gap);
   }
 
   @if $highlight != none {
     padding: 2px 10px;
-    isolation: isolate;
-
-    &::after {
-      position: absolute;
-      bottom: 15%;
-      left: -2px;
-      z-index: -1;
-      width: 100%;
-      height: 40%;
-      content: '';
-      background-color: $highlight;
-      border-radius: 150px 15px 110px / 15px 150px;
-      opacity: 0.8;
-    }
+    background: var(--sec-clr-0);
   }
 }
 
 @mixin crowned-text(
-  $color: var(--gray-clr-6),
-  $icon: 'ebcc', $icon-size: 9.6rem, $icon-weight: 300, $icon-family: 'Outlined') {
+  $color: var(--gray-clr-7),
+  $icon: 'ebcc', $icon-size: 9.6rem, $icon-weight: 300, $icon-type: 'Symbols', $icon-family: 'Outlined') {
   @include base.styled-font;
   @include base.centering(xy);
   position: relative;
@@ -290,7 +344,7 @@
   }
 
   @if $icon {
-    @include base.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $family: $icon-family, $pos: up);
+    @include base.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $type: $icon-type, $family: $icon-family, $pos: up);
   }
 }
 
@@ -332,13 +386,7 @@
       }
 
       a {
-        color: var(--prim-clr-6);
-        text-decoration: underline;
-        cursor: pointer;
-
-        &:hover {
-          color: var(--sec-clr-6);
-        }
+        @include common-link;
       }
 
       ul, ol {
@@ -387,6 +435,55 @@
   }
 }
 
+@mixin chips($type: mini, $color: inherit, $background: transparent, $border: none, $wrap: false) {
+
+  .mat-mdc-chip-set {
+    ::ng-deep .mdc-evolution-chip-set__chips {
+      flex-wrap: if($wrap, warp, none);
+    }
+
+    mat-chip-row {
+
+      color: white;
+      background-color: $background !important;
+      border: $border;
+
+      --mdc-chip-label-text-color: $color;
+      --mdc-chip-label-text-weight: 500;
+
+      ::ng-deep.mdc-evolution-chip__cell {
+        font-size: 1.2rem;
+      }
+
+      ::ng-deep.mdc-evolution-chip__cell--trailing {
+        padding-right: 4px;
+
+        .mat-icon {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+@mixin mini-chips($color: var(--neut-clr-6), $background: var(--neut-clr-1), $border: 1px solid var(--neut-clr-2), $wrap: true) {
+
+  .mini-chips {
+    @include util.flex-row-block($gap: 6px 4px, $distribution: start, $wrap: $wrap);
+
+    .chip {
+      padding: 2px 4px 4px 6px;
+      font-size: 1.1rem;
+      line-height: 1;
+      color: $color;
+      letter-spacing: 1px;
+      text-decoration: none;
+      background-color: $background;
+      border: $border;
+      border-radius: 2px;
+    }
+  }
+}
 
 @mixin badge-item($text: '', $role: neut) {
   position: relative;
@@ -492,6 +589,17 @@
       width: 10px;
       animation: blink 1s infinite;
     }
+  }
+}
+
+@mixin persistent-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--neut-clr-3);
+    border-radius: 4px;
   }
 }
 

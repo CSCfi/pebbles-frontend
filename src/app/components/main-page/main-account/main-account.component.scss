@@ -5,8 +5,12 @@
 @include ui.header-elm;
 @include ui.content-elm;
 
-.request-account-deletion-btn {
-  @include ui.button($role: 'warn', $style: 'stroked', $icon: 'delete', $width: '100%');
+.request-account-deletion {
+  @include base.centering(x);
+
+  .request-account-deletion-btn {
+    @include ui.button($role: 'warn', $style: 'stroked', $icon: 'delete', $width: 'auto');
+  }
 }
 
 .initialize-desktop-notifications-btn {

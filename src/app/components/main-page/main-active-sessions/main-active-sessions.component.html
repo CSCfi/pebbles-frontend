@@ -1,14 +1,16 @@
 <div class="page-container">
   <ng-container *ngIf="!selectedDetailSession; else sessionDetails">
-    <div class="content-header-container">
-      <app-main-content-header
-          (emitApplyFilter)="applyFilter($event)"
-          [context]="context"
-          [isAutocompleteDisabled]="true"
-          [isSearchOn]="true"
-          [labels]="[]">
-      </app-main-content-header>
-      <button (click)="refreshSessionContent()" class="refresh-btn">Reload</button>
+    <div class="content-header-wrapper">
+      <div class="content-header-container">
+        <app-main-content-header
+            (emitApplyFilter)="applyFilter($event)"
+            [context]="context"
+            [isAutocompleteDisabled]="true"
+            [isSearchOn]="true"
+            [labels]="[]">
+        </app-main-content-header>
+        <button (click)="refreshSessionContent()" class="refresh-btn">Reload</button>
+      </div>
     </div>
     <div class="content-container">
       <ng-container *ngIf="tableRowData.length > 0; else noSessions">

@@ -1,9 +1,21 @@
 $tablet-width: 1024px;
 $mobile-width: 599px;
+$content-header-height: 75px;
+$content-header-height-s: 50px;
+$application-card-height: 150px;
+$application-card-header-height: 35px;
+$application-card-content-padding: 20px;
+$application-card-labels-height: 30px;
+$page-side-padding: 30px;
+
+@media (max-width: $tablet-width) {
+  $page-side-padding: 10px;
+}
 
 :root {
-  --header-height: 80px;
+  --header-height: 75px;
   --header-height-s: 50px;
+  --tab-header-height: 40px;
   --container-width: 1250px;
   --contents-height: calc(100vh - var(--header-height));
   --contents-height-s: calc(100vh - var(--header-height-s));
@@ -11,6 +23,26 @@ $mobile-width: 599px;
   --mat-card-title-text-size: 18px;
   --mat-expansion-container-shape: 3px;
   --mdc-checkbox-selected-icon-color: var(--acc-clr-2);
+  --mat-form-field-container-vertical-padding: 5px;
+  --mat-form-field-container-height: 40px;
+  --mdc-filled-text-field-container-color: transparent;
+  --content-border: 1px solid var(--gray-clr-3);
+  --ui-shadow: rgb(0, 0, 0, 0.1) 0 1px 3px 0, rgb(0, 0, 0, 0.06) 0 1px 2px 0;
+}
+
+.mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+  --mat-tab-header-active-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-ripple-color: var(--sec-clr-6);
+  --mat-tab-header-inactive-ripple-color: var(--sec-clr-6);
+  --mat-tab-header-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-focus-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-hover-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-focus-indicator-color: var(--sec-clr-6);
+  --mat-tab-header-active-hover-indicator-color: var(--sec-clr-6);
+  --mdc-tab-indicator-active-indicator-height: 4px;
+  --mdc-tab-indicator-active-indicator-color: var(--sec-clr-6);
+  --mat-tab-header-pagination-icon-color: var(--prim-clr-6);
+  --mat-tab-header-inactive-label-text-color: var(--prim-clr-7);
 }
 
 .mat-expansion-panel {
@@ -47,7 +79,7 @@ $mobile-width: 599px;
 
 @mixin headline-3 {
   @include styled-font;
-  font-size: 2.4rem !important;
+  font-size: 2.4rem;
   font-weight: 600;
 }
 
@@ -58,13 +90,13 @@ $mobile-width: 599px;
 }
 
 @mixin headline-5 {
-  @include common-font;
+  @include styled-font;
   font-size: 1.3rem;
   font-weight: 500;
 }
 
 @mixin headline-6 {
-  @include common-font;
+  @include styled-font;
   font-size: 1.2rem;
   font-weight: 400;
 }
@@ -106,14 +138,18 @@ h6 {
 }
 
 @mixin icon(
-  $icon: apartments, $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: 8px) {
+  $icon: apartments, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: 8px) {
   display: flex;
   gap: $gap;
 
-  $font-family: 'Material Icons Outlined';
+  $font-family: 'Material Symbols Outlined';
 
-  @if $family == 'Filled' {
-    $font-family: 'Material Icons';
+  @if $type == 'Icons' {
+    @if $family == 'Filled' {
+      $font-family: 'Material Icons';
+    } @else {
+      $font-family: 'Material Icons Outlined';
+    }
   }
 
   @if $pos == left {
@@ -127,6 +163,10 @@ h6 {
       line-height: 1;
       color: $color;
       content: '#{$icon}';
+
+      @if $family == 'Filled' and $type == 'Symbols' {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
     }
   }
 
@@ -180,7 +220,7 @@ h6 {
 
     ul.grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-columns: 1fr auto auto auto;
       gap: $gap;
     }
   }

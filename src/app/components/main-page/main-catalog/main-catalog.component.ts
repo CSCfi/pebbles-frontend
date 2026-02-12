@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Data } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
 import { ApplicationCategory } from 'src/app/models/application-category';
 import { Workspace } from 'src/app/models/workspace';
@@ -9,10 +8,10 @@ import { ApplicationCategoryService } from 'src/app/services/application-categor
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
-import { EventService } from '../../../services/event.service';
 import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
 import { PublicConfigService } from "../../../services/public-config.service";
+import { MatTabChangeEvent } from "@angular/material/tabs";
 
 @Component({
   selector: 'app-main-catalog',
@@ -25,8 +24,8 @@ export class MainCatalogComponent implements OnInit {
   public context: Data;
   public selectedCatalog: ApplicationCategory;
   public queryText = '';
-
-  private subscriptions: Subscription[] = [];
+  public count = 0;
+  public categories: ApplicationCategory[] = [];
 
   get applications(): Application[] {
     if (!this.applicationService.isInitialized) {
@@ -47,7 +46,6 @@ export class MainCatalogComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
-    private eventService: EventService,
     private applicationService: ApplicationService,
     private catalogService: ApplicationCategoryService,
     public workspaceService: WorkspaceService,
@@ -60,8 +58,13 @@ export class MainCatalogComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
-    // ---- MEMO: getCategoryById('1') : 1 means 'all category'
-    this.selectedCatalog = this.catalogService.getCategoryById('1');
+    this.catalogService.fetchCategories().subscribe(cats => {
+      this.categories = cats;
+
+      if (!this.selectedCatalog && this.categories.length > 0) {
+        this.selectedCatalog = this.categories[0];
+      }
+    });
   }
 
   openJoinWorkspaceDialog(): void {
@@ -134,11 +137,8 @@ export class MainCatalogComponent implements OnInit {
 
   // ---- Categories
   // ------------------------------------------------------------ //
-  getCategories(): ApplicationCategory[] {
-    return this.catalogService.getCategories();
-  }
 
-  changeCategory($event): void {
+  changeCategory($event: MatTabChangeEvent): void {
     this.selectedCatalog = this.catalogService.getCategoryById(this.catalogService.getCategories()[$event.index].id);
   }
 

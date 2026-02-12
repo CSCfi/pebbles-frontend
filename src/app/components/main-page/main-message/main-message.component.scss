@@ -2,15 +2,24 @@
 
 @use 'main' as main;
 @use 'ui-elements' as ui;
+@use 'base-styles' as base;
 @include ui.page-elm;
 @include ui.header-elm;
-@include ui.content-elm;
+@include ui.content-elm($isScrollOn: true);
 @include ui.status-block;
 
 .header-action-btn {
   @include ui.button($role: 'sec', $icon: '\e5ca');
 }
 
-.status-summary {
-  @include ui.crowned-text($icon: mail, $color: var(--neut-clr-6), $icon-size: 6rem);
+.unread.item .title::before {
+  @include ui.badge-item('Unread', 'warn');
+}
+
+.description {
+  @include ui.common-link;
+}
+
+.status-headline {
+  @include ui.crowned-text($icon: mail, $color: var(--neut-clr-7), $icon-size: 6rem);
 }

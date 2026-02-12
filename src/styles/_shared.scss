@@ -499,26 +499,6 @@ table {
     }
   }
 
-  .content-header-container {
-    flex-direction: column;
-    gap: 0;
-    align-items: stretch;
-    padding: 0 15px 10px;
-
-    app-main-content-header {
-      flex-grow: 1;
-    }
-
-    button {
-      flex-grow: 1;
-
-      mat-icon {
-        width: 1.6rem !important;
-        height: 1.6rem !important;
-        font-size: 1.6rem !important;
-      }
-    }
-  }
 }
 
 /* -------------------------------------- */

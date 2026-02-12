@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ApplicationCategory } from '../models/application-category';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -39,7 +39,7 @@ export class ApplicationCategoryService {
     );
   }
 
-  getCategoryById(catalogId: string) {
-    return this.categories?.find( cat => cat.id === catalogId );
+  getCategoryById(catalogId: string): ApplicationCategory {
+    return this.categories?.find(cat => cat.id === catalogId);
   }
 }

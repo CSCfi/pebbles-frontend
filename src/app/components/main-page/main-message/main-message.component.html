@@ -1,17 +1,20 @@
 <div class="page-container">
-  <div class="content-header-container">
-    <app-main-content-header
-        [context]="context"
-        [isAutocompleteDisabled]="true"
-        [isSearchOn]="false"
-        [labels]="null">
-    </app-main-content-header>
-    <button (click)="markMessagesAsRead()" [disabled]="isAllRead"
-            class="header-action-btn"
-            id="mark-all-read-btn">
-      <div>Mark all as read</div>
-    </button>
+  <div class="content-header-wrapper">
+    <div class="content-header-container">
+      <app-main-content-header
+          [context]="context"
+          [isAutocompleteDisabled]="true"
+          [isSearchOn]="false"
+          [labels]="null">
+      </app-main-content-header>
+      <button (click)="markMessagesAsRead()" [disabled]="isAllRead"
+              class="header-action-btn"
+              id="mark-all-read-btn">
+        <div>Mark all as read</div>
+      </button>
+    </div>
   </div>
+
   <div class="content-container">
     <div *ngIf="getMessages().length > 0; else elseBlock" class="items">
       <ng-container *ngFor="let message of getMessages()">
@@ -19,15 +22,16 @@
           <div class="title">{{ message.subject }}</div>
           <span class="label">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
           <div [innerHtml]="message.message"
-               class="description render-hyperlinks">
+               class="description">
           </div>
         </div>
       </ng-container>
     </div>
+
     <ng-template #elseBlock>
       <section class="status-info-container">
         <div class="empty-status">
-          <div class="status-summary">No messages yet.</div>
+          <div class="status-headline">No messages yet</div>
         </div>
       </section>
     </ng-template>
