@@ -129,7 +129,7 @@
 }
 
 @mixin table() {
-  overflow: scroll;
+  overflow: auto;
 
   table {
     width: 100%;
