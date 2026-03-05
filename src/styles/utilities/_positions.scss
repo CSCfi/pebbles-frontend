@@ -1,5 +1,4 @@
-// ---- _utilities.css
-@use 'base-styles' as base;
+// ---- src/styles/utilities/_positions.scss
 
 @mixin flex-col-block($type: stretch, $gap: 0, $y-alignment: start) {
   position: relative;

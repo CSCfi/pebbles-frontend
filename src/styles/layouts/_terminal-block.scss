@@ -1,0 +1,56 @@
+// ---- src/styles/layouts/_terminal.scss
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+
+@mixin terminal-block() {
+  .terminal-container {
+    width: 100%;
+    min-height: 250px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--neut-clr-9);
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px rgb(0, 0, 0, 0.2);
+
+    .terminal-header {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 15px;
+      background-color: white;
+
+      .terminal-title {
+        @include base.headline-5;
+        color: var(--neut-clr-5);
+      }
+
+      button {
+        @include uis.button($role: sec, $font-size: 1.3rem, $icon: download, $icon-size: 1.5rem);
+        height: 30px;
+      }
+    }
+
+    .terminal-body {
+      position: relative;
+      padding: 20px 40px;
+      font-size: 1.2rem;
+      line-height: 165%;
+      color: var(--sec-clr-1);
+      text-shadow: 0 0 5px rgb(0, 255, 65, 0.5);
+    }
+
+    .prompt {
+      font-weight: bold;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+
+      @include utils.animation-blink;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+// ---- src/styles/ui-components/_scrollbar.scss
+
+@mixin persistent-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--neut-clr-3);
+    border-radius: 4px;
+  }
+}
+

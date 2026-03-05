@@ -20,8 +20,6 @@
 @forward 'utilities';
 // ---- Base style <- shared
 @use 'base-styles' as base;
-// ---- Element style
-@forward 'ui-elements';
 // ---- Noppe styles
 // @forward 'shared';
 @use 'theme' as theme;

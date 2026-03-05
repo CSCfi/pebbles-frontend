@@ -1,14 +1,14 @@
-@use 'main' as main;
 @use 'base-styles' as base;
-@use 'ui-elements' as ui;
-@use 'utilities' as util;
-@include ui.page-elm($bg-color: var(--neut-clr-2), $overflow: hidden);
-@include ui.header-elm;
-@include ui.content-elm($type: stretch, $is-widen: true, $gap: 0, $padding-top: 0);
-@include ui.status-block;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
+@include layouts.page($bg-color: var(--neut-clr-2), $overflow: hidden);
+@include layouts.header;
+@include layouts.content($type: stretch, $is-widen: true, $gap: 0, $padding-top: 0);
+@include layouts.status-block;
 
 .join-workspace-button {
-  @include ui.button(
+  @include uis.button(
           $role: prim, $font-size: 1.6rem, $style: 'flat',
           $width: auto, $height: 40px,
           $icon: 'vpn_key', $icon-family: 'Filled');
@@ -56,26 +56,26 @@
 }
 
 .application-item-container {
-  @include util.flex-col-block($gap: 10px, $type: center);
+  @include utils.flex-col-block($gap: 10px, $type: center);
   padding-top: 20px;
   padding-bottom: 100px;
 }
 
 .empty-status {
   .status-headline {
-    @include ui.crowned-text($icon: import_contacts, $icon-type: 'Icons', $icon-family: 'Outlined',
+    @include uis.crowned-text($icon: import_contacts, $icon-type: 'Icons', $icon-family: 'Outlined',
     $color: var(--neut-clr-7), $icon-size: 6rem);
   }
 }
 
 .loading-status {
   .status-headline {
-    @include ui.crowned-text($icon: hourglass_top, $color: var(--neut-clr-7), $icon-size: 6rem);
+    @include uis.crowned-text($icon: hourglass_top, $color: var(--neut-clr-7), $icon-size: 6rem);
   }
 }
 
 .no-public-applications-text {
-  @include ui.crowned-text($icon: person_alert, $color: var(--neut-clr-7), $icon-size: 8rem);
+  @include uis.crowned-text($icon: person_alert, $color: var(--neut-clr-7), $icon-size: 8rem);
   padding: 40px;
   margin-top: 40px;
   border-top: 1px solid var(--neut-clr-3);

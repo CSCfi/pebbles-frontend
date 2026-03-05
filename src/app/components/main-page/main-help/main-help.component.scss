@@ -1,10 +1,11 @@
 @use 'main' as main;
-@use 'utilities' as util;
+@use 'utilities' as utils;
 @use 'base-styles' as base;
-@use 'ui-elements' as ui;
-@include ui.page-elm;
-@include ui.header-elm;
-@include ui.content-elm($type: stretch);
+@use 'ui-components' as uis;
+@use 'layouts' as layouts;
+@include layouts.page;
+@include layouts.header;
+@include layouts.content($type: stretch);
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab {
 
@@ -18,19 +19,19 @@
 
   &:first-child {
     .tab-title {
-      @include ui.deco-text($icon: 'live_help', $icon-size: 2.4rem, $icon-weight: 100);
+      @include uis.deco-text($icon: 'live_help', $icon-size: 2.4rem, $icon-weight: 100);
     }
   }
 
   &:nth-child(2) {
     .tab-title {
-      @include ui.deco-text($icon: 'library_books', $icon-size: 2.4rem, $icon-weight: 100);
+      @include uis.deco-text($icon: 'library_books', $icon-size: 2.4rem, $icon-weight: 100);
     }
   }
 
   &:last-child {
     .tab-title {
-      @include ui.deco-text($icon: 'mail', $icon-size: 2.4rem, $icon-weight: 100);
+      @include uis.deco-text($icon: 'mail', $icon-size: 2.4rem, $icon-weight: 100);
     }
   }
 }
@@ -49,13 +50,13 @@
   overflow: hidden !important;
 
   .mat-mdc-tab-body-content {
-    @include util.flex-col-block($type: center);
+    @include utils.flex-col-block($type: center);
     padding-top: 40px !important;
   }
 }
 
 .faq {
-  @include util.flex-col-block($gap: 40px);
+  @include utils.flex-col-block($gap: 40px);
 
   .faq-category-title {
     margin-bottom: 15px;
@@ -63,15 +64,15 @@
 
   .question {
     @include base.headline-4;
-    @include ui.deco-text($color: var(--prim-clr-7), $icon: 'live_help', $gap: 20px);
+    @include uis.deco-text($color: var(--prim-clr-7), $icon: 'live_help', $gap: 20px);
 
     padding-top: 15px;
     padding-bottom: 15px;
   }
 
   .answer {
-    @include ui.deco-text($icon: 'support_agent', $gap: 20px);
-    @include ui.common-link;
+    @include uis.deco-text($icon: 'support_agent', $gap: 20px);
+    @include uis.common-link;
     @include base.common-font;
   }
 
@@ -86,15 +87,15 @@
 }
 
 .documentation {
-  @include ui.info-item;
-  @include base.grid-list($fractions: '240px auto');
+  @include layouts.info-block;
+  @include uis.grid-list($fractions: '240px auto');
 }
 
 .contact {
   .balloon {
     margin-top: 50px !important;
 
-    @include ui.balloon;
+    @include uis.balloon;
 
     li {
       @include main.headline-3;
@@ -102,14 +103,14 @@
   }
 
   .contact-info {
-    @include util.flex-col-block($type: center, $gap: 20px);
+    @include utils.flex-col-block($type: center, $gap: 20px);
 
     h3 {
-      @include ui.crowned-text($color: var(--neut-clr-7), $icon: business, $icon-family: Outlined, $icon-type: Icons);
+      @include uis.crowned-text($color: var(--neut-clr-7), $icon: business, $icon-family: Outlined, $icon-type: Icons);
     }
 
     .email-link {
-      @include ui.deco-text($color: var(--prim-clr-7), $icon: 'email', $icon-size: 2.4rem, $icon-weight: 100);
+      @include uis.deco-text($color: var(--prim-clr-7), $icon: 'email', $icon-size: 2.4rem, $icon-weight: 100);
 
       span {
         text-indent: 10px;

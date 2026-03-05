@@ -1,0 +1,25 @@
+// ---- src/styles/ui-components/_signals.scss
+
+@mixin badge-item($text: '', $role: neut) {
+  position: relative;
+  top: -2px;
+  padding: 2px 8px;
+  margin-right: 8px;
+  margin-left: -5px;
+  font-size: 1.1rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+  border-radius: 8px;
+}
+
+@mixin label-item($text: '', $role: neut) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px 8px;
+  font-size: 1.2rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+}
+
+

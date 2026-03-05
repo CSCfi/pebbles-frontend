@@ -1,25 +1,26 @@
 // ---- main-message.component.css
 
 @use 'main' as main;
-@use 'ui-elements' as ui;
+@use 'ui-components' as uis;
 @use 'base-styles' as base;
-@include ui.page-elm;
-@include ui.header-elm;
-@include ui.content-elm($isScrollOn: true);
-@include ui.status-block;
+@use 'layouts' as layouts;
+@include layouts.page;
+@include layouts.header;
+@include layouts.content($isScrollOn: true);
+@include layouts.status-block;
 
 .header-action-btn {
-  @include ui.button($role: 'sec', $icon: '\e5ca');
+  @include uis.button($role: 'sec', $icon: '\e5ca');
 }
 
 .unread.item .title::before {
-  @include ui.badge-item('Unread', 'warn');
+  @include uis.badge-item('Unread', 'warn');
 }
 
 .description {
-  @include ui.common-link;
+  @include uis.common-link;
 }
 
 .status-headline {
-  @include ui.crowned-text($icon: mail, $color: var(--neut-clr-7), $icon-size: 6rem);
+  @include uis.crowned-text($icon: mail, $color: var(--neut-clr-7), $icon-size: 6rem);
 }

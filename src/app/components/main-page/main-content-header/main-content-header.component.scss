@@ -1,9 +1,9 @@
 @use 'main' as main;
-@use 'utilities' as util;
-@use 'ui-elements' as ui;
+@use 'utilities' as utils;
+@use 'ui-components' as uis;
 @use 'base-styles' as base;
-@include ui.search-form-elm;
-@include ui.chips($type: normal, $color: white, $background: var(--sec-clr-6));
+@include uis.search-form;
+@include uis.chips($type: normal, $color: white, $background: var(--sec-clr-6));
 
 
 :host {
@@ -11,7 +11,7 @@
 }
 
 .content-header {
-  @include util.flex-row-block($type: center, $distribution: start, $gap: 30px, $wrap: false);
+  @include utils.flex-row-block($type: center, $distribution: start, $gap: 30px, $wrap: false);
 
   h3 {
     flex: 1 0 auto;

@@ -1,11 +1,12 @@
-@use 'utilities' as util;
-@use 'ui-elements' as ui;
-@include ui.page-elm;
-@include ui.content-elm;
-@include ui.status-block;
+@use 'utilities' as utils;
+@use 'ui-components' as uis;
+@use 'layouts' as layouts;
+@include layouts.page;
+@include layouts.content;
+@include layouts.status-block;
 
 .error-status {
-  @include ui.crowned-text($color: var(--prim-clr-6), $icon: 'sentiment_dissatisfied', $icon-family: 'Filled');
+  @include uis.crowned-text($color: var(--prim-clr-6), $icon: 'sentiment_dissatisfied', $icon-family: 'Filled');
 
   .emphasis {
     margin-bottom: 30px;
@@ -13,17 +14,17 @@
 }
 
 .links {
-  @include util.flex-col-block($gap: 10px);
+  @include utils.flex-col-block($gap: 10px);
 
   button {
     text-align: center;
 
     &:first-child {
-      @include ui.button($role: prim, $icon: 'keyboard_double_arrow_left');
+      @include uis.button($role: prim, $icon: 'keyboard_double_arrow_left');
     }
 
     &:last-child {
-      @include ui.button($role: prim, $style: 'none', $icon: 'home');
+      @include uis.button($role: prim, $style: 'none', $icon: 'home');
     }
   }
 }

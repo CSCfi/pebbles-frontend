@@ -1,0 +1,60 @@
+// ---- src/styles/ui-components/_buttons.scss
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'icons' as icons;
+
+@mixin button(
+  $role: 'prim', $font-size: 1.5rem, $style: 'flat',
+  $width: 'auto', $height: var(--mat-filled-button-touch-target-display),
+  $icon: '\ebcc', $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined') {
+  @include base.styled-font;
+  @include base.centering(xy);
+  width: #{$width};
+  height: #{$height};
+  padding: 6px 15px;
+  font-size: $font-size !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  white-space: normal;
+  cursor: pointer;
+  border-radius: 5px;
+
+  @if $style == 'flat' {
+    color: white !important;
+    background: var(--#{$role}-clr-7) !important;
+  } @else if $style == 'none' {
+    color: var(--#{$role}-clr-6) !important;
+    background: transparent !important;
+    border: 1px solid var(--neut-clr-2);
+  } @else if $style == 'stroked' {
+    color: var(--#{$role}-clr-5) !important;
+    background: var(--#{$role}-clr-0) !important;
+    border: 3px solid var(--#{$role}-clr-5);
+  }
+
+  &:hover:not(:disabled) {
+    filter: brightness(80%);
+  }
+
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    color: var(--gray-clr-4) !important;
+    cursor: not-allowed !important;
+    background-color: var(--gray-clr-2) !important;
+    border: none;
+  }
+
+  @if $icon {
+    @include icons.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $family: $icon-family);
+  }
+}
+
+@mixin refresh-btn {
+  @include button($role: 'neut', $style: 'none', $icon: 'refresh');
+  height: 38px;
+  margin-top: 2px;
+}
+
+.refresh-btn {
+  @include refresh-btn;
+}

@@ -1,0 +1,58 @@
+// ---- src/styles/ui-components/_grid-list.scss
+@use 'base-styles' as base;
+
+@mixin grid-list($fractions:'auto auto', $gap: 20px, $font-size: 1.3rem) {
+  dl.grid {
+    display: grid;
+    grid-template-columns: #{$fractions};
+    gap: $gap;
+    align-items: start;
+    font-size: $font-size;
+
+    dt {
+      grid-column: 1;
+      font-weight: 600;
+    }
+
+    dd {
+      grid-column: 2;
+      margin: 0;
+    }
+
+    ul.grid {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: $gap;
+    }
+  }
+
+  @media (max-width: #{base.$tablet-width}) {
+    dl.grid {
+      display: block !important;
+      margin: 5px;
+      line-height: 160%;
+
+      dt {
+        display: block;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        border-bottom: 1px var(--gray-clr-2) solid;
+      }
+
+      dt:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+
+  @media (max-width: #{base.$mobile-width}) {
+    ul.grid {
+      display: block !important;
+      line-height: 160%;
+
+      li {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

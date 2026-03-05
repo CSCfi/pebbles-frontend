@@ -1,0 +1,59 @@
+// ---- src/styles/ui-components/_table.scss
+
+@mixin table() {
+  overflow: auto;
+
+  table {
+    width: 100%;
+    overflow: visible;
+    table-layout: fixed;
+    background: transparent;
+
+    .mat-mdc-header-row {
+      height: 45px;
+      background: transparent;
+
+      .mat-mdc-header-cell {
+        padding: 0 4px;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 130%;
+        vertical-align: middle;
+        color: var(--neut-clr-4);
+        text-transform: uppercase;
+        border-bottom: none;
+      }
+    }
+
+    .mat-mdc-row {
+      background: white;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      .mat-mdc-cell {
+        width: 50px;
+        padding: 8px 6px;
+        font-size: 1.2rem;
+        line-height: 140%;
+        vertical-align: middle;
+        color: #333;
+        border-bottom: 1px solid #f0f0f0;
+      }
+    }
+  }
+}
+
+@mixin table-width-fix($width: auto, $align: left, $vertical-align: middle) {
+  width: $width !important;
+  min-width: $width;
+  max-width: $width;
+  padding: 2px !important;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: $vertical-align;
+  text-align: $align;
+  white-space: nowrap;
+}

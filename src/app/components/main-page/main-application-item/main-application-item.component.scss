@@ -1,8 +1,8 @@
 @use 'main' as main;
 @use 'base-styles' as base;
-@use 'ui-elements' as ui;
-@use 'utilities' as util;
-@include ui.mini-chips;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@include uis.mini-chips;
 
 :host {
   width: 100%;
@@ -10,7 +10,7 @@
 }
 
 .mat-mdc-card {
-  @include util.flex-row-block($type: space-between, $gap: 0);
+  @include utils.flex-row-block($type: space-between, $gap: 0);
   min-height: base.$application-card-height;
   overflow: hidden;
   color: var(--neut-clr-8);
@@ -27,7 +27,7 @@
     border-radius: 3px 0;
 
     .thumbnail {
-      @include util.flex-col-block($gap: 5px);
+      @include utils.flex-col-block($gap: 5px);
       text-align: center;
     }
 
@@ -65,7 +65,7 @@
   }
 
   .card-middle-container {
-    @include util.flex-col-block($gap: 0);
+    @include utils.flex-col-block($gap: 0);
     flex: 1;
 
     .mat-mdc-card-header {
@@ -79,17 +79,17 @@
     }
 
     mat-card-content {
-      @include util.flex-row-block($gap: 0, $type: stretch);
+      @include utils.flex-row-block($gap: 0, $type: stretch);
       flex: 0 0 base.$application-card-height - base.$application-card-header-height;
       padding: 0;
 
       .card-info-container {
-        @include util.flex-col-block($gap: 5px);
+        @include utils.flex-col-block($gap: 5px);
         flex: 1 0 300px;
         margin-bottom: 10px;
 
         .description {
-          @include ui.common-link;
+          @include uis.common-link;
 
           flex: 1 1 base.$application-card-height - base.$application-card-header-height - base.$application-card-labels-height - 15px;
           padding: 10px 10px 0 base.$application-card-content-padding;
@@ -106,25 +106,25 @@
   }
 
   .application-meta {
-    @include util.flex-col-block($gap: 8px, $type: stretch);
+    @include utils.flex-col-block($gap: 8px, $type: stretch);
     flex: 0 1 300px;
     padding: 10px 15px;
     border-left: var(--content-border);
 
     .workspace-name {
       .shared-workspace-name {
-        @include ui.deco-text($font-size: 1.4rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
+        @include uis.deco-text($font-size: 1.4rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
         font-weight: 600;
       }
 
       .public-workspace-name {
-        @include ui.deco-text($color: var(--sec-clr-6), $font-size: 1.4rem, $icon: public, $icon-type: 'Icons', $icon-size: 2rem, $gap: 3px);
+        @include uis.deco-text($color: var(--sec-clr-6), $font-size: 1.4rem, $icon: public, $icon-type: 'Icons', $icon-size: 2rem, $gap: 3px);
         font-weight: 600;
       }
     }
 
     .expiry-date {
-      @include ui.deco-text($font-size: 1.3rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+      @include uis.deco-text($font-size: 1.3rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
       font-weight: 500;
 
       .expiry-warning {
@@ -137,29 +137,29 @@
     }
 
     .volumes {
-      @include util.flex-row-block($gap: 5px 25px, $distribution: start);
+      @include utils.flex-row-block($gap: 5px 25px, $distribution: start);
       padding-top: 10px;
       border-top: var(--content-border);
 
       .shared-volume,
       .mywork-volume {
         &.active {
-          @include ui.deco-text($font-size: 1.2rem, $icon: folder_check, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+          @include uis.deco-text($font-size: 1.2rem, $icon: folder_check, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
         }
 
         &.inactive {
-          @include ui.deco-text($font-size: 1.2rem, $icon: folder_off, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+          @include uis.deco-text($font-size: 1.2rem, $icon: folder_off, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
         }
       }
     }
 
     .lifetime {
-      @include ui.deco-text($font-size: 1.2rem, $icon: timer, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+      @include uis.deco-text($font-size: 1.2rem, $icon: timer, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
     }
   }
 
   .mat-mdc-card-actions {
-    @include util.flex-col-block($gap: 0, $type: stretch, $y-alignment: center);
+    @include utils.flex-col-block($gap: 0, $type: stretch, $y-alignment: center);
     flex: 0 1 140px;
     padding: 15px 8px;
     border-left: var(--content-border);

@@ -1,0 +1,53 @@
+// ---- src/styles/ui-components/_chips.scss
+@use 'utilities' as utils;
+
+@mixin chips($type: mini, $color: inherit, $background: transparent, $border: none, $wrap: false) {
+
+  .mat-mdc-chip-set {
+    ::ng-deep .mdc-evolution-chip-set__chips {
+      flex-wrap: if($wrap, warp, none);
+    }
+
+    mat-chip-row {
+
+      color: white;
+      background-color: $background !important;
+      border: $border;
+
+      --mdc-chip-label-text-color: #{$color};
+      --mdc-chip-label-text-weight: 500;
+
+      ::ng-deep.mdc-evolution-chip__cell {
+        font-size: 1.2rem;
+      }
+
+      ::ng-deep.mdc-evolution-chip__cell--trailing {
+        padding-right: 4px;
+
+        .mat-icon {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+@mixin mini-chips($color: var(--neut-clr-6), $background: var(--neut-clr-1), $border: 1px solid var(--neut-clr-2), $wrap: true) {
+
+  .mini-chips {
+    @include utils.flex-row-block($gap: 6px 4px, $distribution: start, $wrap: $wrap);
+
+    .chip {
+      padding: 2px 4px 4px 6px;
+      font-size: 1.1rem;
+      line-height: 1;
+      color: $color;
+      letter-spacing: 1px;
+      text-decoration: none;
+      background-color: $background;
+      border: $border;
+      border-radius: 2px;
+    }
+  }
+}
+

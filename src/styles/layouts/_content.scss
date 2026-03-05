@@ -1,0 +1,60 @@
+// ---- styles/layouts/_content.scss
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'info-block' as info;
+
+@mixin content($type: center, $gap: 40px, $is-widen: false, $padding-top: 25px, $isScrollOn: false) {
+  .content-container {
+    @include utils.flex-col-block($gap: $gap);
+
+    @if $isScrollOn {
+      height: calc(100vh - var(--header-height));
+      max-height: calc(100vh - var(--header-height));
+      overflow: scroll;
+    } @else {
+      min-height: auto;
+      overflow: visible;
+    }
+
+    flex-grow: 1;
+    align-items: $type;
+    justify-content: start;
+    width: 100%;
+    padding: $padding-top if($is-widen, 0, base.$page-side-padding) calc($padding-top * 2);
+    margin: 0 auto;
+    background: transparent;
+
+    @media (max-width: #{base.$tablet-width}) {
+      min-height: var(--contents-height-s);
+      padding: 15px;
+    }
+
+    section {
+      width: 100%;
+      max-width: var(--container-width);
+      margin: 0 auto;
+
+      .title {
+        @include base.headline-3;
+        padding-left: 5px;
+        margin-bottom: 5px;
+        color: var(--gray-clr-7);
+      }
+    }
+
+    .items {
+      @include utils.flex-col-block($gap: 10px);
+      width: 100%;
+      max-width: var(--container-width);
+
+      .item {
+        @include info.info-block;
+      }
+    }
+
+    .info-body {
+      @include info.info-block;
+    }
+  }
+}

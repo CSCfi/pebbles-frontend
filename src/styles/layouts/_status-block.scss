@@ -1,0 +1,40 @@
+// ---- src/styles/layouts/_status-block.scss
+@use 'base-styles' as base;
+
+@mixin status-block {
+
+  .status-info-container {
+    @include base.centering(xy);
+    padding-top: 10%;
+    color: var(--neut-clr-8);
+    text-align: center;
+  }
+
+  .success-status,
+  .empty-status {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .mat-icon {
+      @include base.centering(xy);
+      width: auto;
+      height: auto;
+      padding: 10px 0;
+      font-size: 6rem;
+    }
+  }
+
+  .status-headline {
+    @include base.headline-2;
+  }
+
+  .status-summary {
+    @include base.headline-4;
+  }
+
+  .keyword {
+    font-style: normal;
+    font-weight: bold;
+  }
+}

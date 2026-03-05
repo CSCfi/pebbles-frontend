@@ -1,19 +1,20 @@
 @use 'main' as main;
-@use 'utilities' as util;
+@use 'utilities' as utils;
 @use 'base-styles' as base;
-@use 'ui-elements' as ui;
+@use 'layouts' as layouts;
+@use 'ui-components' as uis;
 @use 'theme' as theme;
-@include ui.page-elm;
-@include ui.header-elm;
-@include ui.content-elm($type: stretch, $gap: 25px);
-@include ui.status-block;
-@include ui.terminal;
+@include layouts.page;
+@include layouts.header;
+@include layouts.content($type: stretch, $gap: 25px);
+@include layouts.status-block;
+@include layouts.terminal-block;
 
 .dashboard {
-  @include util.flex-row-block;
+  @include utils.flex-row-block;
 
   .sessions {
-    @include util.flex-row-block($type: start, $gap: 10px);
+    @include utils.flex-row-block($type: start, $gap: 10px);
 
     .panel {
       @include base.centering(y);
@@ -30,15 +31,15 @@
       box-shadow: none;
 
       .mat-mdc-card-content {
-        @include util.flex-row-block($type: center, $gap: 15px);
+        @include utils.flex-row-block($type: center, $gap: 15px);
 
         padding-bottom: 0 !important;
       }
 
-      @include util.flex-row-block;
+      @include utils.flex-row-block;
 
       .states {
-        @include util.flex-row-block($type: center, $gap: 10px);
+        @include utils.flex-row-block($type: center, $gap: 10px);
 
         margin-top: 4px;
 
@@ -46,25 +47,25 @@
           @include base.headline-6;
           // ---- Starting
           &:first-child {
-            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
             $icon-color: var(--sec-clr-3), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
 
           // ---- Running
           &:nth-child(2) {
-            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
             $icon-color: var(--prim-clr-5), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
 
           // ---- Deleting
           &:nth-child(3) {
-            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
             $icon-color: var(--acc-clr-2), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
 
           // ---- Error
           &:last-child {
-            @include ui.deco-text($font-size: 1.1rem, $gap: 0,
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
             $icon-color: var(--warn-clr-4), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
         }
@@ -74,43 +75,43 @@
 }
 
 .delete-session-btn {
-  @include ui.button($role: 'warn', $icon: power_settings_new, $style: 'stroked');
+  @include uis.button($role: 'warn', $icon: power_settings_new, $style: 'stroked');
 }
 
 .table-container {
-  @include ui.table;
+  @include uis.table;
 
   .mat-column-isSelected {
-    @include ui.table-width-fix($width: 40px);
+    @include uis.table-width-fix($width: 40px);
 
     padding-left: 10px !important;
   }
 
   .mat-column-sessionName,
   .mat-column-username {
-    @include ui.table-width-fix($width: 180px, $align: left);
+    @include uis.table-width-fix($width: 180px, $align: left);
   }
 
   .mat-column-applicationName {
-    @include ui.table-width-fix($width: 270px, $align: left);
+    @include uis.table-width-fix($width: 270px, $align: left);
   }
 
 
   .mat-column-sessionDetails {
-    @include ui.table-width-fix($width: 50px);
+    @include uis.table-width-fix($width: 50px);
   }
 
   .mat-column-sessionLink {
-    @include ui.table-width-fix($width: 50px);
+    @include uis.table-width-fix($width: 50px);
   }
 
   .mat-column-startUpTime,
   .mat-column-lifetimeLeft {
-    @include ui.table-width-fix($width: 60px);
+    @include uis.table-width-fix($width: 60px);
   }
 
   .mat-column-state {
-    @include ui.table-width-fix($width: 35px, $align: left, $vertical-align: middle);
+    @include uis.table-width-fix($width: 35px, $align: left, $vertical-align: middle);
 
     mat-icon {
       width: auto;
@@ -141,7 +142,7 @@
 .active-session-details {
 
   .back-btn {
-    @include ui.button($role: 'sec', $icon: chevron_left, $style: 'Filled');
+    @include uis.button($role: 'sec', $icon: chevron_left, $style: 'Filled');
     width: 300px;
   }
 
@@ -153,13 +154,13 @@
   .info-box dl {
     font-size: 1.3rem;
 
-    @include base.grid-list($fractions: '150px auto', $gap: 1px 4px);
+    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px);
   }
 
   .event-box dl {
     font-size: 1.3rem;
 
-    @include base.grid-list($fractions: '150px auto', $gap: 1px 4px);
+    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px);
   }
 
   section {
