@@ -1,7 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Data } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
@@ -24,26 +23,12 @@ export class MainMyWorkspacesComponent implements OnInit {
   public newWorkspaceId: string;
   public isListOpen = true;
   public queryText = '';
-
-  private subscriptions: Subscription[] = [];
+  public filteredWorkspaces: Workspace[] = null;
+  protected readonly Utilities = Utilities;
+  private allWorkspaces: Workspace[] = null;
 
   get workspaceCount(): number {
     return this.workspaceService.getWorkspaces().length;
-  }
-
-  get visibleWorkspaces(): Workspace[] {
-    if (!this.workspaceService.isInitialized) {
-      return null;
-    }
-    let wss = this.workspaceService.getWorkspaces().filter(ws => {
-      ws.name = Utilities.resetText(ws.name);
-      ws.description = Utilities.resetText(ws.description);
-      return ws;
-    });
-
-    wss = Workspace.sortWorkspaces(wss, ['expiry', 'create_ts']);
-
-    return this.searchService.filterByText(wss, this.queryText, ['name', 'description']);
   }
 
   constructor(
@@ -59,6 +44,18 @@ export class MainMyWorkspacesComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.context = data;
     });
+
+    this.eventService.workspacesDataUpdate$.subscribe(wss => {
+      if (wss) {
+        this.allWorkspaces = wss;
+        this.updateVisibleWorkspaces();
+      }
+    });
+    this.workspaceService.fetchWorkspaces().subscribe();
+  }
+
+  applyFilter(value: string): void {
+    this.queryText = value;
   }
 
   toggleWorkspaceList(): void {
@@ -74,8 +71,17 @@ export class MainMyWorkspacesComponent implements OnInit {
     });
   }
 
-  applyFilter(value): void {
-    this.queryText = value;
+  private updateVisibleWorkspaces(): void {
+    if (!this.allWorkspaces) return;
+
+    let wss = this.allWorkspaces.map(ws => ({
+      ...ws,
+      name: Utilities.resetText(ws.name),
+      description: Utilities.resetText(ws.description)
+    }));
+
+    wss = Workspace.sortWorkspaces(wss, ['expiry', 'create_ts']);
+    this.filteredWorkspaces = this.searchService.filterByText(wss, this.queryText, ['name', 'description']);
   }
 
   openJoinWorkspaceDialog(): void {
@@ -91,5 +97,9 @@ export class MainMyWorkspacesComponent implements OnInit {
         this.newWorkspaceId = ws.id;
       }
     });
+  }
+
+  protected workspaceTrackBy(_index: number, ws: Workspace): string {
+    return ws.id;
   }
 }

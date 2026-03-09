@@ -2,23 +2,23 @@
   <div class="content-header-container">
     <app-main-content-header (emitApplyFilter)="applyFilter($event)"
                              [context]="context"
-                             [isSearchOn]="true"
                              [isAutocompleteDisabled]="true"
+                             [isSearchOn]="true"
                              [labels]="[]">
     </app-main-content-header>
     <div class="action-buttons">
-      <button mat-flat-button
-              id="join-workspace-button"
-              class="primary-btn"
+      <button (click)="openJoinWorkspaceDialog()"
               aria-label="Join Workspace"
-              (click)="openJoinWorkspaceDialog()">
+              class="primary-btn"
+              id="join-workspace-button"
+              mat-flat-button>
         <mat-icon class="material-icons-outlined">vpn_key</mat-icon>
         Join workspace
       </button>
 
-      <ng-container *ngIf="visibleWorkspaces?.length > 0">
-        <button mat-stroked-button
-                (click)="toggleWorkspaceList()">
+      <ng-container *ngIf="filteredWorkspaces?.length > 0">
+        <button (click)="toggleWorkspaceList()"
+                mat-stroked-button>
           <mat-icon class="material-icons-outlined">list</mat-icon>
           <ng-container *ngIf="isListOpen; else openButtonBlock">
             <span>Close list</span>
@@ -30,19 +30,16 @@
       </ng-container>
     </div>
   </div>
-
-  <div class="content-container" *ngIf="visibleWorkspaces !== null">
-    <!--  Service Announcement 'catalog'  -->
-    <app-service-announcement [context]="context"></app-service-announcement>
-
+  <div *ngIf="filteredWorkspaces !== null" class="content-container">
+    <!--    <app-service-announcement [context]="context"></app-service-announcement>-->
     <section class="workspace-list" *ngIf="workspaceCount > 0 ; else noMembershipBlock">
-      <ng-container *ngIf="visibleWorkspaces.length > 0; else noWorkspaceBlock">
-        <ng-container *ngFor="let workspace of visibleWorkspaces">
+      <ng-container *ngIf="filteredWorkspaces.length > 0; else noWorkspaceBlock">
+        <ng-container *ngFor="let workspace of filteredWorkspaces; trackBy: workspaceTrackBy">
           <app-main-workspace-item
-            [id]="workspace.id"
-            [workspace]="workspace"
-            [isNew]="workspace.id === newWorkspaceId"
-            [context]="context">
+              [id]="workspace.id"
+              [context]="context"
+              [isNew]="workspace.id === newWorkspaceId"
+              [workspace]="workspace">
           </app-main-workspace-item>
         </ng-container>
       </ng-container>
@@ -69,7 +66,7 @@
     </ng-template>
   </div>
 
-  <div class="status-info-container" *ngIf="visibleWorkspaces === null">
+  <div *ngIf="filteredWorkspaces === null" class="status-info-container">
     <div class="empty-status">
       <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
       <span class="status-summary">...Loading...</span>

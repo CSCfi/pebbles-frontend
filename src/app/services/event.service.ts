@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Workspace } from "../models/workspace";
 
 export enum LoginStatusChange {
   login,
@@ -11,9 +12,9 @@ export enum LoginStatusChange {
 })
 export class EventService {
 
-  // subject for changes in workspace data. event content is either workspace id or 'all'
-  public workspaceDataUpdate$: Subject<string> = new Subject();
-  // subject for changes in workspace data. event content is workspace id
+  // subject for changes in workspace related data.
+  public workspaceDataUpdate$ = new BehaviorSubject<string>(null);
+  public workspacesDataUpdate$ = new BehaviorSubject<Workspace[]>(null);
   public workspaceMemberDataUpdate$: Subject<string> = new Subject();
   // subject for changes in application data. event content is 'all'
   public applicationDataUpdate$: Subject<string> = new Subject();

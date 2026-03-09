@@ -71,7 +71,7 @@ export class WorkspaceService {
       return null;
     }
     // ---- Check time gap since created
-    if ( Math.abs(Utilities.getTimeGap(ws.create_ts * 1000, 'minute')) < 10) {
+    if (Math.abs(Utilities.getTimeGap(ws.create_ts * 1000, 'minute')) < 10) {
       return LifeCycleNote.New;
     }
 
@@ -79,7 +79,7 @@ export class WorkspaceService {
       return LifeCycleNote.Expired;
     }
 
-    let daysLeft = Utilities.getTimeGap( new Date(ws.expiry_ts * 1000).getTime(), 'day');
+    let daysLeft = Utilities.getTimeGap(new Date(ws.expiry_ts * 1000).getTime(), 'day');
     if (daysLeft <= 10) {
       return LifeCycleNote.ExpiringSoon;
     } else if (daysLeft <= 20) {
@@ -132,7 +132,7 @@ export class WorkspaceService {
         // assign fresh workspace data
         this.workspaces = resp;
         if (eventNeeded) {
-          this.eventService.workspaceDataUpdate$.next('all');
+          this.eventService.workspacesDataUpdate$.next(this.workspaces);
         }
         return this.workspaces;
       })
@@ -171,7 +171,7 @@ export class WorkspaceService {
       expiry_ts = Math.floor(Date.now() / 1000 + 86400 * 30 * 3);
     }
     return this.http.post<Workspace>(url, {name, description, expiry_ts, workspace_type}).pipe(
-      tap(()=> {
+      tap(() => {
         this.fetchWorkspaces().subscribe();
         this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
       }),
