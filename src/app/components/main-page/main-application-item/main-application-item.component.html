@@ -1,101 +1,101 @@
-<ng-container *ngIf="application">
-  <mat-card appearance="outlined"
-            [ngClass]="{
+<mat-card *ngIf="application"
+          [attr.id]="'env-'+application.id"
+          [ngClass]="{
             'expired-ws': isExpiredTimestamp(application.info.workspace_expiry_ts),
             'joined-ws': !application.workspace_name.startsWith('System.') }"
-            [attr.id]="'env-'+application.id">
+          appearance="outlined">
 
-    <!-- Card LEFT section -->
-    <div class="card-media-container"
-         [ngClass]="application?.application_type">
-      <div class="thumbnail">
-        <div>
-          <ng-container *ngIf="isCustomLinuxIconAvailable; else elseBlock">
-            <app-custom-linux-icon></app-custom-linux-icon>
-          </ng-container>
-          <ng-template #elseBlock>
-            <fa-icon [icon]="applicationIcon" [ngClass]="applicationIcon"></fa-icon>
-          </ng-template>
-        </div>
-        <h4>{{ applicationTypeName }}</h4>
+  <!-- Card LEFT section -->
+  <div [ngClass]="application?.application_type"
+       class="card-media-container">
+    <div class="thumbnail">
+      <div>
+        <ng-container *ngIf="isCustomLinuxIconAvailable; else elseBlock">
+          <app-custom-linux-icon></app-custom-linux-icon>
+        </ng-container>
+        <ng-template #elseBlock>
+          <fa-icon [icon]="applicationIcon" [ngClass]="applicationIcon"></fa-icon>
+        </ng-template>
       </div>
+      <h4>{{ applicationTypeName }}</h4>
     </div>
-    <!-- //// End of Left section -->
-
-    <div class="card-middle-container">
+  </div>
+  <!-- //// End of Left section -->
+  <!-- Card MID section -->
+  <div class="card-middle-container">
+    <div class="card-main-content">
       <mat-card-header>
         <mat-card-title class="application-name">
           <h3 [innerHTML]="application.name"></h3>
         </mat-card-title>
       </mat-card-header>
-
-      <mat-card-content>
-        <!-- Card CENTER section 1 -->
-        <div class="card-info-container">
-          <div [innerHTML]="description" class="description"></div>
-          <div class="mini-chips">
-            <ng-container *ngFor="let label of labels.split(',')">
-              <span [ngClass]="{'self-learning':label.trim()==='self-learning'}" class="chip">
+      <mat-card-content class="card-info-container">
+        <div [innerHTML]="description" class="description"></div>
+        <div class="mini-chips">
+          <ng-container *ngFor="let label of labels.split(',')">
+            <span [ngClass]="{'self-learning':label.trim()==='self-learning'}" class="chip">
                 {{ label.trim() }}
-              </span>
-            </ng-container>
-          </div>
-        </div>
-        <!-- //// END of CENTER section-->
-
-        <!-- Card CENTER section 2 -->
-        <!-- Workspace information only shown in catalog page  -->
-        <div *ngIf="context.identifier!=='my-workspaces'" class="application-meta">
-          <h5 [matTooltip]="application.workspace_name.startsWith('System.') ? 'public' : membershipType"
-              [ngClass]="membershipType"
-              class="workspace-name">
-            <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
-              <span class="shared-workspace-name">{{ application.workspace_name }}</span>
-            </ng-container>
-            <ng-template #publicBlock>
-              <span class="public-workspace-name">Public</span>
-            </ng-template>
-          </h5>
-          <ng-container *ngIf="!application.workspace_name.startsWith('System.')">
-            <div [ngClass]="membershipType" class="expiry-date">
-              <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='persistent'">
-                Expires {{ application.info.workspace_expiry_ts | dateDisplay }}
-              </ng-container>
-              <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='activity_timeout'">
-                Expires after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity
-              </ng-container>
-              <span *ngIf="expirationDateGap < 14"
-                    [matTooltip]="getSoonExpiresTooltip()" class="expiry-warning">
-                {{ application.info.workspace_expiry_ts | remainingDaysDisplay }}
-              </span>
-            </div>
+            </span>
           </ng-container>
-          <div class="volumes">
-            <div [matTooltip]="isSharedVolumeActive ? 'Shared folder available' : 'No shared folder'"
-                 [ngClass]="isSharedVolumeActive ? 'active' : 'inactive'"
-                 class="shared-volume">
-              shared: {{ isSharedVolumeActive ? 'ON' : 'OFF' }}
-            </div>
-            <div [matTooltip]="isWorkVolumeActive ? 'Work folder available' : 'No work folder'"
-                 [ngClass]="!isPublic && isWorkVolumeActive ? 'active': 'inactive'"
-                 class="mywork-volume">
-              my-work: {{ isWorkVolumeActive ? 'ON' : 'OFF' }}
-            </div>
-          </div>
-          <div class="lifetime">
-            Lifetime:
-            {{ lifetime }}
-          </div>
         </div>
       </mat-card-content>
     </div>
-    <!-- Card RIGHT section -->
-    <mat-card-actions class="card-action-container">
-      <app-main-session-button [applicationId]="application.id"
-                               [context]="context"
-                               [isSessionDeleted]="isSessionDeleted"
-                               [isWorkspaceExpired]="isExpiredTimestamp(application.info.workspace_expiry_ts)">
-      </app-main-session-button>
-    </mat-card-actions>
-  </mat-card>
-</ng-container>
+    <div *ngIf="context.identifier!=='my-workspaces'" class="card-meta-content">
+      <!-- Card MID section 2 -->
+      <!-- Workspace information only shown in catalog page  -->
+      <mat-card-content class="workspace-info">
+        <h5 [matTooltip]="application.workspace_name.startsWith('System.') ? 'public' : membershipType"
+            [ngClass]="membershipType"
+            class="workspace-name">
+          <ng-container *ngIf="!application.workspace_name.startsWith('System.'); else publicBlock">
+            <span class="shared-workspace-name">{{ application.workspace_name }}</span>
+          </ng-container>
+          <ng-template #publicBlock>
+            <span class="public-workspace-name">Public</span>
+          </ng-template>
+        </h5>
+        <ng-container *ngIf="!application.workspace_name.startsWith('System.')">
+          <div [ngClass]="membershipType" class="expiry-date">
+            <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='persistent'">
+              Expires {{ application.info.workspace_expiry_ts | dateDisplay }}
+            </ng-container>
+            <ng-container *ngIf="workspace?.membership_expiry_policy.kind==='activity_timeout'">
+              Expires after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity
+            </ng-container>
+            <span *ngIf="expirationDateGap < 14"
+                  [matTooltip]="getSoonExpiresTooltip()" class="expiry-warning">
+                {{ application.info.workspace_expiry_ts | remainingDaysDisplay }}
+            </span>
+          </div>
+        </ng-container>
+      </mat-card-content>
+      <mat-card-content class="application-meta">
+        <div class="volumes">
+          <div [matTooltip]="isSharedVolumeActive ? 'Shared folder available' : 'No shared folder'"
+               [ngClass]="isSharedVolumeActive ? 'active' : 'inactive'"
+               class="shared-volume">
+            shared: {{ isSharedVolumeActive ? 'ON' : 'OFF' }}
+          </div>
+          <div [matTooltip]="isWorkVolumeActive ? 'Work folder available' : 'No work folder'"
+               [ngClass]="!isPublic && isWorkVolumeActive ? 'active': 'inactive'"
+               class="mywork-volume">
+            my-work: {{ isWorkVolumeActive ? 'ON' : 'OFF' }}
+          </div>
+        </div>
+        <div class="lifetime">
+          Lifetime:
+          {{ lifetime }}
+        </div>
+      </mat-card-content>
+    </div>
+  </div>
+  <!-- //// End of MID section -->
+  <!-- Card RIGHT section -->
+  <mat-card-actions class="card-action-container">
+    <app-main-session-button [applicationId]="application.id"
+                             [context]="context"
+                             [isSessionDeleted]="isSessionDeleted"
+                             [isWorkspaceExpired]="isExpiredTimestamp(application.info.workspace_expiry_ts)">
+    </app-main-session-button>
+  </mat-card-actions>
+</mat-card>

@@ -1,8 +1,8 @@
-@use 'main' as main;
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'utilities' as utils;
 @include uis.mini-chips;
+@include uis.card($direction: row, $height: base.$application-card-height);
 
 :host {
   width: 100%;
@@ -10,21 +10,18 @@
 }
 
 .mat-mdc-card {
-  @include utils.flex-row-block($type: space-between, $gap: 0);
-  min-height: base.$application-card-height;
-  overflow: hidden;
-  color: var(--neut-clr-8);
-  border: none;
-  border-radius: 3px;
-  box-shadow: var(--ui-shadow);
+  .mat-mdc-card-header,
+  .mat-mdc-card-content:not(:last-child) {
+    border-bottom: var(--content-border) !important;
+  }
 
   .card-media-container {
     @include base.centering(xy);
-    flex: 0 1 110px;
+    flex: 0 0 base.$application-card-media-width;
     max-height: base.$application-card-height + 10px;
     color: white;
     background: var(--sec-clr-5);
-    border-radius: 3px 0;
+    border-radius: 3px 0 0 3px;
 
     .thumbnail {
       @include utils.flex-col-block($gap: 5px);
@@ -42,205 +39,130 @@
     }
   }
 
-  &.joined-ws {
-    .workspace-name {
-      color: var(--prim-clr-7) !important;
-    }
-
-    .card-media-container {
-      color: white;
-      background: var(--prim-clr-6);
-    }
-  }
-
-  &.expired-ws {
-    .workspace-name {
-      color: var(--neut-clr-6) !important;
-    }
-
-    .card-media-container {
-      color: white;
-      background: var(--neut-clr-5);
-    }
-  }
-
   .card-middle-container {
-    @include utils.flex-col-block($gap: 0);
-    flex: 1;
+    @include utils.flex-row-block($gap: 0, $type: stretch, $wrap: false);
+    flex: 0 1 base.$container-width - base.$application-card-media-width - base.$application-card-action-width;
 
-    .mat-mdc-card-header {
-      flex: 0 0 base.$application-card-header-height;
-      padding: 10px 4px 0 base.$application-card-content-padding;
-      border-bottom: var(--content-border);
+    .card-main-content {
+      @include utils.flex-col-block($gap: 0, $type: stretch);
+      flex: 2 1 600px;
+      border-right: var(--content-border);
 
-      .application-name h3 {
-        font-size: 1.7rem !important;
+      .mat-mdc-card-header {
+        flex: 0 0 base.$application-card-header-height;
+      }
+
+      .description {
+        margin-bottom: 15px;
       }
     }
 
-    mat-card-content {
-      @include utils.flex-row-block($gap: 0, $type: stretch);
-      flex: 0 0 base.$application-card-height - base.$application-card-header-height;
-      padding: 0;
+    .mini-chips {
+      margin-bottom: 10px;
+    }
 
-      .card-info-container {
-        @include utils.flex-col-block($gap: 5px);
-        flex: 1 0 300px;
+    .card-meta-content {
+      @include utils.flex-col-block($gap: 0, $type: stretch);
+      flex: 1 0 300px;
+      padding: 0 !important;
+
+      .workspace-info {
+        min-height: base.$application-card-header-height;
+      }
+
+      .workspace-name {
+        font-weight: 600;
+
+        .shared-workspace-name {
+          @include uis.deco-text($font-size: 1.4rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
+        }
+
+        .public-workspace-name {
+          @include uis.deco-text($color: var(--sec-clr-6), $font-size: 1.4rem, $icon: public, $icon-type: 'Icons', $icon-size: 2rem, $gap: 3px);
+        }
+      }
+
+      .expiry-date {
+        @include uis.deco-text($font-size: 1.3rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+        margin: 8px 0 5px;
+
+        .expiry-warning {
+          padding: 1px 8px;
+          margin-left: 5px;
+          color: var(--warn-clr-7);
+          background: var(--warn-clr-0);
+          border-radius: 3px;
+        }
+      }
+
+      .volumes {
+        @include utils.flex-row-block($gap: 5px 20px, $distribution: start);
+        margin-bottom: 8px;
+
+        .shared-volume,
+        .mywork-volume {
+          &.active {
+            @include uis.deco-text($font-size: 1.2rem, $icon: folder_check, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+          }
+
+          &.inactive {
+            @include uis.deco-text($font-size: 1.2rem, $icon: folder_off, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+          }
+        }
+      }
+
+      .lifetime {
+        @include uis.deco-text($font-size: 1.2rem, $icon: timer, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
         margin-bottom: 10px;
-
-        .description {
-          @include uis.common-link;
-
-          flex: 1 1 base.$application-card-height - base.$application-card-header-height - base.$application-card-labels-height - 15px;
-          padding: 10px 10px 0 base.$application-card-content-padding;
-          font-size: 1.3rem;
-          line-height: 1.6;
-        }
-
-        .mini-chips {
-          flex: 1 0 base.$application-card-labels-height;
-          padding: 0 5px 0 base.$application-card-content-padding;
-        }
       }
-    }
-  }
-
-  .application-meta {
-    @include utils.flex-col-block($gap: 8px, $type: stretch);
-    flex: 0 1 300px;
-    padding: 10px 15px;
-    border-left: var(--content-border);
-
-    .workspace-name {
-      .shared-workspace-name {
-        @include uis.deco-text($font-size: 1.4rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
-        font-weight: 600;
-      }
-
-      .public-workspace-name {
-        @include uis.deco-text($color: var(--sec-clr-6), $font-size: 1.4rem, $icon: public, $icon-type: 'Icons', $icon-size: 2rem, $gap: 3px);
-        font-weight: 600;
-      }
-    }
-
-    .expiry-date {
-      @include uis.deco-text($font-size: 1.3rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
-      font-weight: 500;
-
-      .expiry-warning {
-        padding: 1px 8px;
-        margin-left: 5px;
-        color: var(--warn-clr-7);
-        background: var(--warn-clr-0);
-        border-radius: 3px;
-      }
-    }
-
-    .volumes {
-      @include utils.flex-row-block($gap: 5px 25px, $distribution: start);
-      padding-top: 10px;
-      border-top: var(--content-border);
-
-      .shared-volume,
-      .mywork-volume {
-        &.active {
-          @include uis.deco-text($font-size: 1.2rem, $icon: folder_check, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
-        }
-
-        &.inactive {
-          @include uis.deco-text($font-size: 1.2rem, $icon: folder_off, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
-        }
-      }
-    }
-
-    .lifetime {
-      @include uis.deco-text($font-size: 1.2rem, $icon: timer, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
     }
   }
 
   .mat-mdc-card-actions {
     @include utils.flex-col-block($gap: 0, $type: stretch, $y-alignment: center);
-    flex: 0 1 140px;
-    padding: 15px 8px;
+    flex: 0 0 base.$application-card-action-width;
     border-left: var(--content-border);
   }
 }
 
+.mat-mdc-card.joined-ws {
+  .workspace-name {
+    color: var(--prim-clr-7) !important;
+  }
+
+  .card-media-container {
+    background: var(--prim-clr-6);
+  }
+}
+
+.mat-mdc-card.expired-ws {
+  .workspace-name {
+    color: var(--neut-clr-6) !important;
+  }
+
+  .card-media-container {
+    background: var(--neut-clr-5);
+  }
+}
+
+
 // ----- Tablet
 @media (max-width: base.$tablet-width) {
-  .mat-mdc-card {
-    height: auto;
-    overflow: visible;
-
-    .card-media-container {
-      height: 110px;
-    }
-
-    .card-middle-container {
-      // border-left: var(--content-border);
-    }
-
-    .mat-mdc-card-content {
-      display: flex !important;
-      flex-direction: column !important;
-    }
-
-    .card-info-container {
-      flex: 1 1 auto !important;
-      height: auto !important;
-      margin-bottom: 0 !important;
-
-      .description {
-        flex: 1 1 auto !important;
-      }
-    }
-
-    .application-meta {
-      flex: 0 1 auto !important;
-      // border-top: var(--content-border) !important;
-      border-left: none !important;
-    }
+  .card-media-container {
+    height: 110px;
   }
-}
 
-// ----- MOBILE
+  .card-middle-container {
+    display: block !important;
+    border-left: var(--content-border);
 
-@media (max-width: base.$mobile-width) {
-
-  ::ng-deep .mat-mdc-card {
-    display: flex !important;
-    flex-direction: column !important;
-
-    .card-media-container,
-    .card-info-container,
-    .application-meta,
-    .mat-mdc-card-actions {
-      flex: none !important;
-    }
-
-    .card-info-container {
-      padding-bottom: 10px;
+    .card-main-content {
+      border-right: none !important;
     }
   }
 
-  .mat-mdc-card-header {
-    padding: 15px !important;
-  }
-
-  .mat-mdc-card-content {
-    display: flex;
-    padding: 15px !important;
-  }
-
-  .application-meta {
-    width: 100%;
-    border: none;
-    border-top: var(--content-border) !important;
+  .mat-mdc-card-header,
+  .mat-mdc-card-content:not(.application-meta) {
     border-bottom: var(--content-border) !important;
-
-    .lifetime {
-      margin-bottom: 0 !important;
-    }
   }
 }
-

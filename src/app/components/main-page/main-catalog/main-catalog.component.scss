@@ -1,3 +1,5 @@
+// ---- src/app/components/main-page/main-application-item/main-application-item.component.scss
+
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'utilities' as utils;
@@ -25,7 +27,7 @@
       @include base.styled-font;
 
       font-size: 1.4rem;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--prim-clr-7);
       letter-spacing: -0.01em;
       background: white;
@@ -43,7 +45,6 @@
 
   .mat-mdc-tab-body-wrapper {
     flex-grow: 1;
-    // height: calc(100vh - var(--tab-header-height) - var(--header-height) - 80px);
     padding: 0;
     background: var(--neut-clr-1);
     border-top: 1px solid var(--neut-clr-3);

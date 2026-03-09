@@ -1,12 +1,16 @@
 $tablet-width: 1024px;
 $mobile-width: 599px;
+$container-width: 1250px;
 $content-header-height: 75px;
 $content-header-height-s: 50px;
 $application-card-height: 150px;
+$application-card-media-width: 110px;
+$application-card-action-width: 140px;
 $application-card-header-height: 35px;
 $application-card-content-padding: 20px;
 $application-card-labels-height: 30px;
 $page-side-padding: 30px;
+
 
 @media (max-width: $tablet-width) {
   $page-side-padding: 10px;
@@ -135,6 +139,11 @@ h6 {
     height: 14px;
     font-size: 1.4rem;
   }
+}
+
+hr {
+  height: 1px;
+  color: var(--gray-clr-3);
 }
 
 // -------------------- Element centering

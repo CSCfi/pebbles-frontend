@@ -5,7 +5,13 @@
 
   .mat-mdc-chip-set {
     ::ng-deep .mdc-evolution-chip-set__chips {
-      flex-wrap: if($wrap, warp, none);
+      flex-shrink: 0;
+      flex-flow: row nowrap;
+      white-space: nowrap;
+
+      @if $wrap {
+        flex-flow: wrap;
+      }
     }
 
     mat-chip-row {
@@ -17,7 +23,7 @@
       --mdc-chip-label-text-color: #{$color};
       --mdc-chip-label-text-weight: 500;
 
-      ::ng-deep.mdc-evolution-chip__cell {
+      ::ng-deep.mat-mdc-chip-action-label {
         font-size: 1.2rem;
       }
 
@@ -28,6 +34,10 @@
           font-size: 1.5rem;
         }
       }
+    }
+
+    .mat-mdc-chip.mat-mdc-standard-chip {
+      --mdc-chip-container-height: 28px;
     }
   }
 }

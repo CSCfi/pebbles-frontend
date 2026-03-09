@@ -3,7 +3,7 @@
 @use 'ui-components' as uis;
 @use 'base-styles' as base;
 @include uis.search-form;
-@include uis.chips($type: normal, $color: white, $background: var(--sec-clr-6));
+@include uis.chips($type: normal, $color: white, $background: var(--sec-clr-6), $wrap: false);
 
 
 :host {
@@ -21,8 +21,8 @@
 
   form {
     flex: 1 1 auto;
+    margin-top: 0 !important;
   }
-
 }
 
 @media (max-width: #{base.$mobile-width}) {
