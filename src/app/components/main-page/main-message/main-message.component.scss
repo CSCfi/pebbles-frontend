@@ -14,7 +14,7 @@
 }
 
 .unread.item .title::before {
-  @include uis.badge-item('Unread', 'warn');
+  @include uis.badge-item($text: 'Unread', $role: 'warn');
 }
 
 .description {

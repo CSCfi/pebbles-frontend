@@ -9,12 +9,13 @@
   @include base.centering(y);
   position: relative;
   justify-content: $text-align;
+  flex-wrap: nowrap;
   width: auto;
   font-size: $font-size;
   font-weight: 600;
   color: #{$color};
 
-  @if $icon {
+  @if $icon != none {
     @include icon(
             $icon: $icon, $type: $icon-type, $family: $icon-family, $color: $icon-color, $size: $icon-size, $weight: $icon-weight,
             $pos: left, $gap: $gap);
@@ -22,7 +23,8 @@
 
   @if $highlight != none {
     padding: 2px 10px;
-    background: var(--sec-clr-0);
+    background: $highlight;
+    border-radius: 3px;
   }
 }
 
@@ -111,4 +113,15 @@
       content: '#{$icon}';
     }
   }
+}
+
+@mixin highlight-text($font-size: 1.2rem, $highlight: var(--acc-clr-1), $color: var(--gray-clr-7), $margin-top: -2px, $margin-left: 5px, $padding: 2px 10px) {
+  padding: $padding;
+  margin-top: $margin-top;
+  margin-left: $margin-left;
+  font-size: $font-size;
+  line-height: 120%;
+  color: $color;
+  background: $highlight;
+  border-radius: 3px;
 }

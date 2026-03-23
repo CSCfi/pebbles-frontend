@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Workspace } from 'src/app/models/workspace';
@@ -7,7 +7,6 @@ import { Utilities } from 'src/app/utilities';
 import { EventService } from '../../../services/event.service';
 import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
-import { MainWorkspaceItemComponent } from '../main-workspace-item/main-workspace-item.component';
 
 @Component({
   selector: 'app-main-my-workspaces',
@@ -18,8 +17,6 @@ import { MainWorkspaceItemComponent } from '../main-workspace-item/main-workspac
 export class MainMyWorkspacesComponent implements OnInit {
 
   public context: Data;
-  @ViewChildren(MainWorkspaceItemComponent) workspaceItems: QueryList<MainWorkspaceItemComponent>;
-
   public newWorkspaceId: string;
   public isListOpen = true;
   public queryText = '';
@@ -56,19 +53,11 @@ export class MainMyWorkspacesComponent implements OnInit {
 
   applyFilter(value: string): void {
     this.queryText = value;
+    this.updateVisibleWorkspaces();
   }
 
   toggleWorkspaceList(): void {
     this.isListOpen = !this.isListOpen;
-    this.workspaceItems.map(item => {
-      if (item.accordion) {
-        if (this.isListOpen) {
-          item.accordion.openAll();
-        } else {
-          item.accordion.closeAll();
-        }
-      }
-    });
   }
 
   private updateVisibleWorkspaces(): void {

@@ -3,14 +3,14 @@ $mobile-width: 599px;
 $container-width: 1250px;
 $content-header-height: 75px;
 $content-header-height-s: 50px;
-$application-card-height: 150px;
+$content-header-height-h: 160px;
+$application-card-height: 135px;
 $application-card-media-width: 110px;
 $application-card-action-width: 140px;
 $application-card-header-height: 35px;
 $application-card-content-padding: 20px;
 $application-card-labels-height: 30px;
 $page-side-padding: 30px;
-
 
 @media (max-width: $tablet-width) {
   $page-side-padding: 10px;
@@ -19,19 +19,25 @@ $page-side-padding: 30px;
 :root {
   --header-height: 75px;
   --header-height-s: 50px;
+  --header-height-h: 160px;
   --tab-header-height: 40px;
   --container-width: 1250px;
   --contents-height: calc(100vh - var(--header-height));
   --contents-height-s: calc(100vh - var(--header-height-s));
-  --mdc-checkbox-state-layer-size: 30px;
+  --contents-height-h: calc(100vh - var(--header-height-h));
+  --content-border: 1px solid var(--gray-clr-3);
+  --content-border-neut: 1px solid var(--neut-clr-2);
+  --ui-shadow: rgb(0, 0, 0, 0.1) 0 1px 3px 0, rgb(0, 0, 0, 0.06) 0 1px 2px 0;
+  --ui-button-shadow: 0px 1px 1px rgb(0, 0, 78, 0.3), 0px -1px 1px rgb(255, 255, 255, 0.5);
+  --ui-button-dent-shadow: inset 1px 2px 1px rgb(0, 0, 78, 0.1), inset -1px -2px 1px rgb(201, 211, 255, 0.1);
+
   --mat-card-title-text-size: 18px;
   --mat-expansion-container-shape: 3px;
   --mdc-checkbox-selected-icon-color: var(--acc-clr-2);
   --mat-form-field-container-vertical-padding: 5px;
   --mat-form-field-container-height: 40px;
   --mdc-filled-text-field-container-color: transparent;
-  --content-border: 1px solid var(--gray-clr-3);
-  --ui-shadow: rgb(0, 0, 0, 0.1) 0 1px 3px 0, rgb(0, 0, 0, 0.06) 0 1px 2px 0;
+  --mdc-checkbox-state-layer-size: 30px;
 }
 
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
@@ -47,11 +53,6 @@ $page-side-padding: 30px;
   --mdc-tab-indicator-active-indicator-color: var(--sec-clr-6);
   --mat-tab-header-pagination-icon-color: var(--prim-clr-6);
   --mat-tab-header-inactive-label-text-color: var(--prim-clr-7);
-}
-
-.mat-expansion-panel {
-  border: 1px solid var(--neut-clr-2);
-  box-shadow: 1px 1px var(--neut-clr-3) !important;
 }
 
 @mixin styled-font {
@@ -141,6 +142,11 @@ h6 {
   }
 }
 
+mark {
+  background-color: var(--acc-clr-1);
+  color: marktext;
+}
+
 hr {
   height: 1px;
   color: var(--gray-clr-3);
@@ -157,6 +163,7 @@ hr {
 
 @mixin centering($pos: xy, $inline: false) {
   display: if($inline, inline-flex, flex);
+  flex-wrap: nowrap;
 
   // Vertical center (Y-axis)
   @if $pos == y or $pos == xy {
@@ -194,7 +201,6 @@ hr {
     @include centering(xy, true);
   }
 }
-
 
 .mat-mdc-tab-group {
   width: 100%;

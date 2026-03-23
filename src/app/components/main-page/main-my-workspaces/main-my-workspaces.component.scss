@@ -1,12 +1,51 @@
+// ---- src/app/components/main-page/main-my-workspaces/main-my-workspaces.component.scss
 
-.content-header-container {
-  .action-buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
+
+@include layouts.page;
+@include layouts.header;
+@include layouts.content($type: stretch, $isScrollOn: true, $gap: 20px, $padding-top: 10px);
+@include layouts.status-block;
+
+.workspace-list {
+  @include utils.flex-col-block($gap: 20px);
+}
+
+.join-workspace-button {
+  @include uis.button(
+          $role: prim, $font-size: 1.6rem, $style: 'flat',
+          $width: auto, $height: 40px,
+          $icon: 'vpn_key', $icon-family: 'Filled');
+}
+
+.accordion-toggle-button {
+  @include uis.button(
+          $role: neut, $font-size: 1.6rem, $style: none,
+          $width: auto, $height: 40px,
+          $icon: 'unfold_more');
+
+  &.open {
+    @include uis.button(
+            $role: neut, $font-size: 1.6rem, $style: none,
+            $width: auto, $height: 40px,
+            $icon: 'unfold_less');
   }
 }
 
-.workspace-list {
-  padding: 20px 45px 50px;
+.search-status {
+  .status-headline {
+    @include uis.crowned-text($icon: search, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
 }
+
+.empty-status {
+  .status-headline {
+    @include uis.crowned-text($icon: group, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
+}
+

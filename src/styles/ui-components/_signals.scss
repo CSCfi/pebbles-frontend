@@ -1,15 +1,21 @@
 // ---- src/styles/ui-components/_signals.scss
 
-@mixin badge-item($text: '', $role: neut) {
+@mixin badge-item($text: 'test', $role: neut, $position: before, $top: -2px) {
   position: relative;
-  top: -2px;
-  padding: 2px 8px;
-  margin-right: 8px;
-  margin-left: -5px;
+  top: $top;
+  padding: 0 8px;
+
   font-size: 1.1rem;
   content: '#{$text}';
   background: var(--#{$role}-clr-1);
   border-radius: 8px;
+
+  @if $position == 'before' {
+    margin-right: 8px;
+    margin-left: -5px;
+  } @else if $position == 'after' {
+    margin-left: 5px;
+  }
 }
 
 @mixin label-item($text: '', $role: neut) {

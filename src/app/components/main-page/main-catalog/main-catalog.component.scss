@@ -4,9 +4,10 @@
 @use 'ui-components' as uis;
 @use 'utilities' as utils;
 @use 'layouts' as layouts;
+
 @include layouts.page($bg-color: var(--neut-clr-2), $overflow: hidden);
 @include layouts.header;
-@include layouts.content($type: stretch, $is-widen: true, $gap: 0, $padding-top: 0);
+@include layouts.content($type: stretch, $isWiden: true, $gap: 0, $padding-top: 0);
 @include layouts.status-block;
 
 .join-workspace-button {
@@ -66,12 +67,6 @@
   .status-headline {
     @include uis.crowned-text($icon: import_contacts, $icon-type: 'Icons', $icon-family: 'Outlined',
     $color: var(--neut-clr-7), $icon-size: 6rem);
-  }
-}
-
-.loading-status {
-  .status-headline {
-    @include uis.crowned-text($icon: hourglass_top, $color: var(--neut-clr-7), $icon-size: 6rem);
   }
 }
 

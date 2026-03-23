@@ -5,7 +5,7 @@
 @use 'layouts' as layouts;
 @include layouts.page;
 @include layouts.header;
-@include layouts.content($type: stretch);
+@include layouts.content($type: stretch, $isScrollOn: ture);
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab {
 
@@ -52,6 +52,11 @@
   .mat-mdc-tab-body-content {
     @include utils.flex-col-block($type: center);
     padding-top: 40px !important;
+  }
+
+  .mat-expansion-panel {
+    border: 1px solid var(--neut-clr-2);
+    box-shadow: none !important;
   }
 }
 

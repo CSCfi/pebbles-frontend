@@ -1,6 +1,7 @@
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'utilities' as utils;
+
 @include uis.mini-chips;
 @include uis.card($direction: row, $height: base.$application-card-height);
 
@@ -12,7 +13,7 @@
 .mat-mdc-card {
   .mat-mdc-card-header,
   .mat-mdc-card-content:not(:last-child) {
-    border-bottom: var(--content-border) !important;
+    border-bottom: var(--content-border-neut) !important;
   }
 
   .card-media-container {
@@ -46,10 +47,10 @@
     .card-main-content {
       @include utils.flex-col-block($gap: 0, $type: stretch);
       flex: 2 1 600px;
-      border-right: var(--content-border);
 
       .mat-mdc-card-header {
         flex: 0 0 base.$application-card-header-height;
+        padding: 10px 4px 2px base.$application-card-content-padding;
       }
 
       .description {
@@ -63,10 +64,12 @@
 
     .card-meta-content {
       @include utils.flex-col-block($gap: 0, $type: stretch);
-      flex: 1 0 300px;
+      flex: 1 0 275px;
       padding: 0 !important;
+      border-left: var(--content-border-neut);
 
       .workspace-info {
+        @include utils.flex-col-block($gap: 5px);
         min-height: base.$application-card-header-height;
       }
 
@@ -84,7 +87,6 @@
 
       .expiry-date {
         @include uis.deco-text($font-size: 1.3rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
-        margin: 8px 0 5px;
 
         .expiry-warning {
           padding: 1px 8px;
@@ -95,9 +97,12 @@
         }
       }
 
+      .application-meta {
+        @include utils.flex-col-block($gap: 5px);
+      }
+
       .volumes {
         @include utils.flex-row-block($gap: 5px 20px, $distribution: start);
-        margin-bottom: 8px;
 
         .shared-volume,
         .mywork-volume {
@@ -113,7 +118,6 @@
 
       .lifetime {
         @include uis.deco-text($font-size: 1.2rem, $icon: timer, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
-        margin-bottom: 10px;
       }
     }
   }
@@ -121,7 +125,7 @@
   .mat-mdc-card-actions {
     @include utils.flex-col-block($gap: 0, $type: stretch, $y-alignment: center);
     flex: 0 0 base.$application-card-action-width;
-    border-left: var(--content-border);
+    border-left: var(--content-border-neut);
   }
 }
 
@@ -136,15 +140,26 @@
 }
 
 .mat-mdc-card.expired-ws {
-  .workspace-name {
-    color: var(--neut-clr-6) !important;
+  background: var(--gray-clr-0) !important;
+
+  .application-name,
+  .workspace-name,
+  .description,
+  .application-meta,
+  .mini-chips > span {
+    color: var(--gray-clr-4) !important;
   }
 
   .card-media-container {
-    background: var(--neut-clr-5);
+    background: var(--gray-clr-3);
   }
 }
 
+.mat-mdc-card.my-workspace {
+  .card-meta-content {
+    flex: 1 0 140px !important;
+  }
+}
 
 // ----- Tablet
 @media (max-width: base.$tablet-width) {
@@ -154,15 +169,28 @@
 
   .card-middle-container {
     display: block !important;
-    border-left: var(--content-border);
+    border-left: var(--content-border-neut);
 
     .card-main-content {
       border-right: none !important;
+    }
+
+    .card-meta-content {
+      border-left: none !important;
+    }
+
+    .application-meta {
+      flex-direction: row !important;
+      gap: 20px !important;
+
+      .volumes {
+        margin-bottom: 10px;
+      }
     }
   }
 
   .mat-mdc-card-header,
   .mat-mdc-card-content:not(.application-meta) {
-    border-bottom: var(--content-border) !important;
+    border-bottom: var(--content-border-neut) !important;
   }
 }

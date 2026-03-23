@@ -45,26 +45,26 @@
 // Note: prim = primary, neut = neutral, sec = secondary, acc = accent
 $color-roles: (
         'prim': var(--seed-color),
-        'gray': oklch(from var(--seed-color) l 0.01 h),
-        'neut': oklch(from var(--seed-color) l 0.05 h),
-        'sec': oklch(from var(--seed-color) l calc(c - 0.06) calc(h - 50)),
-        'acc': oklch(from var(--seed-color) l calc(c - 0) calc(h + 218)),
-        'warn': oklch(from var(--seed-color) l calc(c + 0.02) calc(h + 110))
+        'gray': oklch(from var(--seed-color) l 0 h),
+        'neut': oklch(from var(--seed-color) l calc(c - 0.12) h),
+        'sec': oklch(from var(--seed-color) l calc(c - 0.05) calc(h - 50)),
+        'acc': oklch(from var(--seed-color) l c calc(h + 218)),
+        'warn': oklch(from var(--seed-color) l calc(c - 0.02) calc(h + 110))
 );
 
-// -- 2. Lightness & Chromas (saturation) level
+// -- 2. Lightness & Chromas (saturation) leve
 // Level: (l: lightness, c: chroma-adjustment)
 
 $levels: (
-        0: (l: 0.98, c: -0.06), // -- Lightest
-        1: (l: 0.96, c: -0.035),
-        2: (l: 0.92, c: -0.02),
-        3: (l: 0.86, c: -0.01),
+        0: (l: 0.96s, c: -0.06), // -- Lightest
+        1: (l: 0.94, c: -0.01),
+        2: (l: 0.90, c: 0),
+        3: (l: 0.82, c: 0),
         4: (l: 0.76, c: 0),
-        5: (l: 0.66, c: 0), // -- Base Color
-        6: (l: 0.56, c: 0),
-        7: (l: 0.46, c: 0),
-        8: (l: 0.36, c: 0),
+        5: (l: 0.70, c: 0), // -- Base Color
+        6: (l: 0.60, c: 0),
+        7: (l: 0.50, c: 0),
+        8: (l: 0.40, c: 0),
         9: (l: 0.30, c: 0) // -- Darkest
 );
 

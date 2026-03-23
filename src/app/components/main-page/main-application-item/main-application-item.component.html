@@ -2,7 +2,8 @@
           [attr.id]="'env-'+application.id"
           [ngClass]="{
             'expired-ws': isExpiredTimestamp(application.info.workspace_expiry_ts),
-            'joined-ws': !application.workspace_name.startsWith('System.') }"
+            'joined-ws': !application.workspace_name.startsWith('System.'),
+            'my-workspace': context.identifier==='my-workspaces'}"
           appearance="outlined">
 
   <!-- Card LEFT section -->
@@ -40,10 +41,10 @@
         </div>
       </mat-card-content>
     </div>
-    <div *ngIf="context.identifier!=='my-workspaces'" class="card-meta-content">
+    <div class="card-meta-content">
       <!-- Card MID section 2 -->
       <!-- Workspace information only shown in catalog page  -->
-      <mat-card-content class="workspace-info">
+      <mat-card-content *ngIf="context.identifier!=='my-workspaces'" class="workspace-info">
         <h5 [matTooltip]="application.workspace_name.startsWith('System.') ? 'public' : membershipType"
             [ngClass]="membershipType"
             class="workspace-name">

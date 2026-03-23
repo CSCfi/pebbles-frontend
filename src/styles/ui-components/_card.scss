@@ -12,7 +12,6 @@
 
     @if $direction == row {
       @include utils.flex-row-block($type: stretch, $gap: 0, $wrap: false);
-
       @media (max-width: base.$mobile-width) {
         @include utils.flex-col-block($type: space-between, $gap: 0);
       }
@@ -21,7 +20,17 @@
     }
 
     .mat-mdc-card-header {
-      padding: 10px 4px 0 base.$application-card-content-padding;
+      justify-content: space-between;
+      padding: 10px 4px 2px 15px;
+      border-bottom: var(--content-border-neut);
+
+      .mat-mdc-card-title {
+        @include utils.flex-row-block($gap: 10px,);
+      }
+
+      .mat-mdc-card-header-text {
+        @include base.centering(y);
+      }
 
       h3 {
         font-size: 1.7rem !important;
@@ -29,14 +38,20 @@
     }
 
     mat-card-content {
-      padding: 10px 4px 3px base.$application-card-content-padding;
+      padding: 10px 4px 6px base.$application-card-content-padding;
       font-weight: 500;
+      color: var(--gray-clr-6);
     }
 
     .description {
       @include links.common-link;
       font-size: 1.25rem;
       line-height: 1.6;
+      color: var(--gray-clr-6);
+    }
+
+    .mat-mdc-card-actions {
+      padding: 5px;
     }
   }
 
@@ -55,7 +70,7 @@
 
     .mat-mdc-card-header,
     .mat-mdc-card-content {
-      border-bottom: var(--content-border) !important;
+      border-bottom: var(--content-border-neut) !important;
     }
   }
 }

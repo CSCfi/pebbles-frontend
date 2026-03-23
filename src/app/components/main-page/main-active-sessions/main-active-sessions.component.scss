@@ -4,6 +4,7 @@
 @use 'layouts' as layouts;
 @use 'ui-components' as uis;
 @use 'theme' as theme;
+
 @include layouts.page;
 @include layouts.header;
 @include layouts.content($type: stretch, $gap: 25px);
@@ -142,8 +143,7 @@
 .active-session-details {
 
   .back-btn {
-    @include uis.button($role: 'sec', $icon: chevron_left, $style: 'Filled');
-    width: 300px;
+    @include uis.button($role: 'sec', $icon: chevron_left, $style: 'Filled', $width: 300px);
   }
 
   h3 {

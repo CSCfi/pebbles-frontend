@@ -15,7 +15,7 @@
   }
 
   .content-header-container {
-    @include utils.flex-row-block($type: center, $gap: 100px);
+    @include utils.flex-row-block($type: center, $gap: 30px 40px);
     position: sticky !important;
     top: 0;
     z-index: 10;
@@ -25,7 +25,7 @@
     margin: 0 auto;
 
     .header-functions {
-      @include utils.flex-row-block($type: center, $gap: 0);
+      @include utils.flex-row-block($type: center, $gap: 5px);
     }
 
     .mat-dialog-close {

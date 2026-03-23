@@ -18,6 +18,7 @@ export class WorkspaceService {
   private workspaces: Workspace[] = null;
   private workspaceMemberMap: Map<string, WorkspaceMember[]> = new Map();
   private workspaceMemberCountMap: Map<string, number> = new Map();
+  private readonly JOINED_WORKSPACES_KEY = 'joined_workspaces_timestamps';
 
   get isInitialized(): boolean {
     return this.workspaces !== null;
@@ -86,13 +87,37 @@ export class WorkspaceService {
       return LifeCycleNote.Expiring;
     }
 
+    if (Math.abs(Utilities.getTimeGap(ws.create_ts * 1000, 'minute')) < 10) {
+      return LifeCycleNote.New;
+    }
+
+    const lsData = localStorage.getItem('joined_workspaces_timestamps');
+    if (lsData) {
+      const timestamps = JSON.parse(lsData);
+      const joinTime = timestamps[ws.id];
+
+      if (joinTime && (new Date().getTime() - joinTime) < 60 * 60 * 1000) {
+        return LifeCycleNote.New;
+      }
+    }
+
     return null;
+  }
+
+  saveJoinTimestamp(workspaceId: string): void {
+    const data = localStorage.getItem(this.JOINED_WORKSPACES_KEY);
+    const timestamps = data ? JSON.parse(data) : {};
+    timestamps[workspaceId] = new Date().getTime();
+    localStorage.setItem(this.JOINED_WORKSPACES_KEY, JSON.stringify(timestamps));
   }
 
   joinWorkspace(joinCode: string): Observable<Workspace | string> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
       tap(resp => {
+        if (resp && typeof resp !== 'string' && 'id' in resp) {
+          this.saveJoinTimestamp(resp.id);
+        }
         this.fetchWorkspaces().subscribe();
         return resp;
       })
