@@ -7,7 +7,7 @@
 
 @include layouts.page($bg-color: var(--neut-clr-2), $overflow: hidden);
 @include layouts.header;
-@include layouts.content($type: stretch, $isWiden: true, $gap: 0, $padding-top: 0);
+@include layouts.content($type: stretch, $is-widen: true, $gap: 0, $padding-top: 0);
 @include layouts.status-block;
 
 .join-workspace-button {

@@ -4,11 +4,11 @@
 @use 'ui-components' as uis;
 @use 'info-block' as info;
 
-@mixin content($type: center, $gap: 40px, $isWiden: false, $padding-top: 25px, $side-padding: base.$page-side-padding, $isScrollOn: false) {
+@mixin content($type: center, $gap: 40px, $is-widen: false, $padding-top: 25px, $side-padding: base.$page-side-padding, $is-scrolling: false) {
   .content-container {
     @include utils.flex-col-block($gap: $gap);
 
-    @if $isScrollOn {
+    @if $is-scrolling {
       height: calc(100vh - var(--header-height));
       max-height: calc(100vh - var(--header-height));
       overflow: scroll;
@@ -21,7 +21,7 @@
     align-items: $type;
     justify-content: start;
     width: 100%;
-    padding: $padding-top if($isWiden, 0, $side-padding) calc($padding-top * 2);
+    padding: $padding-top if($is-widen, 0, $side-padding) calc($padding-top * 2);
     margin: 0 auto;
     background: transparent;
 
@@ -62,7 +62,7 @@
   @media (max-width: base.$mobile-width) {
     .content-container {
       padding-top: 0;
-      @if $isScrollOn {
+      @if $is-scrolling {
         height: var(--contents-height-h) !important;
         min-height: var(--contents-height-h) !important;
         max-height: var(--contents-height-h) !important;

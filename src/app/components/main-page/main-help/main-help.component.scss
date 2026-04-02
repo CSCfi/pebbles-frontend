@@ -3,9 +3,10 @@
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'layouts' as layouts;
+
 @include layouts.page;
 @include layouts.header;
-@include layouts.content($type: stretch, $isScrollOn: ture);
+@include layouts.content($type: stretch, $is-scrolling: true);
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab {
 

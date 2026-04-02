@@ -7,7 +7,7 @@
 
 @include layouts.page;
 @include layouts.header;
-@include layouts.content($type: stretch, $isScrollOn: true, $gap: 20px, $padding-top: 10px);
+@include layouts.content($type: stretch, $is-scrolling: true, $gap: 20px, $padding-top: 10px);
 @include layouts.status-block;
 
 .workspace-list {

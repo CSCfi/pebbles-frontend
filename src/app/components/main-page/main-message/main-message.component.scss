@@ -4,9 +4,10 @@
 @use 'ui-components' as uis;
 @use 'base-styles' as base;
 @use 'layouts' as layouts;
+
 @include layouts.page;
 @include layouts.header;
-@include layouts.content($isScrollOn: true);
+@include layouts.content($is-scrolling: true);
 @include layouts.status-block;
 
 .header-action-btn {
