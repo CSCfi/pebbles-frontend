@@ -38,8 +38,13 @@ export class MainCatalogComponent implements OnInit {
         return app.is_enabled;
       }
     });
-    apps = this.filterApplicationsByLabels(apps, this.selectedCatalog.labels, 'any');
-    apps = this.searchService.filterByText(apps, this.queryText, ['name', 'description', 'labels']);
+
+    if (this.selectedCatalog) {
+      apps = this.filterApplicationsByLabels(apps, this.selectedCatalog.labels, 'any');
+    }
+    if (this.queryText) {
+      apps = this.searchService.filterByText(apps, this.queryText, ['name', 'description', 'labels']);
+    }
     return this.sortApplications(apps);
   }
 
