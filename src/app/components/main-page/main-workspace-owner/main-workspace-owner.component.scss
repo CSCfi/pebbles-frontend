@@ -1,309 +1,346 @@
+//---- src/app/components/main-page/main-workspace-owner/main-workspace-owner.component.scss
 @use 'main' as main;
 
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
+
+@include layouts.page($flex-direction: row, $overflow: hidden);
+@include layouts.header;
+@include layouts.content($type: stretch, $is-scrolling: true, $gap: 20px, $padding-top: 10px);
+@include layouts.status-block;
+
+
 // ---- Layout
-#workspace-owner-container {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+
+.workspace-list-container {
+  @include utils.flex-col-block($gap: 20px, $y-alignment: stretch);
+  flex-basis: 350px;
+  height: 100vh;
   overflow: hidden;
+  @include utils.shadow(0.1);
+  background: var(--neut-clr-1);
 
-  .workspace-list-container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    min-width: 350px;
-    max-width: 350px;
+  .tablet-workspace-list {
+    display: none;
+  }
+
+  // ----- Tablet
+  @media (max-width: #{base.$tablet-width}) {
+
+    .tablet-workspace-list {
+      display: block;
+      border: 3px solid var(--neut-clr-1);
+
+      .mat-mdc-form-field {
+        width: 100%;
+      }
+    }
+  }
+  // ----- Mobile
+  @media (max-width: #{base.$mobile-width}) {
+    width: 100% !important;
+  }
+}
+
+.tab-container {
+  flex: 1;
+  @include utils.flex-row-block($type: stretch, $gap: 5px, $distribution: start);
+  background: var(--neut-clr-2);
+  padding-top: 15px;
+
+  ::ng-deep.tab-group-wrapper {
+    flex-grow: 1;
     height: 100vh;
-    overflow: hidden;
-    background: main.$gray-light-color !important;
+    @include utils.flex-row-block($type: stretch, $gap: 5px, $distribution: start);
+  }
 
-    @include main.shadow(0.1);
+  .course-request-wrapper {
+    position: absolute;
+    top: 0;
+    right: 20px;
 
-    .mobile-workspace-list {
-      display: none;
+    button.course-request {
+      @include uis.button($role: prim, $icon: calendar_month, $height: 32px, $style: rounded, $font-size: 1.4rem);
+      @include uis.external-link-icon();
     }
   }
 
-  #workspace-owner-tab-container {
-    position: relative;
-    display: flex;
+  ::ng-deep mat-tab-group,
+  ::ng-deep mat-tab-body {
     flex: 1;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-    overflow: auto;
+  }
 
-    app-service-announcement {
-      flex-shrink: 0;
-    }
+  ::ng-deep.mat-mdc-tab-body-wrapper {
+    flex-grow: 1;
+    position: relative;
+  }
 
-    app-main-workspace-applications,
-    app-main-workspace-members,
-    app-main-workspace-custom-images,
-    app-main-workspace-item-detail {
-      display: flex;
-      flex: 1 1 auto;
-      flex-direction: row;
-      align-items: stretch;
+  ::ng-deep.mat-mdc-tab-body-content {
+    @include utils.flex-row-block($type: stretch);
+  }
+
+  app-main-workspace-applications,
+  app-main-workspace-members,
+  app-main-workspace-custom-images,
+  app-main-workspace-item-detail {
+    @include utils.flex-row-block($type: stretch);
+    flex: 1 1 auto;
+    background: white;
+  }
+
+  // ----- Tablet
+  @media (max-width: #{base.$tablet-width}) {
+    .tour-bubble {
+      padding: 50px;
     }
   }
+  // ----- Mobile
+  @media (max-width: #{base.$mobile-width}) {
+    width: 100% !important;
+    padding-top: 0;
+
+    .tab-group-wrapper {
+      width: 100%;
+      @include utils.flex-col-block($type: center, $gap: 15px);
+    }
+
+    .course-request-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      right: 0;
+      padding: 0 20px;
+
+      button.course-request {
+        width: 100%;
+      }
+    }
+
+    ::ng-deep.mat-mdc-tab-header {
+      padding: 0 !important;
+    }
+  }
+
+  //    app-service-announcement {
+  //      flex-shrink: 0;
+  //    }
 }
 
 /* -------------------------------------- */
 /* Left UI */
 /* -------------------------------------- */
 
-::ng-deep .mat-mdc-tab-body-wrapper {
-  flex: 1;
-}
-
-
-.content-header-container {
-  display: flex;
-  flex: 0 1 auto;
-  flex-direction: column;
-  gap: 5px;
-  align-items: stretch;
-  padding: 10px 15px;
-
-  h3 {
-    height: 60px;
-    text-align: center;
-
-    @include main.center(both, inline);
-  }
-}
-
-.workspaces-actions-container {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: stretch;
-
-  button {
-    @include main.secondary-main-background;
-    height: 50px;
-    font-size: 1.6rem !important;
-
-    mat-icon {
-      width: 24px !important;
-      height: 24px !important;
-      font-size: 2.4rem !important;
-    }
-
-
-    &.mat-mdc-button-disabled {
-      @include main.invalid-dark-background;
-    }
-  }
-
-  .max-quota-warning {
-    @include main.warn-light-background;
-    @include main.headline-5;
-    padding: 15px 10px;
-    border-radius: 5px;
-  }
-}
-
 .workspace-list-container {
 
-  .workspace-list {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    gap: 5px;
-    align-items: stretch;
-    overflow: auto;
+  .content-header-container {
+    @include utils.flex-col-block($type: stretch);
+    @include utils.shadow(0.1);
+    padding: 10px 15px;
+    background: var(--neut-clr-1);
 
-    .workspace-item {
-      margin: 10px 15px 0;
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: map-get(main.$app-primary, default);
-      cursor: pointer;
-      border-radius: 3px;
+    .title {
+      @include base.centering(xy);
+      height: var(--header-height);
 
-      @include main.styled-font;
+      @media (max-width: #{base.$tablet-width}) {
+        height: var(--header-height-s);
+      }
+    }
 
-      .card-header {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        padding: 25px 20px;
-
-        mat-icon {
-          color: #919cd2;
-        }
-
-        .workspace-icon,
-        .workspace-selected-arrow {
-          @include main.center(vertical, inline);
-        }
-
-        .workspace-title {
-          @include main.center(vertical, inline);
-          flex-wrap: wrap;
-        }
+    .header-functions {
+      .create-demo-workspace-button {
+        @include uis.button($icon: auto_fix_high, $width: 100%, $height: 40px, $role: 'sec');
       }
 
-      &.public {
-        mat-icon {
-          color: #6bb9bc !important;
+      .create-workspace-button {
+        @include uis.button($icon: dashboard_customize, $width: 100%, $height: 40px);
+      }
+    }
+  }
+
+  .empty-status {
+    .status-headline {
+      @include uis.crowned-text($icon: group, $icon-type: 'Icons', $icon-family: 'Outlined',
+      $color: var(--neut-clr-7), $icon-size: 6rem);
+    }
+  }
+
+  .workspace-list {
+    @include utils.flex-col-block($gap: 5px, $flex: grow);
+    overflow: auto;
+    padding: 0 15px 30px;
+
+    @include uis.card();
+
+    .workspace-item {
+      cursor: pointer;
+      background: white;
+
+      .mat-mdc-card-header {
+        padding: 20px 10px 20px 10px;
+        border-bottom: none;
+
+        ::ng-deep.mat-mdc-card-header-text {
+          width: 100%;
+        }
+
+        .title {
+          @include uis.deco-text($color: var(--prim-clr-7), $icon: apps, $icon-type: 'Icons');
+          flex-wrap: nowrap;
         }
       }
 
       .workspace-info {
-        padding: 10px 20px 5px;
-        border-top: map-get(main.$borders, thin-dark);
+        padding: 10px 20px 15px !important;
+        border-top: var(--content-border-neut);
 
         .description {
-          @include main.headline-5;
           margin-bottom: 15px;
           overflow-wrap: break-word;
         }
 
-        dl {
-          display: grid;
-          grid-template-columns: 110px auto;
-          height: auto;
-          margin-bottom: 15px;
+        @include uis.grid-list($fractions: '110px auto', $gap: 10px 5px);
+      }
+    }
+  }
 
-          @include main.headline-5;
-        }
+  // ---- Styles based on status changes
+  .workspace-list .workspace-item {
+    border-left: 8px solid white;
+
+    &.selected {
+      border-left: 8px solid var(--prim-clr-5);
+
+      .mat-mdc-card-header {
+        padding: 15px 10px 10px 15px !important;
       }
 
-      &.deleted {
-        background-color: map-get(main.$app-gray, 100);
+      .open-join-code-button {
+        @include uis.password-button($role: prim);
+      }
+
+      .workspace-selected-arrow {
+        @include uis.icon($icon: chevron_right);
+      }
+    }
+
+    &.deleted {
+      background-color: var(--neut-clr-2);
+    }
+
+    &.owner {
+      // ---- Role color: Prim
+      .user-role-txt {
+        color: var(--prim-clr-7);
+      }
+
+      .mat-mdc-card-title .title {
+        @include uis.deco-text($color: var(--prim-clr-7), $icon: apps, $icon-type: 'Icons');
+      }
+
+      .open-join-code-button {
+        @include uis.password-button($role: prim);
       }
 
       &.selected {
-        color: map-get(main.$app-gray, 900);
-        border-left: 8px solid #919cd2;
+        border-left: 8px solid var(--prim-clr-6);
+      }
+    }
 
-        &.public {
-          border-left: 8px solid #6bb9bc;
-        }
+    &.co-owner {
+      // ---- Role color: Sec
 
-        .card-header {
-          padding: 25px 20px 20px 10px;
-        }
-
-        .workspace-info {
-          padding: 10px 20px 5px 15px;
-        }
+      .user-role-txt {
+        color: var(--sec-clr-7);
       }
 
-      &.owner {
-        &.selected {
-          border-left: 8px solid #919cd2;;
-        }
+      .mat-mdc-card-title .title {
+        @include uis.deco-text($color: var(--sec-clr-7), $icon: apps, $icon-type: 'Icons');
       }
 
-      &.co-owner,
-      &.manager {
-        &.selected {
-          border-left: 8px solid map-get(main.$app-secondary, 800);
-        }
+      .open-join-code-button {
+        @include uis.password-button($role: sec);
       }
 
-      &.expired-item {
-        background-color: main.$gray-extra-light-color !important;
-        border: 1px solid map-get(main.$app-primary, 400);
+      &.selected {
+        border-left: 8px solid var(--sec-clr-6);
+      }
+    }
 
-        .user-role-txt,
-        mat-icon {
-          color: map-get(main.$app-gray, 800) !important;
+    &.public {
+      // ---- Role color: Acc * Appeared only for admin
+
+      .user-role-txt {
+        color: var(--acc-clr-7);
+      }
+
+      .mat-mdc-card-title .title {
+        @include uis.deco-text($color: var(--acc-clr-7), $icon: public);
+      }
+
+      .open-join-code-button {
+        @include uis.password-button($role: acc);
+      }
+
+      &.selected {
+        border-left: 8px solid var(--acc-clr-6);
+      }
+    }
+
+    &.expired-item {
+      background-color: var(--neut-clr-2);
+      border-left: 8px solid var(--neut-clr-5);
+
+      .mat-mdc-card-title .title {
+        color: var(--gray-clr-7) !important;
+      }
+
+      &.selected {
+        border-left: 8px solid var(--sec-clr-5);
+
+        .open-join-code-button {
+          @include uis.password-button($role: gray);
         }
 
         .expiration-date {
-          font-weight: bold;
-          color: main.$warn-extra-dark-color;
-        }
-
-        &.selected {
-          border-left: 8px solid #6b777c;
+          color: var(--warn-clr-7);
+          text-decoration: underline;
         }
       }
     }
+  }
 
-    &.new .workspace-title span::after {
-      padding: 2px 8px;
-      margin-left: 5px;
-      font-size: 1.1rem;
-      color: #fff;
-      content: 'New';
-      background: map-get(main.$app-accent, default);
-      border-radius: 8px;
+  /* -------------------------------------- */
+  /* Tablet */
+  /* -------------------------------------- */
+  @media (max-width: #{base.$tablet-width}) {
+
+    .header-functions {
+      @include utils.flex-row-block($type: start, $distribution: center, $gap: 10px, $wrap: false);
+
+      .create-demo-workspace-button,
+      .create-workspace-button,
+      .warning-message {
+        flex-basis: 50%;
+      }
+    }
+
+    .tablet-workspace-list {
+      padding: 0 10px;
+
+      ::ng-deep.mat-mdc-text-field-wrapper {
+        background: var(--prim-clr-2);
+      }
     }
   }
 
-  .mat-mdc-form-field {
-    width: 100% !important;
-  }
-}
-
-.empty-status {
-  display: flex;
-  flex-direction: column;
-}
-
-// ---- For Lifecycle-corner-banner
-.workspace-item {
-
-  .lifecycle-corner-banner::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0 10px;
-    font-size: 1.1rem;
-    color: #fff;
-    border-top-right-radius: 3px;
-  }
-
-  &.new-item {
-    .lifecycle-corner-banner::before {
-      content: 'New';
-      background: map-get(main.$app-accent, default);
-    }
-  }
-
-  &.deleted-item {
-    .lifecycle-corner-banner::before {
-      content: 'Deleted';
-      background: main.$gray-dark-color;
-    }
-  }
-
-  &.expired-item {
-    .lifecycle-corner-banner::before {
-      color: main.$gray-extra-dark-color;
-      content: 'Expired';
-      background: main.$gray-color;
-    }
-  }
-
-  &.expiring-item {
-    .lifecycle-corner-banner::before {
-      content: 'Expiring';
-      background: main.$primary-light-color;
-    }
-
-    .expiration-date {
-      padding: 2px 10px;
-      background: main.$primary-extra-light-color;
-    }
-  }
-
-  &.expiring-soon-item {
-    .lifecycle-corner-banner::before {
-      content: 'Expiring soon';
-      background: main.$warn-dark-color;
-    }
-
-    .expiration-date {
-      padding: 2px 10px;
-      background: main.$warn-extra-light-color;
+  /* -------------------------------------- */
+  /* Mobile */
+  /* -------------------------------------- */
+  @media (max-width: #{base.$mobile-width}) {
+    .header-functions {
+      @include utils.flex-col-block($gap: 5px);
     }
   }
 }
@@ -317,309 +354,102 @@
   overflow: visible !important;
 }
 
-::ng-deep .mat-mdc-tab-label-container {
-  padding-top: 7px;
-}
+.tab-container {
+  ::ng-deep.mat-mdc-tab-header {
+    flex-basis: 45px;
+    padding-left: 20px;
+    padding-right: 230px; // ---- To spare the room for Course request button
 
-::ng-deep .mat-mdc-tab {
-  z-index: 1 !important;
-}
+    .mat-mdc-tab {
+      flex: 1 1 auto;
+      line-height: 1.4rem;
+      height: 45px;
+      padding: 0 2px;
 
-::ng-deep .mat-mdc-tab:nth-child(3) {
-  z-index: 1000 !important;
-}
+      font-weight: 500;
+      color: var(--prim-clr-7);
+      letter-spacing: normal;
+      background: white;
+      border: 1px solid var(--neut-clr-2);
+      border-radius: 3px 3px 0 0;
+      min-width: 50px;
 
+      .tab-title {
+        font-size: 1.4rem !important;
 
-#workspace-owner-tab-container {
-  background: main.$primary-light-color;
-
-  mat-tab-group {
-    flex: 1;
-    width: 100%;
-    overflow: auto;
-
-    background: main.$light-color;
-
-    ::ng-deep.mat-mdc-tab-header {
-      flex-basis: 50px;
-      padding-right: 30px;
-      padding-left: 30px;
-      background: main.$primary-light-color;
-
-      .mat-mdc-tab {
-        flex: 0 1 auto;
-        height: 50px;
-        padding: 0 15px;
-        font-size: 1.5rem !important;
-        font-weight: 600;
-        color: #18227c;
-        letter-spacing: normal;
-        background: main.$light-color;
-        background: #fff;
-        border: 1px solid #acb0e0;
-        border-radius: 3px 3px 0 0;
-
-        @include main.headline-3;
-
-        &:last-child {
-          z-index: 2000 !important;
+        &.applications {
+          @include uis.deco-text($icon: import_contacts, $icon-type: 'Icons', $gap: 4px);
         }
 
-        .label {
-          position: absolute;
-          top: -10px;
-          right: -5px;
-          display: inline-block;
-          padding: 4px 5px;
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: main.$secondary-dark-color;
-          text-transform: uppercase;
-          background-color: main.$accent-color;
-          border: 2px solid main.$primary-light-color;
-          border-radius: 3px;
+        &.members {
+          @include uis.deco-text($icon: person, $icon-type: 'Icons', $icon-family: 'Filled', $gap: 4px);
         }
 
-        .mdc-tab__text-label {
-          color: #18227c;
-          text-wrap: auto;
-          overflow-wrap: break-word;
-
-          @include main.center(both);
-
-          span {
-            @include main.center(both);
-          }
+        &.custom-images {
+          @include uis.deco-text($icon: album, $icon-type: 'Icons', $icon-family: 'Filled', $gap: 4px);
         }
 
-        mat-icon {
-          width: auto;
-          height: auto;
-          margin-right: 0;
-          font-size: 2.0rem;
+        &.setting {
+          @include uis.deco-text($icon: settings, $icon-type: 'Icons', $icon-family: 'Filled', $gap: 4px);
         }
+      }
 
-        mat-icon + span {
-          margin-left: 4px;
-        }
-
-        mat-chip {
-          display: none !important;
-        }
-
-        mat-chip-option {
-          margin-left: 6px;
-        }
-
-        .chip__circle {
-          @include main.center(both, inline);
-          min-width: 24px !important;
-          height: 24px !important;
-          padding: 0 !important;
-          margin-left: 5px;
-          font-size: 1.2rem;
-          font-weight: 600 !important;
-          line-height: 100%;
-          text-align: center;
-          white-space: nowrap;
-          border-radius: 24px;
-        }
-
-
-        // ---- For info tab
-        &#mat-tab-label-0-3 {
-          width: 60px !important;
-          min-width: 60px !important;
-          padding: 0 10px;
-
-          mat-icon {
-            margin: 0;
-          }
-        }
+      .preview-label {
+        position: absolute;
+        top: -10px;
+        left: -5px;
+        display: inline-block;
+        overflow: visible;
+        padding: 4px 5px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--sec-clr-8);
+        text-transform: uppercase;
+        background-color: var(--acc-clr-1);
+        border-radius: 3px;
       }
     }
   }
 }
 
-
-// ---- status-info
-
-.status-info-container {
-  height: 100%;
-  padding-bottom: 300px;
-  margin-top: 30px;
-
-  @include main.center(both);
-
-  .empty-status h3 {
-    font-size: 3rem;
-    font-weight: bold;
-  }
-
-  h4 {
-    font-size: 2.2rem;
-    font-weight: bold;
+.empty-status {
+  .status-headline {
+    @include uis.crowned-text($icon: group, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
   }
 }
 
-.workspace-list-container .status-info-container {
-  color: #879197;
-}
-
-#workspace-owner-tab-container .status-info-container {
-  width: 500px;
-  margin: 300px auto 0;
-
-  .success-status {
-    position: relative;
-    z-index: 1000;
+.success-status {
+  .status-headline {
+    @include uis.crowned-text($icon: delete, $icon-size: 6rem);
   }
 }
 
-// ---- END (status-info)
-
-.tab-group-wrapper {
-  position: relative;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  width: 100%;
-  overflow-y: auto;
-
-  .course-request-wrapper {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-
-    button.course-request {
-      z-index: 1000;
-      padding: 5px 15px 5px 20px;
-      color: main.$primary-color;
-      background: #fff;
-      border-radius: 50px;
-
-      &::before {
-        width: auto;
-        height: auto;
-        margin-right: 4px;
-        font-family: 'Material Icons', serif;
-        font-size: 1.8rem;
-        content: '\ebcc';
-      }
-
-      &::after {
-        width: auto;
-        height: auto;
-        margin-left: 4px;
-        font-family: 'Material Icons', serif;
-        font-size: 1.4rem;
-        content: '\e89e';
-      }
-    }
-  }
-}
-
-::ng-deep.mat-mdc-tab-body-content {
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-}
+// ---- END (Right UI)
 
 /* -------------------------------------- */
-/* Mobile */
+/* Tablet */
 /* -------------------------------------- */
-@media screen and (width <= 1250px) {
+@media (max-width: #{base.$tablet-width}) {
 
-  #workspace-owner-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: stretch;
+  .page-container {
+    @include utils.flex-col-block($type: stretch, $y-alignment: stretch);
 
     .workspace-list-container,
     .tab-container {
       display: flex;
       flex: 1;
       flex-direction: column;
+      gap: 10px;
     }
 
-    .content-header-container h3 {
-      flex-basis: 30px;
-      gap: 0;
+    .workspace-list {
+      display: none !important;
     }
-
-    .mobile-workspace-list {
-      flex-basis: 55px;
-
-      ::ng-deep.mat-mdc-form-field-bottom-align {
-        display: none !important;
-      }
-    }
-
-    .workspace-owner-tab-container {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-
-      .tab-group-wrapper {
-        flex: 1;
-
-        .mat-mdc-tab-header, .mat-mdc-tab-body-wrapper {
-          flex: 1;
-        }
-      }
-    }
-
-    .course-request-wrapper {
-      background: none;
-    }
-
-    .workspace-list-container {
-      flex: 0 0 auto;
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      box-shadow: none !important;
-    }
-
-    #workspace-owner-tab-container {
-      z-index: 1000;
-      width: 100% !important;
-      padding: 0 20px 20px;
-      border: none;
-    }
-
-    mat-tab-group {
-      height: calc(100vh - 250px) !important;
-    }
-  }
-
-  .workspace-list {
-    display: none !important;
   }
 
   .mobile-workspace-list {
     display: block !important;
-    padding: 0;
-    background: #fff;
-
-    box-shadow: 0 -2px 2px 0.5px rgb(0, 0, 50, 0.1) !important;
-
-    ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-      --mdc-filled-text-field-container-color: #f4ffdb !important;
-    }
-  }
-
-  .course-request-wrapper {
-    top: 10px !important;
-    right: 0 !important;
-
-    button.course-request {
-      top: 0;
-      right: 0;
-      color: #fff !important;
-      background: main.$primary-color !important;
-    }
   }
 
   ::ng-deep.mat-mdc-dialog-panel {
@@ -627,7 +457,10 @@
   }
 }
 
-@media screen and (width <= 550px) {
+/* -------------------------------------- */
+/* Mobile */
+/* -------------------------------------- */
+@media (max-width: #{base.$mobile-width}) {
   ::ng-deep.mat-mdc-tab {
     .tab-title {
       display: none;
@@ -643,43 +476,69 @@
   }
 }
 
-// ---- For Responsive layout Lifecycle-note
-.mobile-workspace-list,
+// ---- For Lifecycle-corner-banner
+.workspace-list {
+  .workspace-item {
+
+    &.new-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($bg: var(--acc-clr-5), $content: 'New');
+      }
+    }
+
+    &.deleted-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($bg: var(--gray-clr-6), $content: 'Deleted');
+      }
+    }
+
+    &.expired-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($color: var(--gray-clr-9), $bg: var(--gray-clr-4), $content: 'Expired');
+      }
+    }
+
+    &.expiring-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($color: var(--prim-clr-6), $bg: var(--prim-clr-1), $content: 'Expiring');
+      }
+
+      .expiration-date {
+        padding: 0 10px;
+        background: var(--prim-clr-1);
+      }
+    }
+
+    &.expiring-soon-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($color: var(--warn-clr-6), $bg: var(--warn-clr-1), $content: 'Expiring soon');
+      }
+
+      .expiration-date {
+        padding: 0 10px;
+        background: var(--warn-clr-1);
+      }
+    }
+  }
+}
+
+// ---- For Tablet layout Lifecycle-note
+.tablet-workspace-list,
 .workspace-selection {
-  .lifecycle-badge::after {
-    padding: 3px 10px;
-    margin-left: 8px;
-    font-size: 1.2rem;
-    color: #fff;
-    background: main.$gray-color;
-    border-radius: 20px;
+
+  .new-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'New', $role: sec, $position: after);
   }
 
-  .new-item {
-    &.lifecycle-badge::after {
-      content: 'New';
-      background: main.$secondary-color;
-    }
+  .expiring-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'Expiring', $role: prim, $position: after);
   }
 
-  .expiring-item {
-    &.lifecycle-badge::after {
-      content: 'Expiring';
-      background: main.$primary-light-color;
-    }
+  .expiring-soon-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'Expiring soon', $role: warn, $position: after);
   }
 
-  .expiring-soon-item {
-    &.lifecycle-badge::after {
-      content: 'Expiring soon';
-      background: main.$warn-dark-color;
-    }
-  }
-
-  .expired-item {
-    &.lifecycle-badge::after {
-      content: 'Expired';
-      background: main.$gray-dark-color;
-    }
+  .expired-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'Expired', $role: gray, $position: after);
   }
 }

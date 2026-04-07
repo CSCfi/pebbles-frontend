@@ -8,9 +8,10 @@
   .content-container {
     @include utils.flex-col-block($gap: $gap);
 
+    height: calc(100vh - var(--header-height));
+    max-height: calc(100vh - var(--header-height));
+
     @if $is-scrolling {
-      height: calc(100vh - var(--header-height));
-      max-height: calc(100vh - var(--header-height));
       overflow: scroll;
     } @else {
       min-height: auto;

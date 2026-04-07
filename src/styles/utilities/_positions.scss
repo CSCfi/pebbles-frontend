@@ -1,12 +1,21 @@
 // ---- src/styles/utilities/_positions.scss
 
-@mixin flex-col-block($type: stretch, $gap: 0, $y-alignment: start) {
+@mixin flex-col-block($type: stretch, $gap: 0, $y-alignment: start, $flex: null) {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: $gap;
   align-items: $type;
   justify-content: $y-alignment;
+
+  @if $flex == 'grow' {
+    flex-grow: 1;
+  } @else if $flex == 'shrink' {
+    flex-shrink: 1;
+  } @else if $flex != null {
+    flex: $flex;
+  }
+
 }
 
 @mixin flex-row-block($type: center, $distribution: space-between, $gap: 20px, $wrap: true ) {

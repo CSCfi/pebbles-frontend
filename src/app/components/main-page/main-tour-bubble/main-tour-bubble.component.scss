@@ -1,4 +1,6 @@
-@use 'main' as main;
+// ---- src/app/components/main-page/main-tour-bubble/main-tour-bubble.component.scss
+
+@use 'base-styles' as base;
 
 :host {
   position: absolute;
@@ -33,7 +35,7 @@
     overflow: hidden;
 
     background-color: #fff;
-    border: 10px solid main.$primary-light-color;
+    border: 10px solid var(--neut-clr-5);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgb(0, 0, 0, 0.2);
 
@@ -48,7 +50,7 @@
       margin-bottom: 30px;
       font-size: 2rem;
       color: #FFF;
-      background: main.$primary-light-color;
+      background: var(--neut-clr-5);
     }
 
     h3 {
@@ -77,14 +79,14 @@
           flex: 0 0 90px;
           width: 100%;
           font-size: 9rem;
-          color: main.$primary-light-color;
+          color: var(--neut-clr-5);
           text-align: center;
         }
 
         p {
           font-size: 1.5rem;
           line-height: 1.5;
-          color: main.$dark-text-color;
+          color: var(--gray-clr-8);
           text-align: center;
         }
       }
@@ -107,7 +109,7 @@
   .arrow-line {
     height: 20px;
     margin-top: 50px;
-    background: main.$primary-light-color;
+    background: var(--neut-clr-5);
   }
 
   ::before {
@@ -116,7 +118,7 @@
 
     left: -32px;
     content: '';
-    border-color: transparent main.$primary-light-color transparent transparent;
+    border-color: transparent var(--neut-clr-5) transparent transparent;
 
     /* CSS Triangle Trick */
     border-style: solid;
@@ -167,7 +169,7 @@
 
     &.prev-button,
     &.next-button {
-      color: main.$primary-color;
+      color: var(--prim-clr-6);
 
       &:disabled {
         cursor: not-allowed;
@@ -179,10 +181,69 @@
 }
 
 /* -------------------------------------- */
+/* Tablet */
+/* -------------------------------------- */
+
+@media (max-width: #{base.$tablet-width}) {
+
+  :host {
+    position: absolute;
+    top: 20px;
+    z-index: 1000;
+    width: 100%;
+  }
+
+  .tour-bubble {
+    flex-direction: column;
+    padding: 10px 20px;
+
+    .arrow-left {
+      display: none;
+    }
+
+    .arrow-up {
+      display: flex !important;
+      flex-basis: 30px;
+      justify-content: start;
+      margin-left: 5%;
+
+      .arrow-line {
+        width: 20px;
+        height: 30px;
+        background: var(--neut-clr-5);
+      }
+
+      ::before {
+        position: absolute;
+
+        margin-top: -20px;
+        margin-left: -10px;
+        content: '';
+        border-color: transparent transparent var(--neut-clr-5) transparent;
+
+        /* CSS Triangle Trick */
+        border-style: solid;
+        border-width: 0 20px 32px;
+
+        filter: drop-shadow(0 -2px 2px rgb(0, 0, 0, 0.1));
+      }
+    }
+
+    .tour-bubble-box {
+      flex: 1 1 auto;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+/* -------------------------------------- */
 /* Mobile */
 /* -------------------------------------- */
 
-@media screen and (width <= 1250px) {
+@media (max-width: #{base.$mobile-width}) {
 
   :host {
     position: absolute;
@@ -205,7 +266,7 @@
       .arrow-line {
         width: 20px;
         height: 30px;
-        background: main.$primary-light-color;
+        background: var(--neut-clr-5);
       }
 
       ::before {
@@ -214,7 +275,7 @@
         margin-top: -20px;
         margin-left: -10px;
         content: '';
-        border-color: transparent transparent main.$primary-light-color transparent;
+        border-color: transparent transparent var(--neut-clr-5) transparent;
 
         /* CSS Triangle Trick */
         border-style: solid;
@@ -242,7 +303,7 @@
       flex-direction: row;
 
       h4 {
-        @include main.center(vertical);
+        @include base.centering(y);
         text-align: left;
       }
 

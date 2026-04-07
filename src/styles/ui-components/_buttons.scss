@@ -6,7 +6,7 @@
 @mixin button(
   $role: 'prim', $font-size: 1.5rem, $style: 'flat',
   $width: 'auto', $height: var(--mat-filled-button-touch-target-display),
-  $icon: '\ebcc', $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined') {
+  $icon: 'deceased', $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined') {
   @include base.styled-font;
   @include base.centering(xy);
   width: #{$width};
@@ -34,6 +34,18 @@
     border: 3px solid var(--#{$role}-clr-5);
   } @else if $style == 'icon' {
     border: none;
+    color: var(--#{$role}-clr-7) !important;
+  } @else if $style == 'fab' {
+    border: none;
+    color: white !important;
+    background: var(--#{$role}-clr-7) !important;
+  } @else if $style == 'rounded' {
+    border: none;
+    color: var(--prim-clr-7) !important;
+    background: white !important;
+    padding-left: 18px;
+    padding-right: 18px;
+    border-radius: 30px;
   }
 
   &:hover:not(:disabled) {
@@ -83,4 +95,19 @@
 
 .refresh-btn {
   @include refresh-btn;
+}
+
+@mixin password-button($role: 'prim', $style: 'chip') {
+  @include button($role: $role, $width: 120px,
+  $style: 'fab', $icon: 'vpn_key', $icon-family: 'Filled');
+  padding: 1px 0 2px !important;
+  margin-right: 3px;
+  letter-spacing: 1px;
+  border-radius: 24px;
+  line-height: 0.8;
+
+  &::after {
+    content: '● ● ● ● ●';
+    margin-left: 5px;
+  }
 }

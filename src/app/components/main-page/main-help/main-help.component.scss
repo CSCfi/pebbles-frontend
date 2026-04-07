@@ -6,7 +6,7 @@
 
 @include layouts.page;
 @include layouts.header;
-@include layouts.content($type: stretch, $is-scrolling: true);
+@include layouts.content($type: stretch, $is-scrolling: false);
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab {
 

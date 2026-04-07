@@ -20,9 +20,7 @@
     top: 0;
     z-index: 10;
     flex: 0 0 var(--header-height);
-    width: 100%;
     max-width: var(--container-width);
-    margin: 0 auto;
 
     .header-functions {
       @include utils.flex-row-block($type: center, $gap: 5px);
@@ -42,9 +40,16 @@
     // ----- MOBILE
     @media (max-width: #{base.$mobile-width}) {
       flex-direction: column !important;
-      gap: 0;
+      gap: 5px !important;
       align-items: stretch;
       padding: 0 15px 10px;
+      width: 100%;
+      margin: 0 auto;
+
+      .title {
+        font-size: 1.8rem !important;
+        height: 30px !important;
+      }
 
       button {
         flex-grow: 1;

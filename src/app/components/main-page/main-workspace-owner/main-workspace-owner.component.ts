@@ -167,6 +167,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
       this.refreshView();
     });
+    this.workspaceService.fetchWorkspaces().subscribe();
   }
 
   ngAfterViewInit() {

@@ -102,25 +102,6 @@ h5 {
   }
 }
 
-.chip__password {
-  @include main.center(both, inline);
-  height: 24px;
-  padding: 1px 0 2px !important;
-  margin-right: 3px;
-  color: main.$light-color;
-  letter-spacing: 1px;
-  background-color: main.$primary-light-color !important;
-  border-radius: 24px;
-
-  &::before {
-    margin-top: 2px;
-    font-family: 'Material Icons', serif;
-    font-size: 1rem;
-    white-space: nowrap;
-    content: '\e061\e061\e061\e061\e061\e061';
-  }
-}
-
 .open-join-code-button {
   display: grid;
   grid-template-columns: 28px 96px;

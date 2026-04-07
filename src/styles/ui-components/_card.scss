@@ -25,14 +25,14 @@
       border-bottom: var(--content-border-neut);
 
       .mat-mdc-card-title {
-        @include utils.flex-row-block($gap: 10px,);
+        @include utils.flex-row-block($gap: 10px);
       }
 
       .mat-mdc-card-header-text {
         @include base.centering(y);
       }
 
-      h3 {
+      .title {
         font-size: 1.7rem !important;
       }
     }

@@ -3,7 +3,7 @@
 
 @mixin deco-text(
   $color: inherit, $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start,
-  $icon: '\ebcc', $icon-type: 'Symbols', $icon-family: 'Outlined', $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
+  $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined', $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
 ) {
   @include base.styled-font;
   @include base.centering(y);
@@ -53,7 +53,7 @@
 }
 
 @mixin icon(
-  $icon: apartments, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: 8px) {
+  $icon: apartment, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: 8px) {
   display: flex;
   gap: $gap;
 
@@ -115,7 +115,8 @@
   }
 }
 
-@mixin highlight-text($font-size: 1.2rem, $highlight: var(--acc-clr-1), $color: var(--gray-clr-7), $margin-top: -2px, $margin-left: 5px, $padding: 2px 10px) {
+@mixin highlight-text(
+  $font-size: 1.2rem, $highlight: var(--acc-clr-1), $color: var(--gray-clr-7), $margin-top: -2px, $margin-left: 5px, $padding: 2px 10px) {
   padding: $padding;
   margin-top: $margin-top;
   margin-left: $margin-left;
@@ -124,4 +125,15 @@
   color: $color;
   background: $highlight;
   border-radius: 3px;
+}
+
+@mixin external-link-icon($gap: 0, $width: 1.4) {
+  &::after {
+    width: #{$width*10}+px;
+    height: auto;
+    margin-left: $gap;
+    font-family: 'Material Icons', serif;
+    font-size: #{$width}+rem;
+    content: 'open_in_new';
+  }
 }
