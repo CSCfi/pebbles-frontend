@@ -157,7 +157,7 @@ export class WorkspaceService {
         // assign fresh workspace data
         this.workspaces = resp;
         if (eventNeeded) {
-          this.eventService.workspacesDataUpdate$.next(this.workspaces);
+          this.eventService.workspaceDataUpdate$.next('all');
         }
         return this.workspaces;
       })

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription } from "rxjs";
 import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
@@ -14,7 +15,7 @@ import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/
   styleUrls: ['./main-my-workspaces.component.scss'],
   standalone: false
 })
-export class MainMyWorkspacesComponent implements OnInit {
+export class MainMyWorkspacesComponent implements OnInit, OnDestroy {
 
   public context: Data;
   public newWorkspaceId: string;
@@ -23,6 +24,9 @@ export class MainMyWorkspacesComponent implements OnInit {
   public filteredWorkspaces: Workspace[] = null;
   protected readonly Utilities = Utilities;
   private allWorkspaces: Workspace[] = null;
+
+  // store subscriptions here for unsubscribing destroy time
+  private subscriptions: Subscription[] = [];
 
   get workspaceCount(): number {
     return this.workspaceService.getWorkspaces().length;
@@ -42,13 +46,25 @@ export class MainMyWorkspacesComponent implements OnInit {
       this.context = data;
     });
 
-    this.eventService.workspacesDataUpdate$.subscribe(wss => {
-      if (wss) {
-        this.allWorkspaces = wss;
+    this.subscriptions.push(this.eventService.workspaceDataUpdate$.subscribe(_ => {
+        this.allWorkspaces = this.workspaceService.getWorkspaces();
         this.updateVisibleWorkspaces();
       }
-    });
-    this.workspaceService.fetchWorkspaces().subscribe();
+    ));
+    console.log(`observers: ${this.eventService.workspaceDataUpdate$.observers}`);
+    // if workspace service already has the data, assign
+    if (this.workspaceService.isInitialized) {
+      this.allWorkspaces = this.workspaceService.getWorkspaces();
+      this.updateVisibleWorkspaces();
+    }
+    // otherwise call for a fetch and handle the assignment in listener
+    else {
+      this.workspaceService.fetchWorkspaces().subscribe();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   applyFilter(value: string): void {
