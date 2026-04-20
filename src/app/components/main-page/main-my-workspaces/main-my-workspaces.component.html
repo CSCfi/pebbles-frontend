@@ -60,7 +60,14 @@
           <div class="status-headline">No workspace</div>
           <div class="status-summary">You are currently not a member of any workspace.</div>
           <div class="hint">
-            <span>To become a workspace member,<br>enter <em class="keyword">Join code</em> of your courses or collaborations.</span>
+            <span>
+              To become a workspace member, <br>
+              enter <em class="keyword lock border">Join code</em> of your courses or collaborations.
+              <a [href]="publicConfigService.getServiceDocumentationUrl()" class="documentation-link"
+                 rel="noopener" target="_blank">
+                Open Documentation &nbsp;
+              </a>
+            </span>
           </div>
         </div>
       </div>

@@ -1,4 +1,10 @@
 @use 'main' as main;
+@use 'utilities' as utils;
+
+:host {
+  @include utils.flex-col-block($y-alignment: stretch);
+  overflow: hidden;
+}
 
 .form-wrapper {
   display: flex;

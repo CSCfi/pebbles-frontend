@@ -1,6 +1,8 @@
 // ---- src/styles/ui-components/_table.scss
+@use 'base-styles' as base;
+@use 'utilities' as utils;
 
-@mixin table() {
+@mixin table($table-outer-border: none, $vertical-border: false, $header-height: 45px ) {
   overflow: auto;
 
   table {
@@ -8,10 +10,12 @@
     overflow: visible;
     table-layout: fixed;
     background: transparent;
+    border: $table-outer-border;
 
     .mat-mdc-header-row {
-      height: 45px;
+      height: $header-height;
       background: transparent;
+      border-bottom: $table-outer-border;
 
       .mat-mdc-header-cell {
         padding: 0 4px;
@@ -22,6 +26,12 @@
         color: var(--neut-clr-4);
         text-transform: uppercase;
         border-bottom: none;
+        @if $vertical-border {
+          border-right: 1px solid var(--neut-clr-2);
+          &:last-child {
+            border-right: none;
+          }
+        }
       }
     }
 
@@ -39,21 +49,27 @@
         line-height: 140%;
         vertical-align: middle;
         color: #333;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid var(--neut-clr-2);
+        @if $vertical-border {
+          border-right: 1px solid var(--neut-clr-2);
+          &:last-child {
+            border-right: none;
+          }
+        }
       }
     }
   }
 }
 
-@mixin table-width-fix($width: auto, $align: left, $vertical-align: middle) {
+@mixin table-width-fix($width: auto, $min-width: auto, $align: left, $vertical-align: middle, $padding: 2px) {
   width: $width !important;
-  min-width: $width;
+  min-width: $min-width;
   max-width: $width;
-  padding: 2px !important;
+  padding: $padding !important;
 
   overflow: hidden;
   text-overflow: ellipsis;
-  vertical-align: $vertical-align;
+  vertical-align: $vertical-align !important;
   text-align: $align;
   white-space: nowrap;
 }

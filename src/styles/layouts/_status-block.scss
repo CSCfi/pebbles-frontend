@@ -2,13 +2,14 @@
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 
-@mixin status-block {
+@mixin status-block($padding-top: 10%) {
 
   .status-info-container {
     @include base.centering(xy);
-    padding-top: 10%;
+    padding-top: $padding-top;
     color: var(--neut-clr-8);
     text-align: center;
+    width: 100%;
   }
 
   .success-status,
@@ -40,44 +41,7 @@
     @include base.headline-4;
   }
 
-  .keyword {
-    font-style: normal;
-    font-weight: bold;
-  }
-
   .hint {
-    @include base.centering(y);
-    gap: 15px;
-    position: relative;
-    margin-top: 30px;
-    border: 3px solid var(--neut-clr-3);
-    padding: 15px 20px;
-    border-radius: 10px;
-
-    span {
-      flex-wrap: wrap;
-      text-align: left;
-
-      .keyword {
-        display: inline-flex !important;
-        margin: 0 5px;
-        top: 5px;
-        @include uis.deco-text($icon: 'vpn_key', $icon-family: 'Filled', $highlight: var(--prim-clr-3))
-      }
-    }
-
-    &::before {
-      flex: 0 0 50px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50px;
-      padding: 12px;
-      font-weight: 600;
-      font-size: 1.2rem;
-      content: 'Hint';
-      position: relative;
-      margin-right: 10px;
-      background: var(--neut-clr-3);
-    }
+    @include uis.hint-message();
   }
 }

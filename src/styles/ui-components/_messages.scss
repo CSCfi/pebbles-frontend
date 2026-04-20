@@ -1,0 +1,75 @@
+// ----src/styles/ui-components/_messages.scss
+@use 'base-styles' as base;
+@use 'utilities' as utils;
+@use 'icons';
+@use 'buttons' as btns;
+
+@mixin warning-message {
+  padding: 15px 20px;
+  border-radius: 5px;
+  background: var(--warn-clr-1);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 155%;
+}
+
+@mixin hint-message {
+  position: relative;
+  margin-top: 30px;
+  border: 3px solid var(--neut-clr-3);
+  padding: 40px 25px 20px 40px;
+  border-radius: 10px;
+
+  &::before {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    margin-left: -25px;
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    content: 'Hint';
+    margin-right: 10px;
+    background: var(--neut-clr-3);
+  }
+
+  span {
+    flex-wrap: wrap;
+    text-align: left !important;
+
+    ul.index {
+      list-style: decimal !important;
+    }
+
+    .keyword {
+      display: inline-flex !important;
+      margin: 0 5px;
+      top: 5px;
+      font-style: normal;
+      font-weight: 600;
+      font-family: Quicksand, sans-serif !important;
+
+      &.button,
+      &.border {
+        border: 1px solid var(--neut-clr-3);;
+        padding: 0 6px;
+        border-radius: 5px;
+      }
+
+      &.lock {
+        @include icons.deco-text($icon: 'vpn_key', $icon-family: 'Filled', $gap: 4px);
+      }
+
+      &.folder {
+        @include icons.deco-text($icon: 'folder', $gap: 4px);
+      }
+    }
+  }
+
+  .documentation-link {
+    @include btns.documentation-link();
+  }
+}

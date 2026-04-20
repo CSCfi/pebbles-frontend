@@ -88,10 +88,10 @@ $page-side-padding: 30px;
   font-weight: 600;
 }
 
-@mixin headline-4 {
+@mixin headline-4($weight: 500) {
   @include styled-font;
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: $weight;
 }
 
 @mixin headline-5 {
@@ -161,9 +161,10 @@ hr {
 // .item { @include centering(y); }  // Vertical only
 // .item { @include centering(xy); } // Both axes
 
-@mixin centering($pos: xy, $inline: false) {
+@mixin centering($pos: xy, $inline: false, $gap: 0) {
   display: if($inline, inline-flex, flex);
   flex-wrap: nowrap;
+  gap: $gap;
 
   // Vertical center (Y-axis)
   @if $pos == y or $pos == xy {
@@ -202,24 +203,18 @@ hr {
   }
 }
 
-.mat-mdc-tab-group {
-  width: 100%;
-  max-width: var(--container-width);
-  min-height: calc(100vh - 50px - var(--header-height));
-  margin: 0 auto;
+//.mat-mdc-tab-group {
+//  width: 100%;
+//  max-width: var(--container-width);
+//  min-height: calc(100vh - 50px - var(--header-height));
+//  margin: 0 auto;
+//
+//  .mat-expansion-panel {
+//    &:hover {
+//      cursor: pointer;
+//    }
+//  }
+//}
 
-  .mat-expansion-panel {
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}
 
-.warning-message {
-  padding: 15px 20px;
-  border-radius: 5px;
-  background: var(--warn-clr-1);
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 155%;
-}
+

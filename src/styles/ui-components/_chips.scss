@@ -48,16 +48,25 @@
     @include utils.flex-row-block($gap: 6px 4px, $distribution: start, $wrap: $wrap);
 
     .chip {
-      padding: 2px 4px 4px 6px;
-      font-size: 1.1rem;
-      line-height: 1;
-      color: $color;
-      letter-spacing: 1px;
-      text-decoration: none;
-      background-color: $background;
-      border: $border;
-      border-radius: 2px;
+      @include chip($color: $color, $background: $background, $border: $border);
     }
   }
+}
+
+@mixin chip(
+  $color: var(--neut-clr-6), $background: var(--neut-clr-1), $padding: 2px 4px 4px 6px,
+  $border: 1px solid var(--neut-clr-2), $width: auto, $rounded: false, $margin: none) {
+  text-transform: capitalize;
+  padding: $padding;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: $color;
+  letter-spacing: 1px;
+  text-decoration: none;
+  background-color: $background;
+  border: $border;
+  border-radius: if($rounded==true, 10px, 2px);
+  width: $width;
+  margin: $margin;
 }
 

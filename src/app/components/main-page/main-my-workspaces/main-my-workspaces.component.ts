@@ -8,6 +8,7 @@ import { Utilities } from 'src/app/utilities';
 import { EventService } from '../../../services/event.service';
 import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
+import { PublicConfigService } from "../../../services/public-config.service";
 
 @Component({
   selector: 'app-main-my-workspaces',
@@ -37,7 +38,8 @@ export class MainMyWorkspacesComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private activatedRoute: ActivatedRoute,
     private workspaceService: WorkspaceService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    public publicConfigService: PublicConfigService,
   ) {
   }
 

@@ -1,272 +1,228 @@
+//---- src/app/components/main-page/main-workspace-applications/main-workspace-applications.component.scss
 @use 'main' as main;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
 
-#workspace-applications-container {
-  position: relative;
+@include layouts.status-block;
 
-  display: flex;
+:host {
+  @include utils.flex-row-block($type: stretch, $wrap: flase, $gap: 0);
+  flex-flow: row !important;
   flex: 1;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: stretch;
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
+  background: white;
+  padding: 20px;
+}
+
+.workspace-applications-container {
+  @include utils.flex-row-block($type: stretch, $wrap: false);
+  position: relative;
+  flex: 1;
   margin: 0;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
+}
 
-  .main-view {
+.main-view {
+  @include utils.flex-col-block($gap: 20px);
+  flex: 1;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
 
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 1100px;
-    padding: 0 30px;
-    margin: 30px auto 20px;
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
+.form-view {
+  @include utils.flex-col-block($y-alignment: stretch);
+  z-index: 10;
+  flex: 1 0 auto;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: -4px 0 8px rgb(0, 0, 0, 0.1);
+  transition: right 0.3s ease-in-out;
+}
+
+.application-actions {
+  @include utils.flex-row-block($distribution: flex-end, $gap: 10px);
+  flex-basis: 35px;
+
+  .action-name {
+    @include uis.deco-text($icon: add, $gap: 3px);
   }
 
-  .form-view {
-    z-index: 10;
+  .button-group {
+    @include utils.flex-row-block($gap: 0);
 
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: stretch;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-    background-color: white;
-    box-shadow: -4px 0 8px rgb(0, 0, 0, 0.1);
+    .app-wizard-button {
+      @include uis.button($icon: auto_fix_high, $height: 40px, $connect: right);
+    }
 
-    transition: right 0.3s ease-in-out;
+    .app-creation-form-button {
+      @include uis.button($icon: edit_note, $height: 40px, $connect: left);
+    }
+  }
+}
 
-    app-main-application-advanced-form {
-      display: flex;
-      flex-direction: column;
-      justify-content: stretch;
-      overflow: hidden;
+.max-quota-warning {
+  @include uis.warning-message();
+}
+
+.table-container {
+  flex: 1;
+  @include uis.table(
+          $table-outer-border: 2px solid var(--neut-clr-3),
+          $vertical-border: true,
+          $header-height: 25px
+  );
+}
+
+.paginator-wrapper {
+  height: 60px;
+}
+
+
+// ---- COLUMN Thumbnail
+.mat-column-thumbnail {
+  @include uis.table-width-fix($width: 100px, $align: center);
+
+  .application-type-name {
+    color: var(--neut-clr-6);
+    font-weight: 600;
+    margin: 5px auto;
+  }
+
+  .thumbnail fa-icon {
+    display: block;
+    font-size: 2.6rem;
+    color: var(--neut-clr-6);
+
+    &.linux {
+      font-size: 3.4rem;
     }
   }
 
-  .application-header {
-    flex: 0 0 50px;
-    width: 100%;
+  &.published {
+    .application-type-name {
+      color: var(--prim-clr-6);
+    }
 
-    &::ng-deep.mat-mdc-form-field-subscript-wrapper {
-      display: block;
-      height: 0;
+    .chip {
+      @include uis.chip(
+              $color: white, $background: var(--prim-clr-6), $padding: 4px 4px 5px 6px,
+              $width: 80px, $rounded: true, $margin: 5px auto);
+    }
+
+    .thumbnail fa-icon {
+      color: var(--prim-clr-6);
     }
   }
+}
 
-  .application-actions {
-    display: flex;
-    flex-basis: 35px;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: flex-end;
+// ---- COLUMN Info
+.mat-column-info {
+  @include uis.table-width-fix($min-width: 350px);
+  padding: 5px 10px !important;
 
-    .action-name {
-      @include main.center(vertical, inline);
+  .name {
+    @include base.headline-4($weight: 700);
+  }
+
+  .description {
+    margin-bottom: 10px;
+  }
+
+  .labels {
+    margin-top: 5px;
+    @include base.centering($pos: y);
+
+    .property-name {
+      @include uis.deco-text($icon: label, $icon-size: 1.6rem, $font-size: 1.1rem, $gap: 0);
+      margin-right: 10px;
+    }
+
+    .property {
+      @include utils.flex-row-block($gap: 4px, $wrap: false);
+
+      .label {
+        font-size: 1.1rem;
+
+        &:not(:last-child)::after {
+          content: '/';
+          margin-left: 2px;
+        }
+      }
+    }
+  }
+}
+
+// ---- COLUMN Meta
+.mat-column-meta {
+  @include uis.table-width-fix($width: 150px, $padding: 2px 10px);
+
+  .lifetime > span {
+    @include uis.deco-text($icon: watch_later, $icon-size: 1.6rem, $font-size: 1.2rem, $gap: 0);
+  }
+
+  .memory > span {
+    @include uis.deco-text($icon: memory, $icon-size: 1.6rem, $font-size: 1.2rem, $gap: 0);
+  }
+
+  .max-sessions > span {
+    @include uis.deco-text($icon: memory, $icon-size: 1.6rem, $font-size: 1.2rem, $gap: 0);
+  }
+
+  .shared-volume > span,
+  .mywork-volume > span {
+    @include uis.deco-text($icon: folder, $icon-size: 1.6rem, $font-size: 1.2rem, $gap: 0);
+
+    &.off {
+      @include uis.deco-text($icon: folder_off, $icon-size: 1.6rem, $font-size: 1.2rem, $gap: 0);
+    }
+  }
+}
+
+// ---- COLUMN Launch Button
+.mat-column-launch {
+  @include uis.table-width-fix($width: 136px, $align: center);
+}
+
+// ---- COLUMN Menu
+.mat-column-menu {
+  @include uis.table-width-fix($width: 65px, $align: center, $padding: 0);
+
+  .buttons {
+    @include utils.flex-col-block();
+
+    .edit-button {
+      @include uis.button($icon: edit, $style: icon, $width: 65px, $height: 65px);
+    }
+
+    .menu-button {
+      @include uis.button($icon: menu, $style: icon, $width: 65px, $height: 65px);
     }
 
     button {
-      width: 200px;
-      height: auto;
-      padding: 5px 20px;
-      line-height: 100%;
-      white-space: normal;
+      border-radius: 0 !important;
 
-      mat-icon {
-        width: auto;
-        height: auto;
-        font-size: 2.0rem;
+      &:first-child {
+        border-bottom: 1px solid map-get(main.$app-gray, light);
       }
     }
   }
+}
 
-  .max-quota-warning {
-    flex-basis: 50px;
-  }
+table.expired {
+  .mat-column-thumbnail {
+    color: var(--neut-clr-3);
 
-
-  .table-container {
-    flex: 1;
-    min-height: 180px;
-    margin-bottom: 10px;
-    overflow: auto;
-  }
-
-  .paginator-wrapper {
-    height: 60px;
-  }
-
-  table {
-    width: 100%;
-    table-layout: fixed;
-
-    tr {
-      border: 2px solid main.$mid-dark-line;
-    }
-
-    // ---- COLUMN Thumbnail
-    .mat-column-thumbnail {
-      width: 100px;
-      color: main.$gray-color;
-      text-align: center;
-
-      .thumbnail fa-icon {
-        display: block;
-        margin: auto;
-        font-size: 2.6rem;
-        color: main.$gray-color;
-        text-align: center;
-
-        &.linux {
-          font-size: 3.4rem;
-        }
-      }
-
-      .chip__m {
-        padding: 2px;
-        font-size: small;
-        color: main.$light-color;
-        text-transform: capitalize;
-        background: main.$gray-color;
-        border-radius: 20px;
-      }
-
-      &.published {
-        color: map-get(main.$app-primary, light);
-
-        .chip__m {
-          padding: 2px;
-          font-size: small;
-          color: main.$light-color;
-          text-transform: capitalize;
-          background: map-get(main.$app-primary, light);
-          border-radius: 20px;
-        }
-
-        .thumbnail fa-icon {
-          color: map-get(main.$app-primary, light);
-        }
-      }
-    }
-
-    // ---- COLUMN Info
-    .mat-column-info {
-      width: auto;
-      min-width: 300px;
-      padding: 5px 10px !important;
-      letter-spacing: normal;
-
-      li {
-        margin-bottom: 5px;
-      }
-
-      .application-name {
-        @include main.headline-4;
-        font-weight: 600;
-      }
-
-      .application-labels {
-        white-space: nowrap;
-
-        @include main.center(both, inline);
-
-        span {
-          @include main.headline-6;
-          @include main.center(both, inline);
-          margin-right: 5px;
-
-
-          mat-icon {
-            width: auto;
-            height: auto;
-            margin-right: 5px;
-            font-size: 1.6rem;
-          }
-        }
-
-        span.label::after {
-          margin-left: 2px;
-          content: '/';
-        }
-
-        span.label:last-child::after {
-          content: none;
-        }
-      }
-    }
-
-    // ---- COLUMN Meta
-    .mat-column-meta {
-      width: 220px;
-
-      @include main.headline-6;
-      line-height: normal;
-
-      li span {
-        @include main.center(both, inline);
-
-        mat-icon {
-          width: 16px;
-          height: 16px;
-          margin-right: 5px;
-          font-size: 16px;
-        }
-      }
-    }
-
-    // ---- COLUMN Launch Button
-    .mat-column-launch {
-      width: 140px;
-
-      app-main-session-button {
-        display: block;
-        width: 120px !important;
-      }
-    }
-
-    // ---- COLUMN Menu
-    .mat-column-menu {
-      width: 65px !important;
-      padding: 0 !important;
-
-      button {
-        position: relative;
-        width: 65px;
-        min-height: 65px;
-        border-radius: 0;
-
-        mat-icon {
-          width: auto;
-          height: auto;
-          margin: 0;
-          font-size: 2.0rem;
-          text-align: center;
-        }
-
-        &:first-child {
-          border-bottom: 1px solid map-get(main.$app-gray, light);
-        }
-      }
-    }
-  }
-
-  table.expired {
-    .mat-column-thumbnail {
-      color: map-get(main.$app-gray, light);
-
-      .chip__m {
-        background: map-get(main.$app-gray, light);
-      }
+    .chip {
+      @include uis.chip(
+              $color: white, $background: var(--neut-clr-6), $padding: 4px 4px 5px 6px,
+              $width: 80px, $rounded: true, $margin: 5px auto);
     }
   }
 }
@@ -290,12 +246,29 @@
   }
 }
 
-.status-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 30px;
-  margin-top: 30px;
-  color: rgb(47, 53, 56, 0.87);
-  text-align: center;
+.empty-status .status-headline {
+  @include uis.crowned-text($icon: import_contacts, $icon-type: 'Icons', $icon-family: 'Outlined',
+  $color: var(--neut-clr-7), $icon-size: 6rem);
+}
+
+/* -------------------------------------- */
+/* Tablet */
+/* -------------------------------------- */
+@media (max-width: #{base.$tablet-width}) {
+  //.main-view {
+  //  margin: 20px auto !important;
+  //}
+}
+
+/* -------------------------------------- */
+/* Mobile */
+/* -------------------------------------- */
+@media (max-width: #{base.$mobile-width}) {
+  .action-name {
+    display: none !important;
+  }
+
+  //.main-view {
+  //  margin: 20px auto !important;
+  //}
 }

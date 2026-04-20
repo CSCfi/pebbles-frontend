@@ -1,12 +1,16 @@
 // ---- styles/layouts/_page.css
 @use 'utilities' as utils;
+@use 'base-styles' as base;
 
 @mixin page($bg-color: var(--neut-clr-1), $overflow: auto, $flex-direction: column) {
   .page-container {
     @if $flex-direction == column {
-      @include utils.flex-col-block(stretch);
+      @include utils.flex-col-block;
     } @else {
-      @include utils.flex-row-block(stretch);
+      @include utils.flex-row-block($type: stretch, $wrap: false);
+      @media (max-width: #{base.$tablet-width}) {
+        @include utils.flex-col-block($type: stretch, $y-alignment: stretch);
+      }
     }
 
     flex-grow: 1;

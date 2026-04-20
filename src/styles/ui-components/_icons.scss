@@ -2,11 +2,11 @@
 @use 'base-styles' as base;
 
 @mixin deco-text(
-  $color: inherit, $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start,
+  $color: inherit, $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
   $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined', $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
 ) {
   @include base.styled-font;
-  @include base.centering(y);
+  @include base.centering($pos: y, $inline: $inline);
   position: relative;
   justify-content: $text-align;
   flex-wrap: nowrap;
@@ -22,9 +22,9 @@
   }
 
   @if $highlight != none {
-    padding: 2px 10px;
+    padding: 1px 10px;
     background: $highlight;
-    border-radius: 3px;
+    border-radius: 2px;
   }
 }
 

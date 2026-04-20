@@ -1,6 +1,4 @@
 //---- src/app/components/main-page/main-workspace-owner/main-workspace-owner.component.scss
-@use 'main' as main;
-
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'utilities' as utils;
@@ -12,7 +10,13 @@
 @include layouts.status-block;
 
 
-// ---- Layout
+// ---- Layouts
+:host {
+  @include utils.flex-col-block($y-alignment: stretch);
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
 
 .workspace-list-container {
   @include utils.flex-col-block($gap: 20px, $y-alignment: stretch);
@@ -28,6 +32,8 @@
 
   // ----- Tablet
   @media (max-width: #{base.$tablet-width}) {
+    flex-basis: 180px;
+    gap: 5px;
 
     .tablet-workspace-list {
       display: block;
@@ -37,34 +43,46 @@
         width: 100%;
       }
     }
+
+    .workspace-list {
+      display: none !important;
+    }
   }
   // ----- Mobile
   @media (max-width: #{base.$mobile-width}) {
     width: 100% !important;
+    flex-basis: 160px !important;
+    gap: 5px;
   }
 }
 
 .tab-container {
   flex: 1;
-  @include utils.flex-row-block($type: stretch, $gap: 5px, $distribution: start);
+  @include utils.flex-row-block($type: stretch, $gap: 5px, $distribution: start, $wrap: false);
+
+  overflow: hidden;
   background: var(--neut-clr-2);
-  padding-top: 15px;
 
   ::ng-deep.tab-group-wrapper {
     flex-grow: 1;
-    height: 100vh;
     @include utils.flex-row-block($type: stretch, $gap: 5px, $distribution: start);
   }
 
   .course-request-wrapper {
     position: absolute;
-    top: 0;
     right: 20px;
+    top: 18px;
 
     button.course-request {
       @include uis.button($role: prim, $icon: calendar_month, $height: 32px, $style: rounded, $font-size: 1.4rem);
       @include uis.external-link-icon();
     }
+  }
+
+  ::ng-deep mat-tab-group {
+    height: 100vh;
+    overflow: hidden;
+    padding-top: 15px;
   }
 
   ::ng-deep mat-tab-group,
@@ -73,53 +91,78 @@
   }
 
   ::ng-deep.mat-mdc-tab-body-wrapper {
-    flex-grow: 1;
+    flex: 1;
     position: relative;
   }
 
   ::ng-deep.mat-mdc-tab-body-content {
-    @include utils.flex-row-block($type: stretch);
-  }
-
-  app-main-workspace-applications,
-  app-main-workspace-members,
-  app-main-workspace-custom-images,
-  app-main-workspace-item-detail {
-    @include utils.flex-row-block($type: stretch);
-    flex: 1 1 auto;
-    background: white;
+    @include utils.flex-row-block($type: stretch, $wrap: false);
   }
 
   // ----- Tablet
   @media (max-width: #{base.$tablet-width}) {
+    gap: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    flex: 1;
+    flex-direction: row !important;
+    align-items: stretch !important;
+
+    ::ng-deep.tab-group-wrapper {
+      @include utils.flex-row-block($type: stretch, $wrap: false);
+      height: auto !important;
+      min-height: auto !important;
+      flex: 1;
+    }
+
+    ::ng-deep.mat-mdc-tab-group {
+      height: auto !important;
+      min-height: auto !important;
+      flex: 1;
+    }
+
     .tour-bubble {
       padding: 50px;
     }
   }
+
   // ----- Mobile
   @media (max-width: #{base.$mobile-width}) {
-    width: 100% !important;
     padding-top: 0;
+    @include utils.flex-row-block($type: stretch, $distribution: start, $wrap: false);
 
     .tab-group-wrapper {
-      width: 100%;
-      @include utils.flex-col-block($type: center, $gap: 15px);
+      flex: 1;
+      @include utils.flex-col-block($type: stretch, $gap: 0);
     }
 
     .course-request-wrapper {
+      display: block;
+      top: 0;
+      right: 0;
+      padding: 10px 10px 5px;
       position: relative !important;
       width: 100% !important;
-      right: 0;
-      padding: 0 20px;
+      flex-basis: 45px !important;
 
       button.course-request {
         width: 100%;
       }
     }
 
+    ::ng-deep.mat-mdc-tab-group {
+      height: auto !important;
+      min-height: auto !important;
+      flex: 1;
+    }
+
     ::ng-deep.mat-mdc-tab-header {
       padding: 0 !important;
     }
+  }
+
+  .status-info-container {
+    padding: 0 !important;
   }
 
   //    app-service-announcement {
@@ -157,6 +200,10 @@
         @include uis.button($icon: dashboard_customize, $width: 100%, $height: 40px);
       }
     }
+  }
+
+  .warning-message {
+    @include uis.warning-message();
   }
 
   .empty-status {
@@ -432,26 +479,6 @@
 /* -------------------------------------- */
 @media (max-width: #{base.$tablet-width}) {
 
-  .page-container {
-    @include utils.flex-col-block($type: stretch, $y-alignment: stretch);
-
-    .workspace-list-container,
-    .tab-container {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .workspace-list {
-      display: none !important;
-    }
-  }
-
-  .mobile-workspace-list {
-    display: block !important;
-  }
-
   ::ng-deep.mat-mdc-dialog-panel {
     height: 95% !important;
   }
@@ -461,6 +488,7 @@
 /* Mobile */
 /* -------------------------------------- */
 @media (max-width: #{base.$mobile-width}) {
+
   ::ng-deep.mat-mdc-tab {
     .tab-title {
       display: none;
