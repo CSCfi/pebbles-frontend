@@ -100,14 +100,24 @@
 @mixin password-button($role: 'prim', $style: 'chip') {
   @include button($role: $role, $width: 120px,
   $style: 'fab', $icon: 'vpn_key', $icon-family: 'Filled');
+  position: relative;
   padding: 1px 0 2px !important;
+  width: 100px;
+  height: 25px;
+  left: 26px;
   margin-right: 3px;
   letter-spacing: 1px;
   border-radius: 24px;
   line-height: 0.8;
 
+  &::before {
+    position: absolute;
+    left: -26px;
+    color: var(--#{$role}-clr-7);
+  }
+
   &::after {
-    content: '● ● ● ● ●';
+    content: '● ● ● ● ● ';
     margin-left: 5px;
   }
 }
