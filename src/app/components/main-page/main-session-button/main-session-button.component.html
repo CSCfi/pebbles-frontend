@@ -2,7 +2,7 @@
      *ngIf="application"
      [ngClass]="{'warning': state==='failed', 'expired-ws': isWorkspaceExpired }">
   <!-- Background circle  -->
-  <div class="background-circle-container">
+  <div [ngClass]="{'inactive':isLaunchButtonDisabled}" class="background-circle-container">
     <svg focusable="false">
       <circle class="background-circle" cx="50%" cy="50%" r="55" stroke-width="10"></circle>
     </svg>

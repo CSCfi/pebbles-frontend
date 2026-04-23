@@ -23,6 +23,8 @@
   border-width: 1px;
   border-color: var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant));
 
+  $button-icon-gap: 8px;
+
   @if $style == 'flat' {
     color: white !important;
     background: var(--#{$role}-clr-7) !important;
@@ -39,11 +41,12 @@
   } @else if $style == 'icon' {
     border: none;
     color: var(--#{$role}-clr-7) !important;
-    $gap: 0;
+    $button-icon-gap: 0;
   } @else if $style == 'fab' {
     border: none;
     color: white !important;
     background: var(--#{$role}-clr-7) !important;
+    $button-icon-gap: 0;
     @include utils.shadow(0.05);
   } @else if $style == 'rounded' {
     border: none;
@@ -84,7 +87,6 @@
   }
 
   @if $icon {
-    $button-icon-gap: 8px;
     @include icons.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $family: $icon-family, $gap: $button-icon-gap);
   }
 

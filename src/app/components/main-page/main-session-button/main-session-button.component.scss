@@ -1,4 +1,5 @@
-@use 'main' as main;
+// ---- main-session-button.component.scss
+@use 'base-styles' as base;
 
 .session-button-container {
   position: relative;
@@ -9,28 +10,29 @@
 
   button {
     &.launch-button {
-      background: main.$light-color !important;
+      background: white !important;
 
       .mat-icon {
         display: block;
-        color: main.$gray-color;
+        color: var(--neut-clr-6);
       }
 
       &:hover {
-        @include main.accent-main-background;
+        color: var(--sec-clr-7);
+        background-color: var(--sec-clr-1) !important;
 
         .mat-icon {
-          color: main.$primary-color;
+          color: var(--sec-clr-6) !important;
         }
       }
     }
 
     &.launch-button-inactive {
-      background: main.$gray-color !important;
+      background: var(--gray-clr-1) !important;
 
       .mat-icon {
         display: block;
-        color: map-get(main.$app-gray, 50);
+        color: var(--gray-clr-4);
       }
     }
   }
@@ -44,13 +46,13 @@
 
     ::ng-deep .application-spinner {
       circle {
-        stroke: main.$secondary-color;
+        stroke: var(--sec-clr-5);
       }
     }
   }
 
   .background-circle-container {
-    @include main.center(both);
+    @include base.centering(xy);
     position: absolute;
     top: 0;
     left: 0;
@@ -63,7 +65,19 @@
 
       circle {
         fill: white;
-        stroke: main.$gray-light-color;
+        stroke: var(--neut-clr-2);
+      }
+    }
+
+    &:hover {
+      circle {
+        stroke: var(--neut-clr-1) !important;
+      }
+    }
+
+    &.inactive {
+      circle {
+        stroke: var(--gray-clr-2) !important;
       }
     }
   }
@@ -76,7 +90,8 @@
     height: 100px;
 
     .circle-button {
-      @include main.primary-main-background;
+      color: white;
+      background-color: var(--prim-clr-7);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -89,13 +104,14 @@
 
       .time-left,
       .state {
-        color: main.$light-color;
+        color: white;
       }
     }
 
     button.open-button,
     button.shutdown-button {
-      @include main.primary-main-background;
+      color: white;
+      background-color: var(--prim-clr-7);
       justify-content: center;
       width: inherit;
       height: inherit;
@@ -115,7 +131,8 @@
       overflow: hidden;
       border-radius: 50%;
 
-      @include main.warn-dark-background;
+      color: white;
+      background-color: var(--warm-clr-7);
     }
 
     .stat-button {
@@ -128,7 +145,7 @@
       padding-top: 15px;
       text-align: center;
 
-      @include main.headline-6;
+      @include base.headline-6;
     }
 
     .open-button {
@@ -136,10 +153,11 @@
       padding-top: 10px;
 
       &:hover {
-        @include main.accent-main-background;
+        color: var(--gray-clr-8);
+        background-color: var(--acc-clr-2);
 
         * {
-          color: main.$dark-text-color;
+          color: var(--gray-clr-8);
         }
       }
     }
@@ -147,10 +165,10 @@
     .shutdown-button {
       flex: 0 0 30px;
       margin: 0;
-      border-top: 1px solid map-get(main.$app-gray, 300);
+      border-top: 1px solid var(--gray-clr-3);
 
       &:hover {
-        background: main.$warn-dark-color;
+        background: var(--warn-clr-4);
       }
 
       .mat-icon {
@@ -169,7 +187,7 @@
         height: 170px;
         padding-top: 20px;
 
-        @include main.center;
+        @include base.centering(xy);
       }
 
       &.lower-button {
@@ -188,17 +206,17 @@
     .progress-spinner-container {
       ::ng-deep .application-spinner {
         circle {
-          stroke: map-get(main.$app-gray, 200);
+          stroke: var(--gray-clr-2);
         }
       }
     }
 
     .circle-button {
-      @include main.warn-dark-background;
-      color: main.$light-text-color;
+      color: white;
+      background-color: var(--acc-clr-7);
 
       button {
-        background: map-get(main.$app-warn, dark);
+        background: var(--warn-clr-7);
       }
     }
   }
@@ -208,12 +226,12 @@
   &.expired {
     .background-circle-container {
       circle {
-        stroke: map-get(main.$app-primary, 100);
+        stroke: var(--gray-clr-1);
       }
     }
 
     .launch-button-inactive {
-      background: map-get(main.$app-primary, 200);
+      background: var(--gray-clr-2);
 
       .mat-icon {
         color: white;

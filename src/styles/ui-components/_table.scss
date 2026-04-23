@@ -39,7 +39,7 @@
       background: white;
 
       &:hover {
-        background-color: #f5f5f5;
+        background-color: var(--prim-clr-0);
       }
 
       .mat-mdc-cell {
@@ -48,7 +48,7 @@
         font-size: 1.2rem;
         line-height: 140%;
         vertical-align: middle;
-        color: #333;
+        color: var(--gray-clr-8);
         border-bottom: 1px solid var(--neut-clr-2);
         @if $vertical-border {
           border-right: 1px solid var(--neut-clr-2);

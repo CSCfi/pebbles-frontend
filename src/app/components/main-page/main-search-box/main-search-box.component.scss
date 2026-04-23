@@ -1,15 +1,15 @@
-@use 'main' as main;
+// ---- main-search-box.component.scss
 
 .mat-mdc-chip-set {
   mat-chip-row {
     height: 28px !important;
-    background-color: main.$secondary-color !important;
-    border: 1px solid main.$secondary-color;
+    background-color: var(--sec-clr-5) !important;
+    border: 1px solid var(--sec-clr-5);
 
     span {
       padding-left: 0 !important;
       font-size: 1.0rem !important;
-      color: main.$secondary-dark-color !important;
+      color: var(--sec-clr-7) !important;
     }
 
     mat-icon {
@@ -17,7 +17,7 @@
     }
 
     .mdc-evolution-chip__text-label {
-      color: main.$secondary-dark-color !important;
+      color: var(--sec-clr-7) !important;
     }
 
     ::ng-deep.mdc-evolution-chip__cell {
@@ -30,8 +30,8 @@
 .candidate-label-outer {
   padding: 5px 10px;
   margin-bottom: 20px;
-  background: main.$gray-light-color;
-  border: 2px solid main.$gray-light-color;
+  background: var(--gray-clr-2);
+  border: 2px solid var(--gray-clr-2);
   border-radius: 5px;
 
   .mdc-evolution-chip {

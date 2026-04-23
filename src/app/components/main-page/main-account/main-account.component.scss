@@ -1,11 +1,10 @@
 // ---- main-account.component.css
-@use 'main' as main;
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'layouts' as layouts;
 
 @include layouts.page;
-@include layouts.header;
+@include layouts.header($border-bottom: true);
 @include layouts.content;
 
 .request-account-deletion {

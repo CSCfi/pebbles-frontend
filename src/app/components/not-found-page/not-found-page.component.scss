@@ -1,6 +1,8 @@
+// ---- not-found-page.component.scss
 @use 'utilities' as utils;
 @use 'ui-components' as uis;
 @use 'layouts' as layouts;
+
 @include layouts.page;
 @include layouts.content;
 @include layouts.status-block;

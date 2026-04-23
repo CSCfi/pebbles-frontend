@@ -4,12 +4,15 @@
 @use 'ui-components' as uis;
 @use 'info-block' as info;
 
-@mixin content($type: center, $gap: 40px, $is-widen: false, $padding-top: 25px, $side-padding: base.$page-side-padding, $is-scrolling: false) {
+@mixin content($type: center, $gap: 40px, $is-widen: false, $padding-top: 25px, $side-padding: base.$page-side-padding, $is-scrolling: false, $max-width: false) {
   .content-container {
     @include utils.flex-col-block($gap: $gap);
 
     height: calc(100vh - var(--header-height));
     max-height: calc(100vh - var(--header-height));
+    @if ($max-width) {
+      max-width: $max-width;
+    }
 
     @if $is-scrolling {
       overflow: scroll;

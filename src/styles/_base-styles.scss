@@ -1,3 +1,5 @@
+// ---- not-found-page.component.scss
+
 $tablet-width: 1024px;
 $mobile-width: 599px;
 $container-width: 1250px;
@@ -91,7 +93,7 @@ $page-side-padding: 30px;
 @mixin headline-4($weight: 500) {
   @include styled-font;
   font-size: 1.6rem;
-  font-weight: $weight;
+  font-weight: $weight !important;
 }
 
 @mixin headline-5 {

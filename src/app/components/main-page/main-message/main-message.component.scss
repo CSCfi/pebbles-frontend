@@ -1,12 +1,11 @@
 // ---- main-message.component.css
 
-@use 'main' as main;
 @use 'ui-components' as uis;
 @use 'base-styles' as base;
 @use 'layouts' as layouts;
 
 @include layouts.page;
-@include layouts.header;
+@include layouts.header($border-bottom: true);
 @include layouts.content($is-scrolling: true);
 @include layouts.status-block;
 

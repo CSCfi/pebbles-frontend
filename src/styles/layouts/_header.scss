@@ -2,15 +2,19 @@
 @use 'utilities' as utils;
 @use 'base-styles' as base;
 
-@mixin header {
+@mixin header($border-bottom: false) {
   .content-header-wrapper {
-    @include utils.flex-col-block;
+    @include utils.flex-col-block($type: center);
     flex: 0 0 var(--header-height);
     padding: 5px base.$page-side-padding 0;
 
     // ----- MOBILE
     @media (max-width: #{base.$mobile-width}) {
       padding: 10px 0;
+    }
+
+    @if ($border-bottom) {
+      border-bottom: 1px solid var(--neut-clr-3);
     }
   }
 
@@ -21,6 +25,7 @@
     z-index: 10;
     flex: 0 0 var(--header-height);
     max-width: var(--container-width);
+    width: 100%;
 
     .header-functions {
       @include utils.flex-row-block($type: center, $gap: 5px);

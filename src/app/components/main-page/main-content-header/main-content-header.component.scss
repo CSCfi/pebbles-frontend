@@ -1,7 +1,9 @@
-@use 'main' as main;
+// ---- main-content-header.component.scss
+
 @use 'utilities' as utils;
 @use 'ui-components' as uis;
 @use 'base-styles' as base;
+
 @include uis.search-form;
 @include uis.chips($type: normal, $color: white, $background: var(--sec-clr-6), $wrap: false);
 

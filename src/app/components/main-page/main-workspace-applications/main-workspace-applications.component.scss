@@ -1,5 +1,4 @@
-//---- src/app/components/main-page/main-workspace-applications/main-workspace-applications.component.scss
-@use 'main' as main;
+//---- main-workspace-applications.component.scss
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'utilities' as utils;
@@ -191,18 +190,18 @@
     @include utils.flex-col-block();
 
     .edit-button {
-      @include uis.button($icon: edit, $style: icon, $width: 65px, $height: 65px);
+      @include uis.button($role: neut, $icon: edit, $style: icon, $width: 65px, $height: 65px);
     }
 
     .menu-button {
-      @include uis.button($icon: menu, $style: icon, $width: 65px, $height: 65px);
+      @include uis.button($role: neut, $icon: menu, $style: icon, $width: 65px, $height: 65px);
     }
 
     button {
       border-radius: 0 !important;
 
       &:first-child {
-        border-bottom: 1px solid map-get(main.$app-gray, light);
+        border-bottom: 1px solid var(--gray-clr-2);
       }
     }
   }
