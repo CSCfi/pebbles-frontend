@@ -27,13 +27,12 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     return this.authService.getUserName();
   }
 
-  get isEditable(): boolean {
-    // System workspaces cannot be edited/deleted
-    if (this.workspace.membership_type === MembershipType.Public) {
-      return false;
-    }
-    // only owner or admin can edit/delete workspaces
-    return this.authService.isAdmin || this.workspace.owner_ext_id === this.userName;
+  constructor(
+    public dialog: MatDialog,
+    private formBuilder: UntypedFormBuilder,
+    private workspaceService: WorkspaceService,
+    private authService: AuthService,
+  ) {
   }
 
   get isDeletable(): boolean {
@@ -48,12 +47,16 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     return Utilities.isExpiredTimestamp(this.workspace.expiry_ts);
   }
 
-  constructor(
-      public dialog: MatDialog,
-      private formBuilder: UntypedFormBuilder,
-      private workspaceService: WorkspaceService,
-      private authService: AuthService,
-  ) {
+  get isEditable(): boolean {
+    if (!this.workspace) {
+      return false;
+    }
+    // System workspaces cannot be edited/deleted
+    if (this.workspace.membership_type === MembershipType.Public) {
+      return false;
+    }
+    // only owner or admin can edit/delete workspaces
+    return this.authService.isAdmin || this.workspace.owner_ext_id === this.userName;
   }
 
   ngOnChanges(): void {
@@ -103,7 +106,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     // this.isWorkspaceFormChanged = true;
   }
 
-  cancelWorkspaceEditing(target:string): void {
+  cancelWorkspaceEditing(target: string): void {
     this.initReactiveForm(target);
   }
 
@@ -111,10 +114,10 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     let expiry_ts = 0;
 
     this.workspaceService.updateWorkspace(
-        this.workspace.id,
-        target === 'name' ? this.workspaceEditForm.controls.name.value: this.workspace.name,
-        target === 'description' ? this.workspaceEditForm.controls.description.value: this.workspace.description,
-        expiry_ts,
+      this.workspace.id,
+      target === 'name' ? this.workspaceEditForm.controls.name.value : this.workspace.name,
+      target === 'description' ? this.workspaceEditForm.controls.description.value : this.workspace.description,
+      expiry_ts,
     ).subscribe(res => {
       // 2024-11-29 API is missing owner_ext_id field in PUT method, remove this when fixed
       if (!res.owner_ext_id) {
@@ -139,8 +142,8 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
     // ---- Add 13 more months from now
     const ed = new Date();
-    ed.setMonth(ed.getMonth()+13);
-    let expiry_ts = Math.floor(ed.valueOf()/1000);
+    ed.setMonth(ed.getMonth() + 13);
+    let expiry_ts = Math.floor(ed.valueOf() / 1000);
     const yyyy = ed.getFullYear();
     const mm = String(ed.getMonth() + 1).padStart(2, '0');
     const dd = String(ed.getDate()).padStart(2, '0');
@@ -152,14 +155,14 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       data: {
         dialogTitle: 'Extend expiry date to 13 months from now',
         dialogContent:
-            `<p>The renewed expiry date will be <b>${yyyy}-${mm}-${dd}</b>.</p>`,
+          `<p>The renewed expiry date will be <b>${yyyy}-${mm}-${dd}</b>.</p>`,
         dialogActions: ['cancel', 'confirm']
       }
     }).afterClosed().subscribe((result) => {
       if (result) {
 
         this.workspaceService.updateWorkspace(
-            this.workspace.id, this.workspace.name, this.workspace.description, expiry_ts
+          this.workspace.id, this.workspace.name, this.workspace.description, expiry_ts
         ).subscribe(res => {
           this.workspace = res;
         });
@@ -192,8 +195,8 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
       data: {
         dialogTitle: 'Generate a new workspace join code',
         dialogContent: `<p>Are you sure you want to generate a new join code for <b>"${this.workspace.name}"?</b></p>` +
-            `<br><p>Existing join code will not work after this, and new workspace members will need to use`+
-            ` the new one to join.</p>`,
+          `<br><p>Existing join code will not work after this, and new workspace members will need to use` +
+          ` the new one to join.</p>`,
         dialogActions: ['cancel', 'confirm']
       }
     }).afterClosed().subscribe((result) => {
@@ -207,7 +210,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
     });
   }
 
-  getItemLifecycleNote() : LifeCycleNote | null {
+  getItemLifecycleNote(): LifeCycleNote | null {
     return this.workspaceService.getLifecycleNote(this.workspace);
   }
 }

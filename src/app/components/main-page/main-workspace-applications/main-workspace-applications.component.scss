@@ -7,14 +7,7 @@
 
 @include layouts.status-block;
 
-:host {
-  @include utils.flex-row-block($type: stretch, $wrap: flase, $gap: 0);
-  flex-flow: row !important;
-  flex: 1;
-  overflow: hidden;
-  background: white;
-  padding: 20px;
-}
+@include utils.fitter($background: white);
 
 .workspace-applications-container {
   @include utils.flex-row-block($type: stretch, $wrap: false);
@@ -26,7 +19,7 @@
 }
 
 .main-view {
-  @include utils.flex-col-block($gap: 20px);
+  @include utils.flex-col-block($gap: 20px, $padding: 30px 25px);
   flex: 1;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;

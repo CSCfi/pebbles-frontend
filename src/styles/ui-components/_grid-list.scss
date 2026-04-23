@@ -1,29 +1,90 @@
 // ---- src/styles/ui-components/_grid-list.scss
 @use 'base-styles' as base;
+@use 'utilities' as utils;
 
-@mixin grid-list($fractions:'auto auto', $gap: 20px, $font-size: 1.3rem) {
+@mixin grid-list($fractions:'auto auto', $gap: 10px,
+$font-size: 1.3rem, $hover: false, $field-height: 50px) {
   dl.grid {
     display: grid;
     grid-template-columns: #{$fractions};
-    gap: $gap;
+    gap: if($hover, 0, $gap);
     align-items: start;
     font-size: $font-size;
 
+    dt, dd {
+      min-height: $field-height;
+      @include base.centering(y);
+
+      @if ($hover) {
+        padding: 0 10px;
+      }
+    }
+
     dt {
       grid-column: 1;
+      @include base.headline-5;
       font-weight: 700;
+
     }
 
     dd {
       grid-column: 2;
       margin: 0;
-      font-weight: 500;
     }
 
     ul.grid {
       display: grid;
       grid-template-columns: 1fr auto auto auto;
       gap: $gap;
+      width: 100%;
+    }
+
+    @if ($hover) {
+      dt {
+        &:hover {
+          background-color: var(--prim-clr-0);
+        }
+
+        &:hover + dd {
+          background-color: var(--prim-clr-0);
+        }
+
+        &:has(+ dd:hover) {
+          background-color: var(--prim-clr-0);
+        }
+
+        &.no-hover-bg:hover,
+        &.no-hover-bg:hover + dd,
+        &.no-hover-bg:has(+ dd:hover) {
+          background: none;
+        }
+      }
+
+      dd {
+        &:hover {
+          background-color: var(--prim-clr-0);
+        }
+
+        &.no-hover-bg:hover,
+        &.no-hover-bg:hover + dd,
+        &.no-hover-bg:has(+ dd:hover) {
+          background: none;
+        }
+
+        .editor {
+          width: 100%;
+        }
+
+        .preview {
+          width: 100%;
+          @include utils.flex-row-block($wrap: false);
+
+          p {
+            word-break: break-word;
+            flex: 1;
+          }
+        }
+      }
     }
   }
 
@@ -36,12 +97,24 @@
       dt {
         display: block;
         margin-top: 30px;
-        margin-bottom: 10px;
         border-bottom: 1px var(--gray-clr-2) solid;
+        min-height: auto !important;
       }
 
       dt:first-child {
         margin-top: 0;
+      }
+
+      dd {
+        padding-top: 5px;
+        min-height: auto !important;
+      }
+
+      dt:hover,
+      dt:hover + dd,
+      dd:hover,
+      dt:has(+ dd:hover) {
+        background: none;
       }
     }
   }
@@ -50,6 +123,7 @@
     ul.grid {
       display: block !important;
       line-height: 160%;
+      width: 100%;
 
       li {
         margin-bottom: 10px;

@@ -13,35 +13,30 @@
 .dashboard {
   @include utils.flex-row-block;
 
-  .sessions {
-    @include utils.flex-row-block($type: start, $gap: 10px);
-
-    .panel {
-      @include base.centering(y);
-    }
+  .session-panel {
+    @include utils.flex-row-block($type: center, $gap: 10px);
 
     .total-sessions {
       @include base.headline-4;
+
+      .mat-mdc-card-title {
+        padding: 10px 20px;
+      }
     }
 
     .mat-mdc-card {
-      padding: 10px 20px;
-
       border-left: var(--prim-clr-5) solid 6px;
       box-shadow: none;
 
       .mat-mdc-card-content {
         @include utils.flex-row-block($type: center, $gap: 15px);
-
-        padding-bottom: 0 !important;
+        padding: 10px 20px;
       }
 
       @include utils.flex-row-block;
 
       .states {
         @include utils.flex-row-block($type: center, $gap: 10px);
-
-        margin-top: 4px;
 
         li {
           @include base.headline-6;

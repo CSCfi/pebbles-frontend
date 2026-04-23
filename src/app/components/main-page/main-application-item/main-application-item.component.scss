@@ -71,6 +71,7 @@
       .workspace-info {
         @include utils.flex-col-block($gap: 5px);
         min-height: base.$application-card-header-height;
+        padding: 10px base.$application-card-content-padding 4px base.$application-card-content-padding;
       }
 
       .workspace-name {
@@ -99,6 +100,7 @@
 
       .application-meta {
         @include utils.flex-col-block($gap: 5px);
+        padding: 10px base.$application-card-content-padding 2px base.$application-card-content-padding;
       }
 
       .volumes {
@@ -157,7 +159,7 @@
 
 .mat-mdc-card.my-workspace {
   .card-meta-content {
-    flex: 1 0 140px !important;
+    flex: 1 0 150px !important;
   }
 }
 

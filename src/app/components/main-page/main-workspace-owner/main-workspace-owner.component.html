@@ -1,4 +1,4 @@
-<div class="page-container">
+<div *ngIf="workspaces !== null; else loadingBlock" class="page-container">
   <!-- Left Column : Workspace list -->
   <div class="workspace-list-container">
     <!--  Content header  -->
@@ -182,16 +182,16 @@
   <!--  //// END div#workspace-owner-tab-container -->
 </div>
 
-<ng-template #noWorkspace>
-  <div *ngIf="!isWorkspaceDeleted" class="gray-out-container">
-    <div class="gray-out-panel">
-    </div>
-  </div>
+<ng-template #loadingBlock>
   <div class="status-info-container">
-    <div *ngIf="workspaces === null" class="loading-status">
+    <div class="loading-status">
       <span class="status-headline">...Loading...</span>
     </div>
-    <div *ngIf="workspaces?.length === 0" class="empty-status">
+  </div>
+</ng-template>
+<ng-template #noWorkspace>
+  <div class="status-info-container">
+    <div class="empty-status">
       <h2 class="status-headline">No workspaces</h2>
       <div class="status-content">
         Start by creating a new workspace

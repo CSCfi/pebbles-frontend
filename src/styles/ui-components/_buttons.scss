@@ -7,9 +7,10 @@
   $role: 'prim', $font-size: 1.5rem, $style: 'flat',
   $width: 'auto', $height: var(--mat-filled-button-touch-target-display),
   $connect: none,
-  $icon: '\ebcc', $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined') {
+  $icon: false, $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined') {
   @include base.styled-font;
   @include base.centering(xy);
+
   width: #{$width};
   height: #{$height};
   padding: 6px 15px;
@@ -21,19 +22,20 @@
   border-radius: 5px;
   border-width: 1px;
   border-color: var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant));
-  $gap: 8px;
 
   @if $style == 'flat' {
     color: white !important;
     background: var(--#{$role}-clr-7) !important;
+    @include utils.shadow(0.05);
   } @else if $style == 'none' {
     color: var(--#{$role}-clr-6) !important;
     background: transparent !important;
     border: 1px solid var(--neut-clr-2);
   } @else if $style == 'stroked' {
-    color: var(--#{$role}-clr-5) !important;
+    color: var(--#{$role}-clr-6) !important;
     background: var(--#{$role}-clr-0) !important;
     border: 3px solid var(--#{$role}-clr-5);
+    @include utils.shadow(0.05);
   } @else if $style == 'icon' {
     border: none;
     color: var(--#{$role}-clr-7) !important;
@@ -42,6 +44,7 @@
     border: none;
     color: white !important;
     background: var(--#{$role}-clr-7) !important;
+    @include utils.shadow(0.05);
   } @else if $style == 'rounded' {
     border: none;
     color: var(--prim-clr-7) !important;
@@ -49,6 +52,7 @@
     padding-left: 18px;
     padding-right: 18px;
     border-radius: 30px;
+    @include utils.shadow(0.05);
   } @else if $style == 'underline' {
     border: none;
     color: var(--#{$role}-clr-7) !important;
@@ -80,7 +84,8 @@
   }
 
   @if $icon {
-    @include icons.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $family: $icon-family, $gap: $gap);
+    $button-icon-gap: 8px;
+    @include icons.icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $family: $icon-family, $gap: $button-icon-gap);
   }
 
   @media (max-width: #{base.$tablet-width}) {

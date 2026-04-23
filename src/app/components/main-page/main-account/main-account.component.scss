@@ -3,6 +3,7 @@
 @use 'base-styles' as base;
 @use 'ui-components' as uis;
 @use 'layouts' as layouts;
+
 @include layouts.page;
 @include layouts.header;
 @include layouts.content;
@@ -11,7 +12,7 @@
   @include base.centering(x);
 
   .request-account-deletion-btn {
-    @include uis.button($role: 'warn', $style: 'stroked', $icon: 'delete', $width: 'auto');
+    @include uis.button($role: 'warn', $style: 'stroked', $icon: 'delete', $width: 300px, $height: 40px);
   }
 }
 
@@ -20,23 +21,24 @@
 }
 
 .desktop-notifications {
+
   &-granted {
-    @include uis.deco-text($color: var(--sec-clr-7), $icon: 'notifications_active',
+    @include uis.deco-text($color: var(--sec-clr-7), $width: 300px, $icon: 'notifications_active',
     $highlight: var(--sec-clr-0), $text-align: center);
   }
 
   &-blocked,
   &-unsupported {
-    @include uis.deco-text($color: var(--warn-clr-5), $icon: 'notification_important');
+    @include uis.deco-text($color: var(--warn-clr-5), $width: 300px, $icon: 'notification_important');
   }
 
   &-asking {
-    @include uis.deco-text($color: var(--sec-clr-5), $icon: 'local_cafe');
+    @include uis.deco-text($color: var(--sec-clr-5), $width: 300px, $icon: 'local_cafe');
   }
 }
 
 .info-body {
-  @include uis.grid-list('140px auto');
+  @include uis.grid-list('160px auto');
 }
 
 
