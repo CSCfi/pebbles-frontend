@@ -37,7 +37,7 @@
 /// Mixin to fit the parent element and align children horizontally
 @mixin fitter($target:':host', $background: none, $padding: 0) {
   #{$target} {
-    @include flex-row-block($type: stretch, $wrap: false, $gap: 0);
+    @include flex-row-block($type: stretch, $distribution: center, $wrap: false, $gap: 0);
     // Expand the element to fill available space and control overflow
     flex: 1;
     min-width: 0;

@@ -61,7 +61,7 @@
   }
 }
 
-@mixin table-width-fix($width: auto, $min-width: auto, $align: left, $vertical-align: middle, $padding: 2px) {
+@mixin table-width-fix($width: auto, $min-width: auto, $align: left, $vertical-align: middle, $padding: 2px, $type:icon) {
   width: $width !important;
   min-width: $min-width;
   max-width: $width;
@@ -72,4 +72,10 @@
   vertical-align: $vertical-align !important;
   text-align: $align;
   white-space: nowrap;
+
+  @if $type == icon {
+    button {
+      text-align: center;
+    }
+  }
 }

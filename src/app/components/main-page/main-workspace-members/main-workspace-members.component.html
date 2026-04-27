@@ -1,15 +1,14 @@
-<div id="workspace-members-container">
+<div class="workspace-members-container">
   <!-- Search Box -->
   <div class="member-header">
     <mat-form-field appearance="fill">
       <mat-icon matPrefix>search</mat-icon>
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
-    <button mat-stroked-button class="member-reload-button" (click)="refreshMembers()">
-      <mat-icon fontSet="material-icons-outlined">refresh</mat-icon>
+    <button (click)="refreshMembers()" class="refresh-btn">
     </button>
   </div>
-  <ng-container *ngIf="memberList?.length > 0; else noMember">
+  <ng-container *ngIf="memberList!==null; else loadingBlock">
     <!-- members table -->
     <!--
       - Index column
@@ -40,29 +39,18 @@
         -->
         <!-- Index Column -->
         <ng-container matColumnDef="index">
-          <th mat-header-cell mat-sort-header class="icon-cell cell-index" *matHeaderCellDef>index</th>
+          <th *matHeaderCellDef mat-header-cell>index</th>
           <td mat-cell class="center icon-cell" *matCellDef="let element">
-            {{element.index}}
+            {{ element.index }}
           </td>
         </ng-container>
         <!-- Role column -->
         <ng-container matColumnDef="role">
           <th mat-header-cell mat-sort-header *matHeaderCellDef>Role</th>
-          <td mat-cell class="cell-role" *matCellDef="let element">
+          <td *matCellDef="let element" mat-cell>
             <ng-container [ngSwitch]="element.role">
-              <div class="role-name" [ngClass]="element.role">
-                <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'owner'">
-                  manage_accounts
-                </mat-icon>
-                <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'manager'">
-                  manage_accounts
-                </mat-icon>
-                <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchCase="'banned'">
-                  person_off
-                </mat-icon>
-                <mat-icon fontSet="material-icons-outlined" class="user-role-icon" *ngSwitchDefault> person
-                </mat-icon>
-                <span [innerHTML]="displayMembershipType(element.displayRole)"></span>
+              <div [innerHTML]="displayMembershipType(element.displayRole)" [ngClass]="element.role"
+                   class="role-name">
               </div>
             </ng-container>
           </td>
@@ -79,8 +67,8 @@
           <th mat-header-cell *matHeaderCellDef>menu</th>
           <td mat-cell class="icon-cell" *matCellDef="let element">
             <button mat-button [matMenuTriggerFor]="menu" aria-label="open menu"
+                    class="member-menu-button"
                     [disabled]="element.role === 'owner'">
-              <mat-icon>menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item
@@ -122,7 +110,9 @@
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">
             <section class="status-info-container">
-              No data matching "{{input.value}}"
+              <div class="search-status">
+                <div class="status-headline">No data matching "{{ input.value }}"</div>
+              </div>
             </section>
           </td>
         </tr>
@@ -133,17 +123,13 @@
   <!-- Hint to invite members -->
   <ng-container *ngIf="isInviteHintEnabled">
     <div class="status-info-container">
-      <div class="hint">
-        <div class="empty-status">
-          <mat-icon fontSet="material-icons-outlined">groups</mat-icon>
-        </div>
-        <div class="status-summary">No members in this workspace yet.</div>
-        <div class="hint-content">
-          <h3>Tip</h3>
+      <div class="empty-status">
+        <div class="status-headline">No members</div>
+        <div class="status-summary">No members in this workspace yet</div>
+        <div class="hint">
           <span class="status-postscript">
             Share workspace
-            <span class="hint-join-code">Join code</span>
-            <mat-icon>vpn_key</mat-icon>to invite members to this workspace.
+            <span class="keyword lock">Join code</span> to invite members to this workspace.
           </span>
         </div>
       </div>
@@ -151,17 +137,10 @@
   </ng-container>
 
   <!-- Loading / No Members -->
-  <ng-template #noMember>
+  <ng-template #loadingBlock>
     <div class="status-info-container">
-      <div class="empty-status" *ngIf="memberList !== null">
-        <mat-icon fontSet="material-icons-outlined">group</mat-icon>
-        <span class="status-summary">
-          No members in this workspace.
-        </span>
-      </div>
-      <div class="empty-status" *ngIf="memberList === null">
-        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-        <span class="status-summary">...Loading...</span>
+      <div class="loading-status">
+        <span class="status-headline">...Loading...</span>
       </div>
     </div>
   </ng-template>
@@ -169,7 +148,7 @@
   <!-- Paginator-->
   <div class="paginator-wrapper" [hidden]="!isPaginatorVisible">
     <mat-paginator
-      [pageSizeOptions]="pageSizeOptions">
+        [pageSizeOptions]="pageSizeOptions">
     </mat-paginator>
   </div>
 </div>

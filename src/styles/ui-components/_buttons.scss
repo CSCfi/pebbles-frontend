@@ -26,39 +26,51 @@
   $button-icon-gap: 8px;
 
   @if $style == 'flat' {
-    color: white !important;
-    background: var(--#{$role}-clr-7) !important;
+    color: white;
+    background: var(--#{$role}-clr-7);
     @include utils.shadow(0.05);
   } @else if $style == 'none' {
-    color: var(--#{$role}-clr-6) !important;
-    background: transparent !important;
+    color: var(--#{$role}-clr-6);
+    background: transparent;
     border: 1px solid var(--neut-clr-2);
   } @else if $style == 'stroked' {
-    color: var(--#{$role}-clr-6) !important;
-    background: var(--#{$role}-clr-0) !important;
+    color: var(--#{$role}-clr-6);
+    background: var(--#{$role}-clr-0);
     border: 3px solid var(--#{$role}-clr-5);
     @include utils.shadow(0.05);
   } @else if $style == 'icon' {
     border: none;
-    color: var(--#{$role}-clr-7) !important;
+    color: var(--#{$role}-clr-7);
     $button-icon-gap: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 50px;
+
+    &:hover,
+    &:disabled {
+      background: none !important;
+    }
+
   } @else if $style == 'fab' {
     border: none;
-    color: white !important;
-    background: var(--#{$role}-clr-7) !important;
-    $button-icon-gap: 0;
+    color: white;
+    background: var(--#{$role}-clr-7);
     @include utils.shadow(0.05);
+    $button-icon-gap: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 50px;
   } @else if $style == 'rounded' {
     border: none;
-    color: var(--prim-clr-7) !important;
-    background: white !important;
+    color: var(--prim-clr-7);
+    background: white;
     padding-left: 18px;
     padding-right: 18px;
     border-radius: 30px;
     @include utils.shadow(0.05);
   } @else if $style == 'underline' {
     border: none;
-    color: var(--#{$role}-clr-7) !important;
+    color: var(--#{$role}-clr-7);
     text-decoration: underline;
   }
 
@@ -82,7 +94,7 @@
   &.mat-mdc-button-disabled {
     color: var(--gray-clr-4) !important;
     cursor: not-allowed !important;
-    background-color: var(--gray-clr-2) !important;
+    background-color: var(--gray-clr-2);
     border: none;
   }
 

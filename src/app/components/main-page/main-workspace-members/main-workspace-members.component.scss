@@ -1,163 +1,86 @@
-@use 'main' as main;
+// ---- main-workspace-members.component.scss
 
-#workspace-members-container {
-  display: flex;
-  flex: 1 0 800px;
-  flex-direction: column;
-  gap: 10px;
-  width: 800px;
-  max-width: 1000px;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
 
-  padding: 20px 30px 30px;
-  margin: 0 auto;
+@include layouts.status-block;
+@include utils.fitter($background: white);
 
-  .member-header {
-    display: flex;
-    flex: 0 0 60px;
-    flex-direction: row;
-    gap: 10px;
+.workspace-members-container {
+  width: 100%;
+  max-width: 800px;
+  @include utils.flex-col-block($gap: 10px, $padding: 20px 30px 30px);
+}
 
-    mat-form-field {
-      flex: 1 0 auto;
-      margin-bottom: -20px;
-    }
+.status-headline {
+  @include uis.crowned-text($icon: groups, $icon-size: 8rem);
+}
 
-    button {
-      flex: 0 1 65px;
-      height: 60px;
+.workspace-member-table {
+  @include layouts.status-block($padding-top: 20px);
 
-      @include main.center(both, inline);
-
-      mat-icon {
-        width: auto;
-        height: auto;
-        margin: 0;
-        font-size: 2.4rem;
-      }
-    }
+  .status-headline {
+    @include uis.crowned-text($icon: search, $icon-size: 4rem);
+    padding-bottom: 20px;
   }
+}
 
-  .table-container {
+.member-header {
+  flex: 0 0 60px;
+  @include utils.flex-row-block($gap: 10px);
+
+  mat-form-field {
     flex: 1 0 auto;
-    height: 72px;
-    overflow: auto;
+    margin-bottom: -20px;
+  }
+}
+
+.table-container {
+  flex: none;
+  @include uis.table(
+          $table-outer-border: 2px solid var(--neut-clr-3),
+          $vertical-border: true,
+          $header-height: 25px
+  );
+}
+
+.mat-column- {
+
+  &index {
+    @include uis.table-width-fix($width: 50px, $align: center);
   }
 
-  .status-info-container {
-    flex-grow: 5;
-    margin-top: 0 !important;
-  }
-
-  .paginator-wrapper {
-    flex: 0 0 60px;
-  }
-
-  table {
-    font-size: 1.2rem;
-
-    tr {
-      border: 2px solid main.$mid-dark-line;
-    }
-
-    thead {
-      height: 40px;
-      font-size: 1.2rem;
-
-      tr {
-        height: 20px;
-
-        ::ng-deep th.mat-column-menu {
-          width: 65px;
-        }
-      }
-    }
-
-    ::ng-deep tbody {
-      tr {
-        height: 40px !important;
-
-        td {
-          padding: 0 20px !important;
-          font-size: 1.2rem;
-          line-height: 100%;
-        }
-      }
-    }
-
-    ::ng-deep.mat-mdc-header-row {
-      height: 20px;
-      color: main.$gray-extra-dark-color;
-      background: #e0e0e0;
-    }
-
-    ::ng-deep.mat-column-index {
-      width: 65px;
-      text-align: center;
-    }
+  &role {
+    @include uis.table-width-fix($width: 100px, $align: center, $padding: 2px 10px);
 
     .role-name {
-      @include main.center(vertical, inline);
+      @include uis.deco-text($icon: person, $color: var(--acc-clr-7), $font-size: 1.2rem, $gap: 4px);
 
-      mat-icon {
-        margin-right: 5px;
+      &.owner {
+        @include uis.deco-text($icon: person_shield, $icon-family: 'Filled', $color: var(--prim-clr-7), $font-size: 1.2rem, $gap: 4px);
       }
 
-      &.owner .user-role-icon {
-        color: #fc614d;
+      &.manager {
+        @include uis.deco-text($icon: manage_accounts, $icon-family: 'Filled', $color: var(--sec-clr-7), $font-size: 1.2rem, $gap: 4px);
       }
 
-      &.co-owner .user-role-icon {
-        color: #ee8600;
-      }
-    }
-
-    ::ng-deep.mat-column-menu {
-      width: 65px;
-      padding: 0 !important;
-      text-align: center;
-
-      button {
-        height: 45px;
-        border-radius: 0;
-
-        mat-icon {
-          width: auto;
-          height: auto;
-          margin-right: 0;
-          font-size: 1.8rem;
-        }
+      &.banned {
+        @include uis.deco-text($icon: person_off, $color: var(--warn-clr-7), $font-size: 1.2rem, $gap: 4px);
       }
     }
   }
 
-  .my-account {
-    height: 45px !important;
-    background: map-get(main.$app-secondary, 100);
+  &email {
+    @include uis.table-width-fix($align: left, $padding: 2px 10px);
   }
 
-  .hint-content {
-    width: 650px;
-    padding: 20px 30px;
-    margin: auto;
-    border: 5px solid main.$gray-light-color;
-    border-radius: 20px;
+  &menu {
+    @include uis.table-width-fix($width: 55px, $align: center);
 
-    h3 {
-      margin-bottom: 10px;
-      border-bottom: 1px solid main.$gray-light-color;
-    }
-
-    .status-postscript {
-      @include main.center(vertical, inline);
-
-      .hint-join-code {
-        margin: 0 10px;
-        font-weight: 600;
-      }
-
-      mat-icon {
-        margin-right: 10px;
-      }
+    .member-menu-button {
+      @include uis.button($icon: menu, $role: neut, $style: icon);
     }
   }
 }

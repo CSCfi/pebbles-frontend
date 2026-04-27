@@ -247,7 +247,7 @@
           overflow-wrap: break-word;
         }
 
-        @include uis.grid-list($fractions: '110px auto', $gap: 10px 5px);
+        @include uis.grid-list($fractions: '110px auto', $gap: 10px 5px, $field-height: 25px);
       }
     }
   }

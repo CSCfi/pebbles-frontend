@@ -3,8 +3,9 @@
 
 @mixin deco-text(
   $color: inherit, $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
-  $width: auto,
-  $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined', $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
+  $width: auto, $font-weight: 600,
+  $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined',
+  $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
 ) {
   @include base.styled-font;
   @include base.centering($pos: y, $inline: $inline);
@@ -13,7 +14,7 @@
   flex-wrap: nowrap;
   width: $width;
   font-size: $font-size;
-  font-weight: 600;
+  font-weight: $font-weight;
   color: #{$color};
 
   @if $icon != none {
