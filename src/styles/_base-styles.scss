@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 // ---- not-found-page.component.scss
 
 $tablet-width: 1024px;
@@ -40,6 +42,10 @@ $page-side-padding: 30px;
   --mat-form-field-container-height: 40px;
   --mdc-filled-text-field-container-color: transparent;
   --mdc-checkbox-state-layer-size: 30px;
+
+  @include mat.progress-spinner-overrides((
+          active-indicator-color: var(--prim-clr-7),
+  ));
 }
 
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
@@ -96,10 +102,14 @@ $page-side-padding: 30px;
   font-weight: $weight !important;
 }
 
-@mixin headline-5 {
+@mixin headline-5($weight: none) {
   @include styled-font;
   font-size: 1.3rem;
   font-weight: 500;
+
+  @if $weight {
+    font-weight: $weight !important;
+  }
 }
 
 @mixin headline-6 {

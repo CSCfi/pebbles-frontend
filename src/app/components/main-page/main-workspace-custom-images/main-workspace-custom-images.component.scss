@@ -1,212 +1,220 @@
-@use 'main' as main;
+// ---- main-workspace-custom-images.component.scss
 
-#workspace-custom-images-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 1100px;
-  max-width: 1100px;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
 
-  padding: 20px 30px 30px;
-  margin: 0 auto;
+@include layouts.status-block;
+@include utils.fitter($background: white);
+
+.workspace-custom-images-container {
+  width: 100%;
+  max-width: 1200px;
+  overflow: auto;
+  @include utils.flex-col-block($gap: 10px, $padding: 20px 30px 30px);
 
   .actions {
-    flex: 0 0 40px;
-    text-align: right;
+    @include utils.flex-row-block($distribution: flex-end, $gap: 10px);
 
-    button {
-      margin-bottom: 5px;
-    }
-
-    .max-quota-warning {
-      text-align: center;
+    .create-custom-image-button {
+      @include uis.button($role: prim, $icon: album, $height: 40px);
     }
   }
 
   .table-container {
-    flex: 1 1 auto;
-    overflow: auto;
+    flex: none;
+    @include uis.table(
+            $table-outer-border: 2px solid var(--neut-clr-3),
+            $vertical-border: true,
+            $header-height: 25px,
+            $tr-border: 2px solid var(--neut-clr-3)
+    );
   }
+}
 
-  table {
-    font-size: 1.2rem !important;
 
-    tr {
-      border: 2px solid main.$mid-dark-line;
-    }
+.mat-column- {
 
-    .mat-mdc-cell {
-      hyphens: auto;
-      overflow-wrap: break-word !important;
-      white-space: unset !important;
-    }
+  &thumb {
+    @include uis.table-width-fix($width: 80px, $align: center, $padding: 5px 15px);
 
-    .mat-column-index,
-    .mat-column-action {
-      flex: 0 0 40px !important;
-      width: 40px !important;
-      padding: 0 !important;
+    .custom-image-thumb {
       text-align: center;
 
-      button {
-        padding: 0;
-      }
-    }
-
-    .mat-column-name {
-      min-width: 155px;
-
-      .custom-image-name {
-        font-size: small;
-      }
-    }
-
-    .mat-column-meta {
-      padding: 0 !important;
-      vertical-align: baseline;
-
-      .custom-image-dockerfile {
-
-
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 10px;
-        font-size: 1.1rem;
-        word-spacing: normal;
-        letter-spacing: normal;
-
-        fa-icon {
-          flex: 0 0 26px;
-          margin-right: 4px;
-          font-size: 16px;
-        }
-
-        code {
-          width: 100%;
-          padding: 5px 20px;
-          background: main.$gray-extra-light-color;
-        }
-
-        .dockerfile-toggle-button {
-          @include main.center(both);
-          flex-wrap: nowrap;
-          width: 120px;
-          padding: 5px 10px;
-          margin-top: -40px;
-          margin-left: -11px;
-          font-size: 1.2rem !important;
-          color: main.$light-text-color;
-          background: main.$gray-extra-dark-color;
-          border-radius: 0 0 5px;
-        }
+      .state-text {
+        text-transform: capitalize;
+        font-weight: 700 !important;
       }
 
-      .custom-image-state {
-        @include main.center(vertical);
-        width: 100%;
-        border-bottom: 1px solid main.$gray-light-color;
+      .custom-image-state-in-progress {
+        width: 30px;
+        height: 30px;
+        margin: 10px auto;
+      }
 
-        .custom-image-completed {
-          display: flex;
-          flex-direction: column;
-
-          .custom-image-tag {
-            @include main.center(vertical);
-            padding: 5px 10px;
-
-            .tag-text {
-              padding: 0 10px;
-            }
-          }
-
-          .referencing-applications-text {
-            padding: 5px 10px;
-          }
-        }
-
-        .toggle-log-button {
-          height: 10px;
-          font-size: 1.3rem !important;
-          text-decoration: underline;
-
-          mat-icon {
-
-            flex: 0 0 26px;
-            width: 20px !important;
-            height: auto;
-            margin-right: 5px;
-            font-size: 1.8rem;
-          }
-        }
-
-        .custom-image-fail-message {
-          @include main.center(vertical);
-          justify-content: space-between;
-          width: 100%;
-          padding: 10px;
-          background: main.$warn-light-color;
-
-          .fail-state {
-            @include main.center(vertical);
-
-            mat-icon {
-              flex: 0 0 34px;
-              font-size: 2.2rem;
-            }
-
-            span {
-              flex: 1 0 auto;
-              flex-wrap: nowrap;
-            }
-          }
-        }
+      &.completed {
 
         .custom-image-state-in-progress {
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
-          align-items: center;
-          padding: 10px;
-          color: main.$secondary-color;
+          display: none !important;
+        }
 
-          .custom-image-state-name {
-            font-weight: 600;
-          }
-
-          .custom-image-state-description {
-            color: gray;
-          }
+        .state-text {
+          @include uis.crowned-text($icon: album, $color: var(--sec-clr-5), $icon-size: 5rem);
         }
       }
 
-      .custom-image-output {
+      &.failed {
+
+        .custom-image-state-in-progress {
+          display: none !important;
+        }
+
+        .state-text {
+          @include uis.crowned-text($icon: error, $color: var(--warn-clr-7), $icon-size: 5rem);
+        }
+      }
+
+      &.new {
+        .state-text {
+          color: var(--sec-clr-6);
+        }
+      }
+
+      &.building {
+        .state-text {
+          color: var(--prim-clr-6);
+        }
+      }
+
+      &.deleting {
+        .mat-mdc-progress-spinner {
+          margin: 5px auto;
+        }
+
+        .state-text {
+          color: var(--warn-clr-6);
+        }
+      }
+    }
+  }
+
+  &meta {
+    @include uis.table-width-fix($width: auto, $align: left, $vertical-align: top, $padding: 0);
+
+    &.mat-mdc-header-cell {
+      padding: 5px 15px !important;
+    }
+
+    .custom-image-name {
+      @include base.headline-5($weight: 700);
+      padding: 8px 15px;
+      border-bottom: var(--content-border-neut);
+      text-transform: capitalize;
+    }
+
+    .custom-image-state {
+      padding: 4px 15px;
+      @include uis.grid-list($fractions: 80px auto, $field-height: 20px, $gap: 2px, $font-size: 1.1rem);
+
+      .custom-image-tag {
+        @include uis.deco-text($icon: sell, $font-size: 1.1rem, $font-weight: 500, $icon-size: 1.6rem, $gap: 4px);
+      }
+
+      .custom-image-build-state {
+        @include uis.deco-text($icon: album, $font-size: 1.1rem, $font-weight: 500, $icon-size: 1.6rem, $gap: 4px);
+      }
+
+      .toggle-log-button {
+        @include uis.button($icon: document_search, $role: warn, $style: underline, $font-size: 1.1rem, $height: 20px, $icon-size: 1.6rem, $button-icon-gap: 4px);
+      }
+    }
+
+    .custom-image-output {
+      position: relative;
+      padding: 15px 20px 10px 25px;
+      background: var(--neut-clr-9);
+
+      .output-label {
+        @include uis.icon($icon: terminal, $color: var(--acc-clr-3));
         position: relative;
-        padding: 15px 40px 15px 45px;
-        background: #000;
-
-        .output-label {
-          position: absolute;
-          top: 4px;
-          right: 8px;
-          color: #00EAC3;
-        }
-
-        .custom-image-output-line {
-          font-size: 1.2rem;
-          color: main.$light-text-color;
-        }
+        float: right;
+        cursor: pointer;
       }
 
-      .mat-expansion-panel:not([class*='mat-elevation-z']) {
-        box-shadow: none;
+      .custom-image-output-line {
+        font-size: 1.1rem;
+        color: white;
+        width: 100%;
+        margin-bottom: 5px;
       }
     }
 
-    .mat-column-action {
-      button.mat-mdc-button-disabled {
-        background: none !important;
+    .custom-image-dockerfile {
+      padding: 5px 15px 5px 15px;
+      border-top: var(--content-border-neut);
+      @include uis.grid-list($fractions: 80px auto, $field-height: 20px, $gap: 2px, $font-size: 1.1rem);
+
+      dt {
+        font-size: 1.1rem !important;
+        font-weight: 500 !important;
+      }
+
+      fa-icon {
+        font-size: 13px;
+        margin-right: 4px;
       }
     }
+
+    code {
+      width: 100%;
+      display: block;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+      word-break: break-all;
+      box-sizing: border-box;
+    }
+  }
+
+  &action {
+    @include uis.table-width-fix($width: 55px, $align: center, $padding: 0);
+
+    .buttons {
+      @include utils.flex-col-block();
+
+      .edit-button {
+        @include uis.button($role: neut, $icon: edit, $style: icon, $width: 55px, $height: 50px);
+      }
+
+      .menu-button {
+        @include uis.button($role: neut, $icon: menu, $style: icon, $width: 55px, $height: 50px);
+      }
+
+      button {
+        border-radius: 0 !important;
+
+        &:first-child {
+          //border-bottom: 1px solid var(--gray-clr-2);
+        }
+      }
+    }
+  }
+}
+
+.empty-status .status-headline {
+  @include uis.crowned-text($icon: album, $icon-type: 'Icons', $icon-family: 'Filled',
+  $color: var(--neut-clr-7), $icon-size: 6rem);
+}
+
+.loading-status {
+  .status-headline {
+    @include uis.crowned-text($icon: hourglass_top, $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
+}
+
+// ----- Mobile
+@media (max-width: #{base.$mobile-width}) {
+  dl {
+    display: block !important;
   }
 }

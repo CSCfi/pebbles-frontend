@@ -2,8 +2,8 @@
 @use 'base-styles' as base;
 
 @mixin deco-text(
-  $color: inherit, $font-size: 1.5rem, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
-  $width: auto, $font-weight: 600,
+  $color: inherit, $font-size: none, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
+  $width: auto, $font-weight: none,
   $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined',
   $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
 ) {
@@ -13,9 +13,18 @@
   justify-content: $text-align;
   flex-wrap: nowrap;
   width: $width;
-  font-size: $font-size;
-  font-weight: $font-weight;
+  font-size: 1.5rem;
+  font-weight: 600;
+
   color: #{$color};
+
+  @if $font-size {
+    font-size: $font-size !important;
+  }
+
+  @if $font-weight {
+    font-weight: $font-weight !important;
+  }
 
   @if $icon != none {
     @include icon(
@@ -36,11 +45,12 @@
   @include base.styled-font;
   @include base.centering(xy);
   position: relative;
+  gap: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: auto;
-  font-weight: 600 !important;
+  font-weight: 600;
   color: #{$color} !important;
   text-align: center;
 
@@ -55,9 +65,13 @@
 }
 
 @mixin icon(
-  $icon: apartment, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: 8px) {
+  $icon: apartment, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: none, $width: auto) {
   display: flex;
-  gap: $gap;
+  gap: 8px;
+
+  @if $gap {
+    gap: $gap !important;
+  }
 
   $font-family: 'Material Symbols Outlined';
 
@@ -71,8 +85,8 @@
 
   @if $pos == left {
     &::before {
-      flex: 0 0 22px;
-      width: 24px;
+      flex: 0 0 $width;
+      width: $width;
       height: auto;
       font-family: $font-family, sans-serif;
       font-size: #{$size};
@@ -80,6 +94,7 @@
       line-height: 1;
       color: $color;
       content: '#{$icon}';
+      text-decoration: none !important;
 
       @if $family == 'Filled' and $type == 'Symbols' {
         font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -89,7 +104,7 @@
 
   @if $pos == right {
     &::after {
-      width: auto;
+      width: $width;
       height: auto;
       margin-left: 8px;
       font-family: $font-family, sans-serif;
@@ -103,7 +118,7 @@
   @if $pos == up {
     &::before {
       display: block;
-      width: 90px !important;
+      width: $width !important;
       height: auto !important;
       margin: 0;
       font-family: $font-family, sans-serif;

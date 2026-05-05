@@ -2,7 +2,7 @@
 @use 'base-styles' as base;
 @use 'utilities' as utils;
 
-@mixin table($table-outer-border: none, $vertical-border: false, $header-height: 45px ) {
+@mixin table($table-outer-border: none, $vertical-border: false, $header-height: 45px, $tr-border: none ) {
   overflow: auto;
 
   table {
@@ -56,6 +56,10 @@
             border-right: none;
           }
         }
+      }
+
+      @if $tr-border != none {
+        border-bottom: $tr-border;
       }
     }
   }

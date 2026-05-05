@@ -1,13 +1,12 @@
-<div id="workspace-custom-images-container">
+<div class="workspace-custom-images-container">
 
   <div class="actions">
     <button (click)="buildImageDialog(null)"
             [disabled]="!isQuotaLeft() || isWorkspaceExpired"
             aria-label="Create custom image"
             mat-flat-button
-            class="secondary-btn">
-      <mat-icon>album</mat-icon>
-      <span>Create custom image</span>
+            class="create-custom-image-button">
+      Create custom image
     </button>
     <div *ngIf="!isQuotaLeft()" class="max-quota-warning">
       No custom image quota left. You can create a maximum of 10 images per workspace.
@@ -17,74 +16,80 @@
   <ng-container *ngIf="dataSource?.length > 0; else noImage">
     <div class="table-container">
       <table [dataSource]="dataSource" class="custom-image-table" mat-table>
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th *matHeaderCellDef class="col-name" mat-header-cell> Name</th>
-          <td mat-cell *matCellDef="let element" class="col-name" [ngSwitch]="element.state">
-            <div class="custom-image-name"> {{ element.name }}</div>
+
+        <ng-container matColumnDef="thumb">
+          <th *matHeaderCellDef mat-header-cell>Image</th>
+          <td *matCellDef="let element" mat-cell>
+            <div [ngClass]="element.state" [ngSwitch]="element.state" class="custom-image-thumb">
+              <!-- Custom image state NEW / BUILDING / DELETING -->
+              <div class="custom-image-state-in-progress">
+                <mat-progress-spinner
+                    diameter="30"
+                    mode="indeterminate"
+                    strokeWidth="2">
+                </mat-progress-spinner>
+              </div>
+              <div class="state-text">{{ element.state }}</div>
+            </div>
           </td>
         </ng-container>
 
         <!-- Custom image META -->
+
         <ng-container matColumnDef="meta">
-          <th *matHeaderCellDef mat-header-cell> Custom Image Info</th>
+          <th *matHeaderCellDef mat-header-cell>Custom Image Info</th>
           <td mat-cell *matCellDef="let element">
-            <div class="custom-image-state" [ngSwitch]="element.state">
+            <div class="custom-image-name"> {{ element.name }}</div>
+
+            <dl [ngClass]="element.state" [ngSwitch]="element.state" class="custom-image-state grid">
               <!-- Custom image state COMPLETED -->
-              <div *ngSwitchCase="BuildState.Completed" class="custom-image-completed">
-                <div class="custom-image-tag">
-                  <mat-icon class="material-icons-outlined">sell</mat-icon>
-                  <span class="tag-text"> {{ element.tag }} </span>
-                </div>
-                <div class="middle-filler"></div>
-                <div *ngIf="element.applicationReferences?.length"
-                     [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')"
-                     class="referencing-applications-text">
-                  Used by {{ element.applicationReferences.length + ' ' +
-                    (element.applicationReferences.length === 1 ? 'application' : 'applications')
-                  }}
-                </div>
-              </div>
+              <ng-container *ngSwitchCase="BuildState.Completed">
+                <dt class="custom-image-tag">
+                  Tag
+                </dt>
+                <dd>{{ element.tag }}</dd>
+                <dt class="custom-image-build-state">State</dt>
+                <dd class="referencing-applications-text">
+                  Build {{ element.state }}
+                  <span *ngIf="element.applicationReferences?.length"
+                        [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')">
+                   : Used by {{
+                      element.applicationReferences.length + ' ' +
+                      (element.applicationReferences.length === 1 ? 'application' : 'applications')
+                    }}
+                  </span>
+                </dd>
+              </ng-container>
               <!-- Custom image state FAILED -->
-              <div *ngSwitchCase="BuildState.Failed"
-                   class="custom-image-fail-message">
-                <span class="fail-state">
-                  <mat-icon class="material-icons-outlined warning-message">sentiment_very_dissatisfied</mat-icon>
-                  <span>Failed</span>
-                </span>
-                <button (click)="toggleLog(element.id)"
-                        *ngIf="element.build_system_output"
-                        class="toggle-log-button"
-                        mat-button
-                        matTooltip="Toggle log screen">
-                  <mat-icon class="material-icons-outlined">terminal</mat-icon>
-                  <span *ngIf="!isLogVisible(element.id); then openLog else closeLog"></span>
-                  <ng-template #openLog>Open log</ng-template>
-                  <ng-template #closeLog>Close log</ng-template>
-                </button>
-              </div>
-
+              <ng-container *ngSwitchCase="BuildState.Failed">
+                <!-- Build log for failed images -->
+                <dt class="custom-image-build-state">State</dt>
+                <dd>Build {{ element.state }} /
+                  <button (click)="toggleLog(element.id)"
+                          *ngIf="element.build_system_output"
+                          class="toggle-log-button"
+                          mat-button
+                          matTooltip="Toggle log screen">
+                    <span *ngIf="!isLogVisible(element.id); then openLog else closeLog"></span>
+                    <ng-template #openLog>Open log</ng-template>
+                    <ng-template #closeLog>Close log</ng-template>
+                  </button>
+                </dd>
+              </ng-container>
               <!-- Custom image state NEW / BUILDING / DELETING -->
-              <div *ngSwitchDefault class="custom-image-state-in-progress">
-                <mat-progress-spinner
-                  diameter="30"
-                  mode="indeterminate"
-                  strokeWidth="2">
-                </mat-progress-spinner>
-                <span class="custom-image-state-name">
+              <ng-container *ngSwitchDefault>
+                <dt class="custom-image-build-state">State</dt>
+                <dd class="custom-image-state-description">
                   {{ getHumanReadableStateString(element) }}
-                </span>
-                <span class="custom-image-state-description">
-                  {{ getStateExplanation(element) }}
-                </span>
-              </div>
-            </div>
-
-            <!-- Build log for failed images -->
+                  / {{ getStateExplanation(element) }}
+                </dd>
+              </ng-container>
+            </dl>
+            <!-- Log screen -->
             <div *ngIf="isLogVisible(element.id) && element.build_system_output" class="custom-image-output">
-              <div class="output-label">
-                <mat-icon class="material-icons-outlined">terminal</mat-icon>
-              </div>
+              <div (click)="toggleLog(element.id)"
+                   class="output-label"
+                   matTooltip="Close log screen"></div>
               <ng-container *ngFor="let line of element.build_system_output.split('\n'); index as i">
                 <div class="custom-image-output-line">
                   <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>
@@ -93,38 +98,45 @@
             </div>
 
             <!-- Dockerfile -->
-            <div class="custom-image-dockerfile">
-              <fa-icon [icon]="['fab','docker']" matTooltip="Dockerfile"></fa-icon>
-              <code>
-                <div class="long">
-                  <ng-container *ngFor="let line of element.dockerfile.split('\n'); index as i">
-                    <div>{{ line }}</div>
-                  </ng-container>
-                </div>
-              </code>
-            </div>
+            <dl class="custom-image-dockerfile grid">
+              <dt>
+                <fa-icon [icon]="['fab','docker']" matTooltip="Dockerfile"></fa-icon>
+                Dockerfile
+              </dt>
+              <dd>
+                <code>
+                  <div class="long">
+                    <ng-container *ngFor="let line of element.dockerfile.split('\n'); index as i">
+                      <div>{{ line }}</div>
+                    </ng-container>
+                  </div>
+                </code>
+              </dd>
+            </dl>
           </td>
         </ng-container>
+
         <!-- // Custom image META -->
 
         <!-- Action button -->
         <ng-container matColumnDef="action">
-          <th *matHeaderCellDef class="col-actions" mat-header-cell>actions</th>
-          <td mat-cell *matCellDef="let element" class="col-actions">
-            <button (click)="buildImageDialog(element)"
-                    [disabled]="!isQuotaLeft() || isWorkspaceExpired"
-                    aria-label="Create new version"
-                    matTooltip="Create new version"
-                    mat-icon-button>
-              <mat-icon fontSet="material-icons-outlined">post_add</mat-icon>
-            </button>
-            <button mat-icon-button
-                    matTooltip="Other actions"
-                    matTooltipPosition="left"
-                    [matMenuTriggerFor]="menu"
-                    aria-label="open application menu">
-              <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
-            </button>
+          <th *matHeaderCellDef mat-header-cell>actions</th>
+          <td *matCellDef="let element" mat-cell>
+            <div class="buttons">
+              <button (click)="buildImageDialog(element)"
+                      [disabled]="!isQuotaLeft() || isWorkspaceExpired"
+                      class="edit-button"
+                      mat-button
+                      matTooltip="Create new version"
+                      matTooltipPosition="left">
+              </button>
+              <button [matMenuTriggerFor]="menu"
+                      class="menu-button"
+                      mat-button
+                      matTooltip="Other actions"
+                      matTooltipPosition="left">
+              </button>
+            </div>
             <mat-menu #menu="matMenu">
               <button mat-menu-item disabled>
                 <mat-icon fontSet="material-icons-outlined">ios_share</mat-icon>
@@ -145,32 +157,45 @@
       </table>
     </div>
   </ng-container>
+
   <ng-template #noImage>
     <section class="status-info-container">
-      <div *ngIf="dataSource !== null" class="hint">
-        <div class="empty-status">
-          <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
-        </div>
-        <div class="status-summary">No custom images in this workspace yet.</div>
-        <div class="hint-content">
-          <h3>Hint</h3>
-          <ul>
-            <li>Workspace owner can build and store their own custom images</li>
-            <li>Click 'Create new' to customize your image based on one of our base images</li>
-            <li>Once the building process is finished, you will get a URL for your customized image</li>
-            <li>Copy and paste the URL in the application form to use the image in your application</li>
-            <li>Custom images are tied to the workspace: when the workspace expires, the images are deleted</li>
-          </ul>
-          <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank"
-             class="tab-title" rel="noopener">
-            Open Documentation &nbsp;
-            <mat-icon>launch</mat-icon>
-          </a>
+      <div *ngIf="dataSource !== null" class="empty-status">
+        <div class="status-headline">No custom images in this workspace</div>
+        <div class="hint">
+          <div class="hint-content">
+            <ul class="index">
+              <li>
+                Click <span class="keyword button">Create custom image</span> and customize your own image.
+              </li>
+              <li>
+                After clicking <span class="keyword button">Build</span> and wait for completion.
+              </li>
+              <li>
+                Open <span class="keyword border">Application tab</span> and create application from
+                <span class="keyword button">Advanced form</span>.
+              </li>
+              <li>
+                Select <span class="keyword select">Custom image in this workspace</span> option in Container image
+                section.
+              </li>
+              <li>
+                Select your built image from <span class="keyword select"> custom image list</span>.
+              </li>
+            </ul>
+            <div class="note">
+              <span class="point">Custom images are tied to the workspace</span> :
+              When the workspace expires, the images are deleted.
+            </div>
+            <a [href]="publicConfigService.getServiceDocumentationUrl()" class="documentation-link"
+               rel="noopener" target="_blank">
+              Open Documentation &nbsp;
+            </a>
+          </div>
         </div>
       </div>
-      <div *ngIf="dataSource === null" class="empty-status">
-        <mat-icon fontSet="material-icons-outlined">hourglass_top</mat-icon>
-        <span class="status-summary">...Loading...</span>
+      <div *ngIf="dataSource === null" class="loading-status">
+        <span class="status-headline">...Loading...</span>
       </div>
     </section>
   </ng-template>

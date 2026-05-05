@@ -3,13 +3,18 @@
 @use 'utilities' as utils;
 
 @mixin grid-list($fractions:'auto auto', $gap: 10px,
-$font-size: 1.3rem, $hover: false, $field-height: 50px) {
-  dl.grid {
+$font-size: none, $hover: false, $field-height: 50px) {
+  dl.grid,
+  &.grid {
     display: grid;
-    grid-template-columns: #{$fractions};
+    grid-auto-columns: #{$fractions};
     gap: if($hover, 0, $gap);
     align-items: start;
-    font-size: $font-size;
+    font-size: 1.3rem;
+
+    @if $font-size {
+      font-size: $font-size !important;
+    }
 
     dt, dd {
       min-height: $field-height;
@@ -24,7 +29,6 @@ $font-size: 1.3rem, $hover: false, $field-height: 50px) {
       grid-column: 1;
       @include base.headline-5;
       font-weight: 700;
-
     }
 
     dd {

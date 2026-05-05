@@ -19,6 +19,7 @@
   border: 3px solid var(--neut-clr-3);
   padding: 40px 25px 20px 40px;
   border-radius: 10px;
+  font-size: 1.4rem;
 
   &::before {
     position: absolute;
@@ -36,18 +37,33 @@
     background: var(--neut-clr-3);
   }
 
-  span {
+  span,
+  div,
+  .hint-content {
     flex-wrap: wrap;
     text-align: left !important;
 
+    .note {
+      margin: 20px auto;
+    }
+
     ul.index {
       list-style: decimal !important;
+
+      li {
+        margin-bottom: 2px;
+      }
+    }
+
+    .point {
+      font-weight: 600;
     }
 
     .keyword {
       display: inline-flex !important;
       margin: 0 5px;
       top: 5px;
+      font-size: 1.3rem;
       font-style: normal;
       font-weight: 600;
       font-family: Quicksand, sans-serif !important;
@@ -57,13 +73,21 @@
         border: 1px solid var(--neut-clr-3);;
         padding: 0 6px;
         border-radius: 5px;
+        font-size: 1.3rem;
+      }
+
+      &.select {
+        font-size: 1.3rem;
+        @include icons.deco-text($icon: 'touch_app', $gap: 4px);
       }
 
       &.lock {
+        font-size: 1.3rem;
         @include icons.deco-text($icon: 'vpn_key', $icon-family: 'Filled', $gap: 4px);
       }
 
       &.folder {
+        font-size: 1.3rem;
         @include icons.deco-text($icon: 'folder', $gap: 4px);
       }
     }

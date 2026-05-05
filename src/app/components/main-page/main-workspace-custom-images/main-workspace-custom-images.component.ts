@@ -32,7 +32,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   @Input() isWorkspaceExpired = false;
 
   protected readonly BuildState = BuildState;
-  public displayedColumns: string[] = ['name', 'meta', 'action'];
+  public displayedColumns: string[] = ['thumb', 'meta', 'action'];
   public dataSource: CustomImageRow[] = [];
 
   baseImages: string[];
@@ -106,7 +106,7 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   }
 
   extractApplicationNames(apps: Application[]): string[] {
-      return apps ? apps.map(a => '"' + a.name + '"') : [];
+    return apps ? apps.map(a => '"' + a.name + '"') : [];
   }
 
   buildImageDialog(previousVersion: CustomImage): void {
@@ -135,14 +135,13 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     const customImage = this.customImageService.get(id);
     const refAppNames = this.extractApplicationNames(this.getReferencingApplications(customImage));
     if (refAppNames.length > 0) {
-      if (!confirm(`The following applications are still using this image and will stop working:`+
-        `\n${refAppNames.join('\n')}`+
-        `\n\n`+
+      if (!confirm(`The following applications are still using this image and will stop working:` +
+        `\n${refAppNames.join('\n')}` +
+        `\n\n` +
         `Are you sure you want to delete custom image\n"${customImage.name}"?`)) {
         return;
       }
-    }
-    else {
+    } else {
       if (!confirm(`Are you sure you want to delete custom image\n"${customImage.name}"?`)) {
         return;
       }
