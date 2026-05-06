@@ -1,19 +1,20 @@
-@use 'main' as main;
+// ---- welcome-page.component.scss
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
 
 .page-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include utils.flex-col-block($type: center);
   overflow: hidden;
-
-  @include main.primary-main-background;
+  color: white;
+  background-color: var(--prim-clr-9);
 
   .app-header {
     position: relative;
     z-index: 1000;
     width: 100%;
-    height: 50px;
-    min-height: 50px;
+    height: base.$welcome-header-height;
+    min-height: base.$welcome-header-height;
     padding: 0 20px;
     margin-top: 30px;
     margin-bottom: 40px;
@@ -22,13 +23,13 @@
   .main-content {
     z-index: 1000;
     width: 100%;
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - #{base.$welcome-header-height});
     padding: 0 20px;
     margin-bottom: 50px;
 
     app-service-announcement {
       ::ng-deep.service-announcement-item {
-        max-width: main.$content-max-width;
+        max-width: var(--container-width);
         margin-top: 20px !important;
         margin-right: auto;
         margin-left: auto;
@@ -46,8 +47,7 @@
 
 .special-login-form {
   .mat-mdc-form-field {
-    display: flex;
-    flex-direction: column;
+    @include utils.flex-col-block;
   }
 
   .mat-mdc-dialog-content {
@@ -55,28 +55,21 @@
   }
 
   .mat-mdc-dialog-actions {
-    display: flex;
-    flex-direction: column;
-    padding: 5px 20px 30px;
+    @include utils.flex-col-block($padding: 5px 20px 30px);
 
     button {
-      width: 100%;
+      @include uis.button();
     }
 
     .special-login-error {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: map-get(main.$app-warn, dark);
+      @include utils.flex-col-block($type: center);
+      color: var(--warn-clr-7);
     }
   }
 }
 
 .special-login-dialog-terms {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
+  @include utils.flex-col-block($type: center, $padding: 10px);
 
   .terms-logo {
     margin-top: 15px;
@@ -84,11 +77,11 @@
   }
 
   a {
-    color: main.$primary-dark-color;
+    color: var(--prim-clr-8);
     text-decoration: underline dotted;
 
     &:hover {
-      color: main.$primary-color;
+      color: var(--prim-clr-6);
       text-decoration: underline;
     }
   }
@@ -97,35 +90,16 @@
     width: 100%;
 
     button {
-      width: 100%;
+      @include uis.button();
     }
   }
 }
 
 .special-login-dialog-processing {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
+  @include utils.flex-col-block($type: center, $padding: 10px);
 
   mat-spinner {
     margin: 30px;
-  }
-}
-
-// ----- LAPTOP
-@media (width <= 600px) {
-  .background {
-    position: absolute;
-    top: 0;
-    display: block;
-  }
-}
-
-// ----- MOBILE
-@media (width <= 599px) {
-  .background {
-    display: none;
   }
 }
 
@@ -144,4 +118,20 @@
   top: 0;
   right: 0;
   transform: scale(-1, -1);
+}
+
+// ----- Tablet
+@media (max-width: base.$tablet-width) {
+  .background {
+    position: absolute;
+    top: 0;
+    display: block;
+  }
+}
+
+// ----- Mobile
+@media (max-width: base.$mobile-width) {
+  .background {
+    display: none;
+  }
 }

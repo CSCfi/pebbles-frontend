@@ -4,9 +4,9 @@
 @use 'icons' as icons;
 
 @mixin button(
-  $role: 'prim', $font-size: none, $style: 'flat',
+  $role: 'prim', $font-size: none, $style: 'flat', $mode: 'normal',
   $width: 'auto', $height: var(--mat-filled-button-touch-target-display),
-  $connect: none,
+  $connect: none, $text-align: center,
   $icon: false, $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined', $button-icon-gap: none) {
   @include base.styled-font;
   @include base.centering(xy);
@@ -14,6 +14,7 @@
   width: #{$width};
   height: #{$height};
   padding: 6px 15px;
+  text-align: $text-align;
 
   font-size: 1.5rem;
   @if $font-size {
@@ -78,6 +79,10 @@
     color: var(--#{$role}-clr-7);
     ::ng-deep.mdc-button__label {
       text-decoration: underline;
+    }
+
+    @if $mode == 'dark' {
+      color: white;
     }
   }
 

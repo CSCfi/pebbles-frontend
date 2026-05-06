@@ -17,12 +17,13 @@
 // -- Angular MD theme
 @forward '@angular/material/prebuilt-themes/deeppurple-amber.css';
 // ---- Utility <- mixin
-@forward 'utilities';
+//@forward 'utilities';
 // ---- Base style <- shared
 @use 'base-styles' as base;
 // ---- Noppe styles
 // @forward 'shared';
 @use 'theme' as theme;
+
 @include theme.init;
 @include theme.color-system;
 

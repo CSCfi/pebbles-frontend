@@ -1,4 +1,3 @@
-
 <section class="welcome-content-wrapper">
   <!-- Left -->
   <div class="left-content-wrapper">
@@ -7,13 +6,12 @@
          [innerHTML]="publicConfigService.getInstallationDescription()">
     </div>
     <div class="login-wrapper">
-      <a mat-raised-button id="oauth-login-button" class="button secondary-btn" href="/oauth2?rd=%2Foauth2">
+      <a class="oauth-login-button" href="/oauth2?rd=%2Foauth2" id="oauth-login-button" mat-button mat-raised-button>
         <h3>Login</h3>
         <h5>{{ publicConfigService.getLoginButtonText() }}</h5>
       </a>
-      <button id="special-login-button" class="primary-btn" (click)="openSpecialLogin()">
-        <mat-icon fontSet="material-icons-outlined">chevron_right</mat-icon>
-        <span>Special Login</span>
+      <button (click)="openSpecialLogin()" class="special-login-button" id="special-login-button" mat-button>
+        Special Login
       </button>
     </div>
     <!--  Service Announcement 'welcome'  -->
@@ -22,7 +20,7 @@
   <!-- // Left -->
 
   <!-- Right -->
-  <div id="hero-shots">
+  <div class="hero-shots right-content-wrapper" id="hero-shots">
     <div class="background-images">
       <app-welcome-background class="app-welcome-background" [cube]="0"></app-welcome-background>
       <app-welcome-background class="app-welcome-background" [cube]="1"></app-welcome-background>
