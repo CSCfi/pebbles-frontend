@@ -4,7 +4,7 @@
 @use 'icons' as icons;
 
 @mixin button(
-  $role: 'prim', $font-size: none, $style: 'flat', $mode: 'normal',
+  $role: 'prim', $bg-color: none, $font-size: none, $style: 'flat', $mode: 'normal',
   $width: 'auto', $height: var(--mat-filled-button-touch-target-display),
   $connect: none, $text-align: center,
   $icon: false, $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined', $button-icon-gap: none) {
@@ -84,6 +84,10 @@
     @if $mode == 'dark' {
       color: white;
     }
+  }
+
+  @if $bg-color {
+    background-color: $bg-color !important;
   }
 
   @if ($connect == left) {

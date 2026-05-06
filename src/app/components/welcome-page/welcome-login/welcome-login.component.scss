@@ -49,10 +49,9 @@ app-service-announcement {
   }
 
   .oauth-login-button {
-    @include uis.button($role: sec, $height: 60px);
     padding: 5px;
     background-color: var(--sec-clr-6);
-    //background-color: #00969a;
+    @include uis.button($role: sec, $height: 60px, $bg-color: var(--sec-clr-6));
   }
 
   .special-login-button {
