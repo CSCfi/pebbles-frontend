@@ -1,38 +1,50 @@
-@use 'main' as main;
+// ---- session-page.component.scss
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+
+:host {
+  @include utils.flex-row-block($type: stretch, $distribution: center);
+  height: 100vh;
+}
 
 .page-container {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  align-items: center;
-  justify-content: space-between;
+  @include utils.flex-col-block($type: stretch, $y-alignment: space-between, $gap: 50px);
+  flex: 1;
   max-height: 100vh;
+  height: 100vh;
   overflow: hidden;
-
-  @include main.primary-dark-background;
-
+  color: white;
+  background-color: var(--prim-clr-9);
 
   ::ng-deep app-header {
     width: 100%;
-    height: 80px;
+    flex-basis: var(--header-height);
+    height: var(--header-height);
     padding: 0 20px;
   }
 
-  .session-container {
+  .policy-note {
+    flex: 0 0 210px;
+    padding: 20px 0 40px;
+    text-align: center;
+    background-color: var(--prim-clr-5);
+    @include uis.crowned-text($icon: warning, $color: var(--neut-clr-9));
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: calc(100vh - 80px);
+    &.mywork {
+      background-color: var(--acc-clr-3);
+    }
+  }
+
+  .session-container {
+    @include utils.flex-col-block($y-alignment: center);
+    flex: 1 0 400px;
 
     .status-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
+      @include utils.flex-col-block($type: center, $y-alignment: center, $gap: 20px);
 
       .state-info {
-        @include main.headline-2;
+        @include base.headline-2;
         text-align: center;
       }
 
@@ -49,6 +61,19 @@
   }
 }
 
+.status-info-container {
+  flex: 1;
+  @include base.centering(xy);
+}
+
+.loading-status {
+  flex: 1 1 auto;
+
+  .status-headline {
+    @include uis.crowned-text($icon: hourglass_top, $color: white, $icon-size: 6rem);
+  }
+}
+
 .progress-ui {
   display: grid;
   grid-template-columns: repeat(6, max-content);
@@ -62,7 +87,10 @@
     height: 80px;
     margin-right: 5px;
     margin-bottom: 2px;
-    color: main.$dark-text-color;
+    @include base.styled-font;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--neut-clr-9);
     text-align: center;
 
     .arrow-wrapper {
@@ -79,7 +107,7 @@
         width: 100%;
         height: 40px;
         content: '';
-        background: main.$primary-light-color;
+        background: var(--prim-clr-5);
       }
 
       &::before {
@@ -149,14 +177,14 @@
     // ---- Step failed
     .arrow-wrapper.failed::before,
     .arrow-wrapper.failed::after {
-      background: map-get(main.$app-warn, default) !important;
+      background: var(--warn-clr-3) !important;
       animation-play-state: paused;
     }
 
     // ---- Stopped step
     .arrow-wrapper.stopped::before,
     .arrow-wrapper.stopped::after {
-      background: map-get(main.$app-gray, 300);
+      background: var(--gray-clr-3);
       animation-play-state: paused;
     }
   }
@@ -164,21 +192,21 @@
 
 @keyframes blink {
   0% {
-    background: map-get(main.$app-primary, light);
+    background: var(--prim-clr-6);
   }
   50% {
-    background: map-get(main.$app-accent, light);
+    background: var(--sec-clr-2);
   }
   100% {
-    background: map-get(main.$app-primary, light);
+    background: var(--prim-clr-6);
   }
 }
 
 @keyframes color-transit {
   0% {
-    background-color: map-get(main.$app-primary, light);
+    background-color: var(--prim-clr-6);
   }
   100% {
-    background-color: map-get(main.$app-accent, light);
+    background-color: var(--sec-clr-2);
   }
 }

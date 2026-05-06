@@ -2,7 +2,7 @@
   <app-header [isNaviVisible]="false"
               [logoMarkSize]="60" [logoTypeSize]="3" [displayMode]="'fluid'">
   </app-header>
-  <div class="session-container">
+  <div *ngIf="targetWorkspace; else loadingBlock" class="session-container">
     <div class="status-wrapper"
          *ngIf="targetSession; else noSessionBlock">
       <div class="state-info">{{ sessionStatesInfo }}</div>
@@ -39,10 +39,7 @@
   <!-- Note about data expiration -->
   <ng-container *ngIf="targetWorkspace">
     <div *ngIf="targetWorkspace?.membership_expiry_policy?.kind==='activity_timeout'; else persistentMembership"
-         class="policy-note">
-      <div class="policy-icon-column">
-        <mat-icon class="material-icons-outlined">warning</mat-icon>
-      </div>
+         class="policy-note membership">
       <div class="policy-content">
         Please note that due to workspace policy, your membership will terminate after
         {{ targetWorkspace.membership_expiry_policy.timeout_days }} days of inactivity.<br>
@@ -51,10 +48,7 @@
       </div>
     </div>
     <ng-template #persistentMembership>
-      <div class="policy-note" *ngIf="targetWorkspace.expiry_ts">
-        <div class="policy-icon-column">
-          <mat-icon class="material-icons-outlined">warning</mat-icon>
-        </div>
+      <div *ngIf="targetWorkspace.expiry_ts" class="policy-note mywork">
         <div class="policy-content">
           The workspace containing this application and "my-work" content will expire and become inaccessible
           {{ targetWorkspace?.expiry_ts * 1000 | date }}.<br>
@@ -63,4 +57,11 @@
       </div>
     </ng-template>
   </ng-container>
+  <ng-template #loadingBlock>
+    <div class="status-info-container">
+      <div class="loading-status">
+        <span class="status-headline">...Loading...</span>
+      </div>
+    </div>
+  </ng-template>
 </div>
