@@ -1,31 +1,72 @@
-@use 'main' as main;
+//---- dialog.component.scss
+@use 'utilities' as utils;
+@use 'ui-components' as uis;
+@use 'base-styles' as base;
 
 .dialog-clipboard {
-  // background: map-get(main.$app-accent, default);
+  background: var(--prim-clr-0);
   display: grid;
   grid-template-columns: auto max-content;
   align-items: center;
   padding: 10px;
-  color: main.$dark-text-color;
+  color: var(--gray-clr-9);
   text-align: center;
-  border: 1px solid main.$dark-text-color;
+  border-radius: 3px;
 
   button {
-    @include main.secondary-main-background;
-    @include main.center(both);
+    @include uis.button($style: 'icon');
   }
 }
 
+
 .dialog-actions {
-  display: grid;
+  @include utils.flex-row-block($gap: 10px);
+  margin-top: 20px;
+
+  .close-button,
+  .cancel-button {
+    @include uis.button($role: gray, $style: 'none', $icon: 'close', $icon-size: 1.8rem, $button-icon-gap: 2px);
+
+    flex: 0 1 auto;
+  }
+
+  .confirm-button {
+    @include uis.button($role: prim, $style: 'flat');
+    flex: 1 0 auto;
+  }
+}
+
+.center {
+  @include base.centering(xy, $gap: 10px);
+
+  button {
+    margin: auto;
+  }
 }
 
 .dialog-container {
-  padding: 30px 40px 10px;
+  padding: 20px 40px 20px;
+}
+
+.mat-dialog-title {
+  margin-bottom: 15px;
+  padding: 5px;
+  border-bottom: var(--content-border-gray);
 }
 
 .mat-mdc-dialog-content {
   --mat-dialog-content-padding: 20px 5px;
-  margin-top: 5px;
-  border-top: 1px solid main.$gray-color;
+  @include utils.flex-col-block($gap: 10px);
+}
+
+.center {
+  text-align: center;
+}
+
+// ----- MOBILE
+
+@media (width <= 599px) {
+  ::ng-deep .cdk-overlay-container {
+    height: auto !important;
+  }
 }

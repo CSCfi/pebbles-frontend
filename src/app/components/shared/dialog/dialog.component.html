@@ -4,7 +4,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <h3 class="mat-dialog-title">{{ data.dialogTitle }}</h3>
+  <h3 [ngClass]="config.titleAlign" class="mat-dialog-title">{{ data.dialogTitle }}</h3>
   <mat-dialog-content>
     <div class="dialog-content" *ngIf="this.data.dialogContent" [innerHTML]="data.dialogContent">
     </div>
@@ -19,16 +19,21 @@
       </button>
     </div>
   </mat-dialog-content>
-  <div class="dialog-actions">
-    <button mat-button mat-dialog-close class="borderless-btn"
+  <div [ngClass]="config.contentAlign" class="dialog-actions">
+    <button class="close-button" mat-button mat-dialog-close
             *ngIf="data.dialogActions.includes('close')">Close
     </button>
-    <button mat-flat-button class="primary-btn"
+    <button class="confirm-button" mat-button
             *ngIf="data.dialogActions.includes('confirm')"
             (click)="onConfirm()">
       Confirm
     </button>
-    <button mat-dialog-close class="plain-btn"
+    <button (click)="onSubmit()" *ngIf="data.dialogActions.includes('submit')"
+            class="submit-button"
+            mat-button>
+      Submit
+    </button>
+    <button class="cancel-button" mat-dialog-close
             *ngIf="data.dialogActions.includes('cancel')">Cancel
     </button>
   </div>

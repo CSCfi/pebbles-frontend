@@ -13,6 +13,11 @@ export class DialogComponent {
   @Input() dialogContent: string;
   @Input() dialog: any; // ---- TODO: Check we need it or not
 
+  config = {
+    titleAlign: 'center',
+    contentAlign: 'center',
+  };
+
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -20,11 +25,23 @@ export class DialogComponent {
       dialogContent: string,
       dialogClipboard: string
       dialogActions: string[],
+      dialogConfig: {
+        titleAlign?: string,
+        contentAlign?: string
+      }
     }
   ) {
+
+    if (data.dialogConfig) {
+      Object.assign(this.config, data.dialogConfig);
+    }
   }
 
   onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+
+  onSubmit(): void {
     this.dialogRef.close(true);
   }
 }

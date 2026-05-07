@@ -182,7 +182,7 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
         dialogTitle: 'Workspace join code',
         dialogContent: `<p>Share the join code below to the users you want to share your workspace.</p>`,
         dialogClipboard: this.workspace.join_code,
-        dialogActions: ['close']
+        dialogActions: ['close'],
       }
     });
     dialogRef.afterClosed().subscribe();
