@@ -19,11 +19,10 @@ import {
   MainApplicationWizardFormComponent
 } from '../main-application-wizard-form/main-application-wizard-form.component';
 import {
-  MainSelectWorkspaceDialogComponent
-} from '../main-select-workspace-dialog/main-select-workspace-dialog.component';
-import {
   MainApplicationAdvancedFormComponent
 } from "../main-application-advanced-form/main-application-advanced-form.component";
+import { DialogComponent } from '../../shared/dialog/dialog.component';
+import { AuthService } from "../../../services/auth.service";
 
 export interface ApplicationRow {
   select: boolean;
@@ -71,6 +70,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   @Input() selectedApplicationId: string | null;
 
   @ViewChild(MainApplicationAdvancedFormComponent) advancedFormComponent!: MainApplicationAdvancedFormComponent;
+  private availableWorkspaceOptions: any[];
 
   constructor(
     private router: Router,
@@ -80,6 +80,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     private workspaceService: WorkspaceService,
     private systemNotificationService: SystemNotificationService,
     public publicConfigService: PublicConfigService,
+    private authService: AuthService,
   ) {
   }
 
@@ -185,14 +186,30 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   }
 
   openCopyApplicationDialog(applicationId: string): void {
+    const availableWorkspaces = this.workspaceService.getManagedWorkspaces(this.authService.getUserId())
+      .filter(ws => !this.workspaceService.hasExpired(ws));
+
+    this.availableWorkspaceOptions = [];
+    for (let ws of availableWorkspaces) {
+      this.availableWorkspaceOptions.push(
+        {
+          value: ws.id,
+          viewValue: ws.name,
+        }
+      );
+    }
+
     const application = this.getTargetApplication(applicationId);
-    this.dialog.open(MainSelectWorkspaceDialogComponent, {
+    this.dialog.open(DialogComponent, {
       width: '800px',
       height: 'auto',
       maxHeight: '95vh',
       data: {
-        heading: `Copying application "${application.name}"`,
-        text: 'Select target workspace for copy below.',
+        dialogTitle: `Copying application "${application.name}"`,
+        dialogContent: 'Select target workspace for copy below.',
+        dialogSelectOptions: this.availableWorkspaceOptions,
+        dialogSelectPlaceholder: 'Select target workspace',
+        dialogActions: ['submit', 'cancel']
       }
     }).afterClosed().subscribe(res => {
       if (!res) {

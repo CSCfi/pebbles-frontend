@@ -42,9 +42,6 @@ import {
 import { MainWorkspaceItemComponent } from './main-workspace-item/main-workspace-item.component';
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
 import {
-  MainSelectWorkspaceDialogComponent
-} from './main-select-workspace-dialog/main-select-workspace-dialog.component';
-import {
   MainWorkspaceCustomImagesComponent
 } from "./main-workspace-custom-images/main-workspace-custom-images.component";
 import { MainCustomImageFormComponent } from "./main-custom-image-form/main-custom-image-form.component";
@@ -81,7 +78,7 @@ import { MainTourBubbleComponent } from "./main-tour-bubble/main-tour-bubble.com
     DateDisplayPipe,
     LifeTimeDisplayPipe,
     RemainingDaysDisplayPipe,
-    MainSelectWorkspaceDialogComponent,
+    // MainSelectWorkspaceDialogComponent,
     MainCustomImageFormComponent,
     MainTourBubbleComponent
   ],

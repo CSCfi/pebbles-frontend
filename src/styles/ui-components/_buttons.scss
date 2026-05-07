@@ -39,10 +39,12 @@
     color: var(--#{$role}-clr-6);
     background: transparent;
     border: 1px solid var(--neut-clr-2);
+    @include utils.shadow(0.05);
   } @else if $style == 'stroked' {
     color: var(--#{$role}-clr-6);
     background: var(--#{$role}-clr-0);
-    border: 3px solid var(--#{$role}-clr-5);
+    border: 2px solid var(--#{$role}-clr-6);
+    box-sizing: border-box;
     @include utils.shadow(0.05);
   } @else if $style == 'icon' {
     border: none;

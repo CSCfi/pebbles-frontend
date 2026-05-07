@@ -15,13 +15,21 @@
 }
 
 form {
+  .advanced-form-actions {
+    @include utils.flex-row-block($distribution: flex-start, $gap: 5px);
+  }
+
   button {
-    &.submit-button {
-      @include uis.button($icon: share, $height: 40px);
+    &.publish-save-button {
+      @include uis.button($role: prim, $icon: share, $height: 40px);
+    }
+
+    &.save-button {
+      @include uis.button($role: prim, $icon: save, $height: 40px);
     }
 
     &.submit-draft-button {
-      @include uis.button($icon: draft, $height: 40px);
+      @include uis.button($role: prim, $style: stroked, $icon: draft, $height: 40px);
     }
   }
 }

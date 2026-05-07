@@ -18,7 +18,25 @@
         <mat-icon fontSet="material-icons-outlined" class="md-24">content_copy</mat-icon>
       </button>
     </div>
+
+    <form *ngIf="selectOptionForm && data.dialogSelectOptions?.length > 0" [formGroup]="selectOptionForm">
+      <mat-form-field appearance="outline">
+        <mat-select [placeholder]="data.dialogSelectPlaceholder || 'Select option'"
+                    autofocus
+                    class="select-option-form"
+                    formControlName="selectedValue">
+          <mat-option *ngFor="let opt of data.dialogSelectOptions" [value]="opt.value">
+            {{ opt.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="selectOptionForm.controls.selectedValue.invalid">
+          Selection is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+
   </mat-dialog-content>
+
   <div [ngClass]="config.contentAlign" class="dialog-actions">
     <button class="close-button" mat-button mat-dialog-close
             *ngIf="data.dialogActions.includes('close')">Close
@@ -30,6 +48,7 @@
     </button>
     <button (click)="onSubmit()" *ngIf="data.dialogActions.includes('submit')"
             class="submit-button"
+            [disabled]="!isFormReady()"
             mat-button>
       Submit
     </button>

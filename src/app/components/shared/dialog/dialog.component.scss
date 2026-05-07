@@ -3,6 +3,10 @@
 @use 'ui-components' as uis;
 @use 'base-styles' as base;
 
+mat-form-field {
+  width: 100%;
+}
+
 .dialog-clipboard {
   background: var(--prim-clr-0);
   display: grid;
@@ -25,14 +29,18 @@
 
   .close-button,
   .cancel-button {
-    @include uis.button($role: gray, $style: 'none', $icon: 'close', $icon-size: 1.8rem, $button-icon-gap: 2px);
-
     flex: 0 1 auto;
+    @include uis.button($role: gray, $style: 'none', $icon: 'close', $icon-size: 1.8rem, $button-icon-gap: 2px);
   }
 
   .confirm-button {
-    @include uis.button($role: prim, $style: 'flat');
     flex: 1 0 auto;
+    @include uis.button($role: prim, $style: 'flat');
+  }
+
+  .submit-button {
+    flex: 1 0 auto;
+    @include uis.button($role: prim, $style: 'flat');
   }
 }
 

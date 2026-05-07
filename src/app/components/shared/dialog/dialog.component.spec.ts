@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MaterialModule } from 'src/app/material.module';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from './dialog.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
@@ -14,10 +14,12 @@ describe('DialogComponent', () => {
       imports: [
         MaterialModule,
         ClipboardModule,
+        MatDialogModule
       ],
-      declarations: [ DialogComponent ],
+      declarations: [DialogComponent],
       providers: [
-        { provide: MAT_DIALOG_DATA,
+        {
+          provide: MAT_DIALOG_DATA,
           useValue: {
             dialogTitle: 'test title',
             dialogContent: 'test content',
@@ -25,12 +27,17 @@ describe('DialogComponent', () => {
             dialogActions: ['close']
           }
         },
-        { provide: MatDialogRef,
-          useValue: {}
+        {
+          provide: MatDialogRef,
+          useValue: {
+            dialogContent: 'test content',
+            dialogActions: ['cancel'],
+            dialogSelectOptions: []
+          }
         }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

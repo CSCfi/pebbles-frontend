@@ -9,8 +9,8 @@
   </div>
 
   <form [formGroup]="applicationItemEditFormGroup">
-    <div class="form-actions">
-      <button class="submit-button"
+    <div class="advanced-form-actions">
+      <button class="publish-save-button"
               mat-button
               *ngIf="isCreationMode;else updatePublicButton"
               [disabled]="applicationItemEditFormGroup.invalid"
@@ -18,7 +18,7 @@
         Save and publish
       </button>
       <ng-template #updatePublicButton>
-        <button class="submit-button"
+        <button class="save-button"
                 mat-button
                 [disabled]="applicationItemEditFormGroup.invalid"
                 (click)="editApplicationItem(true)">

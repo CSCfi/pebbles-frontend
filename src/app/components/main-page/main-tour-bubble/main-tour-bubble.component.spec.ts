@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MainTourBubbleComponent } from './main-tour-bubble.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('MainTourBubbleComponent', () => {
   let component: MainTourBubbleComponent;
@@ -8,7 +8,8 @@ describe('MainTourBubbleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainTourBubbleComponent]
+      declarations: [MainTourBubbleComponent],
+      imports: [MatIconModule],
     })
       .compileComponents();
 

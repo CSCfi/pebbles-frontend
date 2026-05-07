@@ -9,6 +9,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DialogComponent } from 'src/app/components/shared/dialog/dialog.component';
 import { ServiceAnnouncementComponent } from './service-announcement/service-announcement.component';
 import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../environments/environment";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../environments/environ
     ClipboardModule,
     MaterialModule,
     AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [
     provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
