@@ -39,15 +39,37 @@ $page-side-padding: 30px;
 
   --mat-card-title-text-size: 18px;
   --mat-expansion-container-shape: 3px;
-  --mdc-checkbox-selected-icon-color: var(--acc-clr-2);
   --mat-form-field-container-vertical-padding: 5px;
   --mat-form-field-container-height: 40px;
-  --mdc-filled-text-field-container-color: transparent;
-  --mdc-checkbox-state-layer-size: 30px;
+  --mdc-filled-text-field-container-color: var(--neut-clr-0);
+  --mdc-chip-label-text-color: white;
+
+  --mat-standard-button-toggle-divider-color: var(--content-border-neut);
 
   @include mat.progress-spinner-overrides((
           active-indicator-color: var(--prim-clr-7),
   ));
+
+  @include mat.checkbox-overrides((
+          state-layer-size: 30px
+  ));
+
+  --mdc-checkbox-selected-pressed-icon-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-focus-state-layer-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-hover-state-layer-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-pressed-state-layer-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-focus-icon-color: var(--sec-clr-4);
+  --mdc-checkbox-selected-hover-icon-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-icon-color: var(--sec-clr-4);
+
+  --mat-standard-button-toggle-background-color: transparent;
+}
+
+.mat-mdc-radio-button {
+  --mdc-radio-selected-focus-icon-color: var(--sec-clr-7);
+  --mdc-radio-selected-hover-icon-color: var(--sec-clr-7);
+  --mdc-radio-selected-icon-color: var(--sec-clr-5);
+  --mdc-radio-selected-pressed-icon-color: var(--sec-clr-7);
 }
 
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
@@ -164,6 +186,19 @@ mark {
 hr {
   height: 1px;
   color: var(--gray-clr-3);
+}
+
+// -------------------- Text wrapping
+/// overflow-wrap: Force breaks within long words (paths or commands)
+/// white-space: Preserve white space/newlines and wrap as necessary
+/// word-break: Allow breaks anywhere to strictly prevent overflow
+/// box-sizing: Include padding in the element's total width calculation
+
+@mixin text-wrap {
+  overflow-wrap: break-word;
+  white-space: pre-line;
+  word-break: auto-phrase;
+  box-sizing: border-box;
 }
 
 // -------------------- Element centering

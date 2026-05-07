@@ -3,7 +3,7 @@
     <mat-chip-row (removed)="removeLabel(label)" *ngFor="let label of labels"
                   [removable]="removable" selected>
       {{ label }}
-      <mat-icon fontSet="material-icons-outlined" matChipRemove *ngIf="removable">cancel</mat-icon>
+      <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
     </mat-chip-row>
     <input #labelInput
            (matChipInputTokenEnd)="add($event)" [formControl]="labelCtrl"

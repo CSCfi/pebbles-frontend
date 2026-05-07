@@ -169,10 +169,7 @@
     code {
       width: 100%;
       display: block;
-      overflow-wrap: break-word;
-      white-space: pre-wrap;
-      word-break: break-all;
-      box-sizing: border-box;
+      @include base.text-wrap;
     }
   }
 

@@ -1,5 +1,7 @@
 @use 'main' as main;
 
+@use 'base-styles' as base;
+
 .sidenav-inner {
   position: relative;
 
@@ -62,7 +64,7 @@
 
         &#account {
           .email {
-            word-break: break-all;
+            @include base.text-wrap;
           }
         }
       }

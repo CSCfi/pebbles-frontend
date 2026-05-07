@@ -32,7 +32,7 @@
 
   // ----- Tablet
   @media (max-width: #{base.$tablet-width}) {
-    flex-basis: 180px;
+    flex-basis: 210px;
     gap: 5px;
 
     .tablet-workspace-list {

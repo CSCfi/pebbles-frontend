@@ -1,5 +1,7 @@
-@use 'main' as main;
+//---- main-application-advanced-form.component.scss
 @use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
 
 :host {
   @include utils.flex-col-block($y-alignment: stretch);
@@ -7,331 +9,93 @@
 }
 
 .form-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
+  @include utils.flex-col-block($y-alignment: stretch);
   overflow: hidden;
-}
-
-.form-header {
-  display: inline-flex;
-  flex-shrink: 0;
-  flex-basis: 65px;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: space-between;
-  max-height: 65px;
-  background: #FFF;
-  border-bottom: 1px solid main.$gray-color;
-
-  .cancel-button {
-    height: 100%;
-    padding: 10px 20px;
-    text-align: left;
-    background: main.$gray-extra-light-color;
-    border-radius: 0;
-
-    .mat-icon {
-      width: auto;
-      height: auto;
-      font-size: 1.6rem;
-    }
-  }
-
-  .form-title {
-    flex: 1;
-    height: 100%;
-    padding-left: 30px;
-    text-align: center;
-
-    @include main.center(both);
-  }
-
-  div.spacer {
-    width: 120px;
-  }
+  @include uis.form-block;
 }
 
 form {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: stretch;
-  justify-content: center;
-  padding: 20px 30px;
-  overflow: hidden;
-  background: main.$gray-extra-light-color;
-
-
-  .form-actions {
-    display: flex;
-    flex-shrink: 0;
-    flex-basis: 40px;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 900px;
-    height: 40px;
-    margin: 0 auto;
-
-    button {
-      height: 40px;
-
-      &:disabled {
-        background-color: map-get(main.$app-gray, 100) !important;
-      }
-
-      &.submit-button {
-        flex: 0 0 200px;
-      }
-
-      &.submit-draft-button {
-        flex: 0 0 200px;
-      }
-
-      &.submit-draft-button:not(.mat-mdc-button-disabled) {
-        color: main.$primary-color;
-        border: solid 2px main.$primary-color;
-      }
-
-      &.clear-button {
-        flex: 0 1 auto;
-        margin-left: auto;
-        text-decoration: underline;
-
-        mat-icon {
-          width: auto;
-          height: auto;
-          font-size: 2.4rem;
-        }
-      }
+  button {
+    &.submit-button {
+      @include uis.button($icon: share, $height: 40px);
     }
-  }
 
-  .form-content {
-    position: relative;
-    flex: 1 1 auto;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto 5px;
-    overflow: auto;
-  }
-
-  mat-button-toggle-group {
-    min-height: 50px;
-  }
-
-  ::ng-deep mat-form-field {
-    width: 100%;
-
-    .mat-mdc-text-field-wrapper {
-      min-height: 40px;
-      padding-left: 10px;
-
-      .mat-mdc-form-field-infix {
-        padding: 5px;
-      }
+    &.submit-draft-button {
+      @include uis.button($icon: draft, $height: 40px);
     }
   }
 }
 
-section {
-  position: relative;
-  padding: 55px 35px 20px 30px;
-  background: #FFF;
+.form-container {
 
-  &:first-child {
-    border-top: none;
+  &.application-template-form {
+    margin-bottom: 50px;
+
+    ::ng-deep.mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .application-template-description {
+      @include uis.note-message;
+      margin-top: 5px;
+    }
   }
 
-  &.session-section {
-    margin-bottom: 10px;
+  &.application-type-form,
+  &.image-source-form {
+    margin-bottom: 40px;
   }
 
-  h3.section-title {
-    position: absolute;
-    padding: 3px 15px;
-    margin-top: -55px;
-    margin-left: -30px;
-    font-size: 1.3rem;
-    color: #FFF;
-    background: main.$gray-dark-color;
+  &.type-and-template-info {
+    margin-bottom: 35px;
   }
 
-  .form-container {
+  &.custom-image-form,
+  &.session-lifetime-form,
+  &.session-memory-form,
+  &.download-method-form,
+  &.download-source-form,
+  &.storage-form {
+    margin-bottom: 35px;
+  }
 
-    &.application-template-form {
-      margin-bottom: 50px;
+  &.storage-form {
+    .checkbox-group {
+      margin-bottom: 10px;
 
-      ::ng-deep.mat-mdc-form-field-subscript-wrapper {
-        display: none;
-      }
-    }
+      ::ng-deep .mdc-form-field {
+        display: flex;
+        align-items: flex-start;
 
-    &.application-type-form,
-    &.image-source-form {
-      margin-bottom: 40px;
-    }
-
-    &.type-and-template-info {
-      margin-bottom: 35px;
-    }
-
-    &.custom-image-form,
-    &.session-lifetime-form,
-    &.session-memory-form,
-    &.download-method-form,
-    &.download-source-form,
-    &.storage-form {
-      margin-bottom: 35px;
-    }
-
-    &.storage-form {
-      .checkbox-group {
-        margin-bottom: 10px;
-
-        ::ng-deep .mdc-form-field {
-          display: flex;
-          align-items: flex-start;
-
-          .mdc-checkbox {
-            margin-top: -6px;
-          }
+        .mdc-checkbox {
+          margin-top: -6px;
         }
       }
     }
-
-    &.image-url-form {
-      margin-bottom: 55px;
-    }
-
-    h3.form-title {
-      margin-top: 0;
-      margin-bottom: 5px;
-      font-size: 1.6rem !important;
-      font-weight: 600;
-
-      .hint {
-        display: inline;
-        margin-left: 5px;
-        font-size: 1.3rem;
-        font-weight: normal;
-      }
-    }
-
-    .key {
-      display: inline;
-      padding: 2px 8px;
-      margin: 0 3px;
-      font-weight: bold;
-      text-transform: capitalize;
-      background: main.$gray-light-color;
-      border: solid 1px main.$gray-color;
-      border-radius: 3px;
-    }
-
-    p {
-      margin-bottom: 5px !important;
-
-      @include main.headline-5;
-    }
-
-    ::ng-deep.toggle-button-group,
-    ::ng-deep.toggle-button-group .mat-button-toggle,
-    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-label-content,
-    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-button,
-    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-button span {
-      display: flex;
-      flex: 1;
-      align-items: stretch;
-    }
-
-    ::ng-deep.toggle-button-group {
-      box-shadow: none !important;
-
-      .mat-button-toggle .mat-button-toggle-button {
-        font-size: 1.4rem !important;
-        color: main.$primary-dark-color;
-        border-top: 1px main.$gray-dark-color solid !important;
-        border-bottom: 1px main.$gray-dark-color solid !important;
-        border-left: 1px main.$gray-dark-color solid !important;
-        border-radius: unset;
-      }
-
-      .mat-button-toggle:last-child .mat-button-toggle-button {
-        border-right: 1px main.$gray-dark-color solid !important;
-      }
-
-      .mat-button-toggle .mat-button-toggle-label-content {
-        padding: 10px 20px !important;
-        line-height: 120%;
-      }
-
-      .mat-button-toggle.mat-button-toggle-checked {
-        background-color: main.$secondary-color;
-      }
-
-      .mat-button-toggle.mat-button-toggle-checked .mat-button-toggle-label-content {
-        color: #FFF !important;
-      }
-
-      .mat-button-toggle.mat-button-toggle-disabled .mat-button-toggle-label-content {
-        color: #999 !important;
-      }
-    }
-
-    // ---- END (toggle-button-group)
-
-    // &.application-template-form {
-    //  ::ng-deep.mat-mdc-form-field-subscript-wrapper {
-    //    display: none;
-    //  }
-    // }
-
-    .mat-mdc-table {
-      border: 2px solid map-get(main.$app-gray, 100);
-
-      .mat-mdc-header-row {
-        height: 20px;
-        background: map-get(main.$app-gray, 100);
-      }
-
-      .template-name {
-        font-weight: bold;
-        white-space: nowrap;
-      }
-
-      .template-labels {
-        white-space: nowrap;
-
-        span.label::after {
-          margin-left: 2px;
-          content: '/';
-        }
-
-        span.label:last-child::after {
-          content: none;
-        }
-      }
-    }
-
-    .env-var-example {
-      background-color: rgb(0, 0, 0, 0.04);
-    }
   }
 
-  .form-value {
-    font-size: 1.5rem !important;
+  &.image-url-form {
+    margin-bottom: 55px;
+  }
+
+
+  .key {
+    display: inline;
+    padding: 2px 8px;
+    margin: 0 3px;
+    font-weight: bold;
     text-transform: capitalize;
+    background: var(--gray-clr-1);
+    border: solid 1px var(--gray-clr-2);
+    border-radius: 3px;
   }
 
-  .warning {
-    color: main.$warn-color;
+
+  .env-var-example {
+    background-color: rgb(0, 0, 0, 0.04);
   }
 }
+
 
 .custom-image-form {
 
@@ -340,63 +104,62 @@ section {
   }
 
   mat-list-item {
-    @include main.center('vertical');
-
+    @include base.centering(y);
     --mdc-list-list-item-label-text-size: 12px;
     --mdc-list-list-item-label-text-line-height: 12px;
     --mdc-list-list-item-one-line-container-height: 30px;
     padding: 0;
 
     ::ng-deep.mdc-list-item__primary-text {
-      @include main.center('vertical', 'inline');
+      @include base.centering(y, $inline: true);
     }
 
     span.done-flag {
-      @include main.center('vertical', 'inline');
+      @include base.centering(y, $inline: true);
       width: 85px;
       height: 26px;
       padding: 2px 10px 2px 5px;
       margin-right: 10px;
-      color: main.$secondary-color;
-      border: 1px solid main.$secondary-color;
+      color: var(--sec-clr-7);
+      border: 1px solid var(--sec-clr-7);
       border-radius: 20px;
 
       .mat-icon.done-icon {
         height: 20px;
         font-size: 2.0rem;
-        color: main.$secondary-color;
+        color: var(--sec-clr-7);
       }
     }
 
     span.incomplete-flag {
-      @include main.center('vertical', 'inline');
+      @include base.centering(y, $inline: true);
       width: 85px;
       height: 26px;
       padding: 2px 10px;
       margin-right: 10px;
-      color: main.$gray-color;
-      border: 1px solid main.$gray-color;
+      color: var(--gray-clr-7);
+      border: var(--content-border-neut);
       border-radius: 20px;
     }
 
     .link {
-      @include main.center(both, inline);
+      @include base.centering(xy, $inline: true);
       gap: 3px;
       font-size: 1.3rem !important;
-      color: main.$primary-color !important;
+      color: var(--prim-clr-7) !important;
       text-decoration: underline;
 
       mat-icon {
         width: 18px !important;
         height: 16px !important;
         font-size: 1.8rem !important;
-        color: main.$primary-color !important;
+        color: var(--prim-clr-7) !important;
       }
     }
 
     span.key:hover {
       cursor: pointer;
-      background: main.$accent-color;
+      background: var(--acc-clr-7) !important;
     }
   }
 
@@ -413,19 +176,10 @@ section {
   }
 }
 
-
 .session-memory-form .mat-mdc-select,
 .session-lifetime-form .mat-mdc-select {
   padding: 10px;
   background-color: rgb(0, 0, 0, 0.04);
-  border-bottom: 1px solid map-get(main.$app-gray, light);
+  border-bottom: var(--content-border-neut);
   border-radius: 4px 4px 0 0;
-}
-
-::ng-deep mat-mdc-form-field-error-wrapper {
-  position: relative !important;
-
-  mat-error {
-    position: relative !important;
-  }
 }

@@ -78,7 +78,7 @@
     border: none;
     color: var(--#{$role}-clr-7);
     ::ng-deep.mdc-button__label {
-      text-decoration: underline;
+      text-decoration: underline !important;
     }
 
     @if $mode == 'dark' {

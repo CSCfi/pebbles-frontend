@@ -1,7 +1,8 @@
 // ---- src/styles/ui-components/_chips.scss
 @use 'utilities' as utils;
 
-@mixin chips($type: mini, $color: inherit, $background: transparent, $border: none, $wrap: false) {
+@mixin chips($type: mini, $color: inherit, $text-transform: capitalize,
+$background: transparent, $border: none, $wrap: false) {
 
   .mat-mdc-chip-set {
     ::ng-deep .mdc-evolution-chip-set__chips {
@@ -15,23 +16,33 @@
     }
 
     mat-chip-row {
-
-      color: white;
-      background-color: $background !important;
+      color: $color;
+      background-color: $background;
       border: $border;
 
       --mdc-chip-label-text-color: #{$color};
       --mdc-chip-label-text-weight: 500;
+      text-transform: $text-transform;
 
       ::ng-deep.mat-mdc-chip-action-label {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+      }
+
+      ::ng-deep.mdc-evolution-chip__text-label {
+        color: $color;
+        font-size: 1.3rem;
+        text-transform: $text-transform;
+        background-color: $background;
       }
 
       ::ng-deep.mdc-evolution-chip__cell--trailing {
-        padding-right: 4px;
+        padding-right: 6px;
+        padding-left: 4px;
 
         .mat-icon {
           font-size: 1.5rem;
+          padding: 0 !important;
+          color: $color;
         }
       }
     }
