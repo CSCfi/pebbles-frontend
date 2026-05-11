@@ -1,5 +1,6 @@
-@use 'main' as main;
+//---- main-page.component.scss
 @use 'base-styles' as base;
+@use 'utilities' as utils;
 
 .mat-sidenav-container {
   min-height: 100vh;
@@ -7,37 +8,34 @@
   overflow: hidden !important;
 
   mat-sidenav {
-    width: main.$main-navigation-width;
+    width: base.$navigation-width;
     height: inherit;
 
-    @include main.primary-main-background;
+    background-color: var(--prim-clr-9);
+    color: white;
 
     &.minimize {
-      width: main.$main-navigation-minimized-width !important;
+      width: base.$navigation-minimized-width !important;
     }
   }
 
   .mat-sidenav-content {
     min-height: 100vh;
-    margin-left: main.$main-navigation-width !important;
+    margin-left: base.$navigation-width !important;
 
     &.expanded {
-      margin-left: main.$main-navigation-minimized-width !important;
+      margin-left: base.$navigation-minimized-width !important;
     }
   }
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  @include utils.flex-col-block($y-alignment: space-between);
   height: inherit;
 }
 
 .main-page-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  @include utils.flex-col-block();
   height: 100vh;
   min-height: 100vh;
   overflow: hidden;
@@ -45,8 +43,7 @@
 
 
 // ----- MOBILE
-
-@media (width <= 599px) {
+@media (max-width: #{base.$mobile-width}) {
 
   .mat-sidenav-container {
     height: auto !important;
@@ -55,6 +52,7 @@
     .mat-sidenav {
       overflow: auto;
       background: none;
+      width: 100%;
 
       &.minimize {
         width: 100% !important;
@@ -69,11 +67,5 @@
 
   .sidebar {
     height: auto;
-  }
-}
-
-@media (max-width: base.$tablet-width) {
-  .mat-sidenav {
-    display: none;
   }
 }

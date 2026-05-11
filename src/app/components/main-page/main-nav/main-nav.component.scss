@@ -1,9 +1,11 @@
-@use 'main' as main;
+// ---- main-nav.component.scss
 
 @use 'base-styles' as base;
+@use 'utilities' as utils;
 
 .sidenav-inner {
   position: relative;
+  width: 100%;
 
   &#account-nav {
     border-top: solid 1px rgb(255, 255, 255, .2);
@@ -11,21 +13,24 @@
   }
 
   .brand {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
-    justify-content: flex-start;
+    @include utils.flex-row-block($gap: 10px, $distribution: flex-start,
+    $padding: 20px 10px 10px 16px, $wrap: false,);
     width: 100%;
-    padding: 20px 10px 10px 16px;
+
+    .site-logo {
+      flex: 0 0 50px;
+    }
 
     .site-name {
+      flex: 1 1 auto;
+      line-height: 110%;
       padding-right: 15px;
     }
   }
 
   #nav-toggle-button {
-    @include main.primary-main-background;
+    color: white;
+    background-color: var(--prim-clr-9);
     width: 70px;
     padding: 5px;
     text-align: center;
@@ -64,6 +69,8 @@
 
         &#account {
           .email {
+            font-size: 1.3rem;
+            margin-top: 2px;
             @include base.text-wrap;
           }
         }
@@ -78,15 +85,15 @@
 
 // ----- Laptop
 
-@media (width <= 1024px) {
+// ----- Tablet
+@media (max-width: #{base.$tablet-width}) {
   .mobile-main-nav {
     display: none;
   }
 }
 
 // ----- MOBILE
-
-@media (width <= 599px) {
+@media (max-width: #{base.$mobile-width}) {
 
   .content-header-container h3 {
     flex-basis: 30px !important;
@@ -96,10 +103,11 @@
 
   .mobile-main-nav {
     position: fixed;
+    width: 100%;
     top: 0;
     left: 0;
     display: block;
-    width: 65px;
+    //background: var(--prim-clr-9);
   }
 
   .sidenav-inner {
@@ -113,17 +121,24 @@
   .nav-toggle-label {
     display: block;
     visibility: visible !important;
+    padding: 5px 10px 2px;
+    width: 100%;
+    background: var(--prim-clr-9);
+
+    &.mobile-nav-closed {
+      width: 50px;
+    }
   }
 
   .nav-wrapper {
     position: relative;
     width: 100%;
     margin-top: 0;
-    background: #b6beff;
+    background: var(--prim-clr-9);
 
     li {
       padding: 3px 10px;
-      color: #18227c;
+      color: white;
 
       a {
         display: inline-flex;

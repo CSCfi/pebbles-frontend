@@ -133,7 +133,7 @@
 <!-- Mobile mode : Dropdown menu -->
 <nav class="mobile-main-nav">
   <input type="checkbox" id="nav-toggle-btn" [checked]="isMobileNavInvisible" [(ngModel)]="isMobileNavInvisible">
-  <label class="nav-toggle-label button" for="nav-toggle-btn">
+  <label [ngClass]="{'mobile-nav-closed':isMobileNavInvisible}" class="nav-toggle-label button" for="nav-toggle-btn">
     <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
   </label>
   <ul class="nav-wrapper">
@@ -184,7 +184,7 @@
         Help
       </a>
     </li>
-    <li>
+    <li class="nav-user">
       <a [routerLink]="['/main/account']">
         <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
         {{ userName }}
