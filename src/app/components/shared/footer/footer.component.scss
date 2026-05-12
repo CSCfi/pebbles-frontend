@@ -1,13 +1,19 @@
-@use 'main' as main;
+// ---- footer.component.scss
+@use 'base-styles' as base;
+@use 'utilities' as utils;
 
-#footer {
-  @include main.primary-dark-background;
+:host {
+  flex: 1 0 auto;
+}
+
+.footer {
+  color: white;
+  background-color: #14144b;
   padding: 30px 20px 50px;
 
   .footer-wrapper {
-    display: flex;
-    gap: 20px;
-    max-width: main.$content-max-width;
+    @include utils.flex-row-block($type: flex-start, $gap: 20px, $wrap: false);
+    max-width: var(--container-width);
     min-height: inherit;
     margin: 10px auto 0;
 
@@ -25,28 +31,11 @@
         font-weight: 300;
       }
     }
-
-    .owner-logo {
-      display: grid;
-      gap: 10px;
-    }
-  }
-
-  // ----- Laptop
-  @media (width >= 600px) {
-    .footer-wrapper {
-      flex-direction: row;
-    }
-  }
-
-  // ----- MOBILE
-  @media (width <= 599px) {
-    .footer-wrapper {
-      flex-direction: column;
-    }
   }
 
   .owner-logo {
+    display: grid;
+    gap: 10px;
     grid-template-columns: repeat(2, max-content);
     align-items: center;
     margin: 10px 0;
@@ -57,14 +46,16 @@
   }
 }
 
-.mobile#footer .container {
-  grid-template-rows: auto auto auto !important;
-  grid-template-columns: auto !important;
-  row-gap: 25px;
-  justify-content: space-between;
+// ----- Laptop
+@media (max-width: #{base.$tablet-width}) {
+  .footer-wrapper {
+    flex-direction: row !important;
+  }
+}
 
-  dl dd {
-    justify-content: start;
-    margin-left: 15px;
+// ----- MOBILE
+@media (max-width: #{base.$mobile-width}) {
+  .footer-wrapper {
+    flex-direction: column !important;
   }
 }

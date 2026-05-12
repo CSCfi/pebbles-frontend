@@ -1,17 +1,20 @@
-@use 'main' as main;
+//---- header.component.scss
+@use 'base-styles' as base;
+@use 'utilities' as utils;
+
+:host {
+  flex: 0 0 50px;
+}
 
 .site-header {
   height: inherit;
 }
 
 .site-header-wrapper {
-  position: relative;
+  @include utils.flex-row-block($gap: 20px);
   z-index: 10000;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  justify-content: space-between;
-  max-width: main.$content-max-width;
+
+  max-width: var(--container-width);
   height: inherit;
   margin: 0 auto;
 
@@ -20,17 +23,32 @@
   }
 
   .brand {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: flex-start;
+    @include utils.flex-row-block($gap: 20px, $wrap: false);
+    height: 50px;
     font-size: 2rem;
+
+    .site-logo {
+      height: 50px;
+    }
+
+    .site-name {
+      line-height: 120%;
+    }
+  }
+
+  .nav-wrapper {
+    @include utils.flex-row-block($gap: 20px);
+    flex: 1;
+  }
+
+  #toggle-nav,
+  .toggle-nav-label {
+    display: none;
   }
 }
 
-// ----- Laptop
-
-@media (width >= 600px) {
+// ----- Tablet
+@media (max-width: base.$tablet-width) {
   .site-header-wrapper {
     display: flex;
     align-items: center;
@@ -38,23 +56,10 @@
     padding-top: 0;
     padding-bottom: 0;
   }
-
-  #toggle-nav,
-  .toggle-nav-label {
-    display: none;
-  }
-
-  .nav-wrapper {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: space-between;
-  }
 }
 
-// ----- MOBILE
-
-@media (width <= 599px) {
+// ----- Tablet
+@media (max-width: base.$mobile-width) {
 
   .toggle-nav-label {
     visibility: visible !important;
