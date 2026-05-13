@@ -5,7 +5,7 @@
                                [context]="context"
                                [isAutocompleteDisabled]="true"
                                [isSearchOn]="true"
-                               [labels]="selectedCatalog ? selectedCatalog.labels : []">
+                               [labels]="selectedCategory ? selectedCategory.labels : []">
       </app-main-content-header>
       <button (click)="openJoinWorkspaceDialog()"
               aria-label="Join Workspace"
@@ -26,7 +26,7 @@
                      mat-stretch-tabs="false">
         <ng-container *ngFor="let category of categories">
           <mat-tab label="{{ category.name }}">
-            <div *ngIf="selectedCatalog?.name === category.name" class="tab-content">
+            <div *ngIf="selectedCategory?.name === category.name" class="tab-content">
               <div *ngIf="applications?.length > 0; else noApplicationBlock"
                    class="application-item-container">
                 <ng-container *ngFor="let application of applications">

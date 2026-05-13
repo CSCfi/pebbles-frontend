@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApplicationCategory } from '../models/application-category';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
+import { ApplicationCategory } from '../models/application-category';
 
 @Injectable({
   providedIn: 'root'
@@ -25,21 +25,14 @@ export class ApplicationCategoryService {
     const url = `${buildConfiguration.apiUrl}/application_categories`;
     return this.http.get<ApplicationCategory[]>(url).pipe(
       map((resp) => {
-        // add static category 'All' with id '1'
-        this.categories = [new ApplicationCategory('1', 0, 'All', [], 'all', true)];
-        // generate IDs if missing
-        this.categories = this.categories.concat(resp.map(cat => {
-          if (!cat.id) {
-            cat.id = Math.random().toString(36).substring(2, 8);
-          }
-          return cat;
-        }));
+        // add static category 'All'
+        this.categories = [new ApplicationCategory('All', []), ...resp];
         return this.categories;
       })
     );
   }
 
-  getCategoryById(catalogId: string): ApplicationCategory {
-    return this.categories?.find(cat => cat.id === catalogId);
+  get isInitialized(): boolean {
+    return this.categories.length > 0;
   }
 }
