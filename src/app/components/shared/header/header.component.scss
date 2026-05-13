@@ -49,16 +49,10 @@
 
 // ----- Tablet
 @media (max-width: base.$tablet-width) {
-  .site-header-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
+  // nothing here
 }
 
-// ----- Tablet
+// ----- Mobile
 @media (max-width: base.$mobile-width) {
 
   .toggle-nav-label {

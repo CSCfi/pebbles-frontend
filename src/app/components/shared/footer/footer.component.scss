@@ -3,12 +3,12 @@
 @use 'utilities' as utils;
 
 :host {
-  flex: 1 0 auto;
+  flex: 0 0 auto;
 }
 
 .footer {
   color: white;
-  background-color: #14144b;
+  background-color: var(--prim-clr-9);
   padding: 30px 20px 50px;
 
   .footer-wrapper {
@@ -46,7 +46,7 @@
   }
 }
 
-// ----- Laptop
+// ----- Tablet
 @media (max-width: #{base.$tablet-width}) {
   .footer-wrapper {
     flex-direction: row !important;
