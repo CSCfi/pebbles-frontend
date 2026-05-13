@@ -7,22 +7,22 @@ import { Data, Router } from '@angular/router';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
-import { Workspace } from "src/app/models/workspace";
 import { ApplicationType } from 'src/app/models/application-template';
+import { Workspace } from "src/app/models/workspace";
 import { ApplicationService } from 'src/app/services/application.service';
 import { EventService } from 'src/app/services/event.service';
 import { PublicConfigService } from 'src/app/services/public-config.service';
 import { SystemNotificationService } from 'src/app/services/system-notification.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
-import {
-  MainApplicationWizardFormComponent
-} from '../main-application-wizard-form/main-application-wizard-form.component';
+import { AuthService } from "../../../services/auth.service";
+import { DialogComponent } from '../../shared/dialog/dialog.component';
 import {
   MainApplicationAdvancedFormComponent
 } from "../main-application-advanced-form/main-application-advanced-form.component";
-import { DialogComponent } from '../../shared/dialog/dialog.component';
-import { AuthService } from "../../../services/auth.service";
+import {
+  MainApplicationWizardFormComponent
+} from '../main-application-wizard-form/main-application-wizard-form.component';
 
 export interface ApplicationRow {
   select: boolean;
@@ -70,7 +70,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   @Input() selectedApplicationId: string | null;
 
   @ViewChild(MainApplicationAdvancedFormComponent) advancedFormComponent!: MainApplicationAdvancedFormComponent;
-  private availableWorkspaceOptions: any[];
 
   constructor(
     private router: Router,
@@ -188,10 +187,9 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   openCopyApplicationDialog(applicationId: string): void {
     const availableWorkspaces = this.workspaceService.getManagedWorkspaces(this.authService.getUserId())
       .filter(ws => !this.workspaceService.hasExpired(ws));
-
-    this.availableWorkspaceOptions = [];
+    const availableWorkspaceOptions = [];
     for (let ws of availableWorkspaces) {
-      this.availableWorkspaceOptions.push(
+      availableWorkspaceOptions.push(
         {
           value: ws.id,
           viewValue: ws.name,
@@ -207,7 +205,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
       data: {
         dialogTitle: `Copying application "${application.name}"`,
         dialogContent: 'Select target workspace for copy below.',
-        dialogSelectOptions: this.availableWorkspaceOptions,
+        dialogSelectOptions: availableWorkspaceOptions,
         dialogSelectPlaceholder: 'Select target workspace',
         dialogActions: ['submit', 'cancel']
       }

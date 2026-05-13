@@ -17,7 +17,6 @@ export class DialogComponent implements OnInit {
 
   @Input() dialogTitle: string;
   @Input() dialogContent: string;
-  @Input() dialog: any; // ---- TODO: Check we need it or not
 
   public selectOptionForm: FormGroup<{
     selectedValue: FormControl<string | null>
@@ -51,7 +50,7 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.dialogSelectOptions?.length > 0) {
       this.selectOptionForm = new FormGroup({
-        selectedValue: new FormControl('', {nonNullable: false, validators: [Validators.required]})
+        selectedValue: new FormControl('', {nonNullable: true, validators: [Validators.required]})
       });
     }
   }
@@ -70,7 +69,6 @@ export class DialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.data.dialogSelectOptions && this.selectOptionForm.valid) {
-      // this.dialogRef.close(this.selectOptionForm.controls.selectedValue.value);
       this.dialogRef.close(this.selectOptionForm.value.selectedValue)
     } else {
       this.dialogRef.close(true);

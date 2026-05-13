@@ -78,7 +78,6 @@ import { MainTourBubbleComponent } from "./main-tour-bubble/main-tour-bubble.com
     DateDisplayPipe,
     LifeTimeDisplayPipe,
     RemainingDaysDisplayPipe,
-    // MainSelectWorkspaceDialogComponent,
     MainCustomImageFormComponent,
     MainTourBubbleComponent
   ],
