@@ -1,21 +1,19 @@
-@use 'main' as main;
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
 
 .custom-image-form {
-  display: flex;
-  flex-direction: column;
+  @include utils.flex-col-block();
   padding: 30px;
 
   h2 {
     padding: 10px;
     margin-bottom: 20px;
-    border-bottom: 1px solid main.$light-line;
+    border-bottom: 1px solid var(--gray-clr-3);
   }
 
   .custom-image-form-content {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: stretch;
+    @include utils.flex-row-block($type: stretch, $gap: 20px, $wrap: false);
     max-height: 75vh;
     margin-bottom: 30px;
     overflow-y: auto;
@@ -35,18 +33,17 @@
 
       .package-form-wrapper {
         .package-instructions {
-          @include main.headline-5;
+          @include base.headline-5;
           margin-bottom: 10px;
         }
 
         .mat-subtitle {
-          @include main.center(vertical);
+          @include base.centering(y);
           font-size: 1.4rem;
         }
 
         .image-content-header {
-          display: flex;
-          justify-content: space-between;
+          @include utils.flex-row-block($distribution: space-between);
           width: 100%;
         }
 
@@ -56,59 +53,47 @@
         }
 
         button.delete-button {
-          display: flex;
-          align-items: center;
-          width: 20px;
-          height: 20px;
+          @include uis.button(
+            $role: gray,
+            $style: fab,
+            $width: 20px,
+            $height: 20px,
+            $icon: remove,
+            $icon-size: 1.4rem,
+          );
+          min-width: 20px;
           min-height: 20px;
           padding: 2px;
           margin-right: 10px;
-          background: main.$gray-dark-color;
-          border-radius: 10px;
 
-          &:hover {
-            background-color: main.$warn-dark-color;
-          }
-
-          mat-icon {
-            @include main.center(both);
-            width: 16px !important;
-            height: 16px !important;
-            padding: 0;
-            margin: 0;
-            font-size: 1.4rem !important;
-            color: #FFF !important;
+          &:hover:not(:disabled) {
+            background: var(--warn-clr-7);
           }
         }
 
         .add-content {
-          display: flex;
-          gap: 5px;
+          @include utils.flex-row-block($gap: 5px, $wrap: false);
 
-          button {
+          .add-package-button {
+            @include uis.button(
+              $role: sec,
+              $style: stroked,
+              $height: 28px,
+              $font-size: 1.4rem,
+              $icon: add,
+              $icon-size: 1.8rem,
+              $button-icon-gap: 5px,
+            );
             flex-grow: 1;
-            height: 28px !important;
             min-height: 28px;
-            font-size: 1.4rem !important;
-
-            .mat-icon {
-              width: auto !important;
-              height: 18px !important;
-              font-size: 1.8rem !important;
-            }
-
-            span {
-              margin-right: 5px;
-            }
           }
         }
       }
     }
 
     .custom-image-form-right {
-      display: flex;
+      @include utils.flex-col-block();
       flex: 1 1 50%;
-      flex-direction: column;
 
       .custom-image-form-generated-dockerfile {
         position: relative;
@@ -116,18 +101,18 @@
         padding: 40px 20px 20px;
         overflow: hidden;
         font-size: 1.4rem;
-        color: main.$secondary-dark-color;
-        background: #d0f6e9;
+        color: var(--sec-clr-8);
+        background: var(--acc-clr-1);
         border-radius: 8px;
 
         h5 {
-          @include main.headline-5;
+          @include base.headline-5;
           position: absolute;
           top: 0;
           left: 0;
           padding: 5px 10px;
-          color: main.$light-text-color;
-          background: main.$secondary-color;
+          color: white;
+          background: var(--sec-clr-7);
         }
 
         .line {
@@ -138,40 +123,31 @@
   }
 
   .dialog-actions {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+    @include utils.flex-row-block($gap: 10px);
 
-    .mat-primary {
+    .submit-button {
+      @include uis.button($role: prim, $style: flat);
       flex: 1 0 200px;
     }
 
     .cancel-button {
+      @include uis.button($role: gray, $style: none);
       flex: 0 0 200px;
     }
   }
 
   .base-image-source-wrapper {
-    display: flex;
-    align-items: center;
+    @include base.centering(y);
     background: #fff;
 
     a.base-image-source {
+      @include uis.external-link-icon($gap: 4px);
       z-index: 1000;
       padding: 5px 15px 5px 20px;
       margin-left: auto;
-      color: main.$primary-color;
+      color: var(--prim-clr-7);
       background: #fff;
       border-radius: 50px;
-
-      &::after {
-        width: auto;
-        height: auto;
-        margin-left: 4px;
-        font-family: 'Material Icons', serif;
-        font-size: 1.4rem;
-        content: '\e89e';
-      }
     }
   }
 }
