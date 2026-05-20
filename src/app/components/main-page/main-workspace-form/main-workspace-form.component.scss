@@ -1,186 +1,114 @@
-@use 'main' as main;
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
 
 .dialog-container {
+  @include utils.flex-col-block();
   height: 100%;
-  overflow: hidden;
+  padding: 30px;
+
+  form {
+    @include utils.flex-col-block();
+    flex-grow: 1;
+  }
+
+  .mat-dialog-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--gray-clr-3);
+  }
+
+  .form-inner {
+    @include utils.flex-col-block($gap: 20px, $y-alignment: space-between);
+    flex-grow: 1;
+  }
+
+  mat-dialog-content {
+    padding: 0;
+  }
+
+  .form-container {
+    mat-form-field {
+      width: 100%;
+    }
+  }
 
   .instruction-body {
-
     display: grid;
     grid-template-columns: max-content auto;
     column-gap: 20px;
     padding: 15px 5px 15px 10px;
-    margin-bottom: 20px;
-    color: map-get(main.$app-gray, default);
-    border: 6px solid map-get(main.$app-gray, 200);
+    color: var(--gray-clr-5);
+    border: 6px solid var(--gray-clr-3);
     border-radius: 20px;
 
-    .form-help-icon .mat-icon {
-      color: map-get(main.$app-gray, 200);
+    .form-help-icon {
+      @include base.centering(y);
+
+      .mat-icon {
+        width: 96px;
+        height: 96px;
+        font-size: 96px;
+        color: var(--gray-clr-3);
+      }
     }
 
     .question {
-      font-size: 18px;
+      font-size: 1.8rem;
       font-weight: bold;
     }
 
     .answer {
-      font-size: 12px;
+      font-size: 1.2rem;
     }
-  }
-
-  .mat-dialog-title {
-    padding: 0;
-    margin: 0 0 10px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 0;
-
-    .form-inner {
-
-      display: flex;
-      flex-grow: 1;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 10px 20px 20px;
-      overflow-y: hidden;
-      border-radius: 5px;
-    }
-  }
-
-  mat-dialog-content {
-    max-height: 100% !important;
-    padding: 5px;
-  }
-
-  .mat-mdc-form-field {
-    width: 100%;
-  }
-
-  .workspace-description-form {
-    .mat-mdc-form-field {
-      padding-bottom: 15px;
-    }
-  }
-
-  .warning-message,
-  .direction-message {
-    padding: 10px 10px 10px 15px;
-    margin-bottom: 20px;
-    font-size: 1.4rem;
-    border-radius: 3px;
   }
 
   .direction-message {
-    background: main.$secondary-extra-light-color;
+    @include uis.note-message;
+    font-size: 1.5rem;
   }
 
   .warning-message {
-    background: main.$warn-light-color;
+    @include uis.warning-message;
+    font-size: 1.5rem;
   }
 
-}
+  .dialog-actions {
+    @include utils.flex-row-block($gap: 10px);
 
-// Could these be global?
-.mat-icon,
-.ng-fa-icon {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 100%;
-
-  &.md-16 {
-    width: 16px;
-    height: 16px;
-    font-size: 16px;
-  }
-
-  &.md-18 {
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
-  }
-
-  &.md-24 {
-    font-size: 24px;
-  }
-
-  &.md-36 {
-    width: 36px;
-    height: 36px;
-    font-size: 36px;
-  }
-
-  &.md-48 {
-    min-width: 48px;
-    max-width: 70px;
-    height: 48px;
-    font-size: 48px;
-    text-align: center;
-  }
-
-  &.md-96 {
-    min-width: 96px;
-    max-width: 96px;
-    height: 96px;
-    font-size: 96px;
-    text-align: center;
-  }
-}
-
-.dialog-actions {
-  display: flex;
-  flex-basis: 40px;
-  flex-direction: row;
-
-  button {
-    &:disabled {
-      color: main.$dark-text-color;
-      background-color: map-get(main.$app-gray, 100) !important;
-    }
-
-    &.submit-button {
+    .submit-button {
+      @include uis.button($role: prim, $style: flat);
       flex: 2;
     }
 
-    &.cancel-button {
+    .cancel-button {
+      @include uis.button($role: gray, $style: none);
       flex: 1;
     }
   }
-}
 
+  /* -------------------------------------- */
+  /* Mobile */
+  /* -------------------------------------- */
 
-/* -------------------------------------- */
-/* Mobile */
-/* -------------------------------------- */
-@media screen and (width <= 1250px) {
+  // ---- Tablet / narrow viewport: collapse instruction body to single column
+  @media (max-width: #{base.$tablet-width}) {
+    .instruction-body {
+      display: block;
 
-  .instruction-body {
-    display: block !important;
-    flex-shrink: 1;
-    height: auto;
-
-    .form-help-icon {
-      display: none !important;
+      .form-help-icon {
+        display: none;
+      }
     }
   }
 
-  .form-inner {
-    padding: 0 !important;
-  }
-}
+  // ---- Short viewport: hide instruction body and tighten padding to fit
+  @media (max-height: 850px) {
+    padding: 10px;
 
-@media screen and (height <= 850px) {
-  .dialog-container {
-    padding: 10px !important;
-  }
-
-  .instruction-body {
-    display: none !important;
+    .instruction-body {
+      display: none;
+    }
   }
 }
