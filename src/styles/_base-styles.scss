@@ -1,0 +1,272 @@
+@use '@angular/material' as mat;
+
+// ---- not-found-page.component.scss
+
+$tablet-width: 1024px;
+$tablet-width-workspace-owner: 1280px;
+$mobile-width: 599px;
+$container-width: 1250px;
+
+$navigation-width: 250px;
+$navigation-minimized-width: 82px;
+
+$welcome-header-height: 50px;
+$content-header-height: 75px;
+$content-header-height-s: 50px;
+$content-header-height-h: 160px;
+$application-card-height: 135px;
+$application-card-media-width: 110px;
+$application-card-action-width: 140px;
+$application-card-header-height: 35px;
+$application-card-content-padding: 20px;
+$application-card-labels-height: 30px;
+$page-side-padding: 30px;
+
+@media (max-width: $tablet-width) {
+  $page-side-padding: 10px;
+}
+
+:root {
+  --header-height: 75px;
+  --header-height-s: 50px;
+  --header-height-h: 160px;
+  --tab-header-height: 40px;
+  --container-width: 1250px;
+  --content-border: 1px solid var(--gray-clr-3);
+  --content-border-neut: 1px solid var(--neut-clr-2);
+  --content-border-gray: 1px solid var(--neut-clr-3);
+  --ui-shadow: rgb(0, 0, 0, 0.1) 0 1px 3px 0, rgb(0, 0, 0, 0.06) 0 1px 2px 0;
+  --ui-button-shadow: 0px 1px 1px rgb(0, 0, 78, 0.3), 0px -1px 1px rgb(255, 255, 255, 0.5);
+  --ui-button-dent-shadow: inset 1px 2px 1px rgb(0, 0, 78, 0.1), inset -1px -2px 1px rgb(201, 211, 255, 0.1);
+
+  --mat-card-title-text-size: 18px;
+  --mat-expansion-container-shape: 3px;
+  --mat-form-field-container-vertical-padding: 5px;
+  --mat-form-field-container-height: 40px;
+  --mdc-filled-text-field-container-color: var(--neut-clr-0);
+  --mdc-chip-label-text-color: white;
+
+  --mat-standard-button-toggle-divider-color: var(--content-border-neut);
+  --mat-standard-button-toggle-background-color: transparent;
+
+  --mdc-checkbox-selected-pressed-icon-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-focus-state-layer-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-hover-state-layer-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-pressed-state-layer-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-focus-icon-color: var(--sec-clr-4);
+  --mdc-checkbox-selected-hover-icon-color: var(--sec-clr-3);
+  --mdc-checkbox-selected-icon-color: var(--sec-clr-4);
+
+  @include mat.progress-spinner-overrides((
+          active-indicator-color: var(--prim-clr-7),
+  ));
+
+  @include mat.checkbox-overrides((
+          state-layer-size: 30px
+  ));
+}
+
+.mat-mdc-radio-button {
+  --mdc-radio-selected-focus-icon-color: var(--sec-clr-7);
+  --mdc-radio-selected-hover-icon-color: var(--sec-clr-7);
+  --mdc-radio-selected-icon-color: var(--sec-clr-5);
+  --mdc-radio-selected-pressed-icon-color: var(--sec-clr-7);
+}
+
+.mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+  --mat-tab-header-active-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-ripple-color: var(--sec-clr-6);
+  --mat-tab-header-inactive-ripple-color: var(--sec-clr-6);
+  --mat-tab-header-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-focus-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-hover-label-text-color: var(--sec-clr-6);
+  --mat-tab-header-active-focus-indicator-color: var(--sec-clr-6);
+  --mat-tab-header-active-hover-indicator-color: var(--sec-clr-6);
+  --mdc-tab-indicator-active-indicator-height: 4px;
+  --mdc-tab-indicator-active-indicator-color: var(--sec-clr-6);
+  --mat-tab-header-pagination-icon-color: var(--prim-clr-6);
+  --mat-tab-header-inactive-label-text-color: var(--prim-clr-7);
+}
+
+@mixin styled-font {
+  font-family: Quicksand, sans-serif !important;
+  font-style: normal;
+  font-optical-sizing: auto;
+  line-height: 140%;
+}
+
+@mixin common-font {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 160%;
+}
+
+@mixin headline-1 {
+  @include styled-font;
+  font-size: 4rem;
+  font-weight: 600;
+}
+
+@mixin headline-2 {
+  @include styled-font;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+@mixin headline-3 {
+  @include styled-font;
+  font-size: 2.4rem;
+  font-weight: 600;
+}
+
+@mixin headline-4($weight: 500) {
+  @include styled-font;
+  font-size: 1.6rem;
+  font-weight: $weight !important;
+}
+
+@mixin headline-5($weight: none) {
+  @include styled-font;
+  font-size: 1.3rem;
+  font-weight: 500;
+
+  @if $weight {
+    font-weight: $weight !important;
+  }
+}
+
+@mixin headline-6 {
+  @include styled-font;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+h1 {
+  @include headline-1;
+}
+
+h2 {
+  @include headline-2;
+}
+
+h3 {
+  @include headline-3;
+}
+
+h4 {
+  @include headline-4;
+}
+
+h5 {
+  @include headline-5;
+
+  mat-icon {
+    width: 20px;
+    height: 16px;
+    font-size: 1.6rem;
+  }
+}
+
+h6 {
+  @include headline-6;
+
+  mat-icon {
+    width: 16px;
+    height: 14px;
+    font-size: 1.4rem;
+  }
+}
+
+mark {
+  background-color: var(--acc-clr-1);
+  color: marktext;
+}
+
+hr {
+  height: 1px;
+  color: var(--gray-clr-3);
+}
+
+// -------------------- Text wrapping
+/// overflow-wrap: Force breaks within long words (paths or commands)
+/// white-space: Preserve white space/newlines and wrap as necessary
+/// word-break: Allow breaks anywhere to strictly prevent overflow
+/// box-sizing: Include padding in the element's total width calculation
+
+@mixin text-wrap {
+  overflow-wrap: break-word;
+  white-space: pre-line;
+  word-break: auto-phrase;
+  box-sizing: border-box;
+}
+
+// -------------------- Element centering
+/// Centering elements using Flexbox
+/// $pos - Direction: x (horizontal), y (vertical), xy(both)
+/// $inline - Use inline-flex if true
+// --- Usage ---
+// .item { @include centering(x); }  // Horizontal only
+// .item { @include centering(y); }  // Vertical only
+// .item { @include centering(xy); } // Both axes
+
+@mixin centering($pos: xy, $inline: false, $gap: 0) {
+  display: if($inline, inline-flex, flex);
+  flex-wrap: nowrap;
+  gap: $gap;
+
+  // Vertical center (Y-axis)
+  @if $pos == y or $pos == xy {
+    align-items: center;
+  }
+
+  // Horizontal center (X-axis)
+  @if $pos == x or $pos == xy {
+    justify-content: center;
+  }
+}
+
+.centering {
+  &__x {
+    @include centering(x);
+  }
+
+  &__vi {
+    @include centering(x, true);
+  }
+
+  &__y {
+    @include centering(y);
+  }
+
+  &__yi {
+    @include centering(y, true);
+  }
+
+  &__xy {
+    @include centering(xy);
+  }
+
+  &__xyi {
+    @include centering(xy, true);
+  }
+}
+
+// ---- TODO: change to Mixin later
+.gray-out-container {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+
+  .gray-out-panel {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: var(--gray-clr-7);
+    opacity: 0.8;
+  }
+}

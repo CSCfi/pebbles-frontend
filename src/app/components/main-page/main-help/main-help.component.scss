@@ -1,142 +1,128 @@
-@import "src/styles/main.scss";
+// ---- main-help.component.scss
 
-.content-header-container {
-  grid-template-columns: auto;
-  grid-column-gap: 20px;
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'layouts' as layouts;
+
+@include layouts.page;
+@include layouts.header;
+@include layouts.content($type: stretch, $is-scrolling: false, $max-width: var(--container-width));
+
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab {
+
+  background: white;
+  border: 1px solid var(--neut-clr-2);
+
+  .tab-title {
+    @include base.headline-4($weight: 700);
+    color: var(--prim-clr-7);
+  }
+
+  &:first-child {
+    .tab-title {
+      @include uis.deco-text($icon: 'live_help', $icon-size: 2.4rem, $icon-weight: 100);
+    }
+  }
+
+  &:nth-child(2) {
+    .tab-title {
+      @include uis.deco-text($icon: 'library_books', $icon-size: 2.4rem, $icon-weight: 100);
+    }
+  }
+
+  &:last-child {
+    .tab-title {
+      @include uis.deco-text($icon: 'mail', $icon-size: 2.4rem, $icon-weight: 100);
+    }
+  }
 }
 
-#help-page {
+::ng-deep.mat-mdc-tab-labels {
+  gap: 10px;
 
-  padding: 0 30px 50px 30px;
+  .mdc-tab {
+    flex: 1;
+  }
+}
 
-  .mobile-nav {
-    display: none;
-    padding: 15px 30px 0;
+::ng-deep.mat-mdc-tab-body {
+  align-items: center;
+  height: auto !important;
+  overflow: hidden !important;
+
+  .mat-mdc-tab-body-content {
+    @include utils.flex-col-block($type: center);
+    padding-top: 40px !important;
+    padding-bottom: 20px !important;
   }
 
-  .mat-mdc-tab-group {
-    flex: 1 1 auto;
-    padding-top: 10px;
-    overflow: hidden;
+  .mat-expansion-panel {
+    border: 1px solid var(--neut-clr-2);
+    box-shadow: none !important;
+  }
+}
+
+.faq {
+  @include utils.flex-col-block($gap: 40px);
+
+  .faq-category-title {
+    margin-bottom: 15px;
   }
 
-  ::ng-deep .mat-mdc-tab-header {
-    display: flex !important;
-    border-bottom: none !important;
-    margin-top: 30px;
+  .question {
+    @include base.headline-4;
+    @include uis.deco-text($color: var(--prim-clr-7), $icon: 'live_help', $gap: 20px);
+
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
 
-  ::ng-deep .mdc-tab {
-    background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 5px;
-    margin-right: 10px;
-    min-width: 200px;
-    min-height: 75px;
-    align-items: center;
-
-    .mdc-tab__content .mdc-tab__text-label {
-      .tab-icon {
-        font-weight: 600;
-      }
-
-      .tab-title {
-        padding-top: 15px;
-        font-weight: 600;
-      }
-    }
-
-    &--active {
-      background: map-get($app-primary, default);
-
-      .mdc-tab__content .mdc-tab__text-label {
-        color: white;
-      }
-    }
-
-    &-indicator {
-      display: none !important;
-    }
+  .answer {
+    @include uis.deco-text($icon: 'support_agent', $gap: 20px);
+    @include uis.common-link;
+    @include base.common-font;
   }
 
-  .info-body {
-    padding: 20px 20px;
-    background: white;
-    border: 2px solid map-get($app-primary, 300);
-    border-radius: 3px !important;
-
-    h3 {
-      margin-top: 10px;
-    }
-  }
-
-  .external-link {
-    a {
-      display: flex;
-      align-items: center;
-      color: $primary-color;
-      text-decoration: underline;
-
-      &:hover {
-        color: $secondary-color;
-      }
-    }
-
-    mat-icon {
-      margin-right: 10px;
-    }
-  }
-
-  .balloon {
-    text-align: center;
-    position: relative;
-    padding: 30px 50px 20px;
-    max-width: 600px;
+  .mat-expansion-panel {
     height: auto;
-    overflow: unset;
-    margin: 30px auto 30px auto;
-    border-radius: 200px;
-    background: #fff;
+
+    .mat-expansion-panel-header {
+      height: auto;
+      min-height: 50px;
+    }
+  }
+}
+
+.documentation {
+  @include layouts.info-block;
+  @include uis.grid-list($fractions: '240px auto');
+}
+
+.contact {
+  .balloon {
+    margin-top: 50px !important;
+
+    @include uis.balloon;
 
     li {
-      font-size-adjust: 0.4;
-      line-height: 155%;
+      @include base.headline-3;
     }
-  }
-
-  .balloon:before {
-    display: block;
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 55%;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0px 20px 20px 20px;
-    border-color: transparent transparent transparent #fff;
   }
 
   .contact-info {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 36px;
+    @include utils.flex-col-block($type: center, $gap: 20px);
 
-    .icon-96 {
-      font-size: 96px;
-      height: 96px;
-      width: 96px;
+    h3 {
+      @include uis.crowned-text($color: var(--neut-clr-7), $icon: business, $icon-family: Outlined, $icon-type: Icons);
     }
 
-    .email {
-      margin: 10px;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
+    .email-link {
+      @include uis.deco-text($color: var(--prim-clr-7), $icon: 'email', $icon-size: 2.4rem, $icon-weight: 100);
 
-      dt {
-        padding-right: 36px;
+      span {
+        text-indent: 10px;
+        text-decoration: underline;
       }
     }
   }
@@ -144,19 +130,10 @@
 
 // --------------- Mobile Mode
 
-#help-page.mobile {
-  .mobile-nav {
-    display: block !important;
-    padding: 20px 0 0;
-    list-style: circle;
-  }
-
-  ::ng-deep .mat-mdc-tab-header {
-    display: none !important;
-  }
-
-  section {
-    margin-top: 15px !important;
+@media (max-width: #{base.$mobile-width}) {
+  ::ng-deep .mat-mdc-tab-labels {
+    flex-direction: column;
   }
 }
+
 

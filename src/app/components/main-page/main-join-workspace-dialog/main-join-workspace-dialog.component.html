@@ -1,27 +1,29 @@
-<div id="join-workspace-dialog" class="dialog-container">
+<div class="dialog-container">
   <ng-container *ngIf="!newWorkspace">
     <div class="corner-button-container">
       <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <h2>Join Workspace</h2>
-    <section class="join-code-input-form">
-      <form [formGroup]="joinWorkspaceForm">
-        <mat-form-field appearance="fill" class="join-code-input">
-          <mat-label>Enter Join Code</mat-label>
+    <h2 class="mat-dialog-title">Join workspace</h2>
+    <mat-dialog-content>
+      <form [formGroup]="joinWorkspaceForm" class="form-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter join code</mat-label>
           <input matInput type="text" placeholder="Join code" formControlName="joinCode">
           <mat-error *ngIf="isJoinCodeValid" [ngClass]="'error-status'">error</mat-error>
         </mat-form-field>
-        <button mat-flat-button id="join-workspace-btn" class="primary-btn" (click)="joinWorkspace()">
-          <mat-icon fontSet="material-icons-outlined">add</mat-icon> Join
-        </button>
+        <div class="error-status" *ngIf="errorMessage">{{ errorMessage }}</div>
       </form>
-      <div class="error-status" *ngIf="errorMessage">{{ errorMessage }}</div>
-    </section>
+    </mat-dialog-content>
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-flat-button class="join-button" (click)="joinWorkspace()">
+        <mat-icon fontSet="material-icons-outlined">add</mat-icon> Join
+      </button>
+    </mat-dialog-actions>
   </ng-container>
   <ng-container *ngIf="newWorkspace">
-    <h2>Workspace "{{ newWorkspace.name }}" data policy</h2>
+    <h2 class="mat-dialog-title">Workspace "{{ newWorkspace.name }}" data policy</h2>
     <mat-dialog-content>
       <div class="state">
         You have successfully joined workspace "{{ newWorkspace.name }}".
@@ -51,8 +53,8 @@
         </div>
       </ng-template>
     </mat-dialog-content>
-    <mat-dialog-actions class="dialog-buttons">
-      <button class="primary-btn" mat-flat-button mat-dialog-close (click)="closeForm()">Understood</button>
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-flat-button mat-dialog-close (click)="closeForm()" class="confirm-button">Understood</button>
     </mat-dialog-actions>
   </ng-container>
 </div>

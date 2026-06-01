@@ -29,6 +29,7 @@ import { MainSessionButtonComponent } from './main-session-button/main-session-b
 import { MainPageComponent } from './main-page.component';
 import { MainRoutingModule } from './main-routing.module';
 import { MainNavComponent } from './main-nav/main-nav.component';
+import { MainMobileNavComponent } from './main-mobile-nav/main-mobile-nav.component';
 import { MainContentHeaderComponent } from './main-content-header/main-content-header.component';
 import { MainSearchBoxComponent } from './main-search-box/main-search-box.component';
 import { MainContentStateComponent } from './main-content-state/main-content-state.component';
@@ -42,9 +43,6 @@ import {
 import { MainWorkspaceItemComponent } from './main-workspace-item/main-workspace-item.component';
 import { MainWorkspaceMembersComponent } from './main-workspace-members/main-workspace-members.component';
 import {
-  MainSelectWorkspaceDialogComponent
-} from './main-select-workspace-dialog/main-select-workspace-dialog.component';
-import {
   MainWorkspaceCustomImagesComponent
 } from "./main-workspace-custom-images/main-workspace-custom-images.component";
 import { MainCustomImageFormComponent } from "./main-custom-image-form/main-custom-image-form.component";
@@ -57,6 +55,7 @@ import { MainTourBubbleComponent } from "./main-tour-bubble/main-tour-bubble.com
   declarations: [
     MainPageComponent,
     MainNavComponent,
+    MainMobileNavComponent,
     MainContentHeaderComponent,
     MainSearchBoxComponent,
     MainCatalogComponent,
@@ -81,7 +80,6 @@ import { MainTourBubbleComponent } from "./main-tour-bubble/main-tour-bubble.com
     DateDisplayPipe,
     LifeTimeDisplayPipe,
     RemainingDaysDisplayPipe,
-    MainSelectWorkspaceDialogComponent,
     MainCustomImageFormComponent,
     MainTourBubbleComponent
   ],

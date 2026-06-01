@@ -1,0 +1,156 @@
+// ---- src/styles/ui-components/_icons.scss
+@use 'base-styles' as base;
+
+@mixin deco-text(
+  $color: inherit, $font-size: none, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
+  $width: auto, $font-weight: none,
+  $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined',
+  $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
+) {
+  @include base.styled-font;
+  @include base.centering($pos: y, $inline: $inline);
+  position: relative;
+  justify-content: $text-align;
+  flex-wrap: nowrap;
+  width: $width;
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  color: #{$color};
+
+  @if $font-size {
+    font-size: $font-size !important;
+  }
+
+  @if $font-weight {
+    font-weight: $font-weight !important;
+  }
+
+  @if $icon != none {
+    @include icon(
+            $icon: $icon, $type: $icon-type, $family: $icon-family, $color: $icon-color, $size: $icon-size, $weight: $icon-weight,
+            $pos: left, $gap: $gap);
+  }
+
+  @if $highlight != none {
+    padding: 1px 10px;
+    background: $highlight;
+    border-radius: 2px;
+  }
+}
+
+@mixin crowned-text(
+  $color: var(--gray-clr-7),
+  $icon: 'ebcc', $icon-size: 9.6rem, $icon-weight: 300, $icon-type: 'Symbols', $icon-family: 'Outlined') {
+  @include base.styled-font;
+  @include base.centering(xy);
+  position: relative;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  font-weight: 600;
+  color: #{$color} !important;
+  text-align: center;
+
+  .emphasis {
+    font-size: 8rem;
+    font-weight: 500;
+  }
+
+  @if $icon {
+    @include icon($icon: $icon, $size: $icon-size, $weight: $icon-weight, $type: $icon-type, $family: $icon-family, $pos: up);
+  }
+}
+
+@mixin icon(
+  $icon: apartment, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: none, $width: auto) {
+  display: flex;
+  gap: 8px;
+
+  @if $gap {
+    gap: $gap !important;
+  }
+
+  $font-family: 'Material Symbols Outlined';
+
+  @if $type == 'Icons' {
+    @if $family == 'Filled' {
+      $font-family: 'Material Icons';
+    } @else {
+      $font-family: 'Material Icons Outlined';
+    }
+  }
+
+  @if $pos == left {
+    &::before {
+      flex: 0 0 $width;
+      width: $width;
+      height: auto;
+      font-family: $font-family, sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      line-height: 1;
+      color: $color;
+      content: '#{$icon}';
+      text-decoration: none !important;
+
+      @if $family == 'Filled' and $type == 'Symbols' {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    }
+  }
+
+  @if $pos == right {
+    &::after {
+      width: $width;
+      height: auto;
+      margin-left: 8px;
+      font-family: $font-family, sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      color: $color;
+      content: '#{$icon}';
+    }
+  }
+
+  @if $pos == up {
+    &::before {
+      display: block;
+      width: $width !important;
+      height: auto !important;
+      margin: 0;
+      font-family: $font-family, sans-serif;
+      font-size: #{$size};
+      font-weight: #{$weight};
+      line-height: 1;
+      vertical-align: middle;
+      color: $color;
+      content: '#{$icon}';
+    }
+  }
+}
+
+@mixin highlight-text(
+  $font-size: 1.2rem, $highlight: var(--acc-clr-1), $color: var(--gray-clr-7), $margin-top: -2px, $margin-left: 5px, $padding: 2px 10px) {
+  padding: $padding;
+  margin-top: $margin-top;
+  margin-left: $margin-left;
+  font-size: $font-size;
+  line-height: 120%;
+  color: $color;
+  background: $highlight;
+  border-radius: 3px;
+}
+
+@mixin external-link-icon($gap: 0, $width: 1.4) {
+  &::after {
+    width: #{$width*10}+px;
+    height: auto;
+    margin-left: $gap;
+    font-family: 'Material Icons', serif;
+    font-size: #{$width}+rem;
+    content: 'open_in_new';
+  }
+}

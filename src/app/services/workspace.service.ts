@@ -18,6 +18,7 @@ export class WorkspaceService {
   private workspaces: Workspace[] = null;
   private workspaceMemberMap: Map<string, WorkspaceMember[]> = new Map();
   private workspaceMemberCountMap: Map<string, number> = new Map();
+  private readonly JOINED_WORKSPACES_KEY = 'joined_workspaces_timestamps';
 
   get isInitialized(): boolean {
     return this.workspaces !== null;
@@ -71,7 +72,7 @@ export class WorkspaceService {
       return null;
     }
     // ---- Check time gap since created
-    if ( Math.abs(Utilities.getTimeGap(ws.create_ts * 1000, 'minute')) < 10) {
+    if (Math.abs(Utilities.getTimeGap(ws.create_ts * 1000, 'minute')) < 10) {
       return LifeCycleNote.New;
     }
 
@@ -79,20 +80,48 @@ export class WorkspaceService {
       return LifeCycleNote.Expired;
     }
 
-    let daysLeft = Utilities.getTimeGap( new Date(ws.expiry_ts * 1000).getTime(), 'day');
+    let daysLeft = Utilities.getTimeGap(new Date(ws.expiry_ts * 1000).getTime(), 'day');
     if (daysLeft <= 10) {
       return LifeCycleNote.ExpiringSoon;
     } else if (daysLeft <= 20) {
       return LifeCycleNote.Expiring;
     }
 
+    // ---- Recently joined workspaces are flagged New for an hour (see saveJoinTimestamp)
+    const joinTime = this.getJoinTimestamps()[ws.id];
+    if (joinTime && (new Date().getTime() - joinTime) < 60 * 60 * 1000) {
+      return LifeCycleNote.New;
+    }
+
     return null;
+  }
+
+  // ---- Read the "recently joined" timestamp map, tolerating absent or corrupt storage
+  private getJoinTimestamps(): Record<string, number> {
+    const data = localStorage.getItem(this.JOINED_WORKSPACES_KEY);
+    if (!data) {
+      return {};
+    }
+    try {
+      return JSON.parse(data) ?? {};
+    } catch {
+      return {};
+    }
+  }
+
+  saveJoinTimestamp(workspaceId: string): void {
+    const timestamps = this.getJoinTimestamps();
+    timestamps[workspaceId] = new Date().getTime();
+    localStorage.setItem(this.JOINED_WORKSPACES_KEY, JSON.stringify(timestamps));
   }
 
   joinWorkspace(joinCode: string): Observable<Workspace | string> {
     const url = `${buildConfiguration.apiUrl}/join_workspace/${joinCode}`;
     return this.http.put<Workspace>(url, {}).pipe(
       tap(resp => {
+        if (resp && typeof resp !== 'string' && 'id' in resp) {
+          this.saveJoinTimestamp(resp.id);
+        }
         this.fetchWorkspaces().subscribe();
         return resp;
       })
@@ -171,7 +200,7 @@ export class WorkspaceService {
       expiry_ts = Math.floor(Date.now() / 1000 + 86400 * 30 * 3);
     }
     return this.http.post<Workspace>(url, {name, description, expiry_ts, workspace_type}).pipe(
-      tap(()=> {
+      tap(() => {
         this.fetchWorkspaces().subscribe();
         this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
       }),

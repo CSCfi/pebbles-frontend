@@ -1,162 +1,108 @@
-@import "src/styles/main.scss";
+// ---- main-workspace-members.component.scss
 
-#workspace-members-container {
-  flex: 1 0 800px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
 
-  padding: 20px 30px 30px;
-  width: 800px;
-  max-width: 1000px;
-  margin: 0 auto;
+@include layouts.status-block;
+@include utils.fitter($background: white);
 
-  .member-header {
-    flex: 0 0 60px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+.workspace-members-container {
+  width: 100%;
+  max-width: 800px;
+  @include utils.flex-col-block($gap: 10px, $padding: 20px 30px 30px);
+}
 
-    mat-form-field {
-      flex: 1 0 auto;
-      margin-bottom: -20px;
-    }
+.status-headline {
+  @include uis.crowned-text($icon: groups, $icon-size: 8rem);
+}
 
-    button {
-      flex: 0 1 65px;
-      height: 60px;
-      @include center(both, inline);
+.workspace-member-table {
+  @include layouts.status-block($padding-top: 20px);
 
-      mat-icon {
-        margin: 0;
-        font-size: 2.4rem;
-        width: auto;
-        height: auto;
-      }
-    }
+  .status-headline {
+    @include uis.crowned-text($icon: search, $icon-size: 4rem);
+    padding-bottom: 20px;
   }
+}
 
-  .table-container {
+.member-header {
+  flex: 0 0 60px;
+  @include utils.flex-row-block($gap: 10px);
+
+  mat-form-field {
     flex: 1 0 auto;
-    height: 72px;
-    overflow: auto;
+    margin-bottom: -20px;
+  }
+}
+
+.table-container {
+  flex: 1 1 auto;
+  // Keep enough room for the header + a couple of rows even when the
+  // "No members" hint is shown alongside (`isInviteHintEnabled`).
+  min-height: 100px;
+  @include uis.table(
+          $table-outer-border: 2px solid var(--neut-clr-3),
+          $vertical-border: true,
+          $header-height: 25px
+  );
+}
+
+// When `isInviteHintEnabled`, the empty-state hint renders as a sibling of
+// the (non-empty) table. Make it banner-sized instead of full empty-state so
+// it doesn't squeeze the table down to one row.
+.workspace-members-container > .status-info-container {
+  padding-top: 10px;
+  flex-shrink: 0;
+
+  .empty-status {
+    .mat-icon {
+      font-size: 3rem;
+      padding: 0;
+    }
+
+    .status-headline {
+      @include uis.crowned-text($icon: groups, $icon-size: 3rem);
+    }
+  }
+}
+
+.mat-column- {
+
+  &index {
+    @include uis.table-width-fix($width: 50px, $align: center);
   }
 
-  .status-info-container {
-    flex-grow: 5;
-    margin-top: 0 !important;
-  }
-
-  .paginator-wrapper {
-    flex: 0 0 60px;
-  }
-
-  table {
-    font-size: 1.2rem;
-
-    tr {
-      border: 2px solid $mid-dark-line;
-    }
-
-    thead {
-      height: 40px;
-      font-size: 1.2rem;
-
-      tr {
-        height: 20px;
-
-        ::ng-deep th.mat-column-menu {
-          width: 65px;
-        }
-      }
-    }
-
-    ::ng-deep tbody {
-      tr {
-        height: 40px !important;
-
-        td {
-          padding: 0 20px !important;
-          line-height: 100%;
-          font-size: 1.2rem;
-        }
-      }
-    }
-
-    ::ng-deep.mat-mdc-header-row {
-      height: 20px;
-      background: #e0e0e0;
-      color: $gray-extra-dark-color;
-    }
-
-    ::ng-deep.mat-column-index {
-      text-align: center;
-      width: 65px;
-    }
+  &role {
+    @include uis.table-width-fix($width: 100px, $align: center, $padding: 2px 10px);
 
     .role-name {
-      @include center(vertical, inline);
+      @include uis.deco-text($icon: person, $color: var(--acc-clr-7), $font-size: 1.2rem, $gap: 4px);
 
-      mat-icon {
-        margin-right: 5px;
+      &.owner {
+        @include uis.deco-text($icon: person_shield, $icon-family: 'Filled', $color: var(--prim-clr-7), $font-size: 1.2rem, $gap: 4px);
       }
 
-      &.owner .user-role-icon {
-        color: #fc614d;
+      &.manager {
+        @include uis.deco-text($icon: manage_accounts, $icon-family: 'Filled', $color: var(--sec-clr-7), $font-size: 1.2rem, $gap: 4px);
       }
 
-      &.co-owner .user-role-icon {
-        color: #ee8600;
-      }
-    }
-
-    ::ng-deep.mat-column-menu {
-      text-align: center;
-      width: 65px;
-      padding: 0 !important;
-
-      button {
-        border-radius: 0;
-        height: 45px;
-
-        mat-icon {
-          font-size: 1.8rem;
-          height: auto;
-          width: auto;
-          margin-right: 0;
-        }
+      &.banned {
+        @include uis.deco-text($icon: person_off, $color: var(--warn-clr-7), $font-size: 1.2rem, $gap: 4px);
       }
     }
   }
 
-  .my-account {
-    background: map-get($app-secondary, 100);
-    height: 45px!important;
+  &email {
+    @include uis.table-width-fix($align: left, $padding: 2px 10px);
   }
 
-  .hint-content {
-    width: 650px;
-    margin: auto;
-    border: 5px solid $gray-light-color;
-    padding: 20px 30px;
-    border-radius: 20px;
+  &menu {
+    @include uis.table-width-fix($width: 55px, $align: center);
 
-    h3 {
-      border-bottom: 1px solid $gray-light-color;
-      margin-bottom: 10px;
-    }
-
-    .status-postscript {
-      @include center(vertical, inline);
-
-      .hint-join-code {
-        font-weight: 600;
-        margin: 0 10px;
-      }
-
-      mat-icon {
-        margin-right: 10px;
-      }
+    .member-menu-button {
+      @include uis.button($icon: menu, $role: neut, $style: icon);
     }
   }
 }

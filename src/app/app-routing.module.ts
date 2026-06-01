@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { MainRoutingModule } from './components/main-page/main-routing.module';
 import { SessionPageComponent } from './components/session-page/session-page.component';
+import { ShowcaseComponent } from "./showcase/showcase.component";
+import { buildConfiguration } from '../environments/environment';
 
 const routes: Routes = [
   {path: '', redirectTo: 'welcome', pathMatch: 'full'},
@@ -28,6 +29,16 @@ const routes: Routes = [
       title: 'Session',
       identifier: 'session',
       breadcrumbs: ['session']
+    }
+  },
+  {
+    // ---- Dev-only design-system reference; not routable in production builds
+    path: 'showcase', component: ShowcaseComponent,
+    canMatch: [() => !buildConfiguration.production],
+    data: {
+      title: 'Showcase',
+      identifier: 'showcase',
+      breadcrumbs: ['showcase']
     }
   },
   {path: '**', component: NotFoundPageComponent},

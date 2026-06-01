@@ -1,0 +1,61 @@
+// ---- main-mobile-nav.component.scss
+
+@use 'base-styles' as base;
+
+.mobile-main-nav {
+  display: none;
+}
+
+@media (max-width: #{base.$mobile-width}) {
+  .mobile-main-nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 1000;
+  }
+
+  #nav-toggle-btn {
+    display: none;
+  }
+
+  .nav-toggle-label {
+    display: block;
+    visibility: visible !important;
+    padding: 5px 10px 2px;
+    width: 100%;
+    color: white;
+    background: var(--prim-clr-9);
+
+    &.mobile-nav-closed {
+      width: 50px;
+    }
+  }
+
+  .nav-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    background: var(--prim-clr-9);
+
+    li {
+      padding: 3px 10px;
+      color: white;
+
+      a {
+        display: inline-flex;
+        gap: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  #nav-toggle-btn:checked + .nav-toggle-label + .nav-wrapper {
+    display: none;
+  }
+
+  #nav-toggle-btn + .nav-toggle-label + .nav-wrapper {
+    display: block;
+  }
+}

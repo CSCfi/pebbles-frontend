@@ -1,0 +1,82 @@
+// ---- src/styles/ui-components/_chips.scss
+@use 'utilities' as utils;
+
+@mixin chips($type: mini, $color: inherit, $text-transform: none,
+$background: transparent, $border: none, $wrap: false) {
+
+  .mat-mdc-chip-set {
+    ::ng-deep .mdc-evolution-chip-set__chips {
+      flex-shrink: 0;
+      flex-flow: row nowrap;
+      white-space: nowrap;
+
+      @if $wrap {
+        flex-flow: wrap;
+      }
+    }
+
+    mat-chip-row {
+      color: $color;
+      background-color: $background;
+      border: $border;
+
+      --mdc-chip-label-text-color: #{$color};
+      --mdc-chip-label-text-weight: 500;
+      text-transform: $text-transform;
+
+      ::ng-deep.mat-mdc-chip-action-label {
+        font-size: 1.3rem;
+      }
+
+      ::ng-deep.mdc-evolution-chip__text-label {
+        color: $color;
+        font-size: 1.3rem;
+        text-transform: $text-transform;
+        background-color: $background;
+      }
+
+      ::ng-deep.mdc-evolution-chip__cell--trailing {
+        padding-right: 6px;
+        padding-left: 4px;
+
+        .mat-icon {
+          font-size: 1.5rem;
+          padding: 0 !important;
+          color: $color;
+        }
+      }
+    }
+
+    .mat-mdc-chip.mat-mdc-standard-chip {
+      --mdc-chip-container-height: 28px;
+    }
+  }
+}
+
+@mixin mini-chips($color: var(--neut-clr-6), $background: var(--neut-clr-1), $border: 1px solid var(--neut-clr-2), $wrap: true) {
+
+  .mini-chips {
+    @include utils.flex-row-block($gap: 6px 4px, $distribution: start, $wrap: $wrap);
+
+    .chip {
+      @include chip($color: $color, $background: $background, $border: $border);
+    }
+  }
+}
+
+@mixin chip(
+  $color: var(--neut-clr-6), $background: var(--neut-clr-1), $padding: 2px 4px 4px 6px,
+  $border: 1px solid var(--neut-clr-2), $width: auto, $rounded: false, $margin: none) {
+  padding: $padding;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: $color;
+  letter-spacing: 1px;
+  text-decoration: none;
+  background-color: $background;
+  border: $border;
+  border-radius: if($rounded==true, 10px, 2px);
+  width: $width;
+  margin: $margin;
+}
+

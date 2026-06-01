@@ -1,18 +1,32 @@
-@import "src/styles/main.scss";
+// ---- not-found-page.component.scss
+@use 'utilities' as utils;
+@use 'ui-components' as uis;
+@use 'layouts' as layouts;
 
-#not-found-container {
-  .face {
-    text-align: center;
-    transform: scale(4);
-    padding: 30px;
+@include layouts.page;
+@include layouts.content;
+@include layouts.status-block;
+
+.error-status {
+  @include uis.crowned-text($color: var(--prim-clr-6), $icon: 'sentiment_dissatisfied', $icon-family: 'Filled');
+
+  .emphasis {
+    margin-bottom: 30px;
   }
+}
 
-  div {
+.links {
+  @include utils.flex-col-block($gap: 10px);
+
+  button {
     text-align: center;
-  }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100vh;
+    &:first-child {
+      @include uis.button($role: prim, $icon: 'keyboard_double_arrow_left');
+    }
+
+    &:last-child {
+      @include uis.button($role: prim, $style: 'none', $icon: 'home');
+    }
+  }
 }

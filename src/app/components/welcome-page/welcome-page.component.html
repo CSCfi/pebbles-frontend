@@ -1,5 +1,4 @@
 <div id="welcome-page" class="page-wrapper">
-
   <div class="background">
     <div class="bg-pattern-1">
       <img ngSrc="assets/images/bg_pattern.svg" alt="company brand Pattern" height="309" width="307" priority="true">
@@ -41,7 +40,7 @@
         </mat-form-field>
       </mat-dialog-content>
       <mat-dialog-actions>
-        <button [disabled]="loginClicked" class="primary-btn" mat-button>
+        <button [disabled]="loginClicked" mat-button>
           Submit
         </button>
         <div *ngFor="let err of loginError" class="special-login-error">
@@ -73,7 +72,7 @@
         </p>
       </mat-dialog-content>
       <mat-dialog-actions>
-        <button [disabled]="acceptTermsClicked" class="primary-btn" id="agree-button" mat-flat-button>
+        <button [disabled]="acceptTermsClicked" class="agree-button" id="agree-button" mat-button>
           Agree & Continue
         </button>
       </mat-dialog-actions>

@@ -1,0 +1,81 @@
+// ---- styles/layouts/_content.scss
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'info-block' as info;
+
+@mixin content($type: center, $gap: 40px, $is-widen: false, $padding-top: 25px, $side-padding: base.$page-side-padding, $is-scrolling: false, $max-width: false) {
+  .content-container {
+    @include utils.flex-col-block($gap: $gap);
+
+    // `dvh` so the content-container fits the visible viewport on mobile
+    // (vh includes the address bar, which pushes the inner scrollbar past
+    // the screen). On desktop dvh and vh are equal — no behavioral change.
+    height: calc(100dvh - var(--header-height));
+    max-height: calc(100dvh - var(--header-height));
+    flex: 1 0 auto;
+    width: 100%;
+    align-items: $type;
+    justify-content: start;
+
+    @if ($max-width) {
+      max-width: $max-width;
+    }
+
+    @if $is-scrolling {
+      height: 100%;
+      overflow-y: auto;
+    } @else {
+      min-height: 0;
+      overflow: visible;
+    }
+
+    padding: $padding-top if($is-widen, 0, $side-padding) 0;
+    margin: 0 auto;
+    background: transparent;
+
+
+    section {
+      width: 100%;
+      max-width: var(--container-width);
+      margin: 0 auto;
+
+      .title {
+        @include base.headline-3;
+        padding-left: 5px;
+        margin-bottom: 5px;
+        color: var(--gray-clr-7);
+      }
+    }
+
+    .items {
+      @include utils.flex-col-block($gap: 10px);
+      width: 100%;
+      max-width: var(--container-width);
+
+      .item {
+        @include info.info-block;
+      }
+    }
+
+    .info-body {
+      @include info.info-block;
+    }
+  }
+
+  // ----- Mobile
+  @media (max-width: base.$mobile-width) {
+    .content-container {
+      padding-top: 0;
+      @if $is-scrolling {
+        // Let flex-grow size the scroll area to whatever's left in the
+        // page-container after the content-header.
+        flex: 1 1 auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow-y: auto;
+      }
+    }
+  }
+}

@@ -1,4 +1,6 @@
-@import "src/styles/main.scss";
+//---- main-page.component.scss
+@use 'base-styles' as base;
+@use 'utilities' as utils;
 
 .mat-sidenav-container {
   min-height: 100vh;
@@ -6,61 +8,52 @@
   overflow: hidden !important;
 
   mat-sidenav {
+    width: base.$navigation-width;
     height: inherit;
-    width: $main-navigation-width;
-    @include primary-main-background;
+
+    background-color: var(--prim-clr-9);
+    color: white;
 
     &.minimize {
-      width: $main-navigation-minimized-width !important;
+      width: base.$navigation-minimized-width !important;
     }
   }
 
   .mat-sidenav-content {
-    margin-left: $main-navigation-width !important;
     min-height: 100vh;
+    margin-left: base.$navigation-width !important;
 
     &.expanded {
-      margin-left: $main-navigation-minimized-width !important;
+      margin-left: base.$navigation-minimized-width !important;
     }
   }
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  @include utils.flex-col-block($y-alignment: space-between);
   height: inherit;
 }
 
 .main-page-wrapper {
-  @include light-gray-background;
-  min-height: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  @include utils.flex-col-block();
+  // Cap to viewport + clip residual sub-pixel overflow so no page-level
+  // scrollbar appears. Inner scrolling happens inside the flex chain
+  // (e.g. Material's tab-body-active in main-catalog).
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
 }
 
-// ----- Laptop
-
-@media (min-width: 600px) {
-
-}
 
 // ----- MOBILE
-
-@media (max-width: 599px) {
+@media (max-width: #{base.$mobile-width}) {
 
   .mat-sidenav-container {
-    min-height: auto !important;
-    height: auto !important;
-
+    // Drawer is unused on mobile — `app-main-mobile-nav` (sibling of the container)
+    // is the mobile nav. Hiding the drawer removes the dead `mat-drawer-inner-container`
+    // that otherwise overlays the page and intercepts clicks.
     .mat-sidenav {
-      overflow: auto;
-      background: none;
-
-      &.minimize{
-        width: 100% !important;
-      }
+      display: none;
     }
 
     .mat-sidenav-content,
@@ -69,7 +62,10 @@
     }
   }
 
-  .sidebar {
-    height: auto;
+  // Use `dvh` for the page wrapper height on mobile so the cap matches the
+  // visible viewport — mobile browsers count the address bar in `vh`, which
+  // would push the inner scrollbar's bottom off-screen.
+  .main-page-wrapper {
+    height: 100dvh;
   }
 }

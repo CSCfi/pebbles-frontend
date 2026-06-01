@@ -1,37 +1,178 @@
-@import "src/styles/main.scss";
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
 
-::ng-deep.mat-horizontal-content-container {
-  display: flex;
-  flex-direction: column;
-}
+.dialog-container {
+  @include utils.flex-col-block();
+  position: relative;
+  padding: 30px;
+  overflow-y: auto;
 
-.mat-mdc-form-field {
-  width: 100%;
-}
+  .corner-button-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+  }
 
-h3 {
-  @include headline-3;
-  margin-bottom: 10px;
-  text-align: center;
-}
+  h3 {
+    margin-bottom: 10px;
+    text-align: center;
+  }
 
-.form-container {
-  margin-bottom: 2px;
-}
+  mat-dialog-content {
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+  }
 
-.dialog-container form button.mat-mdc-button-disabled .mat-icon,
-.dialog-container form button.back .mat-icon,{
-  color: $gray-text-color !important;
-}
+  .form-container {
+    margin-bottom: 10px;
+  }
 
-.wizard-container {
+  mat-form-field {
+    width: 100%;
+  }
 
-  .plain-form-action-buttons,
+  .instruction-body {
+    display: grid;
+    grid-template-columns: max-content auto;
+    column-gap: 20px;
+    padding: 15px 5px 15px 10px;
+    margin-bottom: 20px;
+    color: var(--gray-clr-5);
+    border: 6px solid var(--gray-clr-3);
+    border-radius: 20px;
+
+    .instruction-text {
+      @include base.centering(y, $inline: true);
+
+      .inline-hint {
+        font-weight: 700;
+      }
+    }
+
+    .form-help-icon {
+      @include base.centering(y);
+
+      .mat-icon {
+        width: 96px;
+        height: 96px;
+        font-size: 96px;
+        color: var(--gray-clr-3);
+      }
+    }
+
+    .question {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .answer {
+      font-size: 1.5rem;
+    }
+  }
+
+  mat-radio-group ul {
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      padding: 2px 0;
+    }
+  }
+
+  .mat-caption.ml-10 {
+    margin-left: 10px;
+  }
+
+  #application-templates-table {
+    border: 1px solid var(--gray-clr-3);
+
+    ::ng-deep th.mat-mdc-header-cell {
+      padding: 5px 15px;
+      background: var(--neut-clr-1);
+      border-bottom: 2px solid var(--neut-clr-3);
+    }
+
+    ::ng-deep tr.mat-mdc-header-row {
+      height: auto;
+      min-height: 0;
+    }
+
+    .mat-column-select {
+      width: 70px;
+    }
+
+    td.mat-column-select {
+      vertical-align: middle;
+    }
+
+    .mat-column-info {
+      vertical-align: middle;
+      padding: 5px 10px;
+    }
+
+    .cell-spec {
+      min-width: 200px;
+      vertical-align: middle;
+      font-size: 1.2rem;
+      padding: 5px 10px;
+    }
+
+    li.template-meta {
+      @include base.centering(y);
+
+      mat-icon {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+        margin-right: 5px;
+      }
+    }
+
+    .template-name {
+      @include base.headline-4($weight: 700);
+      margin-bottom: 5px;
+    }
+
+    .template-description {
+      margin-bottom: 10px;
+    }
+
+    .template-labels {
+      white-space: nowrap;
+      @include base.centering(xy, $inline: true);
+
+      span {
+        @include base.centering(xy, $inline: true);
+        margin-right: 5px;
+        font-size: 1.2rem;
+
+        mat-icon {
+          width: auto;
+          height: auto;
+          margin-right: 5px;
+          font-size: 1.6rem;
+        }
+      }
+
+      span.label::after {
+        margin-left: 2px;
+        content: '/';
+      }
+
+      span.label:last-child::after {
+        content: none;
+      }
+    }
+  }
+
   .stepper-action-buttons {
     display: grid;
     grid-template-columns: max-content auto;
-    grid-column-gap: 10px;
-    margin-top: 10px !important;
+    column-gap: 10px;
+    margin-top: 10px;
 
     &.first {
       grid-template-columns: auto;
@@ -41,115 +182,26 @@ h3 {
       grid-template-columns: max-content auto auto;
     }
 
+    button {
+      @include uis.button($role: gray, $style: stroked);
+
+      & {
+        gap: 5px;
+      }
+    }
+
+    .next,
+    .primary-btn {
+      @include uis.button($role: prim, $style: flat);
+
+      & {
+        gap: 5px;
+      }
+    }
+
     .back {
       width: 150px;
-      color: #999;
-    }
-  }
-
-  ::ng-deep .mat-horizontal-stepper-header-container {
-    margin: 20px 24px 0 !important;
-  }
-
-  ::ng-deep .mat-horizontal-stepper-header {
-    height: 50px;
-  }
-
-  form {
-    overflow: hidden;
-
-    .mat-mdc-dialog-content {
-      overflow: hidden;
-      max-height: 100%;
-    }
-  }
-
-  table {
-
-    .mat-column-select {
-      width: 70px;
-      text-align: center;
-    }
-
-    ::ng-deep .mat-column-info {
-      padding: 5px 10px !important;
-      vertical-align: top;
-
-      .template-labels {
-        white-space: nowrap;
-
-        span.label:after {
-          content: '/';
-          margin-left: 2px;
-        }
-
-        span.label:last-child:after {
-          content: none;
-        }
-      }
-    }
-
-    .template-name {
-      @include headline-4;
-      font-weight: 600;
-    }
-
-    .template-description {
-      margin-bottom: 5px;
-    }
-
-    .template-labels {
-      white-space: nowrap;
-      @include center(both, inline);
-
-      span {
-        @include headline-6;
-        @include center(both, inline);
-        margin-right: 5px;
-
-
-        mat-icon {
-          font-size: 1.6rem;
-          height: auto;
-          width: auto;
-          margin-right: 5px;
-        }
-      }
-
-      span.label:after {
-        content: '/';
-        margin-left: 2px;
-      }
-
-      span.label:last-child:after {
-        content: none;
-      }
-    }
-
-    .mat-column-meta {
-      min-width: 135px;
-      width: 220px;
-      @include headline-6;
-      line-height: normal;
-
-      li.template-meta {
-        @include center(both, inline);
-
-        mat-icon {
-          margin-right: 5px;
-          font-size: 16px;
-          height: 16px;
-          width: 16px;
-        }
-      }
-
-    }
-  }
-
-  ::ng-deep {
-    .mat-column-spec {
-      min-width: 135px;
-      vertical-align: middle;
+      color: var(--gray-clr-5);
     }
   }
 }

@@ -1,0 +1,48 @@
+// ---- src/styles/utilities/_positions.scss
+
+/// Flexbox for vertical alignment
+@mixin flex-col-block(
+  $type: stretch, $gap: 0, $y-alignment: start, $flex: null, $padding: 0) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  align-items: $type;
+  justify-content: $y-alignment;
+  padding: $padding;
+
+  @if $flex == 'grow' {
+    flex-grow: 1;
+  } @else if $flex == 'shrink' {
+    flex-shrink: 1;
+  } @else if $flex != null {
+    flex: $flex;
+  }
+}
+
+/// Flexbox for horizontal alignment
+@mixin flex-row-block(
+  $type: center, $distribution: space-between, $wrap: true,
+  $gap: 20px, $padding: 0) {
+  position: relative;
+  padding: $padding;
+  display: flex;
+  flex-flow: if($wrap, row wrap, row);
+  flex-direction: row;
+  gap: $gap;
+  align-items: $type;
+  justify-content: $distribution;
+}
+
+/// Mixin to fit the parent element and align children horizontally
+@mixin fitter($target:':host', $background: none, $padding: 0) {
+  #{$target} {
+    @include flex-row-block($type: stretch, $distribution: center, $wrap: false, $gap: 0);
+    // Expand the element to fill available space and control overflow
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    background: $background;
+    padding: $padding;
+  }
+}

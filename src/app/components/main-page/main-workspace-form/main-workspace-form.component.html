@@ -1,11 +1,6 @@
 <div class="dialog-container">
-  <div class="corner-button-container">
-    <button class="corner-button" mat-dialog-close mat-icon-button>
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
   <form [formGroup]="workspaceForm" novalidate>
-    <h1 class="mat-dialog-title">Create new workspace</h1>
+    <h2 class="mat-dialog-title">Create new workspace</h2>
 
     <div class="form-inner">
       <section class="instruction-body">
@@ -92,8 +87,8 @@
       </mat-dialog-content>
       <div class="dialog-actions">
         <button (click)="createWorkspace()" [disabled]="!workspaceForm.valid || createButtonClicked"
-                class="primary-btn submit-button"
-                mat-flat-button>
+                class="submit-button"
+                mat-button>
           Create
         </button>
         <button class="cancel-button" mat-button mat-dialog-close>Cancel</button>

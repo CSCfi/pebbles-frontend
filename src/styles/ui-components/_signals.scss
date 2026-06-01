@@ -1,0 +1,47 @@
+// ---- src/styles/ui-components/_signals.scss
+
+@mixin badge-item($text: 'test', $role: neut, $position: before, $top: -2px) {
+  position: relative;
+  top: $top;
+  padding: 2px 8px;
+
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+  border-radius: 8px;
+
+  @if $position == 'before' {
+    margin-right: 8px;
+    margin-left: -5px;
+  } @else if $position == 'after' {
+    margin-left: 5px;
+  }
+}
+
+@mixin label-item($text: '', $role: neut) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px 8px;
+  font-size: 1.2rem;
+  content: '#{$text}';
+  background: var(--#{$role}-clr-1);
+}
+
+@mixin corner-banner($color: white, $bg: var(--prim-clr-7), $content: 'TEST') {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 10px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+  color: $color;
+  background: $bg;
+  content: $content;
+}
+
+

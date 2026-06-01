@@ -7,6 +7,7 @@ import { MainMyWorkspacesComponent } from './main-my-workspaces.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from 'src/environments/environment';
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 describe('MainMyWorkspacesComponent', () => {
   let component: MainMyWorkspacesComponent;
@@ -18,6 +19,7 @@ describe('MainMyWorkspacesComponent', () => {
         MainMyWorkspacesComponent,
         MainContentHeaderComponent,
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
         MaterialModule,

@@ -1,47 +1,44 @@
-@import "src/styles/main.scss";
+// ---- main-account.component.css
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'layouts' as layouts;
 
-.content-container {
-  position: relative;
-  padding: 15px 40px;
-  min-height: calc(100vh - 80px);
-  background: map-get($app-primary, 100);
+@include layouts.page;
+@include layouts.header($border-bottom: true);
+@include layouts.content;
 
-  .info-body {
-    padding: 20px 20px;
-    background: white;
-    border: 2px solid map-get($app-primary, 300);
-    border-radius: 3px !important;
+.request-account-deletion {
+  @include base.centering(x);
 
-    dd {
-      margin-bottom: 10px;
-    }
-
-    #initialize-desktop-notifications-btn {
-      margin-top: 10px;
-      display: flex;
-    }
-
-    .dl-section {
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top-style: groove;
-      border-top-width: thin;
-    }
-
-    #request-account-deletion-btn {
-      margin-top: 10px;
-      display: flex;
-      background-color: $warn-color !important;
-    }
-  }
-
-  a {
-    color: $primary-dark-color;
-    text-decoration: underline dotted;
-
-    &:hover {
-      color: $primary-color;
-      text-decoration: underline;
-    }
+  .request-account-deletion-btn {
+    @include uis.button($role: 'warn', $style: 'stroked', $icon: 'delete', $width: 300px, $height: 40px);
   }
 }
+
+.initialize-desktop-notifications-btn {
+  @include uis.button($role: 'sec', $icon: 'notifications', $width: '100%');
+}
+
+.desktop-notifications {
+
+  &-granted {
+    @include uis.deco-text($color: var(--sec-clr-7), $width: 300px, $icon: 'notifications_active',
+    $highlight: var(--sec-clr-0), $text-align: center);
+  }
+
+  &-blocked,
+  &-unsupported {
+    @include uis.deco-text($color: var(--warn-clr-5), $width: 300px, $icon: 'notification_important');
+  }
+
+  &-asking {
+    @include uis.deco-text($color: var(--sec-clr-5), $width: 300px, $icon: 'local_cafe');
+  }
+}
+
+.info-body {
+  @include uis.grid-list('160px auto');
+}
+
+
+

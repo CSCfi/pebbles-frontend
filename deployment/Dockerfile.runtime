@@ -1,6 +1,7 @@
-FROM docker.io/bitnamilegacy/nginx:1.23
+FROM docker.io/nginxinc/nginx-unprivileged:1.31-alpine
 LABEL maintainer="Noppe Team <noppe@csc.fi>"
 ARG PB_APP_VERSION="not-set"
+USER root
 
 # display app version in build logs
 RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
@@ -8,11 +9,10 @@ RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
 # copy compiled application
 COPY dist/pebbles-frontend/browser /app
 
-# set up redirection to /index.html for Angular routing
-COPY deployment/nginx_angular.conf /opt/bitnami/nginx/conf/bitnami/nginx_angular.conf
+# write nginx server block
+COPY deployment/nginx_angular.conf /etc/nginx/conf.d/default.conf
 
 # stamp with given application version
-USER root
 RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > /app/app-version.json
 
-USER 1001
+USER nginx

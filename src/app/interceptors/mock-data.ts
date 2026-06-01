@@ -67,6 +67,50 @@ export let db = {
       maximum_lifetime: '2000',
       user_id: '301',
       username: 'user-1@example.org',
+    },
+    {
+      id: '7',
+      name: 'pb-python-analysis-01',
+      application_id: '1', // Course Introduction to Python
+      state: 'running',
+      session_data: {endpoints: [{access: 'https://foo/7'}]},
+      lifetime_left: '1200',
+      maximum_lifetime: '3600',
+      user_id: '101',
+      username: 'owner-1@example.org',
+    },
+    {
+      id: '8',
+      name: 'pb-deep-learning-test',
+      application_id: '3', // Course Practical Deep Learning
+      state: 'running',
+      session_data: {endpoints: [{access: 'https://foo/8'}]},
+      lifetime_left: '18000',
+      maximum_lifetime: '36000',
+      user_id: '101',
+      username: 'owner-1@example.org',
+    },
+    {
+      id: '9',
+      name: 'pb-data-science-lab-2',
+      application_id: '11', // Data Science 2
+      state: 'provisioning',
+      session_data: {endpoints: [{access: 'https://foo/9'}]},
+      lifetime_left: '10800',
+      maximum_lifetime: '10800',
+      user_id: '101',
+      username: 'owner-1@example.org',
+    },
+    {
+      id: '10',
+      name: 'pb-rstudio-session-final',
+      application_id: '9', // RStudio Server
+      state: 'running',
+      session_data: {endpoints: [{access: 'https://foo/10'}]},
+      lifetime_left: '5000',
+      maximum_lifetime: '54000',
+      user_id: '101',
+      username: 'owner-1@example.org',
     }
   ],
   applications: [
@@ -1040,7 +1084,7 @@ export let db = {
         labels: ['jupyter', 'python']
       },
     },
-     {
+    {
       id: 'et-5',
       name: 'Jupyter Template 3',
       description: 'Example template for Jupyter',
@@ -1128,7 +1172,7 @@ export let db = {
       message:
         '<p>This is an example message for all users</p>' +
         '<h3>Testing h3 rendering</h3>' +
-        '<ul>'+
+        '<ul>' +
         '  <li>Testing list 1</li>' +
         '  <li>Testing list 2</li>' +
         '</ul>',
@@ -1145,7 +1189,7 @@ export let db = {
     {
       id: 'm98765',
       subject: 'Announcement: Accessibility improvement',
-      message: 'We have been improved interface accessibility. If you want to know the detail, visit accessibility policy of CSC.',
+      message: 'We have been improved interface accessibility. If you want to know the detail, visit <a href="#">accessibility policy</a> of CSC.',
       broadcasted: '2021-06-16T11:09:21',
       is_read: false
     },
@@ -1163,6 +1207,41 @@ export let db = {
       broadcasted: '2020-12-10T15:55:14',
       is_read: false
     },
+    {
+      id: 'm-new-01',
+      subject: 'Scheduled Maintenance Notification',
+      message: '<p>The system will be offline for <b>2 hours</b> this weekend for scheduled maintenance.</p><p>We apologize for the inconvenience.</p>',
+      broadcasted: '2022-01-20T22:00:00',
+      is_read: true
+    },
+    {
+      id: 'm-new-02',
+      subject: 'New Feature: Dark Mode Available',
+      message: 'You can now enable Dark Mode in your <strong>User Settings</strong>. Give it a try!',
+      broadcasted: '2022-02-15T09:30:00',
+      is_read: false
+    },
+    {
+      id: 'm-new-03',
+      subject: 'Tip: How to organize your workspace',
+      message: 'Follow these steps to keep your data clean: <ol><li>Create folders</li><li>Tag your files</li><li>Archive old projects</li></ol>',
+      broadcasted: '2022-03-01T14:15:22',
+      is_read: false
+    },
+    {
+      id: 'm-new-04',
+      subject: 'Privacy Policy Update',
+      message: 'We have updated our terms of service and privacy policy to comply with new regulations. Please review the changes via the link in the footer.',
+      broadcasted: '2022-03-10T08:00:00',
+      is_read: true
+    },
+    {
+      id: 'm-new-05',
+      subject: '[Resolved] Connection Issues',
+      message: '<span style="color: green;">The connectivity issues reported earlier today have been resolved.</span> Thank you for your patience.',
+      broadcasted: '2022-04-05T16:45:00',
+      is_read: false
+    }
   ],
   service_announcements: [
     {
@@ -1172,7 +1251,7 @@ export let db = {
       targets: 'catalog',
       is_enabled: true,
       is_public: true,
-      created_ts: Date.now()/1000 - 3600,
+      created_ts: Date.now() / 1000 - 3600,
     },
     {
       subject: 'My workspace announcement',
@@ -1181,7 +1260,7 @@ export let db = {
       targets: 'my-workspaces',
       is_enabled: true,
       is_public: true,
-      created_ts: Date.now()/1000 - 3600,
+      created_ts: Date.now() / 1000 - 3600,
     },
   ],
   service_announcements_public: [
@@ -1192,7 +1271,7 @@ export let db = {
       targets: 'login',
       is_enabled: true,
       is_public: true,
-      created_ts: Date.now()/1000 - 3600,
+      created_ts: Date.now() / 1000 - 3600,
     },
     {
       subject: 'Welcome announcement',
@@ -1201,7 +1280,7 @@ export let db = {
       targets: 'welcome',
       is_enabled: true,
       is_public: true,
-      created_ts: Date.now()/1000 - 3600,
+      created_ts: Date.now() / 1000 - 3600,
     },
   ],
   help: [

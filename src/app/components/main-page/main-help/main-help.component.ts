@@ -58,8 +58,8 @@ export class MainHelpComponent implements OnInit {
       const newTopic = new Faq(topic.name, []);
       newTopic.content = topic.content.map(item => {
         return {
-          answer: Utilities.resetText(item.answer),
-          question: Utilities.resetText(item.question)
+          answer: '<span>' + Utilities.resetText(item.answer) + '</span>',
+          question: '<span>' + Utilities.resetText(item.question) + '</span>'
         };
       });
       return newTopic;

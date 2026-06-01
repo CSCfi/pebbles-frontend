@@ -1,44 +1,84 @@
-@import "src/styles/main.scss";
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
 
-#join-workspace-dialog {
+.dialog-container {
+  @include utils.flex-col-block();
+  position: relative;
+  height: 100%;
+  padding: 30px;
 
-  h2 {
-    text-align: center !important;
+  .corner-button-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+  }
+
+  .mat-dialog-title {
     margin-bottom: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--gray-clr-3);
   }
 
-  .state {
-    text-align: center !important;
-    @include headline-3;
-    margin-bottom: 20px;
+  mat-dialog-content {
+    padding: 0;
   }
 
-  .primary-btn {
-    width: 100%;
-    padding: 20px;
-  }
+  .form-container {
+    @include utils.flex-col-block($gap: 10px);
 
-  .join-code-input-form {
-    display: flex;
-    flex-direction: column !important;
-    justify-content: stretch;
-    @include center(both);
-
-    form {
-      padding: 0;
+    mat-form-field {
       width: 100%;
-
-      mat-form-field {
-        width: 100%;
-      }
-
-      #join-workspace-btn {
-        width: 100%;
-        background: $primary-color !important;
-        color: $light-color !important;
-      }
     }
   }
 
-}
+  .state {
+    @include base.headline-3;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 
+  .policy-note {
+    @include uis.warning-message;
+    display: grid;
+    grid-template-columns: max-content auto;
+    column-gap: 15px;
+    align-items: center;
+    padding: 15px;
+    margin: 15px 0;
+
+    .policy-icon-column .mat-icon {
+      width: 36px;
+      height: 36px;
+      font-size: 36px;
+      color: var(--warn-clr-6);
+    }
+
+    .highlight-line {
+      font-weight: bold;
+      margin: 5px 0;
+    }
+  }
+
+  .error-status {
+    color: var(--warn-clr-7);
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .dialog-actions {
+    @include utils.flex-row-block($distribution: center, $gap: 10px);
+    padding-top: 10px;
+
+    .join-button,
+    .confirm-button {
+      @include uis.button($role: prim, $style: flat);
+      // `& { }` keeps these overrides after the mixin's nested rules (sass mixed-decls)
+      & {
+        flex: 1;
+      }
+    }
+  }
+}

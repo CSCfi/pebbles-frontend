@@ -1,67 +1,58 @@
-@import "src/styles/main.scss";
+// ---- main-message.component.css
 
-#mark-all-read-btn {
+@use 'ui-components' as uis;
+@use 'base-styles' as base;
+@use 'layouts' as layouts;
+
+@include layouts.page;
+@include layouts.header($border-bottom: true);
+@include layouts.content($is-scrolling: true);
+@include layouts.status-block;
+
+// Single-scrollbar layout (see main-my-workspaces for full rationale):
+// :host becomes a flex container so the routed component element can
+// shrink, then page-container caps at viewport, content-container is
+// content-sized but shrinkable with overflow-y: auto.
+:host {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.page-container {
+  min-height: 0;
+}
+
+.content-header-wrapper,
+app-service-announcement {
+  flex-shrink: 0;
 }
 
 .content-container {
-  position: relative;
-  padding: 15px 40px;
-  min-height: calc(100vh - 80px);
-  background: map-get($app-primary, 100);
+  flex: 0 1 auto !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0;
+  overflow-y: auto;
+}
 
-  .messages-list {
-    padding: 15px 40px;
-    background: map-get($app-primary, 100);
+.content-container .items {
+  padding-bottom: 20px;
+}
 
-    .message-container {
-      .message {
-        position: relative;
-        padding: 15px 20px 25px;
-        background: #fff;
-        border: 2px solid map-get($app-primary, 300);
-        border-radius: 3px;
-        margin-bottom: 10px;
+.header-action-btn {
+  @include uis.button($role: 'sec', $icon: '\e5ca');
+}
 
-        .title {
-          border-bottom: 1px solid #ccc;
-          padding: 7px 5px 2px 5px;
-          font-weight: bold;
-        }
+.unread.item .title::before {
+  @include uis.badge-item($text: 'Unread', $role: 'warn');
+}
 
-        .date {
-          position: absolute;
-          right: 0;
-          top: 0;
-          padding: 5px 10px;
-          background: map-get($app-primary, 300);
-        }
+.description {
+  @include uis.common-link;
+}
 
-        // see also global style .message .content applied to innerHtml in _shared.scss
-        .content {
-          padding: 10px 5px 0;
-          margin: 0;
-        }
-
-        &.unread {
-          .title:before {
-            content: "Unread";
-            position: relative;
-            top: -2px;
-            font-size: 1.1rem;
-            background: map-get($app-warn, light);
-            padding: 2px 8px;
-            margin-left: -5px;
-            margin-right: 5px;
-            border-radius: 8px;
-          }
-
-          .date {
-            background: map-get($app-warn, light);
-          }
-        }
-      }
-    }
-  }
+.status-headline {
+  @include uis.crowned-text($icon: mail, $color: var(--neut-clr-7), $icon-size: 6rem);
 }

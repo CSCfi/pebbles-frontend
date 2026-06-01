@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Data } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 import { Application } from 'src/app/models/application';
 import { ApplicationCategory } from 'src/app/models/application-category';
 import { Workspace } from 'src/app/models/workspace';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
 import { ApplicationService } from 'src/app/services/application.service';
-import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
-import { EventService } from '../../../services/event.service';
+import { PublicConfigService } from "../../../services/public-config.service";
 import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
-import { PublicConfigService } from "../../../services/public-config.service";
 
 @Component({
   selector: 'app-main-catalog',
@@ -20,13 +19,14 @@ import { PublicConfigService } from "../../../services/public-config.service";
   styleUrls: ['./main-catalog.component.scss'],
   standalone: false
 })
-export class MainCatalogComponent implements OnInit {
+export class MainCatalogComponent implements OnInit, OnDestroy {
 
   public context: Data;
-  public selectedCatalog: ApplicationCategory;
   public queryText = '';
 
+  // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
+  private selectedCategoryIdx = 0;
 
   get applications(): Application[] {
     if (!this.applicationService.isInitialized) {
@@ -39,29 +39,45 @@ export class MainCatalogComponent implements OnInit {
         return app.is_enabled;
       }
     });
-    apps = this.filterApplicationsByLabels(apps, this.selectedCatalog.labels, 'any');
-    apps = this.searchService.filterByText(apps, this.queryText, ['name', 'description', 'labels']);
+
+    if (this.selectedCategory) {
+      apps = this.filterApplicationsByLabels(apps, this.selectedCategory.labels, 'any');
+    }
+    if (this.queryText) {
+      apps = this.searchService.filterByText(apps, this.queryText, ['name', 'description', 'labels']);
+    }
     return this.sortApplications(apps);
+  }
+
+  get categories(): ApplicationCategory[] {
+    return this.categoryService.getCategories();
+  }
+
+  get selectedCategory(): ApplicationCategory | null {
+    if (this.categoryService.isInitialized) {
+      return this.categoryService.getCategories()[this.selectedCategoryIdx];
+    }
+    return null;
   }
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    public dialog: MatDialog,
-    private eventService: EventService,
+    private dialog: MatDialog,
     private applicationService: ApplicationService,
-    private catalogService: ApplicationCategoryService,
-    public workspaceService: WorkspaceService,
+    private categoryService: ApplicationCategoryService,
     private searchService: SearchService,
     private publicConfigService: PublicConfigService,
   ) {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(data => {
+    this.subscriptions.push(this.activatedRoute.data.subscribe(data => {
       this.context = data;
-    });
-    // ---- MEMO: getCategoryById('1') : 1 means 'all category'
-    this.selectedCatalog = this.catalogService.getCategoryById('1');
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   openJoinWorkspaceDialog(): void {
@@ -134,12 +150,9 @@ export class MainCatalogComponent implements OnInit {
 
   // ---- Categories
   // ------------------------------------------------------------ //
-  getCategories(): ApplicationCategory[] {
-    return this.catalogService.getCategories();
-  }
 
-  changeCategory($event): void {
-    this.selectedCatalog = this.catalogService.getCategoryById(this.catalogService.getCategories()[$event.index].id);
+  changeCategory($event: MatTabChangeEvent): void {
+    this.selectedCategoryIdx = $event.index;
   }
 
   getNumPublicApplications(): number {

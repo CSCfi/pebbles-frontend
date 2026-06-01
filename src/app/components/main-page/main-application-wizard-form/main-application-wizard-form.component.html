@@ -5,7 +5,7 @@
     </button>
   </div>
   <mat-horizontal-stepper linear="true">
-    <!-- 1 Env Templates-->
+    <!-- 1 Application Templates-->
     <mat-step [stepControl]="wizardApplicationTemplateFormGroup">
       <form [formGroup]="wizardApplicationTemplateFormGroup">
         <mat-dialog-content>
@@ -26,7 +26,7 @@
 
           <section class="form-container">
 
-            <table mat-table [dataSource]="wizardApplicationTemplateDataSource">
+            <table id="application-templates-table" mat-table [dataSource]="wizardApplicationTemplateDataSource">
               <!-- Radio button column -->
               <ng-container matColumnDef="select">
                 <th mat-header-cell class="icon-cell" *matHeaderCellDef></th>
@@ -38,7 +38,7 @@
               </ng-container>
               <!-- Template Info column -->
               <ng-container matColumnDef="info">
-                <th mat-header-cell class="cell-info" *matHeaderCellDef>Template information</th>
+                <th mat-header-cell class="cell-info-header" *matHeaderCellDef>Template information</th>
                 <td mat-cell class="cell-info" *matCellDef="let element">
                   <ul>
                     <li class="template-name"> {{element.name}} </li>
@@ -56,24 +56,20 @@
               </ng-container>
               <!-- Template spec column -->
               <ng-container matColumnDef="spec">
-                <th mat-header-cell class="cell-spec" *matHeaderCellDef>Template spec</th>
+                <th mat-header-cell class="cell-spec-header" *matHeaderCellDef>Template spec</th>
                 <td class="cell-spec" mat-cell *matCellDef="let element">
                   <ul>
                     <li class="template-meta">
                       <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
-                      Application type: {{element.application_type}}
+                      Application type: {{ element.application_type }}
                     </li>
                     <li class="template-meta">
-                      <span>
-                        <mat-icon fontSet="material-icons-outlined">watch_later</mat-icon>
-                        Lifetime: {{ element.lifetime | lifeTimeDisplay }}
-                      </span>
+                      <mat-icon fontSet="material-icons-outlined">watch_later</mat-icon>
+                      Lifetime: {{ element.lifetime | lifeTimeDisplay }}
                     </li>
                     <li class="template-meta">
-                      <span>
-                        <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
-                        Memory: {{ element.memory_gib || '-' }}GiB
-                      </span>
+                      <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
+                      Memory: {{ element.memory_gib || '-' }}GiB
                     </li>
                   </ul>
                 </td>
@@ -172,7 +168,7 @@
       </form>
     </mat-step>
 
-    <!-- 3 application option srtting-->
+    <!-- 3 application option setting-->
     <mat-step [stepControl]="wizardOptionFormGroup">
       <form [formGroup]="wizardOptionFormGroup">
         <mat-dialog-content>
@@ -264,7 +260,9 @@
                 <mat-icon fontSet="material-icons-outlined">lightbulb</mat-icon>
               </div>
               <div class="instruction-text">
-                There are more options available through <span class="hint__menu">Edit application</span> in the application menu.
+                There are more options available through
+                &nbsp;<mat-icon>edit</mat-icon><span class="inline-hint">Edit</span>&nbsp;
+                in the application menu.
               </div>
             </section>
             <section class="form-container">

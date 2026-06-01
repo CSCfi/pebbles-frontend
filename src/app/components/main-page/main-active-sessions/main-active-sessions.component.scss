@@ -1,183 +1,176 @@
-@import "src/styles/main.scss";
+// ---- main-active-sessions.component.scss
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+@use 'layouts' as layouts;
+@use 'ui-components' as uis;
 
-.content-header-container {
-  .reload-button {
-    height: 48px;
+@include layouts.page;
+@include layouts.header;
+@include layouts.content($type: stretch, $gap: 25px);
+@include layouts.status-block;
+@include layouts.terminal-block;
 
-    .mat-icon {
-      margin: 0;
-      font-size: 24px !important;
-      height: 24px !important;
-      width: 24px !important;
+.dashboard {
+  @include utils.flex-row-block;
+
+  .session-panel {
+    @include utils.flex-row-block($type: center, $gap: 10px);
+
+    .total-sessions {
+      @include base.headline-4;
+
+      .mat-mdc-card-title {
+        padding: 10px 20px;
+      }
+    }
+
+    .mat-mdc-card {
+      border-left: var(--prim-clr-5) solid 6px;
+      box-shadow: none;
+
+      .mat-mdc-card-content {
+        @include utils.flex-row-block($type: center, $gap: 15px);
+        padding: 10px 20px;
+      }
+
+      @include utils.flex-row-block;
+
+      .states {
+        @include utils.flex-row-block($type: center, $gap: 10px);
+
+        li {
+          @include base.headline-6;
+          // ---- Starting
+          &:first-child {
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--sec-clr-3), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+
+          // ---- Running
+          &:nth-child(2) {
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--prim-clr-5), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+
+          // ---- Deleting
+          &:nth-child(3) {
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--acc-clr-2), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+
+          // ---- Error
+          &:last-child {
+            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
+            $icon-color: var(--warn-clr-4), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+          }
+        }
+      }
     }
   }
 }
 
-.content-container {
-  padding: 10px;
+.delete-session-btn {
+  @include uis.button($role: 'warn', $icon: power_settings_new, $style: 'stroked');
+}
 
-  .action-row {
-    display: flex;
+.table-container {
+  @include uis.table;
 
-    .total-sessions {
-      margin-left: 50px;
-    }
+  .mat-column-isSelected {
+    @include uis.table-width-fix($width: 40px);
+
+    padding-left: 10px !important;
   }
 
-  .mat-mdc-table {
-    width: 100%;
-    margin: auto;
-
-    th, td {
-      &.center {
-        text-align: center;
-      }
-
-      &.icon-cell,
-      &.square-cell {
-        width: 50px;
-        padding: 0 !important;
-        text-align: center;
-        vertical-align: middle;
-      }
-
-      .mat-mdc-radio-label {
-        width: 20px;
-      }
-    }
-
-    .mat-mdc-header-row {
-      height: 20px;
-      background: map-get($app-gray, 100);
-      text-transform: capitalize;
-
-      th {
-        padding: 5px 15px !important;
-        vertical-align: middle;
-        border: 1px solid map-get($app-gray, 200);
-        line-height: 140%;
-      }
-
-      th.mat-sort-header {
-        color: map-get($app-primary, default);
-        font-weight: bold;
-      }
-    }
-
-    td {
-      padding: 5px 15px !important;
-      border: 1px solid map-get($app-gray, 200);
-      vertical-align: middle;
-
-      li {
-        line-height: 150%;
-        margin-bottom: 5px;
-      }
-    }
-
-    ::ng-deep .mat-sort-header-arrow {
-      transform: rotate(180deg) !important;
-    }
-
-    ::ng-deep .mat-sort-header-sorted .mat-sort-header-arrow {
-      color: map-get($app-primary, default);
-      opacity: 1 !important;
-    }
+  .mat-column-sessionName,
+  .mat-column-username {
+    @include uis.table-width-fix($width: 180px, $align: left);
   }
 
-  #active-session-details-container {
-    display: grid;
-    grid-template-areas:
-      'header'
-      'content';
-    gap: 20px;
-    grid-template-rows: 30px auto;
+  .mat-column-applicationName {
+    @include uis.table-width-fix($width: 270px, $align: left);
+  }
 
-    .back-button {
-      grid-area: header;
 
-      button {
-        text-decoration: underline;
-        padding: 0;
-        border-style: none;
-        background: transparent !important;
+  .mat-column-sessionDetails {
+    @include uis.table-width-fix($width: 50px);
+  }
+
+  .mat-column-sessionLink {
+    @include uis.table-width-fix($width: 50px);
+  }
+
+  .mat-column-startUpTime,
+  .mat-column-lifetimeLeft {
+    @include uis.table-width-fix($width: 60px);
+  }
+
+  .mat-column-state {
+    @include uis.table-width-fix($width: 35px, $align: left, $vertical-align: middle);
+
+    mat-icon {
+      width: auto;
+      height: auto;
+      margin-top: 5px;
+      margin-left: 5px;
+      font-size: 20px;
+
+      &.starting {
+        color: var(--sec-clr-3);
+      }
+
+      &.running {
+        color: var(--prim-clr-5);
+      }
+
+      &.deleting {
+        color: var(--acc-clr-2);
+      }
+
+      &.error {
+        color: var(--warn-clr-5);
       }
     }
+  }
+}
 
-    .content {
-      grid-area: content;
-      display: grid;
-      grid-gap: 20px 20px;
-      grid-template-areas:
-        'info-box event-box'
-        'log-box log-box';
-      grid-template-rows: 230px auto;
+.active-session-details {
 
-      .info-box {
-        grid-area: info-box;
+  .back-btn {
+    @include uis.button($role: 'sec', $icon: chevron_left, $style: 'Filled', $width: 300px);
+  }
 
-        dl {
-          grid-gap: 0px 20px;
+  h3 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--gray-clr-3);
+  }
 
-          dt {
-            margin-bottom: 0.8rem !important;
-          }
+  .info-box dl {
+    font-size: 1.3rem;
 
-          dd {
-            margin-bottom: 0.8rem !important;
-          }
-        }
+    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px);
+  }
 
-        dl.grid {
-          display: grid;
-          grid-template-columns: auto 1fr;
-          grid-gap: 5px;
+  .event-box dl {
+    font-size: 1.3rem;
 
-          dt {
-            grid-column-start: 1;
-          }
+    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px);
+  }
 
-          dd {
-            grid-column-start: 2;
-          }
-        }
+  section {
+    flex: 0 1 auto !important;
+  }
+}
 
-        .mat-headline-6 {
-          border-bottom: 1px solid #c7c7c7;
-        }
-      }
+@media (max-width: #{base.$mobile-width}) {
+  .table-container {
+    padding-bottom: 50px;
+  }
 
-      .event-box {
-        grid-area: event-box;
-
-        dl {
-          grid-gap: 0px 20px;
-        }
-
-        .mat-headline-6 {
-          border-bottom: 1px solid #c7c7c7;
-        }
-      }
-
-      .log-box {
-        grid-area: log-box;
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: auto;
-        grid-template-rows: 20px auto 50px;
-        gap: 10px;
-        margin-top: 40px;
-
-        .terminal {
-          max-height: calc(100vh - 480px);
-          //border: solid #fff 3px;
-          overflow: auto;
-          padding: 20px 30px;
-          background: #000;
-          color: #00EAC3;
-          border-radius: 5px;
-        }
-      }
-    }
+  // Push the session-details view down so the back button isn't covered by
+  // the fixed-position `app-main-mobile-nav` strip. Other views are saved by
+  // their content-header which already reserves enough top space.
+  .active-session-details {
+    padding-top: 40px;
   }
 }

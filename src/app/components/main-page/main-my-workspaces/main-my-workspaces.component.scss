@@ -1,15 +1,83 @@
-@import "src/styles/main.scss";
+// ---- src/app/components/main-page/main-my-workspaces/main-my-workspaces.component.scss
 
-.content-header-container {
-  .action-buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
+
+@include layouts.page;
+@include layouts.header;
+@include layouts.content($type: stretch, $is-scrolling: true, $gap: 20px, $padding-top: 10px);
+@include layouts.status-block;
+
+// Single-scrollbar layout: workspace list scrolls inside content-container
+// when total content exceeds viewport; otherwise sized to content (no
+// trailing empty scroll area). Works with or without announcements.
+//
+// :host must be a flex container so the page-container inside can use
+// flex-grow + min-height: 0 to fill main-page-wrapper's 100vh without
+// expanding past it.
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.page-container {
+  min-height: 0;
+}
+
+.content-header-wrapper,
+app-service-announcement {
+  flex-shrink: 0;
+}
+
+.content-container {
+  flex: 0 1 auto !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .workspace-list {
-  padding: 20px 45px 50px;
-  //height: calc(100vh - 80px);
-  //overflow: auto;
+  @include utils.flex-col-block($gap: 20px);
+  padding-bottom: 20px;
 }
+
+.join-workspace-button {
+  @include uis.button(
+          $role: prim, $font-size: 1.6rem, $style: 'flat',
+          $width: auto, $height: 40px,
+          $icon: 'vpn_key', $icon-family: 'Filled');
+}
+
+.accordion-toggle-button {
+  @include uis.button(
+          $role: neut, $font-size: 1.6rem, $style: none,
+          $width: auto, $height: 40px,
+          $icon: 'unfold_more');
+
+  &.open {
+    @include uis.button(
+            $role: neut, $font-size: 1.6rem, $style: none,
+            $width: auto, $height: 40px,
+            $icon: 'unfold_less');
+  }
+}
+
+.search-status {
+  .status-headline {
+    @include uis.crowned-text($icon: search, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
+}
+
+.empty-status {
+  .status-headline {
+    @include uis.crowned-text($icon: group, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
+}
+

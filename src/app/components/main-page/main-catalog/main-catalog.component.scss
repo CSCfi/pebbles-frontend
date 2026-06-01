@@ -1,104 +1,88 @@
-@import "src/styles/main.scss";
+// ---- main-catalog.component.scss
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
 
- .content-container {
-    flex: 1 1 auto;
-    overflow: hidden;
-    background: $gray-light-color !important;
+@include layouts.page($bg-color: var(--neut-clr-2));
+@include layouts.header;
+@include layouts.content($type: stretch, $is-widen: true, $gap: 0, $padding-top: 0);
+@include layouts.status-block;
 
-    display: flex;
-    flex-direction: column;
- }
+.join-workspace-button {
+  @include uis.button(
+          $role: prim, $font-size: 1.6rem, $style: 'flat',
+          $width: auto, $height: 40px,
+          $icon: 'vpn_key', $icon-family: 'Filled');
+}
 
 ::ng-deep .mat-mdc-tab-group {
   flex: 1 1 auto;
-  padding-top: 10px;
-  overflow: hidden;
+  max-width: 100% !important;
+  min-height: 0 !important;
 
   .mat-mdc-tab-header {
-    --mdc-secondary-navigation-tab-container-height: 42px;
-  }
+    --mdc-secondary-navigation-tab-container-height: 38px;
 
-  .mdc-tab {
-    background: white !important;
-    border-right: 1px solid $primary-light-color !important;
+    .mdc-tab {
+      @include base.styled-font;
 
-    &:last-child {
-      border-right: none !important;
-    }
-
-    &--active {
-      background: white !important;
-    }
-
-    .mdc-tab__text-label {
-      color: rgba(0, 0, 0, 0.87);
-      font-weight: 500;
       font-size: 1.4rem;
-    }
+      font-weight: 600;
+      color: var(--prim-clr-7);
+      letter-spacing: -0.01em;
+      background: white;
+      border-right: 1px solid var(--neut-clr-2);
 
-  }
+      &--active {
+        background: white !important;
+      }
 
-  button.mat-mdc-tab-header-pagination {
-    background-color: $gray-extra-light-color !important;
-  }
-
-  .mat-mdc-tab-body-wrapper {
-    border-top: 1px solid $gray-color;
-    padding: 0 30px;
-    background: $gray-extra-light-color !important;
-    height: calc(100vh - 130px);
-
-    .tab-content {
-      height: 100%;
-      padding: 15px;
-
-      .catalog-section {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding-bottom: 50px;
+      .mat-mdc-tab-label-container {
+        height: var(--tab-header-height);
       }
     }
   }
-}
 
-.no-public-applications-divider,
-.no-public-applications-card {
-  text-align: center;
+  // flex + min-height: 0 (not a fixed calc) so the wrapper shrinks around
+  // any announcement above it; Material's .mat-mdc-tab-body-active then
+  // scrolls the cards via its own overflow-y: auto.
+  .mat-mdc-tab-body-wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 0;
+    background: var(--neut-clr-1);
+    border-top: 1px solid var(--neut-clr-3);
 
-  mat-icon {
-    height: 80px;
-    width: 80px;
-    font-size: 8.0rem;
-    color: $gray-extra-dark-color;
+    .tab-content {
+      height: 100%;
+      padding: 0 base.$page-side-padding;
+    }
   }
+}
 
-  .no-public-applications-text {
-    text-align: center !important;
-    margin-top: 5px;
+.application-item-container {
+  @include utils.flex-col-block($gap: 10px, $type: center);
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+
+.empty-status {
+  .status-headline {
+    @include uis.crowned-text($icon: import_contacts, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
   }
 }
 
-.no-public-applications-divider {
-  margin-bottom: 30px;
+.no-public-applications-text {
+  @include uis.crowned-text($icon: person_alert, $color: var(--neut-clr-7), $icon-size: 8rem);
+  padding: 40px;
+  margin-top: 40px;
+  border-top: 1px solid var(--neut-clr-3);
 }
 
-// ----- MOBILE
-
-@media (max-width: 599px) {
-
+@media (max-width: #{base.$mobile-width}) {
   .application-item-container {
-    padding: 10px;
-  }
-  ::ng-deep mat-tab-header {
-    display: none !important;
-  }
-
-  ::ng-deep .mat-mdc-tab-body-wrapper {
-    border-top: none;
-    padding: 5px !important;
-    height: calc(100vh - 170px);
+    padding-bottom: 100px !important;
   }
 }

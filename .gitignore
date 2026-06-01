@@ -62,3 +62,6 @@ report.*.json
 
 # local environment settings
 /src/environments/environment.local.ts
+
+# local files outside version control
+/local_data

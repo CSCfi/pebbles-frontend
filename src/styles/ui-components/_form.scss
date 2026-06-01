@@ -1,0 +1,213 @@
+//---- src/styles/ui-components/_form.scss
+@use 'base-styles' as base;
+@use 'utilities' as utils;
+@use 'icons';
+@use 'buttons';
+
+@mixin form-block {
+
+  .form-header {
+    @include utils.flex-row-block($type: stretch);
+    flex: 0 0 65px;
+    background: white;
+    border-bottom: 1px solid var(--gray-clr-3);
+
+    .cancel-button {
+      @include icons.deco-text($icon: close, $icon-size: 1.6rem, $gap: 4px);
+      height: 100%;
+      padding: 10px 20px;
+      text-align: left;
+      background: white;
+      border-left: var(--content-border-neut);
+      border-radius: 0;
+    }
+
+    .form-title {
+      @include base.centering(xy);
+      flex: 1;
+      height: 100%;
+      padding-left: 30px;
+    }
+
+    div.spacer {
+      width: 120px;
+    }
+  }
+
+  form {
+    @include utils.flex-col-block($gap: 15px, $y-alignment: center, $padding: 20px 30px);
+    overflow: hidden;
+    background: var(--neut-clr-1);
+
+    .form-actions {
+      @include utils.flex-row-block($type: flex-start, $gap: 10px);
+      flex: 0 0 40px;
+
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+
+      button:disabled {
+        background-color: var(--gray-clr-2) !important;
+      }
+
+      button.clear-button {
+        @include buttons.button($style: underline, $icon: delete);
+        // `& { }` keeps these overrides after the mixin's nested rules (sass mixed-decls)
+        & {
+          flex: 0 1 auto;
+          margin-left: auto;
+        }
+      }
+    }
+
+    .form-content {
+      position: relative;
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 5px;
+      overflow: auto;
+    }
+
+    .form-value {
+      font-size: 1.5rem !important;
+    }
+
+    .warning {
+      color: var(--warn-clr-7);
+    }
+
+    mat-button-toggle-group {
+      min-height: 50px;
+    }
+
+    ::ng-deep mat-form-field {
+      width: 100%;
+
+      .mat-mdc-text-field-wrapper {
+        min-height: 40px;
+        padding-left: 10px;
+
+        .mat-mdc-form-field-infix {
+          padding: 5px;
+        }
+      }
+    }
+
+    .form-title {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 1.6rem !important;
+      font-weight: 600;
+
+      .hint {
+        display: inline;
+        margin-left: 5px;
+        font-size: 1.3rem;
+        font-weight: normal;
+      }
+    }
+
+    section {
+      position: relative;
+      padding: 55px 35px 20px 30px;
+      background: white;
+
+      &:first-child {
+        border-top: none;
+      }
+
+      &.session-section {
+        margin-bottom: 10px;
+      }
+
+      .section-title {
+        position: absolute;
+        padding: 4px 15px;
+        margin-top: -55px;
+        margin-left: -30px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        font-size: 1.3rem !important;
+        color: white;
+        background: var(--neut-clr-6);
+      }
+
+      &.base-section .section-title {
+        border-top-right-radius: 0 !important;
+      }
+    }
+
+    p {
+      margin-bottom: 5px !important;
+      @include base.headline-5;
+    }
+
+    ::ng-deep.toggle-button-group,
+    ::ng-deep.toggle-button-group .mat-button-toggle,
+    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-label-content,
+    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-button,
+    ::ng-deep.toggle-button-group .mat-button-toggle .mat-button-toggle-button span {
+      display: flex;
+      flex: 1;
+      align-items: stretch;
+      @include utils.flex-row-block($type: stretch, $distribution: stretch, $gap: 0);
+    }
+
+    ::ng-deep.toggle-button-group {
+      box-shadow: none !important;
+      //border: 1px var(--sec-clr-6) solid !important;
+      border-radius: 3px;
+      overflow: hidden;
+
+      .mat-button-toggle .mat-button-toggle-button {
+        font-size: 1.4rem !important;
+        color: var(--neut-clr-8);
+        @include base.text-wrap;
+
+        &:first-child {
+          //border-left: none !important;
+        }
+      }
+
+      .mat-button-toggle .mat-button-toggle-button {
+        border: 1px var(--sec-clr-6) solid !important;
+        border-left: none !important;
+      }
+
+      .mat-button-toggle:first-child .mat-button-toggle-button {
+        border-left: 1px var(--sec-clr-6) solid !important;
+      }
+
+      .mat-button-toggle .mat-button-toggle-label-content {
+        padding: 10px 20px !important;
+        line-height: 120%;
+      }
+
+      .mat-button-toggle.mat-button-toggle-checked {
+        background-color: var(--sec-clr-6);
+      }
+
+      .mat-button-toggle.mat-button-toggle-checked .mat-button-toggle-label-content {
+        color: white !important;
+      }
+
+      .mat-button-toggle.mat-button-toggle-disabled .mat-button-toggle-label-content {
+        color: var(--gray-clr-5) !important;
+      }
+    }
+
+    // ---- END (toggle-button-group)
+
+
+    ::ng-deep mat-mdc-form-field-error-wrapper {
+      position: relative !important;
+
+      mat-error {
+        position: relative !important;
+      }
+    }
+
+  }
+}

@@ -1,52 +1,175 @@
-@import "src/styles/main.scss";
+//---- main-workspace-owner.component.scss
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
 
-// ---- Layout
-#workspace-owner-container {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+@include layouts.page(
+  $flex-direction: row,
+  $overflow: hidden,
+  $row-to-col-breakpoint: base.$tablet-width-workspace-owner,
+);
+@include layouts.header;
+@include layouts.content($type: stretch, $is-scrolling: true, $gap: 20px, $padding-top: 10px);
+@include layouts.status-block;
+
+.workspace-list-container {
+  @include utils.flex-col-block($gap: 20px, $y-alignment: stretch);
+  flex-basis: 350px;
+  height: 100vh;
   overflow: hidden;
+  @include utils.shadow(0.1);
+  background: var(--neut-clr-1);
 
-  .workspace-list-container {
-    min-width: 350px;
-    max-width: 350px;
-    height: 100vh;
+  .tablet-workspace-list {
+    display: none;
+  }
 
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    background: $gray-light-color !important;
-    @include shadow(0.1);
+  // ----- Tablet
+  @media (max-width: #{base.$tablet-width-workspace-owner}) {
+    flex-basis: 210px;
+    gap: 5px;
+    // `overflow: hidden` makes `min-height: auto` resolve to 0, which lets the
+    // flex chain shrink this container below its content when tab-container
+    // needs more room (tall member/image lists). Pinning to `min-content`
+    // keeps the Select workspace bar visible.
+    min-height: min-content;
 
-    .mobile-workspace-list {
-      display: none;
+    .tablet-workspace-list {
+      display: block;
+      border: 3px solid var(--neut-clr-1);
+
+      .mat-mdc-form-field {
+        width: 100%;
+      }
+    }
+
+    .workspace-list {
+      display: none !important;
+    }
+  }
+  // ----- Mobile
+  @media (max-width: #{base.$mobile-width}) {
+    width: 100% !important;
+    flex-basis: 160px !important;
+    gap: 5px;
+    // `overflow: hidden` makes `min-height: auto` resolve to 0, which lets
+    // the flex chain shrink this container below its content when the
+    // tab-container needs more room (tall member/image lists). Pinning
+    // min-height to `min-content` keeps the Select workspace bar visible.
+    min-height: min-content;
+  }
+}
+
+.tab-container {
+  flex: 1;
+  // Column flex: announcement on top (natural height), tab-group-wrapper
+  // fills the rest. Replaces an older row+wrap layout whose
+  // `mat-tab-group { height: 100vh }` clipped the bottom row when the
+  // announcement claimed cross-axis space.
+  @include utils.flex-col-block($type: stretch, $gap: 5px);
+  min-height: 0;
+
+  overflow: hidden;
+  background: var(--neut-clr-2);
+
+  app-service-announcement {
+    flex-shrink: 0;
+  }
+
+  ::ng-deep.tab-group-wrapper {
+    flex: 1 1 0;
+    min-height: 0;
+    @include utils.flex-row-block($type: stretch, $gap: 5px, $distribution: start);
+  }
+
+  .course-request-wrapper {
+    position: absolute;
+    right: 20px;
+    top: 18px;
+
+    button.course-request {
+      @include uis.button($role: prim, $icon: calendar_month, $height: 32px, $style: rounded, $font-size: 1.4rem);
+      @include uis.external-link-icon();
     }
   }
 
-  #workspace-owner-tab-container {
-    position: relative;
+  ::ng-deep mat-tab-group {
+    height: 100%;
+    overflow: hidden;
+    padding-top: 15px;
+    min-height: 0;
+  }
+
+  ::ng-deep mat-tab-group,
+  ::ng-deep mat-tab-body {
     flex: 1;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+  }
 
-    app-service-announcement {
-      flex-shrink: 0;
+  ::ng-deep.mat-mdc-tab-body-wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+    position: relative;
+  }
+
+  ::ng-deep.mat-mdc-tab-body-content {
+    @include utils.flex-row-block($type: stretch, $wrap: false);
+  }
+
+  // ----- Tablet
+  @media (max-width: #{base.$tablet-width-workspace-owner}) {
+    gap: 0;
+    // tab-container stays flex-col (from the outer @include flex-col-block)
+    // so the announcement sits *above* the tab content instead of competing
+    // with it for row width. The flex chain below propagates a definite
+    // height all the way down to mat-mdc-tab-body-content so the inner
+    // scroll engages.
+
+    ::ng-deep.tab-group-wrapper {
+      flex: 1 1 0;
+      min-height: 0;
     }
 
-    app-main-workspace-applications,
-    app-main-workspace-members,
-    app-main-workspace-custom-images,
-    app-main-workspace-item-detail {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
+    ::ng-deep.mat-mdc-tab-group {
+      height: 100%;
+      min-height: 0;
+      flex: 1;
     }
+
+    .tour-bubble {
+      padding: 50px;
+    }
+  }
+
+  // ----- Mobile
+  @media (max-width: #{base.$mobile-width}) {
+    padding-top: 0;
+
+    .tab-group-wrapper {
+      @include utils.flex-col-block($type: stretch, $gap: 0);
+    }
+
+    .course-request-wrapper {
+      display: block;
+      top: 0;
+      right: 0;
+      padding: 10px 10px 5px;
+      position: relative !important;
+      width: 100% !important;
+      flex-basis: 45px !important;
+
+      button.course-request {
+        width: 100%;
+      }
+    }
+
+    ::ng-deep.mat-mdc-tab-header {
+      padding: 0 !important;
+    }
+  }
+
+  .status-info-container {
+    padding: 0 !important;
   }
 }
 
@@ -54,255 +177,223 @@
 /* Left UI */
 /* -------------------------------------- */
 
-::ng-deep .mat-mdc-tab-body-wrapper {
-  flex: 1;
-}
-
-#workspace-owner-container {
+.workspace-list-container {
 
   .content-header-container {
-    flex: 0 1 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 5px;
+    @include utils.flex-col-block($type: stretch);
+    @include utils.shadow(0.1);
     padding: 10px 15px;
+    background: var(--neut-clr-1);
 
-    h3 {
-      text-align: center;
-      height: 60px;
-      @include center(both, inline);
+    .title {
+      @include base.centering(xy);
+      height: var(--header-height);
+
+      @media (max-width: #{base.$tablet-width-workspace-owner}) {
+        height: var(--header-height-s);
+      }
+    }
+
+    .header-functions {
+      .create-demo-workspace-button {
+        @include uis.button($icon: auto_fix_high, $width: 100%, $height: 40px, $role: 'sec');
+      }
+
+      .create-workspace-button {
+        @include uis.button($icon: dashboard_customize, $width: 100%, $height: 40px);
+      }
     }
   }
 
-  .workspaces-actions-container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 5px;
-
-    button {
-      @include secondary-main-background;
-      height: 50px;
-      font-size: 1.6rem !important;
-
-      mat-icon {
-        font-size: 2.4rem !important;
-        height: 24px !important;
-        width: 24px !important;
-      }
-
-
-      &.mat-mdc-button-disabled {
-        @include invalid-dark-background;
-      }
-    }
-
-    .max-quota-warning {
-      @include warn-light-background;
-      @include headline-5;
-      border-radius: 5px;
-      padding: 15px 10px;
-    }
-  }
-
-  .workspace-list-container {
-
-    .workspace-list {
-      overflow: auto;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      align-items: stretch;
-      gap: 5px;
-
-      .workspace-item {
-        color: map-get($app-primary, default);
-        cursor: pointer;
-        border-radius: 3px;
-        @include styled-font;
-        font-size: 1.6rem;
-        font-weight: 600;
-        margin: 10px 15px 0;
-
-        .card-header {
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
-          padding: 25px 20px;
-
-          mat-icon {
-            color: #919cd2;
-          }
-
-          .workspace-icon,
-          .workspace-selected-arrow {
-            @include center(vertical, inline);
-          }
-
-          .workspace-title {
-            @include center(vertical, inline);
-            flex-wrap: wrap;
-          }
-        }
-
-        &.public {
-          mat-icon {
-            color: #6bb9bc !important;
-          }
-        }
-
-        .workspace-info {
-          padding: 10px 20px 5px;
-          border-top: map-get($borders, thin-dark);
-
-          .description {
-            @include headline-5;
-            margin-bottom: 15px;
-            overflow-wrap: break-word;
-          }
-
-          dl {
-            display: grid;
-            height: auto;
-            grid-template-columns: 110px auto;
-            @include headline-5;
-            margin-bottom: 15px;
-          }
-        }
-
-        &.deleted {
-          background-color: map-get($app-gray, 100);
-        }
-
-        &.selected {
-          color: map-get($app-gray, 900);
-          border-left: 8px solid #919cd2;
-
-          &.public {
-            border-left: 8px solid #6bb9bc;
-          }
-
-          .card-header {
-            padding: 25px 20px 20px 10px;
-          }
-
-          .workspace-info {
-            padding: 10px 20px 5px 15px;
-          }
-        }
-
-        &.owner {
-          &.selected {
-            border-left: 8px solid #919cd2;;
-          }
-        }
-
-        &.co-owner,
-        &.manager {
-          &.selected {
-            border-left: 8px solid map-get($app-secondary, 800);
-          }
-        }
-
-        &.expired-item {
-          border: 1px solid map-get($app-primary, 400);
-          background-color: $gray-extra-light-color !important;
-
-          .user-role-txt,
-          mat-icon {
-            color: map-get($app-gray, 800) !important;
-          }
-
-          .expiration-date {
-            color: $warn-extra-dark-color;
-            font-weight: bold;
-          }
-
-          &.selected {
-            border-left: 8px solid #6b777c;
-          }
-        }
-      }
-
-      &.new .workspace-title span:after {
-        content: "New";
-        font-size: 1.1rem;
-        background: map-get($app-accent, default);
-        color: #fff;
-        padding: 2px 8px;
-        margin-left: 5px;
-        border-radius: 8px;
-      }
-    }
-
-    .mat-mdc-form-field {
-      width: 100% !important;
-    }
+  .warning-message {
+    @include uis.warning-message();
   }
 
   .empty-status {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-// ---- For Lifecycle-corner-banner
-.workspace-item {
-
-  .lifecycle-corner-banner:before {
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 1.1rem;
-    color: #fff;
-    padding: 0 10px;
-    border-top-right-radius: 3px;
-  }
-
-  &.new-item {
-    .lifecycle-corner-banner:before {
-      content: "New";
-      background: map-get($app-accent, default);
+    .status-headline {
+      @include uis.crowned-text($icon: group, $icon-type: 'Icons', $icon-family: 'Outlined',
+      $color: var(--neut-clr-7), $icon-size: 6rem);
     }
   }
 
-  &.deleted-item {
-    .lifecycle-corner-banner:before {
-      content: "Deleted";
-      background: $gray-dark-color;
+  .workspace-list {
+    @include utils.flex-col-block($gap: 5px, $flex: grow);
+    overflow: auto;
+    padding: 0 15px 30px;
+
+    @include uis.card();
+
+    .workspace-item {
+      cursor: pointer;
+      background: white;
+
+      .mat-mdc-card-header {
+        padding: 20px 10px 20px 10px;
+        border-bottom: none;
+
+        ::ng-deep.mat-mdc-card-header-text {
+          width: 100%;
+        }
+
+        .title {
+          @include uis.deco-text($color: var(--prim-clr-7), $icon: apps, $icon-type: 'Icons');
+          flex-wrap: nowrap;
+        }
+      }
+
+      .workspace-info {
+        padding: 10px 20px 15px !important;
+        border-top: var(--content-border-neut);
+
+        .description {
+          margin-bottom: 15px;
+          overflow-wrap: break-word;
+        }
+
+        @include uis.grid-list($fractions: '110px auto', $gap: 10px 5px, $field-height: 25px);
+      }
     }
   }
 
-  &.expired-item {
-    .lifecycle-corner-banner:before {
-      content: "Expired";
-      color: $gray-extra-dark-color;
-      background: $gray-color;
+  // ---- Styles based on status changes
+  .workspace-list .workspace-item {
+    border-left: 8px solid white;
+
+    &.selected {
+      border-left: 8px solid var(--prim-clr-5);
+
+      .mat-mdc-card-header {
+        padding: 15px 10px 10px 15px !important;
+      }
+
+      .open-join-code-button {
+        @include uis.password-button($role: prim);
+      }
+
+      .workspace-selected-arrow {
+        @include uis.icon($icon: chevron_right);
+      }
+    }
+
+    &.deleted {
+      background-color: var(--neut-clr-2);
+    }
+
+    &.owner {
+      // ---- Role color: Prim
+      .user-role-txt {
+        color: var(--prim-clr-7);
+        text-transform: capitalize;
+      }
+
+      .mat-mdc-card-title .title {
+        @include uis.deco-text($color: var(--prim-clr-7), $icon: apps, $icon-type: 'Icons');
+      }
+
+      .open-join-code-button {
+        @include uis.password-button($role: prim);
+      }
+
+      &.selected {
+        border-left: 8px solid var(--prim-clr-6);
+      }
+    }
+
+    &.co-owner {
+      // ---- Role color: Sec
+
+      .user-role-txt {
+        color: var(--sec-clr-7);
+        text-transform: capitalize;
+      }
+
+      .mat-mdc-card-title .title {
+        @include uis.deco-text($color: var(--sec-clr-7), $icon: apps, $icon-type: 'Icons');
+      }
+
+      .open-join-code-button {
+        @include uis.password-button($role: sec);
+      }
+
+      &.selected {
+        border-left: 8px solid var(--sec-clr-6);
+      }
+    }
+
+    &.public {
+      // ---- Role color: Acc * Appeared only for admin
+
+      .user-role-txt {
+        color: var(--acc-clr-7);
+        text-transform: capitalize;
+      }
+
+      .mat-mdc-card-title .title {
+        @include uis.deco-text($color: var(--acc-clr-7), $icon: public);
+      }
+
+      .open-join-code-button {
+        @include uis.password-button($role: acc);
+      }
+
+      &.selected {
+        border-left: 8px solid var(--acc-clr-6);
+      }
+    }
+
+    &.expired-item {
+      background-color: var(--neut-clr-2);
+      border-left: 8px solid var(--neut-clr-5);
+
+      .mat-mdc-card-title .title {
+        color: var(--gray-clr-7) !important;
+      }
+
+      &.selected {
+        border-left: 8px solid var(--sec-clr-5);
+
+        .open-join-code-button {
+          @include uis.password-button($role: gray);
+        }
+
+        .expiration-date {
+          color: var(--warn-clr-7);
+          text-decoration: underline;
+        }
+      }
     }
   }
 
-  &.expiring-item {
-    .lifecycle-corner-banner:before {
-      content: "Expiring";
-      background: $primary-light-color;
+  /* -------------------------------------- */
+  /* Tablet */
+  /* -------------------------------------- */
+  @media (max-width: #{base.$tablet-width-workspace-owner}) {
+
+    .header-functions {
+      @include utils.flex-row-block($type: start, $distribution: center, $gap: 10px, $wrap: false);
+
+      .create-demo-workspace-button,
+      .create-workspace-button,
+      .warning-message {
+        flex-basis: 50%;
+      }
     }
 
-    .expiration-date {
-      padding: 2px 10px;
-      background: $primary-extra-light-color;
+    .tablet-workspace-list {
+      padding: 0 10px;
+
+      ::ng-deep.mat-mdc-text-field-wrapper {
+        background: var(--prim-clr-2);
+      }
     }
   }
 
-  &.expiring-soon-item {
-    .lifecycle-corner-banner:before {
-      content: "Expiring soon";
-      background: $warn-dark-color;
-    }
-
-    .expiration-date {
-      padding: 2px 10px;
-      background: $warn-extra-light-color;
+  /* -------------------------------------- */
+  /* Mobile */
+  /* -------------------------------------- */
+  @media (max-width: #{base.$mobile-width}) {
+    .header-functions {
+      @include utils.flex-col-block($gap: 5px);
     }
   }
 }
@@ -316,318 +407,95 @@
   overflow: visible !important;
 }
 
-::ng-deep .mat-mdc-tab-label-container {
-  padding-top: 7px;
-}
+.tab-container {
+  ::ng-deep.mat-mdc-tab-header {
+    flex-basis: 45px;
+    padding-left: 20px;
+    padding-right: 230px; // ---- To spare the room for Course request button
 
-::ng-deep .mat-mdc-tab {
-  z-index: 1 !important;
-}
+    .mat-mdc-tab {
+      flex: 1 1 auto;
+      line-height: 1.4rem;
+      height: 45px;
+      padding: 0 2px;
 
-::ng-deep .mat-mdc-tab:nth-child(3) {
-  z-index: 1000 !important;
-}
+      font-weight: 500;
+      color: var(--prim-clr-7);
+      letter-spacing: normal;
+      background: white;
+      border: 1px solid var(--neut-clr-2);
+      border-radius: 3px 3px 0 0;
+      min-width: 50px;
 
+      .tab-title {
+        font-size: 1.4rem !important;
 
-#workspace-owner-container {
+        &.applications {
+          @include uis.deco-text($icon: import_contacts, $icon-type: 'Icons', $gap: 4px);
+        }
 
-  #workspace-owner-tab-container {
-    background: $primary-light-color;
+        &.members {
+          @include uis.deco-text($icon: person, $icon-type: 'Icons', $icon-family: 'Filled', $gap: 4px);
+        }
 
-    mat-tab-group {
-      flex: 1;
-      overflow: auto;
+        &.custom-images {
+          @include uis.deco-text($icon: album, $icon-type: 'Icons', $icon-family: 'Filled', $gap: 4px);
+        }
 
-      background: $light-color;
-      width: 100%;
-
-      ::ng-deep.mat-mdc-tab-header {
-        flex-basis: 50px;
-        background: $primary-light-color;
-        padding-left: 30px;
-        padding-right: 30px;
-
-        .mat-mdc-tab {
-          background: $light-color;
-          color: #18227c;
-          height: 50px;
-          border: 1px solid #acb0e0;
-          background: #fff;
-          @include headline-3;
-          font-size: 1.5rem;
-          font-weight: 600;
-          letter-spacing: normal;
-          flex: 0 1 auto;
-          border-radius: 3px 3px 0 0;
-          padding: 0 15px;
-
-          &:last-child {
-            z-index: 2000 !important;
-          }
-
-          .label {
-            position: absolute;
-            display: inline-block;
-            font-size: 1.1rem;
-            font-weight: 700;
-            padding: 4px 5px;
-            border-radius: 3px;
-            border: 2px solid $primary-light-color;
-            background-color: $accent-color;
-            color: $secondary-dark-color;
-            text-transform: uppercase;
-            top: -10px;
-            right: -5px;
-          }
-
-          .mdc-tab__text-label {
-            color: #18227c;
-            text-wrap: auto;
-            word-wrap: break-word;
-
-            span {
-              @include center(both);
-            }
-          }
-
-          mat-icon {
-            font-size: 2.0rem;
-            margin-right: 0;
-            width: auto;
-            height: auto;
-          }
-
-          mat-icon + span {
-            margin-left: 4px;
-          }
-
-          mat-chip {
-            display: none !important;
-          }
-
-          mat-chip-option {
-            margin-left: 6px;
-          }
-
-          .chip__circle {
-            @include center(both, inline);
-            font-weight: 600 !important;
-            white-space: nowrap;
-            text-align: center;
-            font-size: 1.2rem;
-            margin-left: 5px;
-            line-height: 100%;
-            height: 24px !important;
-            min-width: 24px !important;
-            border-radius: 24px;
-            padding: 0 !important;
-          }
-
-          .mdc-tab__text-label {
-            @include center(both);
-          }
-
-          // ---- For info tab
-          &#mat-tab-label-0-3 {
-            min-width: 60px !important;
-            width: 60px !important;
-            padding: 0 10px;
-
-            mat-icon {
-              margin: 0;
-            }
-          }
+        &.setting {
+          @include uis.deco-text($icon: settings, $icon-type: 'Icons', $icon-family: 'Filled', $gap: 4px);
         }
       }
-    }
-  }
-}
 
-// ---- status-info
-
-.status-info-container {
-  height: 100%;
-  @include center(both);
-  margin-top: 30px;
-  padding-bottom: 300px;
-
-  .empty-status h3 {
-    font-size: 3rem;
-    font-weight: bold;
-  }
-
-  h4 {
-    font-weight: bold;
-    font-size: 2.2rem;
-  }
-}
-
-.workspace-list-container .status-info-container {
-  color: #879197;
-}
-
-#workspace-owner-tab-container .status-info-container {
-  width: 500px;
-  margin: 300px auto 0 auto;
-
-  .success-status {
-    position: relative;
-    z-index: 1000;
-  }
-}
-
-// ---- END (status-info)
-
-.tab-group-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  .course-request-wrapper {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-
-    button.course-request {
-      background: #fff;
-      z-index: 1000;
-      padding: 5px 15px 5px 20px;
-      border-radius: 50px;
-      color: $primary-color;
-
-      &:before {
-        font-size: 1.8rem;
-        width: auto;
-        height: auto;
-        margin-right: 4px;
-        font-family: Material Icons, serif;
-        content: "\ebcc";
-      }
-
-      &:after {
-        font-size: 1.4rem;
-        width: auto;
-        height: auto;
-        margin-left: 4px;
-        font-family: Material Icons, serif;
-        content: "\e89e";
+      .preview-label {
+        position: absolute;
+        top: -10px;
+        left: -5px;
+        display: inline-block;
+        overflow: visible;
+        padding: 4px 5px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--sec-clr-8);
+        text-transform: uppercase;
+        background-color: var(--acc-clr-1);
+        border-radius: 3px;
       }
     }
   }
 }
 
-::ng-deep.mat-mdc-tab-body-content {
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
+.empty-status {
+  .status-headline {
+    @include uis.crowned-text($icon: group, $icon-type: 'Icons', $icon-family: 'Outlined',
+    $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
+}
+
+.success-status {
+  .status-headline {
+    @include uis.crowned-text($icon: delete, $icon-size: 6rem);
+  }
+}
+
+// ---- END (Right UI)
+
+/* -------------------------------------- */
+/* Tablet */
+/* -------------------------------------- */
+@media (max-width: #{base.$tablet-width-workspace-owner}) {
+
+  ::ng-deep.mat-mdc-dialog-panel {
+    height: 95% !important;
+  }
+
 }
 
 /* -------------------------------------- */
 /* Mobile */
 /* -------------------------------------- */
-@media screen and (max-width: 1250px) {
+@media (max-width: #{base.$mobile-width}) {
 
-  #workspace-owner-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: stretch;
-
-    .workspace-list-container,
-    .tab-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .content-header-container h3 {
-      flex-basis: 30px;
-      gap: 0;
-    }
-
-    .mobile-workspace-list {
-      flex-basis: 55px;
-
-      ::ng-deep.mat-mdc-form-field-bottom-align {
-        display: none !important;
-      }
-    }
-
-    .workspace-owner-tab-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-
-      .tab-group-wrapper {
-        flex: 1;
-
-        .mat-mdc-tab-header, .mat-mdc-tab-body-wrapper {
-          flex: 1;
-        }
-      }
-    }
-
-    .course-request-wrapper {
-      background: none;
-    }
-
-    .workspace-list-container {
-      max-width: 100%;
-      width: 100%;
-      flex: 0 0 auto;
-      height: auto;
-      box-shadow: none !important;
-    }
-
-    #workspace-owner-tab-container {
-      z-index: 1000;
-      width: 100% !important;
-      padding: 0 20px 20px;
-      border: none;
-    }
-
-    mat-tab-group {
-      height: calc(100vh - 250px) !important;
-    }
-  }
-
-  .workspace-list {
-    display: none !important;
-  }
-
-  .mobile-workspace-list {
-    display: block !important;
-    padding: 0;
-    background: #ffffff;
-
-    box-shadow: 0 -2px 2px 0.5px rgba(0, 0, 50, 0.1) !important;
-
-    ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-      --mdc-filled-text-field-container-color: #f4ffdb !important;
-    }
-  }
-
-  .course-request-wrapper {
-    top: 10px !important;
-    right: 0 !important;
-
-    button.course-request {
-      background: $primary-color !important;
-      color: #ffffff !important;
-      top: 0;
-      right: 0;
-    }
-  }
-
-  ::ng-deep.mat-mdc-dialog-panel {
-    height: 95% !important;
-  }
-}
-
-@media screen and (max-width: 550px) {
   ::ng-deep.mat-mdc-tab {
     .tab-title {
       display: none;
@@ -643,43 +511,69 @@
   }
 }
 
-// ---- For Responsive layout Lifecycle-note
-.mobile-workspace-list,
+// ---- For Lifecycle-corner-banner
+.workspace-list {
+  .workspace-item {
+
+    &.new-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($bg: var(--acc-clr-5), $content: 'New');
+      }
+    }
+
+    &.deleted-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($bg: var(--gray-clr-6), $content: 'Deleted');
+      }
+    }
+
+    &.expired-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($color: var(--gray-clr-9), $bg: var(--gray-clr-4), $content: 'Expired');
+      }
+    }
+
+    &.expiring-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($color: var(--prim-clr-6), $bg: var(--prim-clr-1), $content: 'Expiring');
+      }
+
+      .expiration-date {
+        padding: 0 10px;
+        background: var(--prim-clr-1);
+      }
+    }
+
+    &.expiring-soon-item {
+      .lifecycle-corner-banner::before {
+        @include uis.corner-banner($color: var(--warn-clr-6), $bg: var(--warn-clr-1), $content: 'Expiring soon');
+      }
+
+      .expiration-date {
+        padding: 0 10px;
+        background: var(--warn-clr-1);
+      }
+    }
+  }
+}
+
+// ---- For Tablet layout Lifecycle-note
+.tablet-workspace-list,
 .workspace-selection {
-  .lifecycle-badge:after {
-    font-size: 1.2rem;
-    background: $gray-color;
-    color: #fff;
-    padding: 3px 10px;
-    margin-left: 8px;
-    border-radius: 20px;
+
+  .new-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'New', $role: sec, $position: after);
   }
 
-  .new-item {
-    &.lifecycle-badge:after {
-      content: "New";
-      background: $secondary-color;
-    }
+  .expiring-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'Expiring', $role: prim, $position: after);
   }
 
-  .expiring-item {
-    &.lifecycle-badge:after {
-      content: "Expiring";
-      background: $primary-light-color;
-    }
+  .expiring-soon-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'Expiring soon', $role: warn, $position: after);
   }
 
-  .expiring-soon-item {
-    &.lifecycle-badge:after {
-      content: "Expiring soon";
-      background: $warn-dark-color;
-    }
-  }
-
-  .expired-item {
-    &.lifecycle-badge:after {
-      content: "Expired";
-      background: $gray-dark-color;
-    }
+  .expired-item.lifecycle-badge::after {
+    @include uis.badge-item($text: 'Expired', $role: gray, $position: after);
   }
 }

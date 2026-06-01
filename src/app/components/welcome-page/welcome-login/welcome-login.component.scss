@@ -1,4 +1,7 @@
-@import "src/styles/main.scss";
+// ---- welcome-login.component.scss
+@use 'base-styles' as base;
+@use 'utilities' as utils;
+@use 'ui-components' as uis;
 
 .background-images {
   position: absolute;
@@ -9,103 +12,95 @@
 
   .app-welcome-background {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
   }
 }
 
 .welcome-content-wrapper {
-  display: flex;
-  gap: 30px;
-  justify-content: space-between;
-  align-items: flex-start;
-  max-width: $content-max-width;
+  @include utils.flex-row-block($type: flex-start, $gap: 30px, $wrap: false);
+  max-width: var(--container-width);
   margin: 20px auto;
 }
 
 app-service-announcement {
   ::ng-deep.service-announcement-item {
     margin-top: 10px !important;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
   }
 }
 
 .service-announcement {
   padding: 15px 30px;
   letter-spacing: 0.1rem;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgb(0, 0, 0, 0.25);
   border-radius: 5px;
 }
 
 .left-content-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: relative;
+  @include utils.flex-col-block($gap: 20px);
   max-width: 500px;
+  flex: 0 1 500px;
   padding-top: 50px;
 
   .login-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    @include utils.flex-col-block($gap: 5px);
   }
 
-  #oauth-login-button {
-    width: 100%;
-    height: 60px;
-    color: #ffffff;
-    text-align: center;
-    background-color: #00969a;
-    border-radius: 3px;
+  .oauth-login-button {
     padding: 5px;
+    background-color: var(--sec-clr-6);
+    @include uis.button($role: sec, $height: 60px, $bg-color: var(--sec-clr-6));
   }
 
-  #special-login-button {
-    width: 100%;
-    @include headline-5;
-    @include center(both);
+  .special-login-button {
+    @include uis.button($style: underline, $mode: dark, $icon: chevron_right, $button-icon-gap: 2px);
   }
 }
 
-#hero-shots {
+.right-content-wrapper {
   position: relative;
+  max-width: 700px;
+  flex: 0 1 700px;
 
   .hero-video {
     video {
       width: 100%;
-      border: 1px solid map-get($app-primary, 600);
-      box-shadow: 5px 6px 5px rgba(20, 20, 75, .8);
+      border: 1px solid var(--prim-clr-8);
       border-radius: 12px;
+      box-shadow: 5px 6px 5px rgb(20, 20, 75, .8);
     }
   }
 }
 
 
-// ----- Laptop
-
-@media (min-width: 600px) {
+// ----- Tablet
+@media (max-width: base.$tablet-width) {
   .welcome-content-wrapper {
-    flex-direction: row;
-    //flex-wrap: wrap;
-    align-items: flex-start;
+    @include utils.flex-col-block($y-alignment: center);
   }
 
   .login-wrapper {
-    //flex-basis: 30%;
     flex: 1;
   }
 
-  #hero-shots {
-    z-index: 500;
-    flex-basis: auto;
+  .left-content-wrapper {
+    flex: 0 1 auto;
     max-width: 700px;
+    margin: 0 auto;
+  }
 
-    .hero-video{
+  .hero-shots {
+    z-index: 500;
+    flex: 0 1 auto;
+    max-width: 700px;
+    margin: 0 auto;
+
+    .hero-video {
       height: inherit;
 
-      video{
+      video {
         height: inherit;
       }
     }
@@ -116,15 +111,14 @@ app-service-announcement {
   }
 }
 
-// ----- MOBILE
-
-@media (max-width: 599px) {
+// ----- Mobile
+@media (max-width: base.$mobile-width) {
   .welcome-content-wrapper {
-    flex-direction: column;
+    flex-direction: column !important;
   }
 
   .login-wrapper,
-  #hero-shots {
+  .hero-shots {
     width: 100%;
   }
 

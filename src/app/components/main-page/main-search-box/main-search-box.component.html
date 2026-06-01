@@ -1,18 +1,18 @@
-<mat-form-field class="chip-list mb-5" appearance="fill">
+<mat-form-field appearance="fill" class="chip-list">
   <mat-chip-grid #chipList aria-label="keyword selection">
-    <mat-chip-row *ngFor="let label of labels" [removable]="removable" class="label chip__m bg__accent"
-      (removed)="removeLabel(label)" selected>
-      {{label}}
-      <mat-icon fontSet="material-icons-outlined" matChipRemove *ngIf="removable">cancel</mat-icon>
+    <mat-chip-row (removed)="removeLabel(label)" *ngFor="let label of labels"
+                  [removable]="removable" selected>
+      {{ label }}
+      <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
     </mat-chip-row>
     <input #labelInput
-      [formControl]="labelCtrl" [matAutocomplete]="auto"
-      [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="add($event)">
+           (matChipInputTokenEnd)="add($event)" [formControl]="labelCtrl"
+           [matAutocomplete]="auto" [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
   </mat-chip-grid>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let label of filteredLabels | async" [value]="label">
-      {{label}}
+      {{ label }}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

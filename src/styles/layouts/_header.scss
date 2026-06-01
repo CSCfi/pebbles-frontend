@@ -1,0 +1,70 @@
+// ---- styles/layouts/_header.css
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+
+@mixin header($border-bottom: false) {
+  .content-header-wrapper {
+    @include utils.flex-col-block($type: center);
+    flex: 0 0 var(--header-height);
+    padding: 5px base.$page-side-padding 0;
+
+    @if ($border-bottom) {
+      border-bottom: 1px solid var(--neut-clr-3);
+    }
+
+    // ----- MOBILE
+    @media (max-width: #{base.$mobile-width}) {
+      padding: 10px 0;
+    }
+  }
+
+  .content-header-container {
+    @include utils.flex-row-block($type: center, $gap: 30px 40px);
+    position: sticky !important;
+    top: 0;
+    z-index: 10;
+    flex: 0 0 var(--header-height);
+    max-width: var(--container-width);
+    width: 100%;
+
+    .header-functions {
+      @include utils.flex-row-block($type: center, $gap: 5px);
+    }
+
+    .mat-dialog-close {
+      background: none !important;
+    }
+
+    // ----- Tablet
+    @media (max-width: #{base.$tablet-width}) {
+      flex: 0 0 var(--header-height-s) !important;
+      justify-content: end;
+      padding: 0 10px;
+    }
+
+    // ----- MOBILE
+    @media (max-width: #{base.$mobile-width}) {
+      flex-direction: column !important;
+      gap: 5px !important;
+      align-items: stretch;
+      padding: 0 15px 10px;
+      width: 100%;
+      margin: 0 auto;
+
+      .title {
+        font-size: 1.8rem !important;
+        height: 30px !important;
+      }
+
+      button {
+        flex-grow: 1;
+
+        mat-icon {
+          width: 1.6rem !important;
+          height: 1.6rem !important;
+          font-size: 1.6rem !important;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+// ---- src/styles/ui-components/_balloon.scss
+@use 'utilities' as utils;
+
+@mixin balloon {
+  @include utils.flex-col-block($gap: 15px);
+  max-width: 600px;
+  height: auto;
+  padding: 30px 50px;
+  margin: 20px auto;
+  overflow: visible;
+  text-align: center;
+  background: white;
+  border-radius: 200px;
+
+  &::before {
+    position: absolute;
+    bottom: -20px;
+    left: 55%;
+    display: block;
+    width: 0;
+    height: 0;
+    content: '';
+    border-color: transparent transparent transparent #fff;
+    border-style: solid;
+    border-width: 0 20px 20px;
+  }
+
+  li {
+    font-size-adjust: 0.4;
+    line-height: 150%;
+  }
+}

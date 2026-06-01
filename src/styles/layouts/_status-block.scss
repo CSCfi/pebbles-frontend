@@ -1,0 +1,57 @@
+// ---- src/styles/layouts/_status-block.scss
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+
+@mixin status-block($padding-top: 10%) {
+
+  .status-info-container {
+    @include base.centering(xy);
+    padding-top: $padding-top;
+    color: var(--neut-clr-8);
+    text-align: center;
+    width: 100%;
+
+    // On smaller viewports the empty/loading state may end up taller than
+    // its parent (which often has `overflow: hidden`). Bound it to the
+    // parent and let it scroll internally; top-align so the headline isn't
+    // cut off (vertical centering + overflow hides the start of the content).
+    @media (max-width: #{base.$tablet-width}) {
+      align-items: flex-start;
+      max-height: 100%;
+      overflow-y: auto;
+    }
+  }
+
+  .success-status,
+  .empty-status {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .mat-icon {
+      @include base.centering(xy);
+      width: auto;
+      height: auto;
+      padding: 10px 0;
+      font-size: 6rem;
+    }
+  }
+
+  .loading-status {
+    .status-headline {
+      @include uis.crowned-text($icon: hourglass_top, $color: var(--neut-clr-7), $icon-size: 6rem);
+    }
+  }
+
+  .status-headline {
+    @include base.headline-2;
+  }
+
+  .status-summary {
+    @include base.headline-4;
+  }
+
+  .hint {
+    @include uis.hint-message();
+  }
+}

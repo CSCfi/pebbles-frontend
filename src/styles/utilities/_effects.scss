@@ -1,0 +1,11 @@
+// ---- src/styles/utilities/_effects.scss
+
+@mixin shadow($value: .44) {
+  @if $value > 0 {
+    z-index: 1000;
+    box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 50, $value) !important;
+
+  } @else {
+    box-shadow: none !important;
+  }
+}

@@ -1,199 +1,199 @@
-@import "src/styles/main.scss";
+// ---- main-application-item.component.scss
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+
+@include uis.mini-chips;
+@include uis.card($direction: row, $height: base.$application-card-height);
+
+:host {
+  width: 100%;
+  max-width: var(--container-width);
+}
 
 .mat-mdc-card {
-  max-width: 1200px;
-  margin: 0 auto 10px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-radius: 3px;
-  overflow: hidden;
-  border: none;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px 0, rgba(0, 0, 0, 0.06) 0 1px 2px 0;
-  color: $dark-text-color;
+  .mat-mdc-card-header,
+  .mat-mdc-card-content:not(:last-child) {
+    border-bottom: var(--content-border-neut) !important;
+  }
 
   .card-media-container {
-    flex: 0 1 125px;
-    min-height: 125px;
-    @include secondary-main-background-light;
-    @include center(both);
+    @include base.centering(xy);
+    flex: 0 0 base.$application-card-media-width;
+    max-height: base.$application-card-height + 10px;
+    color: white;
+    background: var(--sec-clr-5);
+    border-radius: 3px 0 0 3px;
 
     .thumbnail {
+      @include utils.flex-col-block($gap: 5px);
       text-align: center;
     }
 
     .thumbnail fa-icon {
+      width: auto;
+      font-size: 4rem;
+
       &.linux {
         font-size: 5.2rem;
-        color: $primary-color;
+        color: var(--prim-clr-7);
       }
     }
   }
 
-  &.joined-ws .card-media-container {
-    @include primary-light-background;
-  }
+  .card-middle-container {
+    @include utils.flex-row-block($gap: 0, $type: stretch, $wrap: false);
+    flex: 0 1 base.$container-width - base.$application-card-media-width - base.$application-card-action-width;
 
-  &.expired-ws .card-media-container {
-    background-color: $gray-extra-dark-color !important;
-  }
+    .card-main-content {
+      @include utils.flex-col-block($gap: 0, $type: stretch);
+      flex: 2 1 600px;
 
-  .card-info-container {
-    flex: 1 0 250px;
-
-    .mat-mdc-card-header {
-      padding-top: 12px;
-      padding-left: 20px;
-      padding-bottom: 5px;
-      border-bottom: 1px #DDD solid;
-      margin-bottom: 5px;
-      min-height: 45px;
-
-      .application-name h3 {
-        font-size: 1.8rem !important;
-        font-weight: 600;
+      .mat-mdc-card-header {
+        flex: 0 0 base.$application-card-header-height;
+        padding: 10px 4px 2px base.$application-card-content-padding;
       }
-    }
-
-    .mat-mdc-card-content {
-      padding-left: 21px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
 
       .description {
-        font-size: 1.3rem;
-      }
-    }
-  }
-
-  .application-meta {
-    border-left: 1px solid $gray-light-color;
-    flex: 0 1 270px;
-    display: flex;
-    flex-direction: column;
-    justify-items: stretch;
-    align-items: stretch;
-    padding-top: 6px;
-
-    div {
-      padding: 2px 5px;
-    }
-
-    h5 {
-      @include center(both, inline);
-      padding: 2px 10px;
-      justify-content: flex-start;
-      font-size: 1.2rem;
-      letter-spacing: normal;
-      flex-wrap: wrap;
-
-      .mat-icon {
-        width: 22px;
+        margin-bottom: 15px;
       }
     }
 
-    .state {
-      padding-bottom: 5px;
-      border-bottom: 1px solid #dddddd;
-
-        h5.workspace-name {
-          display: inline-grid;
-          grid-gap: 5px;
-          grid-template-columns: 18px auto;
-          align-items: center;
-          justify-items: start;
-          line-height: 1.7rem;
-          font-size: 1.3rem;
-          font-weight: 600;
-          color: $secondary-color;
-          min-height: 31px;
-
-          .user-role-icon {
-            font-size: 1.6rem;
-          }
-        }
-
-        h5.expiry-date {
-          margin-top: 4px;
-
-          .expiry-warning {
-            color: $warn-dark-color;
-            font-weight: bold;
-            margin-left: 10px;
-          }
-        }
-    };
-
-    .volumes {
-      border-bottom: 1px solid #dddddd;
-    };
-
-  }
-
-  &.joined-ws {
-    .workspace-name {
-      color: $primary-color !important;
-    }
-  }
-
-  &.expired-ws {
-    .workspace-name {
-      color: $gray-extra-dark-color !important;
+    .mini-chips {
+      margin-bottom: 10px;
     }
 
-    background: $gray-light-color !important;
+    .card-meta-content {
+      @include utils.flex-col-block($gap: 0, $type: stretch);
+      flex: 1 0 275px;
+      padding: 0 !important;
+      border-left: var(--content-border-neut);
 
+      .workspace-info {
+        @include utils.flex-col-block($gap: 5px);
+        min-height: base.$application-card-header-height;
+        padding: 10px base.$application-card-content-padding 4px base.$application-card-content-padding;
+      }
+
+      .workspace-name {
+        font-weight: 600;
+
+        .shared-workspace-name {
+          @include uis.deco-text($font-size: 1.4rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
+        }
+
+        .public-workspace-name {
+          @include uis.deco-text($color: var(--sec-clr-6), $font-size: 1.4rem, $icon: public, $icon-type: 'Icons', $icon-size: 2rem, $gap: 3px);
+        }
+      }
+
+      .expiry-date {
+        @include uis.deco-text($font-size: 1.3rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+
+        .expiry-warning {
+          padding: 1px 8px;
+          margin-left: 5px;
+          color: var(--warn-clr-7);
+          background: var(--warn-clr-0);
+          border-radius: 3px;
+        }
+      }
+
+      .application-meta {
+        @include utils.flex-col-block($gap: 5px);
+        padding: 10px base.$application-card-content-padding 2px base.$application-card-content-padding;
+      }
+
+      .volumes {
+        @include utils.flex-row-block($gap: 5px 20px, $distribution: start);
+
+        .shared-volume,
+        .mywork-volume {
+          &.active {
+            @include uis.deco-text($font-size: 1.2rem, $icon: folder_check, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+          }
+
+          &.inactive {
+            @include uis.deco-text($font-size: 1.2rem, $icon: folder_off, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+          }
+        }
+      }
+
+      .lifetime {
+        @include uis.deco-text($font-size: 1.2rem, $icon: timer, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+      }
+    }
   }
 
   .mat-mdc-card-actions {
-    border-left: 1px solid $gray-light-color;
-    flex: 0 1 140px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .mdc-card__actions {
-    padding: 8px;
+    @include utils.flex-col-block($gap: 0, $type: stretch, $y-alignment: center);
+    flex: 0 0 base.$application-card-action-width;
+    border-left: var(--content-border-neut);
   }
 }
 
-
-
-// ----- MOBILE
-
-@media (max-width: 599px) {
-  ::ng-deep .mat-mdc-card {
-    display: flex !important;
-    flex-direction: column !important;
-
-    .card-media-container,
-    .card-info-container,
-    .application-meta,
-    .mat-mdc-card-actions {
-      flex: none !important;
-    }
+.mat-mdc-card.joined-ws {
+  .workspace-name {
+    color: var(--prim-clr-7) !important;
   }
 
-  .mat-mdc-card-header {
-    padding: 15px !important;
-  }
-
-  .mat-mdc-card-content {
-    display: flex;
-    padding: 15px !important;
-  }
-
-  .application-meta {
-    border: none;
-    border-top: 1px solid $gray-light-color;
-
-    .lifetime {
-      margin-bottom: 0 !important;
-    }
+  .card-media-container {
+    background: var(--prim-clr-6);
   }
 }
 
+.mat-mdc-card.expired-ws {
+  background: var(--gray-clr-0) !important;
+
+  .application-name,
+  .workspace-name,
+  .description,
+  .application-meta,
+  .mini-chips > span {
+    color: var(--gray-clr-4) !important;
+  }
+
+  .card-media-container {
+    background: var(--gray-clr-3);
+  }
+}
+
+.mat-mdc-card.my-workspace {
+  .card-meta-content {
+    flex: 1 0 150px !important;
+  }
+}
+
+// ----- Tablet
+@media (max-width: base.$tablet-width) {
+  .card-media-container {
+    height: 110px;
+  }
+
+  .card-middle-container {
+    display: block !important;
+    border-left: var(--content-border-neut);
+
+    .card-main-content {
+      border-right: none !important;
+    }
+
+    .card-meta-content {
+      border-left: none !important;
+    }
+
+    .application-meta {
+      flex-direction: row !important;
+      gap: 20px !important;
+
+      .volumes {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .mat-mdc-card-header,
+  .mat-mdc-card-content:not(.application-meta) {
+    border-bottom: var(--content-border-neut) !important;
+  }
+}

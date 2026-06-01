@@ -1,219 +1,216 @@
-@import "src/styles/main.scss";
+// ---- main-workspace-custom-images.component.scss
 
-#workspace-custom-images-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+@use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+@use 'layouts' as layouts;
 
-  padding: 20px 30px 30px;
-  width: 1100px;
-  max-width: 1100px;
-  margin: 0 auto;
+@include layouts.status-block;
+@include utils.fitter($background: white);
+
+.workspace-custom-images-container {
+  width: 100%;
+  max-width: 1200px;
+  overflow: auto;
+  @include utils.flex-col-block($gap: 10px, $padding: 20px 30px 30px);
 
   .actions {
-    text-align: right;
-    flex: 0 0 40px;
+    @include utils.flex-row-block($distribution: flex-end, $gap: 10px);
 
-    button {
-      margin-bottom: 5px;
-    }
-
-    .max-quota-warning {
-      text-align: center;
+    .create-custom-image-button {
+      @include uis.button($role: prim, $icon: album, $height: 40px);
     }
   }
 
   .table-container {
-    flex: 1 1 auto;
-    overflow: auto;
+    flex: none;
+    @include uis.table(
+            $table-outer-border: 2px solid var(--neut-clr-3),
+            $vertical-border: true,
+            $header-height: 25px,
+            $tr-border: 2px solid var(--neut-clr-3)
+    );
   }
+}
 
-  table {
-    font-size: 1.2rem !important;
 
-    tr {
-      border: 2px solid $mid-dark-line;
-    }
+.mat-column- {
 
-    .mat-mdc-cell {
-      word-wrap: break-word !important;
-      white-space: unset !important;
-      overflow-wrap: break-word;
-      word-break: break-word;
-      hyphens: auto;
-    }
+  &thumb {
+    @include uis.table-width-fix($width: 80px, $align: center, $padding: 5px 15px);
 
-    .mat-column-index,
-    .mat-column-action {
-      flex: 0 0 40px !important;
-      width: 40px !important;
-      padding: 0 !important;
+    .custom-image-thumb {
       text-align: center;
 
-      button {
-        padding: 0;
-      }
-    }
-
-    .mat-column-name {
-      min-width: 155px;
-
-      .custom-image-name {
-        font-size: small;
-      }
-    }
-
-    .mat-column-meta {
-      padding: 0 !important;
-      vertical-align: baseline;
-
-      .custom-image-dockerfile {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        font-size: 1.1rem;
-        letter-spacing: normal;
-        word-spacing: normal;
-
-        fa-icon {
-          flex: 0 0 26px;
-          font-size: 16px;
-          margin-right: 4px;
-        }
-
-        code {
-          background: $gray-extra-light-color;
-          padding: 5px 20px;
-          width: 100%;
-        }
+      .state-text {
+        text-transform: capitalize;
+        font-weight: 700 !important;
       }
 
-      .custom-image-state {
-        @include center(vertical);
-        border-bottom: 1px solid $gray-light-color;
-        width: 100%;
+      .custom-image-state-in-progress {
+        width: 30px;
+        height: 30px;
+        margin: 10px auto;
+      }
 
-        .custom-image-completed {
-          display: flex;
-          flex-direction: column;
-
-          .custom-image-tag {
-            @include center(vertical);
-            padding: 5px 10px;
-            .tag-text {
-              padding: 0px 10px;
-            }
-          }
-
-          .referencing-applications-text {
-            padding: 5px 10px;
-          }
-        }
-
-        .toggle-log-button {
-          font-size: 1.3rem !important;
-          text-decoration: underline;
-          height: 10px;
-
-          mat-icon {
-            font-size: 2.0rem;
-            width: auto;
-            height: auto;
-          }
-
-          mat-icon {
-            flex: 0 0 26px;
-            font-size: 18px;
-            width: 20px !important;
-            margin-right: 5px;
-            height: auto;
-          }
-        }
-
-        .custom-image-fail-message {
-          @include center(vertical);
-          background: $warn-light-color;
-          width: 100%;
-          padding: 10px;
-          justify-content: space-between;
-
-          .fail-state {
-            @include center(vertical);
-
-            mat-icon {
-              font-size: 2.2rem;
-              flex: 0 0 34px;
-            }
-
-            span {
-              flex: 1 0 auto;
-              flex-wrap: nowrap;
-            }
-          }
-        }
+      &.completed {
 
         .custom-image-state-in-progress {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          padding: 10px;
-          gap: 10px;
-          color: $secondary-color;
+          display: none !important;
+        }
 
-          .custom-image-state-name {
-            font-weight: 600;
-          }
-
-          .custom-image-state-description {
-            color: gray;
-          }
+        .state-text {
+          @include uis.crowned-text($icon: album, $color: var(--sec-clr-5), $icon-size: 5rem);
         }
       }
 
-      .custom-image-output {
-        background: #000000;
+      &.failed {
+
+        .custom-image-state-in-progress {
+          display: none !important;
+        }
+
+        .state-text {
+          @include uis.crowned-text($icon: error, $color: var(--warn-clr-7), $icon-size: 5rem);
+        }
+      }
+
+      &.new {
+        .state-text {
+          color: var(--sec-clr-6);
+        }
+      }
+
+      &.building {
+        .state-text {
+          color: var(--prim-clr-6);
+        }
+      }
+
+      &.deleting {
+        .mat-mdc-progress-spinner {
+          margin: 5px auto;
+        }
+
+        .state-text {
+          color: var(--warn-clr-6);
+        }
+      }
+    }
+  }
+
+  &meta {
+    @include uis.table-width-fix($width: auto, $align: left, $vertical-align: top, $padding: 0);
+
+    &.mat-mdc-header-cell {
+      padding: 5px 15px !important;
+    }
+
+    .custom-image-name {
+      @include base.headline-5($weight: 700);
+      padding: 8px 15px;
+      border-bottom: var(--content-border-neut);
+    }
+
+    .custom-image-state {
+      padding: 4px 15px;
+      @include uis.grid-list($fractions: 80px auto, $field-height: 20px, $gap: 2px, $font-size: 1.1rem);
+
+      .custom-image-tag {
+        @include uis.deco-text($icon: sell, $font-size: 1.1rem, $font-weight: 500, $icon-size: 1.6rem, $gap: 4px);
+      }
+
+      .custom-image-build-state {
+        @include uis.deco-text($icon: album, $font-size: 1.1rem, $font-weight: 500, $icon-size: 1.6rem, $gap: 4px);
+      }
+
+      .toggle-log-button {
+        @include uis.button($icon: document_search, $role: warn, $style: underline, $font-size: 1.1rem, $height: 20px, $icon-size: 1.6rem, $button-icon-gap: 4px);
+      }
+    }
+
+    .custom-image-output {
+      position: relative;
+      padding: 15px 20px 10px 25px;
+      background: var(--neut-clr-9);
+
+      .output-label {
+        @include uis.icon($icon: terminal, $color: var(--acc-clr-3));
         position: relative;
-        padding: 15px 40px 15px 45px;
-
-        .output-label {
-          position: absolute;
-          top: 4px;
-          right: 8px;
-          color: #00EAC3;
-        }
-
-        .custom-image-output-line {
-          color: $light-text-color;
-          font-size: 1.2rem;
-        }
+        float: right;
+        cursor: pointer;
       }
 
-      .custom-image-dockerfile {
-        padding: 10px;
-
-        .dockerfile-toggle-button {
-          @include center(both);
-          width: 120px;
-          flex-wrap: nowrap;
-          margin-top: -40px;
-          margin-left: -11px;
-          padding: 5px 10px;
-          font-size: 1.2rem !important;
-          background: $gray-extra-dark-color;
-          color: $light-text-color;
-          border-radius: 0 0 5px 0;
-        }
-      }
-
-      .mat-expansion-panel:not([class*=mat-elevation-z]) {
-        box-shadow: none;
+      .custom-image-output-line {
+        font-size: 1.1rem;
+        color: white;
+        width: 100%;
+        margin-bottom: 5px;
       }
     }
 
-    .mat-column-action {
-      button.mat-mdc-button-disabled {
-        background: none !important;
+    .custom-image-dockerfile {
+      padding: 5px 15px 5px 15px;
+      border-top: var(--content-border-neut);
+      @include uis.grid-list($fractions: 80px auto, $field-height: 20px, $gap: 2px, $font-size: 1.1rem);
+
+      dt {
+        font-size: 1.1rem !important;
+        font-weight: 500 !important;
+      }
+
+      fa-icon {
+        font-size: 13px;
+        margin-right: 4px;
       }
     }
+
+    code {
+      width: 100%;
+      display: block;
+      @include base.text-wrap;
+    }
+  }
+
+  &action {
+    @include uis.table-width-fix($width: 55px, $align: center, $padding: 0);
+
+    .buttons {
+      @include utils.flex-col-block();
+
+      .edit-button {
+        @include uis.button($role: neut, $icon: edit, $style: icon, $width: 55px, $height: 50px);
+      }
+
+      .menu-button {
+        @include uis.button($role: neut, $icon: menu, $style: icon, $width: 55px, $height: 50px);
+      }
+
+      button {
+        border-radius: 0 !important;
+
+        &:first-child {
+          //border-bottom: 1px solid var(--gray-clr-2);
+        }
+      }
+    }
+  }
+}
+
+.empty-status .status-headline {
+  @include uis.crowned-text($icon: album, $icon-type: 'Icons', $icon-family: 'Filled',
+  $color: var(--neut-clr-7), $icon-size: 6rem);
+}
+
+.loading-status {
+  .status-headline {
+    @include uis.crowned-text($icon: hourglass_top, $color: var(--neut-clr-7), $icon-size: 6rem);
+  }
+}
+
+// ----- Mobile
+@media (max-width: #{base.$mobile-width}) {
+  dl {
+    display: block !important;
   }
 }

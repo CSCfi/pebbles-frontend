@@ -1,0 +1,26 @@
+// ---- src/styles/ui-components/_links.scss
+// @use 'ui-components' as uis;
+
+@mixin common-link {
+  ::ng-deep a {
+    color: var(--prim-clr-6) !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
+
+    &:visited {
+      color: var(--sec-clr-6) !important;
+    }
+
+    &:hover {
+      color: var(--sec-clr-6);
+    }
+  }
+}
+
+@mixin external-link {
+  // @include uis.deco-text($color: var(--prim-clr-6), $icon: 'launch', $icon-size: 2.4rem, $icon-weight: 100);
+}
+
+.external-link {
+  @include external-link;
+}

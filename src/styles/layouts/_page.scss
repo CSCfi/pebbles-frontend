@@ -1,0 +1,36 @@
+// ---- styles/layouts/_page.css
+@use 'utilities' as utils;
+@use 'base-styles' as base;
+
+@mixin page(
+  $bg-color: var(--neut-clr-1),
+  $overflow: auto,
+  $flex-direction: column,
+  $row-to-col-breakpoint: base.$tablet-width
+) {
+  .page-container {
+    @if $flex-direction == column {
+      @include utils.flex-col-block;
+    } @else {
+      @include utils.flex-row-block($type: stretch, $wrap: false);
+      @media (max-width: #{$row-to-col-breakpoint}) {
+        @include utils.flex-col-block($type: stretch, $y-alignment: stretch);
+        // Once stacked, cap the page-container so children get a definite
+        // height and inner Material scrollers engage. Without this the
+        // container grows with content and main-page-wrapper just clips the
+        // overflow invisibly.
+        max-height: 100vh;
+      }
+    }
+
+    // `& { }` keeps these overrides after the mixin's nested rules (sass mixed-decls)
+    & {
+      flex-grow: 1;
+      min-width: 0;
+      min-height: 100vh;
+      overflow: $overflow;
+      background: $bg-color;
+      gap: 0;
+    }
+  }
+}

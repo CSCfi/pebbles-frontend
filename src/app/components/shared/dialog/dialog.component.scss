@@ -1,31 +1,80 @@
-@import "src/styles/main.scss";
+//---- dialog.component.scss
+@use 'utilities' as utils;
+@use 'ui-components' as uis;
+@use 'base-styles' as base;
+
+mat-form-field {
+  width: 100%;
+}
 
 .dialog-clipboard {
-  text-align: center;
-  padding: 10px;
-  color: $dark-text-color;
-  //background: map-get($app-accent, default);
+  background: var(--prim-clr-0);
   display: grid;
   grid-template-columns: auto max-content;
   align-items: center;
-  border: 1px solid $dark-text-color;
+  padding: 10px;
+  color: var(--gray-clr-9);
+  text-align: center;
+  border-radius: 3px;
 
   button {
-    @include secondary-main-background;
-    @include center(both);
+    @include uis.button($style: 'icon');
   }
 }
 
+
 .dialog-actions {
-  display: grid;
+  @include utils.flex-row-block($gap: 10px);
+  margin-top: 20px;
+
+  .close-button,
+  .cancel-button {
+    flex: 0 1 auto;
+    @include uis.button($role: gray, $style: 'none', $icon: 'close', $icon-size: 1.8rem, $button-icon-gap: 2px);
+  }
+
+  .confirm-button {
+    flex: 1 0 auto;
+    @include uis.button($role: prim, $style: 'flat');
+  }
+
+  .submit-button {
+    flex: 1 0 auto;
+    @include uis.button($role: prim, $style: 'flat');
+  }
+}
+
+.center {
+  @include base.centering(xy, $gap: 10px);
+
+  button {
+    margin: auto;
+  }
 }
 
 .dialog-container {
-  padding: 30px 40px 10px;
+  padding: 20px 40px 20px;
+}
+
+.mat-dialog-title {
+  margin-bottom: 15px;
+  padding: 5px;
+  border-bottom: var(--content-border-gray);
 }
 
 .mat-mdc-dialog-content {
   --mat-dialog-content-padding: 20px 5px;
-  border-top: 1px solid $gray-color;
-  margin-top: 5px;
+  @include utils.flex-col-block($gap: 10px);
+}
+
+.center {
+  text-align: center;
+}
+
+// ----- MOBILE
+
+@media (width <= 599px) {
+  ::ng-deep .cdk-overlay-container {
+    height: auto !important;
+  }
 }

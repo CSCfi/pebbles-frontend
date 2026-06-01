@@ -7,12 +7,12 @@ RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
 
 WORKDIR /usr/src/app
 
-# copy selected bits
-COPY src src
+# copy selected supporting bits and run package installation
 COPY angular.json package.json package-lock.json tsconfig.json tsconfig.app.json .
-
-# run package installation and build
 RUN npm ci
+
+# copy source and run build. Separated from package installation for better caching
+COPY src src
 RUN npm run-script build:prod
 
 # copy extra content
@@ -24,11 +24,14 @@ RUN echo "{\"appVersion\": \"$PB_APP_VERSION\"}" > dist/pebbles-frontend/browser
 #-----------------------------------------------------------------------------
 
 # Stage two: runtime
-FROM docker.io/bitnamilegacy/nginx:1.23
+FROM docker.io/nginxinc/nginx-unprivileged:1.31-alpine
 LABEL maintainer="Noppe Team <noppe@csc.fi>"
+USER root
 
 # copy compiled application
 COPY --from=build-stage /usr/src/app/dist/pebbles-frontend/browser /app
 
-# set up redirection to /index.html for Angular routing
-COPY deployment/nginx_angular.conf /opt/bitnami/nginx/conf/bitnami/nginx_angular.conf
+# write nginx server block
+COPY deployment/nginx_angular.conf /etc/nginx/conf.d/default.conf
+
+USER nginx

@@ -4,7 +4,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <h3 class="mat-dialog-title">{{ data.dialogTitle }}</h3>
+  <h3 [ngClass]="config.titleAlign" class="mat-dialog-title">{{ data.dialogTitle }}</h3>
   <mat-dialog-content>
     <div class="dialog-content" *ngIf="this.data.dialogContent" [innerHTML]="data.dialogContent">
     </div>
@@ -18,17 +18,41 @@
         <mat-icon fontSet="material-icons-outlined" class="md-24">content_copy</mat-icon>
       </button>
     </div>
+
+    <form *ngIf="selectOptionForm && data.dialogSelectOptions?.length > 0" [formGroup]="selectOptionForm">
+      <mat-form-field appearance="outline">
+        <mat-select [placeholder]="data.dialogSelectPlaceholder || 'Select option'"
+                    autofocus
+                    class="select-option-form"
+                    formControlName="selectedValue">
+          <mat-option *ngFor="let opt of data.dialogSelectOptions" [value]="opt.value">
+            {{ opt.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="selectOptionForm.controls.selectedValue.invalid">
+          Selection is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+
   </mat-dialog-content>
-  <div class="dialog-actions">
-    <button mat-button mat-dialog-close class="borderless-btn"
+
+  <div [ngClass]="config.contentAlign" class="dialog-actions">
+    <button class="close-button" mat-button mat-dialog-close
             *ngIf="data.dialogActions.includes('close')">Close
     </button>
-    <button mat-flat-button class="primary-btn"
+    <button class="confirm-button" mat-button
             *ngIf="data.dialogActions.includes('confirm')"
             (click)="onConfirm()">
       Confirm
     </button>
-    <button mat-dialog-close class="plain-btn"
+    <button (click)="onSubmit()" *ngIf="data.dialogActions.includes('submit')"
+            class="submit-button"
+            [disabled]="!isFormReady()"
+            mat-button>
+      Submit
+    </button>
+    <button class="cancel-button" mat-dialog-close
             *ngIf="data.dialogActions.includes('cancel')">Cancel
     </button>
   </div>

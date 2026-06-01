@@ -1,0 +1,67 @@
+<nav class="mobile-main-nav">
+  <input type="checkbox" id="nav-toggle-btn" [checked]="isMobileNavInvisible" [(ngModel)]="isMobileNavInvisible">
+  <label [ngClass]="{'mobile-nav-closed':isMobileNavInvisible}" class="nav-toggle-label button" for="nav-toggle-btn">
+    <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
+  </label>
+  <ul class="nav-wrapper">
+    <li>
+      <a [routerLink]="['/main/catalog']">
+        <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+        Applications
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/main/my-workspaces']">
+        <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
+        My workspaces
+      </a>
+    </li>
+    <ng-container *ngIf="authService.isWorkspaceOwner">
+      <hr>
+      <li>
+        <a [routerLink]="['/main/workspace-owner']">
+          <mat-icon fontSet="material-icons-outlined">app_registration</mat-icon>
+          Manage workspaces
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/main/active-sessions']">
+          <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
+          Active sessions
+        </a>
+      </li>
+      <hr>
+    </ng-container>
+    <li>
+      <a [routerLink]="['/main/messages']">
+        <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
+        <mat-icon fontSet="material-icons-outlined"
+                  [matBadgeHidden]="getUnreadMessages().length === 0"
+                  [attr.aria-hidden]="getUnreadMessages().length === 0" aria-hidden="false"
+                  [matBadge]="getUnreadMessages().length"
+                  matBadgeColor="warn">
+          mail
+        </mat-icon>
+        Messages
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/main/help']">
+        <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
+        Help
+      </a>
+    </li>
+    <li class="nav-user">
+      <a [routerLink]="['/main/account']">
+        <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
+        {{ userName }}
+      </a>
+    </li>
+    <li>
+      <a (click)="authService.logout()">
+        <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
+        Logout
+      </a>
+    </li>
+  </ul>
+</nav>

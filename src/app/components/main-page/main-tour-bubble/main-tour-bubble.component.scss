@@ -1,10 +1,12 @@
-@import "src/styles/main.scss";
+// ---- src/app/components/main-page/main-tour-bubble/main-tour-bubble.component.scss
+
+@use 'base-styles' as base;
 
 :host {
   position: absolute;
-  width: 100%;
   top: 80px;
   z-index: 1000;
+  width: 100%;
 }
 
 
@@ -13,10 +15,10 @@
 /* -------------------------------------- */
 
 .bubble-steps-container {
-  min-height: 100px;
   display: flex;
   flex-direction: row;
   gap: 5px;
+  min-height: 100px;
 }
 
 .tour-bubble {
@@ -25,30 +27,30 @@
   flex-direction: row;
 
   .tour-bubble-box {
-    flex: 1 1 800px;
+    position: relative; /* reference point for absolutely positioning the arrow */
     display: flex;
+    flex: 1 1 800px;
     flex-direction: column;
     padding-bottom: 20px;
-    border: 10px solid $primary-light-color;
+    overflow: hidden;
 
     background-color: #fff;
+    border: 10px solid var(--neut-clr-5);
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    position: relative; /* reference point for absolutely positioning the arrow */
+    box-shadow: 0 4px 12px rgb(0, 0, 0, 0.2);
 
     h2, h3, h4 {
-      text-align: center;
       width: 100%;
+      text-align: center;
     }
 
     h2 {
       padding-top: 5px;
       padding-bottom: 10px;
-      background: $primary-light-color;
-      color: #FFFFFF;
       margin-bottom: 30px;
       font-size: 2rem;
+      color: #FFF;
+      background: var(--neut-clr-5);
     }
 
     h3 {
@@ -61,11 +63,11 @@
 
       .step-item {
         display: flex;
-        gap: 20px;
+        flex: 1 1 200px;
         flex-direction: column;
+        gap: 20px;
         padding: 0;
         margin: 0;
-        flex: 1 1 200px;
 
         h4 {
           font-size: 1.8rem;
@@ -73,18 +75,18 @@
         }
 
         mat-icon {
-          color: $primary-light-color;
           display: block;
-          text-align: center;
           flex: 0 0 90px;
           width: 100%;
           font-size: 9rem;
+          color: var(--neut-clr-5);
+          text-align: center;
         }
 
         p {
           font-size: 1.5rem;
-          color: $dark-text-color;
           line-height: 1.5;
+          color: var(--gray-clr-8);
           text-align: center;
         }
       }
@@ -97,32 +99,32 @@
 /* -------------------------------------- */
 
 .tour-bubble .arrow-left {
+  z-index: 1500;
   flex: 0 1 20px;
   height: 30px;
   margin-top: -35px;
-  filter: drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.1));
-  z-index: 1500;
   margin-left: 40px;
+  filter: drop-shadow(-2px 0 2px rgb(0, 0, 0, 0.1));
 
   .arrow-line {
-    background: $primary-light-color;
     height: 20px;
     margin-top: 50px;
+    background: var(--neut-clr-5);
   }
 
   ::before {
-    content: '';
     position: absolute;
+    top: 40px;
 
     left: -32px;
-    top: 40px;
+    content: '';
+    border-color: transparent var(--neut-clr-5) transparent transparent;
 
     /* CSS Triangle Trick */
     border-style: solid;
     border-width: 20px 32px 20px 0;
-    border-color: transparent $primary-light-color transparent transparent;
 
-    filter: drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(-2px 0 2px rgb(0, 0, 0, 0.1));
   }
 }
 
@@ -145,11 +147,11 @@
 
 .bubble-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #eee;
+  justify-content: space-between;
   padding-top: 10px;
   margin-top: 30px;
+  border-top: 1px solid #eee;
 
   .step-indicator {
     text-align: center;
@@ -157,23 +159,82 @@
 
   button {
     padding: 0;
-    border: none;
-    border-radius: 4px;
+    margin-left: 10px;
+    font-size: 12px;
     font-weight: bold;
     cursor: pointer;
-    font-size: 12px;
-    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
     transition: background-color 0.2s;
 
     &.prev-button,
     &.next-button {
-      color: $primary-color;
+      color: var(--prim-clr-6);
 
       &:disabled {
-        background-color: gray;
         cursor: not-allowed;
+        background-color: gray;
         opacity: 0.5;
       }
+    }
+  }
+}
+
+/* -------------------------------------- */
+/* Tablet */
+/* -------------------------------------- */
+
+@media (max-width: #{base.$tablet-width}) {
+
+  :host {
+    position: absolute;
+    top: 20px;
+    z-index: 1000;
+    width: 100%;
+  }
+
+  .tour-bubble {
+    flex-direction: column;
+    padding: 10px 20px;
+
+    .arrow-left {
+      display: none;
+    }
+
+    .arrow-up {
+      display: flex !important;
+      flex-basis: 30px;
+      justify-content: start;
+      margin-left: 5%;
+
+      .arrow-line {
+        width: 20px;
+        height: 30px;
+        background: var(--neut-clr-5);
+      }
+
+      ::before {
+        position: absolute;
+
+        margin-top: -20px;
+        margin-left: -10px;
+        content: '';
+        border-color: transparent transparent var(--neut-clr-5) transparent;
+
+        /* CSS Triangle Trick */
+        border-style: solid;
+        border-width: 0 20px 32px;
+
+        filter: drop-shadow(0 -2px 2px rgb(0, 0, 0, 0.1));
+      }
+    }
+
+    .tour-bubble-box {
+      flex: 1 1 auto;
+    }
+
+    &::after {
+      display: none;
     }
   }
 }
@@ -182,7 +243,7 @@
 /* Mobile */
 /* -------------------------------------- */
 
-@media screen and (max-width: 1250px) {
+@media (max-width: #{base.$mobile-width}) {
 
   :host {
     position: absolute;
@@ -203,24 +264,24 @@
       justify-content: center;
 
       .arrow-line {
-        height: 30px;
-        background: $primary-light-color;
         width: 20px;
+        height: 30px;
+        background: var(--neut-clr-5);
       }
 
       ::before {
-        content: '';
         position: absolute;
 
         margin-top: -20px;
         margin-left: -10px;
+        content: '';
+        border-color: transparent transparent var(--neut-clr-5) transparent;
 
         /* CSS Triangle Trick */
         border-style: solid;
-        border-width: 0 20px 32px 20px;
-        border-color: transparent transparent $primary-light-color transparent;
+        border-width: 0 20px 32px;
 
-        filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
+        filter: drop-shadow(0 -2px 2px rgb(0, 0, 0, 0.1));
       }
     }
 
@@ -237,18 +298,18 @@
     flex-direction: column;
 
     .step-item {
-      flex: 0 1 auto;
       display: flex;
+      flex: 0 1 auto;
       flex-direction: row;
 
       h4 {
-        @include center(vertical);
+        @include base.centering(y);
         text-align: left;
       }
 
       mat-icon {
-        font-size: 4.8rem !important;
         height: auto !important;
+        font-size: 4.8rem !important;
       }
     }
   }

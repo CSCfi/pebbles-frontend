@@ -1,11 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatAccordion } from '@angular/material/expansion';
+import { Component, Input, ViewChild } from '@angular/core';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
-import { MembershipType, Workspace } from 'src/app/models/workspace';
+import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
 import { ApplicationService } from 'src/app/services/application.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { Utilities } from '../../../utilities';
 
 @Component({
   selector: 'app-main-workspace-item',
@@ -13,24 +12,25 @@ import { Utilities } from '../../../utilities';
   styleUrls: ['./main-workspace-item.component.scss'],
   standalone: false
 })
-export class MainWorkspaceItemComponent implements OnInit {
+export class MainWorkspaceItemComponent {
 
   @Input() workspace: Workspace;
-  @Input() isNew: boolean;
+  @Input() isNew!: boolean;
   @Input() context: Data;
-  @ViewChild(MatAccordion) accordion: MatAccordion;
-  panelOpenState: boolean;
+  @Input() panelOpenState = false;
+
+  @ViewChild('appTree') appTree!: MatExpansionPanel;
+
+  get isAppTreeOpen(): boolean {
+    const hasApps = this.applications && this.applications.length > 0;
+    return this.panelOpenState && hasApps;
+  }
 
   get applications(): Application[] {
     if (this.workspace && this.applicationService.isInitialized) {
       return this.applicationService.getApplicationsByWorkspaceId(this.workspace.id).filter(x => x.is_enabled);
     }
     return null;
-  }
-
-  get isExpiredSoon(): boolean {
-    const dayDifference = Utilities.getTimeGap(this.workspace.expiry_ts * 1000, 'day');
-    return dayDifference < 7 && dayDifference >= 0;
   }
 
   get membershipType(): string {
@@ -43,12 +43,8 @@ export class MainWorkspaceItemComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.panelOpenState = true;
-  }
-
   toggleApplicationList(): void {
-    if (this.applications.length > 0) {
+    if (this.applications && this.applications.length > 0) {
       this.panelOpenState = !this.panelOpenState;
     }
   }
@@ -57,6 +53,10 @@ export class MainWorkspaceItemComponent implements OnInit {
   //   // this.router.navigateByUrl('/main/catalog#' + applicationId);
   //   this.router.navigate(['/main/catalog'], {queryParams: {id: applicationId}});
   // }
+
+  getLifecycleNote(): LifeCycleNote {
+    return this.workspaceService.getLifecycleNote(this.workspace);
+  }
 
   exitWorkspace(): void {
     if (!confirm(`Are you sure you want to leave workspace "${this.workspace.name}"?`)) {

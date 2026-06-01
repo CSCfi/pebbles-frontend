@@ -1,9 +1,4 @@
 <div class="dialog-container custom-image-form">
-  <div class="corner-button-container">
-    <button class="corner-button" mat-dialog-close="true" mat-icon-button>
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
   <h2 class="mat-dialog-title">{{ formTitle }}</h2>
   <form [formGroup]="customImageFormGroup"
         (ngSubmit)="preventSubmit($event)" id="dialog">
@@ -77,33 +72,30 @@
                            id="package-input"
                            class="package-input-form">
                     <button matSuffix matIconButton aria-label="Remove"
-                            class="delete-button" (click)="removeImageContent(i)">
-                      <mat-icon>remove</mat-icon>
+                            class="delete-button" type="button"
+                            (click)="removeImageContent(i)">
                     </button>
                   </mat-form-field>
                 </ng-container>
                 <div class="add-content">
                   <button #addAptButton
                           (click)="addImageContent('aptPackages')"
-                          class="secondary-btn"
+                          class="add-package-button"
                           type="button"
                           mat-button>
-                    <mat-icon fontSet="material-icons-outlined">add</mat-icon>
                     <span>apt</span>
                   </button>
                   <button (click)="addImageContent('pipPackages')"
-                          class="secondary-btn"
+                          class="add-package-button"
                           type="button"
                           mat-button>
-                    <mat-icon fontSet="material-icons-outlined">add</mat-icon>
                     <span>pip</span>
                   </button>
                   <button (click)="addImageContent('condaForgePackages')"
-                          class="secondary-btn"
+                          class="add-package-button"
                           type="button"
                           mat-button>
-                    <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-                    conda-forge
+                    <span>conda-forge</span>
                   </button>
                 </div>
               </div>
@@ -125,12 +117,12 @@
     <div class="dialog-actions">
       <button (click)="closeForm()"
               [disabled]="customImageFormGroup.invalid || createButtonClicked"
-              color="primary"
+              class="submit-button"
               type="submit"
-              mat-flat-button>
+              mat-button>
         Build
       </button>
-      <button class="button-link cancel-button" mat-button mat-dialog-close="true">
+      <button class="cancel-button" mat-button mat-dialog-close="true">
         Cancel
       </button>
     </div>
