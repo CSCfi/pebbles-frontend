@@ -1,7 +1,7 @@
 <div class="dialog-container custom-image-form">
   <h2 class="mat-dialog-title">{{ formTitle }}</h2>
-  <form [formGroup]="customImageFormGroup"
-        (ngSubmit)="preventSubmit($event)" id="dialog">
+  <form (ngSubmit)="preventSubmit($event)"
+        [formGroup]="customImageFormGroup" id="dialog">
     <div class="custom-image-form-content">
       <div class="custom-image-form-left">
 
@@ -12,15 +12,19 @@
               <h3 class="mat-title">Name *</h3>
               <mat-form-field appearance="fill">
                 <input (keyup.enter)="focusNextElement($event)"
-                       id="name-input"
                        formControlName="name"
+                       id="name-input"
                        matInput>
-                <mat-error *ngIf="customImageFormGroup.controls.name.hasError('required')">
-                  <strong>Name is required</strong>
-                </mat-error>
-                <mat-error *ngIf="customImageFormGroup.controls.name.hasError('maxlength')">
-                  <strong>Max length (64 characters) exceeded</strong>
-                </mat-error>
+                @if (customImageFormGroup.controls.name.hasError('required')) {
+                  <mat-error>
+                    <strong>Name is required</strong>
+                  </mat-error>
+                }
+                @if (customImageFormGroup.controls.name.hasError('maxlength')) {
+                  <mat-error>
+                    <strong>Max length (64 characters) exceeded</strong>
+                  </mat-error>
+                }
               </mat-form-field>
             </section>
 
@@ -28,8 +32,8 @@
             <section class="form-container">
               <div class="base-image-source-wrapper">
                 <h3 class="mat-title">Base image *</h3>
-                <a mat-button matTooltip="Base image sources in GitHub" target='_blank' rel="noopener"
-                   class="base-image-source" href="https://github.com/CSCfi/noppe-public-images">
+                <a class="base-image-source" href="https://github.com/CSCfi/noppe-public-images" mat-button matTooltip="Base image sources in GitHub"
+                   rel="noopener" target='_blank'>
                   Base image sources
                 </a>
               </div>
@@ -39,14 +43,18 @@
                               (selectionChange)="updateDockerfile()"
                               formControlName="baseImage"
                               placeholder="Choose the base image to customize">
-                    <mat-option *ngFor="let baseImage of data.baseImages"
-                                [value]="baseImage">
-                      {{ extractBaseImageName(baseImage)}}
-                    </mat-option>
+                    @for (baseImage of data.baseImages; track baseImage) {
+                      <mat-option
+                          [value]="baseImage">
+                        {{ extractBaseImageName(baseImage) }}
+                      </mat-option>
+                    }
                   </mat-select>
-                  <mat-error *ngIf="customImageFormGroup.controls.baseImage.hasError('required')">
-                    <strong>Base image should be selected.</strong>
-                  </mat-error>
+                  @if (customImageFormGroup.controls.baseImage.hasError('required')) {
+                    <mat-error>
+                      <strong>Base image should be selected.</strong>
+                    </mat-error>
+                  }
                 </mat-form-field>
               </ng-container>
             </section>
@@ -58,7 +66,7 @@
                 <div class="package-instructions">
                   <span>Customize your image by adding apt or pip packages as a space separated list</span>
                 </div>
-                <ng-container *ngFor="let content of imageContent; let i=index">
+                @for (content of imageContent; track content; let i = $index) {
                   <div class="image-content-header">
                     <h4 class="mat-subtitle icon__library">{{ getContentDescription(content.kind) }} </h4>
                   </div>
@@ -66,35 +74,35 @@
                     <input #dynamicInput
                            (input)="updateExtraContent()"
                            (keydown.enter)="focusNextElement($event)"
+                           class="package-input-form"
                            formControlName="ic-{{ i }}"
-                           matInput
-                           value="content.data"
                            id="package-input"
-                           class="package-input-form">
-                    <button matSuffix matIconButton aria-label="Remove"
-                            class="delete-button" type="button"
-                            (click)="removeImageContent(i)">
+                           matInput
+                           value="content.data">
+                    <button (click)="removeImageContent(i)" aria-label="Remove" class="delete-button"
+                            matIconButton matSuffix
+                            type="button">
                     </button>
                   </mat-form-field>
-                </ng-container>
+                }
                 <div class="add-content">
                   <button #addAptButton
                           (click)="addImageContent('aptPackages')"
                           class="add-package-button"
-                          type="button"
-                          mat-button>
+                          mat-button
+                          type="button">
                     <span>apt</span>
                   </button>
                   <button (click)="addImageContent('pipPackages')"
                           class="add-package-button"
-                          type="button"
-                          mat-button>
+                          mat-button
+                          type="button">
                     <span>pip</span>
                   </button>
                   <button (click)="addImageContent('condaForgePackages')"
                           class="add-package-button"
-                          type="button"
-                          mat-button>
+                          mat-button
+                          type="button">
                     <span>conda-forge</span>
                   </button>
                 </div>
@@ -107,9 +115,9 @@
       <div class="custom-image-form-right">
         <div class="custom-image-form-generated-dockerfile">
           <h5>Generated dockerfile</h5>
-          <ng-container *ngFor="let line of generatedDockerfile.split('\n'); index as i">
+          @for (line of generatedDockerfile.split('\n'); track $index) {
             <div class="line">{{ line }}</div>
-          </ng-container>
+          }
         </div>
       </div>
     </div>
@@ -118,8 +126,8 @@
       <button (click)="closeForm()"
               [disabled]="customImageFormGroup.invalid || createButtonClicked"
               class="submit-button"
-              type="submit"
-              mat-button>
+              mat-button
+              type="submit">
         Build
       </button>
       <button class="cancel-button" mat-button mat-dialog-close="true">

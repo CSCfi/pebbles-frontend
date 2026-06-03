@@ -1,7 +1,7 @@
 <div class="dialog-container">
-  <ng-container *ngIf="!newWorkspace">
+  @if (!newWorkspace) {
     <div class="corner-button-container">
-      <button mat-icon-button mat-dialog-close class="corner-button" (click)="closeForm()">
+      <button (click)="closeForm()" class="corner-button" mat-dialog-close mat-icon-button>
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -10,38 +10,45 @@
       <form [formGroup]="joinWorkspaceForm" class="form-container">
         <mat-form-field appearance="fill">
           <mat-label>Enter join code</mat-label>
-          <input matInput type="text" placeholder="Join code" formControlName="joinCode">
-          <mat-error *ngIf="isJoinCodeValid" [ngClass]="'error-status'">error</mat-error>
+          <input formControlName="joinCode" matInput placeholder="Join code" type="text">
+          @if (isJoinCodeValid) {
+            <mat-error [ngClass]="'error-status'">error</mat-error>
+          }
         </mat-form-field>
-        <div class="error-status" *ngIf="errorMessage">{{ errorMessage }}</div>
+        @if (errorMessage) {
+          <div class="error-status">{{ errorMessage }}</div>
+        }
       </form>
     </mat-dialog-content>
     <mat-dialog-actions class="dialog-actions">
-      <button mat-flat-button class="join-button" (click)="joinWorkspace()">
-        <mat-icon fontSet="material-icons-outlined">add</mat-icon> Join
+      <button (click)="joinWorkspace()" class="join-button" mat-flat-button>
+        <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+        Join
       </button>
     </mat-dialog-actions>
-  </ng-container>
-  <ng-container *ngIf="newWorkspace">
+  }
+  @if (newWorkspace) {
     <h2 class="mat-dialog-title">Workspace "{{ newWorkspace.name }}" data policy</h2>
     <mat-dialog-content>
       <div class="state">
         You have successfully joined workspace "{{ newWorkspace.name }}".
       </div>
-      <div *ngIf="newWorkspace.membership_expiry_policy?.kind==='activity_timeout'; else persistentMembership"
-           class="policy-note">
-        <div class="policy-icon-column">
-          <mat-icon class="material-icons-outlined">warning</mat-icon>
-        </div>
-        <div class="policy-content">
-          Please note that due to workspace policy, your
-          <div class="highlight-line">
-            membership will terminate after {{ newWorkspace.membership_expiry_policy.timeout_days }} days of inactivity.
+      @if (newWorkspace.membership_expiry_policy?.kind === 'activity_timeout') {
+        <div
+            class="policy-note">
+          <div class="policy-icon-column">
+            <mat-icon class="material-icons-outlined">warning</mat-icon>
           </div>
-          After termination, you cannot access data, including "my-work" content, in this workspace anymore.
+          <div class="policy-content">
+            Please note that due to workspace policy, your
+            <div class="highlight-line">
+              membership will terminate after {{ newWorkspace.membership_expiry_policy.timeout_days }} days of
+              inactivity.
+            </div>
+            After termination, you cannot access data, including "my-work" content, in this workspace anymore.
+          </div>
         </div>
-      </div>
-      <ng-template #persistentMembership>
+      } @else {
         <div class="policy-note">
           <div class="policy-icon-column">
             <mat-icon class="material-icons-outlined">warning</mat-icon>
@@ -51,10 +58,10 @@
             {{ newWorkspace.expiry_ts * 1000 | date }}.
           </div>
         </div>
-      </ng-template>
+      }
     </mat-dialog-content>
     <mat-dialog-actions class="dialog-actions">
-      <button mat-flat-button mat-dialog-close (click)="closeForm()" class="confirm-button">Understood</button>
+      <button (click)="closeForm()" class="confirm-button" mat-dialog-close mat-flat-button>Understood</button>
     </mat-dialog-actions>
-  </ng-container>
+  }
 </div>

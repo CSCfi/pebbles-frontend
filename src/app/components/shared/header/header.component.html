@@ -1,10 +1,10 @@
 <header class="site-header">
-  <div class="site-header-wrapper" [ngClass]="displayMode">
+  <div [ngClass]="displayMode" class="site-header-wrapper">
     <!-- Brand -->
-    <a class="brand" [routerLink]="['/welcome']">
+    <a [routerLink]="['/welcome']" class="brand">
       <div class="site-logo">
-        <img src="assets/images/logo/site-logo.svg" alt="site-logo"
-             [width]="logoMarkSize">
+        <img [width]="logoMarkSize" alt="site-logo"
+             src="assets/images/logo/site-logo.svg">
       </div>
       <h1 class="site-name">
         {{ publicConfigService.getInstallationName() }}
@@ -15,26 +15,28 @@
     </a>
 
     <!-- Landing page navigation -->
-    <nav class="nav" *ngIf="isNaviVisible">
-      <input type="checkbox" id="toggle-nav" checked>
-      <label class="toggle-nav-label button" for="toggle-nav">menu</label>
-      <ul class="nav-wrapper">
-        <li>
-          <a [href]="publicConfigService.getServiceDocumentationUrl()" target="_blank" rel="noopener">
-            Documentation
-          </a>
-        </li>
-        <li>
-          <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">
-            Terms & Pricing
-          </a>
-        </li>
-        <li>
-          <a [href]="publicConfigService.getAccessibilityStatementUrl()" target="_blank" rel="noopener">
-            Accessibility
-          </a>
-        </li>
-      </ul>
-    </nav>
+    @if (isNaviVisible) {
+      <nav class="nav">
+        <input checked id="toggle-nav" type="checkbox">
+        <label class="toggle-nav-label button" for="toggle-nav">menu</label>
+        <ul class="nav-wrapper">
+          <li>
+            <a [href]="publicConfigService.getServiceDocumentationUrl()" rel="noopener" target="_blank">
+              Documentation
+            </a>
+          </li>
+          <li>
+            <a [href]="publicConfigService.getTermsOfUseUrl()" rel="noopener" target="_blank">
+              Terms & Pricing
+            </a>
+          </li>
+          <li>
+            <a [href]="publicConfigService.getAccessibilityStatementUrl()" rel="noopener" target="_blank">
+              Accessibility
+            </a>
+          </li>
+        </ul>
+      </nav>
+    }
   </div>
 </header>

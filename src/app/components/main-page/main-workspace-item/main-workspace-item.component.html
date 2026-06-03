@@ -1,74 +1,78 @@
-<div class="workspace-item {{ membershipType }}"
-     [ngClass]="getLifecycleNote()"
-     *ngIf="workspace">
-
-  <button (click)="toggleApplicationList()"
-          *ngIf="applications !== null"
-          [disabled]="applications?.length===0"
-          [ngClass]="{
+@if (workspace) {
+  <div [ngClass]="getLifecycleNote()"
+       class="workspace-item {{ membershipType }}"
+  >
+    @if (applications !== null) {
+      <button (click)="toggleApplicationList()"
+              [disabled]="applications?.length===0"
+              [ngClass]="{
           'active': applications?.length > 0,
           'no-apps': applications?.length === 0 ,
           'open': isAppTreeOpen }"
-          class="tree-toggle-button"
-          mat-fab>
-    <ng-container *ngIf="!isAppTreeOpen; else appTreeClose">
-      <span class="number">{{ applications.length }}</span>
-      <span class="unit">{{ applications.length | i18nPlural: {'=1': 'app', 'other': 'apps'} }}</span>
-    </ng-container>
-    <ng-template #appTreeClose>
-      <mat-icon>unfold_less</mat-icon>
-    </ng-template>
-  </button>
-
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>
-        <h3 [innerHTML]="workspace.name" [ngClass]="{badge:isNew}"
-            class="title"></h3>
-      </mat-card-title>
-      <button [matMenuTriggerFor]="menu" aria-label="open menu" class="workspace-item-menu" matIconButton></button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item aria-label="workspace delete" matTooltip="Leave Workspace"
-                [disabled]="workspace.membership_type === 'public'" (click)="exitWorkspace()">
-          <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
-          Exit workspace
-        </button>
-        <!--
-        <button mat-menu-item aria-label="Send message" matTooltip="Send message" [disabled]="true">
-          <mat-icon fontSet="material-icons-outlined">mail_outline</mat-icon>
-          Send message
-        </button>
-        -->
-      </mat-menu>
-    </mat-card-header>
-    <!-- //// workspace-info -->
-    <mat-card-content class="workspace-info">
-      <!-- workspaces visible, but applications have not been loaded yet -->
-      <div *ngIf="applications === null; else workspaceInfoBlock">...Loading...</div>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-expansion-panel #appTree [(expanded)]="panelOpenState">
-    <div *ngFor="let application of applications" class="application-item">
-      <div class="tree"></div>
-      <app-main-application-item [application]="application" [context]="context"></app-main-application-item>
-    </div>
-  </mat-expansion-panel>
-</div>
-
-<ng-template #workspaceInfoBlock>
-  <div [innerHTML]="workspace.description" class="description"></div>
-  <div class="workspace-meta">
-    <div [ngClass]="membershipType" class="membership">{{ membershipType }}</div>
-    <div class="expiry-date">
+              class="tree-toggle-button"
+              mat-fab>
+        @if (!isAppTreeOpen) {
+          <span class="number">{{ applications.length }}</span>
+          <span class="unit">{{ applications.length | i18nPlural: {'=1': 'app', 'other': 'apps'} }}</span>
+        } @else {
+          <mat-icon>unfold_less</mat-icon>
+        }
+      </button>
+    }
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>
+          <h3 [innerHTML]="workspace.name" [ngClass]="{badge:isNew}"
+              class="title"></h3>
+        </mat-card-title>
+        <button [matMenuTriggerFor]="menu" aria-label="open menu" class="workspace-item-menu" matIconButton></button>
+        <mat-menu #menu="matMenu">
+          <button (click)="exitWorkspace()" [disabled]="workspace.membership_type === 'public'" aria-label="workspace delete"
+                  mat-menu-item matTooltip="Leave Workspace">
+            <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
+            Exit workspace
+          </button>
+          <!--
+          <button mat-menu-item aria-label="Send message" matTooltip="Send message" [disabled]="true">
+            <mat-icon fontSet="material-icons-outlined">mail_outline</mat-icon>
+            Send message
+          </button>
+          -->
+        </mat-menu>
+      </mat-card-header>
+      <!-- //// workspace-info -->
+      <mat-card-content class="workspace-info">
+        <!-- workspaces visible, but applications have not been loaded yet -->
+        @if (applications === null) {
+          <div>...Loading...</div>
+        } @else {
+          <div [innerHTML]="workspace.description" class="description"></div>
+          <div class="workspace-meta">
+            <div [ngClass]="membershipType" class="membership">{{ membershipType }}</div>
+            <div class="expiry-date">
       <span class="text">Expires {{ workspace.expiry_ts | dateDisplay }}
       </span>
-      <span class="expiry-warning">
+              <span class="expiry-warning">
         {{ workspace.expiry_ts | remainingDaysDisplay }}
       </span>
-    </div>
-    <div *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'" class="activity_timeout-warning">
-      Membership ends after {{ workspace.membership_expiry_policy.timeout_days }} inactive days.
-    </div>
+            </div>
+            @if (workspace.membership_expiry_policy.kind === 'activity_timeout') {
+              <div class="activity_timeout-warning">
+                Membership ends after {{ workspace.membership_expiry_policy.timeout_days }} inactive days.
+              </div>
+            }
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-expansion-panel #appTree [(expanded)]="panelOpenState">
+      @for (application of applications; track application) {
+        <div class="application-item">
+          <div class="tree"></div>
+          <app-main-application-item [application]="application" [context]="context"></app-main-application-item>
+        </div>
+      }
+    </mat-expansion-panel>
   </div>
-</ng-template>
+}

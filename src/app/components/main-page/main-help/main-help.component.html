@@ -20,28 +20,30 @@
         </ng-template>
         <ng-template matTabContent>
           <section class="faq">
-            <ng-container *ngIf="faqTopics?.length > 0">
-              <mat-accordion *ngFor="let faq of faqTopics let pre = index" class="faq-category" multi>
-                <h4 class="faq-category-title">{{ faq.name }}</h4>
-                <ng-container *ngIf="faq.content.length>0 ;else noContent">
-                  <mat-expansion-panel (click)="togglePanels(pre +'-'+ sur)"
-                                       *ngFor="let content of faq.content; let sur = index"
-                                       [expanded]="indexExpanded === pre +'-'+ sur "
-                                       class=""
-                                       disabled="true">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        <span [innerHTML]="content.question" class="question"></span>
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <span [innerHTML]="content.answer" class="answer"></span>
-                  </mat-expansion-panel>
-                </ng-container>
-                <ng-template #noContent>
-                  No item is found.
-                </ng-template>
-              </mat-accordion>
-            </ng-container>
+            @if (faqTopics?.length > 0) {
+              @for (faq of faqTopics; track $index; let pre = $index) {
+                <mat-accordion class="faq-category" multi>
+                  <h4 class="faq-category-title">{{ faq.name }}</h4>
+                  @if (faq.content.length > 0) {
+                    @for (content of faq.content; track $index; let sur = $index) {
+                      <mat-expansion-panel (click)="togglePanels(pre +'-'+ sur)"
+                                           [expanded]="indexExpanded === pre +'-'+ sur "
+                                           class=""
+                                           disabled="true">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <span [innerHTML]="content.question" class="question"></span>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <span [innerHTML]="content.answer" class="answer"></span>
+                      </mat-expansion-panel>
+                    }
+                  } @else {
+                    No item is found.
+                  }
+                </mat-accordion>
+              }
+            }
           </section>
         </ng-template>
       </mat-tab>

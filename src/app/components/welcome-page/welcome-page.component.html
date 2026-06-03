@@ -1,17 +1,17 @@
-<div id="welcome-page" class="page-wrapper">
+<div class="page-wrapper" id="welcome-page">
   <div class="background">
     <div class="bg-pattern-1">
-      <img ngSrc="assets/images/bg_pattern.svg" alt="company brand Pattern" height="309" width="307" priority="true">
+      <img alt="company brand Pattern" height="309" ngSrc="assets/images/bg_pattern.svg" priority="true" width="307">
     </div>
     <div class="bg-pattern-2">
-      <img ngSrc="assets/images/bg_pattern.svg" alt="company brand Pattern" height="309" width="307" priority="true">
+      <img alt="company brand Pattern" height="309" ngSrc="assets/images/bg_pattern.svg" priority="true" width="307">
     </div>
   </div>
 
-  <app-header class="app-header"
-              [isNaviVisible]="true"
+  <app-header [isNaviVisible]="true"
               [logoMarkSize]="80"
-              [logoTypeSize]="2.2">
+              [logoTypeSize]="2.2"
+              class="app-header">
   </app-header>
 
   <div class="main-content">
@@ -19,67 +19,79 @@
     <app-service-announcement [context]="context"></app-service-announcement>
 
     <div id="jumbotron" role="main">
-      <app-welcome-login [context]="context" (emitSpecialLogin)="openSpecialLoginDialog()"></app-welcome-login>
+      <app-welcome-login (emitSpecialLogin)="openSpecialLoginDialog()" [context]="context"></app-welcome-login>
     </div>
   </div>
   <app-footer [context]="context"></app-footer>
 </div>
 
 <ng-template #specialLoginDialog>
-  <div *ngIf="!loginClicked" class="special-login-form">
-    <h2 mat-dialog-title>Special Login</h2>
-    <form (ngSubmit)="onLogin()" [formGroup]="loginFormGroup">
-      <mat-dialog-content>
-        <mat-form-field>
-          <mat-label>Account</mat-label>
-          <input formControlName="ext_id" id="ext_id" matInput>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input formControlName="password" id="password" matInput type="password">
-        </mat-form-field>
-      </mat-dialog-content>
-      <mat-dialog-actions>
-        <button [disabled]="loginClicked" mat-button>
-          Submit
-        </button>
-        <div *ngFor="let err of loginError" class="special-login-error">
-          <span>{{ err }}</span>
-        </div>
-      </mat-dialog-actions>
-    </form>
-  </div>
-  <div *ngIf="loginClicked" class="special-login-dialog-processing">
-    <h2>Logging in...</h2>
-    <mat-spinner mode="indeterminate"></mat-spinner>
-  </div>
+  @if (!loginClicked) {
+    <div class="special-login-form">
+      <h2 mat-dialog-title>Special Login</h2>
+      <form (ngSubmit)="onLogin()" [formGroup]="loginFormGroup">
+        <mat-dialog-content>
+          <mat-form-field>
+            <mat-label>Account</mat-label>
+            <input formControlName="ext_id" id="ext_id" matInput>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input formControlName="password" id="password" matInput type="password">
+          </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+          <button [disabled]="loginClicked" mat-button>
+            Submit
+          </button>
+          @for (err of loginError; track err) {
+            <div class="special-login-error">
+              <span>{{ err }}</span>
+            </div>
+          }
+        </mat-dialog-actions>
+      </form>
+    </div>
+  }
+  @if (loginClicked) {
+    <div class="special-login-dialog-processing">
+      <h2>Logging in...</h2>
+      <mat-spinner mode="indeterminate"></mat-spinner>
+    </div>
+  }
 </ng-template>
 
 <ng-template #specialLoginDialogTerms>
-  <div *ngIf="!acceptTermsClicked" class="special-login-dialog-terms dialog-container">
-    <img alt="logo" class="terms-logo" height="60" ngSrc="{{ publicConfigService.getAgreementLogoPath() }}" width="80"/>
-    <h2 mat-dialog-title>{{ publicConfigService.getAgreementTitle() }}</h2>
-    <form (ngSubmit)="onTermsAgree()"
-          [formGroup]="loginFormGroup">
-      <mat-dialog-content>
+  @if (!acceptTermsClicked) {
+    <div class="special-login-dialog-terms dialog-container">
+      <img alt="logo" class="terms-logo" height="60" ngSrc="{{ publicConfigService.getAgreementLogoPath() }}"
+           width="80"/>
+      <h2 mat-dialog-title>{{ publicConfigService.getAgreementTitle() }}</h2>
+      <form (ngSubmit)="onTermsAgree()"
+            [formGroup]="loginFormGroup">
+        <mat-dialog-content>
 
-        <p>Before continuing, you need to agree to our
-          <a href="{{ publicConfigService.getTermsOfUseUrl() }}" rel="noopener" target="_blank"> Terms of Use, </a>
-          including sections concerning use of
-          <a href="{{ publicConfigService.getCookiesPolicyUrl() }}" rel="noopener" target="_blank"> Cookies </a>
-          on this site and
-          <a href="{{ publicConfigService.getPrivacyPolicyUrl() }}" rel="noopener" target="_blank"> Privacy Policy.</a>
-        </p>
-      </mat-dialog-content>
-      <mat-dialog-actions>
-        <button [disabled]="acceptTermsClicked" class="agree-button" id="agree-button" mat-button>
-          Agree & Continue
-        </button>
-      </mat-dialog-actions>
-    </form>
-  </div>
-  <div *ngIf="acceptTermsClicked" class="special-login-dialog-processing">
-    <h2>Accepting terms and logging in...</h2>
-    <mat-spinner mode="indeterminate"></mat-spinner>
-  </div>
+          <p>Before continuing, you need to agree to our
+            <a href="{{ publicConfigService.getTermsOfUseUrl() }}" rel="noopener" target="_blank"> Terms of Use, </a>
+            including sections concerning use of
+            <a href="{{ publicConfigService.getCookiesPolicyUrl() }}" rel="noopener" target="_blank"> Cookies </a>
+            on this site and
+            <a href="{{ publicConfigService.getPrivacyPolicyUrl() }}" rel="noopener" target="_blank"> Privacy
+              Policy.</a>
+          </p>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+          <button [disabled]="acceptTermsClicked" class="agree-button" id="agree-button" mat-button>
+            Agree & Continue
+          </button>
+        </mat-dialog-actions>
+      </form>
+    </div>
+  }
+  @if (acceptTermsClicked) {
+    <div class="special-login-dialog-processing">
+      <h2>Accepting terms and logging in...</h2>
+      <mat-spinner mode="indeterminate"></mat-spinner>
+    </div>
+  }
 </ng-template>

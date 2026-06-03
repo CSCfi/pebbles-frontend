@@ -16,24 +16,24 @@
   </div>
 
   <div class="content-container">
-    <div *ngIf="getMessages().length > 0; else elseBlock" class="items">
-      <ng-container *ngFor="let message of getMessages()">
-        <div [ngClass]="{'unread':!message.is_read}" class="item">
-          <div class="title">{{ message.subject }}</div>
-          <span class="label">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
-          <div [innerHtml]="message.message"
-               class="description">
+    @if (getMessages().length > 0) {
+      <div class="items">
+        @for (message of getMessages(); track message) {
+          <div [ngClass]="{'unread':!message.is_read}" class="item">
+            <div class="title">{{ message.subject }}</div>
+            <span class="label">{{ getIsoToTimestamp(message.broadcasted) | dateDisplay }}</span>
+            <div [innerHtml]="message.message"
+                 class="description">
+            </div>
           </div>
-        </div>
-      </ng-container>
-    </div>
-
-    <ng-template #elseBlock>
+        }
+      </div>
+    } @else {
       <section class="status-info-container">
         <div class="empty-status">
           <div class="status-headline">No messages yet</div>
         </div>
       </section>
-    </ng-template>
+    }
   </div>
 </div>

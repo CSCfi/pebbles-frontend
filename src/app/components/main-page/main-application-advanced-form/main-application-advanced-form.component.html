@@ -1,51 +1,53 @@
 <div class="form-wrapper">
   <div class="form-header">
     <h3 class="form-title">{{ isCreationMode ? 'Add new' : 'Edit' }} application</h3>
-    <button class="cancel-button"
-            mat-button
-            (click)="closeAdvancedForm(false)">
+    <button (click)="closeAdvancedForm(false)"
+            class="cancel-button"
+            mat-button>
       Close
     </button>
   </div>
 
   <form [formGroup]="applicationItemEditFormGroup">
     <div class="advanced-form-actions">
-      <button class="publish-save-button"
-              mat-button
-              *ngIf="isCreationMode;else updatePublicButton"
-              [disabled]="applicationItemEditFormGroup.invalid"
-              (click)="createApplicationByPlainMode(true)">
-        Save and publish
-      </button>
-      <ng-template #updatePublicButton>
-        <button class="save-button"
-                mat-button
+      @if (isCreationMode) {
+        <button (click)="createApplicationByPlainMode(true)"
                 [disabled]="applicationItemEditFormGroup.invalid"
-                (click)="editApplicationItem(true)">
+                class="publish-save-button"
+                mat-button>
+          Save and publish
+        </button>
+      } @else {
+        <button (click)="editApplicationItem(true)"
+                [disabled]="applicationItemEditFormGroup.invalid"
+                class="save-button"
+                mat-button>
           Save {{ application?.is_enabled ? '' : 'and publish' }}
         </button>
-      </ng-template>
-      <button mat-button
-              class="submit-draft-button"
-              *ngIf="isCreationMode;else updateDraftButton"
-              [disabled]="applicationItemEditFormGroup.invalid"
-              (click)="createApplicationByPlainMode(false)">
-        Save and make draft
-      </button>
-      <ng-template #updateDraftButton>
-        <button mat-flat-button
-                class="submit-draft-button"
-                type="button"
+      }
+      @if (isCreationMode) {
+        <button (click)="createApplicationByPlainMode(false)"
                 [disabled]="applicationItemEditFormGroup.invalid"
-                (click)="editApplicationItem(false)">
+                class="submit-draft-button"
+                mat-button>
+          Save and make draft
+        </button>
+      } @else {
+        <button (click)="editApplicationItem(false)"
+                [disabled]="applicationItemEditFormGroup.invalid"
+                class="submit-draft-button"
+                mat-flat-button
+                type="button">
           Save {{ application?.is_enabled ? 'and make draft' : 'and keep draft' }}
         </button>
-      </ng-template>
-      <button
-          (click)="setCreationForm()"
-          *ngIf="isCreationMode" class="clear-button" mat-button>
-        Clear
-      </button>
+      }
+      @if (isCreationMode) {
+        <button
+            (click)="setCreationForm()"
+            class="clear-button" mat-button>
+          Clear
+        </button>
+      }
     </div>
     <div class="form-content">
       <!-- Basic information -->
@@ -54,24 +56,30 @@
         <div class="form-container name-form">
           <h5 class="form-title">Application name *</h5>
           <mat-form-field appearance="fill">
-            <input matInput formControlName="name" #firstFocus>
-            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('required')">
-              <strong>Name is required</strong>
-            </mat-error>
-            <mat-error *ngIf="applicationItemEditFormGroup.controls.name.hasError('maxlength')">
-              <strong>Max length (128 characters) exceeded</strong>
-            </mat-error>
+            <input #firstFocus formControlName="name" matInput>
+            @if (applicationItemEditFormGroup.controls.name.hasError('required')) {
+              <mat-error>
+                <strong>Name is required</strong>
+              </mat-error>
+            }
+            @if (applicationItemEditFormGroup.controls.name.hasError('maxlength')) {
+              <mat-error>
+                <strong>Max length (128 characters) exceeded</strong>
+              </mat-error>
+            }
           </mat-form-field>
         </div>
         <div class="form-container description-form">
           <h5 class="form-title">Description *</h5>
           <mat-form-field appearance="fill">
-            <textarea matInput
-                      formControlName="description"
+            <textarea formControlName="description"
+                      matInput
                       rows="3"></textarea>
-            <mat-error *ngIf="!applicationItemEditFormGroup.controls.description.valid">
-              <strong>Description is required</strong>
-            </mat-error>
+            @if (!applicationItemEditFormGroup.controls.description.valid) {
+              <mat-error>
+                <strong>Description is required</strong>
+              </mat-error>
+            }
           </mat-form-field>
         </div>
       </section>
@@ -80,8 +88,7 @@
       <!-- Image information -->
       <section class="image-section">
         <h4 class="section-title">Configuration</h4>
-
-        <ng-container *ngIf="isCreationMode;else editModeTypeAndTemplate">
+        @if (isCreationMode) {
           <div class="form-container application-type-form">
             <h5 class="form-title">Type *</h5>
             <mat-button-toggle-group
@@ -101,29 +108,34 @@
               <mat-select (selectionChange)="onChangeApplicationTemplate($event.source.value)"
                           formControlName="applicationTemplateId"
                           placeholder="Choose your application template from the list">
-                <mat-option *ngFor="let tmpl of applicationTemplates" value="{{ tmpl.id }}">
-                  <ng-container *ngIf="!tmpl.is_enabled">[disabled]</ng-container>
-                  {{ tmpl.name }}
-                </mat-option>
+                @for (tmpl of applicationTemplates; track tmpl.id) {
+                  <mat-option value="{{ tmpl.id }}">
+                    @if (!tmpl.is_enabled) {
+                      [disabled]
+                    }
+                    {{ tmpl.name }}
+                  </mat-option>
+                }
               </mat-select>
-              <mat-error *ngIf="applicationItemEditFormGroup.controls.applicationTemplateId.hasError('required')">
-                <strong>Application template should be selected.</strong>
-              </mat-error>
+              @if (applicationItemEditFormGroup.controls.applicationTemplateId.hasError('required')) {
+                <mat-error>
+                  <strong>Application template should be selected.</strong>
+                </mat-error>
+              }
             </mat-form-field>
-            <div *ngIf="selectedApplicationTemplate"
-                 [innerHTML]="selectedApplicationTemplate.description"
-                 class="application-template-description render-hyperlinks">
-            </div>
+            @if (selectedApplicationTemplate) {
+              <div [innerHTML]="selectedApplicationTemplate.description"
+                   class="application-template-description render-hyperlinks">
+              </div>
+            }
           </div>
-        </ng-container>
-        <ng-template #editModeTypeAndTemplate>
+        } @else {
           <div class="form-container type-and-template-info">
             <h3 class="form-title">Type and template</h3>
             <p>Type: {{ application?.application_type }}</p>
             <p>Template: {{ application?.template_name }}</p>
           </div>
-        </ng-template>
-
+        }
         <div class="form-container image-source-form">
           <h3 class="form-title">Container image</h3>
           <mat-button-toggle-group
@@ -136,96 +148,103 @@
                                [value]="ImageSourceType.Template">
               Default image defined in the template
             </mat-button-toggle>
-            <mat-button-toggle [value]="ImageSourceType.Customized"
-                               *ngIf="isCustomImageVisible"
-                               [disabled]="!isImageSourceOptionEnabled(ImageSourceType.Customized)">
-              Custom image in this workspace
-            </mat-button-toggle>
+            @if (isCustomImageVisible) {
+              <mat-button-toggle [disabled]="!isImageSourceOptionEnabled(ImageSourceType.Customized)"
+                                 [value]="ImageSourceType.Customized">
+                Custom image in this workspace
+              </mat-button-toggle>
+            }
             <mat-button-toggle [disabled]="!isImageSourceOptionEnabled(ImageSourceType.External)"
                                [value]="ImageSourceType.External">
               External image
             </mat-button-toggle>
           </mat-button-toggle-group>
-
-          <p *ngIf="selectedImageSource===ImageSourceType.Template">
-            {{ selectedApplicationTemplate?.base_config.image }}
-          </p>
+          @if (selectedImageSource === ImageSourceType.Template) {
+            <p>
+              {{ selectedApplicationTemplate?.base_config.image }}
+            </p>
+          }
         </div>
-
-        <div class="form-container custom-image-form"
-             *ngIf="selectedImageSource===ImageSourceType.Customized">
-          <h5 class="form-title">Custom image</h5>
-          <mat-list>
-            <mat-list-item [class.done]="customImageList.length > 0">
-              <span class="done-flag" *ngIf="customImageList.length > 0; else undoneFlag">
-                <mat-icon class="done-icon">done</mat-icon>
-                Done
-              </span>
-              <ng-template #undoneFlag>
-                <span class="incomplete-flag">
-                  Incomplete
-                </span>
-              </ng-template>
-              STEP 1.
-              <span class="spacer"></span>
-              Create a Custom image in
-              <span class="key"
-                    (mouseenter)="onHoverCustomImageHint()"
-                    (mouseleave)="awayHoverCustomImageHint()">Custom Images Tab</span>
-            </mat-list-item>
-            <mat-list-item [class.done]="customImageList.length > 0">
-              <span class="done-flag"
-                    *ngIf="applicationItemEditFormGroup.controls.customImageUrl.value; else undoneFlag">
-                <mat-icon class="done-icon">done</mat-icon>
-                Done
-              </span>
-              <ng-template #undoneFlag>
-                <span class="incomplete-flag">
-                  Incomplete
-                </span>
-              </ng-template>
-              STEP 2.
-              <span class="spacer"></span>
-              Choose a built custom image below
-            </mat-list-item>
-          </mat-list>
-          <mat-form-field appearance="fill" class="custom-image-selection-form">
-            <mat-select formControlName="customImageUrl"
-                        placeholder="Choose your custom image from the list">
-              <mat-option *ngFor="let ci of customImageList" [value]="ci.url">
-                {{ ci.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="!applicationItemEditFormGroup.controls.customImageUrl.valid">
-              <strong>Custom image should be selected.</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="form-container image-url-form"
-             *ngIf="selectedImageSource===ImageSourceType.External">
-          <h5 class="form-title">Image URL</h5>
-          <p class="mat-caption">
-            Manually enter the URL for the external image.
-            The image has to be compatible with the chosen application type and publicly available
-          </p>
-          <mat-form-field appearance="fill">
-            <input matInput formControlName="imageUrl">
-            <mat-error *ngIf="applicationItemEditFormGroup.controls.imageUrl.errors">
-              <ng-container *ngIf="applicationItemEditFormGroup.controls.imageUrl.value===''; else
-              invalidExternalImageUrl">
-                <strong>Image Url is required. Example: docker.io/example/image:latest</strong>
-              </ng-container>
-              <ng-template #invalidExternalImageUrl>
-                <strong>Invalid image url. Example: docker.io/example/image:latest</strong>
-              </ng-template>
-            </mat-error>
-          </mat-form-field>
-          <mat-checkbox formControlName="isAlwaysPullImage">
-            Always pull image
-          </mat-checkbox>
-          <p>(Check if you have to reuse a tag for different image versions.)</p>
-        </div>
+        @if (selectedImageSource === ImageSourceType.Customized) {
+          <div class="form-container custom-image-form">
+            <h5 class="form-title">Custom image</h5>
+            <mat-list>
+              <mat-list-item [class.done]="customImageList.length > 0">
+                @if (customImageList.length > 0) {
+                  <span class="done-flag">
+                    <mat-icon class="done-icon">done</mat-icon>
+                    Done
+                  </span>
+                } @else {
+                  <span class="incomplete-flag">
+                    Incomplete
+                  </span>
+                }
+                STEP 1.
+                <span class="spacer"></span>
+                Create a Custom image in
+                <span (mouseenter)="onHoverCustomImageHint()"
+                      (mouseleave)="awayHoverCustomImageHint()"
+                      class="key">Custom Images Tab</span>
+              </mat-list-item>
+              <mat-list-item [class.done]="customImageList.length > 0">
+                @if (applicationItemEditFormGroup.controls.customImageUrl.value) {
+                  <span class="done-flag">
+                    <mat-icon class="done-icon">done</mat-icon>
+                    Done
+                  </span>
+                } @else {
+                  <span class="incomplete-flag">
+                    Incomplete
+                  </span>
+                }
+                STEP 2.
+                <span class="spacer"></span>
+                Choose a built custom image below
+              </mat-list-item>
+            </mat-list>
+            <mat-form-field appearance="fill" class="custom-image-selection-form">
+              <mat-select formControlName="customImageUrl"
+                          placeholder="Choose your custom image from the list">
+                @for (ci of customImageList; track ci.url) {
+                  <mat-option [value]="ci.url">
+                    {{ ci.name }}
+                  </mat-option>
+                }
+              </mat-select>
+              @if (!applicationItemEditFormGroup.controls.customImageUrl.valid) {
+                <mat-error>
+                  <strong>Custom image should be selected.</strong>
+                </mat-error>
+              }
+            </mat-form-field>
+          </div>
+        }
+        @if (selectedImageSource === ImageSourceType.External) {
+          <div class="form-container image-url-form">
+            <h5 class="form-title">Image URL</h5>
+            <p class="mat-caption">
+              Manually enter the URL for the external image.
+              The image has to be compatible with the chosen application type and publicly available
+            </p>
+            <mat-form-field appearance="fill">
+              <input formControlName="imageUrl" matInput>
+              @if (applicationItemEditFormGroup.controls.imageUrl.errors) {
+                <mat-error>
+                  @if (applicationItemEditFormGroup.controls.imageUrl.value === '') {
+                    <strong>Image Url is required. Example: docker.io/example/image:latest</strong>
+                  } @else {
+                    <strong>Invalid image url. Example: docker.io/example/image:latest</strong>
+                  }
+                </mat-error>
+              }
+            </mat-form-field>
+            <mat-checkbox formControlName="isAlwaysPullImage">
+              Always pull image
+            </mat-checkbox>
+            <p>(Check if you have to reuse a tag for different image versions.)</p>
+          </div>
+        }
         <!-- Category labels -->
         <div class="form-container category-form">
           <h5 class="form-title">Category labels
@@ -245,24 +264,28 @@
         <div class="form-container session-lifetime-form">
           <h5 class="form-title">Session lifetime</h5>
           <mat-select formControlName="sessionLifetimeHours">
-            <mat-option *ngFor="let opt of availableLifetimeOptions" [value]="opt.value">
-              {{ opt.viewValue }}
-            </mat-option>
+            @for (opt of availableLifetimeOptions; track opt.value) {
+              <mat-option [value]="opt.value">
+                {{ opt.viewValue }}
+              </mat-option>
+            }
           </mat-select>
         </div>
 
         <div class="form-container session-memory-form">
           <h5 class="form-title">Session memory (RAM)</h5>
           <mat-select formControlName="sessionMemoryGiB">
-            <mat-option *ngFor="let opt of availableMemoryOptions" [value]="opt.value">
-              {{ opt.viewValue }}
-            </mat-option>
+            @for (opt of availableMemoryOptions; track opt.value) {
+              <mat-option [value]="opt.value">
+                {{ opt.viewValue }}
+              </mat-option>
+            }
           </mat-select>
         </div>
 
         <div class="form-container download-method-form">
           <h5 class="form-title">Download method</h5>
-          <mat-radio-group formControlName="downloadMethod" (change)="onChangeDownloadMethod($event.value)">
+          <mat-radio-group (change)="onChangeDownloadMethod($event.value)" formControlName="downloadMethod">
             <ul>
               <li>
                 <mat-radio-button [value]="'none'">None</mat-radio-button>
@@ -276,25 +299,28 @@
             </ul>
           </mat-radio-group>
         </div>
-
-        <ng-container [ngSwitch]="selectedDownloadMethod">
-          <div class="form-container download-source-form" *ngIf="selectedDownloadMethod">
-            <div *ngSwitchCase="'local'">
-              <button mat-flat-button class="primary-btn">Upload file</button>
-            </div>
-            <div
-                *ngSwitchCase=" ['git-clone','http-get'].includes(selectedDownloadMethod) ? selectedDownloadMethod : !selectedDownloadMethod ">
-              <h5 class="form-title">Source URL</h5>
-              <mat-form-field appearance="fill">
-                <input matInput formControlName="downloadSourceUrl">
-                <mat-error *ngIf="!applicationItemEditFormGroup.controls.downloadSourceUrl.valid">
-                  <strong>Source URL is missing</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
+        @if (selectedDownloadMethod) {
+          <div class="form-container download-source-form">
+            @if (selectedDownloadMethod === 'local') {
+              <div>
+                <button class="primary-btn" mat-flat-button>Upload file</button>
+              </div>
+            }
+            @if (selectedDownloadMethod === 'git-clone' || selectedDownloadMethod === 'http-get') {
+              <div>
+                <h5 class="form-title">Source URL</h5>
+                <mat-form-field appearance="fill">
+                  <input formControlName="downloadSourceUrl" matInput>
+                  @if (!applicationItemEditFormGroup.controls.downloadSourceUrl.valid) {
+                    <mat-error>
+                      <strong>Source URL is missing</strong>
+                    </mat-error>
+                  }
+                </mat-form-field>
+              </div>
+            }
           </div>
-        </ng-container>
-
+        }
         <div class="form-container storage-form">
           <h5 class="form-title">Storage</h5>
           <div class="checkbox-group">
@@ -320,7 +346,7 @@
             <code class="env-var-example">FOO=hello BAR=there</code>
           </p>
           <mat-form-field appearance="fill">
-            <input matInput formControlName="environmentVars">
+            <input formControlName="environmentVars" matInput>
           </mat-form-field>
         </div>
       </section>

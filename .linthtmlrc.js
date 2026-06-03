@@ -13,8 +13,9 @@ module.exports = {
     "style"
   ],
   "indent-delta": false,
-  "indent-style": "spaces",
-  "indent-width": 2,
+  // linthtml does not parse Angular @if/@for/@switch control-flow blocks
+  "indent-style": false,
+  "indent-width": false,
   "indent-width-cont": false,
   "spec-char-escape": true,
   "text-ignore-regex": false,

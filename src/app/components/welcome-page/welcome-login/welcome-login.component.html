@@ -2,8 +2,8 @@
   <!-- Left -->
   <div class="left-content-wrapper">
     <h2>{{ publicConfigService.getShortDescription() }}</h2>
-    <div class="service-description"
-         [innerHTML]="publicConfigService.getInstallationDescription()">
+    <div [innerHTML]="publicConfigService.getInstallationDescription()"
+         class="service-description">
     </div>
     <div class="login-wrapper">
       <a class="oauth-login-button" href="/oauth2?rd=%2Foauth2" id="oauth-login-button" mat-button mat-raised-button>
@@ -22,21 +22,21 @@
   <!-- Right -->
   <div class="hero-shots right-content-wrapper" id="hero-shots">
     <div class="background-images">
-      <app-welcome-background class="app-welcome-background" [cube]="0"></app-welcome-background>
-      <app-welcome-background class="app-welcome-background" [cube]="1"></app-welcome-background>
-      <app-welcome-background class="app-welcome-background" [cube]="2"></app-welcome-background>
-      <app-welcome-background class="app-welcome-background" [cube]="3"></app-welcome-background>
+      <app-welcome-background [cube]="0" class="app-welcome-background"></app-welcome-background>
+      <app-welcome-background [cube]="1" class="app-welcome-background"></app-welcome-background>
+      <app-welcome-background [cube]="2" class="app-welcome-background"></app-welcome-background>
+      <app-welcome-background [cube]="3" class="app-welcome-background"></app-welcome-background>
     </div>
     <div class="hero-video">
       <video autoplay
              muted
              onloadeddata="this.play();"
              onloadedmetadata="this.muted = true">
-        <source src="assets/images/demo.mp4" alt="demo-video" type="video/mp4">
+        <source alt="demo-video" src="assets/images/demo.mp4" type="video/mp4">
         <!--        Show images if the browser doesn't support video tag-->
         <!--        <div class="hero-images">-->
         <!--          <div class="image-container" [@openClose]="isImageVisible0 ? 'open' : 'closed'">-->
-        <img src="assets/images/screenshot-0.png" alt="Example screenshot"/>
+        <img alt="Example screenshot" src="assets/images/screenshot-0.png"/>
         <!--          </div>-->
         <!--          <div class="image-container" [@openClose]="isImageVisible1 ? 'open' : 'closed'">-->
         <!--            <img src="assets/images/screenshot-1.png" alt="Example screenshot"/>-->

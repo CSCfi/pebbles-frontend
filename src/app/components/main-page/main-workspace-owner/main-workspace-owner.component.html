@@ -1,201 +1,223 @@
-<div *ngIf="workspaces !== null; else loadingBlock" class="page-container">
-  <!-- Left Column : Workspace list -->
-  <div class="workspace-list-container">
-    <!--  Content header  -->
-    <div class="content-header-container">
-      <h3 [innerHTML]="context.title" class="title"></h3>
-      <!-- Workspace creation buttons -->
-      <div *ngIf="workspaces" class="header-functions">
-        <button (click)="createDemoWorkspaces()"
-                *ngIf="isDemoButtonShown"
-                aria-label="create demo workspace"
-                class="create-demo-workspace-button"
-                mat-button>
-          <span>Create demo workspace</span>
-        </button>
-        <button (click)="openWorkspaceCreationDialog()"
-                [disabled]="!isQuotaLeft()"
-                [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
-                aria-label="create a new workspace"
-                class="create-workspace-button"
-                mat-button>
-          <span>Create workspace</span>
-        </button>
-        <div *ngIf="!isQuotaLeft()" class="max-quota-warning warning-message">
-          Maximum number of workspaces reached.
-          Please delete unused workspaces, or contact
-          <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a> for more quota.
-        </div>
+@if (workspaces !== null) {
+  <div class="page-container">
+    <!-- Left Column : Workspace list -->
+    <div class="workspace-list-container">
+      <!--  Content header  -->
+      <div class="content-header-container">
+        <h3 [innerHTML]="context.title" class="title"></h3>
+        <!-- Workspace creation buttons -->
+        @if (workspaces) {
+          <div class="header-functions">
+            @if (isDemoButtonShown) {
+              <button (click)="createDemoWorkspaces()"
+                      aria-label="create demo workspace"
+                      class="create-demo-workspace-button"
+                      mat-button>
+                <span>Create demo workspace</span>
+              </button>
+            }
+            <button (click)="openWorkspaceCreationDialog()"
+                    [disabled]="!isQuotaLeft()"
+                    [ngClass]="{'bg__accent txt__white':!isDemoButtonShown}"
+                    aria-label="create a new workspace"
+                    class="create-workspace-button"
+                    mat-button>
+              <span>Create workspace</span>
+            </button>
+            @if (!isQuotaLeft()) {
+              <div class="max-quota-warning warning-message">
+                Maximum number of workspaces reached.
+                Please delete unused workspaces, or contact
+                <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a> for more quota.
+              </div>
+            }
+          </div>
+        }
       </div>
-    </div>
-    <!-- Workspace list -->
-    <div *ngIf="workspaces && !isNoWorkspace; else noWorkspace" class="workspace-list">
-      <mat-card (click)="selectWorkspace(workspace.id, selectedTabType)"
-                *ngFor="let workspace of workspaces"
-                [ngClass]="getWorkspaceClasses(workspace)"
-                appearance="outlined"
-                class="workspace-item">
-        <mat-card-header class="lifecycle-corner-banner">
-          <mat-card-title
-              [matTooltip]="getMembershipType(workspace)">
-            <h3 class="title">{{ workspace.name }}</h3>
-            <div *ngIf="isWorkspaceSelected(workspace)"
-                 class="workspace-selected-arrow">
-            </div>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content *ngIf="isWorkspaceSelected(workspace)"
-                          class="workspace-info">
-          <div [innerHTML]="workspace.description" class="description"></div>
-          <dl class="grid">
-            <dt>Your role</dt>
-            <dd class="user-role-txt">{{ getMembershipType(workspace) }}</dd>
-            <dt class="function-title">Join code</dt>
-            <dd (click)="openJoinCodeDialog(workspace)">
-              <button class="open-join-code-button"></button>
-            </dd>
+      <!-- Workspace list -->
+      @if (workspaces && !isNoWorkspace) {
+        <div class="workspace-list">
+          @for (workspace of workspaces; track workspace) {
+            <mat-card (click)="selectWorkspace(workspace.id, selectedTabType)"
+                      [ngClass]="getWorkspaceClasses(workspace)"
+                      appearance="outlined"
+                      class="workspace-item">
+              <mat-card-header class="lifecycle-corner-banner">
+                <mat-card-title
+                    [matTooltip]="getMembershipType(workspace)">
+                  <h3 class="title">{{ workspace.name }}</h3>
+                  @if (isWorkspaceSelected(workspace)) {
+                    <div
+                        class="workspace-selected-arrow">
+                    </div>
+                  }
+                </mat-card-title>
+              </mat-card-header>
+              @if (isWorkspaceSelected(workspace)) {
+                <mat-card-content
+                    class="workspace-info">
+                  <div [innerHTML]="workspace.description" class="description"></div>
+                  <dl class="grid">
+                    <dt>Your role</dt>
+                    <dd class="user-role-txt">{{ getMembershipType(workspace) }}</dd>
+                    <dt class="function-title">Join code</dt>
+                    <dd (click)="openJoinCodeDialog(workspace)">
+                      <button class="open-join-code-button"></button>
+                    </dd>
 
-            <dt class="function-title">Days till expiry</dt>
-            <dd [matTooltipDisabled]="!workspace.expiry_ts"
-                [matTooltip]="workspace.expiry_ts | dateDisplay"
-                class="expiration-date"
-                matTooltipPosition="below">
-              {{ workspace.expiry_ts | remainingDaysDisplay }}
-            </dd>
-            <ng-container *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
-              <dt>Membership expiry</dt>
-              <dd>{{ workspace.membership_expiry_policy.timeout_days }} days</dd>
-            </ng-container>
-          </dl>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <!-- Tablet/mobile workspace-list -->
-    <div *ngIf="workspaces?.length > 0" class="tablet-workspace-list">
-      <mat-form-field appearance="fill">
-        <mat-label>Select workspace</mat-label>
-        <mat-select [formControl]="workspaceIdControl"
-                    (selectionChange)="selectWorkspace(workspaceIdControl.value, selectedTabType)">
-          <mat-select-trigger>
-            <span *ngIf="workspaceIdControl.value && getWorkspaceById(workspaceIdControl.value)">
-              <span class="lifecycle-badge"
-                    [ngClass]="getItemLifecycleNote(getWorkspaceById(workspaceIdControl.value))">
+                    <dt class="function-title">Days till expiry</dt>
+                    <dd [matTooltipDisabled]="!workspace.expiry_ts"
+                        [matTooltip]="workspace.expiry_ts | dateDisplay"
+                        class="expiration-date"
+                        matTooltipPosition="below">
+                      {{ workspace.expiry_ts | remainingDaysDisplay }}
+                    </dd>
+                    @if (workspace.membership_expiry_policy.kind === 'activity_timeout') {
+                      <dt>Membership expiry</dt>
+                      <dd>{{ workspace.membership_expiry_policy.timeout_days }} days</dd>
+                    }
+                  </dl>
+                </mat-card-content>
+              }
+            </mat-card>
+          }
+        </div>
+      } @else {
+        <div class="status-info-container">
+          <div class="empty-status">
+            <h2 class="status-headline">No workspaces</h2>
+            <div class="status-content">
+              Start by creating a new workspace
+            </div>
+          </div>
+        </div>
+      }
+      <!-- Tablet/mobile workspace-list -->
+      @if (workspaces?.length > 0) {
+        <div class="tablet-workspace-list">
+          <mat-form-field appearance="fill">
+            <mat-label>Select workspace</mat-label>
+            <mat-select (selectionChange)="selectWorkspace(workspaceIdControl.value, selectedTabType)"
+                        [formControl]="workspaceIdControl">
+              <mat-select-trigger>
+                @if (workspaceIdControl.value && getWorkspaceById(workspaceIdControl.value)) {
+                  <span>
+              <span [ngClass]="getItemLifecycleNote(getWorkspaceById(workspaceIdControl.value))"
+                    class="lifecycle-badge">
                 {{ getWorkspaceById(workspaceIdControl.value).name }}
               </span>
             </span>
-          </mat-select-trigger>
-          <ng-container *ngFor="let workspace of workspaces">
-            <mat-option
-                [value]="workspace.id"
-                class="workspace-selection">
-              <span class="lifecycle-badge" [ngClass]="getItemLifecycleNote(workspace)">{{ workspace.name }}</span>
-            </mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  <!--  //// END div.workspaces-actions-container -->
-  <!-- Right Column : Workspace Detail -->
-  <div *ngIf="workspaces" class="tab-container">
-    <!--  Service Announcement 'workspace-owner'  -->
-    <app-service-announcement [context]="context"></app-service-announcement>
-
-    <div class="tab-group-wrapper" *ngIf="selectedWorkspace">
-      <div class="course-request-wrapper">
-        <button mat-button matTooltip="Hosting a course? Please inform us by using this form."
-                class="course-request" (click)="openCourseRequest()">
-          Course request
-        </button>
-      </div>
-
-      <mat-tab-group class="workspace-owner-tab"
-                     (selectedTabChange)="handleTabChange($event)"
-                     animationDuration="100ms"
-                     mat-align-tabs="left"
-                     [selectedIndex]="selectedTabType">
-
-        <mat-tab class="application-tab">
-          <ng-template mat-tab-label>
-            <span (click)="closeForm()" class="tab-title applications">Applications</span>
-          </ng-template>
-          <app-main-workspace-applications
-              *ngIf="selectedTabType===TabType.Applications"
-              [workspace]="selectedWorkspace"
-              [context]="context"
-              [isWorkspaceExpired]="isWorkspaceExpired"
-              [isFormOpen]="isAppFormOpen"
-              [selectedApplicationId]="selectedApplicationId">
-          </app-main-workspace-applications>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span class="tab-title members">Members</span>
-          </ng-template>
-          <app-main-workspace-members
-              *ngIf="selectedTabType===TabType.Members"
-              [workspace]="selectedWorkspace">
-          </app-main-workspace-members>
-        </mat-tab>
-        <mat-tab *ngIf="isCustomImagesFeatureEnabled">
-          <ng-template mat-tab-label>
-            <span class="tab-title custom-images">Custom Images</span>
-            <span #customImagesTabLabel class="preview-label">Preview</span>
-          </ng-template>
-          <app-main-workspace-custom-images
-              *ngIf="selectedTabType===TabType.CustomImages"
-              [workspace]="selectedWorkspace"
-              [isWorkspaceExpired]="isWorkspaceExpired">
-          </app-main-workspace-custom-images>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span class="tab-title setting" matTooltip="Settings..."></span>
-          </ng-template>
-          <app-main-workspace-item-detail
-              *ngIf="selectedTabType===TabType.Config"
-              [workspace]="selectedWorkspace"
-              (workspaceDeletedEvent)="openDeleteWorkspaceDialog()">
-          </app-main-workspace-item-detail>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-
-    <ng-container *ngIf="isWorkspaceDeleted">
-      <section class="status-info-container">
-        <div class="success-status">
-          <h2 class="status-headline">Workspace successfully deleted</h2>
-          <p class="status-summary">
-            Please select another workspace from the left column.
-          </p>
+                }
+              </mat-select-trigger>
+              @for (workspace of workspaces; track workspace) {
+                <mat-option
+                    [value]="workspace.id"
+                    class="workspace-selection">
+                  <span [ngClass]="getItemLifecycleNote(workspace)" class="lifecycle-badge">{{ workspace.name }}</span>
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
         </div>
-      </section>
-    </ng-container>
+      }
+    </div>
+    <!--  //// END div.workspaces-actions-container -->
+    <!-- Right Column : Workspace Detail -->
+    @if (workspaces) {
+      <div class="tab-container">
+        <!--  Service Announcement 'workspace-owner'  -->
+        <app-service-announcement [context]="context"></app-service-announcement>
+        @if (selectedWorkspace) {
+          <div class="tab-group-wrapper">
+            <div class="course-request-wrapper">
+              <button (click)="openCourseRequest()" class="course-request"
+                      mat-button matTooltip="Hosting a course? Please inform us by using this form.">
+                Course request
+              </button>
+            </div>
 
-    <ng-container *ngIf="isNoWorkspace && !isWorkspaceDeleted && !isWorkspaceFormOpen">
-      <div class="gray-out-container">
-        <div class="gray-out-panel"></div>
+            <mat-tab-group (selectedTabChange)="handleTabChange($event)"
+                           [selectedIndex]="selectedTabType"
+                           animationDuration="100ms"
+                           class="workspace-owner-tab"
+                           mat-align-tabs="left">
+
+              <mat-tab class="application-tab">
+                <ng-template mat-tab-label>
+                  <span (click)="closeForm()" class="tab-title applications">Applications</span>
+                </ng-template>
+                @if (selectedTabType === TabType.Applications) {
+                  <app-main-workspace-applications
+                      [context]="context"
+                      [isFormOpen]="isAppFormOpen"
+                      [isWorkspaceExpired]="isWorkspaceExpired"
+                      [selectedApplicationId]="selectedApplicationId"
+                      [workspace]="selectedWorkspace">
+                  </app-main-workspace-applications>
+                }
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <span class="tab-title members">Members</span>
+                </ng-template>
+                @if (selectedTabType === TabType.Members) {
+                  <app-main-workspace-members
+                      [workspace]="selectedWorkspace">
+                  </app-main-workspace-members>
+                }
+              </mat-tab>
+              @if (isCustomImagesFeatureEnabled) {
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    <span class="tab-title custom-images">Custom Images</span>
+                    <span #customImagesTabLabel class="preview-label">Preview</span>
+                  </ng-template>
+                  @if (selectedTabType === TabType.CustomImages) {
+                    <app-main-workspace-custom-images
+                        [isWorkspaceExpired]="isWorkspaceExpired"
+                        [workspace]="selectedWorkspace">
+                    </app-main-workspace-custom-images>
+                  }
+                </mat-tab>
+              }
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <span class="tab-title setting" matTooltip="Settings..."></span>
+                </ng-template>
+                @if (selectedTabType === TabType.Config) {
+                  <app-main-workspace-item-detail
+                      (workspaceDeletedEvent)="openDeleteWorkspaceDialog()"
+                      [workspace]="selectedWorkspace">
+                  </app-main-workspace-item-detail>
+                }
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        }
+        @if (isWorkspaceDeleted) {
+          <section class="status-info-container">
+            <div class="success-status">
+              <h2 class="status-headline">Workspace successfully deleted</h2>
+              <p class="status-summary">
+                Please select another workspace from the left column.
+              </p>
+            </div>
+          </section>
+        }
+        @if (isNoWorkspace && !isWorkspaceDeleted && !isWorkspaceFormOpen) {
+          <div class="gray-out-container">
+            <div class="gray-out-panel"></div>
+          </div>
+          <app-main-tour-bubble [isTourStepOn]="false" [tourSteps]="tourSteps"></app-main-tour-bubble>
+        }
       </div>
-      <app-main-tour-bubble [isTourStepOn]="false" [tourSteps]="tourSteps"></app-main-tour-bubble>
-    </ng-container>
+    }
+    <!--  //// END div#workspace-owner-tab-container -->
   </div>
-  <!--  //// END div#workspace-owner-tab-container -->
-</div>
-
-<ng-template #loadingBlock>
+} @else {
   <div class="status-info-container">
     <div class="loading-status">
       <span class="status-headline">...Loading...</span>
     </div>
   </div>
-</ng-template>
-<ng-template #noWorkspace>
-  <div class="status-info-container">
-    <div class="empty-status">
-      <h2 class="status-headline">No workspaces</h2>
-      <div class="status-content">
-        Start by creating a new workspace
-      </div>
-    </div>
-  </div>
-</ng-template>
+}

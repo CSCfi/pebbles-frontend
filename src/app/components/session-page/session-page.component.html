@@ -1,67 +1,63 @@
 <div class="page-container">
-  <app-header [isNaviVisible]="false"
-              [logoMarkSize]="60" [logoTypeSize]="3" [displayMode]="'fluid'">
+  <app-header [displayMode]="'fluid'"
+              [isNaviVisible]="false" [logoMarkSize]="60" [logoTypeSize]="3">
   </app-header>
-  <div *ngIf="targetWorkspace; else loadingBlock" class="session-container">
-    <div class="status-wrapper"
-         *ngIf="targetSession; else noSessionBlock">
-      <div class="state-info">{{ sessionStatesInfo }}</div>
-      <div class="progress-ui">
-        <ng-container *ngFor="let step of sessionProgressSteps">
-          <div class="step sentence-head">
-            <p class="description"><span [innerHTML]="step?.message"></span></p>
-            <div class="arrow-wrapper {{ 'delay-'+step.index }}"
-                 [ngClass]="{
-                 'done': step?.isDone,
-                 'current': step?.isCurrent,
-                 'failed': step?.isFailed,
-                 'stopped': step?.isStopped || isSessionDeleted
-                 }">
+  <div class="session-container">
+    @if (targetSession) {
+      <div class="status-wrapper">
+        <div class="state-info">{{ sessionStatesInfo }}</div>
+        <div class="progress-ui">
+          @for (step of sessionProgressSteps; track step) {
+            <div class="step sentence-head">
+              <p class="description"><span [innerHTML]="step?.message"></span></p>
+              <div [ngClass]="{
+               'done': step?.isDone,
+               'current': step?.isCurrent,
+               'failed': step?.isFailed,
+               'stopped': step?.isStopped || isSessionDeleted
+               }"
+                   class="arrow-wrapper {{ 'delay-'+step.index }}">
+              </div>
             </div>
-          </div>
-        </ng-container>
+          }
+        </div>
+        <div class="explanation-message">
+          <p [innerHTML]="warningMessage ? warningMessage : explanationMessage? explanationMessage : ' '"></p>
+        </div>
+        <app-main-application-item [application]="targetApplication"
+                                   [context]="context"
+                                   [isSessionDeleted]="isSessionDeleted"
+                                   class="application-item">
+        </app-main-application-item>
       </div>
-      <div class="explanation-message">
-        <p [innerHTML]="warningMessage ? warningMessage : explanationMessage? explanationMessage : ' '"></p>
-      </div>
-      <app-main-application-item class="application-item"
-                                 [context]="context"
-                                 [application]="targetApplication"
-                                 [isSessionDeleted]="isSessionDeleted">
-      </app-main-application-item>
-    </div>
-    <ng-template #noSessionBlock>
+    } @else {
       <div class="status-wrapper">
         <div class="state-info">{{ sessionStatesInfo }}</div>
       </div>
-    </ng-template>
+    }
   </div>
   <!-- Note about data expiration -->
-  <ng-container *ngIf="targetWorkspace">
-    <div *ngIf="targetWorkspace?.membership_expiry_policy?.kind==='activity_timeout'; else persistentMembership"
-         class="policy-note membership">
-      <div class="policy-content">
-        Please note that due to workspace policy, your membership will terminate after
-        {{ targetWorkspace.membership_expiry_policy.timeout_days }} days of inactivity.<br>
-        After termination, you cannot access data, including "my-work" content, in this workspace anymore.<br>
-        Remember to download files you want to save to your local computer.
-      </div>
-    </div>
-    <ng-template #persistentMembership>
-      <div *ngIf="targetWorkspace.expiry_ts" class="policy-note mywork">
+  @if (targetWorkspace) {
+    @if (targetWorkspace?.membership_expiry_policy?.kind === 'activity_timeout') {
+      <div
+          class="policy-note membership">
         <div class="policy-content">
-          The workspace containing this application and "my-work" content will expire and become inaccessible
-          {{ targetWorkspace?.expiry_ts * 1000 | date }}.<br>
+          Please note that due to workspace policy, your membership will terminate after
+          {{ targetWorkspace.membership_expiry_policy.timeout_days }} days of inactivity.<br>
+          After termination, you cannot access data, including "my-work" content, in this workspace anymore.<br>
           Remember to download files you want to save to your local computer.
         </div>
       </div>
-    </ng-template>
-  </ng-container>
-  <ng-template #loadingBlock>
-    <div class="status-info-container">
-      <div class="loading-status">
-        <span class="status-headline">...Loading...</span>
-      </div>
-    </div>
-  </ng-template>
+    } @else {
+      @if (targetWorkspace.expiry_ts) {
+        <div class="policy-note mywork">
+          <div class="policy-content">
+            The workspace containing this application and "my-work" content will expire and become inaccessible
+            {{ targetWorkspace?.expiry_ts * 1000 | date }}.<br>
+            Remember to download files you want to save to your local computer.
+          </div>
+        </div>
+      }
+    }
+  }
 </div>

@@ -1,148 +1,147 @@
-<div class="session-button-container {{ context.identifier }}"
-     *ngIf="application"
-     [ngClass]="{'warning': state==='failed', 'expired-ws': isWorkspaceExpired }">
-  <!-- Background circle  -->
-  <div [ngClass]="{'inactive':isLaunchButtonDisabled}" class="background-circle-container">
-    <svg focusable="false">
-      <circle class="background-circle" cx="50%" cy="50%" r="55" stroke-width="10"></circle>
-    </svg>
-  </div>
+@if (application) {
+  <div [ngClass]="{'warning': state==='failed', 'expired-ws': isWorkspaceExpired }"
+       class="session-button-container {{ context.identifier }}">
+    <!-- Background circle  -->
+    <div [ngClass]="{'inactive':isLaunchButtonDisabled}" class="background-circle-container">
+      <svg focusable="false">
+        <circle class="background-circle" cx="50%" cy="50%" r="55" stroke-width="10"></circle>
+      </svg>
+    </div>
 
-  <!-- Progress circle -->
-  <div class="progress-spinner-container">
-    <mat-progress-spinner class="application-spinner"
-                          [ngClass]="{'warning': isTimeWarningOn}"
-                          [diameter]="diameter" [strokeWidth]="strokeWidth"
-                          [mode]="isSpinnerOn ? 'indeterminate':'determinate'"
-                          [value]="lifetimePercentage">
-    </mat-progress-spinner>
-  </div>
+    <!-- Progress circle -->
+    <div class="progress-spinner-container">
+      <mat-progress-spinner [diameter]="diameter"
+                            [mode]="isSpinnerOn ? 'indeterminate':'determinate'"
+                            [ngClass]="{'warning': isTimeWarningOn}" [strokeWidth]="strokeWidth"
+                            [value]="lifetimePercentage"
+                            class="application-spinner">
+      </mat-progress-spinner>
+    </div>
 
-  <!-- Actionable circle -->
-  <div class="actionable-circle-container">
-    <!--
-      Actionable Circle conditional UI
-      1. UI for active session
-      2. Launch Button for application item -> #LaunchUI
-    -->
-    <!-- 1: active session -->
-    <ng-container *ngIf="isSessionActive; else powerButtonBlock">
+    <!-- Actionable circle -->
+    <div class="actionable-circle-container">
       <!--
-        Switch UI based on the state of session
-        A. Shutdown -> 'deleting'||'deleted'
-        B. Failed -> 'failed'
-        C. Running -> *ngSwitchDefault
+        Actionable Circle conditional UI
+        1. UI for active session
+        2. Launch Button for application item -> #LaunchUI
       -->
-      <div class="control-button circle-button"
-           [ngSwitch]="state">
-        <!-- A: Session [Shutdown] -->
-        <ng-container *ngSwitchCase="'deleting'">
-          <div class="state">
-            <div>{{ state }}</div>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'deleted'">
-          <div class="state">
-            <div>{{ state }}</div>
-          </div>
-        </ng-container>
-        <!-- B: Session [Failed] -->
-        <ng-container *ngSwitchCase="'failed'">
-          <ng-container *ngIf="context?.identifier!=='session'; else sessionPageDeletionBlock">
-            <div class="state-area">
-              <mat-icon fontSet="material-icons-outlined">running_with_errors</mat-icon>
-              <div class="state">Session failed</div>
-            </div>
-            <button mat-button matTooltip="Delete session" matTooltipPosition="below"
-                    class="shutdown-button" (click)="deleteSession(true)">
+      <!-- 1: active session -->
+      @if (isSessionActive) {
+        <!--
+          Switch UI based on the state of session
+          A. Shutdown -> 'deleting'||'deleted'
+          B. Failed -> 'failed'
+          C. Running -> default
+        -->
+        <div class="control-button circle-button"
+        >
+          @switch (state) {
+            <!-- A: Session [Shutdown] -->
+            @case ('deleting') {
+              <div class="state">
+                <div>{{ state }}</div>
+              </div>
+            }
+            @case ('deleted') {
+              <div class="state">
+                <div>{{ state }}</div>
+              </div>
+            }
+            <!-- B: Session [Failed] -->
+            @case ('failed') {
+              @if (context?.identifier !== 'session') {
+                <div class="state-area">
+                  <mat-icon fontSet="material-icons-outlined">running_with_errors</mat-icon>
+                  <div class="state">Session failed</div>
+                </div>
+                <button (click)="deleteSession(true)" class="shutdown-button" mat-button
+                        matTooltip="Delete session" matTooltipPosition="below">
               <span class="button-icon">
                 <mat-icon fontSet="material-icons-outlined">close</mat-icon>
               </span>
-            </button>
-          </ng-container>
-          <ng-template #sessionPageDeletionBlock>
-            <button mat-button matTooltip="Close page"
-                    class="close-button" (click)="deleteSession(true)">
-              <span class="button-icon">Delete</span>
-            </button>
-          </ng-template>
-        </ng-container>
-        <!-- Session [Running] -->
-        <ng-container *ngSwitchDefault>
-          <ng-container *ngIf="context?.identifier!=='session'; else sessionPageRunningBlock">
-            <button mat-button matTooltip="Enter session" matTooltipPosition="above" class="open-button"
-                    (click)="openSessionInBrowser()">
+                </button>
+              } @else {
+                <button (click)="deleteSession(true)" class="close-button"
+                        mat-button matTooltip="Close page">
+                  <span class="button-icon">Delete</span>
+                </button>
+              }
+            }
+            <!-- Session [Running] -->
+            @default {
+              @if (context?.identifier !== 'session') {
+                <button (click)="openSessionInBrowser()" class="open-button" mat-button matTooltip="Enter session"
+                        matTooltipPosition="above">
               <span class="button-icon block">
                 <mat-icon fontSet="material-icons-outlined">launch</mat-icon>
               </span>
-              <ng-container *ngIf="lifetimeLeft; else stateBlock">
-                <span class="time-left"> {{ lifetimeLeft }}</span>
-              </ng-container>
-              <ng-template #stateBlock>
-                <span class="state">{{ state }}</span>
-              </ng-template>
-            </button>
-            <button mat-button matTooltip="Delete session" matTooltipPosition="below"
-                    class="shutdown-button" (click)="deleteSession(false)">
+                  @if (lifetimeLeft) {
+                    <span class="time-left"> {{ lifetimeLeft }}</span>
+                  } @else {
+                    <span class="state">{{ state }}</span>
+                  }
+                </button>
+                <button (click)="deleteSession(false)" class="shutdown-button" mat-button
+                        matTooltip="Delete session" matTooltipPosition="below">
               <span class="button-icon">
                 <mat-icon fontSet="material-icons-outlined">close</mat-icon>
               </span>
-            </button>
-          </ng-container>
-          <ng-template #sessionPageRunningBlock>
-            <ng-container *ngIf="session.state === 'running'; else loadingBlock">
-              <div class="session-page-button">
-                <a [href]="accessUrl">
-                  OPEN
-                </a>
-              </div>
-            </ng-container>
-            <ng-template #loadingBlock>
-              <div class="session-page-button upper-button">
-                Loading
-              </div>
-              <button mat-button matTooltip="Delete session" matTooltipPosition="below"
-                      class="shutdown-button lower-button" (click)="deleteSession(false)">
+                </button>
+              } @else {
+                @if (session.state === 'running') {
+                  <div class="session-page-button">
+                    <a [href]="accessUrl">
+                      OPEN
+                    </a>
+                  </div>
+                } @else {
+                  <div class="session-page-button upper-button">
+                    Loading
+                  </div>
+                  <button (click)="deleteSession(false)" class="shutdown-button lower-button" mat-button
+                          matTooltip="Delete session" matTooltipPosition="below">
                 <span class="button-icon">
-                  <mat-icon fontSet="material-icons-outlined" class="md-16">close</mat-icon>
+                  <mat-icon class="md-16" fontSet="material-icons-outlined">close</mat-icon>
                 </span>
-              </button>
-            </ng-template>
-          </ng-template>
-        </ng-container>
-      </div>
-      <!-- //// END of Switch -->
-    </ng-container>
-    <!-- //// END of 1: active session -->
-    <!-- Action view 2 : Launch Button for application item -->
-    <ng-template #powerButtonBlock>
-      <ng-container *ngIf="!isSessionDeleted && context?.identifier!=='session'">
-        <!-- Check if the button is disabled and show the correct version with the right tool tip-->
-        <ng-container *ngIf="!isLaunchButtonDisabled">
-          <button mat-button class="launch-button circle-button"
-                  matTooltip="Start session"
-                  (click)="startSession()">
+                  </button>
+                }
+              }
+            }
+          }
+        </div>
+        <!-- //// END of Switch -->
+      } @else {
+        @if (!isSessionDeleted && context?.identifier !== 'session') {
+          <!-- Check if the button is disabled and show the correct version with the right tool tip-->
+          @if (!isLaunchButtonDisabled) {
+            <button (click)="startSession()" class="launch-button circle-button"
+                    mat-button
+                    matTooltip="Start session">
             <span class="button-icon">
               <mat-icon fontSet="material-icons-outlined">power_settings_new</mat-icon>
             </span>
-          </button>
-        </ng-container>
-        <ng-container *ngIf="isLaunchButtonDisabled">
-          <button mat-button class="launch-button-inactive circle-button"
-                  [matTooltip]="sessionTooltips">
+            </button>
+          }
+          @if (isLaunchButtonDisabled) {
+            <button [matTooltip]="sessionTooltips" class="launch-button-inactive circle-button"
+                    mat-button>
             <span class="button-icon">
               <mat-icon fontSet="material-icons-outlined">power_settings_new</mat-icon>
             </span>
+            </button>
+          }
+        }
+        @if (isSessionDeleted) {
+          <button (click)="closeWindow()" class="close-button"
+                  mat-button matTooltip="Close page">
+            <span class="button-icon">Close</span>
           </button>
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="isSessionDeleted">
-        <button mat-button matTooltip="Close page"
-                class="close-button" (click)="closeWindow()">
-          <span class="button-icon">Close</span>
-        </button>
-      </ng-container>
-    </ng-template>
-    <!-- //// END of 2. Launch Button for application item -->
+        }
+      }
+      <!-- //// END of 1: active session -->
+      <!-- Action view 2 : Launch Button for application item -->
+
+      <!-- //// END of 2. Launch Button for application item -->
+    </div>
   </div>
-</div>
+}

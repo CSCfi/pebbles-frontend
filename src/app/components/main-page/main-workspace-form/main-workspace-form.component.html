@@ -22,15 +22,21 @@
           <mat-form-field appearance="fill">
             <mat-label>Workspace name</mat-label>
             <input formControlName="name" matInput placeholder="Workspace name">
-            <mat-error *ngIf="workspaceForm.controls.name.hasError('required')">
-              You must provide a <strong>workspace name</strong>
-            </mat-error>
-            <mat-error *ngIf="workspaceForm.controls.name.hasError('maxlength')">
-              <strong>Max length (64 characters) exceeded</strong>
-            </mat-error>
-            <mat-error *ngIf="workspaceForm.controls.name.hasError('forbiddenValue')">
-              <strong>Workspace name cannot start with "system"</strong>
-            </mat-error>
+            @if (workspaceForm.controls.name.hasError('required')) {
+              <mat-error>
+                You must provide a <strong>workspace name</strong>
+              </mat-error>
+            }
+            @if (workspaceForm.controls.name.hasError('maxlength')) {
+              <mat-error>
+                <strong>Max length (64 characters) exceeded</strong>
+              </mat-error>
+            }
+            @if (workspaceForm.controls.name.hasError('forbiddenValue')) {
+              <mat-error>
+                <strong>Workspace name cannot start with "system"</strong>
+              </mat-error>
+            }
           </mat-form-field>
         </section>
         <section class="form-container workspace-description-form">
@@ -41,13 +47,17 @@
                       placeholder="Workspace description"></textarea>
             <mat-hint align="end">{{ descriptionInput?.value?.length || 0 }} / {{ descriptionMaxLength }}</mat-hint>
             <!-- error -->
-            <mat-error *ngIf="workspaceForm.controls.description.hasError('required')">
-              You must provide a <strong>description about the workspace</strong>
-            </mat-error>
-            <mat-error *ngIf="workspaceForm.controls.description.hasError('maxlength')">
-              Currently you have {{ descriptionInput?.value?.length }} characters. Max length
-              ({{ descriptionMaxLength }}) exceeded.
-            </mat-error>
+            @if (workspaceForm.controls.description.hasError('required')) {
+              <mat-error>
+                You must provide a <strong>description about the workspace</strong>
+              </mat-error>
+            }
+            @if (workspaceForm.controls.description.hasError('maxlength')) {
+              <mat-error>
+                Currently you have {{ descriptionInput?.value?.length }} characters. Max length
+                ({{ descriptionMaxLength }}) exceeded.
+              </mat-error>
+            }
           </mat-form-field>
         </section>
         <section class="form-container">
@@ -57,9 +67,11 @@
             <mat-select (selectionChange)="onWorkspaceTypeChange()" [(value)]="workspaceType"
                         formControlName="workspaceType"
                         placeholder="Choose workspace type">
-              <mat-option *ngFor="let opt of workspaceTypeOptions" [value]="opt.value">
-                {{ opt.viewValue }}
-              </mat-option>
+              @for (opt of workspaceTypeOptions; track opt) {
+                <mat-option [value]="opt.value">
+                  {{ opt.viewValue }}
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
         </section>
@@ -70,19 +82,25 @@
             <mat-select (selectionChange)="updateProjectedExpiryDate()" [(value)]="validityMonths"
                         formControlName="validityMonths"
                         placeholder="Valid for">
-              <mat-option *ngFor="let opt of validityOptions" [value]="opt.value">
-                {{ opt.viewValue }}
-              </mat-option>
+              @for (opt of validityOptions; track opt) {
+                <mat-option [value]="opt.value">
+                  {{ opt.viewValue }}
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
-          <div *ngIf="workspaceType==='fixed-time-course' && projectedExpiryTs" class="direction-message">
-            Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
-          </div>
-          <div *ngIf="workspaceType==='long-running-course' && projectedExpiryTs" class="warning-message">
-            Workspace members are automatically removed after 90 days of inactivity.
-            Workspace will expire at {{ projectedExpiryTs | dateDisplay }}. You can extend the validity
-            on the Workspace Info tab 13 months at a time.
-          </div>
+          @if (workspaceType === 'fixed-time-course' && projectedExpiryTs) {
+            <div class="direction-message">
+              Workspace, along with the data, will expire at {{ projectedExpiryTs | dateDisplay }}.
+            </div>
+          }
+          @if (workspaceType === 'long-running-course' && projectedExpiryTs) {
+            <div class="warning-message">
+              Workspace members are automatically removed after 90 days of inactivity.
+              Workspace will expire at {{ projectedExpiryTs | dateDisplay }}. You can extend the validity
+              on the Workspace Info tab 13 months at a time.
+            </div>
+          }
         </section>
       </mat-dialog-content>
       <div class="dialog-actions">

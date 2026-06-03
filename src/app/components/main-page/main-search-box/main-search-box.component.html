@@ -1,19 +1,27 @@
 <mat-form-field appearance="fill" class="chip-list">
   <mat-chip-grid #chipList aria-label="keyword selection">
-    <mat-chip-row (removed)="removeLabel(label)" *ngFor="let label of labels"
-                  [removable]="removable" selected>
-      {{ label }}
-      <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
-    </mat-chip-row>
+    @for (label of labels; track label) {
+      <mat-chip-row (removed)="removeLabel(label)"
+                    [removable]="removable" selected>
+        {{ label }}
+        @if (removable) {
+          <mat-icon matChipRemove>cancel</mat-icon>
+        }
+      </mat-chip-row>
+    }
     <input #labelInput
            (matChipInputTokenEnd)="add($event)" [formControl]="labelCtrl"
            [matAutocomplete]="auto" [matChipInputFor]="chipList"
            [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
   </mat-chip-grid>
+  <!-- autocompletion does not work ATM, needs wiring up on the TS side -->
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let label of filteredLabels | async" [value]="label">
-      {{ label }}
-    </mat-option>
+    @let filtered = (filteredLabels | async) ?? [];
+    @for (label of filtered; track label) {
+      <mat-option [value]="label">
+        {{ label }}
+      </mat-option>
+    }
   </mat-autocomplete>
 </mat-form-field>
 <!--<div class="candidate-label-outer">-->

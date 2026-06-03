@@ -3,23 +3,23 @@
     <dl class="info-notebook footer-column">
       <dt>About {{ publicConfigService.getInstallationName() }}</dt>
       <dd>
-        <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Terms of use</a>
+        <a [href]="publicConfigService.getTermsOfUseUrl()" rel="noopener" target="_blank">Terms of use</a>
       </dd>
       <dd>
-        <a [href]="publicConfigService.getAccessibilityStatementUrl()" target="_blank" rel="noopener">Accessibility</a>
+        <a [href]="publicConfigService.getAccessibilityStatementUrl()" rel="noopener" target="_blank">Accessibility</a>
       </dd>
       <dd>
-        <a [href]="publicConfigService.getTermsOfUseUrl()" target="_blank" rel="noopener">Cookies</a>
+        <a [href]="publicConfigService.getTermsOfUseUrl()" rel="noopener" target="_blank">Cookies</a>
       </dd>
       <dd>
-        <a [href]="publicConfigService.getPrivacyPolicyUrl()" target="_blank" rel="noopener">Privacy</a>
+        <a [href]="publicConfigService.getPrivacyPolicyUrl()" rel="noopener" target="_blank">Privacy</a>
       </dd>
     </dl>
     <dl class="info-support footer-column">
       <dt>{{ publicConfigService.getInstallationName() }} Support</dt>
       <dd>Open Monday to Friday (9:00 - 16:00 Finnish time)</dd>
       <dd class="center__v">
-        <mat-icon fontSet="material-icons-outlined" class="md-16 mr-5 no-u-line">email</mat-icon>
+        <mat-icon class="md-16 mr-5 no-u-line" fontSet="material-icons-outlined">email</mat-icon>
         <a href="mailto:{{ publicConfigService.getContactEmail() }}" rel="noopener">
           {{ publicConfigService.getContactEmail() }}
         </a>
@@ -34,9 +34,9 @@
         CSC - IT CENTER FOR SCIENCE LTD.
       </dt>
       <dd>
-        <a href="https://www.csc.fi/" target="_blank" rel="noopener">
+        <a href="https://www.csc.fi/" rel="noopener" target="_blank">
           <div class="owner-logo">
-            <img src="assets/images/logo/owner_logo.svg" alt="owner-logo">
+            <img alt="owner-logo" src="assets/images/logo/owner_logo.svg">
             <p>ICT Solutions for Brilliant Minds</p>
           </div>
         </a>

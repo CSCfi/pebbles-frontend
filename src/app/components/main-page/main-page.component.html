@@ -1,11 +1,11 @@
 <mat-sidenav-container>
   <!-- SideNav Area -->
-  <mat-sidenav #sidenav opened mode="side" disableClose="true" [ngClass]="{'minimize':!isSideNavOpen}">
-    <app-main-nav class="sidebar" (toggleSideNavEvent)="toggleSideNav()" [isSideNavOpen]="isSideNavOpen">
+  <mat-sidenav #sidenav [ngClass]="{'minimize':!isSideNavOpen}" disableClose="true" mode="side" opened>
+    <app-main-nav (toggleSideNavEvent)="toggleSideNav()" [isSideNavOpen]="isSideNavOpen" class="sidebar">
     </app-main-nav>
   </mat-sidenav>
   <!-- Main Page Area -->
-  <mat-sidenav-content id="sidenav-content" [ngClass]="{'expanded':!isSideNavOpen}">
+  <mat-sidenav-content [ngClass]="{'expanded':!isSideNavOpen}" id="sidenav-content">
     <!-- Mobile mode : Header  -->
     <!--    <mat-toolbar>-->
     <!--      <a class="logo" [routerLink]="['/main/catalog']">-->

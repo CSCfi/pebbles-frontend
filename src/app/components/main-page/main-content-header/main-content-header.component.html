@@ -1,45 +1,52 @@
-<ng-container *ngIf="context">
+@if (context) {
   <div class="content-header">
     <!-- title -->
     <h3 [innerHTML]="context.title" class="title"></h3>
     <!-- search form -->
-    <form class="search-form" *ngIf="isSearchOn">
-      <mat-form-field appearance="fill">
+    @if (isSearchOn) {
+      <form class="search-form">
+        <mat-form-field appearance="fill">
         <span matPrefix>
           <mat-icon fontSet="material-icons-outlined">search</mat-icon>
         </span>
-        <mat-chip-grid #chipList class="chips" aria-label="keyword and text search">
-          <!-- chips -->
-          <mat-chip-row class="chip selected-label"
-                        (removed)="removeLabel(label)"
-                        *ngFor="let label of labels"
-                        [removable]="isLabelRemovable">
-            {{ label }}
-            <mat-icon matChipRemove *ngIf="isLabelRemovable">cancel</mat-icon>
-          </mat-chip-row>
-          <!-- input -->
-          <input
-            #labelInput
-            (keyup)="queryTextAdded($event)"
-            [formControl]="inputCtrl"
-            [matAutocompleteDisabled]="isAutocompleteDisabled"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            matInput>
-        </mat-chip-grid>
-        <!-- label selection panel -->
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="labelSelected($event)">
-          <mat-option *ngFor="let label of candidateLabels" [value]="label">
-            <mat-chip-option class="mat-chip-sm"
-                             (click)="labelClicked($event)">
-              {{ label }}
-            </mat-chip-option>
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </form>
+          <mat-chip-grid #chipList aria-label="keyword and text search" class="chips">
+            <!-- chips -->
+            @for (label of labels; track label) {
+              <mat-chip-row (removed)="removeLabel(label)"
+                            [removable]="isLabelRemovable"
+                            class="chip selected-label">
+                {{ label }}
+                @if (isLabelRemovable) {
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                }
+              </mat-chip-row>
+            }
+            <!-- input -->
+            <input
+                #labelInput
+                (keyup)="queryTextAdded($event)"
+                [formControl]="inputCtrl"
+                [matAutocompleteDisabled]="isAutocompleteDisabled"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                matInput>
+          </mat-chip-grid>
+          <!-- label selection panel -->
+          <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="labelSelected($event)">
+            @for (label of candidateLabels; track label) {
+              <mat-option [value]="label">
+                <mat-chip-option (click)="labelClicked($event)"
+                                 class="mat-chip-sm">
+                  {{ label }}
+                </mat-chip-option>
+              </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    }
   </div>
-</ng-container>
+}

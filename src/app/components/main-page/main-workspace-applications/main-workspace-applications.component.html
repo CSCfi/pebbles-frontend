@@ -1,216 +1,218 @@
 <div class="workspace-applications-container">
-  <div class="main-view" *ngIf="!isFormOpen">
-    <!-- Buttons -->
-    <div class="application-actions">
-      <div class="action-name">
-        <!--        <mat-icon fontSet="material-icons-outlined">add</mat-icon>-->
-        Create Application
+  @if (!isFormOpen) {
+    <div class="main-view">
+      <!-- Buttons -->
+      <div class="application-actions">
+        <div class="action-name">
+          <!--        <mat-icon fontSet="material-icons-outlined">add</mat-icon>-->
+          Create Application
+        </div>
+        <div class="button-group">
+          <button (click)="openApplicationWizardDialog()"
+                  [disabled]="isWorkspaceExpired || dataSource?.data.length >= workspace?.application_quota"
+                  aria-label="add new application"
+                  class="app-wizard-button"
+                  mat-flat-button>
+            <span>Wizard</span>
+          </button>
+          <button (click)="openAdvancedForm('new')"
+                  [disabled]="isWorkspaceExpired || dataSource?.data.length >= workspace?.application_quota"
+                  aria-label="create a new application"
+                  class="app-creation-form-button"
+                  mat-stroked-button>
+            <span>Advanced form</span>
+          </button>
+        </div>
       </div>
-      <div class="button-group">
-        <button (click)="openApplicationWizardDialog()"
-                [disabled]="isWorkspaceExpired || dataSource?.data.length >= workspace?.application_quota"
-                aria-label="add new application"
-                class="app-wizard-button"
-                mat-flat-button>
-          <span>Wizard</span>
-        </button>
-        <button (click)="openAdvancedForm('new')"
-                [disabled]="isWorkspaceExpired || dataSource?.data.length >= workspace?.application_quota"
-                aria-label="create a new application"
-                class="app-creation-form-button"
-                mat-stroked-button>
-          <span>Advanced form</span>
-        </button>
-      </div>
-    </div>
-    <div *ngIf="dataSource?.data.length >= workspace?.application_quota"
-         class="max-quota-warning">
-      You can create up to 10 applications. Delete unused ones to create a new application.
-    </div>
-
-    <ng-container *ngIf="dataSource?.data.length > 0; else noApplications">
-      <!-- table -->
-      <!--
-        - Thumbnail column
-        - Info column
-            - name
-            - lifetime
-            - application template
-            - state
-            - description
-        - test launch button column
-        - menu button column
-       -->
-      <section class="table-container">
-        <table mat-table [dataSource]="dataSource" [ngClass]="{'expired': isWorkspaceExpired}">
-          <!-- checkbox column -->
-          <!--
-          <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-              </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let row">
-              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-              </mat-checkbox>
-            </td>
-          </ng-container>
-          -->
-          <!-- Thumbnail column -->
-          <ng-container matColumnDef="thumbnail">
-            <th mat-header-cell *matHeaderCellDef>type / state</th>
-            <td *matCellDef="let element" mat-cell
-                [ngClass]="{'published': element.isEnabled, 'draft': !element.isEnabled}">
-              <div class="thumbnail-placeholder">
-                <div class="thumbnail">
-                  <fa-icon [icon]="getApplicationIcon(element.labels)"
-                           [ngClass]="getApplicationIcon(element.labels)"></fa-icon>
-                  <span class="application-type-name">{{ getApplicationTypeName(element.type) }}</span>
+      @if (dataSource?.data.length >= workspace?.application_quota) {
+        <div
+            class="max-quota-warning">
+          You can create up to 10 applications. Delete unused ones to create a new application.
+        </div>
+      }
+      @if (dataSource?.data.length > 0) {
+        <!-- table -->
+            <!--
+              - Thumbnail column
+              - Info column
+                  - name
+                  - lifetime
+                  - application template
+                  - state
+                  - description
+              - test launch button column
+              - menu button column
+             -->
+        <section class="table-container">
+          <table [dataSource]="dataSource" [ngClass]="{'expired': isWorkspaceExpired}" mat-table>
+            <!-- checkbox column -->
+            <!--
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                  [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+            -->
+            <!-- Thumbnail column -->
+            <ng-container matColumnDef="thumbnail">
+              <th *matHeaderCellDef mat-header-cell>type / state</th>
+              <td *matCellDef="let element" [ngClass]="{'published': element.isEnabled, 'draft': !element.isEnabled}"
+                  mat-cell>
+                <div class="thumbnail-placeholder">
+                  <div class="thumbnail">
+                    <fa-icon [icon]="getApplicationIcon(element.labels)"
+                             [ngClass]="getApplicationIcon(element.labels)"></fa-icon>
+                    <span class="application-type-name">{{ getApplicationTypeName(element.type) }}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="chip">{{ isWorkspaceExpired ? 'expired' : element.isEnabled ? 'published' : 'draft' }}
-              </div>
-            </td>
-          </ng-container>
-          <!-- Information column -->
-          <ng-container matColumnDef="info">
-            <th mat-header-cell *matHeaderCellDef>basic information</th>
-            <td *matCellDef="let element" mat-cell>
-              <ul>
-                <li class="name"> {{ element.name }}</li>
-                <li class="description" [innerHTML]="element.description"></li>
-                <li class="template">
-                  <span>Template:</span> {{ element.template }}
-                </li>
-                <li class="labels">
+                <div class="chip">{{ isWorkspaceExpired ? 'expired' : element.isEnabled ? 'published' : 'draft' }}
+                </div>
+              </td>
+            </ng-container>
+            <!-- Information column -->
+            <ng-container matColumnDef="info">
+              <th *matHeaderCellDef mat-header-cell>basic information</th>
+              <td *matCellDef="let element" mat-cell>
+                <ul>
+                  <li class="name"> {{ element.name }}</li>
+                  <li [innerHTML]="element.description" class="description"></li>
+                  <li class="template">
+                    <span>Template:</span> {{ element.template }}
+                  </li>
+                  <li class="labels">
                   <span class="property-name">
                     Labels:
                   </span>
-                  <span class="property">
-                    <ng-container *ngFor="let label of element.labels">
+                    <span class="property">
+                    @for (label of element.labels; track label) {
                       <span class="label">{{ label }}</span>
-                    </ng-container>
+                    }
                   </span>
-                </li>
-              </ul>
-            </td>
-          </ng-container>
-          <!-- Information meta column -->
-          <ng-container matColumnDef="meta">
-            <th mat-header-cell *matHeaderCellDef>spec</th>
-            <td *matCellDef="let element" mat-cell>
-              <ul class="application-meta">
-                <li class="lifetime">
+                  </li>
+                </ul>
+              </td>
+            </ng-container>
+            <!-- Information meta column -->
+            <ng-container matColumnDef="meta">
+              <th *matHeaderCellDef mat-header-cell>spec</th>
+              <td *matCellDef="let element" mat-cell>
+                <ul class="application-meta">
+                  <li class="lifetime">
                   <span>
                     Lifetime: {{ element.lifetime | lifeTimeDisplay }}
                   </span>
-                </li>
-                <li class="memory">
+                  </li>
+                  <li class="memory">
                   <span>
                     Memory: {{ element.memory || '-' }}
                   </span>
-                </li>
-                <li class="max-sessions" matTooltip="Max concurrent sessions">
+                  </li>
+                  <li class="max-sessions" matTooltip="Max concurrent sessions">
                   <span>
                     Max sessions: {{ element.maximumConcurrentSessions }}
                   </span>
-                </li>
-                <li class="shared-volume">
-                  <ng-container *ngIf="element.sharedFolderEnabled; else noSharedVolume">
-                    <span>
+                  </li>
+                  <li class="shared-volume">
+                    @if (element.sharedFolderEnabled) {
+                      <span>
                       shared: On
                     </span>
-                  </ng-container>
-                  <ng-template #noSharedVolume>
-                    <span class="off">
+                    } @else {
+                      <span class="off">
                       shared: Off
                     </span>
-                  </ng-template>
-                </li>
-                <li class="mywork-volume">
-                  <ng-container *ngIf="element.workFolderEnabled; else noWorkVolume">
-                    <span>
+                    }
+                  </li>
+                  <li class="mywork-volume">
+                    @if (element.workFolderEnabled) {
+                      <span>
                       my-work: On
                     </span>
-                  </ng-container>
-                  <ng-template #noWorkVolume>
-                    <span class="off">
+                    } @else {
+                      <span class="off">
                       my-work: Off
                     </span>
-                  </ng-template>
-                </li>
-              </ul>
-            </td>
-          </ng-container>
-          <!-- Test launch button column (Dummy for now) -->
-          <ng-container matColumnDef="launch">
-            <th mat-header-cell *matHeaderCellDef>test launch</th>
-            <td mat-cell *matCellDef="let element">
-              <app-main-session-button
-                  [applicationId]="element.id"
-                  [context]="context"
-                  [isSessionDeleted]="false"
-                  [isWorkspaceExpired]="isWorkspaceExpired">
-              </app-main-session-button>
-            </td>
-          </ng-container>
-          <!-- Menu button column-->
-          <ng-container matColumnDef="menu">
-            <th mat-header-cell *matHeaderCellDef>menu</th>
-            <td *matCellDef="let element" mat-cell>
-              <div class="buttons">
-                <button (click)="openAdvancedForm(element.id)"
-                        aria-label="edit application"
-                        class="edit-button"
-                        mat-button
-                        matTooltip="Edit"
-                        matTooltipPosition="left">
-                </button>
-                <button [matMenuTriggerFor]="menu"
-                        aria-label="open application menu"
-                        class="menu-button"
-                        mat-button
-                        matTooltip="Other actions"
-                        matTooltipPosition="left">
-                </button>
-              </div>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item *ngIf="!element.isEnabled"
-                        (click)="toggleApplicationActivation(true, element.id)">
-                  <mat-icon fontSet="material-icons-outlined">cloud</mat-icon>
-                  <span>publish</span>
-                </button>
-                <button mat-menu-item *ngIf="element.isEnabled"
-                        (click)="toggleApplicationActivation(false, element.id)">
-                  <mat-icon fontSet="material-icons-outlined">cloud_off</mat-icon>
-                  <span>make draft</span>
-                </button>
-                <button mat-menu-item (click)="openCopyApplicationDialog(element.id)">
-                  <mat-icon fontSet="material-icons-outlined">ios_share</mat-icon>
-                  <span>copy application</span>
-                </button>
-                <button mat-menu-item (click)="deleteApplication(element.id)">
-                  <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
-                  <span>delete application</span>
-                </button>
-              </mat-menu>
-            </td>
-          </ng-container>
+                    }
+                  </li>
+                </ul>
+              </td>
+            </ng-container>
+            <!-- Test launch button column (Dummy for now) -->
+            <ng-container matColumnDef="launch">
+              <th *matHeaderCellDef mat-header-cell>test launch</th>
+              <td *matCellDef="let element" mat-cell>
+                <app-main-session-button
+                    [applicationId]="element.id"
+                    [context]="context"
+                    [isSessionDeleted]="false"
+                    [isWorkspaceExpired]="isWorkspaceExpired">
+                </app-main-session-button>
+              </td>
+            </ng-container>
+            <!-- Menu button column-->
+            <ng-container matColumnDef="menu">
+              <th *matHeaderCellDef mat-header-cell>menu</th>
+              <td *matCellDef="let element" mat-cell>
+                <div class="buttons">
+                  <button (click)="openAdvancedForm(element.id)"
+                          aria-label="edit application"
+                          class="edit-button"
+                          mat-button
+                          matTooltip="Edit"
+                          matTooltipPosition="left">
+                  </button>
+                  <button [matMenuTriggerFor]="menu"
+                          aria-label="open application menu"
+                          class="menu-button"
+                          mat-button
+                          matTooltip="Other actions"
+                          matTooltipPosition="left">
+                  </button>
+                </div>
+                <mat-menu #menu="matMenu">
+                  @if (!element.isEnabled) {
+                    <button (click)="toggleApplicationActivation(true, element.id)"
+                            mat-menu-item>
+                      <mat-icon fontSet="material-icons-outlined">cloud</mat-icon>
+                      <span>publish</span>
+                    </button>
+                  }
+                  @if (element.isEnabled) {
+                    <button (click)="toggleApplicationActivation(false, element.id)"
+                            mat-menu-item>
+                      <mat-icon fontSet="material-icons-outlined">cloud_off</mat-icon>
+                      <span>make draft</span>
+                    </button>
+                  }
+                  <button (click)="openCopyApplicationDialog(element.id)" mat-menu-item>
+                    <mat-icon fontSet="material-icons-outlined">ios_share</mat-icon>
+                    <span>copy application</span>
+                  </button>
+                  <button (click)="deleteApplication(element.id)" mat-menu-item>
+                    <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
+                    <span>delete application</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;">button</tr>
-        </table>
-      </section>
-    </ng-container>
-
-    <!-- No Application -->
-    <ng-template #noApplications>
-      <section class="status-info-container">
-        <div *ngIf="dataSource !== null" class="empty-status">
-          <div class="status-headline">No applications yet</div>
-          <div class="hint">
+            <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumns;" mat-row>button</tr>
+          </table>
+        </section>
+      } @else {
+        <section class="status-info-container">
+          @if (dataSource !== null) {
+            <div class="empty-status">
+              <div class="status-headline">No applications yet</div>
+              <div class="hint">
             <span>
               <ul class="index">
                 <li>Create an application by
@@ -227,25 +229,33 @@
                 Open Documentation &nbsp;
               </a>
             </span>
-          </div>
-        </div>
-        <div *ngIf="dataSource === null" class="loading-status">
-          <span class="status-headline">...Loading...</span>
-        </div>
-      </section>
-    </ng-template>
+              </div>
+            </div>
+          }
+          @if (dataSource === null) {
+            <div class="loading-status">
+              <span class="status-headline">...Loading...</span>
+            </div>
+          }
+        </section>
+      }
+      <!-- No Application -->
 
-    <!-- Paginator -->
-    <div [hidden]="!isPaginatorVisible">
-      <mat-paginator
-          [pageSizeOptions]="pageSizeOptions">
-      </mat-paginator>
+
+      <!-- Paginator -->
+      <div [hidden]="!isPaginatorVisible">
+        <mat-paginator
+            [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+      </div>
     </div>
-  </div>
-  <div class="form-view" *ngIf="isFormOpen">
-    <app-main-application-advanced-form
-        [workspaceId]="workspace.id"
-        [applicationId]="selectedApplicationId">
-    </app-main-application-advanced-form>
-  </div>
+  }
+  @if (isFormOpen) {
+    <div class="form-view">
+      <app-main-application-advanced-form
+          [applicationId]="selectedApplicationId"
+          [workspaceId]="workspace.id">
+      </app-main-application-advanced-form>
+    </div>
+  }
 </div>

@@ -1,5 +1,5 @@
 <div class="page-container">
-  <ng-container *ngIf="!selectedDetailSession; else sessionDetails">
+  @if (!selectedDetailSession) {
     <div class="content-header-wrapper">
       <div class="content-header-container">
         <app-main-content-header
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="content-container">
-      <ng-container *ngIf="tableRowData.length > 0; else noSessions">
+      @if (tableRowData.length > 0) {
         <section class="dashboard">
           <div class="session-panel">
             <mat-card class="total-sessions">
@@ -60,22 +60,30 @@
             <ng-container matColumnDef="state">
               <th *matHeaderCellDef mat-header-cell mat-sort-header>State</th>
               <td *matCellDef="let element" mat-cell>
-                <mat-icon *ngIf="['queueing','provisioning','starting'].includes(element.state)"
-                          [matTooltip]="element.state" class="starting">
-                  circle
-                </mat-icon>
-                <mat-icon *ngIf="element.state === SessionStates.Running"
-                          [matTooltip]="element.state" class="running">
-                  circle
-                </mat-icon>
-                <mat-icon *ngIf="['deleting','deleted'].includes(element.state)"
-                          [matTooltip]="element.state" class="deleting">
-                  circle
-                </mat-icon>
-                <mat-icon *ngIf="element.state === SessionStates.Failed"
-                          [matTooltip]="element.state" class="error">
-                  error
-                </mat-icon>
+                @if (['queueing', 'provisioning', 'starting'].includes(element.state)) {
+                  <mat-icon
+                      [matTooltip]="element.state" class="starting">
+                    circle
+                  </mat-icon>
+                }
+                @if (element.state === SessionStates.Running) {
+                  <mat-icon
+                      [matTooltip]="element.state" class="running">
+                    circle
+                  </mat-icon>
+                }
+                @if (['deleting', 'deleted'].includes(element.state)) {
+                  <mat-icon
+                      [matTooltip]="element.state" class="deleting">
+                    circle
+                  </mat-icon>
+                }
+                @if (element.state === SessionStates.Failed) {
+                  <mat-icon
+                      [matTooltip]="element.state" class="error">
+                    error
+                  </mat-icon>
+                }
               </td>
             </ng-container>
             <!-- sessionName -->
@@ -136,22 +144,25 @@
             <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
           </table>
         </section>
-      </ng-container>
-      <!-- Loading and No sessions -->
-      <ng-template #noSessions>
+      } @else {
         <div class="status-info-container">
-          <div *ngIf="lastUpdateTs === 0" class="loading-status">
-            <div class="status-headline">...Loading...</div>
-          </div>
-          <div *ngIf="lastUpdateTs > 0" class="empty-status">
-            <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
-            <div class="status-headline">No active sessions</div>
-          </div>
+          @if (lastUpdateTs === 0) {
+            <div class="loading-status">
+              <div class="status-headline">...Loading...</div>
+            </div>
+          }
+          @if (lastUpdateTs > 0) {
+            <div class="empty-status">
+              <mat-icon fontSet="material-icons-outlined">memory</mat-icon>
+              <div class="status-headline">No active sessions</div>
+            </div>
+          }
         </div>
-      </ng-template>
+      }
+      <!-- Loading and No sessions -->
+
     </div>
-  </ng-container>
-  <ng-template #sessionDetails>
+  } @else {
     <div class="content-container active-session-details">
       <button (click)="closeSessionDetails()" class="back-btn" mat-button>
         Back to active session list
@@ -169,9 +180,11 @@
           <dt>Created</dt>
           <dd>{{ selectedDetailSession.created_at + '+0000' | date:'yyyy-MM-dd HH:mm:ss z' }}</dd>
           <dt>Provisioned</dt>
-          <dd *ngIf="selectedDetailSession.provisioned_at">
-            {{ selectedDetailSession.provisioned_at + '+0000' | date:'yyyy-MM-dd HH:mm:ss z' }}
-          </dd>
+          @if (selectedDetailSession.provisioned_at) {
+            <dd>
+              {{ selectedDetailSession.provisioned_at + '+0000' | date:'yyyy-MM-dd HH:mm:ss z' }}
+            </dd>
+          }
           <dt>Container image</dt>
           <dd>{{ selectedDetailSession.info.container_image }}</dd>
         </dl>
@@ -179,10 +192,10 @@
       <section class="event-box">
         <h3>Events</h3>
         <dl>
-          <ng-container *ngFor="let logLine of getSelectedSessionEvents()">
+          @for (logLine of getSelectedSessionEvents(); track logLine) {
             <dt>{{ logLine.timestamp * 1000 | date:'HH:mm:ss' }}</dt>
             <dd>{{ logLine.log_level | uppercase }} {{ logLine.message }}</dd>
-          </ng-container>
+          }
         </dl>
       </section>
 
@@ -193,31 +206,35 @@
             <button (click)="requestLogFetch(selectedDetailSession.id)"
                     [disabled]="logRefreshPending || selectedDetailSession.state !== SessionStates.Running"
                     mat-flat-button>
-              <ng-container *ngIf="!logRefreshPending; else refreshing">Fetch logs</ng-container>
-              <ng-template #refreshing>Fetching</ng-template>
+              @if (!logRefreshPending) {
+                Fetch logs
+              } @else {
+                Fetching
+              }
             </button>
           </div>
           <div class="terminal-body">
-            <ng-container
-                *ngIf="logRefreshPending && getSelectedSessionOutputLines().length === 0">
+            @if (logRefreshPending && getSelectedSessionOutputLines().length === 0) {
               <p class="prompt">
                 Fetching logs...<span class="cursor">_</span>
               </p>
-            </ng-container>
-            <ng-container
-                *ngIf="selectedDetailSession.state !== SessionStates.Running">
+            }
+            @if (selectedDetailSession.state !== SessionStates.Running) {
               <p class="prompt">
                 Session output log is available only for running sessions.
               </p>
-            </ng-container>
-            <ng-container *ngIf="!logRefreshPending  && selectedDetailSession.state === SessionStates.Running &&
-            getSelectedSessionOutputLines().length === 0">
+            }
+            @if (!logRefreshPending && selectedDetailSession.state === SessionStates.Running &&
+            getSelectedSessionOutputLines().length === 0) {
+
               <p class="prompt">Click the button to fetch logs.<span class="cursor">_</span></p>
-            </ng-container>
-            <p *ngFor="let rll of getSelectedSessionOutputLines()">{{ rll }}</p>
+            }
+            @for (rll of getSelectedSessionOutputLines(); track $index) {
+              <p>{{ rll }}</p>
+            }
           </div>
         </div>
       </section>
     </div>
-  </ng-template>
+  }
 </div>

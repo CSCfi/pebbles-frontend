@@ -13,10 +13,11 @@ export class SearchService {
     searchTerm = Utilities.cleanText(searchTerm);
     if (searchTerm === '') return objects;
 
-    // Escape regex metacharacters so the highlight pattern stays valid for any input
-    // (e.g. '(', '[', '+'). Matching below uses plain indexOf, so searchTerm itself is
-    // left unescaped for that.
-    const highlightPattern = new RegExp(searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    // ---- Match highlighting is DISABLED for now. Injecting <mark> via a whole-string replace
+    // ---- corrupts HTML already in the value (e.g. main-help wraps FAQ text in <span>, so searching a
+    // ---- letter that occurs in a tag name — a, p, s, n — breaks the markup). To re-enable, uncomment
+    // ---- the pattern + the replace below AND make highlighting touch text nodes only, not tags.
+    // const highlightPattern = new RegExp(searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
 
     // ---- Create a deep copy without destroying the original object.
     const filteredResults = JSON.parse(JSON.stringify(objects)).filter(obj => {
@@ -27,8 +28,8 @@ export class SearchService {
         if (typeof content === 'string') {
           if (Utilities.cleanText(content).indexOf(searchTerm) > -1) {
             isMatch = true;
-            // ---- Add highlight tags
-            obj[name] = content.replace(highlightPattern, (match) => `<mark>${match}</mark>`);
+            // ---- Add highlight tags (disabled — see note above)
+            // obj[name] = content.replace(highlightPattern, (match) => `<mark>${match}</mark>`);
           }
         } else if (Array.isArray(content)) {
           // ---- Match array fields (e.g. labels) element-wise; no highlight (rendered as chips, not innerHTML)

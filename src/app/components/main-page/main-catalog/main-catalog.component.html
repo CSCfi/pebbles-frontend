@@ -20,50 +20,51 @@
   <div class="content-container">
     <!--  Service Announcement 'catalog'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
-    <ng-container *ngIf="categories.length > 0; else loadingBlock">
+    @if (categories.length > 0) {
       <mat-tab-group (selectedTabChange)="changeCategory($event)"
                      mat-align-tabs="center"
                      mat-stretch-tabs="false">
-        <ng-container *ngFor="let category of categories">
+        @for (category of categories; track category) {
           <mat-tab label="{{ category.name }}">
-            <div *ngIf="selectedCategory?.name === category.name" class="tab-content">
-              <div *ngIf="applications?.length > 0; else noApplicationBlock"
-                   class="application-item-container">
-                <ng-container *ngFor="let application of applications">
-                  <app-main-application-item [application]="application" [context]="context">
-                  </app-main-application-item>
-                </ng-container>
+            @if (selectedCategory?.name === category.name) {
+              <div class="tab-content">
+                @if (applications?.length > 0) {
+                  <div
+                      class="application-item-container">
+                    @for (application of applications; track application) {
+                      <app-main-application-item [application]="application" [context]="context">
+                      </app-main-application-item>
+                    }
+                  </div>
+                } @else {
+                  <section class="status-info-container">
+                    <div class="empty-status">
+                      <div class="status-headline">No applications found</div>
+                      <div class="status-summary">
+                        If you want to add more applications,<br> Join a workspace using the button on top to access
+                        the content.
+                      </div>
+                    </div>
+                  </section>
+                }
+                @if (getPublicApplicationAccessNote()) {
+                  <div
+                      [innerHTML]="getPublicApplicationAccessNote()"
+                      class="no-public-applications-text status-summary">
+                  </div>
+                }
               </div>
-              <div *ngIf="getPublicApplicationAccessNote()"
-                   [innerHTML]="getPublicApplicationAccessNote()"
-                   class="no-public-applications-text status-summary">
-              </div>
-            </div>
+            }
             <!-- //// tab-content -->
           </mat-tab>
-        </ng-container>
+        }
       </mat-tab-group>
-    </ng-container>
-
-    <ng-template #loadingBlock>
+    } @else {
       <section class="status-info-container">
         <div class="loading-status">
           <span class="status-headline">...Loading...</span>
         </div>
       </section>
-    </ng-template>
-
-    <ng-template #noApplicationBlock>
-      <section class="status-info-container">
-        <div class="empty-status">
-          <div class="status-headline">No applications found</div>
-          <div class="status-summary">
-            If you want to add more applications,<br> Join a workspace using the button on top to access
-            the content.
-          </div>
-        </div>
-      </section>
-    </ng-template>
-
+    }
   </div>
 </div>

@@ -14,52 +14,50 @@
                 mat-flat-button>
           Join workspace
         </button>
-        <ng-container *ngIf="filteredWorkspaces?.length > 0">
+        @if (filteredWorkspaces?.length > 0) {
           <button (click)="toggleWorkspaceList()"
                   [ngClass]="{'open':isListOpen}"
                   class="accordion-toggle-button t-omit"
                   mat-stroked-button>
-            <ng-container *ngIf="isListOpen; else openButtonBlock">
+            @if (isListOpen) {
               <span>Close lists</span>
-            </ng-container>
-            <ng-template #openButtonBlock>
+            } @else {
               <span>Open lists</span>
-            </ng-template>
+            }
           </button>
-        </ng-container>
+        }
       </div>
     </div>
   </div>
   <app-service-announcement [context]="context"></app-service-announcement>
-  <div *ngIf="filteredWorkspaces !== null" class="content-container">
-    <section class="workspace-list" *ngIf="workspaceCount > 0 ; else noMembershipBlock">
-      <ng-container *ngIf="filteredWorkspaces.length > 0; else noWorkspaceBlock">
-        <ng-container *ngFor="let workspace of filteredWorkspaces; trackBy: workspaceTrackBy">
-          <app-main-workspace-item
-              [id]="workspace.id"
-              [context]="context"
-              [isNew]="workspace.id === newWorkspaceId"
-              [panelOpenState]="isListOpen"
-              [workspace]="workspace">
-          </app-main-workspace-item>
-        </ng-container>
-      </ng-container>
-
-      <ng-template #noWorkspaceBlock>
+  @if (filteredWorkspaces !== null) {
+    <div class="content-container">
+      @if (workspaceCount > 0) {
+        <section class="workspace-list">
+          @if (filteredWorkspaces.length > 0) {
+            @for (workspace of filteredWorkspaces; track workspaceTrackBy($index, workspace)) {
+              <app-main-workspace-item
+                  [context]="context"
+                  [id]="workspace.id"
+                  [isNew]="workspace.id === newWorkspaceId"
+                  [panelOpenState]="isListOpen"
+                  [workspace]="workspace">
+              </app-main-workspace-item>
+            }
+          } @else {
+            <div class="status-info-container">
+              <div class="search-status">
+                <div class="status-headline">No matches found</div>
+              </div>
+            </div>
+          }
+        </section>
+      } @else {
         <div class="status-info-container">
-          <div class="search-status">
-            <div class="status-headline">No matches found</div>
-          </div>
-        </div>
-      </ng-template>
-    </section>
-
-    <ng-template #noMembershipBlock>
-      <div class="status-info-container">
-        <div class="empty-status">
-          <div class="status-headline">No workspace</div>
-          <div class="status-summary">You are currently not a member of any workspace.</div>
-          <div class="hint">
+          <div class="empty-status">
+            <div class="status-headline">No workspace</div>
+            <div class="status-summary">You are currently not a member of any workspace.</div>
+            <div class="hint">
             <span>
               To become a workspace member, <br>
               enter <em class="keyword lock border">Join code</em> of your courses or collaborations.
@@ -68,15 +66,17 @@
                 Open Documentation &nbsp;
               </a>
             </span>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-template>
-  </div>
-
-  <div *ngIf="filteredWorkspaces === null" class="status-info-container">
-    <div class="loading-status">
-      <span class="status-headline">...Loading...</span>
+      }
     </div>
-  </div>
+  }
+  @if (filteredWorkspaces === null) {
+    <div class="status-info-container">
+      <div class="loading-status">
+        <span class="status-headline">...Loading...</span>
+      </div>
+    </div>
+  }
 </div>

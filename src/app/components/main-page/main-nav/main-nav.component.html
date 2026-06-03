@@ -1,130 +1,146 @@
 <!-- Side navigation -->
 <div class="sidenav-inner">
   <!-- Logo -->
-  <a class="brand" [routerLink]="['/main/catalog']">
+  <a [routerLink]="['/main/catalog']" class="brand">
     <div class="site-logo">
       <div class="csc-logo">
         <img alt="site-logo" src="assets/images/logo/site-logo.svg" width="50">
       </div>
     </div>
-    <h2 class="site-name" *ngIf="isTextVisible">
-      {{ publicConfigService.getInstallationName() }}
-      <h5 class="owner-name">{{ publicConfigService.getInstallationDomain() }}</h5>
-    </h2>
+    @if (isTextVisible) {
+      <h2 class="site-name">
+        {{ publicConfigService.getInstallationName() }}
+        <h5 class="owner-name">{{ publicConfigService.getInstallationDomain() }}</h5>
+      </h2>
+    }
   </a>
   <!-- Navigation panel toggle button -->
   <ul class="nav-items scrollable">
     <li class="nav-item">
-      <button class="action primary-btn" id="nav-toggle-button"
-              [matTooltip]="isTextVisible ? 'Close navigation' : 'Open navigation'"
-              matTooltipPosition="right"
-              (click)="emitSideNavToggle()">
-        <ng-container *ngIf="isTextVisible ; else elseBlock">
+      <button (click)="emitSideNavToggle()" [matTooltip]="isTextVisible ? 'Close navigation' : 'Open navigation'"
+              class="action primary-btn"
+              id="nav-toggle-button"
+              matTooltipPosition="right">
+        @if (isTextVisible) {
           <span class="icon-holder">
             <mat-icon>chevron_left</mat-icon>
           </span>
-        </ng-container>
-        <ng-template #elseBlock>
+        } @else {
           <span class="icon-holder">
             <mat-icon>chevron_right</mat-icon>
           </span>
-        </ng-template>
+        }
       </button>
     </li>
   </ul>
   <!-- Menu -->
   <ul class="nav-items scrollable">
-    <li class="nav-item" [class.active]="router.url==='/main/catalog'">
+    <li [class.active]="router.url==='/main/catalog'" class="nav-item">
       <a [routerLink]="['/main/catalog']">
-        <span class="icon-holder" matTooltip="Applications"
-              [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+        <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+              matTooltip="Applications" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
         </span>
-        <span class="title" *ngIf="isTextVisible">Applications</span>
+        @if (isTextVisible) {
+          <span class="title">Applications</span>
+        }
       </a>
     </li>
-    <li class="nav-item" [class.active]="router.url==='/main/my-workspaces'">
+    <li [class.active]="router.url==='/main/my-workspaces'" class="nav-item">
       <a [routerLink]="['/main/my-workspaces']">
-        <span class="icon-holder" matTooltip="My workspaces"
-              [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+        <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+              matTooltip="My workspaces" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
         </span>
-        <div class="title" *ngIf="isTextVisible">My workspaces</div>
+        @if (isTextVisible) {
+          <div class="title">My workspaces</div>
+        }
       </a>
     </li>
   </ul>
-  <ng-container *ngIf="authService.isAdmin || authService.isWorkspaceManager || authService.isWorkspaceOwner">
+  @if (authService.isAdmin || authService.isWorkspaceManager || authService.isWorkspaceOwner) {
     <ul class="nav-items workspace-owner">
-      <li class="nav-item workspace-owner-item" [class.active]="router.url.startsWith('/main/workspace-owner')">
+      <li [class.active]="router.url.startsWith('/main/workspace-owner')" class="nav-item workspace-owner-item">
         <a [routerLink]="['/main/workspace-owner']">
-          <span class="icon-holder" matTooltip="Manage workspaces"
-                [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+          <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+                matTooltip="Manage workspaces" matTooltipPosition="right">
             <mat-icon fontSet="material-icons-outlined">
               app_registration
             </mat-icon>
           </span>
-          <div class="title" *ngIf="isTextVisible">Manage workspaces</div>
+          @if (isTextVisible) {
+            <div class="title">Manage workspaces</div>
+          }
         </a>
       </li>
-      <li class="nav-item workspace-owner-item" [class.active]="router.url==='/main/active-sessions'">
+      <li [class.active]="router.url==='/main/active-sessions'" class="nav-item workspace-owner-item">
         <a [routerLink]="['/main/active-sessions']">
-          <span class="icon-holder" matTooltip="Active sessions"
-                [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+          <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+                matTooltip="Active sessions" matTooltipPosition="right">
             <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
           </span>
-          <div class="title" *ngIf="isTextVisible">Active sessions</div>
+          @if (isTextVisible) {
+            <div class="title">Active sessions</div>
+          }
         </a>
       </li>
     </ul>
-  </ng-container>
-
+  }
   <ul class="nav-items">
-    <li class="nav-item" [class.active]="router.url==='/main/messages'">
+    <li [class.active]="router.url==='/main/messages'" class="nav-item">
       <a [routerLink]="['/main/messages']">
-        <span class="icon-holder" matTooltip="Messages"
-              [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+        <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+              matTooltip="Messages" matTooltipPosition="right">
           <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
-          <mat-icon fontSet="material-icons-outlined"
+          <mat-icon [attr.aria-hidden]="getUnreadMessages().length === 0"
                     [matBadgeHidden]="getUnreadMessages().length === 0"
-                    [attr.aria-hidden]="getUnreadMessages().length === 0" aria-hidden="false"
-                    [matBadge]="getUnreadMessages().length"
+                    [matBadge]="getUnreadMessages().length" aria-hidden="false"
+                    fontSet="material-icons-outlined"
                     matBadgeColor="warn">
             mail
           </mat-icon>
         </span>
-        <div class="title" *ngIf="isTextVisible">Messages</div>
+        @if (isTextVisible) {
+          <div class="title">Messages</div>
+        }
       </a>
     </li>
-    <li class="nav-item" [class.active]="router.url==='/main/help'">
+    <li [class.active]="router.url==='/main/help'" class="nav-item">
       <a [routerLink]="['/main/help']">
-        <span class="icon-holder" matTooltip="Help"
-              [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+        <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+              matTooltip="Help" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
         </span>
-        <div class="title" *ngIf="isTextVisible">Help</div>
+        @if (isTextVisible) {
+          <div class="title">Help</div>
+        }
       </a>
     </li>
   </ul>
 </div>
-<div id="account-nav" class="sidenav-inner">
+<div class="sidenav-inner" id="account-nav">
   <!-- Logout -->
   <ul class="nav-items">
     <li class="nav-item">
-      <a id="account" [routerLink]="['/main/account']">
-        <span class="icon-holder" matTooltip="Account"
-              [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+      <a [routerLink]="['/main/account']" id="account">
+        <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+              matTooltip="Account" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
         </span>
-        <span class="email u-line" *ngIf="isTextVisible">{{ userName }}</span>
+        @if (isTextVisible) {
+          <span class="email u-line">{{ userName }}</span>
+        }
       </a>
     </li>
     <li class="nav-item">
-      <a id="logout-button" (click)="authService.logout()">
-        <span class="icon-holder" matTooltip="Logout"
-              [matTooltipDisabled]="isTextVisible" matTooltipPosition="right">
+      <a (click)="authService.logout()" id="logout-button">
+        <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+              matTooltip="Logout" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
         </span>
-        <span class="title" *ngIf="isTextVisible">Logout</span>
+        @if (isTextVisible) {
+          <span class="title">Logout</span>
+        }
       </a>
     </li>
   </ul>

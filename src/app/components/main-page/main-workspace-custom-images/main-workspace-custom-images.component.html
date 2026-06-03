@@ -4,23 +4,24 @@
     <button (click)="buildImageDialog(null)"
             [disabled]="!isQuotaLeft() || isWorkspaceExpired"
             aria-label="Create custom image"
-            mat-flat-button
-            class="create-custom-image-button">
+            class="create-custom-image-button"
+            mat-flat-button>
       Create custom image
     </button>
-    <div *ngIf="!isQuotaLeft()" class="max-quota-warning">
-      No custom image quota left. You can create a maximum of 10 images per workspace.
-    </div>
+    @if (!isQuotaLeft()) {
+      <div class="max-quota-warning">
+        No custom image quota left. You can create a maximum of 10 images per workspace.
+      </div>
+    }
   </div>
-
-  <ng-container *ngIf="dataSource?.length > 0; else noImage">
+  @if (dataSource?.length > 0) {
     <div class="table-container">
       <table [dataSource]="dataSource" class="custom-image-table" mat-table>
 
         <ng-container matColumnDef="thumb">
           <th *matHeaderCellDef mat-header-cell>Image</th>
           <td *matCellDef="let element" mat-cell>
-            <div [ngClass]="element.state" [ngSwitch]="element.state" class="custom-image-thumb">
+            <div [ngClass]="element.state" class="custom-image-thumb">
               <!-- Custom image state NEW / BUILDING / DELETING -->
               <div class="custom-image-state-in-progress">
                 <mat-progress-spinner
@@ -38,65 +39,72 @@
 
         <ng-container matColumnDef="meta">
           <th *matHeaderCellDef mat-header-cell>Custom Image Info</th>
-          <td mat-cell *matCellDef="let element">
+          <td *matCellDef="let element" mat-cell>
             <div class="custom-image-name"> {{ element.name }}</div>
 
-            <dl [ngClass]="element.state" [ngSwitch]="element.state" class="custom-image-state grid">
-              <!-- Custom image state COMPLETED -->
-              <ng-container *ngSwitchCase="BuildState.Completed">
-                <dt class="custom-image-tag">
-                  Tag
-                </dt>
-                <dd>{{ element.tag }}</dd>
-                <dt class="custom-image-build-state">State</dt>
-                <dd class="referencing-applications-text">
-                  Build {{ element.state }}
-                  <span *ngIf="element.applicationReferences?.length"
-                        [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')">
+            <dl [ngClass]="element.state" class="custom-image-state grid">
+              @switch (element.state) {
+                <!-- Custom image state COMPLETED -->
+                @case (BuildState.Completed) {
+                  <dt class="custom-image-tag">
+                    Tag
+                  </dt>
+                  <dd>{{ element.tag }}</dd>
+                  <dt class="custom-image-build-state">State</dt>
+                  <dd class="referencing-applications-text">
+                    Build {{ element.state }}
+                    @if (element.applicationReferences?.length) {
+                      <span [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')">
                    : Used by {{
-                      element.applicationReferences.length + ' ' +
-                      (element.applicationReferences.length === 1 ? 'application' : 'applications')
-                    }}
-                  </span>
-                </dd>
-              </ng-container>
-              <!-- Custom image state FAILED -->
-              <ng-container *ngSwitchCase="BuildState.Failed">
-                <!-- Build log for failed images -->
-                <dt class="custom-image-build-state">State</dt>
-                <dd>Build {{ element.state }} /
-                  <button (click)="toggleLog(element.id)"
-                          *ngIf="element.build_system_output"
-                          class="toggle-log-button"
-                          mat-button
-                          matTooltip="Toggle log screen">
-                    <span *ngIf="!isLogVisible(element.id); then openLog else closeLog"></span>
-                    <ng-template #openLog>Open log</ng-template>
-                    <ng-template #closeLog>Close log</ng-template>
-                  </button>
-                </dd>
-              </ng-container>
-              <!-- Custom image state NEW / BUILDING / DELETING -->
-              <ng-container *ngSwitchDefault>
-                <dt class="custom-image-build-state">State</dt>
-                <dd class="custom-image-state-description">
-                  {{ getHumanReadableStateString(element) }}
-                  / {{ getStateExplanation(element) }}
-                </dd>
-              </ng-container>
+                              element.applicationReferences.length + ' ' +
+                              (element.applicationReferences.length === 1 ? 'application' : 'applications')
+                        }}
+                      </span>
+                    }
+                  </dd>
+                }
+                <!-- Custom image state FAILED -->
+                @case (BuildState.Failed) {
+                  <!-- Build log for failed images -->
+                  <dt class="custom-image-build-state">State</dt>
+                  <dd>Build {{ element.state }} /
+                    @if (element.build_system_output) {
+                      <button (click)="toggleLog(element.id)"
+                              class="toggle-log-button"
+                              mat-button
+                              matTooltip="Toggle log screen">
+                        @if (!isLogVisible(element.id)) {
+                          Open log
+                        } @else {
+                          Close log
+                        }
+                      </button>
+                    }
+                  </dd>
+                }
+                <!-- Custom image state NEW / BUILDING / DELETING -->
+                @default {
+                  <dt class="custom-image-build-state">State</dt>
+                  <dd class="custom-image-state-description">
+                    {{ getHumanReadableStateString(element) }}
+                    / {{ getStateExplanation(element) }}
+                  </dd>
+                }
+              }
             </dl>
             <!-- Log screen -->
-            <div *ngIf="isLogVisible(element.id) && element.build_system_output" class="custom-image-output">
-              <div (click)="toggleLog(element.id)"
-                   class="output-label"
-                   matTooltip="Close log screen"></div>
-              <ng-container *ngFor="let line of element.build_system_output.split('\n'); index as i">
-                <div class="custom-image-output-line">
-                  <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>
-                </div>
-              </ng-container>
-            </div>
-
+            @if (isLogVisible(element.id) && element.build_system_output) {
+              <div class="custom-image-output">
+                <div (click)="toggleLog(element.id)"
+                     class="output-label"
+                     matTooltip="Close log screen"></div>
+                @for (line of element.build_system_output.split('\n'); track $index; let i = $index) {
+                  <div class="custom-image-output-line">
+                    <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>
+                  </div>
+                }
+              </div>
+            }
             <!-- Dockerfile -->
             <dl class="custom-image-dockerfile grid">
               <dt>
@@ -106,9 +114,9 @@
               <dd>
                 <code>
                   <div class="long">
-                    <ng-container *ngFor="let line of element.dockerfile.split('\n'); index as i">
+                    @for (line of element.dockerfile.split('\n'); track $index) {
                       <div>{{ line }}</div>
-                    </ng-container>
+                    }
                   </div>
                 </code>
               </dd>
@@ -138,11 +146,11 @@
               </button>
             </div>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item disabled>
+              <button disabled mat-menu-item>
                 <mat-icon fontSet="material-icons-outlined">ios_share</mat-icon>
                 <span>copy custom image</span>
               </button>
-              <button mat-menu-item (click)="deleteCustomImage(element.id)">
+              <button (click)="deleteCustomImage(element.id)" mat-menu-item>
                 <mat-icon fontSet="material-icons-outlined">delete_outline</mat-icon>
                 <span>delete custom image</span>
               </button>
@@ -151,52 +159,53 @@
         </ng-container>
 
         <!--  Row shown when there is no matching data. -->
-        <tr mat-header-row
-            *matHeaderRowDef="displayedColumns"></tr>
+        <tr *matHeaderRowDef="displayedColumns"
+            mat-header-row></tr>
         <tr *matRowDef="let row; columns:displayedColumns" mat-row> No match</tr>
       </table>
     </div>
-  </ng-container>
-
-  <ng-template #noImage>
+  } @else {
     <section class="status-info-container">
-      <div *ngIf="dataSource !== null" class="empty-status">
-        <div class="status-headline">No custom images in this workspace</div>
-        <div class="hint">
-          <div class="hint-content">
-            <ul class="index">
-              <li>
-                Click <span class="keyword button">Create custom image</span> and customize your own image.
-              </li>
-              <li>
-                After clicking <span class="keyword button">Build</span> and wait for completion.
-              </li>
-              <li>
-                Open <span class="keyword border">Application tab</span> and create application from
-                <span class="keyword button">Advanced form</span>.
-              </li>
-              <li>
-                Select <span class="keyword select">Custom image in this workspace</span> option in Container image
-                section.
-              </li>
-              <li>
-                Select your built image from <span class="keyword select"> custom image list</span>.
-              </li>
-            </ul>
-            <div class="note">
-              <span class="point">Custom images are tied to the workspace</span> :
-              When the workspace expires, the images are deleted.
+      @if (dataSource !== null) {
+        <div class="empty-status">
+          <div class="status-headline">No custom images in this workspace</div>
+          <div class="hint">
+            <div class="hint-content">
+              <ul class="index">
+                <li>
+                  Click <span class="keyword button">Create custom image</span> and customize your own image.
+                </li>
+                <li>
+                  After clicking <span class="keyword button">Build</span> and wait for completion.
+                </li>
+                <li>
+                  Open <span class="keyword border">Application tab</span> and create application from
+                  <span class="keyword button">Advanced form</span>.
+                </li>
+                <li>
+                  Select <span class="keyword select">Custom image in this workspace</span> option in Container image
+                  section.
+                </li>
+                <li>
+                  Select your built image from <span class="keyword select"> custom image list</span>.
+                </li>
+              </ul>
+              <div class="note">
+                <span class="point">Custom images are tied to the workspace</span> :
+                When the workspace expires, the images are deleted.
+              </div>
+              <a [href]="publicConfigService.getServiceDocumentationUrl()" class="documentation-link"
+                 rel="noopener" target="_blank">
+                Open Documentation &nbsp;
+              </a>
             </div>
-            <a [href]="publicConfigService.getServiceDocumentationUrl()" class="documentation-link"
-               rel="noopener" target="_blank">
-              Open Documentation &nbsp;
-            </a>
           </div>
         </div>
-      </div>
-      <div *ngIf="dataSource === null" class="loading-status">
-        <span class="status-headline">...Loading...</span>
-      </div>
+      } @else {
+        <div class="loading-status">
+          <span class="status-headline">...Loading...</span>
+        </div>
+      }
     </section>
-  </ng-template>
+  }
 </div>

@@ -1,5 +1,5 @@
 <nav class="mobile-main-nav">
-  <input type="checkbox" id="nav-toggle-btn" [checked]="isMobileNavInvisible" [(ngModel)]="isMobileNavInvisible">
+  <input [(ngModel)]="isMobileNavInvisible" [checked]="isMobileNavInvisible" id="nav-toggle-btn" type="checkbox">
   <label [ngClass]="{'mobile-nav-closed':isMobileNavInvisible}" class="nav-toggle-label button" for="nav-toggle-btn">
     <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
   </label>
@@ -16,7 +16,7 @@
         My workspaces
       </a>
     </li>
-    <ng-container *ngIf="authService.isWorkspaceOwner">
+    @if (authService.isWorkspaceOwner) {
       <hr>
       <li>
         <a [routerLink]="['/main/workspace-owner']">
@@ -31,14 +31,14 @@
         </a>
       </li>
       <hr>
-    </ng-container>
+    }
     <li>
       <a [routerLink]="['/main/messages']">
         <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
-        <mat-icon fontSet="material-icons-outlined"
+        <mat-icon [attr.aria-hidden]="getUnreadMessages().length === 0"
                   [matBadgeHidden]="getUnreadMessages().length === 0"
-                  [attr.aria-hidden]="getUnreadMessages().length === 0" aria-hidden="false"
-                  [matBadge]="getUnreadMessages().length"
+                  [matBadge]="getUnreadMessages().length" aria-hidden="false"
+                  fontSet="material-icons-outlined"
                   matBadgeColor="warn">
           mail
         </mat-icon>

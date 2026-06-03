@@ -1,7 +1,7 @@
-<ng-container *ngFor="let item of getServiceAnnouncements()">
-  <div class="service-announcement-item"
-       [ngClass]="getServiceAnnouncementType(item.level)">
-    <span class="service-announcement-subject" [innerHTML]="item.subject"></span>
+@for (item of getServiceAnnouncements(); track item) {
+  <div [ngClass]="getServiceAnnouncementType(item.level)"
+       class="service-announcement-item">
+    <span [innerHTML]="item.subject" class="service-announcement-subject"></span>
     <span [innerHTML]="item.content" class="service-announcement-content render-hyperlinks-dark-bg"></span>
   </div>
-</ng-container>
+}

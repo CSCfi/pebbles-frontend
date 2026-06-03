@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <g id="cube" class="cube-unit">
+    <g class="cube-unit" id="cube">
       <rect class="rect__left"
             fill="var(--lightColor)" stroke="var(--strokeColor)"
             transform="skewY(15) translate(0 0.3)"/>
@@ -13,179 +13,187 @@
     </g>
   </defs>
 </svg>
-<div id="left-cube-0" *ngIf="cube===0">
-  <svg class="cube-green"
-       viewBox="0 0 250 250"
-       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+@if (cube === 0) {
+  <div id="left-cube-0">
+    <svg class="cube-green"
+         viewBox="0 0 250 250"
+         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <!-- tail -->
-    <use class="wiggle" xlink:href="#cube" x="70" y="142"/>
+      <!-- tail -->
+      <use class="wiggle" x="70" xlink:href="#cube" y="142"/>
 
-    <!-- 1st body-layer / foot -->
-    <use xlink:href="#cube" x="56" y="194"/>
-    <use xlink:href="#cube" x="184" y="194"/>
-    <use xlink:href="#cube" x="121" y="212"/>
-    <!-- 2nd body-layer / right body -->
-    <use xlink:href="#cube" x="163" y="164"/>
-    <use xlink:href="#cube" x="184" y="170"/>
-    <!-- 2nd body-layer / center body -->
-    <use xlink:href="#cube" x="78" y="164"/>
-    <use xlink:href="#cube" x="56" y="170"/>
-    <use xlink:href="#cube" x="142" y="182"/>
-    <use xlink:href="#cube" x="121" y="176"/>
-    <use xlink:href="#cube" x="163" y="176"/>
-    <use xlink:href="#cube" x="142" y="182"/>
-    <use xlink:href="#cube" x="100" y="170"/>
-    <!-- 2nd body-layer / left body -->
-    <use xlink:href="#cube" x="56" y="170"/>
-    <use xlink:href="#cube" x="78" y="176"/>
-    <use xlink:href="#cube" x="100" y="182"/>
-    <use xlink:href="#cube" x="121" y="188"/>
+      <!-- 1st body-layer / foot -->
+      <use x="56" xlink:href="#cube" y="194"/>
+      <use x="184" xlink:href="#cube" y="194"/>
+      <use x="121" xlink:href="#cube" y="212"/>
+      <!-- 2nd body-layer / right body -->
+      <use x="163" xlink:href="#cube" y="164"/>
+      <use x="184" xlink:href="#cube" y="170"/>
+      <!-- 2nd body-layer / center body -->
+      <use x="78" xlink:href="#cube" y="164"/>
+      <use x="56" xlink:href="#cube" y="170"/>
+      <use x="142" xlink:href="#cube" y="182"/>
+      <use x="121" xlink:href="#cube" y="176"/>
+      <use x="163" xlink:href="#cube" y="176"/>
+      <use x="142" xlink:href="#cube" y="182"/>
+      <use x="100" xlink:href="#cube" y="170"/>
+      <!-- 2nd body-layer / left body -->
+      <use x="56" xlink:href="#cube" y="170"/>
+      <use x="78" xlink:href="#cube" y="176"/>
+      <use x="100" xlink:href="#cube" y="182"/>
+      <use x="121" xlink:href="#cube" y="188"/>
 
-    <!-- neck -->
-    <use xlink:href="#cube" x="100" y="146"/>
-    <use xlink:href="#cube" x="142" y="146"/>
-    <use xlink:href="#cube" x="121" y="152"/>
+      <!-- neck -->
+      <use x="100" xlink:href="#cube" y="146"/>
+      <use x="142" xlink:href="#cube" y="146"/>
+      <use x="121" xlink:href="#cube" y="152"/>
 
-    <!-- 1st head-layer / face -->
-    <use xlink:href="#cube" x="78" y="124"/>
-    <use xlink:href="#cube" x="100" y="130"/>
-    <use xlink:href="#cube" x="121" y="136"/>
-    <!-- 2nd head-layer / face -->
-    <use xlink:href="#cube" x="184" y="92"/>
-    <use xlink:href="#cube" x="142" y="106"/>
-    <use xlink:href="#cube" x="78" y="100"/>
-    <use xlink:href="#cube" x="100" y="106"/>
-    <use xlink:href="#cube" x="121" y="112"/>
-    <!-- 3rd head-layer / face -->
-    <use xlink:href="#cube" x="163" y="64"/>
-    <use xlink:href="#cube" x="184" y="70"/>
-    <use xlink:href="#cube" x="121" y="64"/>
-    <use xlink:href="#cube" x="78" y="76"/>
-    <use xlink:href="#cube" x="100" y="70"/>
-    <use xlink:href="#cube" x="142" y="70"/>
-    <use xlink:href="#cube" x="121" y="76"/>
-    <use xlink:href="#cube" x="163" y="76"/>
-    <use xlink:href="#cube" x="142" y="82"/>
-    <use xlink:href="#cube" x="100" y="82"/>
-    <use xlink:href="#cube" x="121" y="88"/>
-    <!-- 1st head-layer / nose -->
-    <use xlink:href="#cube" x="184" y="130"/>
-    <use xlink:href="#cube" x="163" y="136"/>
-    <!-- 2rd head-layer / nose -->
-    <use xlink:href="#cube" x="184" y="106"/>
-    <use xlink:href="#cube" x="163" y="112"/>
-    <!-- 1.5th head-layer / nose top -->
-    <use xlink:href="#cube" x="192" y="122"/>
-    <!-- 4th head-layer / ear -->
-    <use xlink:href="#cube" x="142" y="34"/>
-    <use xlink:href="#cube" x="78" y="52"/>
+      <!-- 1st head-layer / face -->
+      <use x="78" xlink:href="#cube" y="124"/>
+      <use x="100" xlink:href="#cube" y="130"/>
+      <use x="121" xlink:href="#cube" y="136"/>
+      <!-- 2nd head-layer / face -->
+      <use x="184" xlink:href="#cube" y="92"/>
+      <use x="142" xlink:href="#cube" y="106"/>
+      <use x="78" xlink:href="#cube" y="100"/>
+      <use x="100" xlink:href="#cube" y="106"/>
+      <use x="121" xlink:href="#cube" y="112"/>
+      <!-- 3rd head-layer / face -->
+      <use x="163" xlink:href="#cube" y="64"/>
+      <use x="184" xlink:href="#cube" y="70"/>
+      <use x="121" xlink:href="#cube" y="64"/>
+      <use x="78" xlink:href="#cube" y="76"/>
+      <use x="100" xlink:href="#cube" y="70"/>
+      <use x="142" xlink:href="#cube" y="70"/>
+      <use x="121" xlink:href="#cube" y="76"/>
+      <use x="163" xlink:href="#cube" y="76"/>
+      <use x="142" xlink:href="#cube" y="82"/>
+      <use x="100" xlink:href="#cube" y="82"/>
+      <use x="121" xlink:href="#cube" y="88"/>
+      <!-- 1st head-layer / nose -->
+      <use x="184" xlink:href="#cube" y="130"/>
+      <use x="163" xlink:href="#cube" y="136"/>
+      <!-- 2rd head-layer / nose -->
+      <use x="184" xlink:href="#cube" y="106"/>
+      <use x="163" xlink:href="#cube" y="112"/>
+      <!-- 1.5th head-layer / nose top -->
+      <use x="192" xlink:href="#cube" y="122"/>
+      <!-- 4th head-layer / ear -->
+      <use x="142" xlink:href="#cube" y="34"/>
+      <use x="78" xlink:href="#cube" y="52"/>
 
-  </svg>
-</div>
-<div id="right-cube-1" *ngIf="cube===1">
-  <svg class="cube-blue"
-       viewBox="0 0 300 300"
-       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!--  1st  -->
-    <use xlink:href="#cube" x="121" y="112"/>
-    <use xlink:href="#cube" x="100" y="118"/>
-    <use xlink:href="#cube" x="142" y="118"/>
-    <use xlink:href="#cube" x="121" y="121"/>
-    <use class="move-left" xlink:href="#cube" x="79" y="124"/>
-    <use class="move-right" xlink:href="#cube" x="163" y="124"/>
-    <use xlink:href="#cube" x="142" y="130"/>
-    <use class="move-down" xlink:href="#cube" x="100" y="130"/>
-    <use class="move-down" xlink:href="#cube" x="121" y="146"/>
-    <!-- 2nd -->
-    <use xlink:href="#cube" x="121" y="88"/>
-    <use xlink:href="#cube" x="100" y="94"/>
-    <use xlink:href="#cube" x="142" y="94"/>
-    <use xlink:href="#cube" x="121" y="100"/>
-    <use class="move-left" xlink:href="#cube" x="74" y="100"/>
-    <use xlink:href="#cube" x="163" y="100"/>
-    <use xlink:href="#cube" x="142" y="106"/>
-    <use xlink:href="#cube" x="100" y="106"/>
-    <use xlink:href="#cube" x="121" y="112"/>
-    <!--  3ed  -->
-    <use xlink:href="#cube" x="121" y="64"/>
-    <use class="move-up" xlink:href="#cube" x="100" y="60"/> <!--  move up  -->
-    <use xlink:href="#cube" x="142" y="70"/>
-    <use xlink:href="#cube" x="121" y="76"/>
-    <use xlink:href="#cube" x="79" y="76"/>
-    <use class="move-right" xlink:href="#cube" x="168" y="76"/> <!--  move right  -->
-    <use xlink:href="#cube" x="142" y="82"/>
-    <use xlink:href="#cube" x="100" y="82"/>
-    <use xlink:href="#cube" x="121" y="88"/>
-  </svg>
-</div>
-<div id="mini-cube-2" *ngIf="cube===2">
-  <svg class="cube-light-blue"
-       viewBox="0 0 250 250"
-       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <use xlink:href="#cube" x="121" y="112"/>
-    <use xlink:href="#cube" x="100" y="118"/>
-    <use xlink:href="#cube" x="142" y="158"/> <!-- down -->
-    <use xlink:href="#cube" x="121" y="171"/> <!-- down -->
-    <use xlink:href="#cube" x="79" y="124"/>
-    <use xlink:href="#cube" x="163" y="124"/>
-    <use xlink:href="#cube" x="142" y="130"/>
-    <use xlink:href="#cube" x="100" y="130"/>
-    <use xlink:href="#cube" x="121" y="136"/>
+    </svg>
+  </div>
+}
+@if (cube === 1) {
+  <div id="right-cube-1">
+    <svg class="cube-blue"
+         viewBox="0 0 300 300"
+         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!--  1st  -->
+      <use x="121" xlink:href="#cube" y="112"/>
+      <use x="100" xlink:href="#cube" y="118"/>
+      <use x="142" xlink:href="#cube" y="118"/>
+      <use x="121" xlink:href="#cube" y="121"/>
+      <use class="move-left" x="79" xlink:href="#cube" y="124"/>
+      <use class="move-right" x="163" xlink:href="#cube" y="124"/>
+      <use x="142" xlink:href="#cube" y="130"/>
+      <use class="move-down" x="100" xlink:href="#cube" y="130"/>
+      <use class="move-down" x="121" xlink:href="#cube" y="146"/>
+      <!-- 2nd -->
+      <use x="121" xlink:href="#cube" y="88"/>
+      <use x="100" xlink:href="#cube" y="94"/>
+      <use x="142" xlink:href="#cube" y="94"/>
+      <use x="121" xlink:href="#cube" y="100"/>
+      <use class="move-left" x="74" xlink:href="#cube" y="100"/>
+      <use x="163" xlink:href="#cube" y="100"/>
+      <use x="142" xlink:href="#cube" y="106"/>
+      <use x="100" xlink:href="#cube" y="106"/>
+      <use x="121" xlink:href="#cube" y="112"/>
+      <!--  3ed  -->
+      <use x="121" xlink:href="#cube" y="64"/>
+      <use class="move-up" x="100" xlink:href="#cube" y="60"/> <!--  move up  -->
+      <use x="142" xlink:href="#cube" y="70"/>
+      <use x="121" xlink:href="#cube" y="76"/>
+      <use x="79" xlink:href="#cube" y="76"/>
+      <use class="move-right" x="168" xlink:href="#cube" y="76"/> <!--  move right  -->
+      <use x="142" xlink:href="#cube" y="82"/>
+      <use x="100" xlink:href="#cube" y="82"/>
+      <use x="121" xlink:href="#cube" y="88"/>
+    </svg>
+  </div>
+}
+@if (cube === 2) {
+  <div id="mini-cube-2">
+    <svg class="cube-light-blue"
+         viewBox="0 0 250 250"
+         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <use x="121" xlink:href="#cube" y="112"/>
+      <use x="100" xlink:href="#cube" y="118"/>
+      <use x="142" xlink:href="#cube" y="158"/> <!-- down -->
+      <use x="121" xlink:href="#cube" y="171"/> <!-- down -->
+      <use x="79" xlink:href="#cube" y="124"/>
+      <use x="163" xlink:href="#cube" y="124"/>
+      <use x="142" xlink:href="#cube" y="130"/>
+      <use x="100" xlink:href="#cube" y="130"/>
+      <use x="121" xlink:href="#cube" y="136"/>
 
-    <use xlink:href="#cube" x="121" y="88"/>
-    <use xlink:href="#cube" x="100" y="94"/>
-    <use xlink:href="#cube" x="142" y="94"/>
-    <use xlink:href="#cube" x="71" y="90"/> <!-- left + up -->
-    <use xlink:href="#cube" x="79" y="100"/>
-    <use xlink:href="#cube" x="163" y="100"/>
-    <use xlink:href="#cube" x="202" y="116"/> <!-- right + down -->
-    <!--    <use xlink:href="#cube" x="100" y="106"/>-->
-    <use xlink:href="#cube" x="121" y="112"/>
+      <use x="121" xlink:href="#cube" y="88"/>
+      <use x="100" xlink:href="#cube" y="94"/>
+      <use x="142" xlink:href="#cube" y="94"/>
+      <use x="71" xlink:href="#cube" y="90"/> <!-- left + up -->
+      <use x="79" xlink:href="#cube" y="100"/>
+      <use x="163" xlink:href="#cube" y="100"/>
+      <use x="202" xlink:href="#cube" y="116"/> <!-- right + down -->
+      <!--    <use xlink:href="#cube" x="100" y="106"/>-->
+      <use x="121" xlink:href="#cube" y="112"/>
 
-    <use xlink:href="#cube" x="121" y="64"/>
-    <use xlink:href="#cube" x="100" y="40"/>
-    <use xlink:href="#cube" x="142" y="70"/>
-    <use xlink:href="#cube" x="121" y="26"/>
-    <use xlink:href="#cube" x="79" y="76"/>
-    <use xlink:href="#cube" x="163" y="76"/>
-    <use xlink:href="#cube" x="142" y="82"/>
-    <use xlink:href="#cube" x="100" y="82"/>
-    <use xlink:href="#cube" x="121" y="88"/>
-  </svg>
-</div>
-<div id="mini-cube-3" *ngIf="cube===3">
-  <svg class="cube-light-blue"
-       viewBox="0 0 250 250"
-       xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <use xlink:href="#cube" x="121" y="112"/>
-    <use xlink:href="#cube" x="100" y="118"/>
-    <use xlink:href="#cube" x="142" y="118"/>
-    <!--    <use xlink:href="#cube" x="121" y="121"/>-->
-    <use xlink:href="#cube" x="79" y="154"/><!--  down  -->
-    <use xlink:href="#cube" x="163" y="144"/><!--  down  -->
-    <use xlink:href="#cube" x="142" y="130"/><!--  down  -->
-    <!--    <use xlink:href="#cube" x="100" y="240"/> -->
-    <use xlink:href="#cube" x="121" y="136"/><!--  down  -->
+      <use x="121" xlink:href="#cube" y="64"/>
+      <use x="100" xlink:href="#cube" y="40"/>
+      <use x="142" xlink:href="#cube" y="70"/>
+      <use x="121" xlink:href="#cube" y="26"/>
+      <use x="79" xlink:href="#cube" y="76"/>
+      <use x="163" xlink:href="#cube" y="76"/>
+      <use x="142" xlink:href="#cube" y="82"/>
+      <use x="100" xlink:href="#cube" y="82"/>
+      <use x="121" xlink:href="#cube" y="88"/>
+    </svg>
+  </div>
+}
+@if (cube === 3) {
+  <div id="mini-cube-3">
+    <svg class="cube-light-blue"
+         viewBox="0 0 250 250"
+         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <use x="121" xlink:href="#cube" y="112"/>
+      <use x="100" xlink:href="#cube" y="118"/>
+      <use x="142" xlink:href="#cube" y="118"/>
+      <!--    <use xlink:href="#cube" x="121" y="121"/>-->
+      <use x="79" xlink:href="#cube" y="154"/><!--  down  -->
+      <use x="163" xlink:href="#cube" y="144"/><!--  down  -->
+      <use x="142" xlink:href="#cube" y="130"/><!--  down  -->
+      <!--    <use xlink:href="#cube" x="100" y="240"/> -->
+      <use x="121" xlink:href="#cube" y="136"/><!--  down  -->
 
-    <use xlink:href="#cube" x="121" y="88"/>
-    <use xlink:href="#cube" x="100" y="94"/>
-    <use xlink:href="#cube" x="142" y="94"/>
-    <use xlink:href="#cube" x="121" y="100"/>
-    <use xlink:href="#cube" x="79" y="100"/>
-    <use xlink:href="#cube" x="163" y="100"/>
-    <use xlink:href="#cube" x="142" y="106"/>
-    <use xlink:href="#cube" x="100" y="106"/>
-    <use xlink:href="#cube" x="121" y="112"/>
+      <use x="121" xlink:href="#cube" y="88"/>
+      <use x="100" xlink:href="#cube" y="94"/>
+      <use x="142" xlink:href="#cube" y="94"/>
+      <use x="121" xlink:href="#cube" y="100"/>
+      <use x="79" xlink:href="#cube" y="100"/>
+      <use x="163" xlink:href="#cube" y="100"/>
+      <use x="142" xlink:href="#cube" y="106"/>
+      <use x="100" xlink:href="#cube" y="106"/>
+      <use x="121" xlink:href="#cube" y="112"/>
 
-    <use xlink:href="#cube" x="121" y="64"/>
-    <use xlink:href="#cube" x="100" y="70"/>
-    <use xlink:href="#cube" x="142" y="70"/>
-    <use xlink:href="#cube" x="121" y="76"/>
-    <use xlink:href="#cube" x="79" y="36"/> <!--  up  -->
-    <use xlink:href="#cube" x="198" y="76"/> <!--  right  -->
-    <use xlink:href="#cube" x="142" y="82"/>
-    <use xlink:href="#cube" x="100" y="82"/>
-    <use xlink:href="#cube" x="121" y="88"/>
-  </svg>
-</div>
+      <use x="121" xlink:href="#cube" y="64"/>
+      <use x="100" xlink:href="#cube" y="70"/>
+      <use x="142" xlink:href="#cube" y="70"/>
+      <use x="121" xlink:href="#cube" y="76"/>
+      <use x="79" xlink:href="#cube" y="36"/> <!--  up  -->
+      <use x="198" xlink:href="#cube" y="76"/> <!--  right  -->
+      <use x="142" xlink:href="#cube" y="82"/>
+      <use x="100" xlink:href="#cube" y="82"/>
+      <use x="121" xlink:href="#cube" y="88"/>
+    </svg>
+  </div>
+}

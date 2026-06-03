@@ -4,65 +4,83 @@
           class="workspace-delete-button">
     Delete workspace
   </button>
-  <form [formGroup]="workspaceEditForm" novalidate *ngIf="workspaceEditForm">
-    <dl class="workspace-info grid">
+  @if (workspaceEditForm) {
+    <form [formGroup]="workspaceEditForm" novalidate>
+      <dl class="workspace-info grid">
 
-      <dt [ngClass]="{ 'no-hover-bg':isWorkspaceNameEditOn }">Workspace name</dt>
-      <dd [ngClass]="{ 'no-hover-bg':isWorkspaceNameEditOn }">
-        <div class="preview" *ngIf="!isWorkspaceNameEditOn">
-          <p>{{ workspace.name }}</p>
-          <div class="action-wrapper">
-            <button aria-label="edit"
-                    class="edit-button"
-                    matTooltip="Edit workspace name"
-                    *ngIf="isEditable"
-                    (click)="editWorkspaceName()">
-            </button>
-          </div>
-        </div>
-        <div *ngIf="isWorkspaceNameEditOn" class="editor">
-          <mat-form-field appearance="fill">
-            <input formControlName="name" matInput>
-            <mat-error *ngIf="workspaceEditForm.controls.name.hasError('required')">
-              <strong>Name is required</strong>
-            </mat-error>
-            <mat-error *ngIf="workspaceEditForm.controls.name.hasError('maxlength')">
-              <strong>Max length (64 characters) exceeded</strong>
-            </mat-error>
-            <mat-error *ngIf="workspaceEditForm.controls.name.hasError('forbiddenValue')">
-              <strong>Workspace name cannot start with "system"</strong>
-            </mat-error>
-          </mat-form-field>
-          <div class="action-buttons">
-            <button (click)="updateWorkspace('name')"
-                    *ngIf="workspace.name!=='System.default'"
-                    [disabled]="!workspaceEditForm.valid"
-                    class="workspace-update-button"
-                    matTooltip="Save change">
-              Save
-            </button>
-            <button (click)="cancelWorkspaceEditing('name')"
-                    class="workspace-edit-cancel-button"
-                    matTooltip="Cancel">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </dd>
-      <dt [ngClass]="{ 'no-hover-bg':isWorkspaceDescriptionEditOn }">Description</dt>
-      <dd class="description" [ngClass]="{ 'no-hover-bg':isWorkspaceDescriptionEditOn }">
-        <div class="preview" *ngIf="!isWorkspaceDescriptionEditOn">
-          <p [innerHTML]="workspace.description || 'No description'"></p>
-          <div class="action-wrapper">
-            <button aria-label="edit"
-                    class="edit-button"
-                    matTooltip="Edit workspace description"
-                    *ngIf="isEditable" (click)="editWorkspaceDescription()">
-            </button>
-          </div>
-        </div>
-        <div *ngIf="isWorkspaceDescriptionEditOn" class="editor">
-          <mat-form-field appearance="fill">
+        <dt [ngClass]="{ 'no-hover-bg':isWorkspaceNameEditOn }">Workspace name</dt>
+        <dd [ngClass]="{ 'no-hover-bg':isWorkspaceNameEditOn }">
+          @if (!isWorkspaceNameEditOn) {
+            <div class="preview">
+              <p>{{ workspace.name }}</p>
+              <div class="action-wrapper">
+                @if (isEditable) {
+                  <button (click)="editWorkspaceName()"
+                          aria-label="edit"
+                          class="edit-button"
+                          matTooltip="Edit workspace name">
+                  </button>
+                }
+              </div>
+            </div>
+          }
+          @if (isWorkspaceNameEditOn) {
+            <div class="editor">
+              <mat-form-field appearance="fill">
+                <input formControlName="name" matInput>
+                @if (workspaceEditForm.controls.name.hasError('required')) {
+                  <mat-error>
+                    <strong>Name is required</strong>
+                  </mat-error>
+                }
+                @if (workspaceEditForm.controls.name.hasError('maxlength')) {
+                  <mat-error>
+                    <strong>Max length (64 characters) exceeded</strong>
+                  </mat-error>
+                }
+                @if (workspaceEditForm.controls.name.hasError('forbiddenValue')) {
+                  <mat-error>
+                    <strong>Workspace name cannot start with "system"</strong>
+                  </mat-error>
+                }
+              </mat-form-field>
+              <div class="action-buttons">
+                @if (workspace.name !== 'System.default') {
+                  <button (click)="updateWorkspace('name')"
+                          [disabled]="!workspaceEditForm.valid"
+                          class="workspace-update-button"
+                          matTooltip="Save change">
+                    Save
+                  </button>
+                }
+                <button (click)="cancelWorkspaceEditing('name')"
+                        class="workspace-edit-cancel-button"
+                        matTooltip="Cancel">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          }
+        </dd>
+        <dt [ngClass]="{ 'no-hover-bg':isWorkspaceDescriptionEditOn }">Description</dt>
+        <dd [ngClass]="{ 'no-hover-bg':isWorkspaceDescriptionEditOn }" class="description">
+          @if (!isWorkspaceDescriptionEditOn) {
+            <div class="preview">
+              <p [innerHTML]="workspace.description || 'No description'"></p>
+              <div class="action-wrapper">
+                @if (isEditable) {
+                  <button (click)="editWorkspaceDescription()"
+                          aria-label="edit"
+                          class="edit-button"
+                          matTooltip="Edit workspace description">
+                  </button>
+                }
+              </div>
+            </div>
+          }
+          @if (isWorkspaceDescriptionEditOn) {
+            <div class="editor">
+              <mat-form-field appearance="fill">
             <textarea [cdkAutosizeMaxRows]="10"
                       [cdkAutosizeMinRows]="2"
                       cdkTextareaAutosize
@@ -70,79 +88,88 @@
                       matInput>
 
             </textarea>
-            <mat-hint align="end">{{ descriptionInput?.value?.length || 0 }}/{{ descriptionMaxLength }}
-            </mat-hint>
-            <!-- error -->
-            <mat-error *ngIf="workspaceEditForm.controls.description.hasError('required')">
-              You must provide a <strong>description about the workspace</strong>
-            </mat-error>
-            <mat-error *ngIf="workspaceEditForm.controls.description.hasError('maxlength')">
-              Currently you have {{ descriptionInput?.value?.length }} characters. Max length
-              ({{ descriptionMaxLength }}) exceeded.
-            </mat-error>
-          </mat-form-field>
-          <div class="action-buttons">
-            <button (click)="updateWorkspace('description')"
-                    *ngIf="workspace.name!=='System.default'"
-                    [disabled]="!workspaceEditForm.valid"
-                    class="workspace-update-button primary-btn">
-              Save changes
-            </button>
-            <button (click)="cancelWorkspaceEditing('description')"
-                    class="workspace-edit-cancel-button">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </dd>
-      <dt class="join-code-title">Join code</dt>
-      <dd>
-        <div class="join-code preview">
-          <button class="open-join-code-button" (click)="openJoinCodeDialog()">
-          </button>
-          <div class="action-wrapper">
-            <button class="join-code-regenerate-button"
-                    matTooltip="Regenerate Join code"
-                    [disabled]="hasExpired"
-                    (click)="openRegenerateJoinCodeDialog()">
-            </button>
-
-          </div>
-        </div>
-      </dd>
-      <dt>Created</dt>
-      <dd>
-        <p>{{ workspace.create_ts | dateDisplay }}</p>
-      </dd>
-      <dt>Expiration date</dt>
-      <dd>
-        <div class="expiry-date">
-          <p>{{ workspace.expiry_ts | dateDisplay }}  ({{
-              workspace.expiry_ts |
-                remainingDaysDisplay
-            }})
-          </p>
-          <div class="expiry-date-extension action-wrapper" *ngIf="workspace.config?.allow_expiry_extension">
-            <button class="extension-button"
-                    matTooltip="Extend this to 13 months from now"
-                    (click)="openExpiryDateExtensionDialog()">
-            </button>
-          </div>
-        </div>
-      </dd>
-
-      <dt>Memory limit</dt>
-      <dd>
-        <p>{{ workspace.memory_limit_gib }} GiB total for concurrent sessions</p>
-      </dd>
-
-      <ng-container class="" *ngIf="workspace.membership_expiry_policy.kind==='activity_timeout'">
-        <dt>Membership expiry</dt>
-        <dd>
-          <p>after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity</p>
+                <mat-hint align="end">{{ descriptionInput?.value?.length || 0 }}/{{ descriptionMaxLength }}
+                </mat-hint>
+                <!-- error -->
+                @if (workspaceEditForm.controls.description.hasError('required')) {
+                  <mat-error>
+                    You must provide a <strong>description about the workspace</strong>
+                  </mat-error>
+                }
+                @if (workspaceEditForm.controls.description.hasError('maxlength')) {
+                  <mat-error>
+                    Currently you have {{ descriptionInput?.value?.length }} characters. Max length
+                    ({{ descriptionMaxLength }}) exceeded.
+                  </mat-error>
+                }
+              </mat-form-field>
+              <div class="action-buttons">
+                @if (workspace.name !== 'System.default') {
+                  <button (click)="updateWorkspace('description')"
+                          [disabled]="!workspaceEditForm.valid"
+                          class="workspace-update-button primary-btn">
+                    Save changes
+                  </button>
+                }
+                <button (click)="cancelWorkspaceEditing('description')"
+                        class="workspace-edit-cancel-button">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          }
         </dd>
-      </ng-container>
+        <dt class="join-code-title">Join code</dt>
+        <dd>
+          <div class="join-code preview">
+            <button (click)="openJoinCodeDialog()" class="open-join-code-button">
+            </button>
+            <div class="action-wrapper">
+              <button (click)="openRegenerateJoinCodeDialog()"
+                      [disabled]="hasExpired"
+                      class="join-code-regenerate-button"
+                      matTooltip="Regenerate Join code">
+              </button>
 
-    </dl>
-  </form>
+            </div>
+          </div>
+        </dd>
+        <dt>Created</dt>
+        <dd>
+          <p>{{ workspace.create_ts | dateDisplay }}</p>
+        </dd>
+        <dt>Expiration date</dt>
+        <dd>
+          <div class="expiry-date">
+            <p>{{ workspace.expiry_ts | dateDisplay }}  ({{
+                    workspace.expiry_ts |
+                        remainingDaysDisplay
+              }})
+            </p>
+            @if (workspace.config?.allow_expiry_extension) {
+              <div class="expiry-date-extension action-wrapper">
+                <button (click)="openExpiryDateExtensionDialog()"
+                        class="extension-button"
+                        matTooltip="Extend this to 13 months from now">
+                </button>
+              </div>
+            }
+          </div>
+        </dd>
+
+        <dt>Memory limit</dt>
+        <dd>
+          <p>{{ workspace.memory_limit_gib }} GiB total for concurrent sessions</p>
+        </dd>
+        @if (workspace.membership_expiry_policy.kind === 'activity_timeout') {
+          <ng-container class="">
+            <dt>Membership expiry</dt>
+            <dd>
+              <p>after {{ workspace.membership_expiry_policy.timeout_days }} days of inactivity</p>
+            </dd>
+          </ng-container>
+        }
+      </dl>
+    </form>
+  }
 </div>

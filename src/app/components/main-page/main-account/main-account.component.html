@@ -18,47 +18,46 @@
           <!-- TODO: replace with workspace quota display -->
           <dt>Role</dt>
           <dd>
-            <ng-container *ngIf="user?.is_admin; then admin; else not_admin"></ng-container>
-            <ng-template #admin>Admin</ng-template>
-            <ng-template #not_admin>
-              <ng-container *ngIf="isWorkspaceOwner() then workspace_owner; else not_workspace_owner">
-              </ng-container>
-            </ng-template>
-            <ng-template #workspace_owner>Workspace owner</ng-template>
-            <ng-template #not_workspace_owner>
+            @if (user?.is_admin) {
+              Admin
+            } @else if (isWorkspaceOwner()) {
+              Workspace owner
+            } @else if (user) {
+              Active
+            } @else {
               <!-- TODO : Check how to integrate workspace manager depending on rest of UI design -->
-              <ng-container *ngIf=" user ; then regular_user else workspace_manager">
-              </ng-container>
-            </ng-template>
-            <ng-template #workspace_manager>Workspace co-owner</ng-template>
-            <ng-template #regular_user>Active</ng-template>
+                  Workspace co-owner
+            }
           </dd>
-          <ng-container *ngIf="user">
+          @if (user) {
             <dt>Delete account</dt>
-            <dd *ngIf="!isAccountDeletionRequested()">
-              <ul class="grid">
-                <li>
-                  <p>
-                    Click the button and send a request to
-                    <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.
-                    We will process your request and come back to you.
-                  </p>
-                </li>
-                <li class="request-account-deletion">
-                  <button (click)="requestAccountDeletion()"
-                          class="request-account-deletion-btn" mat-button>
-                    Request account deletion
-                  </button>
-                </li>
-              </ul>
-            </dd>
-            <dd *ngIf="isAccountDeletionRequested()">
-              <p>
-                Account deletion requested.
-                Send an email to <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a> to proceed.
-              </p>
-            </dd>
-          </ng-container>
+            @if (!isAccountDeletionRequested()) {
+              <dd>
+                <ul class="grid">
+                  <li>
+                    <p>
+                      Click the button and send a request to
+                      <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.
+                      We will process your request and come back to you.
+                    </p>
+                  </li>
+                  <li class="request-account-deletion">
+                    <button (click)="requestAccountDeletion()"
+                            class="request-account-deletion-btn" mat-button>
+                      Request account deletion
+                    </button>
+                  </li>
+                </ul>
+              </dd>
+            } @else {
+              <dd>
+                <p>
+                  Account deletion requested.
+                  Send an email to <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a> to proceed.
+                </p>
+              </dd>
+            }
+          }
         </dl>
       </div>
 
@@ -69,9 +68,9 @@
         <dl class="user-setting grid">
           <dt>Desktop notifications</dt>
           <dd>
-            <ng-container [ngSwitch]="getDesktopNotificationPermissionState()">
-              <ul class="grid">
-                <ng-container *ngSwitchCase="'default'">
+            <ul class="grid">
+              @switch (getDesktopNotificationPermissionState()) {
+                @case ('default') {
                   <li>
                     We can show desktop notifications when application sessions are started or are about to expire.
                   </li>
@@ -81,35 +80,35 @@
                       Initialize desktop notifications
                     </button>
                   </li>
-                </ng-container>
-                <ng-container *ngSwitchCase="'granted'">
+                }
+                @case ('granted') {
                   <li>
                     You can control the permissions in your browser's preferences.
                   </li>
                   <li class="desktop-notifications-granted">
                     Desktop notifications are active
                   </li>
-                </ng-container>
-                <ng-container *ngSwitchCase="'denied'">
+                }
+                @case ('denied') {
                   <li>
                     You can control the permissions in your browser's preferences.
                   </li>
                   <li class="desktop-notifications-blocked">
                     Desktop notifications are blocked
                   </li>
-                </ng-container>
-                <ng-container *ngSwitchCase="'asking'">
+                }
+                @case ('asking') {
                   <li class="desktop-notifications-asking">
                     Waiting for permission dialog
                   </li>
-                </ng-container>
-                <ng-container *ngSwitchCase="null">
+                }
+                @case (null) {
                   <li class="desktop-notifications-unsupported">
                     This browser does not support desktop notifications
                   </li>
-                </ng-container>
-              </ul>
-            </ng-container>
+                }
+              }
+            </ul>
           </dd>
         </dl>
       </div>

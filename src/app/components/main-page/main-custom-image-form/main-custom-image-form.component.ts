@@ -171,7 +171,8 @@ export class MainCustomImageFormComponent implements OnInit, AfterViewInit {
   // remove a content field
   removeImageContent(index: number): void {
     this.imageContent.splice(index, 1);
-    this.customImageFormGroup.removeControl(`ic-${index}`);
+    this.customImageFormGroup.removeControl(`ic-${this.imageContent.length}`);
+    this.updateDynamicFields();
     this.updateDockerfile();
   }
 
