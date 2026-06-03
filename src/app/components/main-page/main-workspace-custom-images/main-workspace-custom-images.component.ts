@@ -3,7 +3,6 @@ import { MatDialog as MatDialog } from "@angular/material/dialog";
 import { Subscription } from 'rxjs';
 import { BuildState, CustomImage } from "src/app/models/custom-image";
 import { Workspace } from "src/app/models/workspace";
-import { ApplicationTemplateService } from "src/app/services/application-template.service";
 import { AuthService } from "src/app/services/auth.service";
 import { CustomImageService } from "src/app/services/custom-image.service";
 import { EventService } from "src/app/services/event.service";
@@ -27,7 +26,6 @@ export interface CustomImageRow extends CustomImage {
 export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, OnDestroy {
   dialog = inject(MatDialog);
   private customImageService = inject(CustomImageService);
-  private applicationTemplateService = inject(ApplicationTemplateService);
   private eventService = inject(EventService);
   private authService = inject(AuthService);
   publicConfigService = inject(PublicConfigService);
@@ -69,15 +67,8 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
     );
 
     this.customImageService.fetchCustomImages().subscribe(() => {
-      this.applicationTemplateService.fetchApplicationTemplates().subscribe((ats) => {
-        this.baseImages = [];
-        ats.forEach(tmpl => {
-          if (tmpl.application_type === 'jupyter' && tmpl.base_config.image.startsWith(this.prefix)) {
-            if (!this.baseImages.includes(tmpl.base_config.image)) {
-              this.baseImages.push(tmpl.base_config.image);
-            }
-          }
-        });
+      this.customImageService.fetchBaseImages().subscribe((images) => {
+        this.baseImages = images;
       });
       this.rebuildDataSource();
     });

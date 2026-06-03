@@ -97,4 +97,11 @@ export class CustomImageService implements OnDestroy {
         this.fetchCustomImages().subscribe();
       }));
   }
+
+  fetchBaseImages(): Observable<string[]> {
+    const url = `${buildConfiguration.apiUrl}/custom_image_base_images`;
+    return this.http.get<string[]>(url).pipe(
+      map(images => images || [])
+    );
+  }
 }
