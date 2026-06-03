@@ -170,7 +170,7 @@
 
       <section class="info-box">
         <h3>Session Info</h3>
-        <dl>
+        <dl class="grid">
           <dt>Name</dt>
           <dd>{{ selectedDetailSession.name }}</dd>
           <dt>User</dt>
@@ -191,7 +191,7 @@
       </section>
       <section class="event-box">
         <h3>Events</h3>
-        <dl>
+        <dl class="grid">
           @for (logLine of getSelectedSessionEvents(); track logLine) {
             <dt>{{ logLine.timestamp * 1000 | date:'HH:mm:ss' }}</dt>
             <dd>{{ logLine.log_level | uppercase }} {{ logLine.message }}</dd>

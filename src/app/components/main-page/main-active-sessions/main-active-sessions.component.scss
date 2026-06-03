@@ -148,13 +148,13 @@
   .info-box dl {
     font-size: 1.3rem;
 
-    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px);
+    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px, $field-height: 24px);
   }
 
   .event-box dl {
     font-size: 1.3rem;
 
-    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px);
+    @include uis.grid-list($fractions: '150px auto', $gap: 1px 4px, $field-height: 24px);
   }
 
   section {
