@@ -26,7 +26,7 @@
         <h3 [innerHTML]="workspace.name" [ngClass]="{badge:isNew}"
             class="title"></h3>
       </mat-card-title>
-      <button [matMenuTriggerFor]="menu" aria-label="open menu" class="workspace-item-menu" matMiniFab></button>
+      <button [matMenuTriggerFor]="menu" aria-label="open menu" class="workspace-item-menu" matIconButton></button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item aria-label="workspace delete" matTooltip="Leave Workspace"
                 [disabled]="workspace.membership_type === 'public'" (click)="exitWorkspace()">

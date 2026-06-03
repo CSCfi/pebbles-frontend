@@ -32,6 +32,9 @@ export default defineConfig([globalIgnores(["projects/**/*"]), {
 
   rules: {
     "@angular-eslint/prefer-standalone": ["off"],
+    // prefer-inject is on by default in @angular-eslint v20's recommended set;
+    // disabled here and enabled in the inject() migration MR
+    "@angular-eslint/prefer-inject": ["off"],
 
     "@angular-eslint/directive-selector": ["error", {
       type: "attribute",

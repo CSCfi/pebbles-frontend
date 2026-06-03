@@ -5,7 +5,7 @@
 
 @mixin button(
   $role: 'prim', $bg-color: none, $font-size: none, $style: 'flat', $mode: 'normal',
-  $width: 'auto', $height: var(--mat-filled-button-touch-target-display),
+  $width: 'auto', $height: var(--mat-button-filled-touch-target-display),
   $connect: none, $text-align: center,
   $icon: false, $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined', $button-icon-gap: none) {
   @include base.styled-font;
@@ -27,34 +27,34 @@
   cursor: pointer;
   border-radius: 5px;
   border-width: 1px;
-  border-color: var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant));
+  border-color: var(--mat-card-outlined-outline-color, var(--mat-sys-outline-variant));
 
   $button-icon-gap: if($button-icon-gap==none, 8px, $button-icon-gap);
 
   @if $style == 'flat' {
-    --mdc-filled-button-container-color: var(--#{$role}-clr-7);
-    --mdc-filled-button-label-text-color: white;
+    --mat-button-filled-container-color: var(--#{$role}-clr-7);
+    --mat-button-filled-label-text-color: white;
     color: white;
     background: var(--#{$role}-clr-7);
     @include utils.shadow(0.05);
   } @else if $style == 'none' {
-    --mdc-text-button-label-text-color: var(--#{$role}-clr-6);
-    --mdc-outlined-button-label-text-color: var(--#{$role}-clr-6);
-    --mdc-outlined-button-outline-color: var(--neut-clr-2);
+    --mat-button-text-label-text-color: var(--#{$role}-clr-6);
+    --mat-button-outlined-label-text-color: var(--#{$role}-clr-6);
+    --mat-button-outlined-outline-color: var(--neut-clr-2);
     color: var(--#{$role}-clr-6);
     background: transparent;
     border: 1px solid var(--neut-clr-2);
     @include utils.shadow(0.05);
   } @else if $style == 'stroked' {
-    --mdc-outlined-button-label-text-color: var(--#{$role}-clr-6);
-    --mdc-outlined-button-outline-color: var(--#{$role}-clr-6);
+    --mat-button-outlined-label-text-color: var(--#{$role}-clr-6);
+    --mat-button-outlined-outline-color: var(--#{$role}-clr-6);
     color: var(--#{$role}-clr-6);
     background: var(--#{$role}-clr-0);
     border: 2px solid var(--#{$role}-clr-6);
     box-sizing: border-box;
     @include utils.shadow(0.05);
   } @else if $style == 'icon' {
-    --mdc-icon-button-icon-color: var(--#{$role}-clr-7);
+    --mat-icon-button-icon-color: var(--#{$role}-clr-7);
     border: none;
     color: var(--#{$role}-clr-7);
     $button-icon-gap: 0;
@@ -68,7 +68,7 @@
     }
 
   } @else if $style == 'fab' {
-    --mdc-fab-container-color: var(--#{$role}-clr-7);
+    --mat-fab-container-color: var(--#{$role}-clr-7);
     --mat-fab-foreground-color: white;
     --mat-fab-icon-color: white;
     border: none;
@@ -80,8 +80,8 @@
     margin: 0;
     min-width: 50px;
   } @else if $style == 'rounded' {
-    --mdc-filled-button-container-color: white;
-    --mdc-filled-button-label-text-color: var(--prim-clr-7);
+    --mat-button-filled-container-color: white;
+    --mat-button-filled-label-text-color: var(--prim-clr-7);
     border: none;
     color: var(--prim-clr-7);
     background: white;
@@ -90,7 +90,7 @@
     border-radius: 30px;
     @include utils.shadow(0.05);
   } @else if $style == 'underline' {
-    --mdc-text-button-label-text-color: var(--#{$role}-clr-7);
+    --mat-button-text-label-text-color: var(--#{$role}-clr-7);
     border: none;
     color: var(--#{$role}-clr-7);
     ::ng-deep.mdc-button__label {
@@ -98,7 +98,7 @@
     }
 
     @if $mode == 'dark' {
-      --mdc-text-button-label-text-color: white;
+      --mat-button-text-label-text-color: white;
       color: white;
     }
   }

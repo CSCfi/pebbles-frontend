@@ -112,9 +112,9 @@ form {
 
   mat-list-item {
     @include base.centering(y);
-    --mdc-list-list-item-label-text-size: 12px;
-    --mdc-list-list-item-label-text-line-height: 12px;
-    --mdc-list-list-item-one-line-container-height: 30px;
+    --mat-list-list-item-label-text-size: 12px;
+    --mat-list-list-item-label-text-line-height: 12px;
+    --mat-list-list-item-one-line-container-height: 30px;
     padding: 0;
 
     ::ng-deep.mdc-list-item__primary-text {

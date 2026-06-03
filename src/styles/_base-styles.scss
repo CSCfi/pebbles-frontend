@@ -43,19 +43,19 @@ $page-side-padding: 30px;
   --mat-expansion-container-shape: 3px;
   --mat-form-field-container-vertical-padding: 5px;
   --mat-form-field-container-height: 40px;
-  --mdc-filled-text-field-container-color: var(--neut-clr-0);
-  --mdc-chip-label-text-color: white;
+  --mat-form-field-filled-container-color: var(--neut-clr-0);
+  --mat-chip-label-text-color: white;
 
-  --mat-standard-button-toggle-divider-color: var(--content-border-neut);
-  --mat-standard-button-toggle-background-color: transparent;
+  --mat-button-toggle-divider-color: var(--content-border-neut);
+  --mat-button-toggle-background-color: transparent;
 
-  --mdc-checkbox-selected-pressed-icon-color: var(--sec-clr-3);
-  --mdc-checkbox-selected-focus-state-layer-color: var(--sec-clr-3);
-  --mdc-checkbox-selected-hover-state-layer-color: var(--sec-clr-3);
-  --mdc-checkbox-selected-pressed-state-layer-color: var(--sec-clr-3);
-  --mdc-checkbox-selected-focus-icon-color: var(--sec-clr-4);
-  --mdc-checkbox-selected-hover-icon-color: var(--sec-clr-3);
-  --mdc-checkbox-selected-icon-color: var(--sec-clr-4);
+  --mat-checkbox-selected-pressed-icon-color: var(--sec-clr-3);
+  --mat-checkbox-selected-focus-state-layer-color: var(--sec-clr-3);
+  --mat-checkbox-selected-hover-state-layer-color: var(--sec-clr-3);
+  --mat-checkbox-selected-pressed-state-layer-color: var(--sec-clr-3);
+  --mat-checkbox-selected-focus-icon-color: var(--sec-clr-4);
+  --mat-checkbox-selected-hover-icon-color: var(--sec-clr-3);
+  --mat-checkbox-selected-icon-color: var(--sec-clr-4);
 
   @include mat.progress-spinner-overrides((
           active-indicator-color: var(--prim-clr-7),
@@ -67,25 +67,25 @@ $page-side-padding: 30px;
 }
 
 .mat-mdc-radio-button {
-  --mdc-radio-selected-focus-icon-color: var(--sec-clr-7);
-  --mdc-radio-selected-hover-icon-color: var(--sec-clr-7);
-  --mdc-radio-selected-icon-color: var(--sec-clr-5);
-  --mdc-radio-selected-pressed-icon-color: var(--sec-clr-7);
+  --mat-radio-selected-focus-icon-color: var(--sec-clr-7);
+  --mat-radio-selected-hover-icon-color: var(--sec-clr-7);
+  --mat-radio-selected-icon-color: var(--sec-clr-5);
+  --mat-radio-selected-pressed-icon-color: var(--sec-clr-7);
 }
 
 .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
-  --mat-tab-header-active-label-text-color: var(--sec-clr-6);
-  --mat-tab-header-active-ripple-color: var(--sec-clr-6);
-  --mat-tab-header-inactive-ripple-color: var(--sec-clr-6);
-  --mat-tab-header-label-text-color: var(--sec-clr-6);
-  --mat-tab-header-active-focus-label-text-color: var(--sec-clr-6);
-  --mat-tab-header-active-hover-label-text-color: var(--sec-clr-6);
-  --mat-tab-header-active-focus-indicator-color: var(--sec-clr-6);
-  --mat-tab-header-active-hover-indicator-color: var(--sec-clr-6);
-  --mdc-tab-indicator-active-indicator-height: 4px;
-  --mdc-tab-indicator-active-indicator-color: var(--sec-clr-6);
-  --mat-tab-header-pagination-icon-color: var(--prim-clr-6);
-  --mat-tab-header-inactive-label-text-color: var(--prim-clr-7);
+  --mat-tab-active-label-text-color: var(--sec-clr-6);
+  --mat-tab-active-ripple-color: var(--sec-clr-6);
+  --mat-tab-inactive-ripple-color: var(--sec-clr-6);
+  --mat-tab-label-text-color: var(--sec-clr-6);
+  --mat-tab-active-focus-label-text-color: var(--sec-clr-6);
+  --mat-tab-active-hover-label-text-color: var(--sec-clr-6);
+  --mat-tab-active-focus-indicator-color: var(--sec-clr-6);
+  --mat-tab-active-hover-indicator-color: var(--sec-clr-6);
+  --mat-tab-active-indicator-height: 4px;
+  --mat-tab-active-indicator-color: var(--sec-clr-6);
+  --mat-tab-pagination-icon-color: var(--prim-clr-6);
+  --mat-tab-inactive-label-text-color: var(--prim-clr-7);
 }
 
 @mixin styled-font {

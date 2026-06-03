@@ -20,8 +20,8 @@ $background: transparent, $border: none, $wrap: false) {
       background-color: $background;
       border: $border;
 
-      --mdc-chip-label-text-color: #{$color};
-      --mdc-chip-label-text-weight: 500;
+      --mat-chip-label-text-color: #{$color};
+      --mat-chip-label-text-weight: 500;
       text-transform: $text-transform;
 
       ::ng-deep.mat-mdc-chip-action-label {
@@ -48,7 +48,7 @@ $background: transparent, $border: none, $wrap: false) {
     }
 
     .mat-mdc-chip.mat-mdc-standard-chip {
-      --mdc-chip-container-height: 28px;
+      --mat-chip-container-height: 28px;
     }
   }
 }

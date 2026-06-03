@@ -193,6 +193,10 @@
         color: white !important;
       }
 
+      .mat-button-toggle.mat-button-toggle-disabled {
+        background-color: var(--gray-clr-2);
+      }
+
       .mat-button-toggle.mat-button-toggle-disabled .mat-button-toggle-label-content {
         color: var(--gray-clr-5) !important;
       }

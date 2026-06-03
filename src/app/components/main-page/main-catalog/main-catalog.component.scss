@@ -22,7 +22,7 @@
   min-height: 0 !important;
 
   .mat-mdc-tab-header {
-    --mdc-secondary-navigation-tab-container-height: 38px;
+    --mat-tab-container-height: 38px;
 
     .mdc-tab {
       @include base.styled-font;
