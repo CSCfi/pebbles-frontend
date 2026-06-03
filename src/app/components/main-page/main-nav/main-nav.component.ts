@@ -1,6 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild, ViewChildren } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message } from '../../../models/message';
 import { MessageService } from '../../../services/message.service';
@@ -14,6 +14,11 @@ import { PublicConfigService } from '../../../services/public-config.service';
   standalone: false
 })
 export class MainNavComponent {
+  router = inject(Router);
+  authService = inject(AuthService);
+  messageService = inject(MessageService);
+  publicConfigService = inject(PublicConfigService);
+
 
   public isTextVisible: boolean;
 
@@ -33,12 +38,7 @@ export class MainNavComponent {
     return this.authService.getUserName();
   }
 
-  constructor(
-    public router: Router,
-    public authService: AuthService,
-    public messageService: MessageService,
-    public publicConfigService: PublicConfigService,
-  ) {
+  constructor() {
     // fetch messages to update the nav bar unread messages number
     this.messageService.fetchMessages().subscribe();
   }

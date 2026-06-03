@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -24,6 +24,16 @@ export interface WizardApplicationTemplateRow {
   standalone: false
 })
 export class MainApplicationWizardFormComponent implements OnInit {
+  dialogRef = inject<MatDialogRef<MainApplicationWizardFormComponent>>(MatDialogRef);
+  data = inject<{
+    workspaceId: string;
+    isWorkspacePublic: boolean;
+  }>(MAT_DIALOG_DATA);
+  authService = inject(AuthService);
+  private formBuilder = inject(UntypedFormBuilder);
+  private applicationTemplateService = inject(ApplicationTemplateService);
+  private applicationService = inject(ApplicationService);
+
 
   wizardApplicationTemplateFormGroup: UntypedFormGroup;
   wizardProfileFormGroup: UntypedFormGroup;
@@ -52,17 +62,7 @@ export class MainApplicationWizardFormComponent implements OnInit {
     );
   }
 
-  constructor(
-    public dialogRef: MatDialogRef<MainApplicationWizardFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      workspaceId: string,
-      isWorkspacePublic: boolean
-    },
-    public authService: AuthService,
-    private formBuilder: UntypedFormBuilder,
-    private applicationTemplateService: ApplicationTemplateService,
-    private applicationService: ApplicationService,
-  ) {
+  constructor() {
     this.selectedLabels = [];
   }
 

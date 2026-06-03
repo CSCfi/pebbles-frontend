@@ -1,21 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { buildConfiguration } from '../../environments/environment';
 import { Faq } from 'src/app/models/faq';
+import { buildConfiguration } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FaqService {
+  private http = inject(HttpClient);
+
 
   private faqs: Faq[] = [];
-
-  constructor(
-    private http: HttpClient
-  ) {
-  }
 
   getFaqs(): Faq[] {
     return this.faqs;

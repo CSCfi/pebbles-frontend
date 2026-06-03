@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faJs, faPython, faRProject, faDocker, faLinux
-} from '@fortawesome/free-brands-svg-icons';
-import { faAtom, faBook, faBrain, faChartColumn, faCircleNodes, faCode, faDna, faLanguage, faMapLocationDot
+import { faDocker, faJs, faLinux, faPython, faRProject } from '@fortawesome/free-brands-svg-icons';
+import {
+  faAtom, faBook, faBrain, faChartColumn, faCircleNodes, faCode, faDna, faLanguage, faMapLocationDot
 } from '@fortawesome/free-solid-svg-icons';
 import { CustomLinuxIconComponent } from "./components/shared/icons/custom-linux-icon.component";
 
@@ -20,9 +20,11 @@ import { CustomLinuxIconComponent } from "./components/shared/icons/custom-linux
   ]
 })
 export class IconModule {
-  constructor(library: FaIconLibrary) {
+  private library = inject(FaIconLibrary);
+
+  constructor() {
     // Add an icon to the library for convenient access in other components
-    library.addIcons(
+    this.library.addIcons(
       faRProject,
       faPython,
       faJs,

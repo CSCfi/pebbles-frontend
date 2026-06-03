@@ -1,22 +1,22 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BuildState, CustomImage, ImageDefinition } from "../models/custom-image";
-import { Observable, throwError } from "rxjs";
-import { buildConfiguration } from "../../environments/environment";
-import { catchError, map, tap } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import { Observable, throwError } from "rxjs";
+import { catchError, map, tap } from "rxjs/operators";
+import { buildConfiguration } from "../../environments/environment";
+import { BuildState, CustomImage, ImageDefinition } from "../models/custom-image";
 import { EventService } from "./event.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomImageService implements OnDestroy {
+  private http = inject(HttpClient);
+  private eventService = inject(EventService);
+
   private customImages: CustomImage[] = null;
   private interval = 0;
 
-  constructor(
-    private http: HttpClient,
-    private eventService: EventService
-  ) {
+  constructor() {
     this.setPollingInterval(60);
   }
 

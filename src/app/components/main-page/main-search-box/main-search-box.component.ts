@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -13,6 +13,8 @@ import { ApplicationCategoryService } from 'src/app/services/application-categor
   standalone: false
 })
 export class MainSearchBoxComponent {
+  private applicationCategoryService = inject(ApplicationCategoryService);
+
 
   selectable = true;
   removable = true;
@@ -24,11 +26,6 @@ export class MainSearchBoxComponent {
   @ViewChild('labelInput') labelInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   private currentLabels: string[];
-
-  constructor(
-    private applicationCategoryService: ApplicationCategoryService,
-  ) {
-  }
 
   // labels: ApplicationCategory;
 

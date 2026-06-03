@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from "rxjs";
@@ -6,9 +6,9 @@ import { Workspace } from 'src/app/models/workspace';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 import { Utilities } from 'src/app/utilities';
 import { EventService } from '../../../services/event.service';
+import { PublicConfigService } from "../../../services/public-config.service";
 import { SearchService } from '../../../services/search.service';
 import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/main-join-workspace-dialog.component';
-import { PublicConfigService } from "../../../services/public-config.service";
 
 @Component({
   selector: 'app-main-my-workspaces',
@@ -17,6 +17,13 @@ import { PublicConfigService } from "../../../services/public-config.service";
   standalone: false
 })
 export class MainMyWorkspacesComponent implements OnInit, OnDestroy {
+  dialog = inject(MatDialog);
+  private eventService = inject(EventService);
+  private activatedRoute = inject(ActivatedRoute);
+  private workspaceService = inject(WorkspaceService);
+  private searchService = inject(SearchService);
+  publicConfigService = inject(PublicConfigService);
+
 
   public context: Data;
   public newWorkspaceId: string;
@@ -31,16 +38,6 @@ export class MainMyWorkspacesComponent implements OnInit, OnDestroy {
 
   get workspaceCount(): number {
     return this.workspaceService.getWorkspaces().length;
-  }
-
-  constructor(
-    public dialog: MatDialog,
-    private eventService: EventService,
-    private activatedRoute: ActivatedRoute,
-    private workspaceService: WorkspaceService,
-    private searchService: SearchService,
-    public publicConfigService: PublicConfigService,
-  ) {
   }
 
   ngOnInit(): void {

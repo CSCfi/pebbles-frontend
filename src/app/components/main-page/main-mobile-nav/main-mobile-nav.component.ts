@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message } from '../../../models/message';
@@ -11,19 +11,16 @@ import { MessageService } from '../../../services/message.service';
   standalone: false
 })
 export class MainMobileNavComponent implements OnInit {
+  router = inject(Router);
+  authService = inject(AuthService);
+  messageService = inject(MessageService);
+  private elementRef = inject(ElementRef);
+
 
   isMobileNavInvisible = true;
 
   get userName(): string {
     return this.authService.getUserName();
-  }
-
-  constructor(
-    public router: Router,
-    public authService: AuthService,
-    public messageService: MessageService,
-    private elementRef: ElementRef,
-  ) {
   }
 
   ngOnInit() {

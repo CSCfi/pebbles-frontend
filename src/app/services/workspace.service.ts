@@ -1,19 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { LifeCycleNote, Workspace, WorkspaceMember } from 'src/app/models/workspace';
 import { buildConfiguration } from '../../environments/environment';
+import { Utilities } from "../utilities";
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 import { EventService } from './event.service';
-import { Utilities } from "../utilities";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkspaceService {
+  private http = inject(HttpClient);
+  private eventService = inject(EventService);
+  private accountService = inject(AccountService);
+  private authService = inject(AuthService);
+
 
   private workspaces: Workspace[] = null;
   private workspaceMemberMap: Map<string, WorkspaceMember[]> = new Map();
@@ -22,14 +27,6 @@ export class WorkspaceService {
 
   get isInitialized(): boolean {
     return this.workspaces !== null;
-  }
-
-  constructor(
-    private http: HttpClient,
-    private eventService: EventService,
-    private accountService: AccountService,
-    private authService: AuthService,
-  ) {
   }
 
   getWorkspaceById(id: string): Workspace {

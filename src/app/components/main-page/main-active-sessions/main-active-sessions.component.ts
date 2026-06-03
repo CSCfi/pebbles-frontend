@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Data } from '@angular/router';
-import { ApplicationSessionService } from '../../../services/application-session.service';
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from '../../../models/application-session';
+import { ApplicationSessionService } from '../../../services/application-session.service';
 import { ApplicationService } from '../../../services/application.service';
 import { Utilities } from '../../../utilities';
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 export interface SessionTableRow {
@@ -31,6 +31,11 @@ export interface SessionTableRow {
   standalone: false
 })
 export class MainActiveSessionsComponent implements OnInit, OnDestroy {
+  private activatedRoute = inject(ActivatedRoute);
+  private dialog = inject(MatDialog);
+  private applicationSessionService = inject(ApplicationSessionService);
+  private applicationService = inject(ApplicationService);
+
 
   context: Data;
   sessions: ApplicationSession[];
@@ -60,14 +65,6 @@ export class MainActiveSessionsComponent implements OnInit, OnDestroy {
 
   get selectedDetailSession(): ApplicationSession | null {
     return this.applicationSessionService.getSession(this.selectedDetailSessionId);
-  }
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private applicationSessionService: ApplicationSessionService,
-    private applicationService: ApplicationService,
-  ) {
   }
 
   ngOnInit(): void {

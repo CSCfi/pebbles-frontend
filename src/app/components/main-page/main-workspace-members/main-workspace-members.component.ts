@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -31,6 +31,13 @@ export interface MemberRow {
   standalone: false
 })
 export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestroy {
+  private dialog = inject(MatDialog);
+  private authService = inject(AuthService);
+  private accountService = inject(AccountService);
+  private workspaceService = inject(WorkspaceService);
+  private eventService = inject(EventService);
+  private searchService = inject(SearchService);
+
 
   @Input() workspace: Workspace;
 
@@ -59,18 +66,8 @@ export class MainWorkspaceMembersComponent implements OnInit, OnChanges, OnDestr
     active: 'index'
   };
   private roleOrder: UserRole[] = [
-      UserRole.Owner, UserRole.Manager, UserRole.Member, UserRole.Banned];
+    UserRole.Owner, UserRole.Manager, UserRole.Member, UserRole.Banned];
   @ViewChild(MatSort) sort: MatSort;
-
-  constructor(
-    private dialog: MatDialog,
-    private authService: AuthService,
-    private accountService: AccountService,
-    private workspaceService: WorkspaceService,
-    private eventService: EventService,
-    private searchService: SearchService
-  ) {
-  }
 
   ngOnInit(): void {
     this.user = this.accountService.get(this.authService.getUserId());

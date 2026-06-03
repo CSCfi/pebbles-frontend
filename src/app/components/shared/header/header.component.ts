@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { PublicConfigService } from '../../../services/public-config.service';
 
 @Component({
@@ -8,14 +8,11 @@ import { PublicConfigService } from '../../../services/public-config.service';
   standalone: false
 })
 export class HeaderComponent {
+  publicConfigService = inject(PublicConfigService);
+
 
   @Input() isNaviVisible: boolean;
   @Input() logoTypeSize: number; // -- need?
   @Input() logoMarkSize: number;
-  @Input() displayMode: string; // -- need?
-
-  constructor(
-    public publicConfigService: PublicConfigService,
-  ) {
-  }
+  @Input() displayMode: string;
 }

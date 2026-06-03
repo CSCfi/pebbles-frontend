@@ -7,49 +7,47 @@ import {FlatCompat} from "@eslint/eslintrc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
+    baseDirectory: __dirname,
+    recommendedConfig: js.configs.recommended,
+    allConfig: js.configs.all
 });
 
 export default defineConfig([globalIgnores(["projects/**/*"]), {
-  files: ["**/*.ts"],
+    files: ["**/*.ts"],
 
-  extends: compat.extends(
-    "plugin:@angular-eslint/recommended",
-    "plugin:@angular-eslint/template/process-inline-templates",
-  ),
+    extends: compat.extends(
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+    ),
 
-  languageOptions: {
-    ecmaVersion: 5,
-    sourceType: "script",
+    languageOptions: {
+        ecmaVersion: 5,
+        sourceType: "script",
 
-    parserOptions: {
-      project: ["tsconfig.json", "e2e/tsconfig.json"],
-      createDefaultProgram: true,
+        parserOptions: {
+            project: ["tsconfig.json", "e2e/tsconfig.json"],
+            createDefaultProgram: true,
+        },
     },
-  },
 
-  rules: {
-    "@angular-eslint/prefer-standalone": ["off"],
-    // prefer-inject is on by default in @angular-eslint v20's recommended set;
-    // disabled here and enabled in the inject() migration MR
-    "@angular-eslint/prefer-inject": ["off"],
+    rules: {
+        "@angular-eslint/prefer-standalone": ["off"],
+        "@angular-eslint/prefer-inject": ["error"],
 
-    "@angular-eslint/directive-selector": ["error", {
-      type: "attribute",
-      prefix: "app",
-      style: "camelCase",
-    }],
+        "@angular-eslint/directive-selector": ["error", {
+            type: "attribute",
+            prefix: "app",
+            style: "camelCase",
+        }],
 
-    "@angular-eslint/component-selector": ["error", {
-      type: "element",
-      prefix: "app",
-      style: "kebab-case",
-    }],
-  },
+        "@angular-eslint/component-selector": ["error", {
+            type: "element",
+            prefix: "app",
+            style: "kebab-case",
+        }],
+    },
 }, {
-  files: ["**/*.html"],
-  extends: compat.extends("plugin:@angular-eslint/template/recommended"),
-  rules: {},
+    files: ["**/*.html"],
+    extends: compat.extends("plugin:@angular-eslint/template/recommended"),
+    rules: {},
 }]);

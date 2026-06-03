@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Data } from '@angular/router';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Application } from 'src/app/models/application';
 import { MembershipType } from '../../../models/workspace';
 import { ApplicationService } from '../../../services/application.service';
 import { WorkspaceService } from '../../../services/workspace.service';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Utilities } from '../../../utilities';
 
 @Component({
@@ -14,12 +14,15 @@ import { Utilities } from '../../../utilities';
   standalone: false
 })
 export class MainApplicationItemComponent {
+  workspaceService = inject(WorkspaceService);
+  private applicationService = inject(ApplicationService);
+
 
   @Input() application: Application;
   @Input() context: Data;
   @Input() isSessionDeleted = false;
 
-  get isCustomLinuxIconAvailable(){
+  get isCustomLinuxIconAvailable() {
     return this.applicationService.getApplicationIcon(this.application.labels)[1] === 'linux';
   };
 
@@ -79,12 +82,6 @@ export class MainApplicationItemComponent {
     } else {
       return 'public';
     }
-  }
-
-  constructor(
-    public workspaceService: WorkspaceService,
-    private applicationService: ApplicationService,
-  ) {
   }
 
   isExpiredTimestamp(ts: number) {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Data } from '@angular/router';
@@ -20,6 +20,12 @@ import { MainJoinWorkspaceDialogComponent } from '../main-join-workspace-dialog/
   standalone: false
 })
 export class MainCatalogComponent implements OnInit, OnDestroy {
+  private activatedRoute = inject(ActivatedRoute);
+  private dialog = inject(MatDialog);
+  private applicationService = inject(ApplicationService);
+  private categoryService = inject(ApplicationCategoryService);
+  private searchService = inject(SearchService);
+  private publicConfigService = inject(PublicConfigService);
 
   public context: Data;
   public queryText = '';
@@ -58,16 +64,6 @@ export class MainCatalogComponent implements OnInit, OnDestroy {
       return this.categoryService.getCategories()[this.selectedCategoryIdx];
     }
     return null;
-  }
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private applicationService: ApplicationService,
-    private categoryService: ApplicationCategoryService,
-    private searchService: SearchService,
-    private publicConfigService: PublicConfigService,
-  ) {
   }
 
   ngOnInit(): void {

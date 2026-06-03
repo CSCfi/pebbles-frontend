@@ -1,8 +1,8 @@
-import { ApplicationRef, Component, OnInit } from '@angular/core';
+import { ApplicationRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { AccountService } from 'src/app/services/account.service';
 import { User } from 'src/app/models/user';
+import { AccountService } from 'src/app/services/account.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 import { PublicConfigService } from "../../../services/public-config.service";
 
@@ -13,20 +13,17 @@ import { PublicConfigService } from "../../../services/public-config.service";
   standalone: false
 })
 export class MainAccountComponent implements OnInit {
+  private appRef = inject(ApplicationRef);
+  private activatedRoute = inject(ActivatedRoute);
+  private accountService = inject(AccountService);
+  private authService = inject(AuthService);
+  private desktopNotificationService = inject(DesktopNotificationService);
+  private publicConfigService = inject(PublicConfigService);
+
 
   public context: Data;
   public user: User;
   public notificationPermissionState: string = null;
-
-  constructor(
-    private appRef: ApplicationRef,
-    private activatedRoute: ActivatedRoute,
-    private accountService: AccountService,
-    private authService: AuthService,
-    private desktopNotificationService: DesktopNotificationService,
-    private publicConfigService: PublicConfigService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { User, WorkspaceMembership } from 'src/app/models/user';
@@ -10,16 +10,13 @@ import { EventService } from './event.service';
   providedIn: 'root'
 })
 export class AccountService {
+  private http = inject(HttpClient);
+  private eventService = inject(EventService);
+
 
   private users: User[] = null;
   private userMap: Map<string, User> = new Map();
   private workspaceMembershipMap: Map<string, WorkspaceMembership[]> = new Map();
-
-  constructor(
-    private http: HttpClient,
-    private eventService: EventService,
-  ) {
-  }
 
   get(userId: string): User {
     return this.userMap.get(userId);

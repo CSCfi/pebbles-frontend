@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SystemNotificationService {
+  private snackbar = inject(MatSnackBar);
 
-  constructor(
-    private snackbar: MatSnackBar
-  ) { }
 
   displayError(s: string) {
     // limit the message to 200 chars

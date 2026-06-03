@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -32,6 +32,17 @@ export enum TabType {
   standalone: false
 })
 export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDestroy {
+  dialog = inject(MatDialog);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  private workspaceService = inject(WorkspaceService);
+  private authService = inject(AuthService);
+  private accountService = inject(AccountService);
+  private applicationService = inject(ApplicationService);
+  private applicationTemplateService = inject(ApplicationTemplateService);
+  private eventService = inject(EventService);
+  publicConfigService = inject(PublicConfigService);
+
 
   public context: Data;
   public workspaces: Workspace[] = null;
@@ -74,18 +85,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     },
   ];
 
-  constructor(
-    public dialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private workspaceService: WorkspaceService,
-    private authService: AuthService,
-    private accountService: AccountService,
-    private applicationService: ApplicationService,
-    private applicationTemplateService: ApplicationTemplateService,
-    private eventService: EventService,
-    public publicConfigService: PublicConfigService,
-  ) {
+  constructor() {
     this.createDemoWorkspaceClickTs = 0;
   }
 

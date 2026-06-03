@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
-import { MessageService } from 'src/app/services/message.service';
 import { Message } from 'src/app/models/message';
+import { MessageService } from 'src/app/services/message.service';
 import { Utilities } from '../../../utilities';
 
 @Component({
@@ -11,21 +11,18 @@ import { Utilities } from '../../../utilities';
   standalone: false
 })
 export class MainMessageComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  messageService = inject(MessageService);
+
 
   public context: Data;
 
   get isAllRead() {
-    return this.messages.filter( item => !item.is_read ).length === 0;
+    return this.messages.filter(item => !item.is_read).length === 0;
   }
 
   get messages(): Message[] {
     return this.messageService.getMessages();
-  }
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    public messageService: MessageService
-  ) {
   }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { Data } from '@angular/router';
 import { PublicConfigService } from '../../../services/public-config.service';
 
@@ -26,6 +26,8 @@ export const heroShotsAnimation = trigger('openClose', [
   standalone: false
 })
 export class WelcomeLoginComponent implements OnInit {
+  publicConfigService = inject(PublicConfigService);
+
 
   images: boolean[] = [true, false, false];
   isImageVisible0 = false;
@@ -35,17 +37,12 @@ export class WelcomeLoginComponent implements OnInit {
   @Input() context: Data;
   @Output() emitSpecialLogin = new EventEmitter<boolean>();
 
-  constructor(
-    public publicConfigService: PublicConfigService,
-  ) {
-  }
-
   ngOnInit(): void {
     setTimeout(() => {
       this.isImageVisible0 = true;
     }, 300);
     // ---- MEMO:  Copy is needed by spread operator, to change the identifier for serviceAnnouncement.
-    this.context = { ... this.context };
+    this.context = {...this.context};
     this.context.identifier = 'login';
   }
 
@@ -76,6 +73,7 @@ export class WelcomeLoginComponent implements OnInit {
     //     (value, i) => i === index ? true : false
     // );
   }
+
   openSpecialLogin() {
     this.emitSpecialLogin.emit();
   }

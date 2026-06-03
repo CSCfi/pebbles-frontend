@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren}
-  from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { MatButton } from '@angular/material/button';
+import {
+  AfterViewInit, Component, ElementRef, inject, OnInit, QueryList, ViewChild, ViewChildren
+} from '@angular/core';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
-import { CustomImage, ImageContent } from "../../../models/custom-image";
+import { MatButton } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatSelect } from "@angular/material/select";
+import { CustomImage, ImageContent } from "../../../models/custom-image";
 
 @Component({
   selector: 'app-main-custom-image-form',
@@ -13,6 +14,14 @@ import { MatSelect } from "@angular/material/select";
   standalone: false
 })
 export class MainCustomImageFormComponent implements OnInit, AfterViewInit {
+  dialogRef = inject<MatDialogRef<MainCustomImageFormComponent>>(MatDialogRef);
+  data = inject<{
+    baseImages: string[];
+    previousVersion: CustomImage;
+    commonImagePrefix: string;
+  }>(MAT_DIALOG_DATA);
+  private formBuilder = inject(UntypedFormBuilder);
+
   customImageFormGroup: FormGroup;
   createButtonClicked: boolean;
   generatedDockerfile: string;
@@ -20,19 +29,7 @@ export class MainCustomImageFormComponent implements OnInit, AfterViewInit {
   formTitle = 'Create Custom Image';
   @ViewChild('dropdownSelect') dropdownSelect!: MatSelect;
   @ViewChildren('dynamicInput') packageInputFields!: QueryList<ElementRef>;
-  @ViewChild('addAptButton', { read: MatButton }) addAptButtonRef!: MatButton;
-
-
-  constructor(
-    public dialogRef: MatDialogRef<MainCustomImageFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      baseImages: string[],
-      previousVersion: CustomImage,
-      commonImagePrefix: string,
-    },
-    private formBuilder: UntypedFormBuilder,
-  ) {
-  }
+  @ViewChild('addAptButton', {read: MatButton}) addAptButtonRef!: MatButton;
 
   ngOnInit(): void {
     const formConfig = {

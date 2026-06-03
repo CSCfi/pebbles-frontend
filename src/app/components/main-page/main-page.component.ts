@@ -1,7 +1,7 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ServiceAnnouncementService } from '../../services/service-announcement.service';
 import { PublicConfigService } from "../../services/public-config.service";
+import { ServiceAnnouncementService } from '../../services/service-announcement.service';
 
 @Component({
   selector: 'app-main-page',
@@ -10,16 +10,13 @@ import { PublicConfigService } from "../../services/public-config.service";
   standalone: false
 })
 export class MainPageComponent implements OnInit {
+  serviceAnnouncementService = inject(ServiceAnnouncementService);
+  publicConfigService = inject(PublicConfigService);
+
 
   @ViewChild('sidenav', {static: false}) sidenav: MatSidenav;
   public isSideNavOpen = true;
   private minWorkAreaWidth = 1250;
-
-  constructor(
-    public serviceAnnouncementService: ServiceAnnouncementService,
-    public publicConfigService: PublicConfigService
-  ) {
-  }
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {

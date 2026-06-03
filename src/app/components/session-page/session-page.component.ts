@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Data } from '@angular/router';
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/app/models/application-session';
-import { Application } from '../../models/application';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
+import { Application } from '../../models/application';
+import { Workspace } from "../../models/workspace";
 import { ApplicationService } from '../../services/application.service';
 import { WorkspaceService } from "../../services/workspace.service";
-import { Workspace } from "../../models/workspace";
 
 export class SessionProgressStep {
   constructor(
@@ -30,6 +30,12 @@ export class SessionProgressStep {
   standalone: false
 })
 export class SessionPageComponent implements OnInit, OnDestroy {
+  private activatedRoute = inject(ActivatedRoute);
+  private applicationService = inject(ApplicationService);
+  private applicationSessionService = inject(ApplicationSessionService);
+  private workspaceService = inject(WorkspaceService);
+  private titleService = inject(Title);
+
 
   public context: Data;
 
@@ -53,13 +59,7 @@ export class SessionPageComponent implements OnInit, OnDestroy {
     return this.targetApplication.description || 'No description';
   }
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private applicationService: ApplicationService,
-    private applicationSessionService: ApplicationSessionService,
-    private workspaceService: WorkspaceService,
-    private titleService: Title,
-  ) {
+  constructor() {
     this.sessionId = this.activatedRoute.snapshot.params.id;
     this.sessionProgressSteps = this.createSessionProgressSteps();
   }

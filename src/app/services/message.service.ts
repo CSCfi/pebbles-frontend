@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Message } from 'src/app/models/message';
@@ -9,13 +9,10 @@ import { buildConfiguration } from '../../environments/environment';
   providedIn: 'root'
 })
 export class MessageService {
+  private http = inject(HttpClient);
+
 
   private messages: Message[] = [];
-
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
 
   getMessages(): Message[] {
     return this.messages;
@@ -42,6 +39,6 @@ export class MessageService {
   }
 
   getUnreadMessages(): Message[] {
-    return this.messages.filter(a => ! a.is_read);
+    return this.messages.filter(a => !a.is_read);
   }
 }

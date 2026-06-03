@@ -1,19 +1,19 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Component, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ApplicationTemplateService } from 'src/app/services/application-template.service';
-import { ApplicationService } from 'src/app/services/application.service';
-import { WorkspaceService } from 'src/app/services/workspace.service';
-import { CustomImageService } from "src/app/services/custom-image.service";
-import { PublicConfigService } from "src/app/services/public-config.service";
+import { Router } from "@angular/router";
+import { forkJoin } from "rxjs";
 import { Application, AttributeLimit } from 'src/app/models/application';
 import { ApplicationTemplate, ApplicationType } from 'src/app/models/application-template';
 import { BuildState, CustomImage } from "src/app/models/custom-image";
+import { ApplicationTemplateService } from 'src/app/services/application-template.service';
+import { ApplicationService } from 'src/app/services/application.service';
+import { CustomImageService } from "src/app/services/custom-image.service";
+import { PublicConfigService } from "src/app/services/public-config.service";
+import { WorkspaceService } from 'src/app/services/workspace.service';
 import { EventService } from "../../../services/event.service";
-import { HttpErrorResponse } from "@angular/common/http";
-import { forkJoin } from "rxjs";
 
 export enum ImageSourceType {
   Template = 'template',
@@ -43,6 +43,15 @@ const IMAGE_URL_VALIDATION_RE = new RegExp(/^([\w\-_]+[.:])+([\w\-_]+)(\/[\w\-_]
   standalone: false
 })
 export class MainApplicationAdvancedFormComponent implements OnInit {
+  private router = inject(Router);
+  private formBuilder = inject(FormBuilder);
+  private applicationService = inject(ApplicationService);
+  private customImageService = inject(CustomImageService);
+  private applicationTemplateService = inject(ApplicationTemplateService);
+  private workspaceService = inject(WorkspaceService);
+  private publicConfigService = inject(PublicConfigService);
+  private eventService = inject(EventService);
+
 
   @Input() applicationId: string | null = null;
   @Input() workspaceId: string;
@@ -69,18 +78,6 @@ export class MainApplicationAdvancedFormComponent implements OnInit {
   availableMemoryOptions: any[];
   protected readonly ImageSourceType = ImageSourceType;
   protected selectedImageSource: ImageSourceType;
-
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private applicationService: ApplicationService,
-    private customImageService: CustomImageService,
-    private applicationTemplateService: ApplicationTemplateService,
-    private workspaceService: WorkspaceService,
-    private publicConfigService: PublicConfigService,
-    private eventService: EventService,
-  ) {
-  }
 
   get isWorkspacePublic(): boolean {
     return this.workspaceService.isWorkspacePublic(this.workspaceId);

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -7,25 +7,23 @@ import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/ap
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
 import { buildConfiguration } from '../../environments/environment';
 import { AuthService } from './auth.service';
-import { EventService } from "./event.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationSessionService implements OnDestroy {
+  private http = inject(HttpClient);
+  private desktopNotificationService = inject(DesktopNotificationService);
+  private authService = inject(AuthService);
+
 
   private applicationSessions: ApplicationSession[] = [];
   private interval = 0;
   private intervalValue = -1;
   private lastUpdateTs = 0;
 
-  constructor(
-    private http: HttpClient,
-    private desktopNotificationService: DesktopNotificationService,
-    private authService: AuthService,
-    private eventService: EventService,
-  ) {
+  constructor() {
     this.setPollingInterval(60 * 1000);
   }
 

@@ -1,20 +1,20 @@
+import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
-import { coerceBooleanProperty } from "@angular/cdk/coercion";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PublicConfigService {
+  private http = inject(HttpClient);
+
   private publicConfig: Map<string, string> = null;
   private publicStructuredConfig: any = null;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor() {
     this.fetchPublicConfig().subscribe();
     this.fetchPublicStructuredConfig().subscribe();
   }

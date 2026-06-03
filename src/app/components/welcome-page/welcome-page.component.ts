@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { catchError, finalize, tap } from 'rxjs/operators';
@@ -6,7 +7,6 @@ import { AuthService } from '../../services/auth.service';
 import { PublicConfigService } from '../../services/public-config.service';
 import { ServiceAnnouncementService } from '../../services/service-announcement.service';
 import { SystemNotificationService } from '../../services/system-notification.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-welcome-page',
@@ -15,6 +15,14 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms
   standalone: false
 })
 export class WelcomePageComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  private formBuilder = inject(UntypedFormBuilder);
+  private authService = inject(AuthService);
+  publicConfigService = inject(PublicConfigService);
+  private systemNotificationService = inject(SystemNotificationService);
+  private serviceAnnouncementService = inject(ServiceAnnouncementService);
+
   public context: Data;
 
   @ViewChild('specialLoginDialogTerms') specialLoginDialogTerms: TemplateRef<any>;
@@ -26,21 +34,10 @@ export class WelcomePageComponent implements OnInit {
   public loginFormGroup: UntypedFormGroup;
 
   readonly dialog = inject(MatDialog);
-  loginError:string[] = [];
+  loginError: string[] = [];
 
   private dialogRef: MatDialogRef<any, any>;
   private dialogRefTerms: MatDialogRef<any, any>;
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private formBuilder: UntypedFormBuilder,
-    private authService: AuthService,
-    public publicConfigService: PublicConfigService,
-    private systemNotificationService: SystemNotificationService,
-    private serviceAnnouncementService: ServiceAnnouncementService
-  ) {
-  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
@@ -87,7 +84,7 @@ export class WelcomePageComponent implements OnInit {
           this.systemNotificationService.displayError(`Login error: ${err.error}`);
         } else {
           // the other case is 422 with a dictionary stating the errors in the form
-          for(let k of Object.keys(err.error)) {
+          for (let k of Object.keys(err.error)) {
             this.loginError.push(`${k} ${err.error[k]}`);
           }
         }

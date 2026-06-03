@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { FaqService } from '../../../services/faq.service';
 import { Faq } from 'src/app/models/faq';
+import { FaqService } from '../../../services/faq.service';
 import { PublicConfigService } from '../../../services/public-config.service';
 import { SearchService } from '../../../services/search.service';
 import { Utilities } from '../../../utilities';
-import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-main-help',
@@ -15,6 +15,12 @@ import { MatAccordion } from '@angular/material/expansion';
   standalone: false
 })
 export class MainHelpComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  faqService = inject(FaqService);
+  publicConfigService = inject(PublicConfigService);
+  private router = inject(Router);
+  private searchService = inject(SearchService);
+
 
   public context: Data;
 
@@ -27,15 +33,6 @@ export class MainHelpComponent implements OnInit {
   public contentLabels = ['faq', 'documentation', 'contact'];
   public faqTopics: Faq[];
   public indexExpanded: string;
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    public faqService: FaqService,
-    public publicConfigService: PublicConfigService,
-    private router: Router,
-    private searchService: SearchService
-  ) {
-  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {

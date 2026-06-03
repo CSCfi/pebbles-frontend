@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { WorkspaceService } from 'src/app/services/workspace.service';
@@ -10,6 +10,10 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
   standalone: false
 })
 export class MainWorkspaceFormComponent implements OnInit {
+  private formBuilder = inject(UntypedFormBuilder);
+  dialogRef = inject<MatDialogRef<MainWorkspaceFormComponent>>(MatDialogRef);
+  private workspaceService = inject(WorkspaceService);
+
 
   workspaceForm: UntypedFormGroup;
   createButtonClicked: boolean;
@@ -22,13 +26,6 @@ export class MainWorkspaceFormComponent implements OnInit {
 
   get descriptionInput() {
     return this.workspaceForm.get('description');
-  }
-
-  constructor(
-    private formBuilder: UntypedFormBuilder,
-    public dialogRef: MatDialogRef<MainWorkspaceFormComponent>,
-    private workspaceService: WorkspaceService
-  ) {
   }
 
   ngOnInit(): void {
@@ -52,7 +49,7 @@ export class MainWorkspaceFormComponent implements OnInit {
         '', [
           Validators.required,
           Validators.maxLength(this.descriptionMaxLength)
-      ]],
+        ]],
       workspaceType: ['fixed-time-course', [Validators.required]],
       validityMonths: [null, [Validators.required]],
     });

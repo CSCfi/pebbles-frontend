@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Data } from '@angular/router';
 import { PublicConfigService } from '../../../services/public-config.service';
 
@@ -9,11 +9,8 @@ import { PublicConfigService } from '../../../services/public-config.service';
   standalone: false
 })
 export class FooterComponent {
+  publicConfigService = inject(PublicConfigService);
+
 
   @Input() context: Data;
-
-  constructor(
-    public publicConfigService: PublicConfigService
-  ) {
-  }
 }

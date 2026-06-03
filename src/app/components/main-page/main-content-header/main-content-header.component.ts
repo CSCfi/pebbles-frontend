@@ -1,6 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Data } from '@angular/router';
 import { ApplicationCategoryService } from 'src/app/services/application-category.service';
@@ -12,6 +12,8 @@ import { ApplicationCategoryService } from 'src/app/services/application-categor
   standalone: false
 })
 export class MainContentHeaderComponent {
+  private applicationCategoryService = inject(ApplicationCategoryService);
+
 
   @Input() context: Data;
   @Input() isSearchOn: boolean;
@@ -58,11 +60,6 @@ export class MainContentHeaderComponent {
       allLabels = ['admins', 'workspace owners', 'blocked'];
     }
     return allLabels;
-  }
-
-  constructor(
-    private applicationCategoryService: ApplicationCategoryService
-  ) {
   }
 
   queryTextAdded(event: Event): void {

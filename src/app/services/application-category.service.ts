@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
@@ -9,13 +9,10 @@ import { ApplicationCategory } from '../models/application-category';
   providedIn: 'root'
 })
 export class ApplicationCategoryService {
+  private http = inject(HttpClient);
+
 
   private categories: ApplicationCategory[] = [];
-
-  constructor(
-    private http: HttpClient
-  ) {
-  }
 
   getCategories(): ApplicationCategory[] {
     return this.categories;

@@ -1,6 +1,6 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface DialogSelectOption {
   value: string | number;
@@ -14,6 +14,20 @@ export interface DialogSelectOption {
   standalone: false
 })
 export class DialogComponent implements OnInit {
+  dialogRef = inject<MatDialogRef<DialogComponent>>(MatDialogRef);
+  data = inject<{
+    dialogTitle?: string;
+    dialogContent: string;
+    dialogClipboard?: string;
+    dialogSelectOptions?: DialogSelectOption[];
+    dialogSelectPlaceholder?: string;
+    dialogActions: string[];
+    dialogConfig?: {
+      titleAlign?: string;
+      contentAlign?: string;
+    };
+  }>(MAT_DIALOG_DATA);
+
 
   @Input() dialogTitle: string;
   @Input() dialogContent: string;
@@ -27,27 +41,10 @@ export class DialogComponent implements OnInit {
     contentAlign: 'center',
   };
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      dialogTitle?: string,
-      dialogContent: string,
-      dialogClipboard?: string,
-      dialogSelectOptions?: DialogSelectOption[],
-      dialogSelectPlaceholder?: string,
-      dialogActions: string[],
-      dialogConfig?: {
-        titleAlign?: string,
-        contentAlign?: string
-      }
-    }
-  ) {
-    if (data.dialogConfig) {
-      Object.assign(this.config, data.dialogConfig);
-    }
-  }
-
   ngOnInit(): void {
+    if (this.data?.dialogConfig) {
+      Object.assign(this.config, this.data.dialogConfig);
+    }
     if (this.data.dialogSelectOptions?.length > 0) {
       this.selectOptionForm = new FormGroup({
         selectedValue: new FormControl('', {nonNullable: true, validators: [Validators.required]})

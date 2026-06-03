@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
@@ -9,12 +9,10 @@ import { ServiceAnnouncement } from '../models/service-announcement';
   providedIn: 'root'
 })
 export class ServiceAnnouncementService {
+  private http = inject(HttpClient);
+
 
   private serviceAnnouncements: ServiceAnnouncement[] = [];
-
-  constructor(
-    private http: HttpClient
-  ) {}
 
   getServiceAnnouncements(): ServiceAnnouncement[] {
     return this.serviceAnnouncements;

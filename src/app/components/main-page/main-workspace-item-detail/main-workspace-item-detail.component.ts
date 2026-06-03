@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
 import { AuthService } from 'src/app/services/auth.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
-import { DialogComponent } from '../../shared/dialog/dialog.component';
 import { Utilities } from "../../../utilities";
+import { DialogComponent } from '../../shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-main-workspace-item-detail',
@@ -14,6 +14,11 @@ import { Utilities } from "../../../utilities";
   standalone: false
 })
 export class MainWorkspaceItemDetailComponent implements OnChanges {
+  dialog = inject(MatDialog);
+  private formBuilder = inject(UntypedFormBuilder);
+  private workspaceService = inject(WorkspaceService);
+  private authService = inject(AuthService);
+
 
   public workspaceEditForm: UntypedFormGroup;
   public descriptionMaxLength = 500;
@@ -25,14 +30,6 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
   get userName(): string {
     return this.authService.getUserName();
-  }
-
-  constructor(
-    public dialog: MatDialog,
-    private formBuilder: UntypedFormBuilder,
-    private workspaceService: WorkspaceService,
-    private authService: AuthService,
-  ) {
   }
 
   get isDeletable(): boolean {
@@ -81,17 +78,19 @@ export class MainWorkspaceItemDetailComponent implements OnChanges {
 
     // this.isWorkspaceDescriptionEditOn = false;
     this.workspaceEditForm = this.formBuilder.group({
-      name: [this.workspace.name, [
-        Validators.required,
-        Validators.maxLength(64),
-        (control: AbstractControl) => {
-          return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
-        }
-      ]],
-      description: [this.workspace.description, [
-        Validators.required,
-        Validators.maxLength(this.descriptionMaxLength)
-      ]],
+      name: [
+        this.workspace.name, [
+          Validators.required,
+          Validators.maxLength(64),
+          (control: AbstractControl) => {
+            return control.value.toLowerCase().trim().startsWith("system") ? {'forbiddenValue': true} : null;
+          }
+        ]],
+      description: [
+        this.workspace.description, [
+          Validators.required,
+          Validators.maxLength(this.descriptionMaxLength)
+        ]],
       isExtendExpiryChecked: [false],
     });
   }

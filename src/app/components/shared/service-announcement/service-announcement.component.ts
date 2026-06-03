@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Data } from '@angular/router';
 import { ServiceAnnouncement } from '../../../models/service-announcement';
 import { EventService } from '../../../services/event.service';
@@ -11,16 +11,13 @@ import { ServiceAnnouncementService } from '../../../services/service-announceme
   standalone: false
 })
 export class ServiceAnnouncementComponent {
+  private eventService = inject(EventService);
+  private serviceAnnouncementService = inject(ServiceAnnouncementService);
+
 
   @Input() context: Data;
 
   public serviceAnnouncements: ServiceAnnouncement[];
-
-  constructor(
-    private eventService: EventService,
-    private serviceAnnouncementService: ServiceAnnouncementService
-  ) {
-  }
 
   getServiceAnnouncements(): ServiceAnnouncement[] {
     this.serviceAnnouncements = this.serviceAnnouncementService.getServiceAnnouncements();

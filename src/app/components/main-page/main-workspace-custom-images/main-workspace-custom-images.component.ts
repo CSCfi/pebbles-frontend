@@ -1,16 +1,16 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, inject, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog as MatDialog } from "@angular/material/dialog";
+import { Subscription } from 'rxjs';
 import { BuildState, CustomImage } from "src/app/models/custom-image";
 import { Workspace } from "src/app/models/workspace";
-import { CustomImageService } from "src/app/services/custom-image.service";
 import { ApplicationTemplateService } from "src/app/services/application-template.service";
-import { PublicConfigService } from "src/app/services/public-config.service";
 import { AuthService } from "src/app/services/auth.service";
+import { CustomImageService } from "src/app/services/custom-image.service";
 import { EventService } from "src/app/services/event.service";
-import { MainCustomImageFormComponent } from "../main-custom-image-form/main-custom-image-form.component";
-import { ApplicationService } from "../../../services/application.service";
+import { PublicConfigService } from "src/app/services/public-config.service";
 import { Application } from "../../../models/application";
+import { ApplicationService } from "../../../services/application.service";
+import { MainCustomImageFormComponent } from "../main-custom-image-form/main-custom-image-form.component";
 
 
 export interface CustomImageRow extends CustomImage {
@@ -25,6 +25,14 @@ export interface CustomImageRow extends CustomImage {
   standalone: false
 })
 export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, OnDestroy {
+  dialog = inject(MatDialog);
+  private customImageService = inject(CustomImageService);
+  private applicationTemplateService = inject(ApplicationTemplateService);
+  private eventService = inject(EventService);
+  private authService = inject(AuthService);
+  publicConfigService = inject(PublicConfigService);
+  private applicationService = inject(ApplicationService);
+
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
 
@@ -45,17 +53,6 @@ export class MainWorkspaceCustomImagesComponent implements OnInit, OnChanges, On
   // store log visibility selection in a map outside the custom image data to make it easier to persist it
   // when custom images are fetched and data source regenerated
   private logVisibleMap = new Map<string, boolean>();
-
-  constructor(
-    public dialog: MatDialog,
-    private customImageService: CustomImageService,
-    private applicationTemplateService: ApplicationTemplateService,
-    private eventService: EventService,
-    private authService: AuthService,
-    public publicConfigService: PublicConfigService,
-    private applicationService: ApplicationService,
-  ) {
-  }
 
   ngOnInit(): void {
     // listen on changes of custom images

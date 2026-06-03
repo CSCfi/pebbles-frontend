@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
@@ -9,11 +9,8 @@ import { Alert } from '../models/alert';
   providedIn: 'root'
 })
 export class AlertService {
+  private http = inject(HttpClient);
 
-  constructor(
-    private http: HttpClient
-  ) {
-  }
 
   fetchSystemStatus(): Observable<string> {
     const url = `${buildConfiguration.apiUrl}/status`;
@@ -24,12 +21,12 @@ export class AlertService {
     );
   }
 
-  fetchAlerts(showArchived:boolean = false, since_ts = 0): Observable<Alert[]> {
+  fetchAlerts(showArchived: boolean = false, since_ts = 0): Observable<Alert[]> {
     let url = `${buildConfiguration.apiUrl}/alerts`;
     if (showArchived) {
       url += '?include_archived=1';
       if (since_ts) {
-        url += '&since_ts='+since_ts;
+        url += '&since_ts=' + since_ts;
       }
     }
 

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { buildConfiguration } from '../../environments/environment';
@@ -9,12 +9,9 @@ import { EventService, LoginStatusChange } from './event.service';
   providedIn: 'root'
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private eventService = inject(EventService);
 
-  constructor(
-    private http: HttpClient,
-    private eventService: EventService
-  ) {
-  }
 
   get isAdmin(): boolean {
     return localStorage.getItem('is_admin') === 'true';

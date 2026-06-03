@@ -1,17 +1,19 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApplicationTemplate } from '../models/application-template';
-import { buildConfiguration } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { buildConfiguration } from '../../environments/environment';
+import { ApplicationTemplate } from '../models/application-template';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationTemplateService {
+  private http = inject(HttpClient);
+
   private applicationTemplates: ApplicationTemplate[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.fetchApplicationTemplates().subscribe();
   }
 

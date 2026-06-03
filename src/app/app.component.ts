@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { map, tap } from 'rxjs/operators';
 import { AccountService } from './services/account.service';
@@ -17,25 +17,22 @@ import { WorkspaceService } from './services/workspace.service';
 })
 
 export class AppComponent implements OnInit {
+  private workspaceService = inject(WorkspaceService);
+  private sessionService = inject(ApplicationSessionService);
+  private applicationService = inject(ApplicationService);
+  private applicationCategoryService = inject(ApplicationCategoryService);
+  private eventService = inject(EventService);
+  private authService = inject(AuthService);
+  private publicConfigService = inject(PublicConfigService);
+  private titleService = inject(Title);
+  private accountService = inject(AccountService);
+
   title = 'pebbles-frontend';
   private theme = 'user';
 
   @HostBinding('class')
   get themeMode() {
     return 'custom-theme-' + this.theme;
-  }
-
-  constructor(
-    private workspaceService: WorkspaceService,
-    private sessionService: ApplicationSessionService,
-    private applicationService: ApplicationService,
-    private applicationCategoryService: ApplicationCategoryService,
-    private eventService: EventService,
-    private authService: AuthService,
-    private publicConfigService: PublicConfigService,
-    private titleService: Title,
-    private accountService: AccountService,
-  ) {
   }
 
   ngOnInit(): void {

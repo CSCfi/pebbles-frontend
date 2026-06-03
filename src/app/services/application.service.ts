@@ -1,19 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Application } from 'src/app/models/application';
 import { buildConfiguration } from '../../environments/environment';
 import { ApplicationType } from '../models/application-template';
-import { EventService } from './event.service';
 import { ApplicationSessionService } from './application-session.service';
+import { EventService } from './event.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationService implements OnDestroy {
+  private http = inject(HttpClient);
+  private applicationSessionService = inject(ApplicationSessionService);
+  private eventService = inject(EventService);
+
 
   private applications: Application[] = null;
   private interval = 0;
@@ -22,11 +26,7 @@ export class ApplicationService implements OnDestroy {
     return this.applications !== null;
   }
 
-  constructor(
-    private http: HttpClient,
-    private applicationSessionService: ApplicationSessionService,
-    private eventService: EventService
-  ) {
+  constructor() {
     this.interval = window.setInterval(() => {
       this.fetchApplications().subscribe();
     }, 60 * 1000);
@@ -174,17 +174,17 @@ export class ApplicationService implements OnDestroy {
     }
   }
 
-  isSharedFolderEnabled(app: Application|null, isPublic: boolean): boolean {
+  isSharedFolderEnabled(app: Application | null, isPublic: boolean): boolean {
     // ---- If the application is Public
     if (isPublic) {
       return false;
     }
     // ----  Parameter 'app' is null when user opens form for application creation
-    if( app===null ) {
+    if (app === null) {
       return true;
     }
     // ---- If object/key doesn't exist
-    if ( !('shared_folder_enabled' in app.info) || app.info.shared_folder_enabled === null ) {
+    if (!('shared_folder_enabled' in app.info) || app.info.shared_folder_enabled === null) {
       return true;
     }
     return app.info.shared_folder_enabled;
@@ -196,7 +196,7 @@ export class ApplicationService implements OnDestroy {
     } else if (labels.includes('markup') || labels.includes('html')) {
       return ['fas', 'code'];
     } else if (labels.includes('linux') || labels.includes('command') || labels.includes('terminal')
-        || labels.includes('cli')) {
+      || labels.includes('cli')) {
       return ['fab', 'linux'];
     } else if (labels.includes('ai') || labels.includes('deep learning')) {
       return ['fas', 'brain'];

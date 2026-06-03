@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -49,6 +49,15 @@ export interface ApplicationRow {
   standalone: false
 })
 export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, OnChanges {
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private applicationService = inject(ApplicationService);
+  private eventService = inject(EventService);
+  private workspaceService = inject(WorkspaceService);
+  private systemNotificationService = inject(SystemNotificationService);
+  publicConfigService = inject(PublicConfigService);
+  private authService = inject(AuthService);
+
 
   // store subscriptions here for unsubscribing at destroy time
   private subscriptions: Subscription[] = [];
@@ -70,18 +79,6 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
   @Input() selectedApplicationId: string | null;
 
   @ViewChild(MainApplicationAdvancedFormComponent) advancedFormComponent!: MainApplicationAdvancedFormComponent;
-
-  constructor(
-    private router: Router,
-    private dialog: MatDialog,
-    private applicationService: ApplicationService,
-    private eventService: EventService,
-    private workspaceService: WorkspaceService,
-    private systemNotificationService: SystemNotificationService,
-    public publicConfigService: PublicConfigService,
-    private authService: AuthService,
-  ) {
-  }
 
   ngOnInit(): void {
     this.subscriptions.push(this.eventService.applicationDataUpdate$.subscribe(_ => {

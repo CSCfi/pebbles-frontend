@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Data } from '@angular/router';
@@ -12,6 +12,13 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
   standalone: false
 })
 export class MainJoinWorkspaceDialogComponent implements OnInit {
+  private workspaceService = inject(WorkspaceService);
+  dialogRef = inject<MatDialogRef<MainJoinWorkspaceDialogComponent>>(MatDialogRef);
+  private formBuilder = inject(UntypedFormBuilder);
+  data = inject<{
+    context: Data;
+  }>(MAT_DIALOG_DATA);
+
 
   public context: Data;
   public newWorkspace: Workspace;
@@ -24,16 +31,6 @@ export class MainJoinWorkspaceDialogComponent implements OnInit {
 
   get joinCode(): string {
     return this.joinWorkspaceForm.get('joinCode').value;
-  }
-
-  constructor(
-    private workspaceService: WorkspaceService,
-    public dialogRef: MatDialogRef<MainJoinWorkspaceDialogComponent>,
-    private formBuilder: UntypedFormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      context: Data
-    },
-  ) {
   }
 
   ngOnInit(): void {

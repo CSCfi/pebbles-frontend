@@ -1,4 +1,4 @@
-import { Component, Inject, Input, DOCUMENT } from '@angular/core';
+import { Component, DOCUMENT, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Data, Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
@@ -17,6 +17,13 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
   standalone: false
 })
 export class MainSessionButtonComponent {
+  private document = inject<Document>(DOCUMENT);
+  private router = inject(Router);
+  private applicationService = inject(ApplicationService);
+  private applicationSessionService = inject(ApplicationSessionService);
+  private authService = inject(AuthService);
+  private dialog = inject(MatDialog);
+
 
   @Input() applicationId: string;
   @Input() context: Data;
@@ -114,16 +121,6 @@ export class MainSessionButtonComponent {
       return Utilities.lifetimeToString(this.session.lifetime_left);
     }
     return '';
-  }
-
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private router: Router,
-    private applicationService: ApplicationService,
-    private applicationSessionService: ApplicationSessionService,
-    private authService: AuthService,
-    private dialog: MatDialog
-  ) {
   }
 
   startSession(): void {

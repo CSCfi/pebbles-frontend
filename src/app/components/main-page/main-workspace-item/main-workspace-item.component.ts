@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, inject, Input, ViewChild } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
@@ -13,6 +13,9 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
   standalone: false
 })
 export class MainWorkspaceItemComponent {
+  workspaceService = inject(WorkspaceService);
+  private applicationService = inject(ApplicationService);
+
 
   @Input() workspace: Workspace;
   @Input() isNew!: boolean;
@@ -35,12 +38,6 @@ export class MainWorkspaceItemComponent {
 
   get membershipType(): string {
     return this.workspace.membership_type === MembershipType.Manager ? 'co-owner' : this.workspace.membership_type;
-  }
-
-  constructor(
-    public workspaceService: WorkspaceService,
-    private applicationService: ApplicationService,
-  ) {
   }
 
   toggleApplicationList(): void {
