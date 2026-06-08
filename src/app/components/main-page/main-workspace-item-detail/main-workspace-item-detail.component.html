@@ -140,12 +140,11 @@
         </dd>
         <dt>Expiration date</dt>
         <dd>
-          <div class="expiry-date">
-            <p>{{ workspace.expiry_ts | dateDisplay }}  ({{
-                    workspace.expiry_ts |
-                        remainingDaysDisplay
-              }})
-            </p>
+          <div class="expiry-date preview">
+            {{ workspace.expiry_ts | dateDisplay }}  ({{
+                  workspace.expiry_ts |
+                      remainingDaysDisplay
+            }})
             @if (workspace.config?.allow_expiry_extension) {
               <div class="expiry-date-extension action-wrapper">
                 <button (click)="openExpiryDateExtensionDialog()"
