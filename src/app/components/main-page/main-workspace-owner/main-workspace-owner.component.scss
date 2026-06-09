@@ -181,6 +181,8 @@
 
   .content-header-container {
     @include utils.flex-col-block($type: stretch);
+    // flex override for Safari
+    flex: none !important;
     @include utils.shadow(0.1);
     padding: 10px 15px;
     background: var(--neut-clr-1);
