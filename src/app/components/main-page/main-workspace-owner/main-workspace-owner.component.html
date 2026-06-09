@@ -74,7 +74,7 @@
                     </dd>
                     @if (workspace.membership_expiry_policy.kind === 'activity_timeout') {
                       <dt>Membership expiry</dt>
-                      <dd>{{ workspace.membership_expiry_policy.timeout_days }} days</dd>
+                      <dd>{{ workspace.membership_expiry_policy.timeout_days }} days of inactivity</dd>
                     }
                   </dl>
                 </mat-card-content>
