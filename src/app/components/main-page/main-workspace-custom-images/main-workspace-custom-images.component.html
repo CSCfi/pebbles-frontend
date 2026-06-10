@@ -19,7 +19,7 @@
       <table [dataSource]="dataSource" class="custom-image-table" mat-table>
 
         <ng-container matColumnDef="thumb">
-          <th *matHeaderCellDef mat-header-cell>Image</th>
+          <th *matHeaderCellDef mat-header-cell>Status</th>
           <td *matCellDef="let element" mat-cell>
             <div [ngClass]="element.state" class="custom-image-thumb">
               <!-- Custom image state NEW / BUILDING / DELETING -->
