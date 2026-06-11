@@ -15,6 +15,14 @@
   }
 }
 
+.deletion-steps-list {
+  list-style: decimal;
+}
+
+.deletion-step-active {
+  font-weight: bold;
+}
+
 .initialize-desktop-notifications-btn {
   @include uis.button($role: 'sec', $icon: 'notifications', $width: '100%');
 }
@@ -39,6 +47,3 @@
 .info-body {
   @include uis.grid-list('160px auto');
 }
-
-
-

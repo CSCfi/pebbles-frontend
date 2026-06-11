@@ -35,11 +35,16 @@
               <dd>
                 <ul class="grid">
                   <li>
-                    <p>
-                      Click the button and send a request to
-                      <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.
-                      We will process your request and come back to you.
-                    </p>
+                    <ol class="deletion-steps-list">
+                      <li aria-current="step" class="deletion-step-active">
+                        Click the button to confirm your intent to delete your account
+                      </li>
+                      <li>
+                        Send an email to
+                        <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.
+                        We will process your request and come back to you.
+                      </li>
+                    </ol>
                   </li>
                   <li class="request-account-deletion">
                     <button (click)="requestAccountDeletion()"
@@ -51,10 +56,17 @@
               </dd>
             } @else {
               <dd>
-                <p>
-                  Account deletion requested.
-                  Send an email to <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a> to proceed.
-                </p>
+                <ol class="deletion-steps-list">
+                  <li>
+                    Click the button to confirm your intent to delete your account
+                    <mat-icon>check</mat-icon>
+                  </li>
+                  <li aria-current="step" class="deletion-step-active">
+                    Send an email to
+                    <a href="mailto:{{ getContactEmail() }}">{{ getContactEmail() }}</a>.
+                    We will process your request and come back to you.
+                  </li>
+                </ol>
               </dd>
             }
           }
