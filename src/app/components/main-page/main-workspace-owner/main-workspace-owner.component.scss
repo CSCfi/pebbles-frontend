@@ -128,6 +128,8 @@
     ::ng-deep.tab-group-wrapper {
       flex: 1 1 0;
       min-height: 0;
+      // Safari: column to make content scrolling work
+      flex-direction: column;
     }
 
     ::ng-deep.mat-mdc-tab-group {
@@ -165,6 +167,11 @@
 
     ::ng-deep.mat-mdc-tab-header {
       padding: 0 !important;
+    }
+
+    // Safari: without this the whole tab body is clipped to nothing
+    ::ng-deep.mat-mdc-tab-body-wrapper {
+      flex: 1 1 0;
     }
   }
 

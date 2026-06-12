@@ -85,4 +85,19 @@
   .application-item-container {
     padding-bottom: 100px !important;
   }
+
+  // Safari: let the column header size to content (not the pinned header-height) so the Join
+  // workspace button drops below the title+search as a full-width bar.
+  .content-header-wrapper {
+    flex: none;
+  }
+
+  .content-header-container {
+    flex: none !important;
+  }
+
+  .content-header-container .join-workspace-button {
+    width: 100%;
+    flex: 0 0 auto;
+  }
 }
