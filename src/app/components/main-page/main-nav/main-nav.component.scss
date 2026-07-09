@@ -7,67 +7,87 @@
   position: relative;
   width: 100%;
 
-  &#account-nav {
-    border-top: solid 1px rgb(255, 255, 255, .2);
-    border-bottom: none !important;
-  }
-
   .brand {
-    @include utils.flex-row-block($gap: 10px, $distribution: flex-start,
-    $padding: 20px 10px 10px 16px, $wrap: false,);
+    @include utils.flex-row-block($gap: 15px, $distribution: center,
+    $padding: 20px 10px 10px 20px, $wrap: false,);
     width: 100%;
 
     .site-logo {
-      flex: 0 0 50px;
+      flex: 0 0 40px;
+      text-align: center;
+
+      img {
+        width: 35px;
+      }
     }
 
     .site-name {
       flex: 1 1 auto;
       line-height: 110%;
-      padding-right: 15px;
+      padding-right: 10px;
     }
   }
 
-  #nav-toggle-button {
-    color: white;
-    background-color: var(--prim-clr-9);
-    width: 70px;
+  .nav-toggle-button {
+    width: 65px;
     padding: 5px;
     text-align: center;
   }
 
+  &.minimized-sidenav {
+    .brand {
+      padding-left: 10px !important;
+    }
+  }
+
+  ul.account-nav {
+    border-top: solid 1px rgb(255, 255, 255, .2);
+  }
+
+  ul.nav-items:last-child {
+    border-bottom: none !important;
+  }
+
+  .owner-logo {
+    margin-bottom: 15px;
+    height: 50px;
+
+    a {
+      height: 46px;
+
+      p {
+        @include base.headline-7();
+      }
+    }
+  }
+
   .nav-items {
-    display: flex;
-    flex-direction: column;
+    @include utils.flex-col-block();
     border-bottom: solid 1px rgb(255, 255, 255, .2);
 
     .nav-item {
-      padding-top: 5px;
-      padding-right: 6px;
+      padding: 5px 6px 5px 0;
       border-left: 6px solid rgb(204, 255, 100, 0);
 
       &.active {
         width: 100%;
-        background-color: #ffffff1a;
-        border-left: 6px solid #00969a;
+        border-left: 6px solid var(--sec-clr-4);
       }
 
       a {
-        display: inline-flex;
-        flex-direction: row;
-        padding: 5px 10px;
+        @include utils.flex-row-block(
+                $distribution: start,
+                $gap: 5px,
+                $padding: 5px 5px 5px 10px);
         cursor: pointer;
 
         .icon-holder {
-          width: 50px;
-          text-align: center
+          flex-basis: 40px;
+          text-align: center;
+          @include base.centering();
         }
 
-        .title {
-          padding-right: 10px;
-        }
-
-        &#account {
+        &.account {
           .email {
             font-size: 1.3rem;
             margin-top: 2px;

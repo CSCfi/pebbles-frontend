@@ -23,13 +23,9 @@
   }
 
   .brand {
-    @include utils.flex-row-block($gap: 20px, $wrap: false);
+    @include utils.flex-row-block($gap: 15px, $wrap: false);
     height: 50px;
     font-size: 2rem;
-
-    .site-logo {
-      height: 50px;
-    }
 
     .site-name {
       line-height: 120%;
@@ -39,6 +35,10 @@
   .nav-wrapper {
     @include utils.flex-row-block($gap: 20px);
     flex: 1;
+
+    .company-link .csc-logo img {
+      width: 60px;
+    }
   }
 
   #toggle-nav,

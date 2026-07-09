@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;" version="1.1" viewBox="0 0 583 300" width="100%"
+     xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+     xmlns:serif="http://www.serif.com/">
+    <g id="アートボード1" transform="matrix(1,0,0,0.808625,0,0)">
+        <rect height="371" style="fill:none;" width="583" x="0" y="0"/>
+      <clipPath id="_clip1">
+            <rect height="371" width="583" x="0" y="0"/>
+        </clipPath>
+      <g clip-path="url(#_clip1)">
+            <g id="CSC_logo" transform="matrix(1,0,0,1.236667,0.224,4.901528)">
+                <path
+                    d="M291.276,292.051C291.276,292.045 284.673,291.01 284.537,287.934C278.546,153.15 266.191,158.392 7.108,153.15C2.241,153.051 0.369,146.036 0.369,146.036L291.276,146.036L291.276,292.051Z"
+                    id="Path"
+                    style="fill:white;fill-rule:nonzero;stroke:white;stroke-width:0.57px;"/>
+              <path
+                  d="M298.015,4.14C304.005,138.923 316.361,133.682 575.444,138.923C580.31,139.022 582.183,146.036 582.183,146.036L291.276,146.036L291.276,0.022C291.276,0.028 297.878,1.063 298.015,4.14Z"
+                  id="Path1"
+                  serif:id="Path"
+                  style="fill:white;fill-rule:nonzero;stroke:white;stroke-width:0.57px;"/>
+            </g>
+        </g>
+    </g>
+</svg>

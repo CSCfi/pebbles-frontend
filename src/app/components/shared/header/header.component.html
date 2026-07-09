@@ -15,11 +15,12 @@
     </a>
 
     <!-- Landing page navigation -->
-    @if (isNaviVisible) {
-      <nav class="nav">
-        <input checked id="toggle-nav" type="checkbox">
-        <label class="toggle-nav-label button" for="toggle-nav">menu</label>
-        <ul class="nav-wrapper">
+
+    <nav class="nav">
+      <input checked id="toggle-nav" type="checkbox">
+      <label class="toggle-nav-label button" for="toggle-nav">menu</label>
+      <ul class="nav-wrapper">
+        @if (isNaviVisible) {
           <li>
             <a [href]="publicConfigService.getServiceDocumentationUrl()" rel="noopener" target="_blank">
               Documentation
@@ -35,8 +36,18 @@
               Accessibility
             </a>
           </li>
-        </ul>
-      </nav>
-    }
+        }
+        <!-- Company Brand -->
+        <li>
+          <a class="company-link" href="https://www.csc.fi/" rel="noopener" target="_blank">
+            <div class="csc-logo">
+              <img [width]="logoMarkSize" alt="csc-logo"
+                   src="assets/images/logo/csc-logo.svg">
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
   </div>
 </header>

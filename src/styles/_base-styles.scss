@@ -8,7 +8,7 @@ $mobile-width: 599px;
 $container-width: 1250px;
 
 $navigation-width: 250px;
-$navigation-minimized-width: 82px;
+$navigation-minimized-width: 75px;
 
 $welcome-header-height: 50px;
 $content-header-height: 75px;
@@ -144,6 +144,12 @@ $page-side-padding: 30px;
 @mixin headline-6 {
   @include styled-font;
   font-size: 1.2rem;
+  font-weight: 400;
+}
+
+@mixin headline-7 {
+  @include styled-font;
+  font-size: 1.0rem;
   font-weight: 400;
 }
 

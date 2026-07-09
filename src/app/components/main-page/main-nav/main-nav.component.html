@@ -1,11 +1,10 @@
 <!-- Side navigation -->
-<div class="sidenav-inner">
+<div [ngClass]="{'minimized-sidenav':!isTextVisible}"
+     class="sidenav-inner">
   <!-- Logo -->
   <a [routerLink]="['/main/catalog']" class="brand">
     <div class="site-logo">
-      <div class="csc-logo">
-        <img alt="site-logo" src="assets/images/logo/site-logo.svg" width="50">
-      </div>
+      <img alt="site-logo" src="assets/images/logo/site-logo.svg">
     </div>
     @if (isTextVisible) {
       <h2 class="site-name">
@@ -15,11 +14,10 @@
     }
   </a>
   <!-- Navigation panel toggle button -->
-  <ul class="nav-items scrollable">
+  <ul class="nav-items">
     <li class="nav-item">
       <button (click)="emitSideNavToggle()" [matTooltip]="isTextVisible ? 'Close navigation' : 'Open navigation'"
-              class="action primary-btn"
-              id="nav-toggle-button"
+              class="nav-toggle-button"
               matTooltipPosition="right">
         @if (isTextVisible) {
           <span class="icon-holder">
@@ -34,7 +32,7 @@
     </li>
   </ul>
   <!-- Menu -->
-  <ul class="nav-items scrollable">
+  <ul class="nav-items">
     <li [class.active]="router.url==='/main/catalog'" class="nav-item">
       <a [routerLink]="['/main/catalog']">
         <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
@@ -118,11 +116,12 @@
     </li>
   </ul>
 </div>
-<div class="sidenav-inner" id="account-nav">
+<div [ngClass]="{'minimized-sidenav':!isTextVisible}"
+     class="sidenav-inner">
   <!-- Logout -->
-  <ul class="nav-items">
+  <ul class="nav-items account-nav">
     <li class="nav-item">
-      <a [routerLink]="['/main/account']" id="account">
+      <a [routerLink]="['/main/account']" class="account">
         <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
               matTooltip="Account" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
@@ -140,6 +139,21 @@
         </span>
         @if (isTextVisible) {
           <span class="title">Logout</span>
+        }
+      </a>
+    </li>
+  </ul>
+  <ul class="nav-items">
+    <li class="nav-item owner-logo">
+      <a href="https://www.csc.fi/" rel="noopener" target="_blank">
+        <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
+              matTooltip="Company link" matTooltipPosition="right">
+          <img alt="owner-logo" src="assets/images/logo/csc-logo_mini.svg">
+        </span>
+        @if (isTextVisible) {
+          <p>
+            CSC - IT CENTER FOR SCIENCE LTD.
+          </p>
         }
       </a>
     </li>
