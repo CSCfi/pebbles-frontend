@@ -22,10 +22,11 @@
 
 #left-cube-0 {
   top: 400px;
-  left: -410px;
+  left: -480px;
   z-index: 3000;
-  width: 250px;
-  opacity: 0.7;
+  width: 150px;
+  opacity: 0.6;
+  rotate: -0.5deg;
 
   svg {
     width: 210px;
@@ -34,18 +35,20 @@
 }
 
 #right-cube-1 {
-  top: 550px;
-  left: 450px;
-  width: 350px;
+  top: 620px;
+  left: 400px;
+  width: 300px;
   height: 350px;
-  opacity: 0.8;
+  opacity: 0.6;
+  rotate: 0deg;
 }
 
 #mini-cube-2 {
-  top: 350px;
+  top: 360px;
   left: -610px;
   width: 100px;
   opacity: 0.5;
+  rotate: -2deg;
 
   svg {
     width: 100px;
@@ -54,10 +57,10 @@
 }
 
 #mini-cube-3 {
-  top: -90px;
-  left: 200px;
+  top: -155px;
+  left: 180px;
   width: 100px;
-  opacity: 0.5;
+  opacity: 0.4;
 
   svg {
     width: 100px;

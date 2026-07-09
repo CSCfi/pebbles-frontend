@@ -2,7 +2,7 @@
 <svg height="371px" version="1.1" viewBox="0 0 583 371" width="583px" xmlns="http://www.w3.org/2000/svg"
 >
   <title>CSC_logo</title>
-  <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
+  <g fill="currentColor" transform="translate(0,1)">
     <g fill="#FFFFFF" id="CSC_logo" transform="translate(0.000000, 1.000000)">
       <path
           d="M291.276,292.051 C291.276,292.045 284.673,291.01 284.537,287.934 C278.546,153.15 266.191,158.392 7.108,153.15 C2.241,153.051 0.369,146.036 0.369,146.036 L291.276,146.036 L291.276,292.051 L291.276,292.051 Z"

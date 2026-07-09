@@ -9,7 +9,7 @@
     @if (isTextVisible) {
       <h2 class="site-name">
         {{ publicConfigService.getInstallationName() }}
-        <h5 class="owner-name">{{ publicConfigService.getInstallationDomain() }}</h5>
+        <span class="owner-name"> {{ publicConfigService.getInstallationDomain() }}</span>
       </h2>
     }
   </a>

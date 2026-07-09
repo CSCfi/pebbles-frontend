@@ -1,6 +1,7 @@
 // ---- footer.component.scss
 @use 'base-styles' as base;
 @use 'utilities' as utils;
+@use 'ui-components' as uis;
 
 :host {
   flex: 0 0 auto;
@@ -8,41 +9,64 @@
 
 .footer {
   color: white;
-  background-color: var(--prim-clr-9);
-  padding: 30px 20px 50px;
+  background-color: #14144b;
+  padding: 50px 20px 50px;
 
   .footer-wrapper {
-    @include utils.flex-row-block($type: flex-start, $gap: 20px, $wrap: false);
+    @include utils.flex-row-block($type: flex-start, $gap: 20px, $wrap: true);
     max-width: var(--container-width);
     min-height: inherit;
-    margin: 10px auto 0;
+    margin: 0 auto;
 
     dl {
-      flex: 1;
-      line-height: 175%;
+      &:not(:last-child) {
+        flex: 1 1 200px;
+      }
+
+      &:last-child {
+        flex-basis: 270px;
+      }
+
+      line-height: 170%;
 
       dt {
-        margin-bottom: 10px;
-        font-size: 1.4rem;
+        margin-bottom: 20px;
+        //margin-top: 30px;
+        font-size: 1.5rem;
+        font-weight: 600;
       }
 
       dd {
         font-size: 1.2rem;
         font-weight: 300;
+        margin-bottom: 5px;
+        color: var(--prim-clr-1);
       }
     }
   }
 
-  .owner-logo {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(2, max-content);
-    align-items: center;
-    margin: 10px 0;
+  .contact-info {
+    margin-top: 20px;
+    @include uis.deco-text($icon: email, $color: var(--prim-clr-1), $font-size: 1.2rem);
+  }
 
-    img {
-      width: 60px;
+  .address-info {
+    margin-top: 10px;
+    @include uis.deco-text($icon: location_on, $color: var(--prim-clr-1), $font-size: 1.2rem);
+  }
+
+  .owner-logo {
+    @include utils.flex-row-block($gap: 10px, $wrap: false, $distribution: flex-start);
+
+    .csc-logo {
+      img {
+        width: 45px;
+        flex-basis: 60px;
+        height: auto;
+      }
     }
+
+
   }
 }
 

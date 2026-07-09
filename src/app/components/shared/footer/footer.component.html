@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class="footer-wrapper">
-    <dl class="info-notebook footer-column">
+    <dl class="developer-info">
       <dt>About {{ publicConfigService.getInstallationName() }}</dt>
       <dd>
         <a [href]="publicConfigService.getTermsOfUseUrl()" rel="noopener" target="_blank">Terms of use</a>
@@ -15,28 +15,32 @@
         <a [href]="publicConfigService.getPrivacyPolicyUrl()" rel="noopener" target="_blank">Privacy</a>
       </dd>
     </dl>
-    <dl class="info-support footer-column">
+    <dl class="info-support">
       <dt>{{ publicConfigService.getInstallationName() }} Support</dt>
       <dd>Open Monday to Friday (9:00 - 16:00 Finnish time)</dd>
-      <dd class="center__v">
-        <mat-icon class="md-16 mr-5 no-u-line" fontSet="material-icons-outlined">email</mat-icon>
-        <a href="mailto:{{ publicConfigService.getContactEmail() }}" rel="noopener">
+      <dd>
+        <!--        <mat-icon class="md-16 mr-5 no-u-line" fontSet="material-icons-outlined">email</mat-icon>-->
+        <a class="contact-info" href="mailto:{{ publicConfigService.getContactEmail() }}" rel="noopener">
           {{ publicConfigService.getContactEmail() }}
         </a>
       </dd>
       <dd>
-        Life Science Center Keilaniemi: <br>
-        Keilaranta 14, Espoo, Finland
+        <span class="address-info">
+          Life Science Center Keilaniemi<br>Keilaranta 14, Espoo, Finland
+        </span>
       </dd>
     </dl>
-    <dl class="info-company footer-column">
+    <dl class="owner-info">
       <dt>
         CSC - IT CENTER FOR SCIENCE LTD.
       </dt>
       <dd>
-        <a href="https://www.csc.fi/" rel="noopener" target="_blank">
+        <a class="company-link" href="https://www.csc.fi/" rel="noopener" target="_blank">
           <div class="owner-logo">
-            <img alt="owner-logo" src="assets/images/logo/owner_logo.svg">
+            <div class="csc-logo">
+              <img alt="csc-logo"
+                   src="assets/images/logo/csc-logo.svg">
+            </div>
             <p>ICT Solutions for Brilliant Minds</p>
           </div>
         </a>

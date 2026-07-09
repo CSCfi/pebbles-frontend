@@ -23,12 +23,17 @@
   }
 
   .brand {
-    @include utils.flex-row-block($gap: 15px, $wrap: false);
+    @include utils.flex-row-block($gap: 15px, $wrap: false, $type: self-start);
     height: 50px;
     font-size: 2rem;
+    text-transform: capitalize;
 
     .site-name {
-      line-height: 120%;
+      line-height: 105%;
+    }
+
+    .owner-name {
+      text-transform: uppercase;
     }
   }
 

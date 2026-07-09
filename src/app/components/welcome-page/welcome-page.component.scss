@@ -5,6 +5,7 @@
 
 .page-wrapper {
   @include utils.flex-col-block($type: center);
+  position: relative;
   overflow: hidden;
   color: white;
   background-color: var(--prim-clr-9);
@@ -16,14 +17,14 @@
     height: base.$welcome-header-height;
     min-height: base.$welcome-header-height;
     padding: 0 20px;
-    margin-top: 30px;
-    margin-bottom: 40px;
+    margin-top: 50px;
+    margin-bottom: 30px;
   }
 
   .main-content {
     z-index: 1000;
     width: 100%;
-    min-height: calc(100vh - #{base.$welcome-header-height});
+    min-height: 900px;
     flex: 1 0 auto;
     padding: 0 20px;
     margin-bottom: 50px;
@@ -111,14 +112,16 @@
 }
 
 .bg-pattern-1 {
-  bottom: -170px;
-  left: -20px;
+  bottom: 220px;
+  left: -40px;
+  opacity: 0.5;
 }
 
 .bg-pattern-2 {
   top: 0;
   right: 0;
   transform: scale(-1, -1);
+  opacity: 0.8;
 }
 
 // ----- Tablet

@@ -9,22 +9,31 @@
 
   .brand {
     @include utils.flex-row-block($gap: 15px, $distribution: center,
-    $padding: 20px 10px 10px 20px, $wrap: false,);
+    $padding: 20px 10px 10px 25px, $wrap: false,);
     width: 100%;
 
     .site-logo {
-      flex: 0 0 40px;
+      flex: 0 0 30px;
       text-align: center;
 
       img {
-        width: 35px;
+        width: 30px;
+        height: auto;
       }
     }
 
     .site-name {
+      position: relative;
       flex: 1 1 auto;
       line-height: 110%;
-      padding-right: 10px;
+      text-transform: capitalize;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .owner-name {
+      @include base.headline-6;
+      text-transform: uppercase;
     }
   }
 
@@ -51,6 +60,10 @@
   .owner-logo {
     margin-bottom: 15px;
     height: 50px;
+
+    img {
+      width: 35px;
+    }
 
     a {
       height: 46px;

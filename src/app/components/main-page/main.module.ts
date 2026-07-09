@@ -1,5 +1,5 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -93,6 +93,7 @@ import { MainTourBubbleComponent } from "./main-tour-bubble/main-tour-bubble.com
     SharedModule,
     FontAwesomeModule,
     IconModule,
+    NgOptimizedImage,
   ],
   providers: [DateDisplayPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

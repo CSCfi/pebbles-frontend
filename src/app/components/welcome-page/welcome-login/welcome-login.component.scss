@@ -39,7 +39,7 @@ app-service-announcement {
 }
 
 .left-content-wrapper {
-  @include utils.flex-col-block($gap: 20px);
+  @include utils.flex-col-block($gap: 25px);
   max-width: 500px;
   flex: 0 1 500px;
   padding-top: 50px;
