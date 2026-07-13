@@ -1,5 +1,5 @@
 // ---- src/styles/ui-components/_links.scss
-// @use 'ui-components' as uis;
+@use 'icons';
 
 @mixin common-link {
   ::ng-deep a {
@@ -18,7 +18,7 @@
 }
 
 @mixin external-link {
-  // @include uis.deco-text($color: var(--prim-clr-6), $icon: 'launch', $icon-size: 2.4rem, $icon-weight: 100);
+  @include icons.deco-text($color: var(--prim-clr-6), $icon: 'launch', $icon-size: 2.4rem, $icon-weight: 100, $text-align: center);
 }
 
 .external-link {

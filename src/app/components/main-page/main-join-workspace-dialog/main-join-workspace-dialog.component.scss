@@ -17,13 +17,27 @@
 
   .mat-dialog-title {
     margin-bottom: 10px;
-    padding-bottom: 10px;
     text-align: center;
     border-bottom: 1px solid var(--gray-clr-3);
   }
 
   mat-dialog-content {
     padding: 0;
+    @include uis.text-emphasis;
+
+    p {
+      text-align: left;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+
+      em {
+        font-size: 1.3rem !important;
+      }
+    }
+
+    .documentation-link {
+      @include uis.external-link;
+    }
   }
 
   .form-container {
@@ -35,7 +49,7 @@
   }
 
   .state {
-    @include base.headline-3;
+    @include base.headline-4;
     margin-bottom: 20px;
     text-align: center;
   }
@@ -47,7 +61,10 @@
     column-gap: 15px;
     align-items: center;
     padding: 15px;
-    margin: 15px 0;
+    margin: 5px 0 10px 0;
+    letter-spacing: 0;
+    font-size: 14px;
+
 
     .policy-icon-column .mat-icon {
       width: 36px;
@@ -57,28 +74,43 @@
     }
 
     .highlight-line {
-      font-weight: bold;
-      margin: 5px 0;
+      font-weight: bold !important;
+      color: var(--warn-clr-7);
+      display: inline;
     }
   }
 
-  .error-status {
-    color: var(--warn-clr-7);
-    font-size: 1.3rem;
-    text-align: center;
+  .policy-checkbox {
+    @include uis.warning-message;
+    display: block;
+    margin-bottom: 15px;
+
+    // keep the policy text from crowding the checkbox
+    ::ng-deep .mdc-form-field .mdc-checkbox {
+      margin-right: 10px;
+
+      // white interior for the (unchecked) checkbox square
+      .mdc-checkbox__background {
+        background-color: #fff;
+      }
+    }
   }
 
   .dialog-actions {
-    @include utils.flex-row-block($distribution: center, $gap: 10px);
-    padding-top: 10px;
+    @include utils.flex-row-block($gap: 5px);
+    flex-wrap: nowrap;
 
-    .join-button,
-    .confirm-button {
-      @include uis.button($role: prim, $style: flat);
-      // `& { }` keeps these overrides after the mixin's nested rules (sass mixed-decls)
-      & {
-        flex: 1;
-      }
+    .join-button {
+      flex: 2;
+      height: 100%;
+      @include uis.button($role: prim, $style: flat, $icon: add, $width: 100%);
+    }
+
+    .cancel-button {
+      flex: 1;
+      height: 100%;
+      margin-left: 0;
+      @include uis.button($role: neut, $style: none, $width: 100%);
     }
   }
 }

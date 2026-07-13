@@ -4,6 +4,7 @@ import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
 import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
 import { ApplicationService } from 'src/app/services/application.service';
+import { SystemNotificationService } from 'src/app/services/system-notification.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
 
 @Component({
@@ -15,6 +16,7 @@ import { WorkspaceService } from 'src/app/services/workspace.service';
 export class MainWorkspaceItemComponent {
   workspaceService = inject(WorkspaceService);
   private applicationService = inject(ApplicationService);
+  private systemNotificationService = inject(SystemNotificationService);
 
 
   @Input() workspace: Workspace;
@@ -59,6 +61,9 @@ export class MainWorkspaceItemComponent {
     if (!confirm(`Are you sure you want to leave workspace "${this.workspace.name}"?`)) {
       return;
     }
-    this.workspaceService.exitWorkspace(this.workspace.id).subscribe();
+    const workspaceName = this.workspace.name;
+    this.workspaceService.exitWorkspace(this.workspace.id).subscribe(() => {
+      this.systemNotificationService.displayResult(`You have left workspace "${workspaceName}".`);
+    });
   }
 }

@@ -50,9 +50,10 @@
     --mat-button-outlined-outline-color: var(--#{$role}-clr-6);
     color: var(--#{$role}-clr-6);
     background: var(--#{$role}-clr-0);
-    border: 2px solid var(--#{$role}-clr-6);
+    border: none;
+    // Inset box-shadow avoids border's sizing skew; merged with drop shadow to dodge !important clobber.
+    box-shadow: inset 0 0 0 2px var(--#{$role}-clr-6), 1px 1px 1px 0.5px rgba(0, 0, 50, 0.05) !important;
     box-sizing: border-box;
-    @include utils.shadow(0.05);
   } @else if $style == 'icon' {
     --mat-icon-button-icon-color: var(--#{$role}-clr-7);
     border: none;

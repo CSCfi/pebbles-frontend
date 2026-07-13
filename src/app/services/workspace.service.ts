@@ -119,7 +119,6 @@ export class WorkspaceService {
         if (resp && typeof resp !== 'string' && 'id' in resp) {
           this.saveJoinTimestamp(resp.id);
         }
-        this.fetchWorkspaces().subscribe();
         return resp;
       })
     );

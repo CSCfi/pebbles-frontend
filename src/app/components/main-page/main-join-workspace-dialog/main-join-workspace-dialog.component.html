@@ -1,67 +1,39 @@
 <div class="dialog-container">
-  @if (!newWorkspace) {
-    <div class="corner-button-container">
-      <button (click)="closeForm()" class="corner-button" mat-dialog-close mat-icon-button>
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <h2 class="mat-dialog-title">Join workspace</h2>
-    <mat-dialog-content>
-      <form [formGroup]="joinWorkspaceForm" class="form-container">
-        <mat-form-field appearance="fill">
-          <mat-label>Enter join code</mat-label>
-          <input formControlName="joinCode" matInput placeholder="Join code" type="text">
-          @if (isJoinCodeValid) {
-            <mat-error [ngClass]="'error-status'">error</mat-error>
-          }
-        </mat-form-field>
-        @if (errorMessage) {
-          <div class="error-status">{{ errorMessage }}</div>
+  <div class="corner-button-container">
+    <button (click)="closeForm()" class="corner-button" mat-dialog-close mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <h2 class="mat-dialog-title">Join workspace</h2>
+  <mat-dialog-content>
+    <p>
+      Get <em class="keyword lock border">Join code</em> from your instructor or collaborator
+      who manages the workspace. Put the code into the text-box below to join the workspace.
+    </p>
+    <form [formGroup]="joinWorkspaceForm" class="form-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Enter join code</mat-label>
+        <input formControlName="joinCode" matInput placeholder="Join code" type="text">
+        @if (joinCodeControl.hasError('serverError')) {
+          <mat-error>{{ joinCodeControl.getError('serverError') }}</mat-error>
         }
-      </form>
-    </mat-dialog-content>
-    <mat-dialog-actions class="dialog-actions">
-      <button (click)="joinWorkspace()" class="join-button" mat-flat-button>
-        <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-        Join
-      </button>
-    </mat-dialog-actions>
-  }
-  @if (newWorkspace) {
-    <h2 class="mat-dialog-title">Workspace "{{ newWorkspace.name }}" data policy</h2>
-    <mat-dialog-content>
-      <div class="state">
-        You have successfully joined workspace "{{ newWorkspace.name }}".
-      </div>
-      @if (newWorkspace.membership_expiry_policy?.kind === 'activity_timeout') {
-        <div
-            class="policy-note">
-          <div class="policy-icon-column">
-            <mat-icon class="material-icons-outlined">warning</mat-icon>
-          </div>
-          <div class="policy-content">
-            Please note that due to workspace policy, your
-            <div class="highlight-line">
-              membership will terminate after {{ newWorkspace.membership_expiry_policy.timeout_days }} days of
-              inactivity.
-            </div>
-            After termination, you cannot access data, including "my-work" content, in this workspace anymore.
-          </div>
-        </div>
-      } @else {
-        <div class="policy-note">
-          <div class="policy-icon-column">
-            <mat-icon class="material-icons-outlined">warning</mat-icon>
-          </div>
-          <div class="policy-content">
-            This workspace and its data, including "my-work" content, will become inaccessible
-            {{ newWorkspace.expiry_ts * 1000 | date }}.
-          </div>
-        </div>
-      }
-    </mat-dialog-content>
-    <mat-dialog-actions class="dialog-actions">
-      <button (click)="closeForm()" class="confirm-button" mat-dialog-close mat-flat-button>Understood</button>
-    </mat-dialog-actions>
-  }
+      </mat-form-field>
+
+      <mat-checkbox (change)="policyAcknowledged = $event.checked" [checked]="policyAcknowledged"
+                    class="policy-checkbox">
+        I understand that the workspace membership will be removed when the workspace expires or after 90 days of
+        inactivity.
+        If the membership is removed, I will not be able to access data, including "my-work" content, in
+        this workspace.
+      </mat-checkbox>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog-actions">
+    <button (click)="joinWorkspace()" [disabled]="!isJoinButtonEnabled" class="join-button" mat-button>
+      Join
+    </button>
+    <button (click)="closeForm()" class="cancel-button" mat-button>
+      Cancel
+    </button>
+  </mat-dialog-actions>
 </div>

@@ -17,7 +17,7 @@ export class SystemNotificationService {
   displayResult(s: string) {
     this.snackbar.open(s, 'x', {
       duration: 5000,
-      verticalPosition: 'top'
+      verticalPosition: 'bottom'
     });
   }
 
