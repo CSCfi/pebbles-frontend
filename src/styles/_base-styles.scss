@@ -57,6 +57,10 @@ $page-side-padding: 30px;
   --mat-checkbox-selected-hover-icon-color: var(--sec-clr-3);
   --mat-checkbox-selected-icon-color: var(--sec-clr-4);
 
+  --mat-stepper-header-selected-state-icon-background-color: var(--sec-clr-6);
+  --mat-stepper-header-done-state-icon-background-color: var(--prim-clr-6);
+  --mat-stepper-header-edit-state-icon-background-color: var(--sec-clr-6);
+
   @include mat.progress-spinner-overrides((
           active-indicator-color: var(--prim-clr-7),
   ));

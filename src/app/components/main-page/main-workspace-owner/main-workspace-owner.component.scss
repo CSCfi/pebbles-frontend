@@ -5,9 +5,9 @@
 @use 'layouts' as layouts;
 
 @include layouts.page(
-  $flex-direction: row,
-  $overflow: hidden,
-  $row-to-col-breakpoint: base.$tablet-width-workspace-owner,
+        $flex-direction: row,
+        $overflow: hidden,
+        $row-to-col-breakpoint: base.$tablet-width-workspace-owner,
 );
 @include layouts.header;
 @include layouts.content($type: stretch, $is-scrolling: true, $gap: 20px, $padding-top: 10px);
@@ -495,7 +495,8 @@
 @media (max-width: #{base.$tablet-width-workspace-owner}) {
 
   ::ng-deep.mat-mdc-dialog-panel {
-    height: 95% !important;
+    height: auto;
+    max-height: 95% !important;
   }
 
 }

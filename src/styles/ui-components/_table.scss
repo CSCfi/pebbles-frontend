@@ -10,6 +10,8 @@
     overflow: visible;
     table-layout: fixed;
     background: transparent;
+    border-collapse: collapse;
+    box-sizing: border-box;
     border: $table-outer-border;
 
     .mat-mdc-header-row {
@@ -65,22 +67,57 @@
   }
 }
 
-@mixin table-width-fix($width: auto, $min-width: auto, $max-width: auto, $align: left, $vertical-align: middle, $padding: 2px, $type:icon) {
+@mixin table-width-fix(
+  $width: auto,
+  $grow: false,
+  $shrink: false,
+  $min-width: null,
+  $max-width: null,
+  $align: left,
+  $vertical-align: middle,
+  $padding: 2px,
+  $type:icon,
+  $wrap: false
+) {
   width: $width !important;
-  min-width: $min-width;
-  @if $max-width == auto {
-    max-width: $width;
-  }
-  else {
+
+  // ---- Grow control ----
+  // If $max-width is explicitly specified, it takes top priority.
+  // If not specified, and $grow is false, the width will never grow beyond $width.
+  // If $grow is true, there is no upper limit (none), and it can grow freely.
+  @if $max-width != null {
     max-width: $max-width !important;
+  } @else if $grow {
+    max-width: none;
+  } @else {
+    max-width: $width !important;
   }
+
+  // ---- Shrink control ----
+  @if $min-width != null {
+    min-width: $min-width !important;
+  } @else if $shrink {
+    min-width: 0;
+  } @else {
+    min-width: $width !important;
+  }
+
   padding: $padding !important;
 
-  overflow: hidden;
-  text-overflow: ellipsis;
+  // ---- Overflow control ----
+  // $wrap: false (default) truncates to a single line with an ellipsis.
+  // $wrap: true breaks long words instead, for columns holding free-form text.
+  @if $wrap {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+  } @else {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   vertical-align: $vertical-align !important;
   text-align: $align;
-  white-space: nowrap;
 
   @if $type == icon {
     button {
