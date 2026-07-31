@@ -68,7 +68,7 @@
                   <div class="thumbnail">
                     <fa-icon [icon]="getApplicationIcon(element.labels)"
                              [ngClass]="getApplicationIcon(element.labels)"></fa-icon>
-                    <span class="application-type-name">{{ getApplicationTypeName(element.type) }}</span>
+                    <span class="application-type-name">{{ getApplicationTypeName(element.type, element.labels) }}</span>
                   </div>
                 </div>
                 <div class="chip">{{ isWorkspaceExpired ? 'expired' : element.isEnabled ? 'published' : 'draft' }}

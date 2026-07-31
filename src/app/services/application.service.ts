@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Application } from 'src/app/models/application';
 import { buildConfiguration } from '../../environments/environment';
 import { ApplicationType } from '../models/application-template';
+import { Utilities } from '../utilities';
 import { ApplicationSessionService } from './application-session.service';
 import { EventService } from './event.service';
 
@@ -191,37 +192,46 @@ export class ApplicationService implements OnDestroy {
   }
 
   getApplicationIcon(labels: string[]): IconProp {
-    if (labels.includes('js') || labels.includes('javascript')) {
+    const has = Utilities.labelMatcher(labels);
+    if (has('js') || has('javascript')) {
       return ['fab', 'js'];
-    } else if (labels.includes('markup') || labels.includes('html')) {
+    } else if (has('markup') || has('html')) {
       return ['fas', 'code'];
-    } else if (labels.includes('linux') || labels.includes('command') || labels.includes('terminal')
-      || labels.includes('cli')) {
+    } else if (has('linux')) {
       return ['fab', 'linux'];
-    } else if (labels.includes('ai') || labels.includes('deep learning')) {
+    } else if (has('ai') || has('deep learning')) {
       return ['fas', 'brain'];
-    } else if (labels.includes('gis') || labels.includes('geo') || labels.includes('geospatial')) {
+    } else if (has('gis') || has('geo') || has('geospatial')) {
       return ['fas', 'map-location-dot'];
-    } else if (labels.includes('machine learning')) {
+    } else if (has('machine learning')) {
       return ['fas', 'circle-nodes'];
-    } else if (labels.includes('quantum computing')) {
+    } else if (has('quantum computing')) {
       return ['fas', 'atom'];
-    } else if (labels.includes('bio') || labels.includes('bio informatics')) {
+    } else if (has('bio') || has('bio informatics')) {
       return ['fas', 'dna'];
-    } else if (labels.includes('nlp') || labels.includes('natural language processing')) {
+    } else if (has('nlp') || has('natural language processing')) {
       return ['fas', 'language'];
-    } else if (labels.includes('r') || labels.includes('rstudio')) {
+    } else if (has('r') || has('rstudio')) {
       return ['fab', 'r-project'];
-    } else if (labels.includes('data analytics') || labels.includes('data science') || labels.includes('analytics')) {
+    } else if (has('data analytics') || has('data science') || has('analytics')) {
       return ['fas', 'chart-column'];
-    } else if (labels.includes('python')) {
+    } else if (has('python')) {
       return ['fab', 'python'];
+    } else if (has('command') || has('terminal') || has('cli')) {
+      return ['fas', 'terminal'];
     } else {
       return ['fas', 'book'];
     }
   }
 
-  applicationTypeName(type: ApplicationType): string {
+  applicationTypeName(type: ApplicationType, labels: string[] = []): string {
+    const has = Utilities.labelMatcher(labels);
+    if (has('terminal')) {
+      return 'Terminal';
+    }
+    if (has('vscode') || has('vs-code')) {
+      return 'VSCode';
+    }
     switch (type) {
       case 'jupyter':
         return 'Jupyter';

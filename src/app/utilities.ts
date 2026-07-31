@@ -75,6 +75,13 @@ export class Utilities {
     return ts * 1000 < Date.now();
   }
 
+  // Returns a case-insensitive matcher bound to the given labels,
+  // so callers can write `has('terminal')` instead of repeating the comparison.
+  // Both the stored labels and the query are compared case-insensitively.
+  public static labelMatcher(labels: string[] = []): (label: string) => boolean {
+    return (label: string) => labels.some(l => l.toLowerCase() === label.toLowerCase());
+  }
+
   // public static camelize(str: string): string {
   //   return str.replace(/-./g, x => x[1].toUpperCase());
   // }

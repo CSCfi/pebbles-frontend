@@ -247,8 +247,8 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     return this.applicationService.getApplicationIcon(labels);
   }
 
-  getApplicationTypeName(type: ApplicationType): string {
-    return this.applicationService.applicationTypeName(type);
+  getApplicationTypeName(type: ApplicationType, labels: string[] = []): string {
+    return this.applicationService.applicationTypeName(type, labels);
   }
 
   openAdvancedForm(applicationId: string | null): void {

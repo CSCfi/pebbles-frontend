@@ -65,7 +65,7 @@ export class MainApplicationItemComponent {
   }
 
   get applicationTypeName(): string {
-    return this.applicationService.applicationTypeName(this.application.application_type);
+    return this.applicationService.applicationTypeName(this.application.application_type, this.application.labels);
   }
 
   get description(): string {
