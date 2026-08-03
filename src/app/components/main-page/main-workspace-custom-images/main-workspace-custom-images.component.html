@@ -56,8 +56,8 @@
                     @if (element.applicationReferences?.length) {
                       <span [matTooltip]="extractApplicationNames(element.applicationReferences).join(', ')">
                    : Used by {{
-                              element.applicationReferences.length + ' ' +
-                              (element.applicationReferences.length === 1 ? 'application' : 'applications')
+                          element.applicationReferences.length + ' ' +
+                          (element.applicationReferences.length === 1 ? 'application' : 'applications')
                         }}
                       </span>
                     }
@@ -97,7 +97,8 @@
               <div class="custom-image-output">
                 <div (click)="toggleLog(element.id)"
                      class="output-label"
-                     matTooltip="Close log screen"></div>
+                     matTooltip="Close log screen">close
+                </div>
                 @for (line of element.build_system_output.split('\n'); track $index; let i = $index) {
                   <div class="custom-image-output-line">
                     <code [ngClass]="i===0 ? 'message' : 'log'">{{ line }}</code>

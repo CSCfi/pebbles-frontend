@@ -65,7 +65,6 @@
       }
 
       &.failed {
-
         .custom-image-state-in-progress {
           display: none !important;
         }
@@ -135,10 +134,14 @@
       background: var(--neut-clr-9);
 
       .output-label {
-        @include uis.icon($icon: terminal, $color: var(--acc-clr-3));
+        @include uis.icon($icon: terminal, $color: var(--acc-clr-3), $gap: 5px);
         position: relative;
         float: right;
         cursor: pointer;
+        width: auto;
+        text-transform: uppercase;
+        color: var(--acc-clr-3);
+        font-size: 1rem;
       }
 
       .custom-image-output-line {
@@ -169,7 +172,6 @@
       width: 100%;
       display: block;
       @include base.text-wrap;
-      background: var(--gray-clr-0);
       padding: 5px;
     }
   }

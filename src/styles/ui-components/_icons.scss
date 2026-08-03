@@ -83,6 +83,8 @@
   }
 
   @if $pos == left {
+    align-items: center;
+
     &::before {
       flex: 0 0 $width;
       width: $width;
@@ -102,6 +104,8 @@
   }
 
   @if $pos == right {
+    align-items: center;
+
     &::after {
       width: $width;
       height: auto;
