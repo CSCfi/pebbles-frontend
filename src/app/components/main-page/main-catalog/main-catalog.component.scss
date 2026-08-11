@@ -100,4 +100,8 @@
     width: 100%;
     flex: 0 0 auto;
   }
+
+  ::ng-deep.mat-mdc-tab-header .mat-mdc-tab-labels {
+    justify-content: start !important;
+  }
 }

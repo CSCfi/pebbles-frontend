@@ -81,5 +81,9 @@
 @media (max-width: #{base.$mobile-width}) {
   .footer-wrapper {
     flex-direction: column !important;
+
+    dl {
+      flex: 1 1 auto !important;
+    }
   }
 }

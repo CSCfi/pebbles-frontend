@@ -31,6 +31,7 @@ $page-side-padding: 30px;
   --header-height-s: 50px;
   --header-height-h: 160px;
   --tab-header-height: 40px;
+  --mobile-nav-header-height: 40px;
   --container-width: 1250px;
   --content-border: 1px solid var(--gray-clr-3);
   --content-border-neut: 1px solid var(--neut-clr-2);
@@ -43,7 +44,8 @@ $page-side-padding: 30px;
   --mat-expansion-container-shape: 3px;
   --mat-form-field-container-vertical-padding: 5px;
   --mat-form-field-container-height: 40px;
-  --mat-form-field-filled-container-color: var(--neut-clr-0);
+  --mat-form-field-state-layer-color: var(--sec-clr-7);
+  --mat-form-field-filled-container-color: oklch(from var(--prim-clr-0) l c h / 0.5);
   --mat-chip-label-text-color: white;
 
   --mat-button-toggle-divider-color: var(--content-border-neut);
@@ -221,6 +223,12 @@ hr {
   white-space: pre-line;
   word-break: auto-phrase;
   box-sizing: border-box;
+}
+
+@mixin hide-on-mobile {
+  @media (max-width: #{$mobile-width}) {
+    display: none;
+  }
 }
 
 // -------------------- Element centering

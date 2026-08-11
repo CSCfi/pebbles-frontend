@@ -1,6 +1,8 @@
 // ---- main-mobile-nav.component.scss
 
 @use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
 
 .mobile-main-nav {
   display: none;
@@ -14,24 +16,62 @@
     left: 0;
     display: block;
     z-index: 1000;
+
+    &:has(#nav-toggle-btn:checked) .nav-wrapper {
+      display: none;
+    }
   }
 
-  #nav-toggle-btn {
-    display: none;
-  }
-
-  .nav-toggle-label {
-    display: block;
-    visibility: visible !important;
-    padding: 5px 10px 2px;
-    width: 100%;
-    color: white;
+  .mobile-nav-header {
+    @include utils.flex-row-block($type: center, $distribution: space-between, $gap: 10px, $wrap: false, $padding: 0 10px);
     background: var(--prim-clr-9);
-    text-align: center;
-    
+    height: var(--mobile-nav-header-height);
 
-    &.mobile-nav-closed {
-      width: 50px;
+    .brand {
+      @include utils.flex-row-block($type: center, $distribution: flex-start, $gap: 6px, $wrap: false, $padding: 0 15px 0 0);
+      flex: 0 0 auto;
+      height: 100%;
+      min-width: 0;
+      color: white;
+      text-decoration: none;
+    }
+
+    .site-logo {
+      flex: 0 0 20px;
+      width: 22px;
+      height: auto;
+    }
+
+    .site-name {
+      margin: 0;
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      @include base.text-wrap;
+    }
+
+    .page-title {
+      border-left: 1px var(--prim-clr-5) solid;
+      padding-left: 20px;
+      flex: 1 1 auto;
+      min-width: 0;
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: white;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #nav-toggle-btn {
+      display: none;
+    }
+
+    .nav-toggle-label {
+      flex: 0 0 auto;
+      color: white;
+      @include base.centering(xy);
     }
   }
 
@@ -42,22 +82,70 @@
     background: var(--prim-clr-9);
 
     li {
-      padding: 3px 10px;
+      padding: 5px 10px 5px 15px;
+      border-left: 6px solid transparent;
       color: white;
+      @include base.centering(y);
 
       a {
         display: inline-flex;
         gap: 5px;
         cursor: pointer;
+        width: 100%;
+
+        &.active {
+          font-weight: 700;
+        }
       }
+
+      &:has(a.active) {
+        background-color: rgb(255, 255, 255, 0.1);
+        border-left-color: var(--sec-clr-6);
+      }
+    }
+
+    li.nav-group-start {
+      margin-top: 5px;
+      padding-top: 10px;
+      border-top: 1px solid var(--gray-clr-3);
     }
   }
 
-  #nav-toggle-btn:checked + .nav-toggle-label + .nav-wrapper {
-    display: none;
+  .nav-menu {
+    @include uis.deco-text($icon: menu, $icon-type: 'Icons', $inline: true);
   }
 
-  #nav-toggle-btn + .nav-toggle-label + .nav-wrapper {
-    display: block;
+  .nav-catalog {
+    @include uis.deco-text($icon: import_contacts, $icon-type: 'Icons', $inline: true);
   }
+
+  .nav-workspaces {
+    @include uis.deco-text($icon: apps, $icon-type: 'Icons', $inline: true);
+  }
+
+  .nav-manage-workspaces {
+    @include uis.deco-text($icon: app_registration, $icon-type: 'Icons', $inline: true);
+  }
+
+  .nav-active-sessions {
+    @include uis.deco-text($icon: dns, $icon-type: 'Icons', $inline: true);
+  }
+
+  .nav-messages {
+    @include uis.deco-text($icon: mail, $icon-type: 'Icons', $inline: true);
+    --mat-badge-container-offset: -22px 5px;
+  }
+
+  .nav-help {
+    @include uis.deco-text($icon: help_outline, $icon-type: 'Icons', $inline: true);
+  }
+
+  .nav-account {
+    @include uis.deco-text($icon: person_outline, $icon-type: 'Icons', $inline: true);
+  }
+
+  .nav-logout {
+    @include uis.deco-text($icon: exit_to_app, $icon-type: 'Icons', $inline: true);
+  }
+
 }

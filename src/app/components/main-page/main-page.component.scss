@@ -62,10 +62,8 @@
     }
   }
 
-  // Use `dvh` for the page wrapper height on mobile so the cap matches the
-  // visible viewport — mobile browsers count the address bar in `vh`, which
-  // would push the inner scrollbar's bottom off-screen.
   .main-page-wrapper {
     height: 100dvh;
+    padding-top: var(--mobile-nav-header-height);
   }
 }

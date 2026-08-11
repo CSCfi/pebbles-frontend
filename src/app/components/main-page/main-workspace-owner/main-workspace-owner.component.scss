@@ -197,6 +197,7 @@
     .title {
       @include base.centering(xy);
       height: var(--header-height);
+      @include base.hide-on-mobile;
 
       @media (max-width: #{base.$tablet-width-workspace-owner}) {
         height: var(--header-height-s);

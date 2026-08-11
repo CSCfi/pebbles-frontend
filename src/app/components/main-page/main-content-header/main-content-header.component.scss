@@ -19,6 +19,7 @@
     flex: 1 0 auto;
     font-size: 2.4rem !important;
     color: var(--neut-clr-8);
+    @include base.hide-on-mobile;
   }
 
   form {
@@ -29,11 +30,9 @@
 
 @media (max-width: #{base.$mobile-width}) {
   .content-header {
-    display: block !important;
-    margin-bottom: 10px;
-  }
-
-  h3 {
-    margin-left: 50px;
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
   }
 }

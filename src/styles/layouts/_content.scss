@@ -8,9 +8,6 @@
   .content-container {
     @include utils.flex-col-block($gap: $gap);
 
-    // `dvh` so the content-container fits the visible viewport on mobile
-    // (vh includes the address bar, which pushes the inner scrollbar past
-    // the screen). On desktop dvh and vh are equal — no behavioral change.
     height: calc(100dvh - var(--header-height));
     max-height: calc(100dvh - var(--header-height));
     flex: 1 0 auto;
@@ -67,6 +64,9 @@
   @media (max-width: base.$mobile-width) {
     .content-container {
       padding-top: 0;
+      // ----overwriting $is-widen 0 padding
+      padding-left: 15px;
+      padding-right: 15px;
       @if $is-scrolling {
         // Let flex-grow size the scroll area to whatever's left in the
         // page-container after the content-header.

@@ -8,7 +8,7 @@
   width: 100%;
 
   .brand {
-    @include utils.flex-row-block($gap: 15px, $distribution: center,
+    @include utils.flex-row-block($gap: 12px, $distribution: center, $type: flex-end,
     $padding: 20px 10px 10px 25px, $wrap: false,);
     width: 100%;
 
@@ -25,15 +25,13 @@
     .site-name {
       position: relative;
       flex: 1 1 auto;
-      line-height: 110%;
-      text-transform: capitalize;
+      line-height: 100%;
       overflow-wrap: break-word;
       word-break: break-word;
     }
 
     .owner-name {
       @include base.headline-6;
-      text-transform: uppercase;
     }
   }
 

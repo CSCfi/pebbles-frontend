@@ -1,65 +1,61 @@
 <nav class="mobile-main-nav">
-  <input [(ngModel)]="isMobileNavInvisible" [checked]="isMobileNavInvisible" id="nav-toggle-btn" type="checkbox">
-  <label [ngClass]="{'mobile-nav-closed':isMobileNavInvisible}" class="nav-toggle-label button" for="nav-toggle-btn">
-    <mat-icon fontSet="material-icons-outlined">menu</mat-icon>
-  </label>
+  <div class="mobile-nav-header">
+    <a [routerLink]="['/main/catalog']" class="brand">
+      <img alt="site-logo" class="site-logo" src="assets/images/logo/site-logo.svg">
+      <h2 class="site-name">{{ publicConfigService.getInstallationName() }}</h2>
+    </a>
+    <h3 class="page-title">{{ pageTitle }}</h3>
+    <input [(ngModel)]="isMobileNavInvisible" [checked]="isMobileNavInvisible" id="nav-toggle-btn" type="checkbox"
+           aria-label="Toggle navigation menu">
+    <label class="nav-toggle-label nav-menu" for="nav-toggle-btn" aria-label="Toggle navigation menu">
+    </label>
+  </div>
   <ul class="nav-wrapper">
     <li>
-      <a [routerLink]="['/main/catalog']">
-        <mat-icon fontSet="material-icons-outlined">import_contacts</mat-icon>
+      <a [routerLink]="['/main/catalog']" class="nav-catalog" routerLinkActive="active">
         Applications
       </a>
     </li>
     <li>
-      <a [routerLink]="['/main/my-workspaces']">
-        <mat-icon fontSet="material-icons-outlined">apps</mat-icon>
+      <a [routerLink]="['/main/my-workspaces']" class="nav-workspaces" routerLinkActive="active">
         My workspaces
       </a>
     </li>
     @if (authService.isWorkspaceOwner) {
-      <hr>
-      <li>
-        <a [routerLink]="['/main/workspace-owner']">
-          <mat-icon fontSet="material-icons-outlined">app_registration</mat-icon>
+      <li class="nav-group-start">
+        <a [routerLink]="['/main/workspace-owner']" class="nav-manage-workspaces" routerLinkActive="active">
           Manage workspaces
         </a>
       </li>
       <li>
-        <a [routerLink]="['/main/active-sessions']">
-          <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
+        <a [routerLink]="['/main/active-sessions']" class="nav-active-sessions" routerLinkActive="active">
           Active sessions
         </a>
       </li>
-      <hr>
     }
-    <li>
-      <a [routerLink]="['/main/messages']">
-        <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
-        <mat-icon [attr.aria-hidden]="getUnreadMessages().length === 0"
-                  [matBadgeHidden]="getUnreadMessages().length === 0"
-                  [matBadge]="getUnreadMessages().length" aria-hidden="false"
-                  fontSet="material-icons-outlined"
-                  matBadgeColor="warn">
-          mail
-        </mat-icon>
-        Messages
+    <li [class.nav-group-start]="authService.isWorkspaceOwner">
+      <a [routerLink]="['/main/messages']"
+         class="nav-messages"
+         routerLinkActive="active">
+        @let unreadCount = getUnreadMessages().length;
+        <span [matBadgeHidden]="unreadCount === 0"
+              [matBadge]="unreadCount"
+              matBadgeColor="warn"
+              matBadgeOverlap="false">Messages</span>
       </a>
     </li>
     <li>
-      <a [routerLink]="['/main/help']">
-        <mat-icon fontSet="material-icons-outlined">help_outline</mat-icon>
+      <a [routerLink]="['/main/help']" class="nav-help" routerLinkActive="active">
         Help
       </a>
     </li>
-    <li class="nav-user">
-      <a [routerLink]="['/main/account']">
-        <mat-icon fontSet="material-icons-outlined">person_outline</mat-icon>
+    <li class="nav-user nav-group-start">
+      <a [routerLink]="['/main/account']" class="nav-account" routerLinkActive="active">
         {{ userName }}
       </a>
     </li>
     <li>
-      <a (click)="authService.logout()">
-        <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
+      <a (click)="authService.logout()" class="nav-logout">
         Logout
       </a>
     </li>

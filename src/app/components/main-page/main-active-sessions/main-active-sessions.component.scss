@@ -166,11 +166,4 @@
   .table-container {
     padding-bottom: 50px;
   }
-
-  // Push the session-details view down so the back button isn't covered by
-  // the fixed-position `app-main-mobile-nav` strip. Other views are saved by
-  // their content-header which already reserves enough top space.
-  .active-session-details {
-    padding-top: 40px;
-  }
 }

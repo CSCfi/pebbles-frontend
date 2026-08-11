@@ -1,8 +1,9 @@
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message } from '../../../models/message';
 import { MessageService } from '../../../services/message.service';
+import { PublicConfigService } from '../../../services/public-config.service';
 
 @Component({
   selector: 'app-main-mobile-nav',
@@ -14,10 +15,12 @@ export class MainMobileNavComponent implements OnInit {
   router = inject(Router);
   authService = inject(AuthService);
   messageService = inject(MessageService);
-  private elementRef = inject(ElementRef);
-
-
+  publicConfigService = inject(PublicConfigService);
+  pageTitle = '';
   isMobileNavInvisible = true;
+
+  private elementRef = inject(ElementRef);
+  private activatedRoute = inject(ActivatedRoute);
 
   get userName(): string {
     return this.authService.getUserName();
@@ -27,8 +30,17 @@ export class MainMobileNavComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isMobileNavInvisible = true;
+        this.updatePageTitle();
       }
     });
+  }
+
+  private updatePageTitle(): void {
+    let route = this.activatedRoute.snapshot;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    this.pageTitle = route.data['title'] ?? '';
   }
 
   @HostListener('document:click', ['$event'])
