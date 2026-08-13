@@ -87,6 +87,14 @@
 .mat-column-thumbnail {
   @include uis.table-width-fix($width: 100px, $align: center);
 
+  .thumbnail-placeholder {
+    margin-top: 15px;
+
+    fa-icon {
+      margin-bottom: 5px;
+    }
+  }
+
   .application-type-name {
     color: var(--neut-clr-6);
     font-weight: 600;
