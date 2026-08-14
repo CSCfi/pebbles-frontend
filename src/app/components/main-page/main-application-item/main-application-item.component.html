@@ -12,10 +12,13 @@
          class="card-media-container">
       <div class="thumbnail">
         <div>
+          @let appIcon = applicationIcon;
           @if (isCustomLinuxIconAvailable) {
             <app-custom-linux-icon></app-custom-linux-icon>
+          } @else if (appIcon.set === 'mat') {
+            <mat-icon fontSet="material-icons-outlined">{{ appIcon.name }}</mat-icon>
           } @else {
-            <fa-icon [icon]="applicationIcon" [ngClass]="applicationIcon"></fa-icon>
+            <fa-icon [icon]="appIcon.icon" [ngClass]="appIcon.icon"></fa-icon>
           }
         </div>
         <h4>{{ applicationTypeName }}</h4>

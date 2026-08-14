@@ -111,6 +111,16 @@
     }
   }
 
+  .thumbnail mat-icon {
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    font-size: 3.4rem;
+    line-height: 1;
+    color: var(--neut-clr-6);
+  }
+
   &.published {
     .application-type-name {
       color: var(--prim-clr-6);
@@ -122,7 +132,8 @@
               $width: 80px, $rounded: true, $margin: 5px auto);
     }
 
-    .thumbnail fa-icon {
+    .thumbnail fa-icon,
+    .thumbnail mat-icon {
       color: var(--prim-clr-6);
     }
   }

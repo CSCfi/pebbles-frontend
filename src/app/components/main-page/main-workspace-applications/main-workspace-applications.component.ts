@@ -4,12 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Data, Router } from '@angular/router';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Subscription } from 'rxjs';
 import { Application } from 'src/app/models/application';
 import { ApplicationType } from 'src/app/models/application-template';
 import { Workspace } from "src/app/models/workspace";
-import { ApplicationService } from 'src/app/services/application.service';
+import { AppIcon, ApplicationService } from 'src/app/services/application.service';
 import { EventService } from 'src/app/services/event.service';
 import { PublicConfigService } from 'src/app/services/public-config.service';
 import { SystemNotificationService } from 'src/app/services/system-notification.service';
@@ -243,7 +242,7 @@ export class MainWorkspaceApplicationsComponent implements OnInit, OnDestroy, On
     });
   }
 
-  getApplicationIcon(labels: string[]): IconProp {
+  getApplicationIcon(labels: string[]): AppIcon {
     return this.applicationService.getApplicationIcon(labels);
   }
 

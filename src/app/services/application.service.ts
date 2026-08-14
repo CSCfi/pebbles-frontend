@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { IconName, IconPrefix, IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Application } from 'src/app/models/application';
@@ -11,6 +12,12 @@ import { ApplicationSessionService } from './application-session.service';
 import { EventService } from './event.service';
 
 
+// Application icon from FontAwesome ('fa') or Material ('mat')
+export type AppIcon =
+  | { set: 'fa'; icon: IconProp }
+  | { set: 'mat'; name: string };
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +25,7 @@ export class ApplicationService implements OnDestroy {
   private http = inject(HttpClient);
   private applicationSessionService = inject(ApplicationSessionService);
   private eventService = inject(EventService);
+  private iconLibrary = inject(FaIconLibrary);
 
 
   private applications: Application[] = null;
@@ -191,36 +199,49 @@ export class ApplicationService implements OnDestroy {
     return app.info.shared_folder_enabled;
   }
 
-  getApplicationIcon(labels: string[]): IconProp {
+  getApplicationIcon(labels: string[]): AppIcon {
+    const icon = this.resolveApplicationIcon(labels);
+    if (icon.set === 'fa') {
+      const [prefix, name] = icon.icon as [IconPrefix, IconName];
+      if (!this.iconLibrary.getIconDefinition(prefix, name)) {
+        console.warn(`Application icon "${prefix} ${name}" is not registered; falling back to 'book'.`);
+        return {set: 'fa', icon: ['fas', 'book']};
+      }
+    }
+    return icon;
+  }
+
+  private resolveApplicationIcon(labels: string[]): AppIcon {
     const has = Utilities.labelMatcher(labels);
     if (has('js') || has('javascript')) {
-      return ['fab', 'js'];
+      return {set: 'fa', icon: ['fab', 'js']};
     } else if (has('markup') || has('html')) {
-      return ['fas', 'code'];
+      return {set: 'fa', icon: ['fas', 'code']};
     } else if (has('linux')) {
-      return ['fab', 'linux'];
+      return {set: 'fa', icon: ['fab', 'linux']};
     } else if (has('ai') || has('deep learning')) {
-      return ['fas', 'brain'];
+      return {set: 'fa', icon: ['fas', 'brain']};
     } else if (has('gis') || has('geo') || has('geospatial')) {
-      return ['fas', 'map-location-dot'];
+      return {set: 'fa', icon: ['fas', 'map-location-dot']};
     } else if (has('machine learning')) {
-      return ['fas', 'circle-nodes'];
+      return {set: 'fa', icon: ['fas', 'circle-nodes']};
     } else if (has('quantum computing')) {
-      return ['fas', 'atom'];
+      return {set: 'fa', icon: ['fas', 'atom']};
     } else if (has('bio') || has('bio informatics')) {
-      return ['fas', 'dna'];
+      return {set: 'fa', icon: ['fas', 'dna']};
     } else if (has('nlp') || has('natural language processing')) {
-      return ['fas', 'language'];
+      return {set: 'fa', icon: ['fas', 'language']};
     } else if (has('r') || has('rstudio')) {
-      return ['fab', 'r-project'];
+      return {set: 'fa', icon: ['fab', 'r-project']};
     } else if (has('data analytics') || has('data science') || has('analytics')) {
-      return ['fas', 'chart-column'];
+      return {set: 'fa', icon: ['fas', 'chart-column']};
     } else if (has('python')) {
-      return ['fab', 'python'];
+      return {set: 'fa', icon: ['fab', 'python']};
     } else if (has('command') || has('terminal') || has('cli')) {
-      return ['fas', 'terminal'];
+      // Material icon — clearer than the FontAwesome terminal glyph.
+      return {set: 'mat', name: 'terminal'};
     } else {
-      return ['fas', 'book'];
+      return {set: 'fa', icon: ['fas', 'book']};
     }
   }
 

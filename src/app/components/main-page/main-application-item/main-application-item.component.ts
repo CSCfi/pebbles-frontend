@@ -1,9 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
 import { Data } from '@angular/router';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Application } from 'src/app/models/application';
 import { MembershipType } from '../../../models/workspace';
-import { ApplicationService } from '../../../services/application.service';
+import { AppIcon, ApplicationService } from '../../../services/application.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
 
@@ -23,7 +22,8 @@ export class MainApplicationItemComponent {
   @Input() isSessionDeleted = false;
 
   get isCustomLinuxIconAvailable() {
-    return this.applicationService.getApplicationIcon(this.application.labels)[1] === 'linux';
+    const icon = this.applicationService.getApplicationIcon(this.application.labels);
+    return icon.set === 'fa' && icon.icon[1] === 'linux';
   };
 
   get expirationDateGap(): number {
@@ -60,7 +60,7 @@ export class MainApplicationItemComponent {
     return this.workspaceService.getWorkspaceById(this.application.workspace_id);
   }
 
-  get applicationIcon(): IconProp {
+  get applicationIcon(): AppIcon {
     return this.applicationService.getApplicationIcon(this.application.labels);
   }
 

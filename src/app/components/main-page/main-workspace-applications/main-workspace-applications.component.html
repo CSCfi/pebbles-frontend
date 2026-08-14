@@ -66,8 +66,12 @@
                   mat-cell>
                 <div class="thumbnail-placeholder">
                   <div class="thumbnail">
-                    <fa-icon [icon]="getApplicationIcon(element.labels)"
-                             [ngClass]="getApplicationIcon(element.labels)"></fa-icon>
+                    @let appIcon = getApplicationIcon(element.labels);
+                    @if (appIcon.set === 'mat') {
+                      <mat-icon fontSet="material-icons-outlined">{{ appIcon.name }}</mat-icon>
+                    } @else {
+                      <fa-icon [icon]="appIcon.icon" [ngClass]="appIcon.icon"></fa-icon>
+                    }
                     <span class="application-type-name">{{ getApplicationTypeName(element.type, element.labels) }}</span>
                   </div>
                 </div>
