@@ -21,10 +21,9 @@ export class MainApplicationItemComponent {
   @Input() context: Data;
   @Input() isSessionDeleted = false;
 
-  get isCustomLinuxIconAvailable() {
-    const icon = this.applicationService.getApplicationIcon(this.application.labels);
+  isLinuxIcon(icon: AppIcon): boolean {
     return icon.set === 'fa' && icon.icon[1] === 'linux';
-  };
+  }
 
   get expirationDateGap(): number {
     if (!this.application.info.workspace_expiry_ts) {

@@ -13,7 +13,7 @@
       <div class="thumbnail">
         <div>
           @let appIcon = applicationIcon;
-          @if (isCustomLinuxIconAvailable) {
+          @if (isLinuxIcon(appIcon)) {
             <app-custom-linux-icon></app-custom-linux-icon>
           } @else if (appIcon.set === 'mat') {
             <mat-icon fontSet="material-icons-outlined">{{ appIcon.name }}</mat-icon>

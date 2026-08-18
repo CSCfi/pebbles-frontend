@@ -201,10 +201,10 @@ export class ApplicationService implements OnDestroy {
 
   getApplicationIcon(labels: string[]): AppIcon {
     const icon = this.resolveApplicationIcon(labels);
+    // ---- Falling back for not registered icon in fontawesome
     if (icon.set === 'fa') {
       const [prefix, name] = icon.icon as [IconPrefix, IconName];
       if (!this.iconLibrary.getIconDefinition(prefix, name)) {
-        console.warn(`Application icon "${prefix} ${name}" is not registered; falling back to 'book'.`);
         return {set: 'fa', icon: ['fas', 'book']};
       }
     }
