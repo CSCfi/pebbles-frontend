@@ -4,7 +4,7 @@
 @use 'utilities' as utils;
 
 @include uis.mini-chips;
-@include uis.card($direction: row, $height: base.$application-card-height);
+@include uis.card($direction: row, $height: base.$application-card-height, $y-align: flex-start);
 
 :host {
   width: 100%;
@@ -19,15 +19,16 @@
 
   .card-media-container {
     @include base.centering(xy);
+    margin: 0;
     flex: 0 0 base.$application-card-media-width;
-    max-height: base.$application-card-height + 10px;
+    min-height: base.$application-card-height;
     color: white;
-    background: var(--sec-clr-5);
-    border-radius: 3px 0 0 3px;
+    background: oklch(from var(--sec-clr-6) l c h / 0.8);
 
     .thumbnail {
-      @include utils.flex-col-block($gap: 5px);
+      @include utils.flex-col-block($gap: 8px);
       text-align: center;
+      padding-top: 10px;
 
       > div {
         @include base.centering(xy);
@@ -36,7 +37,7 @@
 
     .thumbnail fa-icon {
       width: auto;
-      font-size: 4rem;
+      font-size: 4.2rem;
 
       &.linux {
         font-size: 5.2rem;
@@ -55,51 +56,79 @@
   .card-middle-container {
     @include utils.flex-row-block($gap: 0, $type: stretch, $wrap: false);
     flex: 0 1 base.$container-width - base.$application-card-media-width - base.$application-card-action-width;
+    // ---- Fill the card's full height
+    align-self: stretch;
 
     .card-main-content {
-      @include utils.flex-col-block($gap: 0, $type: stretch);
+      @include utils.flex-col-block($gap: 5px, $type: stretch);
+      margin-left: #{base.$application-card-content-padding};
+      margin-right: #{base.$application-card-content-padding};
       flex: 2 1 600px;
 
       .mat-mdc-card-header {
-        flex: 0 0 base.$application-card-header-height;
-        padding: 10px 4px 2px base.$application-card-content-padding;
+        flex: 1 0 auto;
+        min-height: base.$application-card-header-height;
+        @include utils.flex-row-block($type: flex-end);
+
+        .title {
+          display: -webkit-box;
+          overflow: hidden;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow-wrap: break-word;
+          min-width: 0;
+        }
       }
 
-      app-card-description {
-        margin-bottom: 15px;
+      .card-info-container {
+        @include utils.flex-col-block($gap: 0, $type: stretch, $padding: 0);
+        flex: 4 0 auto;
       }
     }
 
+    // ---- Keep the labels on a single line; overflow is truncated with an ellipsis.
+    // ---- In tablet mode, it allows multiple lines.
     .mini-chips {
-      margin-bottom: 10px;
+      margin-top: auto;
+      margin-bottom: 8px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .chip {
+        display: inline-block;
+        margin-right: 4px;
+      }
     }
 
     .card-meta-content {
-      @include utils.flex-col-block($gap: 0, $type: stretch);
+      @include utils.flex-col-block($gap: 8px, $type: stretch);
       flex: 1 0 275px;
-      padding: 0 !important;
+      padding: 10px #{base.$application-card-content-padding} 2px;
       border-left: var(--content-border-neut);
 
       .workspace-info {
-        @include utils.flex-col-block($gap: 5px);
+        @include utils.flex-col-block($gap: 3px, $padding: 0 0 5px);
+        flex: 0 1 auto;
         min-height: base.$application-card-header-height;
-        padding: 10px base.$application-card-content-padding 4px base.$application-card-content-padding;
       }
 
       .workspace-name {
         font-weight: 600;
+        overflow-wrap: break-word;
 
         .shared-workspace-name {
-          @include uis.deco-text($font-size: 1.4rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
+          @include uis.deco-text($font-size: 1.2rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
         }
 
         .public-workspace-name {
-          @include uis.deco-text($color: var(--sec-clr-6), $font-size: 1.4rem, $icon: public, $icon-type: 'Icons', $icon-size: 2rem, $gap: 3px);
+          @include uis.deco-text($color: var(--sec-clr-6), $font-size: 1.2rem, $icon: public, $icon-type: 'Icons', $icon-size: 2rem, $gap: 3px);
         }
       }
 
       .expiry-date {
-        @include uis.deco-text($font-size: 1.3rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
+        @include uis.deco-text($font-size: 1.2rem, $icon: calendar_month, $icon-type: 'Symbols', $icon-size: 1.8rem, $icon-weight: 500, $gap: 3px);
 
         .expiry-warning {
           padding: 1px 8px;
@@ -111,12 +140,12 @@
       }
 
       .application-meta {
-        @include utils.flex-col-block($gap: 5px);
-        padding: 10px base.$application-card-content-padding 2px base.$application-card-content-padding;
+        @include utils.flex-col-block($gap: 4px);
+        padding: 0;
       }
 
       .volumes {
-        @include utils.flex-row-block($gap: 5px 20px, $distribution: start);
+        @include utils.flex-row-block($gap: 3px 10px, $distribution: start);
 
         .shared-volume,
         .mywork-volume {
@@ -137,8 +166,9 @@
   }
 
   .mat-mdc-card-actions {
-    @include utils.flex-col-block($gap: 0, $type: stretch, $y-alignment: center);
+    @include utils.flex-col-block($gap: 0, $type: stretch, $y-alignment: start);
     flex: 0 0 base.$application-card-action-width;
+    align-self: stretch;
     border-left: var(--content-border-neut);
   }
 }
@@ -149,7 +179,7 @@
   }
 
   .card-media-container {
-    background: var(--prim-clr-6);
+    background: oklch(from var(--prim-clr-6) l c h / 0.8) !important;
   }
 }
 
@@ -159,18 +189,18 @@
   app-card-description {
     --card-bg: var(--gray-clr-0);
     --toggle-clr: var(--gray-clr-4);
-    color: var(--gray-clr-4) !important;
   }
 
   .application-name,
   .workspace-name,
+  app-card-description,
   .application-meta,
   .mini-chips > span {
     color: var(--gray-clr-4) !important;
   }
 
   .card-media-container {
-    background: var(--gray-clr-3);
+    background: oklch(from var(--gray-clr-3) l c h / 0.8) !important;
   }
 }
 
@@ -183,28 +213,34 @@
 // ----- Tablet
 @media (max-width: base.$tablet-width) {
   .card-media-container {
-    height: 110px;
+    min-height: 110px;
   }
 
   .card-middle-container {
     display: block !important;
-    border-left: var(--content-border-neut);
 
     .card-main-content {
       border-right: none !important;
+      margin-top: 4px;
+      margin-bottom: 4px;
     }
 
     .card-meta-content {
       border-left: none !important;
+      // ---- Tablet: no top padding, extra breathing room at the bottom.
+      padding: 0 #{base.$application-card-content-padding} 12px !important;
+    }
+
+    // ---- Tablet: let the labels wrap onto multiple lines instead of truncating.
+    .mini-chips {
+      white-space: normal !important;
+      overflow: visible !important;
     }
 
     .application-meta {
       flex-direction: row !important;
-      gap: 20px !important;
-
-      .volumes {
-        margin-bottom: 10px;
-      }
+      align-items: flex-start;
+      gap: 6px 10px !important;
     }
   }
 

@@ -45,7 +45,7 @@
               <mat-card-header class="lifecycle-corner-banner">
                 <mat-card-title
                     [matTooltip]="getMembershipType(workspace)">
-                  <h3 class="title">{{ workspace.name }}</h3>
+                  <h3 [class.long-title]="workspace.name?.length > 25" class="title">{{ workspace.name }}</h3>
                   @if (isWorkspaceSelected(workspace)) {
                     <div
                         class="workspace-selected-arrow">

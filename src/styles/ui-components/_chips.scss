@@ -65,13 +65,12 @@ $background: transparent, $border: none, $wrap: false) {
 }
 
 @mixin chip(
-  $color: var(--neut-clr-6), $background: var(--neut-clr-1), $padding: 2px 4px 4px 6px,
+  $color: var(--neut-clr-6), $background: var(--neut-clr-1), $padding: 1px 4px 3px 5px,
   $border: 1px solid var(--neut-clr-2), $width: auto, $rounded: false, $margin: none) {
   padding: $padding;
   font-size: 1.1rem;
   line-height: 1;
   color: $color;
-  letter-spacing: 1px;
   text-decoration: none;
   background-color: $background;
   border: $border;

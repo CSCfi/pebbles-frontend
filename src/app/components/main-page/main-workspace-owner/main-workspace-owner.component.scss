@@ -246,6 +246,10 @@
           width: 100%;
         }
 
+        .mat-mdc-card-title {
+          flex: 1;
+        }
+
         .title {
           @include uis.deco-text($color: var(--prim-clr-7), $icon: apps, $icon-type: 'Icons');
           flex-wrap: nowrap;

@@ -2,7 +2,6 @@
 
 :host {
   display: block;
-  margin-bottom: 8px;
 }
 
 .description-wrapper {
@@ -12,7 +11,7 @@
 .description {
   @include uis.common-link;
   font-size: 1.25rem;
-  line-height: 1.6;
+  line-height: 1.4;
   // ---- Inherit the card's text colour so hosts (e.g. expired cards) can grey it out.
   color: inherit;
   overflow-wrap: break-word;

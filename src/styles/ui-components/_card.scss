@@ -2,15 +2,16 @@
 @use 'utilities' as utils;
 @use 'base-styles' as base;
 
-@mixin card($direction: col, $height: auto) {
+@mixin card($direction: col, $height: auto, $y-align: stretch, $title-font-size: 1.7rem) {
 
   .mat-mdc-card {
     min-height: $height;
     color: var(--neut-clr-8);
     border-radius: 3px;
+    overflow: hidden;
 
     @if $direction == row {
-      @include utils.flex-row-block($type: stretch, $gap: 0, $wrap: false);
+      @include utils.flex-row-block($type: $y-align, $gap: 0, $wrap: false);
       @media (max-width: base.$mobile-width) {
         @include utils.flex-col-block($type: space-between, $gap: 0);
       }
@@ -20,24 +21,38 @@
 
     .mat-mdc-card-header {
       justify-content: space-between;
-      padding: 10px 4px 2px 15px;
+      padding: 10px 4px 2px base.$application-card-content-padding;
       border-bottom: var(--content-border-neut);
+      line-height: 100% !important;
 
       .mat-mdc-card-title {
-        @include utils.flex-row-block($gap: 10px);
+        @include utils.flex-row-block($gap: 10px, $wrap: false);
+        line-height: 110%;
+
+        h3 {
+          line-height: inherit;
+        }
       }
 
-      .mat-mdc-card-header-text {
+      ::ng-deep .mat-mdc-card-header-text {
         @include base.centering(y);
       }
 
       .title {
-        font-size: 1.7rem !important;
+        font-size: $title-font-size;
+
+        // ---- Long names (toggled by [class.long-title])
+        &.long-title {
+          font-size: 1.4rem !important;
+          line-height: 125% !important;
+          padding-top: 5px;
+        }
       }
     }
 
     mat-card-content {
-      padding: 10px 4px 6px base.$application-card-content-padding;
+      @include utils.flex-col-block($padding: 4px 4px 6px base.$application-card-content-padding);
+      flex: 1;
       font-weight: 500;
       color: var(--gray-clr-6);
     }

@@ -5,8 +5,8 @@
   position: relative;
   width: 120px;
   height: 120px;
-  margin: auto;
   overflow: hidden;
+  margin: base.$card-frame-width auto 0 auto;
 
   button {
     &.launch-button {

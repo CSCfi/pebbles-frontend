@@ -14,12 +14,13 @@ $welcome-header-height: 50px;
 $content-header-height: 75px;
 $content-header-height-s: 50px;
 $content-header-height-h: 160px;
-$application-card-height: 135px;
-$application-card-media-width: 110px;
+
+$card-frame-width: 4px;
+$application-card-height: 130px;
+$application-card-media-width: 120px;
 $application-card-action-width: 140px;
-$application-card-header-height: 35px;
-$application-card-content-padding: 20px;
-$application-card-labels-height: 30px;
+$application-card-header-height: 30px;
+$application-card-content-padding: 15px;
 $page-side-padding: 30px;
 
 @media (max-width: $tablet-width) {

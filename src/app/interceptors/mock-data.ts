@@ -439,7 +439,7 @@ export let db = {
     },
     {
       id: '18',
-      name: 'Archived Genome Assembly Notebook (expired workspace)',
+      name: 'Archived Genome Assembly Notebook Archived Genome Assembly Notebook Archived (expired workspace)',
       description: 'Jupyter environment with genome-assembly and variant-calling libraries from the retired 2019 Bioinformatics Workshop. The description is deliberately verbose so the three-line clamp, the tail fade and the "Show more / Show less" toggle can be checked on an application card whose workspace has expired. It also contains a <a href=\'https://research.csc.fi\'>reference link</a> to confirm link styling survives the shared component extraction.',
       maximum_lifetime: '36000',
       workspace_id: '7',
@@ -934,7 +934,7 @@ export let db = {
       join_code: 'admin-ws-join-parm0-wuuig',
       description: 'System default workspace',
       create_ts: 1616572104,
-      expiry_ts: 1632124104,
+      expiry_ts: 0,
       application_quota: 10,
       memory_limit_gib: 50,
       owner_ext_id: 'admin@example.org',

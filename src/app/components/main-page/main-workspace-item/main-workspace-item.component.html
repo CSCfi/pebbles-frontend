@@ -22,12 +22,12 @@
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title>
-          <h3 [innerHTML]="workspace.name" [ngClass]="{badge:isNew}"
-              class="title"></h3>
+          <h3 [innerHTML]="workspace.name" [ngClass]="{badge:isNew}" class="title"></h3>
         </mat-card-title>
         <button [matMenuTriggerFor]="menu" aria-label="open menu" class="workspace-item-menu" matIconButton></button>
         <mat-menu #menu="matMenu">
-          <button (click)="exitWorkspace()" [disabled]="workspace.membership_type === 'public'" aria-label="workspace delete"
+          <button (click)="exitWorkspace()" [disabled]="workspace.membership_type === 'public'"
+                  aria-label="workspace delete"
                   mat-menu-item matTooltip="Leave Workspace">
             <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
             Exit workspace
