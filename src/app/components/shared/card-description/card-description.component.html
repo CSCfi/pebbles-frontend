@@ -1,0 +1,24 @@
+<div class="description-wrapper">
+  <div #descriptionEl
+       [id]="descriptionId"
+       [class.expanded]="isExpanded"
+       [innerHTML]="html"
+       class="description">
+  </div>
+  @if (isOverflowing && !isExpanded) {
+    <div class="description-fade"></div>
+  }
+  @if (isOverflowing || isExpanded) {
+    <button (click)="toggle($event)"
+            [class.expanded]="isExpanded"
+            [attr.aria-controls]="descriptionId"
+            [attr.aria-expanded]="isExpanded"
+            class="description-toggle"
+            type="button">
+      @if (!isExpanded) {
+        <span class="description-ellipsis">&nbsp;…&nbsp;</span>
+      }
+      <span class="toggle-label">{{ isExpanded ? 'Show less' : 'Show more' }}</span>
+    </button>
+  }
+</div>

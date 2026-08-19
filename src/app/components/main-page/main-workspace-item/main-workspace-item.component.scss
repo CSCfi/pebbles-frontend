@@ -5,6 +5,11 @@
 @use 'utilities' as utils;
 @use 'layouts' as layouts;
 
+// ---- Tree connector geometry:
+// ---- the trunk rises $tree-rise above each item to meet the previous trunk
+$tree-rise: 75px;
+$tree-branch-y: 150px;
+
 :host {
   display: block;
   width: 100%;
@@ -63,13 +68,13 @@
     @include uis.button($icon: menu, $style: icon);
   }
 
-  .workspace-info {
-    @include utils.flex-row-block($wrap: false, $type: stretch);
-    padding: 0 !important;
+  .mat-mdc-card .workspace-info {
+    @include utils.flex-row-block($wrap: false, $type: stretch, $padding: 0, $gap: 10px);
 
-    .description {
-      flex: 1 1 auto;
-      padding: 8px 25px 12px 45px;
+    app-card-description {
+      padding: 8px 0 0 45px;
+      margin-bottom: 15px;
+      width: 100%;
     }
 
     .workspace-meta {
@@ -80,6 +85,7 @@
       .membership {
         margin-bottom: 5px;
         text-transform: capitalize;
+
         &.owner {
           @include uis.deco-text($color: var(--warn-clr-6), $icon: local_police, $icon-size: 1.8rem, $gap: 4px, $font-size: 1.3rem);
         }
@@ -125,13 +131,28 @@
 
   .tree {
     position: absolute;
-    top: -55%;
+    top: -$tree-rise;
     left: 0;
     width: 50%;
-    height: 110%;
-    min-height: 140px;
-    border-bottom: 3px solid var(--neut-clr-3);
+    height: calc(100% + #{$tree-rise} + 5px);
     border-left: 3px solid var(--neut-clr-3);
+    // ---- not to intercept clicks on the card
+    pointer-events: none;
+
+    // ---- Horizontal branch
+    &::after {
+      content: '';
+      position: absolute;
+      top: $tree-branch-y;
+      left: -3px;
+      width: 100%;
+      border-bottom: 3px solid var(--neut-clr-3);
+    }
+  }
+
+  // ---- Last app branch
+  .application-item:last-child .tree {
+    height: $tree-branch-y;
   }
 
   .application-item {
@@ -174,8 +195,14 @@
       background: var(--gray-clr-5) !important;
     }
 
-    .description {
+    app-card-description {
+      --card-bg: var(--gray-clr-2);
+      --toggle-clr: var(--gray-clr-5);
       color: var(--gray-clr-5);
+    }
+
+    .membership {
+      color: var(--gray-clr-5) !important;
     }
 
     .expiry-date {
@@ -189,12 +216,18 @@
   }
 }
 
+
 // ----- Mobile
 @media (max-width: base.$mobile-width) {
   .workspace-info {
-    .description {
+    app-card-description {
       padding: 8px 15px 12px 20px !important;
     }
+  }
+
+  .workspace-meta {
+    border-top: var(--content-border-neut);
+    border-left: none !important;
   }
 }
 

@@ -1,6 +1,5 @@
 // ---- src/styles/ui-components/_card.scss
 @use 'utilities' as utils;
-@use 'links' as links;
 @use 'base-styles' as base;
 
 @mixin card($direction: col, $height: auto) {
@@ -40,13 +39,6 @@
     mat-card-content {
       padding: 10px 4px 6px base.$application-card-content-padding;
       font-weight: 500;
-      color: var(--gray-clr-6);
-    }
-
-    .description {
-      @include links.common-link;
-      font-size: 1.25rem;
-      line-height: 1.6;
       color: var(--gray-clr-6);
     }
 

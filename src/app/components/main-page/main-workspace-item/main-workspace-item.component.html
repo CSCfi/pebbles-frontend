@@ -46,7 +46,7 @@
         @if (applications === null) {
           <div>...Loading...</div>
         } @else {
-          <div [innerHTML]="workspace.description" class="description"></div>
+          <app-card-description [html]="workspace.description"></app-card-description>
           <div class="workspace-meta">
             <div [ngClass]="membershipType" class="membership">{{ membershipType }}</div>
             <div class="expiry-date">
@@ -67,7 +67,7 @@
     </mat-card>
 
     <mat-expansion-panel #appTree [(expanded)]="panelOpenState">
-      @for (application of applications; track application) {
+      @for (application of applications; track application.id) {
         <div class="application-item">
           <div class="tree"></div>
           <app-main-application-item [application]="application" [context]="context"></app-main-application-item>

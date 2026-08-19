@@ -43,7 +43,7 @@ app-service-announcement {
 
 .workspace-list {
   @include utils.flex-col-block($gap: 20px);
-  padding-bottom: 20px;
+  padding-bottom: 200px;
 }
 
 .join-workspace-button {

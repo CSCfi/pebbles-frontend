@@ -5,7 +5,7 @@
   $color: inherit, $font-size: none, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
   $width: auto, $font-weight: none,
   $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined',
-  $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300
+  $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300, $pos: left
 ) {
   @include base.styled-font;
   @include base.centering($pos: y, $inline: $inline);
@@ -28,7 +28,7 @@
   @if $icon != none {
     @include icon(
             $icon: $icon, $type: $icon-type, $family: $icon-family, $color: $icon-color, $size: $icon-size, $weight: $icon-weight,
-            $pos: left, $gap: $gap);
+            $pos: $pos, $gap: $gap);
   }
 
   @if $highlight != none {
@@ -109,12 +109,13 @@
     &::after {
       width: $width;
       height: auto;
-      margin-left: 8px;
+      margin-left: 0;
       font-family: $font-family, sans-serif;
       font-size: #{$size};
       font-weight: #{$weight};
       color: $color;
       content: '#{$icon}';
+      text-decoration: none !important;
     }
   }
 
@@ -131,6 +132,7 @@
       vertical-align: middle;
       color: $color;
       content: '#{$icon}';
+      text-decoration: none !important;
     }
   }
 }

@@ -255,9 +255,8 @@
         padding: 10px 20px 15px !important;
         border-top: var(--content-border-neut);
 
-        .description {
+        app-card-description {
           margin-bottom: 15px;
-          overflow-wrap: break-word;
         }
 
         @include uis.grid-list($fractions: '110px auto', $gap: 10px 5px, $field-height: 25px);
@@ -285,8 +284,13 @@
       }
     }
 
-    &.deleted {
+    &.deleted-item {
       background-color: var(--neut-clr-2);
+
+      app-card-description {
+        --card-bg: var(--neut-clr-2);
+        --toggle-clr: var(--gray-clr-5);
+      }
     }
 
     &.owner {
@@ -354,6 +358,11 @@
     &.expired-item {
       background-color: var(--neut-clr-2);
       border-left: 8px solid var(--neut-clr-5);
+
+      app-card-description {
+        --card-bg: var(--neut-clr-2);
+        --toggle-clr: var(--gray-clr-5);
+      }
 
       .mat-mdc-card-title .title {
         color: var(--gray-clr-7) !important;

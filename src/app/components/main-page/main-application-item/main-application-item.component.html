@@ -34,7 +34,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="card-info-container">
-          <div [innerHTML]="description" class="description"></div>
+          <app-card-description [html]="description"></app-card-description>
           <div class="mini-chips">
             @for (label of labels.split(','); track $index) {
               <span [ngClass]="{'self-learning':label.trim()==='self-learning'}" class="chip">

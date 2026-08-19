@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DialogComponent } from 'src/app/components/shared/dialog/dialog.component';
+import { CardDescriptionComponent } from './card-description/card-description.component';
 import { ServiceAnnouncementComponent } from './service-announcement/service-announcement.component';
 import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../../environments/environment";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -16,12 +17,14 @@ import { ReactiveFormsModule } from "@angular/forms";
     HeaderComponent,
     FooterComponent,
     DialogComponent,
-    ServiceAnnouncementComponent
+    ServiceAnnouncementComponent,
+    CardDescriptionComponent
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
     ServiceAnnouncementComponent,
+    CardDescriptionComponent,
   ],
   imports: [
     CommonModule,

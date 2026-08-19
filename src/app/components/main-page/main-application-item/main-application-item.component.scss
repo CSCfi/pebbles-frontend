@@ -65,7 +65,7 @@
         padding: 10px 4px 2px base.$application-card-content-padding;
       }
 
-      .description {
+      app-card-description {
         margin-bottom: 15px;
       }
     }
@@ -156,9 +156,14 @@
 .mat-mdc-card.expired-ws {
   background: var(--gray-clr-0) !important;
 
+  app-card-description {
+    --card-bg: var(--gray-clr-0);
+    --toggle-clr: var(--gray-clr-4);
+    color: var(--gray-clr-4) !important;
+  }
+
   .application-name,
   .workspace-name,
-  .description,
   .application-meta,
   .mini-chips > span {
     color: var(--gray-clr-4) !important;

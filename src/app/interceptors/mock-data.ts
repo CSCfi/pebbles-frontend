@@ -436,6 +436,84 @@ export let db = {
       is_enabled: false,
       template_id: 'et-2',
       template_name: 'Jupyter Template 2'
+    },
+    {
+      id: '18',
+      name: 'Archived Genome Assembly Notebook (expired workspace)',
+      description: 'Jupyter environment with genome-assembly and variant-calling libraries from the retired 2019 Bioinformatics Workshop. The description is deliberately verbose so the three-line clamp, the tail fade and the "Show more / Show less" toggle can be checked on an application card whose workspace has expired. It also contains a <a href=\'https://research.csc.fi\'>reference link</a> to confirm link styling survives the shared component extraction.',
+      maximum_lifetime: '36000',
+      workspace_id: '7',
+      thumbnail: 'jupyter',
+      labels: ['csc', 'bioinformatics', 'python', 'jupyter', 'archived'],
+      config: {
+        image_url: 'example.org/cool-image:master',
+        jupyter_interface: 'lab',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Jupyter Template 2'
+    },
+    {
+      // ---- Apps in ws '1' (R Basic Course 2021, owner-1). Long descriptions
+      // ---- on purpose to exercise the read-more toggle on white cards.
+      id: '19',
+      name: 'RStudio Server — Introductory Statistics',
+      description: 'RStudio Server pre-loaded with the tidyverse, data.table and a curated set of teaching datasets for the introductory statistics track. Learners work through guided notebooks on data import, cleaning, summary statistics and their first ggplot2 charts. The description is deliberately verbose so the three-line clamp, the tail fade and the "Show more / Show less" toggle can be verified on this application card. See the <a href=\'https://research.csc.fi\'>course portal</a> for the full syllabus.',
+      maximum_lifetime: '36000',
+      workspace_id: '1',
+      thumbnail: 'rstudio',
+      labels: ['csc', 'rstudio', 'r', 'statistics', 'basic'],
+      config: {
+        image_url: 'example.org/cool-image:master',
+        jupyter_interface: 'lab',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: true,
+      template_id: 'et-3',
+      template_name: 'RStudio Template 1'
+    },
+    {
+      id: '20',
+      name: 'Jupyter with R Kernel — Data Visualisation',
+      description: 'Jupyter environment configured with the IRkernel so students can run R inside notebooks for the data-visualisation module. It bundles ggplot2, plotly and leaflet together with example datasets covering time series, geospatial and categorical data. This long description exists to confirm that the shared card-description component clamps, fades and expands correctly for a Jupyter-flavoured application card as well. More material lives at <a href=\'https://research.csc.fi\'>research.csc.fi</a>.',
+      maximum_lifetime: '18000',
+      workspace_id: '1',
+      thumbnail: 'jupyter',
+      labels: ['csc', 'jupyter', 'r', 'data-science', 'visualisation'],
+      config: {
+        image_url: 'example.org/cool-image:master',
+        jupyter_interface: 'notebook',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: true,
+      template_id: 'et-2',
+      template_name: 'Jupyter Template 2'
+    },
+    {
+      id: '21',
+      name: 'RStudio Server — Regression Modelling Workshop',
+      description: 'Advanced RStudio Server image for the regression-modelling workshop, extending the basic course with linear and logistic regression, model diagnostics and cross-validation. It includes the caret and tidymodels stacks plus larger practice datasets, and is intended for the final week of the R Basic Course 2021. The description is kept long here so the read-more toggle and tail fade can be checked on a third application card within the same workspace. Details at <a href=\'https://research.csc.fi\'>research.csc.fi</a>.',
+      maximum_lifetime: '54000',
+      workspace_id: '1',
+      thumbnail: 'rstudio',
+      labels: ['csc', 'rstudio', 'r', 'machine learning', 'regression'],
+      config: {
+        image_url: 'example.org/cool-image:master',
+        jupyter_interface: 'lab',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: true,
+      template_id: 'et-3',
+      template_name: 'RStudio Template 1'
     }
   ],
   users: [
@@ -914,7 +992,7 @@ export let db = {
       id: '1',
       name: 'R Basic Course 2021',
       join_code: 'admin-ws-join-parm1-wuuig',
-      description: 'RStudio environments for R basic Course 2021',
+      description: 'RStudio environments for the R Basic Course 2021, aimed at newcomers to statistical computing. The workspace ships with pre-installed tidyverse packages, sample datasets and step-by-step notebooks covering data wrangling, visualisation with ggplot2 and basic regression modelling. This description is intentionally long so the clamped "Show more / Show less" toggle and the tail fade can be verified on a regular (non-expired, white) workspace card. See <a href=\'https://research.csc.fi\'>research.csc.fi</a> for related training.',
       create_ts: 1616572106,
       expiry_ts: 1832124106,
       application_quota: 10,
@@ -1032,6 +1110,23 @@ export let db = {
         {ext_id: 'user-2@example.org'},
         {ext_id: 'user-3@example.org'},
         {ext_id: 'user-5@example.org', is_banned: true},
+      ]
+    },
+    {
+      id: '7',
+      name: 'Legacy Bioinformatics Workshop 2019 (archived)',
+      join_code: 'admin-ws-join-parm7-wuuig',
+      description: 'Archived RStudio and Jupyter environments originally provisioned for the 2019 Bioinformatics Workshop. This workspace bundled genome-assembly notebooks, variant-calling pipelines and a shared reference-data volume for roughly forty participants across three CSC partner universities. It has since been retired, but the description is intentionally kept long here so the clamped "Show more / Show less" toggle and the tail fade can be checked against the greyed-out expired card background. See <a href=\'https://research.csc.fi\'>research.csc.fi</a> for the current offering.',
+      create_ts: 1616572116,
+      expiry_ts: 1632124116,
+      application_quota: 10,
+      memory_limit_gib: 50,
+      owner_ext_id: 'owner-1@example.org',
+      membership_expiry_policy: {kind: 'persistent'},
+      _members: [
+        {ext_id: 'owner-1@example.org', is_owner: true, is_manager: true},
+        {ext_id: 'admin@example.org', is_owner: false, is_manager: true},
+        {ext_id: 'user@example.org'},
       ]
     }
   ],

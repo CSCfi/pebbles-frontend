@@ -37,7 +37,7 @@
       <!-- Workspace list -->
       @if (workspaces && !isNoWorkspace) {
         <div class="workspace-list">
-          @for (workspace of workspaces; track workspace) {
+          @for (workspace of workspaces; track workspace.id) {
             <mat-card (click)="selectWorkspace(workspace.id, selectedTabType)"
                       [ngClass]="getWorkspaceClasses(workspace)"
                       appearance="outlined"
@@ -56,7 +56,7 @@
               @if (isWorkspaceSelected(workspace)) {
                 <mat-card-content
                     class="workspace-info">
-                  <div [innerHTML]="workspace.description" class="description"></div>
+                  <app-card-description [html]="workspace.description"></app-card-description>
                   <dl class="grid">
                     <dt>Your role</dt>
                     <dd class="user-role-txt">{{ getMembershipType(workspace) }}</dd>
@@ -109,7 +109,7 @@
             </span>
                 }
               </mat-select-trigger>
-              @for (workspace of workspaces; track workspace) {
+              @for (workspace of workspaces; track workspace.id) {
                 <mat-option
                     [value]="workspace.id"
                     class="workspace-selection">

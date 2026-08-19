@@ -1,0 +1,82 @@
+@use 'ui-components' as uis;
+
+:host {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.description-wrapper {
+  position: relative;
+}
+
+.description {
+  @include uis.common-link;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  // ---- Inherit the card's text colour so hosts (e.g. expired cards) can grey it out.
+  color: inherit;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+
+  // ---- When expanded, drop the clamp and render as a block — lays out correctly
+  &.expanded {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+  }
+}
+
+// ---- Fades the tail of the clamped 3rd line
+// ---- set `--card-bg` (it inherits in) to match a non-white card, e.g. expired.
+.description-fade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 120px;
+  height: 2rem;
+  background: linear-gradient(to right, transparent, var(--card-bg, white) 45%);
+  pointer-events: none;
+}
+
+.description-toggle {
+  // ---- `--toggle-clr` lets a host grey out the control on e.g. expired cards
+  // ---- (matching the greyed description); defaults to the actionable blue.
+  @include uis.deco-text(
+          $color: var(--toggle-clr, var(--prim-clr-7)), $icon: expand_circle_down, $icon-size: 1.8rem,
+          $font-size: 1.2rem, $font-weight: 600,
+          $gap: 2px, $pos: right);
+  padding: 0;
+  background: var(--card-bg, white);
+  border: none;
+  cursor: pointer;
+
+  &:hover .toggle-label {
+    text-decoration: underline;
+  }
+
+  // ---- Custom ellipsis
+  .description-ellipsis {
+    display: inline-block;
+    color: var(--toggle-clr, var(--neut-clr-9));
+    font-weight: 400;
+  }
+
+  &:not(.expanded) {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+  }
+
+  // ---- Show less button
+  &.expanded {
+    background: none;
+    margin-top: 5px;
+
+    &::after {
+      transform: rotate(180deg);
+    }
+  }
+}

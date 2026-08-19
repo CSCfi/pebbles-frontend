@@ -31,7 +31,7 @@
                 @if (applications?.length > 0) {
                   <div
                       class="application-item-container">
-                    @for (application of applications; track application) {
+                    @for (application of applications; track application.id) {
                       <app-main-application-item [application]="application" [context]="context">
                       </app-main-application-item>
                     }
