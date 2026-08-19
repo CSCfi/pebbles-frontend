@@ -7,7 +7,7 @@ import { forkJoin, Observable, Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { ApplicationTemplate } from 'src/app/models/application-template';
 import { User } from 'src/app/models/user';
-import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
+import { LifeCycleNote, Workspace } from 'src/app/models/workspace';
 import { AccountService } from 'src/app/services/account.service';
 import { ApplicationTemplateService } from 'src/app/services/application-template.service';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -129,19 +129,9 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     this.subscriptions.push(this.eventService.userDataUpdate$.subscribe(_ => {
       this.refreshView();
     }));
-    this.user = this.accountService.get(this.authService.getUserId());
-    // check if we need to populate account service
-    if (!this.user) {
-      this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
-        this.user = user;
-        this.refreshView();
-      });
-      this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
-    } else {
-      this.refreshView();
-    }
 
-    // restore workspace/tab selection from queryParams if available
+    // ---- Restore workspace/tab selection from queryParams.
+    // ---- Must run before the user-branch refreshView() below, or it would autoselect workspaces[0]
     this.activatedRoute.queryParamMap.subscribe(paramMap => {
       if (paramMap.get('id')) {
         this.selectedWorkspaceId = paramMap.get('id');
@@ -166,8 +156,21 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
         this.isAppFormOpen = false;
       }
 
+      // no-op on init (user unset); this re-renders the view on later queryParam changes
       this.refreshView();
     });
+
+    this.user = this.accountService.get(this.authService.getUserId());
+    // render right away if we already have the account, otherwise populate it first
+    if (this.user) {
+      this.refreshView();
+    } else {
+      this.accountService.fetchAccount(this.authService.getUserId()).subscribe(user => {
+        this.user = user;
+        this.refreshView();
+      });
+      this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
+    }
     this.workspaceService.fetchWorkspaces().subscribe();
   }
 
@@ -183,14 +186,11 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
   }
 
   isManageableWorkspace(ws: Workspace): boolean {
-    return (
-      ws.membership_type === MembershipType.Owner ||
-      ws.membership_type === MembershipType.Manager
-    );
+    return Workspace.isManageable(ws);
   }
 
   refreshView(): void {
-    // check if the data is there already
+    // Avoid refreshing view until both the account and the workspaces have loaded
     if (!(this.user && this.workspaceService.isInitialized)) {
       return;
     }

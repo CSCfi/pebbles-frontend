@@ -17,6 +17,19 @@
     border-bottom: var(--content-border-neut) !important;
   }
 
+  // ---- Owner/co-owner manage-workspace shortcut
+  .manage-gear {
+    @include uis.icon($icon: settings, $type: 'Icons', $family: 'Filled', $size: 1.4rem);
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: var(--neut-clr-4);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--sec-clr-6);
+    }
+  }
+
   .card-media-container {
     @include base.centering(xy);
     margin: 0;
@@ -114,12 +127,22 @@
         min-height: base.$application-card-header-height;
       }
 
+      .workspace-name-row {
+        @include utils.flex-row-block($gap: 8px, $wrap: false, $type: flex-start);
+
+        .workspace-name {
+          flex: 1 1 auto;
+          min-width: 0;
+        }
+      }
+
       .workspace-name {
         font-weight: 600;
         overflow-wrap: break-word;
 
         .shared-workspace-name {
           @include uis.deco-text($font-size: 1.2rem, $icon: apps, $icon-type: 'Icons', $gap: 3px, $icon-size: 2rem);
+          align-items: flex-start !important;
         }
 
         .public-workspace-name {
@@ -145,7 +168,7 @@
       }
 
       .volumes {
-        @include utils.flex-row-block($gap: 3px 10px, $distribution: start);
+        @include utils.flex-row-block($gap: 5px 20px, $distribution: start);
 
         .shared-volume,
         .mywork-volume {

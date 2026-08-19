@@ -42,6 +42,10 @@ export class MainWorkspaceItemComponent {
     return this.workspace.membership_type === MembershipType.Manager ? 'co-owner' : this.workspace.membership_type;
   }
 
+  get isManageable(): boolean {
+    return Workspace.isManageable(this.workspace);
+  }
+
   toggleApplicationList(): void {
     if (this.applications && this.applications.length > 0) {
       this.panelOpenState = !this.panelOpenState;

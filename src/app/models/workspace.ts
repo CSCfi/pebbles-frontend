@@ -58,6 +58,12 @@ export class Workspace {
     return ws?.expiry_ts ? Utilities.isExpiredTimestamp(ws.expiry_ts) : false;
   }
 
+  // ---- Owners and managers (co-owners) may manage a workspace
+  public static isManageable(ws: Workspace): boolean {
+    return ws?.membership_type === MembershipType.Owner
+      || ws?.membership_type === MembershipType.Manager;
+  }
+
   public static equals(ws1: Workspace, ws2: Workspace): boolean {
     if (ws1 === ws2) {
       return true;

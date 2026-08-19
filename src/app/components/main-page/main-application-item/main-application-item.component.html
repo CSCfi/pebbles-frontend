@@ -49,15 +49,26 @@
         <!-- Workspace information only shown in catalog page  -->
         @if (context.identifier !== 'my-workspaces') {
           <mat-card-content class="workspace-info">
-            <h5 [matTooltip]="application.workspace_name.startsWith('System.') ? 'public' : membershipType"
-                [ngClass]="membershipType"
-                class="workspace-name">
-              @if (!application.workspace_name.startsWith('System.')) {
-                <span class="shared-workspace-name">{{ application.workspace_name }}</span>
-              } @else {
-                <span class="public-workspace-name">Public</span>
+            <div class="workspace-name-row">
+              <h5 [matTooltip]="application.workspace_name.startsWith('System.') ? 'public' : membershipType"
+                  [ngClass]="membershipType"
+                  class="workspace-name">
+                @if (!application.workspace_name.startsWith('System.')) {
+                  <span class="shared-workspace-name">{{ application.workspace_name }}</span>
+                } @else {
+                  <span class="public-workspace-name">Public</span>
+                }
+              </h5>
+              <!-- Owner/co-owner: linking to Manage workspaces -->
+              @if (context.identifier === 'catalog' && !application.workspace_name.startsWith('System.') && isManageable) {
+                <a [ngClass]="membershipType"
+                   [queryParams]="{ id: application.workspace_id, tab: 0 }"
+                   [routerLink]="['/main/workspace-owner']"
+                   aria-label="Manage workspace"
+                   class="manage-gear"
+                   matTooltip="Manage workspace"></a>
               }
-            </h5>
+            </div>
             @if (!application.workspace_name.startsWith('System.')) {
               <div [ngClass]="membershipType" class="expiry-date">
                 @if (workspace?.membership_expiry_policy.kind === 'persistent') {

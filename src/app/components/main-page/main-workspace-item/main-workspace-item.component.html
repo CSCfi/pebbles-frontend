@@ -26,9 +26,16 @@
         </mat-card-title>
         <button [matMenuTriggerFor]="menu" aria-label="open menu" class="workspace-item-menu" matIconButton></button>
         <mat-menu #menu="matMenu">
+          @if (isManageable) {
+            <a [queryParams]="{ id: workspace.id, tab: 0 }"
+               [routerLink]="['/main/workspace-owner']"
+               mat-menu-item>
+              <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
+              Manage workspace
+            </a>
+          }
           <button (click)="exitWorkspace()" [disabled]="workspace.membership_type === 'public'"
-                  aria-label="workspace delete"
-                  mat-menu-item matTooltip="Leave Workspace">
+                  mat-menu-item>
             <mat-icon fontSet="material-icons-outlined">logout</mat-icon>
             Exit workspace
           </button>

@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { Data } from '@angular/router';
 import { Application } from 'src/app/models/application';
-import { MembershipType } from '../../../models/workspace';
+import { MembershipType, Workspace } from '../../../models/workspace';
 import { AppIcon, ApplicationService } from '../../../services/application.service';
 import { WorkspaceService } from '../../../services/workspace.service';
 import { Utilities } from '../../../utilities';
@@ -81,6 +81,10 @@ export class MainApplicationItemComponent {
     } else {
       return 'public';
     }
+  }
+
+  get isManageable(): boolean {
+    return Workspace.isManageable(this.workspace);
   }
 
   isExpiredTimestamp(ts: number) {
