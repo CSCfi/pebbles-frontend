@@ -127,7 +127,7 @@
       <div class="tab-container">
         <!--  Service Announcement 'workspace-owner'  -->
         <app-service-announcement [context]="context"></app-service-announcement>
-        @if (selectedWorkspace) {
+        @if (selectedWorkspace && !isWorkspaceDeleted) {
           <div class="tab-group-wrapper">
             <div class="course-request-wrapper">
               <button (click)="openCourseRequest()" class="course-request"
@@ -186,7 +186,7 @@
                 </ng-template>
                 @if (selectedTabType === TabType.Config) {
                   <app-main-workspace-item-detail
-                      (workspaceDeletedEvent)="openDeleteWorkspaceDialog()"
+                      (workspaceDeletedEvent)="openDeleteWorkspaceDialog($event)"
                       [workspace]="selectedWorkspace">
                   </app-main-workspace-item-detail>
                 }
@@ -199,7 +199,11 @@
             <div class="success-status">
               <h2 class="status-headline">Workspace successfully deleted</h2>
               <p class="status-summary">
-                Please select another workspace from the left column.
+                @if (isNoWorkspace) {
+                  Create a new workspace to get started.
+                } @else {
+                  Please select another workspace.
+                }
               </p>
             </div>
           </section>

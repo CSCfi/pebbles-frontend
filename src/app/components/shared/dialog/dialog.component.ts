@@ -1,6 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 export interface DialogSelectOption {
   value: string | number;
@@ -25,6 +26,8 @@ export class DialogComponent implements OnInit {
     dialogConfig?: {
       titleAlign?: string;
       contentAlign?: string;
+      // when set, Confirm runs this and the dialog stays open until it resolves
+      confirmAction?: () => Observable<unknown>;
     };
   }>(MAT_DIALOG_DATA);
 
@@ -40,6 +43,8 @@ export class DialogComponent implements OnInit {
     titleAlign: 'center',
     contentAlign: 'center',
   };
+
+  public isConfirmPending = false;
 
   ngOnInit(): void {
     if (this.data?.dialogConfig) {
@@ -61,7 +66,21 @@ export class DialogComponent implements OnInit {
   }
 
   onConfirm(): void {
-    this.dialogRef.close(true);
+    const confirmAction = this.data.dialogConfig?.confirmAction;
+    if (!confirmAction) {
+      this.dialogRef.close(true);
+      return;
+    }
+    // block the exits while the action runs; only success closes the dialog
+    this.isConfirmPending = true;
+    this.dialogRef.disableClose = true;
+    confirmAction().subscribe({
+      next: () => this.dialogRef.close(true),
+      error: () => {
+        this.isConfirmPending = false;
+        this.dialogRef.disableClose = false;
+      }
+    });
   }
 
   onSubmit(): void {

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { forkJoin, Observable, Subscription } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 import { ApplicationTemplate } from 'src/app/models/application-template';
 import { User } from 'src/app/models/user';
 import { LifeCycleNote, MembershipType, Workspace } from 'src/app/models/workspace';
@@ -57,7 +58,7 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
 
   // store subscriptions here for unsubscribing destroy time
   private subscriptions: Subscription[] = [];
-  private autoSelectFirstWorkspace = true;
+  private isDeleteInFlight = false;
   private selectedWorkspaceId: string;
   private user: User;
   private createDemoWorkspaceClickTs: number;
@@ -203,10 +204,14 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     this.workspaces = Workspace.sortWorkspaces(this.workspaces, ['expiry', 'role', 'create_ts']);
     this.workspaceIdControl = new FormControl<string>(this.selectedWorkspaceId);
 
-    // if no workspace selected, and we have workspaces to select from, pick the first
-    if (this.autoSelectFirstWorkspace && !this.selectedWorkspaceId && this.workspaces.length > 0) {
+    // figure out if the selected workspace exists and whether we should show the deletion message
+    // or autoselect a workspace
+    const hasLiveSelection = this.workspaces.some(ws => ws.id === this.selectedWorkspaceId);
+    if (hasLiveSelection) {
+      this.isWorkspaceDeleted = false;
+    } else if (!this.isWorkspaceDeleted && !this.isDeleteInFlight && this.workspaces.length > 0) {
+      // autoselect first workspace unless we need to show the deletion message
       this.selectWorkspace(this.workspaces[0].id, TabType.Applications);
-      this.autoSelectFirstWorkspace = false;
     }
   }
 
@@ -334,22 +339,28 @@ export class MainWorkspaceOwnerComponent implements OnInit, AfterViewInit, OnDes
     dialogRef.afterClosed().subscribe();
   }
 
-  openDeleteWorkspaceDialog(): void {
-    let ws = this.workspaceService.getWorkspaceById(this.selectedWorkspaceId);
-    const dialogRef = this.dialog.open(DialogComponent, {
+  openDeleteWorkspaceDialog(workspaceId: string): void {
+    const ws = this.workspaceService.getWorkspaceById(workspaceId);
+    if (!ws) {
+      return;
+    }
+    this.dialog.open(DialogComponent, {
       width: '500px',
       autoFocus: false,
       data: {
         dialogTitle: 'Delete Workspace',
         dialogContent: `<p>Are you sure to delete the workspace "${ws.name}"?</p>`,
-        dialogActions: ['confirm', 'cancel']
-      }
-    });
-    dialogRef.afterClosed().subscribe(params => {
-      if (params) {
-        this.workspaceService.deleteWorkspace(ws.id).subscribe(() => {
-          this.isWorkspaceDeleted = true;
-        });
+        dialogActions: ['confirm', 'cancel'],
+        dialogConfig: {
+          confirmAction: () => {
+            // set isDeleteInFlight to keep workspace selection mechanism from autoselecting
+            this.isDeleteInFlight = true;
+            return this.workspaceService.deleteWorkspace(ws.id).pipe(
+              tap(() => this.isWorkspaceDeleted = true),
+              finalize(() => this.isDeleteInFlight = false),
+            );
+          }
+        }
       }
     });
   }

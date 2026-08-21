@@ -47,6 +47,16 @@
     }
   </mat-dialog-content>
 
+  <!-- always rendered for dialogs that can go pending, so the buttons stay put -->
+  @if (data.dialogConfig?.confirmAction) {
+    <div class="confirm-status">
+      @if (isConfirmPending) {
+        <mat-progress-spinner [diameter]="24" [strokeWidth]="3" mode="indeterminate">
+        </mat-progress-spinner>
+      }
+    </div>
+  }
+
   <div [ngClass]="config.contentAlign" class="dialog-actions">
     @if (data.dialogActions.includes('close')) {
       <button class="close-button" mat-button mat-dialog-close
@@ -54,7 +64,7 @@
       </button>
     }
     @if (data.dialogActions.includes('confirm')) {
-      <button (click)="onConfirm()" class="confirm-button"
+      <button (click)="onConfirm()" [disabled]="isConfirmPending" class="confirm-button"
               mat-button>
         Confirm
       </button>
@@ -68,7 +78,7 @@
       </button>
     }
     @if (data.dialogActions.includes('cancel')) {
-      <button class="cancel-button" mat-dialog-close
+      <button [disabled]="isConfirmPending" class="cancel-button" mat-dialog-close
       >Cancel
       </button>
     }

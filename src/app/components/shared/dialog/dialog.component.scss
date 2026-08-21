@@ -23,6 +23,13 @@ mat-form-field {
 }
 
 
+.confirm-status {
+  @include base.centering(xy);
+  // holds the spinner's height whether or not it is showing
+  min-height: 24px;
+  margin-top: 20px;
+}
+
 .dialog-actions {
   @include utils.flex-row-block($gap: 10px);
   margin-top: 20px;

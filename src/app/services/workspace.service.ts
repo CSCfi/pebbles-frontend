@@ -196,7 +196,12 @@ export class WorkspaceService {
       expiry_ts = Math.floor(Date.now() / 1000 + 86400 * 30 * 3);
     }
     return this.http.post<Workspace>(url, {name, description, expiry_ts, workspace_type}).pipe(
-      tap(() => {
+      tap(res => {
+        // for immediate availability after successful insert
+        if (this.isInitialized) {
+          this.workspaces = [res, ...this.workspaces];
+        }
+        this.eventService.workspaceDataUpdate$.next(res.id);
         this.fetchWorkspaces().subscribe();
         this.accountService.fetchWorkspaceMemberships(this.authService.getUserId()).subscribe();
       }),
