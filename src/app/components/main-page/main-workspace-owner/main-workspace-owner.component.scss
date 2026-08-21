@@ -266,7 +266,7 @@
 
   // ---- Styles based on status changes
   .workspace-list .workspace-item {
-    border-left: 8px solid white;
+    border-left: 8px solid transparent;
 
     &.selected {
       border-left: 8px solid var(--prim-clr-5);
@@ -357,7 +357,6 @@
 
     &.expired-item {
       background-color: var(--neut-clr-2);
-      border-left: 8px solid var(--neut-clr-5);
 
       app-card-description {
         --card-bg: var(--neut-clr-2);
@@ -369,8 +368,6 @@
       }
 
       &.selected {
-        border-left: 8px solid var(--sec-clr-5);
-
         .open-join-code-button {
           @include uis.password-button($role: gray);
         }
