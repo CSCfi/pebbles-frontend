@@ -70,6 +70,14 @@ export class MainCatalogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.activatedRoute.data.subscribe(data => {
       this.context = data;
     }));
+
+    // the initial fetch at login can be missed or fail, so make sure we have the data we render
+    if (!this.applicationService.isInitialized) {
+      this.applicationService.fetchApplications().subscribe();
+    }
+    if (!this.categoryService.isInitialized) {
+      this.categoryService.fetchCategories().subscribe();
+    }
   }
 
   ngOnDestroy(): void {

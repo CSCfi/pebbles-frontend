@@ -20,7 +20,7 @@
   <div class="content-container">
     <!--  Service Announcement 'catalog'  -->
     <app-service-announcement [context]="context"></app-service-announcement>
-    @if (categories.length > 0) {
+    @if (categories.length > 0 && applications) {
       <mat-tab-group (selectedTabChange)="changeCategory($event)"
                      mat-align-tabs="center"
                      mat-stretch-tabs="false">
