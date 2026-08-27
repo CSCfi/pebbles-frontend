@@ -68,7 +68,7 @@ export class MainSessionButtonComponent {
     if (this.isWorkspaceExpired) {
       return true;
     }
-    return (!(this.applicationSessionService.getSessions().length < 2 || this.authService.isAdmin));
+    return (!(this.applicationSessionService.getSessionCount() < 2 || this.authService.isAdmin));
   }
 
   get application(): Application {

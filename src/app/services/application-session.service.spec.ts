@@ -50,4 +50,27 @@ describe('ApplicationSessionService', () => {
       });
     }
   );
+
+  it('should count a launch that is still in flight',
+    (done: DoneFn) => {
+      service.createSession('1').subscribe();
+      // the POST has not come back yet, so only the pending counter knows about the launch
+      expect(service.getSessions().length).toBe(0);
+      expect(service.getSessionCount()).toBe(1);
+      setTimeout(() => {
+        // the created session has taken over from the pending slot
+        expect(service.getSessionCount()).toBe(service.getSessions().length);
+        done();
+      }, 200);
+    }
+  );
+
+  it('should release a pending launch that never completes',
+    () => {
+      const subscription = service.createSession('1').subscribe();
+      expect(service.getSessionCount()).toBe(1);
+      subscription.unsubscribe();
+      expect(service.getSessionCount()).toBe(0);
+    }
+  );
 });

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { defer, Observable, throwError } from 'rxjs';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 
 import { ApplicationSession, ApplicationSessionLog, SessionStates } from 'src/app/models/application-session';
 import { DesktopNotificationService } from 'src/app/services/desktop-notification.service';
@@ -19,6 +19,7 @@ export class ApplicationSessionService implements OnDestroy {
 
 
   private applicationSessions: ApplicationSession[] = [];
+  private pendingCreateCount = 0;
   private interval = 0;
   private intervalValue = -1;
   private lastUpdateTs = 0;
@@ -46,6 +47,11 @@ export class ApplicationSessionService implements OnDestroy {
 
   getSession(id: string) {
     return this.applicationSessions.find(x => x.id === id);
+  }
+
+  // launches that have not come back yet still occupy a slot in the backend limit
+  getSessionCount(): number {
+    return this.getSessions().length + this.pendingCreateCount;
   }
 
   getSessionByApplicationId(appId: string) {
@@ -91,13 +97,18 @@ export class ApplicationSessionService implements OnDestroy {
 
   createSession(applicationId: string): Observable<ApplicationSession> {
     const url = `${buildConfiguration.apiUrl}/application_sessions`;
-
-    return this.http.post<ApplicationSession>(url, {application_id: applicationId}).pipe(
+    // defer() increments per subscription, matching the finalize() teardown below
+    return defer(() => {
+      this.pendingCreateCount++;
+      return this.http.post<ApplicationSession>(url, {application_id: applicationId});
+    }).pipe(
       tap(newSession => {
         // push the new session directly to state and trigger a full refresh later
         this.applicationSessions.push(newSession);
         this.fetchSessions().subscribe();
-      }));
+      }),
+      finalize(() => this.pendingCreateCount--)
+    );
   }
 
   deleteSession(sessionId: string): Observable<ApplicationSession> {
