@@ -48,9 +48,8 @@
                   </section>
                 }
                 @if (getPublicApplicationAccessNote()) {
-                  <div
-                      [innerHTML]="getPublicApplicationAccessNote()"
-                      class="no-public-applications-text status-summary">
+                  <div class="no-public-applications-text">
+                    <div [innerHTML]="getPublicApplicationAccessNote()" class="status-summary"></div>
                   </div>
                 }
               </div>
