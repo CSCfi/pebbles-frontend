@@ -1,5 +1,5 @@
 # Stage one: build
-FROM docker.io/library/node:22 as build-stage
+FROM docker.io/library/node:24 AS build-stage
 ARG PB_APP_VERSION="not-set"
 
 # display app version in build logs
@@ -8,7 +8,7 @@ RUN echo "PB_APP_VERSION: $PB_APP_VERSION"
 WORKDIR /usr/src/app
 
 # copy selected supporting bits and run package installation
-COPY angular.json package.json package-lock.json tsconfig.json tsconfig.app.json .
+COPY angular.json package.json package-lock.json tsconfig.json tsconfig.app.json .npmrc .
 RUN npm ci
 
 # copy source and run build. Separated from package installation for better caching

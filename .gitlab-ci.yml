@@ -1,5 +1,5 @@
 ---
-image: docker.io/library/node:22
+image: docker.io/library/node:24
 
 variables:
   KUBERNETES_MEMORY_REQUEST: "1Gi"
@@ -40,8 +40,8 @@ static-analysis:
 
     - ng lint
     # report all vulnerabilities, fail on moderate ones
-    - npm audit --prod --audit-level=moderate
-    - npm audit --prod || true
+    - npm audit --omit=dev --audit-level=moderate
+    - npm audit --omit=dev || true
     - node_modules/.bin/linthtml .
 
 ng-build:
