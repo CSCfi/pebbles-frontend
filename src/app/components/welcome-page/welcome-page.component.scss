@@ -62,12 +62,14 @@
     button {
       @include uis.button();
     }
-
-    .special-login-error {
-      @include utils.flex-col-block($type: center);
-      color: var(--warn-clr-7);
-    }
   }
+}
+
+.special-login-error {
+  @include uis.warning-message;
+  @include uis.deco-text($color: var(--warn-clr-7), $font-size: 1.4rem, $font-weight: 400, $gap: 10px,
+    $icon: error, $icon-color: var(--warn-clr-6), $icon-size: 2.4rem);
+  margin-top: 15px;
 }
 
 .special-login-dialog-terms {

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, HttpInterceptorFn, provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { authInterceptor } from './auth.interceptor';
-import { ENVIRONMENT_SPECIFIC_INTERCEPTORS } from "../../environments/environment";
+import { SystemNotificationService } from "../services/system-notification.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Overlay } from "@angular/cdk/overlay";
 import { RouterModule } from "@angular/router";
-import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 
 describe('authInterceptor', () => {
   const interceptor: HttpInterceptorFn = (req, next) =>
@@ -20,7 +20,7 @@ describe('authInterceptor', () => {
       providers: [
         MatSnackBar,
         Overlay,
-        provideHttpClient(withInterceptors(ENVIRONMENT_SPECIFIC_INTERCEPTORS)),
+        provideHttpClient(withInterceptors([authInterceptor])),
         provideHttpClientTesting(),
       ]
     });
@@ -28,5 +28,15 @@ describe('authInterceptor', () => {
 
   it('should be created', () => {
     expect(interceptor).toBeTruthy();
+  });
+
+  it('should notify the user about a failure', () => {
+    const displayError = spyOn(TestBed.inject(SystemNotificationService), 'displayError');
+
+    TestBed.inject(HttpClient).get('api/v1/workspaces').subscribe({error: () => undefined});
+    TestBed.inject(HttpTestingController).expectOne('api/v1/workspaces')
+      .flush('', {status: 503, statusText: 'Service Unavailable'});
+
+    expect(displayError).toHaveBeenCalledWith('Error: cannot connect to the API');
   });
 });

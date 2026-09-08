@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -6,7 +7,7 @@ import { catchError, finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { PublicConfigService } from '../../services/public-config.service';
 import { ServiceAnnouncementService } from '../../services/service-announcement.service';
-import { SystemNotificationService } from '../../services/system-notification.service';
+import { Utilities } from '../../utilities';
 
 @Component({
   selector: 'app-welcome-page',
@@ -20,7 +21,6 @@ export class WelcomePageComponent implements OnInit {
   private formBuilder = inject(UntypedFormBuilder);
   private authService = inject(AuthService);
   publicConfigService = inject(PublicConfigService);
-  private systemNotificationService = inject(SystemNotificationService);
   private serviceAnnouncementService = inject(ServiceAnnouncementService);
 
   public context: Data;
@@ -76,18 +76,7 @@ export class WelcomePageComponent implements OnInit {
         this.router.navigateByUrl('/main').then();
       }),
       catchError(err => {
-        this.loginError = [];
-        // extract errors
-        if (typeof err.error === 'string') {
-          // strings are simple
-          this.loginError.push(err.error);
-          this.systemNotificationService.displayError(`Login error: ${err.error}`);
-        } else {
-          // the other case is 422 with a dictionary stating the errors in the form
-          for (let k of Object.keys(err.error)) {
-            this.loginError.push(`${k} ${err.error[k]}`);
-          }
-        }
+        this.setLoginError(err);
         throw err;
       }),
       finalize(() => {
@@ -114,12 +103,7 @@ export class WelcomePageComponent implements OnInit {
         this.router.navigateByUrl('/main').then();
       }),
       catchError(err => {
-        this.loginError = [];
-        if (typeof err.error === 'string') {
-          this.loginError.push(err.error);
-          this.systemNotificationService.displayError(`Login error: ${err.error}`);
-        }
-
+        this.setLoginError(err);
         throw err;
       }),
       finalize(() => {
@@ -128,7 +112,30 @@ export class WelcomePageComponent implements OnInit {
     ).subscribe();
   }
 
+  private setLoginError(err: HttpErrorResponse): void {
+    this.loginError = [];
+    if (Utilities.isApiUnreachable(err)) {
+      this.loginError.push('Cannot connect to the API, please try again later');
+      return;
+    }
+    // extract errors
+    if (typeof err.error === 'string') {
+      // strings are simple
+      this.loginError.push(err.error);
+    } else if (err.error) {
+      // the other case is 422 with a dictionary stating the errors in the form
+      for (let k of Object.keys(err.error)) {
+        this.loginError.push(`${k} ${err.error[k]}`);
+      }
+    }
+    // never leave the dialog without feedback, whatever the response carried
+    if (!this.loginError.length) {
+      this.loginError.push('Login failed, please try again');
+    }
+  }
+
   openSpecialLoginDialog(): void {
+    this.loginError = [];
     this.dialogRef = this.dialog.open(this.specialLoginDialog, {
       height: 'auto',
       width: '400px',
@@ -136,6 +143,7 @@ export class WelcomePageComponent implements OnInit {
   }
 
   openSpecialLoginDialogTerms(): void {
+    this.loginError = [];
     this.dialogRefTerms = this.dialog.open(this.specialLoginDialogTerms, {
       height: 'auto',
       width: '480px',

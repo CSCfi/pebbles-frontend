@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { SystemNotificationService } from '../services/system-notification.service';
+import { Utilities } from '../utilities';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -32,20 +32,19 @@ export const authInterceptor: HttpInterceptorFn = (
   // Report potential errors to user.
   // Handle Unauthorized 401 errors by redirecting to the Front page (welcome page)
   return next(authReq).pipe(
-    catchError((err: Observable<HttpEvent<any>>) => {
+    catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse) {
         // figure out what to tell the user based on the fields of the response
         // In case of auth error, we navigate back to login page and let auth service do reporting
         if (err.status === 401) {
           router.navigate(['welcome']).then();
-        } else if (err.status === 0 || err.status === 503) {
-          // if we can't connect at all, we'll get 0. If ingress/route can't respond, we'll get 503
+        } else if (Utilities.isApiUnreachable(err)) {
           systemNotificationService.displayError('Error: cannot connect to the API');
         } else if (typeof err.error === 'string') {
           systemNotificationService.displayError(`Error: ${err.error}`);
         } else if (err.error?.message) {
           systemNotificationService.displayError(`Error: ${err.error.message}`);
-        } else if (typeof err.error.error === 'string') {
+        } else if (typeof err.error?.error === 'string') {
           systemNotificationService.displayError(`Error: ${err.error.error}`);
         } else {
           systemNotificationService.displayError(`Error: ${err.statusText}`);

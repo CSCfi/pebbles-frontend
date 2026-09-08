@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 export class Utilities {
   public static lifetimeToString(lifetime: number): string {
     const hours: number = Math.floor(lifetime / 3600);
@@ -80,6 +82,23 @@ export class Utilities {
   // Both the stored labels and the query are compared case-insensitively.
   public static labelMatcher(labels: string[] = []): (label: string) => boolean {
     return (label: string) => labels.some(l => l.toLowerCase() === label.toLowerCase());
+  }
+
+  // A failure to connect at all arrives as status 0, and the ingress answers with an HTML error
+  // page of its own when it cannot reach the API. Neither response comes from the API, so its
+  // body must not be reported as an API error.
+  // The optional access on headers is needed because not every value that reaches a catchError
+  // is an HttpErrorResponse: the mock backend rejects with a plain object, and a throw from a
+  // success handler arrives here too.
+  public static isApiUnreachable(err: HttpErrorResponse): boolean {
+    if ([0, 502, 503, 504].includes(err.status)
+      || err.headers?.get('content-type')?.includes('text/html') === true) {
+      return true;
+    }
+    // a body that could not be parsed as JSON arrives as {error: SyntaxError, text: '<html>...'},
+    // which is how the error page looks when the ingress declares no content type of its own
+    const body = typeof err.error === 'string' ? err.error : err.error?.text;
+    return typeof body === 'string' && body.trim().startsWith('<');
   }
 
   // public static camelize(str: string): string {
