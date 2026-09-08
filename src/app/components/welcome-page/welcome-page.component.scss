@@ -91,6 +91,7 @@
   }
 
   .mat-mdc-dialog-actions {
+    @include utils.flex-col-block($padding: 5px 20px 30px);
     width: 100%;
 
     button {
