@@ -1,3 +1,6 @@
+<!-- Mobile mode : Dropdown menu (outside mat-sidenav so position: fixed pins to the viewport, first so the tab order matches the screen) -->
+<app-main-mobile-nav></app-main-mobile-nav>
+
 <mat-sidenav-container>
   <!-- SideNav Area -->
   <mat-sidenav #sidenav [ngClass]="{'minimize':!isSideNavOpen}" disableClose="true" mode="side" opened>
@@ -32,6 +35,4 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<!-- Mobile mode : Dropdown menu (rendered outside mat-sidenav so position: fixed pins to the viewport) -->
-<app-main-mobile-nav></app-main-mobile-nav>
 <!-- <app-footer class="footer"></app-footer> -->

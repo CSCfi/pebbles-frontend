@@ -17,7 +17,7 @@
     display: block;
     z-index: 1000;
 
-    &:has(#nav-toggle-btn:checked) .nav-wrapper {
+    .nav-wrapper.nav-closed {
       display: none;
     }
   }
@@ -64,11 +64,7 @@
       white-space: nowrap;
     }
 
-    #nav-toggle-btn {
-      display: none;
-    }
-
-    .nav-toggle-label {
+    .nav-toggle-button {
       flex: 0 0 auto;
       color: white;
       @include base.centering(xy);
@@ -87,7 +83,8 @@
       color: white;
       @include base.centering(y);
 
-      a {
+      a,
+      button {
         display: inline-flex;
         gap: 5px;
         cursor: pointer;

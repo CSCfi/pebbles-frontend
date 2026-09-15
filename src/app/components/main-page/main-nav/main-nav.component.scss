@@ -85,11 +85,13 @@
         border-left: 6px solid var(--sec-clr-4);
       }
 
-      a {
+      a,
+      button.nav-logout {
         @include utils.flex-row-block(
                 $distribution: start,
                 $gap: 5px,
                 $padding: 5px 5px 5px 10px);
+        width: 100%;
         cursor: pointer;
 
         .icon-holder {

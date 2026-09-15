@@ -5,12 +5,11 @@
       <h2 class="site-name">{{ publicConfigService.getInstallationName() }}</h2>
     </a>
     <h3 class="page-title">{{ pageTitle }}</h3>
-    <input [(ngModel)]="isMobileNavInvisible" [checked]="isMobileNavInvisible" id="nav-toggle-btn" type="checkbox"
-           aria-label="Toggle navigation menu">
-    <label class="nav-toggle-label nav-menu" for="nav-toggle-btn" aria-label="Toggle navigation menu">
-    </label>
+    <button (click)="toggleNav()" aria-label="Toggle navigation menu"
+            class="nav-toggle-button nav-menu" type="button">
+    </button>
   </div>
-  <ul class="nav-wrapper">
+  <ul [class.nav-closed]="isMobileNavInvisible" class="nav-wrapper">
     <li>
       <a [routerLink]="['/main/catalog']" class="nav-catalog" routerLinkActive="active">
         Applications
@@ -55,9 +54,9 @@
       </a>
     </li>
     <li>
-      <a (click)="authService.logout()" class="nav-logout">
+      <button (click)="authService.logout()" class="nav-logout" type="button">
         Logout
-      </a>
+      </button>
     </li>
   </ul>
 </nav>

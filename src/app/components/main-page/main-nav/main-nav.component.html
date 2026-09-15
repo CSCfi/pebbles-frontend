@@ -132,7 +132,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a (click)="authService.logout()" id="logout-button">
+      <button (click)="authService.logout()" class="nav-logout" id="logout-button" type="button">
         <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
               matTooltip="Logout" matTooltipPosition="right">
           <mat-icon fontSet="material-icons-outlined">exit_to_app</mat-icon>
@@ -140,7 +140,7 @@
         @if (isTextVisible) {
           <span class="title">Logout</span>
         }
-      </a>
+      </button>
     </li>
   </ul>
   <ul class="nav-items">

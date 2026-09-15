@@ -43,6 +43,10 @@ export class MainMobileNavComponent implements OnInit {
     this.pageTitle = route.data['title'] ?? '';
   }
 
+  toggleNav(): void {
+    this.isMobileNavInvisible = !this.isMobileNavInvisible;
+  }
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (this.isMobileNavInvisible) return;
