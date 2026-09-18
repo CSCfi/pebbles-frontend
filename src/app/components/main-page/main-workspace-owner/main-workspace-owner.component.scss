@@ -237,6 +237,7 @@
     .workspace-item {
       cursor: pointer;
       background: white;
+      flex-shrink: 0;
 
       .mat-mdc-card-header {
         padding: 20px 10px 20px 10px;
