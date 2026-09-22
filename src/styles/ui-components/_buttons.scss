@@ -4,7 +4,7 @@
 @use 'icons' as icons;
 
 @mixin button(
-  $role: 'prim', $bg-color: none, $font-size: none, $style: 'flat', $mode: 'normal',
+  $role: 'prim', $bg-color: null, $font-size: null, $style: 'flat', $mode: 'normal',
   $width: 'auto', $height: var(--mat-button-filled-touch-target-display),
   $connect: none, $text-align: center,
   $icon: false, $icon-size: 2.2rem, $icon-weight: 300, $icon-family: 'Outlined', $button-icon-gap: none) {

@@ -3,7 +3,7 @@
 @use 'utilities' as utils;
 
 @mixin grid-list($fractions:'auto auto', $gap: 10px,
-$font-size: none, $hover: false, $field-height: 50px) {
+$font-size: null, $hover: false, $field-height: 50px) {
   dl.grid,
   &.grid {
     display: grid;

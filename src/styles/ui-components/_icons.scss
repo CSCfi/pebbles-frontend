@@ -2,8 +2,8 @@
 @use 'base-styles' as base;
 
 @mixin deco-text(
-  $color: inherit, $font-size: none, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
-  $width: auto, $font-weight: none,
+  $color: inherit, $font-size: null, $gap: 8px, $highlight: none, $text-align: start, $inline: false,
+  $width: auto, $font-weight: null,
   $icon: apartment, $icon-type: 'Symbols', $icon-family: 'Outlined',
   $icon-color: inherit, $back-icon: none, $icon-size: 2.2rem, $icon-weight: 300, $pos: left
 ) {
@@ -64,7 +64,7 @@
 }
 
 @mixin icon(
-  $icon: apartment, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: none, $width: auto) {
+  $icon: apartment, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: null, $width: auto) {
   display: flex;
   gap: 8px;
 

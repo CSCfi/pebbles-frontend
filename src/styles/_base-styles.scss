@@ -145,7 +145,7 @@ $page-side-padding: 30px;
   font-weight: $weight !important;
 }
 
-@mixin headline-5($weight: none) {
+@mixin headline-5($weight: null) {
   @include styled-font;
   font-size: 1.3rem;
   font-weight: 500;
