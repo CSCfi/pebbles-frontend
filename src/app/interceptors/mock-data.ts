@@ -32,8 +32,8 @@ export let db = {
       session_data: {endpoints: [{access: 'https://foo/3'}]},
       lifetime_left: '600',
       maximum_lifetime: '2000',
-      user_id: '101',
-      username: 'owner-1@example.org',
+      user_id: '102',
+      username: 'owner-2@example.org',
     },
     {
       id: '4',
@@ -76,8 +76,8 @@ export let db = {
       session_data: {endpoints: [{access: 'https://foo/7'}]},
       lifetime_left: '1200',
       maximum_lifetime: '3600',
-      user_id: '101',
-      username: 'owner-1@example.org',
+      user_id: '100',
+      username: 'owner@example.org',
     },
     {
       id: '8',
@@ -87,8 +87,8 @@ export let db = {
       session_data: {endpoints: [{access: 'https://foo/8'}]},
       lifetime_left: '18000',
       maximum_lifetime: '36000',
-      user_id: '101',
-      username: 'owner-1@example.org',
+      user_id: '302',
+      username: 'user-2@example.org',
     },
     {
       id: '9',
@@ -98,8 +98,8 @@ export let db = {
       session_data: {endpoints: [{access: 'https://foo/9'}]},
       lifetime_left: '10800',
       maximum_lifetime: '10800',
-      user_id: '101',
-      username: 'owner-1@example.org',
+      user_id: '303',
+      username: 'user-3@example.org',
     },
     {
       id: '10',
@@ -109,8 +109,8 @@ export let db = {
       session_data: {endpoints: [{access: 'https://foo/10'}]},
       lifetime_left: '5000',
       maximum_lifetime: '54000',
-      user_id: '101',
-      username: 'owner-1@example.org',
+      user_id: '202',
+      username: 'co-owner-1@example.org',
     }
   ],
   applications: [
@@ -504,6 +504,28 @@ export let db = {
       workspace_id: '1',
       thumbnail: 'rstudio',
       labels: ['csc', 'rstudio', 'r', 'machine learning', 'regression'],
+      config: {
+        image_url: 'example.org/cool-image:master',
+        jupyter_interface: 'lab',
+        download_method: 'http-get',
+        download_url: 'https://raw.githubusercontent.com/csc-training/intro-to-ml/master/.notebooks-setup/get-started.bash',
+        auto_execution: false,
+      },
+      is_enabled: true,
+      template_id: 'et-3',
+      template_name: 'RStudio Template 1'
+    },
+    {
+      // ---- Demo app in workspace '1'. Any session launched for it always ends
+      // ---- up 'failed' (see the application_id === '999' branch in the mock
+      // ---- interceptor), used to visualise the failed session button.
+      id: '999',
+      name: 'Failed Session Demo (RStudio)',
+      description: 'Demo application whose session always fails on launch, used to visualise the failed session button.',
+      maximum_lifetime: '3600',
+      workspace_id: '1',
+      thumbnail: 'rstudio',
+      labels: ['csc', 'rstudio', 'demo', 'failed'],
       config: {
         image_url: 'example.org/cool-image:master',
         jupyter_interface: 'lab',

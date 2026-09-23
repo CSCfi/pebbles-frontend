@@ -18,7 +18,7 @@ $content-header-height-h: 160px;
 $card-frame-width: 4px;
 $application-card-height: 130px;
 $application-card-media-width: 120px;
-$application-card-action-width: 140px;
+$application-card-action-width: 130px;
 $application-card-header-height: 30px;
 $application-card-content-padding: 15px;
 $page-side-padding: 30px;
@@ -104,6 +104,10 @@ $page-side-padding: 30px;
 
 .mat-mdc-snack-bar-actions {
   width: 50px;
+}
+
+.mdc-tooltip__surface {
+  background-color: var(--neut-clr-6) !important;
 }
 
 @mixin styled-font {

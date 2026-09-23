@@ -323,7 +323,13 @@ export const mockInterceptor: HttpInterceptorFn = (
           session._mockLastStateUpdateTs = Date.now();
           session.is_failed = true;
         } else if (Date.now() - session._mockLastStateUpdateTs > 5000) {
-          session.state = states[states.indexOf(session.state) + 1];
+          // Failed Session Demo:
+          if (session.application_id === '999' && session.state === 'starting') {
+            session.state = SessionStates.Failed;
+            session.is_failed = true;
+          } else {
+            session.state = states[states.indexOf(session.state) + 1];
+          }
           session._mockLastStateUpdateTs = Date.now();
         }
       }
@@ -496,6 +502,18 @@ export const mockInterceptor: HttpInterceptorFn = (
       if (ws.name.startsWith('System.')) {
         ws.create_ts = null;
         ws.expiry_ts = null;
+      } else if (ws.name === 'R Basic Course 2021') {
+        // ---- Pin to the "expiring soon" (warning) state
+        ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(7, 20))).getTime() / 1000;
+        ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange(2, 6))).getTime() / 1000;
+      } else if (ws.name === 'Legacy Bioinformatics Workshop 2019 (archived)') {
+        // ---- Pin to the expired state (archived demo workspace).
+        ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(10, 20))).getTime() / 1000;
+        ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(1, 10))).getTime() / 1000;
+      } else if (ws.name === 'Python Basic Course 2021') {
+        // ---- Pin to the "expiring" state (11-20 days left), regardless of list position.
+        ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(7, 20))).getTime() / 1000;
+        ws.expiry_ts = new Date(new Date().setDate(new Date().getDate() + randomRange(12, 18))).getTime() / 1000;
       } else if (i == 1) {
         // ---- Deactivation : Expired
         ws.create_ts = new Date(new Date().setDate(new Date().getDate() - randomRange(10, 20))).getTime() / 1000;

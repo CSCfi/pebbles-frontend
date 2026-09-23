@@ -34,9 +34,10 @@ describe('ApplicationSessionService', () => {
     (done: DoneFn) => {
       service.fetchSessions().subscribe(() => {
         const sessions = service.getAllSessions();
-        // two (deleted, failed) invalid sessions in the database
-        // TODO: when UI can handle failed sessions, check the expected number below
-        expect(sessions.length).toBe(TESTDATA.db.application_sessions.length - 1);
+        // the mock GET filters out deleted sessions, so the fetched list only
+        // contains the non-deleted ones (failed sessions are still returned)
+        const expected = TESTDATA.db.application_sessions.filter(s => s.state !== 'deleted').length;
+        expect(sessions.length).toBe(expected);
         done();
       });
     }

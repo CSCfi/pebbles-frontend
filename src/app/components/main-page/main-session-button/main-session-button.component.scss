@@ -1,56 +1,121 @@
 // ---- main-session-button.component.scss
 @use 'base-styles' as base;
+@use 'ui-components' as uis;
+@use 'utilities' as utils;
+
+.session-ui-wrapper {
+  position: relative;
+  @include utils.flex-col-block($type: center);
+}
 
 .session-button-container {
+  // ---- Overall circle size comes from the wrapper's `--session-btn-diameter`
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: var(--session-btn-diameter);
+  height: var(--session-btn-diameter);
   overflow: hidden;
-  margin: base.$card-frame-width auto 0 auto;
 
-  button {
-    &.launch-button {
-      background: white !important;
+  --session-delete-btn-height: 30px;
 
-      .mat-icon {
-        display: block;
-        color: var(--neut-clr-6);
+  .state {
+    text-align: center;
+  }
+
+  // ---- Button L and M
+  &.button-m,
+  &.button-l {
+    .up-semicircle,
+    .down-semicircle {
+      color: white;
+      background-color: var(--prim-clr-7);
+      justify-content: center;
+      width: inherit;
+      height: inherit;
+      min-width: 0;
+      min-height: 0;
+      line-height: 1.5rem;
+      border-radius: unset;
+    }
+
+    // ---- Only up-semi-circle (State / Open-session-link / Error)
+    .up-semicircle {
+      flex: 1 1 auto;
+
+      &.failed-label,
+      ::ng-deep .mdc-button__label {
+        @include base.centering($pos: y, $gap: 5px);
+        flex-direction: column;
+        height: 100%;
+        justify-content: flex-end;
+        padding-bottom: 8px;
       }
+    }
+
+    // ---- Only down-semi-circle (Shutdown-button)
+    .down-semicircle {
+      flex: 0 0 var(--session-delete-btn-height);
+      margin: 0;
+      // ---- Divider on the circle button
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 
       &:hover {
-        color: var(--sec-clr-7);
-        background-color: var(--sec-clr-1) !important;
-
-        .mat-icon {
-          color: var(--sec-clr-6) !important;
-        }
+        background: var(--warn-clr-6);
       }
-    }
 
-    &.launch-button-inactive {
-      background: var(--gray-clr-1) !important;
-
-      .mat-icon {
-        display: block;
-        color: var(--gray-clr-4);
+      .button-icon {
+        @include uis.icon($icon: close, $type: 'Icons', $family: 'Outlined', $size: 1.4rem, $icon-only: true);
+        padding-bottom: 4px;
       }
     }
   }
 
-  .progress-spinner-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-
-    ::ng-deep .application-spinner {
-      circle {
-        stroke: var(--sec-clr-5);
+  // ---- Overwrite Button M
+  &.button-m {
+    .up-semicircle {
+      ::ng-deep .mdc-button__label,
+      &.failed-label {
+        gap: 2px;
+        padding-bottom: 2px;
       }
     }
   }
 
+  // ---- M font / icon sizing
+  &.button-m {
+    --session-btn-icon-size: 18px;
+    --state-font-size: 1.1rem;
+    --state-letter-spacing: 0.07rem;
+
+    &.session-queueing {
+      --state-font-size: 1rem;
+      --state-letter-spacing: 0.05rem;
+    }
+
+    &.session-provisioning {
+      --state-font-size: 0.9rem;
+      --state-letter-spacing: 0.01rem;
+    }
+  }
+
+  // ---- L font / icon sizing
+  &.button-l {
+    --session-btn-icon-size: 24px;
+
+    &.session-running {
+      --state-font-size: 1.3rem;
+    }
+  }
+
+  &.inactive {
+    --ring-stroke: var(--gray-clr-2);
+  }
+
+  &:has(.launch-button:hover) {
+    --ring-stroke: var(--neut-clr-3);
+  }
+
+  // ==== Layers: back → front =================================================
+  // ---- Ring / background circle
   .background-circle-container {
     @include base.centering(xy);
     position: absolute;
@@ -65,179 +130,167 @@
 
       circle {
         fill: white;
-        stroke: var(--neut-clr-2);
-      }
-    }
-
-    &:hover {
-      circle {
-        stroke: var(--neut-clr-1) !important;
-      }
-    }
-
-    &.inactive {
-      circle {
-        stroke: var(--gray-clr-2) !important;
+        stroke: var(--ring-stroke, var(--neut-clr-2));
       }
     }
   }
 
+  // ---- Progress spinner
+  .progress-spinner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+
+    ::ng-deep .application-spinner {
+      circle {
+        stroke: var(--sec-clr-5);
+      }
+    }
+  }
+
+  // ---- Actionable circle
   .actionable-circle-container {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 100px;
-    height: 100px;
+    top: var(--session-btn-stroke-width);
+    left: var(--session-btn-stroke-width);
+    width: calc(var(--session-btn-diameter) - 2 * var(--session-btn-stroke-width));
+    height: calc(var(--session-btn-diameter) - 2 * var(--session-btn-stroke-width));
 
+    .circle-inner,
     .circle-button {
+      @include utils.flex-col-block($type: center, $y-alignment: center);
       color: white;
       background-color: var(--prim-clr-7);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100px;
-      height: 100px;
-      overflow: hidden;
-
-      border-radius: 50%;
-
-      .time-left,
-      .state {
-        color: white;
-        font-size: 1.3rem;
-        text-transform: capitalize;
-        font-weight: 600;
-      }
-    }
-
-    button.open-button,
-    button.shutdown-button {
-      color: white;
-      background-color: var(--prim-clr-7);
-      justify-content: center;
-      width: inherit;
-      height: inherit;
-      line-height: 1.5rem;
-      border-radius: unset;
-
-      ::ng-deep.mdc-button__label {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    button.close-button {
-      flex: 1 0 30px;
-      width: 100px;
-      overflow: hidden;
-      border-radius: 50%;
-
-      color: white;
-      background-color: var(--warm-clr-7);
-    }
-
-    .stat-button {
-      padding-top: 10px;
-      text-align: center;
-    }
-
-    .state-area {
-      height: 70px;
-      padding-top: 15px;
-      text-align: center;
-
-      @include base.headline-6;
-    }
-
-    .open-button {
-      height: 70px;
-      padding-top: 10px;
-
-      &:hover {
-        color: var(--gray-clr-8);
-        background-color: var(--acc-clr-2);
-
-        * {
-          color: var(--gray-clr-8);
-        }
-      }
-    }
-
-    .shutdown-button {
-      flex: 0 0 30px;
-      margin: 0;
-      border-top: 1px solid var(--gray-clr-3);
-
-      &:hover {
-        background: var(--warn-clr-4);
-      }
-
-      .mat-icon {
-        width: 14px;
-        height: 14px;
-        font-size: 1.4rem;
-      }
-    }
-
-    .session-page-button {
       z-index: 2000;
       font-weight: 600;
-      color: white;
 
-      &.upper-button {
-        height: 170px;
-        padding-top: 20px;
+      width: inherit;
+      height: inherit;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
 
-        @include base.centering(xy);
-      }
+      border-radius: 50%;
 
-      &.lower-button {
-        height: 30px;
-      }
-
-      a {
-        font-weight: 600;
+      .state {
         color: white;
-        cursor: pointer;
+        font-size: var(--state-font-size, 1.3rem);
+        text-transform: capitalize;
+        font-weight: 500 !important;
+        letter-spacing: var(--state-letter-spacing, 0.07rem) !important;
       }
     }
-  }
 
-  &.warning {
-    .progress-spinner-container {
-      ::ng-deep .application-spinner {
-        circle {
-          stroke: var(--gray-clr-2);
+    // ---- Launch (start-session) button
+    button.launch-button,
+    button.launch-button-inactive,
+    button.launch-button-clicked {
+      .button-icon {
+        @include uis.icon(
+                $icon: power_settings_new, $type: 'Icons', $family: 'Outlined',
+                $size: var(--session-btn-icon-size), $icon-only: true);
+      }
+    }
+
+    button.launch-button {
+      background: white !important;
+
+      .button-icon {
+        color: var(--neut-clr-6);
+      }
+    }
+
+    button.launch-button:hover,
+    button.launch-button-clicked {
+      color: var(--sec-clr-7);
+      background-color: var(--acc-clr-0) !important;
+
+      .button-icon {
+        color: var(--sec-clr-8) !important;
+      }
+    }
+
+    button.launch-button-inactive {
+      background: var(--gray-clr-1) !important;
+
+      .button-icon {
+        color: var(--gray-clr-4);
+      }
+    }
+
+    // ---- "Enter session" button
+    button.open-button {
+      background: var(--prim-clr-7);
+
+      .button-icon {
+        @include uis.icon($icon: launch, $type: 'Icons', $family: 'Outlined', $size: var(--session-btn-icon-size), $icon-only: true);
+      }
+
+      &:hover {
+        background-color: var(--sec-clr-3);
+
+        * {
+          color: var(--prim-clr-7);
         }
       }
     }
 
-    .circle-button {
-      color: white;
-      background-color: var(--acc-clr-7);
+    // ---- Session-page state label: hourglass icon.
+    button.session-state-label {
+      background: var(--prim-clr-3);
+      color: var(--prim-clr-7);
 
-      button {
-        background: var(--warn-clr-7);
+      .button-icon {
+        @include uis.icon($icon: hourglass_empty, $type: 'Icons', $family: 'Outlined', $size: var(--session-btn-icon-size), $icon-only: true);
+      }
+
+      .state {
+        color: var(--prim-clr-7);
       }
     }
   }
-}
 
-.my-workspaces.session-button-container {
-  &.expired {
-    .background-circle-container {
-      circle {
-        stroke: var(--gray-clr-1);
-      }
+  // ---- Failed session
+  &.session-failed {
+    .progress-spinner-container ::ng-deep .application-spinner circle {
+      stroke: var(--gray-clr-2);
     }
 
-    .launch-button-inactive {
-      background: var(--gray-clr-2);
+    .actionable-circle-container {
+      .state-icon {
+        @include uis.icon($icon: running_with_errors, $type: 'Icons', $family: 'Outlined', $size: var(--session-btn-icon-size), $icon-only: true, $color: white);
+      }
 
-      .mat-icon {
-        color: white;
+      .up-semicircle {
+        background: var(--warn-clr-6);
+      }
+
+      .down-semicircle {
+        background: var(--warn-clr-7);
+
+        &:hover {
+          background: var(--warn-clr-8);
+        }
+      }
+    }
+  }
+
+  &.session-deleting,
+  &.session-deleted {
+    .actionable-circle-container {
+      .circle-inner {
+        background: var(--prim-clr-8);
+      }
+
+      .delete-label {
+        @include base.centering($pos: y, $gap: 5px);
+        flex-direction: column;
+      }
+
+      .state-icon {
+        @include uis.icon($icon: delete, $type: 'Icons', $family: 'Outlined', $size: var(--session-btn-icon-size), $icon-only: true, $color: white);
       }
     }
   }

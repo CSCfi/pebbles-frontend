@@ -6,9 +6,24 @@ import { Application } from 'src/app/models/application';
 import { ApplicationSession, SessionStates } from 'src/app/models/application-session';
 import { ApplicationSessionService } from 'src/app/services/application-session.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { SystemNotificationService } from 'src/app/services/system-notification.service';
 import { AuthService } from '../../../services/auth.service';
 import { Utilities } from '../../../utilities';
 import { DialogComponent } from '../../shared/dialog/dialog.component';
+
+export type SessionButtonSize = 'L' | 'M';
+
+// ---- Source for per-size dimensions fed to the mat-progress-spinner and the ring SVG,
+// ---- which CSS can't drive. Purely visual sizing (e.g. icon size) lives in the SCSS.
+interface SessionButtonSizeConfig {
+  diameter: number;
+  stroke: number;
+}
+
+const SESSION_BUTTON_SIZES: Record<SessionButtonSize, SessionButtonSizeConfig> = {
+  L: {diameter: 114, stroke: 7},
+  M: {diameter: 90, stroke: 6},
+};
 
 @Component({
   selector: 'app-main-session-button',
@@ -23,20 +38,32 @@ export class MainSessionButtonComponent {
   private applicationSessionService = inject(ApplicationSessionService);
   private authService = inject(AuthService);
   private dialog = inject(MatDialog);
+  private systemNotificationService = inject(SystemNotificationService);
 
 
   @Input() applicationId: string;
   @Input() context: Data;
   @Input() isSessionDeleted = false;
   @Input() isWorkspaceExpired = false;
+  @Input() size: SessionButtonSize = 'L';
 
   // ---- Setting of a spinner
   isWaitingStartResponse = false;
-  diameter = 120;
-  strokeWidth = 10;
   autoOpenTimer: number;
 
-  get sessionTooltips(): string {
+  get diameter(): number {
+    return SESSION_BUTTON_SIZES[this.size].diameter;
+  }
+
+  get strokeWidth(): number {
+    return SESSION_BUTTON_SIZES[this.size].stroke;
+  }
+
+  get ringRadius(): number {
+    return this.diameter / 2 - this.strokeWidth / 2;
+  }
+
+  get disabledLaunchButtonTooltip(): string {
     return this.isWorkspaceExpired ?
       'This workspace has expired.' :
       'You are allowed to launch two sessions simultaneously.' +
@@ -68,6 +95,9 @@ export class MainSessionButtonComponent {
     if (this.isWorkspaceExpired) {
       return true;
     }
+    if (this.isWaitingStartResponse) {
+      return false;
+    }
     return (!(this.applicationSessionService.getSessionCount() < 2 || this.authService.isAdmin));
   }
 
@@ -80,17 +110,19 @@ export class MainSessionButtonComponent {
   }
 
   get state(): SessionStates | null {
-    if (this.session) {
-      return this.session.state;
-    }
-    if (this.context?.identifier === 'session') {
-      window.close();
-    }
-    return null;
+    return this.session ? this.session.state : null;
   }
 
   get isSessionActive(): boolean {
     return this.session && this.session.state !== SessionStates.Deleted;
+  }
+
+  get isOnSessionPage(): boolean {
+    return this.context?.identifier === 'session';
+  }
+
+  get isSessionReady(): boolean {
+    return this.state === SessionStates.Running;
   }
 
   get isTimeWarningOn(): boolean {
@@ -117,7 +149,7 @@ export class MainSessionButtonComponent {
   }
 
   get lifetimeLeft(): string {
-    if (this.session.state === 'running' && this.session.lifetime_left) {
+    if (this.session?.state === 'running' && this.session.lifetime_left) {
       return Utilities.lifetimeToString(this.session.lifetime_left);
     }
     return '';
@@ -156,7 +188,8 @@ export class MainSessionButtonComponent {
       if (this.autoOpenTimer) {
         window.clearTimeout(this.autoOpenTimer);
       }
-      window.open(this.accessUrl, '_blank');
+      // ---- On the session page reuse this tab; elsewhere open a new one.
+      window.open(this.accessUrl, this.isOnSessionPage ? '_self' : '_blank');
     } else if (this.application?.session_id) {
       if (this.autoOpenTimer) {
         window.clearTimeout(this.autoOpenTimer);
@@ -170,6 +203,14 @@ export class MainSessionButtonComponent {
 
   closeWindow(): void {
     window.close();
+    // ---- A successful close tears down this context.
+    window.setTimeout(() => {
+      if (!window.closed) {
+        this.systemNotificationService.displayError(
+          'This tab could not be closed automatically. Please close it manually.'
+        );
+      }
+    }, 300);
   }
 
   deleteSession(isFailed: boolean): void {
@@ -203,6 +244,11 @@ export class MainSessionButtonComponent {
     applicationSession.state = SessionStates.Deleting;
     // ---- Delete data for applicationSession-notification queue.
     localStorage.removeItem(applicationSession.name);
-    this.applicationSessionService.deleteSession(applicationSession.id).subscribe();
+    this.applicationSessionService.deleteSession(applicationSession.id).subscribe(() => {
+      // ---- Let Close the tab when a session failed on the session page
+      if (this.isOnSessionPage) {
+        this.closeWindow();
+      }
+    });
   }
 }

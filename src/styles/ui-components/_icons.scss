@@ -64,12 +64,19 @@
 }
 
 @mixin icon(
-  $icon: apartment, $type: 'Symbols', $family: 'Outlined', $color: inherit, $size: 2.2rem, $weight: 300, $pos: left, $gap: null, $width: auto) {
+  $icon: apartment, $type: 'Symbols', $family: 'Outlined',
+  $color: inherit, $size: 2.2rem, $weight: 300,
+  $pos: left, $gap: null, $width: auto, $icon-only: false) {
   display: flex;
   gap: 8px;
 
   @if $gap {
     gap: $gap !important;
+  }
+
+  // ---- `$icon-only: true` means the element holds just the icon (no text label)
+  @if $icon-only {
+    justify-content: center;
   }
 
   $font-family: 'Material Symbols Outlined';

@@ -208,7 +208,16 @@
 
 // ---- COLUMN Launch Button
 .mat-column-launch {
-  @include uis.table-width-fix($width: 136px, $align: center);
+  @include uis.table-width-fix($width: 100px, $grow: false, $align: center, $padding: 0);
+
+  app-main-session-button {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  ::ng-deep .session-ui-wrapper {
+    margin: 15px auto 5px;
+  }
 }
 
 // ---- COLUMN Menu
