@@ -69,9 +69,9 @@ export class Utilities {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  public static isExpiredTimestamp(ts: number): boolean {
-    // if ts has not been set, expiry does not happen
-    if (ts === 0) {
+  public static isExpiredTimestamp(ts: number | null | undefined): boolean {
+    // unset means no expiry; without this, null would multiply to 0 and read as expired
+    if (!ts) {
       return false;
     }
     return ts * 1000 < Date.now();

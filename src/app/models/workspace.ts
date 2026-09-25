@@ -55,7 +55,7 @@ export class Workspace {
   }
 
   public static hasExpired(ws: Workspace): boolean {
-    return ws?.expiry_ts ? Utilities.isExpiredTimestamp(ws.expiry_ts) : false;
+    return Utilities.isExpiredTimestamp(ws?.expiry_ts);
   }
 
   // ---- Owners and managers (co-owners) may manage a workspace
