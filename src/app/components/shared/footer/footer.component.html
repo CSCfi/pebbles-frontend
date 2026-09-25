@@ -3,6 +3,9 @@
     <dl class="developer-info">
       <dt>About {{ publicConfigService.getInstallationName() }}</dt>
       <dd>
+        <a [href]="publicConfigService.getServiceDocumentationUrl()" rel="noopener" target="_blank">Documentation</a>
+      </dd>
+      <dd>
         <a [href]="publicConfigService.getTermsOfUseUrl()" rel="noopener" target="_blank">Terms of use</a>
       </dd>
       <dd>
