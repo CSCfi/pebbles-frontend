@@ -1,107 +1,137 @@
 ---
-image: docker.io/library/node:24
+# Job images are pinned by digest; bump only to tags pushed over a week ago.
+image: docker.io/library/node:24.21.0@sha256:64af3819f9275802414d7cdc38c27e9d82bd564dec4d4da87d008255d36c63b4
 
-variables:
-  KUBERNETES_MEMORY_REQUEST: "1Gi"
-  KUBERNETES_MEMORY_LIMIT: "1Gi"
-
-# cache setting, by default only pull files
+# npm's download cache, keyed on the lockfile so every branch starts warm;
+# node_modules is recreated by npm ci in every job. By default only pull.
 cache: &global_cache
-  key: "${CI_COMMIT_REF_SLUG}"
+  key:
+    files:
+      - package-lock.json
   paths:
     - .npm/
-    - node_modules/
-    - dist/
   policy: pull
 
 stages:
-  - static analysis
   - build
   - test
-  - docker build
+  - security
+  - image build
   - ci-pipeline
-  - mirroring
 
-static-analysis:
-  tags: ['new-runner']
-  stage: static analysis
-  needs: []
-  cache:
-    # inherit all global cache settings
-    <<: *global_cache
-  script:
-    # install npm packages, using cache as source. Use npm install instead of ci here to make use of
-    # cached node_modules if it exists
-    - npm install --cache .npm --prefer-offline --no-audit
-    # check if ng client is already installed and create a symlink if needed
-    - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
-    # check if webdriver-manager is already installed and create a symlink if needed
-    - test -e /usr/local/bin/webdriver-manager || ln -s $PWD/node_modules/.bin/webdriver-manager /usr/local/bin/webdriver-manager
+# No merge request pipelines: the bare `when:` rules below would otherwise
+# also spawn one for every push to a branch with an open MR.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - when: always
 
-    - ng lint
-    # report all vulnerabilities, fail on moderate ones
-    - npm audit --omit=dev --audit-level=moderate
-    - npm audit --omit=dev || true
-    - node_modules/.bin/linthtml .
+# the nightly schedule (CI/CD > Schedules) runs the security stage only
+.not-on-schedule: &not_on_schedule
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+    when: never
+  - when: on_success
 
 ng-build:
-  tags: ['new-runner']
   stage: build
+  tags: ['new-runner']
   needs: []
+  rules: *not_on_schedule
+  variables:
+    KUBERNETES_MEMORY_REQUEST: "3Gi"
+    KUBERNETES_MEMORY_LIMIT: "3Gi"
   cache:
     # this task populates the cache, set the policy accordingly
     <<: *global_cache
     policy: pull-push
-  variables:
-    KUBERNETES_MEMORY_REQUEST: "3Gi"
-    KUBERNETES_MEMORY_LIMIT: "3Gi"
+  artifacts:
+    # handed to build-image; unlike the cache, bound to this pipeline
+    paths:
+      - dist/
+    expire_in: 1 day
   script:
-    # install npm packages, using cache as source. To speed things up for feature branches, use npm install to
-    # make use of cached node_modules
-    - |
-      if [[ ${CI_COMMIT_REF_NAME} == "main" ]]; then
-        npm ci --cache .npm --prefer-offline --no-audit
-      else
-        npm install --cache .npm --prefer-offline --no-audit
-      fi
+    - npm ci --cache .npm --prefer-offline --no-audit
     # build application
     - npm run-script build:prod
 
-
-ng-test:
-  tags: ['new-runner']
+ng-lint:
   stage: test
-  image: docker.io/trion/ng-cli-karma:19.2.3
-  needs: ['ng-build']
-  cache:
-    # inherit all global cache settings
-    <<: *global_cache
+  tags: ['new-runner']
+  needs: []
+  rules: *not_on_schedule
   variables:
+    # npm ci alone peaks near 1Gi
     KUBERNETES_MEMORY_REQUEST: "2Gi"
     KUBERNETES_MEMORY_LIMIT: "2Gi"
-  script:
-    # check if ng client is already installed and create a symlink if needed
-    - test -e /usr/local/bin/ng || ln -s $PWD/node_modules/.bin/ng /usr/local/bin/ng
-
-    # run Karma/Jasmine unit tests
-    - ng test --no-watch --no-progress --browsers=Chrome
-
-build-image:
-  tags: ['new-runner']
-  stage: docker build
-  needs: ['ng-build']
-  image:
-    name: gcr.io/kaniko-project/executor:v1.24.0-debug
-    entrypoint: [""]
   cache:
     # inherit all global cache settings
     <<: *global_cache
   script:
-    - ln -s /run/secrets/runner-job-secrets/docker_config_ci.json /kaniko/.docker/config.json
-    # copy compiled application from cache to runtime image. This assumes cache accessible by all runners
-    - echo "Going to build and push ${PRIVATE_IMAGE}:${CI_COMMIT_REF_NAME}"
+    - npm ci --cache .npm --prefer-offline --no-audit
+    - npm run-script lint
+    - node_modules/.bin/linthtml src
 
-    # build the runtime image from files in 'dist/pebbles-frontend'
+ng-test:
+  stage: test
+  tags: ['new-runner']
+  needs: []
+  rules: *not_on_schedule
+  # supplies Node 24 and Chrome; ng itself comes from node_modules
+  image: docker.io/trion/ng-cli-karma:22.1.8@sha256:3400e02f2d5a7e524e2ae82d734fe0425556dbc704584e2d8fdb55b5f5e80f6f
+  variables:
+    # npm ci plus Chrome and the test bundle; same shape as ng-build
+    KUBERNETES_MEMORY_REQUEST: "3Gi"
+    KUBERNETES_MEMORY_LIMIT: "3Gi"
+    # the image's google-chrome is an Xvfb wrapper that survives Karma's
+    # SIGTERM and leaves Chrome running, so ng never exits; use the real one
+    CHROME_BIN: /usr/bin/google-chrome.real
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
+  script:
+    - npm ci --cache .npm --prefer-offline --no-audit
+    # run Karma/Jasmine unit tests; the launcher is defined in karma.conf.js
+    - node_modules/.bin/ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
+
+npm-audit:
+  stage: security
+  tags: ['new-runner']
+  needs: []
+  rules:
+    # the nightly schedule is the enforcing run
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: on_success
+    # everywhere else findings only warn
+    - when: on_success
+      allow_failure: true
+  variables:
+    KUBERNETES_MEMORY_REQUEST: "1Gi"
+    KUBERNETES_MEMORY_LIMIT: "1Gi"
+  # audits package-lock.json in place: nothing to install or restore
+  cache: []
+  script:
+    # production deps only (--omit=dev): lists every finding there, fails on moderate+
+    - npm audit --omit=dev --audit-level=moderate
+
+build-image:
+  stage: image build
+  tags: ['new-runner']
+  needs: ['ng-build', 'ng-lint', 'ng-test']
+  rules: *not_on_schedule
+  image:
+    name: gcr.io/kaniko-project/executor:v1.24.0-debug@sha256:2562c4fe551399514277ffff7dcca9a3b1628c4ea38cb017d7286dc6ea52f4cd
+    entrypoint: [""]
+  variables:
+    KUBERNETES_MEMORY_REQUEST: "1Gi"
+    KUBERNETES_MEMORY_LIMIT: "1Gi"
+  # dist/ arrives as ng-build's artifact; nothing to restore
+  cache: []
+  script:
+    - ln -s /run/secrets/runner-job-secrets/docker_config_ci.json /kaniko/.docker/config.json
+    - echo "Going to build and push ${CI_IMAGE_REPO_CI}/pebbles-frontend:${CI_COMMIT_REF_NAME}"
+
+    # build the runtime image from ng-build's 'dist/pebbles-frontend/browser' artifact
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/deployment/Dockerfile.runtime"
@@ -117,6 +147,9 @@ ci-pipeline:
     project: pebbles/cicd-pipeline
     branch: main
     strategy: depend
-  only:
-    refs:
-      - main
+  rules:
+    # Skip downstream pipeline on nightly runs
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: on_success

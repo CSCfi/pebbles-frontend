@@ -29,13 +29,15 @@ module.exports = function (config) {
     customLaunchers: {
       ChromeHeadlessCI: {
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox', '--disable-dev-shm-usage']
       },
       ChromiumHeadlessCI: {
         base: 'ChromiumHeadless',
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox', '--disable-dev-shm-usage']
       }
     },
+    // CI runners can go quiet for a while as the test bundle loads
+    browserNoActivityTimeout: 180000,
     singleRun: false,
     restartOnFileChange: true
   });
