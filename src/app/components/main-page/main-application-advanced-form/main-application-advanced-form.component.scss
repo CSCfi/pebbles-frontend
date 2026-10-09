@@ -17,6 +17,10 @@
 form {
   .advanced-form-actions {
     @include utils.flex-row-block($distribution: flex-start, $gap: 5px);
+    // Match .form-content's centered 900px column so the buttons line up with the form below
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
   }
 
   button {

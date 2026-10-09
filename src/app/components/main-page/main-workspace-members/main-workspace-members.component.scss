@@ -10,7 +10,7 @@
 
 .workspace-members-container {
   width: 100%;
-  max-width: 800px;
+  max-width: base.$owner-tab-content-width;
   @include utils.flex-col-block($gap: 10px, $padding: 20px 30px 30px);
 }
 
@@ -66,6 +66,12 @@
       @include uis.crowned-text($icon: groups, $icon-size: 3rem);
     }
   }
+}
+
+// When the hint is shown (empty / loading), shrink the empty table to its
+// content so the hint sits directly beneath it instead of being pushed down.
+.workspace-members-container:has(> .status-info-container) .table-container {
+  flex: 0 1 auto;
 }
 
 .mat-column- {

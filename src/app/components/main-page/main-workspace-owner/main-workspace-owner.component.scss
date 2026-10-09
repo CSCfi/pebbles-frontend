@@ -40,7 +40,10 @@
       border: 3px solid var(--neut-clr-1);
 
       .mat-mdc-form-field {
+        display: block;
         width: 100%;
+        max-width: base.$owner-tab-content-width;
+        margin: 0 auto;
       }
     }
 

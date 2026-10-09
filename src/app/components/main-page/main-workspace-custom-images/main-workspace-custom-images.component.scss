@@ -10,7 +10,7 @@
 
 .workspace-custom-images-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: base.$owner-tab-content-width;
   overflow: auto;
   @include utils.flex-col-block($gap: 10px, $padding: 20px 30px 30px);
 
