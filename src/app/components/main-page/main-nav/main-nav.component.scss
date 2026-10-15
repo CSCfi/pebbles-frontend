@@ -112,6 +112,36 @@
   }
 }
 
+// ----- Signal badge
+.session-signal--running ::ng-deep .mat-badge-content,
+.session-signal--starting ::ng-deep .mat-badge-content,
+.session-signal--deleting ::ng-deep .mat-badge-content,
+.session-signal--error ::ng-deep .mat-badge-content,
+.unread-messages-signal ::ng-deep .mat-badge-content {
+  box-shadow: rgb(0, 0, 0, 0.4) 0 1px 3px 0, rgb(0, 0, 0, 0.2) 0 1px 2px 0;
+}
+
+.session-signal--running ::ng-deep .mat-badge-content {
+  color: var(--gray-clr-9);
+  background-color: var(--session-signal-clr--running);
+}
+
+.session-signal--starting ::ng-deep .mat-badge-content {
+  color: var(--gray-clr-9);
+  background-color: var(--session-signal-clr--starting);
+}
+
+.session-signal--deleting ::ng-deep .mat-badge-content {
+  color: var(--gray-clr-9);
+  background-color: var(--session-signal-clr--deleting);
+}
+
+.session-signal--error ::ng-deep .mat-badge-content,
+.unread-messages-signal ::ng-deep .mat-badge-content {
+  color: white;
+  background-color: var(--session-signal-clr--error);
+}
+
 // ----- MOBILE
 @media (max-width: #{base.$mobile-width}) {
   .sidenav-inner {

@@ -45,13 +45,32 @@ export class ApplicationSessionService implements OnDestroy {
     return this.applicationSessions;
   }
 
-  getSession(id: string) {
+  getSession(id: string | null): ApplicationSession | undefined {
     return this.applicationSessions.find(x => x.id === id);
   }
 
   // launches that have not come back yet still occupy a slot in the backend limit
   getSessionCount(): number {
     return this.getSessions().length + this.pendingCreateCount;
+  }
+
+  getActiveSessionCount(): number {
+    return this.getAllSessions().length;
+  }
+
+  getActiveSessionSignalLevel(): 'error' | 'deleting' | 'starting' | 'running' {
+    const sessions = this.getAllSessions();
+    if (sessions.some(i => i.state === SessionStates.Failed)) {
+      return 'error';
+    }
+    const startingStates = [SessionStates.Queueing, SessionStates.Provisioning, SessionStates.Starting];
+    if (sessions.some(i => startingStates.includes(i.state))) {
+      return 'starting';
+    }
+    if (sessions.some(i => i.state === SessionStates.Running)) {
+      return 'running';
+    }
+    return 'deleting';
   }
 
   getSessionByApplicationId(appId: string) {
@@ -156,8 +175,11 @@ export class ApplicationSessionService implements OnDestroy {
     return this.http.patch<string>(
       url,
       {'log_fetch_pending': true}
-    ).pipe(tap(resp => {
-      this.getSession(sessionId).log_fetch_pending = true;
+    ).pipe(tap(() => {
+      const session = this.getSession(sessionId);
+      if (session) {
+        session.log_fetch_pending = true;
+      }
       this.fetchSessions().subscribe();
     }));
   }

@@ -75,7 +75,14 @@
         <a [routerLink]="['/main/active-sessions']">
           <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
                 matTooltip="Active sessions" matTooltipPosition="right">
-            <mat-icon fontSet="material-icons-outlined">dns</mat-icon>
+            <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
+            <mat-icon [ngClass]="'session-signal--' + getActiveSessionSignalLevel()"
+                      [attr.aria-hidden]="getActiveSessionCount() === 0"
+                      [matBadgeHidden]="getActiveSessionCount() === 0"
+                      [matBadge]="getActiveSessionCount()" aria-hidden="false"
+                      fontSet="material-icons-outlined">
+              dns
+            </mat-icon>
           </span>
           @if (isTextVisible) {
             <div class="title">Active sessions</div>
@@ -89,12 +96,11 @@
       <a [routerLink]="['/main/messages']">
         <span [matTooltipDisabled]="isTextVisible" class="icon-holder"
               matTooltip="Messages" matTooltipPosition="right">
-          <!-- aria-hidden workaround for a runtime warning, ref https://github.com/angular/components/issues/27705 -->
           <mat-icon [attr.aria-hidden]="getUnreadMessages().length === 0"
                     [matBadgeHidden]="getUnreadMessages().length === 0"
                     [matBadge]="getUnreadMessages().length" aria-hidden="false"
-                    fontSet="material-icons-outlined"
-                    matBadgeColor="warn">
+                    class="unread-messages-signal"
+                    fontSet="material-icons-outlined">
             mail
           </mat-icon>
         </span>

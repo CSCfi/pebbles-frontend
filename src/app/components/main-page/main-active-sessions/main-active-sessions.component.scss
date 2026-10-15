@@ -25,7 +25,7 @@
     }
 
     .mat-mdc-card {
-      border-left: var(--prim-clr-5) solid 6px;
+      border-left: var(--prim-clr-6) solid 6px;
       box-shadow: none;
 
       .mat-mdc-card-content {
@@ -36,32 +36,32 @@
       @include utils.flex-row-block;
 
       .states {
-        @include utils.flex-row-block($type: center, $gap: 10px);
+        @include utils.flex-row-block($type: center, $gap: 15px);
 
         li {
           @include base.headline-6;
           // ---- Starting
           &:first-child {
-            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
-            $icon-color: var(--sec-clr-3), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+            @include uis.deco-text($font-size: 1.1rem, $gap: 4px,
+            $icon-color: var(--session-signal-clr--starting), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
 
           // ---- Running
           &:nth-child(2) {
-            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
-            $icon-color: var(--prim-clr-5), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+            @include uis.deco-text($font-size: 1.1rem, $gap: 4px,
+            $icon-color: var(--session-signal-clr--running), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
 
           // ---- Deleting
           &:nth-child(3) {
-            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
-            $icon-color: var(--acc-clr-2), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+            @include uis.deco-text($font-size: 1.1rem, $gap: 4px,
+            $icon-color: var(--session-signal-clr--deleting), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
 
           // ---- Error
           &:last-child {
-            @include uis.deco-text($font-size: 1.1rem, $gap: 0,
-            $icon-color: var(--warn-clr-4), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
+            @include uis.deco-text($font-size: 1.1rem, $gap: 4px,
+            $icon-color: var(--session-signal-clr--error), $icon: 'circle', $icon-family: 'Filled', $icon-size: 1.8rem);
           }
         }
       }
@@ -116,19 +116,19 @@
       font-size: 20px;
 
       &.starting {
-        color: var(--sec-clr-3);
+        color: var(--session-signal-clr--starting);
       }
 
       &.running {
-        color: var(--prim-clr-5);
+        color: var(--session-signal-clr--running);
       }
 
       &.deleting {
-        color: var(--acc-clr-2);
+        color: var(--session-signal-clr--deleting);
       }
 
       &.error {
-        color: var(--warn-clr-5);
+        color: var(--session-signal-clr--error);
       }
     }
   }

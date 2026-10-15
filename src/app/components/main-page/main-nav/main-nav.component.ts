@@ -3,6 +3,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message } from '../../../models/message';
+import { ApplicationSessionService } from '../../../services/application-session.service';
 import { MessageService } from '../../../services/message.service';
 import { PublicConfigService } from '../../../services/public-config.service';
 
@@ -18,6 +19,7 @@ export class MainNavComponent {
   authService = inject(AuthService);
   messageService = inject(MessageService);
   publicConfigService = inject(PublicConfigService);
+  applicationSessionService = inject(ApplicationSessionService);
 
 
   public isTextVisible: boolean;
@@ -55,5 +57,13 @@ export class MainNavComponent {
 
   getUnreadMessages(): Message[] {
     return this.messageService.getUnreadMessages();
+  }
+
+  getActiveSessionCount(): number {
+    return this.applicationSessionService.getActiveSessionCount();
+  }
+
+  getActiveSessionSignalLevel(): string {
+    return this.applicationSessionService.getActiveSessionSignalLevel();
   }
 }

@@ -48,6 +48,7 @@
   } @else if $style == 'stroked' {
     --mat-button-outlined-label-text-color: var(--#{$role}-clr-6);
     --mat-button-outlined-outline-color: var(--#{$role}-clr-6);
+    --mat-button-filled-container-color: var(--#{$role}-clr-0);
     color: var(--#{$role}-clr-6);
     background: var(--#{$role}-clr-0);
     border: none;
@@ -130,6 +131,7 @@
     cursor: not-allowed !important;
     background-color: var(--gray-clr-2);
     border: none;
+    box-shadow: none !important;
   }
 
   @if $icon {

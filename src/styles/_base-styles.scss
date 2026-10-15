@@ -67,6 +67,12 @@ $page-side-padding: 30px;
 
   --mat-snack-bar-button-color: white;
 
+  // ---- Session state signal colors
+  --session-signal-clr--starting: var(--acc-clr-2);
+  --session-signal-clr--running: var(--sec-clr-4);
+  --session-signal-clr--deleting: var(--neut-clr-3);
+  --session-signal-clr--error: var(--warn-clr-5);
+
 
   @include mat.progress-spinner-overrides((
           active-indicator-color: var(--prim-clr-7),
